@@ -1,21 +1,15 @@
 import Link from 'next/link'
-import { Search, Menu, ChevronDown, LogIn, Palette } from 'lucide-react'
+import { Search, Menu, LogIn, Palette } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ModeSwitcher } from '@/components/mode-switcher'
 import { Separator } from '@/components/ui/separator'
 import { SsLogo, SsCtaIcon, GithubIcon, XIcon, DiscordIcon } from './site-header-icons'
+import { NavMegaMenu } from './nav-mega-menu'
 
 const NAV_LINKS = [
-  { label: 'Components', href: '/components' },
-  { label: 'Blocks', href: '/blocks' },
-  { label: 'Templates', href: '/templates' },
-  { label: 'Figma', href: '/figma' },
-  { label: 'Theme Generator', href: '/theme-generator' },
-]
-
-const NAV_DROPDOWNS = [
-  { label: 'AI Tools' },
-  { label: 'Resources' },
+  { label: 'How It Works', href: '/#how-it-works' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'About', href: '/#about' },
 ]
 
 const SOCIAL_LINKS = [
@@ -44,16 +38,13 @@ export function SiteHeader() {
 
             {/* Desktop nav — visible above 1440px */}
             <nav className="flex items-center gap-4 max-[1440px]:hidden">
+              {/* Mega menu dropdowns */}
+              <NavMegaMenu />
+              {/* Simple links */}
               {NAV_LINKS.map(link => (
                 <Link key={link.href} href={link.href} className={navLinkClass}>
                   {link.label}
                 </Link>
-              ))}
-              {NAV_DROPDOWNS.map(item => (
-                <button key={item.label} type="button" className={`${navLinkClass} group inline-flex cursor-pointer items-center gap-0.5`}>
-                  {item.label}
-                  <ChevronDown className="relative top-[1px] size-3 transition duration-300" aria-hidden="true" />
-                </button>
               ))}
             </nav>
 
