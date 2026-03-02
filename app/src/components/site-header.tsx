@@ -1,10 +1,11 @@
 import Link from 'next/link'
-import { Search, Menu, LogIn, Palette } from 'lucide-react'
+import { Search, LogIn, Palette } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ModeSwitcher } from '@/components/mode-switcher'
 import { Separator } from '@/components/ui/separator'
 import { SsLogo, SsCtaIcon, GithubIcon, XIcon, DiscordIcon } from './site-header-icons'
 import { NavMegaMenu } from './nav-mega-menu'
+import { NavMobileDrawer } from './nav-mobile-drawer'
 
 const NAV_LINKS = [
   { label: 'How It Works', href: '/#how-it-works' },
@@ -52,10 +53,7 @@ export function SiteHeader() {
             <div className="flex items-center gap-2 lg:gap-4">
               <div className="flex items-center gap-2">
                 {/* Mobile hamburger — below 1440px */}
-                <Button variant="outline" size="icon" className="min-[1440px]:hidden cursor-pointer">
-                  <Menu className="size-5" />
-                  <span className="sr-only">Menu</span>
-                </Button>
+                <NavMobileDrawer />
 
                 {/* Search */}
                 <Button variant="outline" size="icon">
