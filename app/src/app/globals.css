@@ -149,6 +149,11 @@
   --shadow-2xl: var(--shadow-2xl);
   --animate-marquee-horizontal: marquee-horizontal var(--marquee-duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--marquee-duration) infinite linear;
+  --animate-cell-ripple: cell-ripple 2s ease-in-out infinite;
+  @keyframes cell-ripple {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.4; }
+  }
   @keyframes marquee-horizontal {
   from {
     transform: translateX(0);

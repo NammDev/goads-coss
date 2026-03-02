@@ -1,5 +1,4 @@
-import HeroSection from "@/components/shadcn-studio/blocks/hero-section-39/hero-section-39";
-import type { TestimonialItem as HeroTestimonialItem } from "@/components/shadcn-studio/blocks/hero-section-39/hero-section-39";
+import HeroClone from "@/components/shadcn-studio/blocks/hero-clone/hero-clone";
 import BentoGrid from "@/components/shadcn-studio/blocks/bento-grid-19/bento-grid-19";
 import StatsSection from "@/components/shadcn-studio/blocks/stats-section/stats-section";
 import TestimonialsComponent from "@/components/shadcn-studio/blocks/testimonials-component-22/testimonials-component-22";
@@ -10,72 +9,6 @@ import CTASection from "@/components/shadcn-studio/blocks/cta-section-05/cta-sec
 import { ShieldCheckIcon, HeadphonesIcon, CreditCardIcon, SettingsIcon } from "lucide-react";
 import { SectionDivider } from "@/components/section-divider";
 
-const heroTestimonials: HeroTestimonialItem[] = [
-  {
-    name: "Paityn Lipshutz",
-    role: "CEO & Co Founder at Lemonsqueezy",
-    avatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png?width=40&height=40&format=auto",
-    content:
-      "Excellent product—durable, intuitive, and exactly what I needed. Customer service was outstanding and very helpful.",
-  },
-  {
-    name: "Angel Lubin",
-    role: "CEO & Co Founder at Zipline",
-    avatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-17.png?width=40&height=40&format=auto",
-    content:
-      "Top-notch quality—easy to set up and performs as promised. The support team was incredibly responsive and attentive",
-  },
-  {
-    name: "Lincoln Stanton",
-    role: "CEO & Co Founder at Gumroad",
-    avatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png?width=40&height=40&format=auto",
-    content:
-      "Amazing product—well-built, user-friendly, and just as advertised. The service team exceeded my expectations",
-  },
-  {
-    name: "Skylar Lipshutz",
-    role: "Product manager at Orbit",
-    avatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-12.png?width=40&height=40&format=auto",
-    content:
-      "Outstanding product—well-crafted, user-friendly, and exactly what I expected. The team went above and beyond to help.",
-  },
-  {
-    name: "Corey Franci",
-    role: "sbaker@hotmail.com",
-    avatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-7.png?width=40&height=40&format=auto",
-    content:
-      "Wonderful product—high quality, easy to operate, and exactly what I wanted. Support was quick and very helpful.",
-  },
-  {
-    name: "Anika Franci",
-    role: "CEO & Co Founder at Zendesk",
-    avatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png?width=40&height=40&format=auto",
-    content:
-      "Impressive product—high quality, simple to use, and exactly as promised. Customer service was superb and very responsive.",
-  },
-  {
-    name: "Skylar Rosser",
-    role: "Product manager at Orbit",
-    avatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-20.png?width=40&height=40&format=auto",
-    content:
-      "Outstanding product—well-crafted, user-friendly, and exactly what I expected. The team went above and beyond to help.",
-  },
-  {
-    name: "Chance Baptista",
-    role: "CEO & Co Founder at ABC Company",
-    avatar:
-      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-3.png?width=40&height=40&format=auto",
-    content:
-      "Great product—reliable, easy to set up, and just as described. Service was excellent and ensured a smooth experience.",
-  },
-];
 
 const reviews: ReviewCard[] = [
   {
@@ -340,7 +273,7 @@ const faqTabsData = [
 export default function Page() {
   return (
     <main className="flex-1">
-      <HeroSection testimonials={heroTestimonials} />
+      <HeroClone />
       <SectionDivider />
       <BentoGrid />
       <SectionDivider />
