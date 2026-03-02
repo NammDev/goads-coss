@@ -4,6 +4,7 @@ import { fontMono, fontSans } from "@/fonts";
 import Footer from "@/components/shadcn-studio/blocks/footer-component-02/footer-component-02";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} relative bg-background font-sans text-foreground antialiased`}
       >
         <ThemeProvider>
+          <TooltipProvider>
           <div className="relative isolate flex min-h-svh flex-col overflow-clip [--header-height:4rem]">
             {/* Vertical grid frame lines (left + right) */}
             <div
@@ -49,6 +51,7 @@ export default function RootLayout({
             {children}
             <Footer />
           </div>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

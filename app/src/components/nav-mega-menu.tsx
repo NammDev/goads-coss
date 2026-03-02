@@ -36,7 +36,7 @@ const PRODUCTS_BY_PLATFORM = [
     icon: Building2,
     title: 'Meta Agency Accounts',
     description: 'Verified accounts for Facebook & Instagram ads',
-    href: '/products/meta-agency-accounts',
+    href: '/agency-ad-account',
   },
   {
     icon: Search,
@@ -54,7 +54,7 @@ const PRODUCTS_BY_PLATFORM = [
     icon: Briefcase,
     title: 'Business Managers',
     description: 'Full BM setups ready to use',
-    href: '/products/business-managers',
+    href: '/bm',
   },
 ]
 
@@ -281,7 +281,7 @@ const triggerClass =
 
 export function NavMegaMenu() {
   return (
-    <NavigationMenu viewport={true}>
+    <NavigationMenu viewport={true} className="static">
       <NavigationMenuList className="gap-4">
 
         {/* Products dropdown */}
