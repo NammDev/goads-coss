@@ -1,6 +1,6 @@
 "use client";
 
-import { Circle } from "lucide-react";
+import { MoonStar, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCallback } from "react";
 
@@ -13,13 +13,13 @@ export function ModeSwitcher() {
 
   return (
     <button
-      className="relative inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+      className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md border bg-background text-sm font-medium shadow-xs transition-all hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none dark:bg-input/30 dark:border-input dark:hover:bg-input/50"
       onClick={toggleTheme}
-      title="Toggle theme"
       type="button"
     >
-      <Circle className="-rotate-45 size-4 fill-current" strokeWidth={0} />
-      <span className="sr-only">Toggle theme</span>
+      <Sun className="size-4 dark:hidden" aria-hidden="true" />
+      <MoonStar className="hidden size-4 dark:block" aria-hidden="true" />
+      <span className="sr-only">Toggle Theme</span>
     </button>
   );
 }

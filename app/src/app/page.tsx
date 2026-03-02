@@ -1,5 +1,6 @@
 import HeroClone from "@/components/shadcn-studio/blocks/hero-clone/hero-clone";
 import BentoGrid from "@/components/shadcn-studio/blocks/bento-grid-19/bento-grid-19";
+import BentoGrid10 from "@/components/shadcn-studio/blocks/bento-grid-10/bento-grid-10";
 import StatsSection from "@/components/shadcn-studio/blocks/stats-section/stats-section";
 import TestimonialsComponent from "@/components/shadcn-studio/blocks/testimonials-component-22/testimonials-component-22";
 import type { ReviewCard } from "@/components/shadcn-studio/blocks/testimonials-component-22/review-stack";
@@ -276,6 +277,8 @@ export default function Page() {
       <HeroClone />
       <SectionDivider />
       <BentoGrid />
+      <SectionDivider />
+      <BentoGrid10 />
       <SectionDivider />
       <StatsSection />
       <SectionDivider />

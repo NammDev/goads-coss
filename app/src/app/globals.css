@@ -176,7 +176,19 @@
     }
 
   }
-}
+  --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite
+;
+  @keyframes orbit {
+  0% {
+    transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+
+    }
+  100% {
+    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));
+
+    }
+
+  }}
 
 @layer base {
   * {
@@ -197,6 +209,24 @@
 
 @utility container {
   @apply mx-auto max-w-[1416px] px-4 lg:px-6;
+}
+
+.btn-cta-glow {
+  box-shadow:
+    0px 1px 8px 0px color-mix(in oklab, white 20%, transparent) inset,
+    0px 0px 0px 1px var(--primary),
+    0px 0px 0px 1px var(--primary),
+    0px 0px 0px 1.5px color-mix(in oklab, white 30%, transparent) inset,
+    0px 2px 2px 0px color-mix(in oklab, black 20%, transparent);
+}
+
+.btn-cta-glow:hover,
+.btn-cta-glow:focus-visible {
+  box-shadow:
+    0px 1px 8px 0px color-mix(in oklab, white 40%, transparent) inset,
+    0px 0px 0px 1px var(--primary),
+    0px 0px 0px 1px color-mix(in oklab, white 30%, transparent) inset,
+    0px 3px 4px 0px color-mix(in oklab, black 30%, transparent);
 }
 
 a.link-animated {
