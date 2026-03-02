@@ -11,7 +11,23 @@ import ProductManagement from '@/components/shadcn-studio/blocks/bento-grid-19/p
 const BentoGrid = () => {
   return (
     <section className='py-8 sm:py-16 lg:py-24'>
-      <div className='container grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='container space-y-12 sm:space-y-16'>
+        <div className='flex flex-col items-center gap-4 text-center'>
+          <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }}>
+            <span className='font-medium underline underline-offset-6'>Agency Ad Accounts</span>
+          </MotionPreset>
+          <MotionPreset fade slide={{ direction: 'down' }} delay={0.1} transition={{ duration: 0.5 }}>
+            <h2 className='text-2xl font-semibold sm:text-3xl lg:text-4xl'>
+              Premium accounts built for scale
+            </h2>
+          </MotionPreset>
+          <MotionPreset fade slide={{ direction: 'down' }} delay={0.2} transition={{ duration: 0.5 }}>
+            <p className='text-muted-foreground max-w-2xl text-lg'>
+              Rent verified Meta, Google, and TikTok agency ad accounts with higher trust scores, better approval rates, and unlimited scaling potential.
+            </p>
+          </MotionPreset>
+        </div>
+      <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
         <div className='grid grid-rows-2 gap-6'>
           <MotionPreset
             fade
@@ -22,9 +38,9 @@ const BentoGrid = () => {
           >
             <UserAnalytics />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>User analytics</h3>
+              <h3 className='text-2xl font-semibold'>Verified agency accounts</h3>
               <p className='text-muted-foreground text-sm'>
-                Monitor new and returning users effortlessly, gaining complete visibility into who engages with product.
+                Every account is created under official agency Business Managers with high trust scores — ready to run ads from day one.
               </p>
             </div>
           </MotionPreset>
@@ -39,9 +55,9 @@ const BentoGrid = () => {
           >
             <ProductMetrics />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Product Metrics</h3>
+              <h3 className='text-2xl font-semibold'>Track ad spend performance</h3>
               <p className='text-muted-foreground text-sm'>
-                Visualize key product metrics to making it easy to track growth, performance, and trends.
+                Monitor your account health, daily spend limits, and campaign metrics — all in one clear dashboard.
               </p>
             </div>
           </MotionPreset>
@@ -58,9 +74,9 @@ const BentoGrid = () => {
           >
             <CheckOrdersStatus />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Check orders status</h3>
+              <h3 className='text-2xl font-semibold'>Scale revenue faster</h3>
               <p className='text-muted-foreground text-sm'>
-                Consistent UI, powered by a shared framework. From buttons to layouts — everything aligns.
+                Our clients see an average 49% increase in ad spend capacity after switching to agency accounts.
               </p>
             </div>
           </MotionPreset>
@@ -75,9 +91,9 @@ const BentoGrid = () => {
           >
             <EnterpriseCollaboration />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Enterprise collaboration</h3>
+              <h3 className='text-2xl font-semibold'>Trusted by top brands</h3>
               <p className='text-muted-foreground text-sm'>
-                collaborate with leading companies, expand network by gaining insights from top-performing teams.
+                Join 500+ agencies and e-commerce brands already scaling their ad campaigns with GoAds infrastructure.
               </p>
             </div>
           </MotionPreset>
@@ -92,9 +108,9 @@ const BentoGrid = () => {
           >
             <StayInformed />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Stay informed</h3>
+              <h3 className='text-2xl font-semibold'>Real-time account updates</h3>
               <p className='text-muted-foreground text-sm'>
-                Receive all updates related to your products and users in one place so you never miss any information.
+                Get instant notifications on account status, payment confirmations, and delivery updates — never miss a thing.
               </p>
             </div>
           </MotionPreset>
@@ -111,9 +127,9 @@ const BentoGrid = () => {
           >
             <TurnViewersToOrders />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Turn viewers to orders</h3>
+              <h3 className='text-2xl font-semibold'>Fast delivery, tracked end-to-end</h3>
               <p className='text-muted-foreground text-sm'>
-                Have a clear accounts of product reach and orders with options to check viewers and orders.
+                Most accounts delivered within 1–4 hours. Track every step from order to account handoff in real time.
               </p>
             </div>
           </MotionPreset>
@@ -128,14 +144,14 @@ const BentoGrid = () => {
           >
             <ProductManagement />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Simplify your product management and scale it with ease</h3>
+              <h3 className='text-2xl font-semibold'>7-day warranty on every account</h3>
               <p className='text-muted-foreground text-sm'>
-                Track users, monitor performance, and manage updates without complexity. Our platform keeps everything
-                organized so your product grows faster, smarter, and with less effort.
+                If anything goes wrong within 7 days, we replace your account at no extra cost. No questions asked, no lengthy tickets — just instant support.
               </p>
             </div>
           </MotionPreset>
         </div>
+      </div>
       </div>
     </section>
   )

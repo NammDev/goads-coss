@@ -14,7 +14,23 @@ import Logo from '@/assets/svg/logo'
 const BentoGrid = () => {
   return (
     <section className='py-8 sm:py-16 lg:py-24'>
-      <div className='mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 sm:px-6 lg:grid-cols-5 lg:px-8'>
+      <div className='container space-y-12 sm:space-y-16'>
+        <div className='flex flex-col items-center gap-4 text-center'>
+          <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }}>
+            <span className='font-medium underline underline-offset-6'>Meta Assets</span>
+          </MotionPreset>
+          <MotionPreset fade slide={{ direction: 'down' }} delay={0.1} transition={{ duration: 0.5 }}>
+            <h2 className='text-2xl font-semibold sm:text-3xl lg:text-4xl'>
+              Everything you need to run ads at scale
+            </h2>
+          </MotionPreset>
+          <MotionPreset fade slide={{ direction: 'down' }} delay={0.2} transition={{ duration: 0.5 }}>
+            <p className='text-muted-foreground max-w-2xl text-lg'>
+              Business Managers, Pages, Profiles, and verified assets — fully set up and ready to power your campaigns across Meta platforms.
+            </p>
+          </MotionPreset>
+        </div>
+      <div className='grid grid-cols-1 gap-6 lg:grid-cols-5'>
         <MotionPreset
           fade
           blur
@@ -22,7 +38,7 @@ const BentoGrid = () => {
           transition={{ duration: 0.45 }}
           className='overflow-hidden lg:col-span-2'
         >
-          <Card className='bg-muted h-full gap-10 overflow-hidden border-0 pt-0 shadow-none'>
+          <Card className='bg-card h-full gap-10 overflow-hidden border-0 pt-0'>
             <MotionPreset
               fade
               slide={{ direction: 'down', offset: 50 }}
@@ -140,18 +156,18 @@ const BentoGrid = () => {
 
                 <Logo className='absolute top-1/2 left-1/2 z-10 size-16 -translate-x-1/2 -translate-y-[calc(50%+1rem)]' />
               </div>
-              <div className='from-muted pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-20% to-transparent' />
-              <div className='from-muted pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l to-transparent' />
-              <div className='from-muted pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-20% to-transparent' />
-              <div className='from-muted pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r to-transparent' />
+              <div className='from-card pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-20% to-transparent' />
+              <div className='from-card pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l to-transparent' />
+              <div className='from-card pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-20% to-transparent' />
+              <div className='from-card pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r to-transparent' />
             </MotionPreset>
             <CardHeader className='gap-4'>
               <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.25} transition={{ duration: 0.45 }}>
-                <CardTitle className='text-2xl font-semibold'>Seamless Integrations</CardTitle>
+                <CardTitle className='text-2xl font-semibold'>Full Meta asset toolkit</CardTitle>
               </MotionPreset>
               <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.4} transition={{ duration: 0.45 }}>
-                <CardDescription className='text-lg'>
-                  Effortlessly connect with design, dev, and deployment tools.
+                <CardDescription className='text-sm'>
+                  Business Managers, Pages, Profiles, and verified identities — everything you need to run ads across Meta platforms.
                 </CardDescription>
               </MotionPreset>
             </CardHeader>
@@ -166,7 +182,7 @@ const BentoGrid = () => {
           transition={{ duration: 0.45 }}
           className='overflow-hidden lg:col-span-3'
         >
-          <Card className='bg-muted h-full border-0 shadow-none'>
+          <Card className='bg-card h-full border-0'>
             <CardContent className='flex-1 px-4'>
               <ScrollArea className='relative'>
                 <div className='flex gap-6 px-1 py-7 max-md:flex-col'>
@@ -303,20 +319,19 @@ const BentoGrid = () => {
                       </CardContent>
                     </Card>
                   </MotionPreset>
-                  <div className='from-muted pointer-events-none absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r to-transparent lg:max-xl:block' />
-                  <div className='from-muted pointer-events-none absolute inset-y-0 right-0 hidden w-24 bg-gradient-to-l to-transparent lg:max-xl:block' />
+                  <div className='from-card pointer-events-none absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r to-transparent lg:max-xl:block' />
+                  <div className='from-card pointer-events-none absolute inset-y-0 right-0 hidden w-24 bg-gradient-to-l to-transparent lg:max-xl:block' />
                 </div>
                 <ScrollBar orientation='horizontal' />
               </ScrollArea>
             </CardContent>
             <CardHeader className='gap-4'>
               <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.75} transition={{ duration: 0.45 }}>
-                <CardTitle className='text-2xl font-semibold'>Built-in automation controls</CardTitle>
+                <CardTitle className='text-2xl font-semibold'>Bulletproof account setup</CardTitle>
               </MotionPreset>
               <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.9} transition={{ duration: 0.45 }}>
-                <CardDescription className='text-lg'>
-                  Automate handoff and workflow logic with AI-assisted blocks that connect your design files to
-                  production-ready output.
+                <CardDescription className='text-sm'>
+                  Pre-configured profiles, aged pages, and hardened BMs designed to pass verification and resist bans from day one.
                 </CardDescription>
               </MotionPreset>
             </CardHeader>
@@ -344,6 +359,7 @@ const BentoGrid = () => {
         >
           <CardParticles />
         </MotionPreset>
+      </div>
       </div>
     </section>
   )

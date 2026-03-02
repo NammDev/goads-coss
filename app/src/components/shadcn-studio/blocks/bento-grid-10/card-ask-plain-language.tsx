@@ -24,7 +24,7 @@ const chats = [
 
 const CardAskPlainLanguage = () => {
   return (
-    <Card className='bg-muted h-full overflow-hidden border-0 pt-0 shadow-none'>
+    <Card className='bg-card h-full overflow-hidden border-0 pt-0'>
       <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.5} transition={{ duration: 0.45 }}>
         <Carousel
           opts={{
@@ -49,18 +49,17 @@ const CardAskPlainLanguage = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className='from-muted pointer-events-none absolute inset-x-0 top-0 h-30 bg-gradient-to-b from-10% to-transparent' />
-          <div className='from-muted pointer-events-none absolute inset-x-0 bottom-0 h-30 bg-gradient-to-t from-10% to-transparent' />
+          <div className='from-card pointer-events-none absolute inset-x-0 top-0 h-30 bg-gradient-to-b from-10% to-transparent' />
+          <div className='from-card pointer-events-none absolute inset-x-0 bottom-0 h-30 bg-gradient-to-t from-10% to-transparent' />
         </Carousel>
       </MotionPreset>
       <CardHeader className='gap-4'>
         <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.65} transition={{ duration: 0.45 }}>
-          <CardTitle className='text-2xl font-semibold'>Ask with plain language</CardTitle>
+          <CardTitle className='text-2xl font-semibold'>Request any asset instantly</CardTitle>
         </MotionPreset>
         <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.8} transition={{ duration: 0.45 }}>
-          <CardDescription className='text-lg'>
-            Use natural language to generate layouts, extract code from Figma, or query your component library instantly
-            and intelligently.
+          <CardDescription className='text-sm'>
+            Tell us what you need — BMs, Pages, Profiles, or a full bulletproof setup — and we deliver it ready to use within hours.
           </CardDescription>
         </MotionPreset>
       </CardHeader>

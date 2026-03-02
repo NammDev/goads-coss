@@ -7,7 +7,7 @@ import Rocket from '@/assets/svg/rocket'
 
 const CardParticles = () => {
   return (
-    <Card className='bg-muted h-full border-0 shadow-none'>
+    <Card className='bg-card h-full border-0'>
       <MotionPreset
         fade
         slide={{ direction: 'down', offset: 50 }}
@@ -39,11 +39,11 @@ const CardParticles = () => {
       </MotionPreset>
       <CardHeader className='gap-4'>
         <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.85} transition={{ duration: 0.45 }}>
-          <CardTitle className='text-2xl font-semibold'>Ready to launch, built to scale</CardTitle>
+          <CardTitle className='text-2xl font-semibold'>Unban & recovery service</CardTitle>
         </MotionPreset>
         <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={1} transition={{ duration: 0.45 }}>
-          <CardDescription className='text-lg'>
-            Quickly deploy your UI from design to code with AI and cloud-ready performance.
+          <CardDescription className='text-sm'>
+            Got a banned BM or restricted profile? Our recovery team restores access or provides a fresh replacement within hours.
           </CardDescription>
         </MotionPreset>
       </CardHeader>
