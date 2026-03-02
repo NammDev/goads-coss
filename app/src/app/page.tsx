@@ -276,18 +276,25 @@ export default function Page() {
     <main className="flex-1">
       <HeroClone />
       <SectionDivider />
+
       <BentoGrid />
       <SectionDivider />
-      <BentoGrid10 />
-      <SectionDivider />
+
       <StatsSection />
       <SectionDivider />
-      <TestimonialsComponent reviews={reviews} />
+
+      <BentoGrid10 />
       <SectionDivider />
+
       <Pricing plans={pricingPlans} />
       <SectionDivider />
+
+      <TestimonialsComponent reviews={reviews} />
+      <SectionDivider />
+
       <FAQ tabsData={faqTabsData} />
       <SectionDivider />
+
       <CTASection />
     </main>
   );

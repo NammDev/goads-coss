@@ -6,6 +6,8 @@ import { Rating } from '@/components/ui/rating'
 import { Separator } from '@/components/ui/separator'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { MotionPreset } from '@/components/ui/motion-preset'
+import { Marquee } from '@/components/ui/marquee'
+import { Card, CardContent } from '@/components/ui/card'
 import { WordRotate, Typewriter } from './word-rotate'
 import HeroGridBg from './hero-grid-bg'
 
@@ -28,9 +30,24 @@ const PLATFORM_LOGOS = [
   { src: 'https://cdn.simpleicons.org/instagram/000000', alt: 'Instagram' },
 ]
 
+const BRAND_LOGOS = [
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/google-logo.png', name: 'Google' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/amazon-logo.png', name: 'Amazon' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/hubspot-logo.png', name: 'Hubspot' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/walmart-logo.png', name: 'Walmart' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/microsoft-logo.png', name: 'Microsoft' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/airbnb-logo.png', name: 'Airbnb' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/fedex-logo.png', name: 'Fedex' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/adobe-logo.png', name: 'Adobe' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/shopify-logo.png', name: 'Shopify' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/ola-logo.png', name: 'Ola' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/huawei-logo.png', name: 'Huawei' },
+  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/bookmyshow-logo.png', name: 'Book My Show' },
+]
+
 export default function HeroClone() {
   return (
-    <section id="hero" className="relative space-y-8 py-8 sm:space-y-16 sm:py-16 lg:py-24">
+    <section id="hero" className="relative overflow-hidden space-y-8 py-8 sm:space-y-16 sm:py-16 lg:py-24">
       <HeroGridBg />
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-7 px-4 text-center sm:px-6 lg:px-8">
 
@@ -124,6 +141,36 @@ export default function HeroClone() {
         </MotionPreset>
 
       </div>
+
+      {/* Logo Cloud Marquee */}
+      <MotionPreset fade blur slide={{ direction: 'up', offset: 30 }} delay={0.9} transition={{ duration: 0.5 }} className="relative z-10 mx-auto max-w-[1416px] px-4 lg:px-6">
+        <div className="relative overflow-hidden">
+          <div className="from-background pointer-events-none absolute inset-y-0 left-0 z-1 w-35 bg-gradient-to-r to-transparent" />
+          <div className="from-background pointer-events-none absolute inset-y-0 right-0 z-1 w-35 bg-gradient-to-l to-transparent" />
+          <div className="w-full overflow-hidden">
+            <Marquee pauseOnHover duration={20} gap={1.5}>
+              {BRAND_LOGOS.slice(0, 7).map((logo, index) => (
+                <Card key={index} className="rounded-lg border-none shadow-md">
+                  <CardContent className="flex flex-col items-center px-9">
+                    <img src={logo.image} alt={logo.name} className="h-6" />
+                  </CardContent>
+                </Card>
+              ))}
+            </Marquee>
+          </div>
+          <div className="w-full overflow-hidden">
+            <Marquee pauseOnHover duration={20} gap={1.5} reverse>
+              {BRAND_LOGOS.slice(7).map((logo, index) => (
+                <Card key={index} className="rounded-lg border-none shadow-md">
+                  <CardContent className="flex flex-col items-center px-9">
+                    <img src={logo.image} alt={logo.name} className="h-6" />
+                  </CardContent>
+                </Card>
+              ))}
+            </Marquee>
+          </div>
+        </div>
+      </MotionPreset>
     </section>
   )
 }
