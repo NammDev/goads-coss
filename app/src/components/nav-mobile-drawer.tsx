@@ -19,7 +19,9 @@ import {
   Database,
   Handshake,
   Menu,
-  X,
+  Compass,
+  DollarSign,
+  Info,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -31,6 +33,13 @@ import {
   SheetClose,
 } from '@/components/ui/sheet'
 import { Separator } from '@/components/ui/separator'
+import { SsLogo } from './site-header-icons'
+
+const NAV_LINKS = [
+  { icon: Compass, label: 'How It Works', href: '/#how-it-works' },
+  { icon: DollarSign, label: 'Pricing', href: '/#pricing' },
+  { icon: Info, label: 'About', href: '/#about' },
+]
 
 const PRODUCTS_BY_PLATFORM = [
   { icon: Building2, title: 'Meta Agency Accounts', href: '/products/meta-agency-accounts' },
@@ -58,15 +67,9 @@ const RESOURCES = [
   { icon: Handshake, title: 'Partner Program', href: '/partners' },
 ]
 
-const NAV_LINKS = [
-  { label: 'How It Works', href: '/#how-it-works' },
-  { label: 'Pricing', href: '/#pricing' },
-  { label: 'About', href: '/#about' },
-]
-
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="px-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground/70">
+    <p className="px-2 pb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground/70">
       {children}
     </p>
   )
@@ -93,25 +96,23 @@ export function NavMobileDrawer() {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-80 overflow-y-auto p-0">
-        <SheetHeader className="flex flex-row items-center justify-between border-b px-5 py-4">
+        {/* Logo + title */}
+        <SheetHeader className="flex flex-row items-center gap-2.5 px-5 py-4">
+          <SsLogo />
           <SheetTitle className="text-lg font-semibold">goads/agency</SheetTitle>
         </SheetHeader>
 
-        <div className="flex flex-col gap-1 px-3 py-4">
-          {/* Quick nav links */}
+        {/* Nav links (immediately below logo, no separator) */}
+        <div className="flex flex-col gap-0.5 px-3 pb-3">
           {NAV_LINKS.map(link => (
-            <SheetClose asChild key={link.href}>
-              <Link href={link.href} className="rounded-lg px-2 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted/60">
-                {link.label}
-              </Link>
-            </SheetClose>
+            <DrawerItem key={link.href} icon={link.icon} title={link.label} href={link.href} />
           ))}
         </div>
 
         <Separator />
 
         {/* Products: By Platform */}
-        <div className="flex flex-col gap-1 px-3 py-4">
+        <div className="flex flex-col gap-0.5 px-3 py-3">
           <SectionLabel>By Platform</SectionLabel>
           {PRODUCTS_BY_PLATFORM.map(item => (
             <DrawerItem key={item.href} {...item} />
@@ -121,7 +122,7 @@ export function NavMobileDrawer() {
         <Separator />
 
         {/* Products: By Need */}
-        <div className="flex flex-col gap-1 px-3 py-4">
+        <div className="flex flex-col gap-0.5 px-3 py-3">
           <SectionLabel>By Need</SectionLabel>
           {PRODUCTS_BY_NEED.map(item => (
             <DrawerItem key={item.href} {...item} />
@@ -131,7 +132,7 @@ export function NavMobileDrawer() {
         <Separator />
 
         {/* Resources */}
-        <div className="flex flex-col gap-1 px-3 py-4">
+        <div className="flex flex-col gap-0.5 px-3 py-3">
           <SectionLabel>Resources</SectionLabel>
           {RESOURCES.map(item => (
             <DrawerItem key={item.href} {...item} />
