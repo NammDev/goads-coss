@@ -36,7 +36,7 @@ export function SiteHeader() {
           <Link href="/" className="shrink-0">
             <div className="flex items-center gap-2.5 max-[550px]:[&_span]:hidden">
               <SsLogo />
-              <span className="text-xl font-semibold">shadcn/studio</span>
+              <span className="text-xl font-semibold">goads/agency</span>
             </div>
           </Link>
 
