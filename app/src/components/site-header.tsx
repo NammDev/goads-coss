@@ -3,14 +3,13 @@ import { Search, LogIn, Palette } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ModeSwitcher } from '@/components/mode-switcher'
 import { Separator } from '@/components/ui/separator'
-import { SsLogo, SsCtaIcon, GithubIcon, XIcon, DiscordIcon } from './site-header-icons'
+import { SsLogo, SsCtaIcon, XIcon, DiscordIcon } from './site-header-icons'
 import { NavMegaMenu } from './nav-mega-menu'
 import { NavMobileDrawer } from './nav-mobile-drawer'
 
 const SOCIAL_LINKS = [
-  { href: 'https://github.com/shadcnstudio/shadcn-studio', icon: GithubIcon, label: 'Github' },
-  { href: 'https://x.com/ShadcnStudio', icon: XIcon, label: 'X' },
-  { href: 'https://discord.com/invite/kBHkY7DekX', icon: DiscordIcon, label: 'Discord' },
+  { href: 'https://t.me/GoAdsSupport', icon: DiscordIcon, label: 'Telegram' },
+  { href: '#', icon: XIcon, label: 'X' },
 ]
 
 const navLinkClass = 'text-sm text-muted-foreground transition-all hover:text-foreground'

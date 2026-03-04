@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon, MessageSquareMore } from 'lucide-react'
+import { ArrowUpRightIcon, GlobeIcon, MessageSquareMore } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -28,7 +28,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
                 delay={0.3}
                 transition={{ duration: 0.5 }}
               >
-                Trusted by clients
+                Trusted by advertisers
               </MotionPreset>
               <MotionPreset
                 fade
@@ -37,7 +37,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
                 delay={0.45}
                 transition={{ duration: 0.5 }}
               >
-                around the globe. 🌍
+                worldwide. <GlobeIcon className='inline size-8 align-middle' />
               </MotionPreset>
             </h2>
 
@@ -49,8 +49,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               transition={{ duration: 0.5 }}
             >
               <p className='text-muted-foreground max-w-xl text-xl'>
-                Our clients trust GoAds to deliver reliable ad infrastructure, premium accounts, and the support they
-                need to scale without interruption.
+                At GoAds, we believe providing advertising assets is only part of the job. Our team works directly with every client, helping them choose the right setup, solving issues quickly, and ensuring their campaigns keep running without interruption.
               </p>
             </MotionPreset>
           </div>
@@ -67,7 +66,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               transition={{ duration: 0.6 }}
               className='text-muted-foreground text-center text-xl'
             >
-              Hear from advertisers who scaled their campaigns with GoAds infrastructure.
+              That commitment to service and reliability is why advertisers across the world continue to trust GoAds.
             </MotionPreset>
 
             <MotionPreset
@@ -80,21 +79,21 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
             >
               <div className='flex flex-col items-center justify-center gap-2'>
                 <span className='text-xl font-medium'>
-                  <NumberTicker startValue={0} value={100} delay={0.8} stiffness={170} />+
+                  <NumberTicker startValue={0} value={500} delay={0.8} stiffness={170} />+
                 </span>
-                <span className='text-muted-foreground text-sm'>Happy Client</span>
+                <span className='text-muted-foreground text-sm'>Active Advertisers</span>
               </div>
               <div className='flex flex-col items-center justify-center gap-2 border-x'>
                 <span className='text-xl font-medium'>
-                  $<NumberTicker startValue={50} value={250} delay={0.8} stiffness={170} />m
+                  $<NumberTicker startValue={0} value={25} delay={0.8} stiffness={170} />M+
                 </span>
-                <span className='text-muted-foreground text-sm'>Revenue Added</span>
+                <span className='text-muted-foreground text-sm'>Ad Spend Powered</span>
               </div>
               <div className='flex flex-col items-center justify-center gap-2'>
                 <span className='text-xl font-medium'>
-                  <NumberTicker startValue={0} value={4.8} decimalPlaces={1} delay={0.8} stiffness={170} />
+                  <NumberTicker startValue={0} value={4.9} decimalPlaces={1} delay={0.8} stiffness={170} /> / 5
                 </span>
-                <span className='text-muted-foreground text-sm'>Average Rating</span>
+                <span className='text-muted-foreground text-sm'>Client Satisfaction</span>
               </div>
             </MotionPreset>
 
@@ -107,15 +106,15 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               className='flex justify-center gap-4 border-y py-8'
             >
               <Button variant='outline' asChild className='rounded-full !px-4'>
-                <a href='#'>
-                  Let&apos;s talk
+                <a href='https://t.me/GoAdsSupport' target='_blank' rel='noopener noreferrer'>
+                  Contact Support
                   <MessageSquareMore />
                 </a>
               </Button>
               <Separator orientation='vertical' />
               <CraftButton asChild>
-                <a href='#'>
-                  <CraftButtonLabel>Hire Me</CraftButtonLabel>
+                <a href='/#pricing'>
+                  <CraftButtonLabel>View Plans</CraftButtonLabel>
                   <CraftButtonIcon>
                     <ArrowUpRightIcon className='size-3 stroke-2 transition-transform duration-500 group-hover:rotate-45' />
                   </CraftButtonIcon>

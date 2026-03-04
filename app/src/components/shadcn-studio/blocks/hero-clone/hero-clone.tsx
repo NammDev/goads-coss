@@ -11,40 +11,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { WavyUnderline } from '@/components/section-header'
 import { WordRotate, Typewriter } from './word-rotate'
 import HeroGridBg from './hero-grid-bg'
-
-const ROTATE_WORDS = ['Scaling', 'Growing', 'Winning', 'Profiting']
-const TYPEWRITER_WORDS = ['Media Buyers', 'Agencies', 'E-commerce Brands', 'Dropshippers', 'Lead Gen Teams']
-
-const AVATARS = [
-  { id: 'avatar-38', alt: 'client', fallback: 'C1' },
-  { id: 'avatar-42', alt: 'client', fallback: 'C2' },
-  { id: 'avatar-27', alt: 'client', fallback: 'C3' },
-  { id: 'avatar-34', alt: 'client', fallback: 'C4' },
-  { id: 'avatar-29', alt: 'client', fallback: 'C5' },
-]
-
-const PLATFORM_LOGOS = [
-  { src: 'https://cdn.simpleicons.org/meta/000000', alt: 'Meta' },
-  { src: 'https://cdn.simpleicons.org/googleads/000000', alt: 'Google Ads' },
-  { src: 'https://cdn.simpleicons.org/tiktok/000000', alt: 'TikTok' },
-  { src: 'https://cdn.simpleicons.org/facebook/000000', alt: 'Facebook' },
-  { src: 'https://cdn.simpleicons.org/instagram/000000', alt: 'Instagram' },
-]
-
-const BRAND_LOGOS = [
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/google-logo.png', name: 'Google' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/amazon-logo.png', name: 'Amazon' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/hubspot-logo.png', name: 'Hubspot' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/walmart-logo.png', name: 'Walmart' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/microsoft-logo.png', name: 'Microsoft' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/airbnb-logo.png', name: 'Airbnb' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/fedex-logo.png', name: 'Fedex' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/adobe-logo.png', name: 'Adobe' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/shopify-logo.png', name: 'Shopify' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/ola-logo.png', name: 'Ola' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/huawei-logo.png', name: 'Huawei' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/bookmyshow-logo.png', name: 'Book My Show' },
-]
+import { ROTATE_WORDS, TYPEWRITER_WORDS, AVATARS, PLATFORM_LOGOS, BRAND_LOGOS } from '@/data/landing-hero'
 
 export default function HeroClone() {
   return (
@@ -58,7 +25,7 @@ export default function HeroClone() {
             <span className="inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border px-2 py-0.5 text-xs bg-background relative font-normal">
               <span className="bg-primary text-primary-foreground rounded-full px-1.5">New</span>
               <span className="text-sm text-wrap">
-                Meta, Google &amp; TikTok Agency Accounts — Now with 7-Day Warranty
+                Meta, Google &amp; TikTok - Premium Agency Ad Accounts
               </span>
               <BorderBeam size={60} duration={8} colorFrom="var(--primary)" colorTo="var(--ring)" />
             </span>
@@ -81,11 +48,7 @@ export default function HeroClone() {
         {/* Description */}
         <MotionPreset fade blur slide={{ direction: 'down', offset: 50 }} delay={0.3} transition={{ duration: 0.5 }}>
           <p className="text-muted-foreground z-10 max-w-2xl text-lg">
-            Scale your ad campaigns with premium, verified{' '}
-            <span className="text-foreground font-medium">
-              Meta Agency Accounts, Google Whitelisted, TikTok Verified, and Business Managers
-            </span>
-            {' '}— backed by 7-day warranty.
+            Scale your ad campaigns with Meta, Google, TikTok Premium Agency Ads Accounts with Verified Asset - 24/7 SUPPORT
           </p>
         </MotionPreset>
 

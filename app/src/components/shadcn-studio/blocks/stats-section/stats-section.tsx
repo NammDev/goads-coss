@@ -1,14 +1,17 @@
-import { GithubIcon, ComponentIcon, BlocksIcon, UsersRoundIcon } from 'lucide-react'
+import { GithubIcon, ComponentIcon, BlocksIcon, UsersRoundIcon, type LucideIcon } from 'lucide-react'
 
 import { MotionPreset } from '@/components/ui/motion-preset'
 import { SectionHeader, WavyUnderline } from '@/components/section-header'
+import { STATS_DATA } from '@/data/landing-stats'
 
-const stats = [
-  { icon: GithubIcon, value: '3,242', suffix: '+', label: 'BMs Sold' },
-  { icon: ComponentIcon, value: '$12M', suffix: '+', label: 'Ad Spend Managed' },
-  { icon: BlocksIcon, value: '97', suffix: '%', label: 'Approval Rate' },
-  { icon: UsersRoundIcon, value: '500', suffix: '+', label: 'Active Clients' }
-]
+const ICON_MAP: Record<string, LucideIcon> = {
+  GithubIcon,
+  ComponentIcon,
+  BlocksIcon,
+  UsersRoundIcon,
+}
+
+const stats = STATS_DATA.map(s => ({ ...s, icon: ICON_MAP[s.iconName] }))
 
 const StatsSection = () => {
   return (

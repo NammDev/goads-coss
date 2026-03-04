@@ -39,11 +39,11 @@ const CardParticles = () => {
       </MotionPreset>
       <CardHeader className='gap-4'>
         <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.85} transition={{ duration: 0.45 }}>
-          <CardTitle className='text-2xl font-semibold'>Unban & recovery service</CardTitle>
+          <CardTitle className='text-2xl font-semibold'>Industry-leading warranty & protection</CardTitle>
         </MotionPreset>
         <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={1} transition={{ duration: 0.45 }}>
           <CardDescription className='text-sm'>
-            Got a banned BM or restricted profile? Our recovery team restores access or provides a fresh replacement within hours.
+            If an asset encounters unexpected restrictions within the warranty period, we provide fast replacements or recovery assistance. Our goal is simple: make sure our clients never get stuck.
           </CardDescription>
         </MotionPreset>
       </CardHeader>

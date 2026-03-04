@@ -27,7 +27,29 @@
 - Blocks often have hardcoded brand colors -- replace with semantic tokens
 - Placeholder text from shadcn-studio needs GoAds-specific copy
 
+### Un-customized Content (as of 2026-03-04)
+- `footer-component-02` -- entire block is uncustomized (shadcn/studio branding, `#` links, emojis, brand colors)
+- `testimonials-component-22` -- "Hire Me" CTA, globe emoji in heading
+- `hero-section-23` -- "AI-Powered" badge, "Free Trail" typo, generic SaaS copy (used on /agency-ad-account, /bm)
+- `bento-grid-01/features.tsx` line 320 -- "shadcn/studio" text
+- `bento-grid-19/turn-viewers-to-orders.tsx` line 117 -- "shadcn/studio" logo+text
+- `site-header.tsx` lines 11-13 -- social links point to shadcn/studio accounts
+- Home page reviews use obviously fake names (Tony Stark, Bruce Wayne)
+- Team section social links all `#`, sr-only says "Check" instead of platform name
+
+### Accessibility Gaps
+- Blog search input (`blog-hero.tsx`) -- no label or aria-label
+- Footer newsletter input -- no label or aria-label
+- Zero `prefers-reduced-motion` support across entire codebase
+- All `<img>` tags DO have alt text (good)
+- Icon-only buttons in SiteHeader DO have sr-only (good)
+
+### File Size Violations
+- `page.tsx` (landing) = 301 lines -- extract data to separate file
+- `bm/page.tsx` = 310 lines -- extract data to separate file
+
 ### Build/Lint
 - `npx tsc --noEmit` for type checking (run from app/ directory)
 - `npx eslint <files>` for linting
 - `<img>` warnings are expected from shadcn-studio blocks (external CDN images)
+- TypeScript compiles clean as of 2026-03-04

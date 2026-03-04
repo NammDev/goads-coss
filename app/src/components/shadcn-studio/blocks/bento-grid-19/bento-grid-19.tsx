@@ -14,8 +14,8 @@ const BentoGrid = () => {
     <section className='py-8 sm:py-16 lg:py-24'>
       <div className='container space-y-12 sm:space-y-16'>
         <SectionHeader
-          label='Agency Ad Accounts'
-          heading='Premium accounts built for scale'
+          label='Premium Agency Ad Accounts'
+          heading='Premium ad accounts built for scaling'
           description='Rent verified Meta, Google, and TikTok agency ad accounts with higher trust scores, better approval rates, and unlimited scaling potential.'
         />
         <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
@@ -29,9 +29,9 @@ const BentoGrid = () => {
           >
             <UserAnalytics />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Verified agency accounts</h3>
+              <h3 className='text-2xl font-semibold'>Turn ad stability into customer growth</h3>
               <p className='text-muted-foreground text-sm'>
-                Every account is created under official agency Business Managers with high trust scores — ready to run ads from day one.
+                With high-trust agency ad accounts, your campaigns run longer and scale faster. That means consistent traffic, more leads, and more customers every day.
               </p>
             </div>
           </MotionPreset>
@@ -46,9 +46,9 @@ const BentoGrid = () => {
           >
             <ProductMetrics />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Track ad spend performance</h3>
+              <h3 className='text-2xl font-semibold'>Full control over your ad performance</h3>
               <p className='text-muted-foreground text-sm'>
-                Monitor your account health, daily spend limits, and campaign metrics — all in one clear dashboard.
+                Monitor campaign spend, account health, and performance metrics in real time. Our infrastructure helps advertisers scale campaigns while keeping performance stable and predictable.
               </p>
             </div>
           </MotionPreset>
@@ -82,9 +82,9 @@ const BentoGrid = () => {
           >
             <EnterpriseCollaboration />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Trusted by top brands</h3>
+              <h3 className='text-2xl font-semibold'>Built for brands that scale</h3>
               <p className='text-muted-foreground text-sm'>
-                Join 500+ agencies and e-commerce brands already scaling their ad campaigns with GoAds infrastructure.
+                GoAds sits at the center of your advertising ecosystem — connecting you to every major platform with verified, high-trust infrastructure trusted by advertisers worldwide.
               </p>
             </div>
           </MotionPreset>
@@ -99,9 +99,9 @@ const BentoGrid = () => {
           >
             <StayInformed />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Real-time account updates</h3>
+              <h3 className='text-2xl font-semibold'>Dedicated monitoring & support</h3>
               <p className='text-muted-foreground text-sm'>
-                Get instant notifications on account status, payment confirmations, and delivery updates — never miss a thing.
+                Our team actively monitors account status, delivery, and performance. If any issue appears, we step in immediately so your campaigns keep running without interruption.
               </p>
             </div>
           </MotionPreset>
@@ -118,9 +118,9 @@ const BentoGrid = () => {
           >
             <TurnViewersToOrders />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Fast delivery, tracked end-to-end</h3>
+              <h3 className='text-2xl font-semibold'>More conversions. More revenue.</h3>
               <p className='text-muted-foreground text-sm'>
-                Most accounts delivered within 1–4 hours. Track every step from order to account handoff in real time.
+                Stable agency ad accounts keep your campaigns running without interruptions. Reach more buyers, generate more purchases, and scale your revenue consistently.
               </p>
             </div>
           </MotionPreset>
@@ -135,9 +135,9 @@ const BentoGrid = () => {
           >
             <ProductManagement />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>7-day warranty on every account</h3>
+              <h3 className='text-2xl font-semibold'>Replacement guarantee</h3>
               <p className='text-muted-foreground text-sm'>
-                If anything goes wrong within 7 days, we replace your account at no extra cost. No questions asked, no lengthy tickets — just instant support.
+                If an account encounters unexpected restrictions within the warranty period, we replace it quickly at no extra cost. Your campaigns stay running — no downtime, no unnecessary risk.
               </p>
             </div>
           </MotionPreset>

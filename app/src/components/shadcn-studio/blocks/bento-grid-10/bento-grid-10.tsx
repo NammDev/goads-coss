@@ -154,11 +154,11 @@ const BentoGrid = () => {
             </MotionPreset>
             <CardHeader className='gap-4'>
               <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.25} transition={{ duration: 0.45 }}>
-                <CardTitle className='text-2xl font-semibold'>Full Meta asset toolkit</CardTitle>
+                <CardTitle className='text-2xl font-semibold'>Everything advertisers need in one place</CardTitle>
               </MotionPreset>
               <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.4} transition={{ duration: 0.45 }}>
                 <CardDescription className='text-sm'>
-                  Business Managers, Pages, Profiles, and verified identities — everything you need to run ads across Meta platforms.
+                  Business Managers, profiles, pages, and verified identities for Meta and TikTok advertising. GoAds provides a complete asset ecosystem so advertisers and agencies can launch and scale campaigns without worrying about infrastructure.
                 </CardDescription>
               </MotionPreset>
             </CardHeader>
@@ -318,11 +318,11 @@ const BentoGrid = () => {
             </CardContent>
             <CardHeader className='gap-4'>
               <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.75} transition={{ duration: 0.45 }}>
-                <CardTitle className='text-2xl font-semibold'>Bulletproof account setup</CardTitle>
+                <CardTitle className='text-2xl font-semibold'>Built by experts for serious advertisers</CardTitle>
               </MotionPreset>
               <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.9} transition={{ duration: 0.45 }}>
                 <CardDescription className='text-sm'>
-                  Pre-configured profiles, aged pages, and hardened BMs designed to pass verification and resist bans from day one.
+                  Every asset is carefully prepared with aged profiles, trusted pages, and hardened Business Managers to maximize stability. Our team continuously tests and improves setups so clients receive high-quality assets designed for long-term campaign performance.
                 </CardDescription>
               </MotionPreset>
             </CardHeader>

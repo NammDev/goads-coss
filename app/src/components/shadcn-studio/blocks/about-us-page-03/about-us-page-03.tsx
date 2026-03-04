@@ -22,19 +22,7 @@ const AboutUs = ({ aboutUsData }: { aboutUsData: AboutUsData }) => {
   return (
     <section className='py-8 sm:py-16 lg:py-24'>
       <div className='mx-auto max-w-[1416px] px-4 lg:px-6'>
-        {/* Header */}
-        <div className='mb-12 space-y-4 text-center md:mb-16 lg:mb-24'>
-          <h2 className='text-2xl font-semibold md:text-3xl lg:text-4xl'>Our Mission & Values</h2>
-          <p className='text-muted-foreground text-xl'>
-            We operate with integrity, innovation, and a relentless commitment to delivering superior results.
-          </p>
-          <Button size='lg' asChild className='rounded-lg text-base has-[>svg]:px-6'>
-            <a href='/contact'>
-              Contact Us
-              <MessageCircleIcon />
-            </a>
-          </Button>
-        </div>
+  
 
         <div className='grid items-center gap-16 lg:grid-cols-2'>
           <div className='space-y-6'>

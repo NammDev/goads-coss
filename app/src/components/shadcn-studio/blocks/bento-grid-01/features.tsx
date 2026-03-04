@@ -317,7 +317,7 @@ const Features = () => {
               </div>
               <h3 className='text-xl font-medium'>Blocks</h3>
               <p className='text-lg'>
-                Kickstart your project with shadcn/studio&apos;s wide range of shadcn/ui blocks and layouts.
+                GoAds provides verified agency ad accounts with premium trust scores for scaling ad spend without restrictions.
               </p>
             </CardContent>
 

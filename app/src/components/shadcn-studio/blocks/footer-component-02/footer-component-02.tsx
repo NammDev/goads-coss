@@ -1,36 +1,58 @@
-import { ArrowRightIcon, GithubIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from 'lucide-react'
+import { ArrowRightIcon, MessageSquareIcon, SendIcon, TwitterIcon, YoutubeIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-
-import Logo from '@/components/shadcn-studio/logo'
 
 const Footer = () => {
   return (
     <footer>
       <div className='container grid grid-cols-6 gap-6 py-8 sm:gap-8 sm:py-16 md:py-24'>
         <div className='col-span-full flex flex-col items-start gap-4 lg:col-span-2'>
-          <a href='#'>
-            <Logo className='gap-3' />
+          <a href='/' className='text-xl font-semibold'>
+            goads/agency
           </a>
           <p className='text-muted-foreground'>
-            An open-source collection of copy-and-paste shadcn components, blocks, and templates - paired with a
-            powerful theme generator to craft, customize, and ship faster.
+            Stop Losing Accounts. Start Scaling. GoAds provides premium Meta, Google, and TikTok ad
+            infrastructure with 7-day warranty and under 2-hour support response.
           </p>
           <Separator className='!w-35' />
           <div className='flex items-center gap-4'>
-            <a href='#' target='#'>
-              <GithubIcon className='size-5' />
+            <a
+              href='https://t.me/GoAdsSupport'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-muted-foreground transition-colors hover:text-foreground'
+              aria-label='Telegram'
+            >
+              <SendIcon className='size-5' />
             </a>
-            <a href='#' target='#'>
-              <InstagramIcon className='size-5 text-sky-600 dark:text-sky-400' />
+            <a
+              href='#'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-muted-foreground transition-colors hover:text-foreground'
+              aria-label='Twitter / X'
+            >
+              <TwitterIcon className='size-5' />
             </a>
-            <a href='#' target='#'>
-              <TwitterIcon className='size-5 text-amber-600 dark:text-amber-400' />
+            <a
+              href='#'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-muted-foreground transition-colors hover:text-foreground'
+              aria-label='YouTube'
+            >
+              <YoutubeIcon className='size-5' />
             </a>
-            <a href='#' target='#'>
-              <YoutubeIcon className='text-destructive size-5' />
+            <a
+              href='#'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-muted-foreground transition-colors hover:text-foreground'
+              aria-label='Discord'
+            >
+              <MessageSquareIcon className='size-5' />
             </a>
           </div>
         </div>
@@ -39,95 +61,72 @@ const Footer = () => {
             <div className='text-lg font-medium'>Company</div>
             <ul className='text-muted-foreground space-y-3'>
               <li>
-                <a href='#' className='hover:text-foreground transition-colors duration-300'>
+                <a href='/about' className='hover:text-foreground transition-colors duration-300'>
                   About
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:text-foreground transition-colors duration-300'>
-                  Features
+                <a href='/#features' className='hover:text-foreground transition-colors duration-300'>
+                  Products
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:text-foreground transition-colors duration-300'>
-                  Works
+                <a href='/blog' className='hover:text-foreground transition-colors duration-300'>
+                  Blog
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:text-foreground transition-colors duration-300'>
-                  Career
+                <a href='/#pricing' className='hover:text-foreground transition-colors duration-300'>
+                  Pricing
                 </a>
               </li>
             </ul>
           </div>
           <div className='flex flex-col gap-5'>
-            <div className='text-lg font-medium'>Help</div>
+            <div className='text-lg font-medium'>Support</div>
             <ul className='text-muted-foreground space-y-3'>
               <li>
-                <a href='#' className='hover:text-foreground transition-colors duration-300'>
-                  Customer Support
+                <a href='https://t.me/GoAdsSupport' className='hover:text-foreground transition-colors duration-300'>
+                  Contact Support
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:text-foreground transition-colors duration-300'>
-                  Delivery Details
+                <a href='/agency-ad-account' className='hover:text-foreground transition-colors duration-300'>
+                  Agency Ad Accounts
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:text-foreground transition-colors duration-300'>
-                  Terms & Conditions
+                <a href='/bm' className='hover:text-foreground transition-colors duration-300'>
+                  Business Managers
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:text-foreground transition-colors duration-300'>
-                  Privacy Policy
+                <a href='/#faq' className='hover:text-foreground transition-colors duration-300'>
+                  FAQ
                 </a>
               </li>
             </ul>
           </div>
           <div className='col-span-full flex flex-col gap-5 sm:col-span-2'>
             <div>
-              <p className='mb-3 text-lg font-medium'>Subscribe to newsletter</p>
+              <p className='mb-3 text-lg font-medium'>Stay Updated</p>
               <div className='flex gap-2'>
-                <Input type='email' placeholder='Your email...' />
-                <Button size='icon' type='submit' className='rounded-lg'>
+                <Input
+                  type='email'
+                  placeholder='Your email...'
+                  aria-label='Email for newsletter'
+                />
+                <Button size='icon' type='submit' className='rounded-lg' aria-label='Subscribe'>
                   <ArrowRightIcon />
                 </Button>
               </div>
             </div>
             <Separator />
 
-            <div className='flex flex-wrap gap-4'>
-              <img
-                src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/bestofjs-logo-bw.png'
-                alt='bestofjs'
-                className='h-5'
-              />
-              <img
-                src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/product-hunt-logo-bw.png'
-                alt='producthunt'
-                className='h-5'
-              />
-              <img
-                src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/reddit-logo-bw.png'
-                alt='reddit'
-                className='h-5'
-              />
-              <img
-                src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/medium-logo-bw.png'
-                alt='medium'
-                className='h-5'
-              />
-              <img
-                src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/ycombinator-logo-bw.png'
-                alt='ycombinator'
-                className='h-5'
-              />
-              <img
-                src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/launchtory-logo-bw.png'
-                alt='launchtory'
-                className='h-5'
-              />
+            <div className='text-muted-foreground space-y-1.5 text-sm'>
+              <p className='font-medium text-foreground'>Trusted by 500+ clients worldwide</p>
+              <p>Meta Agency Accounts, Google Whitelisted, TikTok Verified, Business Managers</p>
+              <p>7-day warranty on every account. Average support response under 2 hours.</p>
             </div>
           </div>
         </div>
@@ -138,10 +137,10 @@ const Footer = () => {
       <div className='container flex justify-center py-6'>
         <p className='text-center font-medium text-balance'>
           {`©${new Date().getFullYear()}`}{' '}
-          <a href='#' className='link-animated'>
-            shadcn/studio
+          <a href='/' className='link-animated'>
+            GoAds
           </a>
-          , Made with ❤️ for better web.
+          {' '}&ndash; Stop Losing Accounts. Start Scaling.
         </p>
       </div>
     </footer>

@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 
-import { PlayIcon, RocketIcon, TicketCheckIcon } from 'lucide-react'
+import { MessageSquareMoreIcon, RocketIcon, TicketCheckIcon } from 'lucide-react'
 
 import HeroSvg from '@/assets/svg/hero-svg'
 import CustomersCardSvg from '@/assets/svg/customers-card-svg'
@@ -10,7 +10,6 @@ import CustomersCardSvg from '@/assets/svg/customers-card-svg'
 import { MotionPreset } from '@/components/ui/motion-preset'
 import { WordRotate } from '@/components/ui/word-rotate'
 import { Rating } from '@/components/ui/rating'
-import { Marquee } from '@/components/ui/marquee'
 import { AnimatedBeam } from '@/components/ui/animated-beam'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -21,7 +20,7 @@ import RatingsCard from '@/components/shadcn-studio/blocks/statistics-card-04'
 import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
 import TotalSalesCard from '@/components/shadcn-studio/blocks/chart-total-sales'
 
-const words = ['Sales', 'Growth', 'Business']
+import { HERO_SECTION_WORDS as words } from '@/data/landing-hero'
 
 type Avatar = {
   src: string
@@ -51,20 +50,20 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
                 className='bg-muted flex w-fit items-center gap-2.5 rounded-full border px-2 py-1'
               >
                 <span className='bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs font-medium'>
-                  AI-Powered
+                  Trusted Platform
                 </span>
-                <span className='text-muted-foreground'>Solution for client-facing businesses</span>
+                <span className='text-muted-foreground'>5+ years serving 500+ advertisers</span>
               </MotionPreset>
               <MotionPreset fade slide={{ offset: 50 }} blur transition={{ duration: 0.5 }} delay={0.3}>
                 <h1 className='inline max-w-3xl text-3xl leading-[1.29167] font-bold sm:text-4xl lg:text-5xl'>
-                  Turn customer data into product{' '}
+                  Premium Agency Ad Accounts for{' '}
                   <WordRotate words={words} duration={2000} className='inline-block w-fit overflow-visible py-0' />
                 </h1>
               </MotionPreset>
               <MotionPreset fade slide={{ offset: 50 }} blur transition={{ duration: 0.5 }} delay={0.5}>
                 <p className='text-muted-foreground text-xl'>
-                  Leverage intelligent analytics to track performance, compare trends, and stay ahead with actionable
-                  business insights
+                  Stop losing accounts to bans and restrictions. GoAds provides verified agency ad accounts with
+                  7-day warranty, under 2-hour support, and 97% stability rate.
                 </p>
               </MotionPreset>
               <MotionPreset
@@ -81,15 +80,15 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
                   size='lg'
                   className='relative w-fit overflow-hidden rounded-full text-base before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:transition-[background-position_0s_ease] before:duration-1000 hover:before:bg-[position:-100%_0,0_0] has-[>svg]:px-6 dark:before:bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.2)_50%,transparent_75%,transparent_100%)]'
                 >
-                  <a href='#'>
-                    Start 7 Day Free Trail
+                  <a href='/#pricing'>
+                    Get Started Today
                     <RocketIcon />
                   </a>
                 </Button>
                 <Button asChild variant='outline' className='rounded-full text-base has-[>svg]:px-6' size='lg'>
-                  <a href='#'>
-                    Watch Video
-                    <PlayIcon />
+                  <a href='https://t.me/GoAdsSupport' target='_blank' rel='noopener noreferrer'>
+                    Talk to Support
+                    <MessageSquareMoreIcon />
                   </a>
                 </Button>
               </MotionPreset>
@@ -115,7 +114,7 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
                 </div>
 
                 <div>
-                  <p className='text-sm'>We have 4.5+ average rating</p>
+                  <p className='text-sm'>Rated 4.5+ by 500+ clients</p>
                   <Rating
                     readOnly
                     variant='yellow'
@@ -136,7 +135,7 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
                 transition={{ duration: 0.5 }}
                 className='text-muted-foreground'
               >
-                More than 300+ Companies trusted one
+                Trusted by 500+ advertisers across 30+ countries
               </MotionPreset>
               <MotionPreset
                 fade
@@ -147,38 +146,13 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
               >
                 <div className='from-background pointer-events-none absolute inset-y-0 left-0 z-1 w-15 bg-gradient-to-r via-85% to-transparent' />
                 <div className='from-background pointer-events-none absolute inset-y-0 right-0 z-1 w-15 bg-gradient-to-l via-85% to-transparent' />
-                <Marquee pauseOnHover duration={20} reverse gap={4} className='*:items-center'>
-                  <img
-                    src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/um-logo.png'
-                    alt='University of Mississippi'
-                    className='h-7.5 w-auto shrink-0 object-contain opacity-60 invert dark:invert-0'
-                  />
-                  <img
-                    src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/star-helth-logo.png'
-                    alt='Star Health'
-                    className='h-9 w-auto shrink-0 object-contain opacity-60 invert dark:invert-0'
-                  />
-                  <img
-                    src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/dhl-logo.png'
-                    alt='DHL'
-                    className='h-4 w-auto shrink-0 object-contain opacity-60 invert dark:invert-0'
-                  />
-                  <img
-                    src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/sense-arena-logo.png'
-                    alt='Sense Arena'
-                    className='h-11 w-auto shrink-0 object-contain opacity-60 invert dark:invert-0'
-                  />
-                  <img
-                    src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/shemaroo-logo.png'
-                    alt='Shemaroo'
-                    className='h-10 w-auto shrink-0 object-contain opacity-60 invert dark:invert-0'
-                  />
-                  <img
-                    src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/mercedes-benz-logo.png'
-                    alt='Mercedes Benz'
-                    className='h-7.5 w-auto shrink-0 object-contain opacity-60 invert dark:invert-0'
-                  />
-                </Marquee>
+                <div className='flex flex-wrap items-center gap-x-8 gap-y-3 py-2'>
+                  <span className='text-muted-foreground text-sm font-medium'>Meta Partner</span>
+                  <span className='text-muted-foreground text-sm font-medium'>Google Whitelisted</span>
+                  <span className='text-muted-foreground text-sm font-medium'>TikTok Verified</span>
+                  <span className='text-muted-foreground text-sm font-medium'>7-Day Warranty</span>
+                  <span className='text-muted-foreground text-sm font-medium'>97% Stability Rate</span>
+                </div>
               </MotionPreset>
             </div>
           </div>

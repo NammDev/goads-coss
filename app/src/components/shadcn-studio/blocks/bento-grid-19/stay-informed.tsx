@@ -3,45 +3,22 @@
 import { useEffect, useState } from 'react'
 
 import { BadgeCheckIcon, ShoppingCartIcon, TriangleAlertIcon } from 'lucide-react'
+import type { ComponentType } from 'react'
 import Autoplay from 'embla-carousel-autoplay'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel'
 
 import { cn } from '@/lib/utils'
+import { STAY_INFORMED_DATA } from '@/data/landing-bento'
 
-const data = [
-  {
-    title: 'Order canceled',
-    time: '10:00 AM',
-    icon: TriangleAlertIcon
-  },
-  {
-    title: 'Payment successful',
-    time: '09:13 PM',
-    icon: BadgeCheckIcon
-  },
-  {
-    title: '3 new order placed',
-    time: '12:24 AM',
-    icon: ShoppingCartIcon
-  },
-  {
-    title: 'Payment successful',
-    time: '09:30 PM',
-    icon: BadgeCheckIcon
-  },
-  {
-    title: '2 new orders placed',
-    time: '04:12 PM',
-    icon: ShoppingCartIcon
-  },
-  {
-    title: 'Payment successful',
-    time: '03:45 PM',
-    icon: BadgeCheckIcon
-  }
-]
+const ICON_MAP: Record<string, ComponentType<{ className?: string }>> = {
+  TriangleAlertIcon,
+  BadgeCheckIcon,
+  ShoppingCartIcon,
+}
+
+const data = STAY_INFORMED_DATA.map(item => ({ ...item, icon: ICON_MAP[item.iconName] }))
 
 const StayInformed = () => {
   const [api, setApi] = useState<CarouselApi>()

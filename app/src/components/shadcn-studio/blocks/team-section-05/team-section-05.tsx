@@ -64,7 +64,7 @@ const Team = ({ teamMembers }: { teamMembers: TeamMember }) => {
                     >
                       <a href={member.socialLinks.facebook}>
                         <FacebookIcon className='size-4.5' />
-                        <span className='sr-only'>Check</span>
+                        <span className='sr-only'>Facebook profile</span>
                       </a>
                     </Button>
                     <Button
@@ -74,7 +74,7 @@ const Team = ({ teamMembers }: { teamMembers: TeamMember }) => {
                     >
                       <a href={member.socialLinks.twitter}>
                         <TwitterIcon className='size-4.5' />
-                        <span className='sr-only'>Check</span>
+                        <span className='sr-only'>Twitter profile</span>
                       </a>
                     </Button>
                     <Button
@@ -84,7 +84,7 @@ const Team = ({ teamMembers }: { teamMembers: TeamMember }) => {
                     >
                       <a href={member.socialLinks.github}>
                         <GithubIcon className='size-4.5' />
-                        <span className='sr-only'>Check</span>
+                        <span className='sr-only'>GitHub profile</span>
                       </a>
                     </Button>
                     <Button
@@ -94,7 +94,7 @@ const Team = ({ teamMembers }: { teamMembers: TeamMember }) => {
                     >
                       <a href={member.socialLinks.instagram}>
                         <InstagramIcon className='size-4.5' />
-                        <span className='sr-only'>Check</span>
+                        <span className='sr-only'>Instagram profile</span>
                       </a>
                     </Button>
                   </CardFooter>

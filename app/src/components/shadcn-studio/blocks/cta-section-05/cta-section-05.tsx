@@ -55,8 +55,7 @@ const CTASection = () => {
                 delay={0.9}
                 transition={{ duration: 0.5 }}
               >
-                Join 500+ advertisers scaling with GoAds agency accounts. Get instant support, 7-day warranty, and accounts
-                that actually last.
+                Join 500+ advertisers worldwide running campaigns with GoAds. Get high quality advertising assets, fast delivery, responsive one on one support, and one of the strongest warranty policies in the market.
               </MotionPreset>
             </div>
             <MotionPreset

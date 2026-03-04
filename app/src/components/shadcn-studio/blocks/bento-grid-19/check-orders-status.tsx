@@ -3,45 +3,20 @@
 import { Label, Pie, PieChart } from 'recharts'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart'
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 
 import { cn } from '@/lib/utils'
-
-// Growth chart data
-const growthChartData = [
-  { month: 'january', sales: 340, fill: 'var(--color-january)' },
-  { month: 'february', sales: 200, fill: 'var(--color-february)' },
-  { month: 'march', sales: 200, fill: 'var(--color-march)' }
-]
-
-const growthChartConfig = {
-  sales: {
-    label: 'Sales'
-  },
-  january: {
-    label: 'January',
-    color: 'var(--primary)'
-  },
-  february: {
-    label: 'February',
-    color: 'color-mix(in oklab, var(--primary) 60%, transparent)'
-  },
-  march: {
-    label: 'March',
-    color: 'color-mix(in oklab, var(--primary) 20%, transparent)'
-  }
-} satisfies ChartConfig
+import { GROWTH_CHART_DATA, GROWTH_CHART_CONFIG, GROWTH_CARD_DATA } from '@/data/landing-bento'
 
 const cardData = {
-  title: '$27.9k',
-  description: 'Total Growth',
+  ...GROWTH_CARD_DATA,
   children: (
     <>
-      <ChartContainer config={growthChartConfig} className='h-37.5 w-full'>
+      <ChartContainer config={GROWTH_CHART_CONFIG} className='h-37.5 w-full'>
         <PieChart margin={{ top: 0, bottom: 0, left: 0, right: 0 }}>
           <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
           <Pie
-            data={growthChartData}
+            data={GROWTH_CHART_DATA}
             dataKey='sales'
             nameKey='month'
             innerRadius={50}
@@ -54,7 +29,7 @@ const cardData = {
                   return (
                     <text x={viewBox.cx} y={viewBox.cy} textAnchor='middle' dominantBaseline='middle'>
                       <tspan x={viewBox.cx} y={viewBox.cy} className='fill-foreground text-xl font-medium'>
-                        $23K
+                        $340K
                       </tspan>
                     </text>
                   )
@@ -66,7 +41,6 @@ const cardData = {
       </ChartContainer>
     </>
   ),
-  changePercentage: '+49%'
 }
 
 const CheckOrdersStatus = ({ className }: { className?: string }) => {

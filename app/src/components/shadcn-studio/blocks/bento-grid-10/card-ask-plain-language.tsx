@@ -8,19 +8,7 @@ import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carouse
 import { MotionPreset } from '@/components/ui/motion-preset'
 
 import { cn } from '@/lib/utils'
-
-const chats = [
-  'Create a sidebar layout with icons and labels',
-  'Generate a login form with email and password',
-  'Turn this card into a responsive UI block',
-  'Convert this Figma design to Tailwind + React code',
-  'Create a dashboard layout with a sidebar & widgets.',
-  'Create a sidebar layout with icons and labels',
-  'Generate a login form with email and password',
-  'Turn this card into a responsive UI block',
-  'Convert this Figma design to Tailwind + React code',
-  'Create a dashboard layout with a sidebar & widgets.'
-]
+import { BENTO10_CHATS as chats } from '@/data/landing-bento'
 
 const CardAskPlainLanguage = () => {
   return (
@@ -55,11 +43,11 @@ const CardAskPlainLanguage = () => {
       </MotionPreset>
       <CardHeader className='gap-4'>
         <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.65} transition={{ duration: 0.45 }}>
-          <CardTitle className='text-2xl font-semibold'>Request any asset instantly</CardTitle>
+          <CardTitle className='text-2xl font-semibold'>Personal support for every client</CardTitle>
         </MotionPreset>
         <MotionPreset fade slide={{ direction: 'down', offset: 50 }} delay={0.8} transition={{ duration: 0.45 }}>
           <CardDescription className='text-sm'>
-            Tell us what you need — BMs, Pages, Profiles, or a full bulletproof setup — and we deliver it ready to use within hours.
+            Every client receives direct support and 1-on-1 assistance throughout the entire process. From selecting the right assets to onboarding and troubleshooting, our team ensures you always have the support needed to keep campaigns running smoothly.
           </CardDescription>
         </MotionPreset>
       </CardHeader>

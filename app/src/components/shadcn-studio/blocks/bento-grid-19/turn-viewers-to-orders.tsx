@@ -114,7 +114,7 @@ const TurnViewersToOrders = () => {
       <div className='bg-card absolute inset-x-0 top-1/2 flex h-21.5 w-full -translate-y-1/2 items-center justify-center'>
         <div className='text-card-foreground flex items-center gap-3.5'>
           <Logo className='size-11.5' />
-          <span className='text-2xl font-semibold'>shadcn/studio</span>
+          <span className='text-2xl font-semibold'>GoAds</span>
         </div>
       </div>
       <div className='from-card pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b to-transparent' />
