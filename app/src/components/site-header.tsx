@@ -7,12 +7,6 @@ import { SsLogo, SsCtaIcon, GithubIcon, XIcon, DiscordIcon } from './site-header
 import { NavMegaMenu } from './nav-mega-menu'
 import { NavMobileDrawer } from './nav-mobile-drawer'
 
-const NAV_LINKS = [
-  { label: 'How It Works', href: '/#how-it-works' },
-  { label: 'Pricing', href: '/#pricing' },
-  { label: 'About', href: '/#about' },
-]
-
 const SOCIAL_LINKS = [
   { href: 'https://github.com/shadcnstudio/shadcn-studio', icon: GithubIcon, label: 'Github' },
   { href: 'https://x.com/ShadcnStudio', icon: XIcon, label: 'X' },
@@ -39,14 +33,7 @@ export function SiteHeader() {
 
             {/* Desktop nav — visible above 1440px */}
             <nav className="flex items-center gap-4 max-[1440px]:hidden">
-              {/* Mega menu dropdowns */}
               <NavMegaMenu />
-              {/* Simple links */}
-              {NAV_LINKS.map(link => (
-                <Link key={link.href} href={link.href} className={navLinkClass}>
-                  {link.label}
-                </Link>
-              ))}
             </nav>
 
             {/* Action buttons */}
@@ -64,11 +51,7 @@ export function SiteHeader() {
                 {/* Dark mode toggle */}
                 <ModeSwitcher />
 
-                {/* Theme customizer */}
-                <Button size="icon" className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90">
-                  <Palette className="size-4" />
-                  <span className="sr-only">Theme customizer</span>
-                </Button>
+           
               </div>
 
               {/* Separator */}
@@ -102,7 +85,7 @@ export function SiteHeader() {
                   href="/#pricing"
                   className="btn-cta-glow inline-flex shrink-0 items-center justify-center gap-1 rounded-md bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
                 >
-                  Get all access
+                  Get Started
                   <SsCtaIcon />
                 </a>
                 <a
@@ -110,7 +93,7 @@ export function SiteHeader() {
                   className="btn-cta-glow inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
                 >
                   <SsCtaIcon />
-                  <span className="sr-only">Get all access</span>
+                  <span className="sr-only">Get Started</span>
                 </a>
               </div>
             </div>

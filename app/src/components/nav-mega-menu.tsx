@@ -2,24 +2,6 @@
 
 import Link from 'next/link'
 import {
-  Building2,
-  Search,
-  Globe,
-  Briefcase,
-  TrendingUp,
-  RefreshCw,
-  MapPin,
-  Users,
-  HelpCircle,
-  BookOpen,
-  FileText,
-  Code2,
-  Activity,
-  MessageCircle,
-  Database,
-  Handshake,
-} from 'lucide-react'
-import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -27,122 +9,19 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu'
-import { cn } from '@/lib/utils'
+import {
+  AGENCY_ACCOUNTS,
+  META_ASSETS,
+  TIKTOK_ASSETS,
+  RESOURCES_COMPANY,
+  RESOURCES_LEARN,
+  RESOURCES_SUPPORT,
+  TOOLS_EXTENSIONS,
+  TOOLS_UTILITIES,
+  TOOLS_PARTNERS,
+} from '@/components/nav-mega-menu-data'
 
-// --- Data ---
-
-const PRODUCTS_BY_PLATFORM = [
-  {
-    icon: Building2,
-    title: 'Meta Agency Accounts',
-    description: 'Verified accounts for Facebook & Instagram ads',
-    href: '/agency-ad-account',
-  },
-  {
-    icon: Search,
-    title: 'Google Whitelisted',
-    description: 'Pre-approved Google Ads accounts',
-    href: '/products/google-whitelisted',
-  },
-  {
-    icon: Globe,
-    title: 'TikTok Verified',
-    description: 'Verified TikTok advertising accounts',
-    href: '/products/tiktok-verified',
-  },
-  {
-    icon: Briefcase,
-    title: 'Business Managers',
-    description: 'Full BM setups ready to use',
-    href: '/bm',
-  },
-]
-
-const PRODUCTS_BY_NEED = [
-  {
-    icon: TrendingUp,
-    title: 'Scale Ad Spend',
-    description: 'Increase daily budgets safely',
-    href: '/solutions/scale-ad-spend',
-  },
-  {
-    icon: RefreshCw,
-    title: 'Replace Banned Accounts',
-    description: 'Fast replacement service',
-    href: '/solutions/replace-banned',
-  },
-  {
-    icon: MapPin,
-    title: 'New Market Entry',
-    description: 'Launch in new regions',
-    href: '/solutions/new-market',
-  },
-  {
-    icon: Users,
-    title: 'Agency Setup',
-    description: 'Complete agency infrastructure',
-    href: '/solutions/agency-setup',
-  },
-]
-
-const RESOURCES_ITEMS = [
-  {
-    icon: HelpCircle,
-    title: 'Help Center',
-    description: 'Get answers to common questions',
-    href: '/help',
-  },
-  {
-    icon: BookOpen,
-    title: 'Blog',
-    description: 'Tips and guides for media buyers',
-    href: '/blog',
-  },
-  {
-    icon: FileText,
-    title: 'Case Studies',
-    description: 'See how clients scale with GoAds',
-    href: '/case-studies',
-  },
-  {
-    icon: Code2,
-    title: 'API Docs',
-    description: 'Integrate with our platform',
-    href: '/docs/api',
-  },
-  {
-    icon: Activity,
-    title: 'Status Page',
-    description: 'Check system availability',
-    href: '/status',
-  },
-  {
-    icon: Users,
-    title: 'Contact Sales',
-    description: 'Talk to our team',
-    href: '/contact',
-  },
-  {
-    icon: MessageCircle,
-    title: 'Telegram Support',
-    description: 'Join our support channel',
-    href: '/telegram',
-  },
-  {
-    icon: Database,
-    title: 'Knowledge Base',
-    description: 'In-depth guides and tutorials',
-    href: '/knowledge-base',
-  },
-  {
-    icon: Handshake,
-    title: 'Partner Program',
-    description: 'Earn commissions as a partner',
-    href: '/partners',
-  },
-]
-
-// --- Sub-components ---
+/* ---------- shared sub-components ---------- */
 
 function MenuIcon({ Icon }: { Icon: React.ElementType }) {
   return (
@@ -167,7 +46,7 @@ function MenuItem({
     <NavigationMenuLink asChild>
       <Link
         href={href}
-        className="flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-muted/60 focus:bg-muted/60 focus:outline-none"
+        className="flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
       >
         <MenuIcon Icon={Icon} />
         <div className="min-w-0 flex-1">
@@ -187,54 +66,71 @@ function ColumnLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-// --- Products Mega Menu (3-column: platform + need + CTA) ---
+function MenuColumn({ label, items }: { label: string; items: typeof AGENCY_ACCOUNTS }) {
+  return (
+    <div className="w-64">
+      <ColumnLabel>{label}</ColumnLabel>
+      <ul className="space-y-0.5">
+        {items.map(item => (
+          <li key={item.href}><MenuItem {...item} /></li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 
-function ProductsPanel() {
+/* ---------- 1. Agency Accounts (single column + CTA) ---------- */
+
+function AgencyPanel() {
   return (
     <div className="flex gap-4 p-4">
-      {/* Column 1: By Platform */}
-      <div className="w-64">
-        <ColumnLabel>By Platform</ColumnLabel>
-        <ul className="space-y-0.5">
-          {PRODUCTS_BY_PLATFORM.map(item => (
-            <li key={item.href}>
-              <MenuItem {...item} />
-            </li>
-          ))}
-        </ul>
-      </div>
+      <MenuColumn label="By Platform" items={AGENCY_ACCOUNTS} />
 
-      {/* Column 2: By Need */}
-      <div className="w-64">
-        <ColumnLabel>By Need</ColumnLabel>
-        <ul className="space-y-0.5">
-          {PRODUCTS_BY_NEED.map(item => (
-            <li key={item.href}>
-              <MenuItem {...item} />
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* CTA card */}
+      {/* Ready-to-Use Setups */}
       <div className="w-52 shrink-0">
         <div className="flex h-full flex-col justify-between rounded-xl border border-border/60 bg-muted/40 p-4">
           <div>
-            <p className="text-sm font-semibold text-foreground">Ready to scale?</p>
+            <p className="text-sm font-semibold text-foreground">Ready-to-Use Setups</p>
             <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-              Get verified ad accounts with a 7-day warranty and &lt;2h support response.
+              Skip the hassle — BMs, profiles, pages, pixels &amp; domains fully configured.
             </p>
           </div>
           <div className="mt-4 space-y-2">
             <Link
-              href="/#pricing"
+              href="/setup"
+              className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+            >
+              Explore Setups
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              Custom Setup
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Need agency accounts? */}
+      <div className="w-52 shrink-0">
+        <div className="flex h-full flex-col justify-between rounded-xl border border-border/60 bg-muted/40 p-4">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Need agency accounts?</p>
+            <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+              7-day warranty, verified agency setup, and &lt;2h support response.
+            </p>
+          </div>
+          <div className="mt-4 space-y-2">
+            <Link
+              href="/pricing"
               className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
             >
               View Pricing
             </Link>
             <Link
               href="/contact"
-              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-muted"
+              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               Talk to Sales
             </Link>
@@ -245,46 +141,86 @@ function ProductsPanel() {
   )
 }
 
-// --- Resources Mega Menu (3-column grid) ---
+/* ---------- 2. Products (Meta + TikTok + Setup/CTA) ---------- */
 
-const RESOURCE_COLUMNS = [
-  { label: 'Learn', items: RESOURCES_ITEMS.slice(0, 3) },
-  { label: 'Developers', items: RESOURCES_ITEMS.slice(3, 6) },
-  { label: 'Connect', items: RESOURCES_ITEMS.slice(6, 9) },
-]
-
-function ResourcesPanel() {
+function ProductsPanel() {
   return (
     <div className="flex gap-4 p-4">
-      {RESOURCE_COLUMNS.map((col) => (
-        <div key={col.label} className="w-56">
-          <ColumnLabel>{col.label}</ColumnLabel>
-          <ul className="space-y-0.5">
-            {col.items.map(item => (
-              <li key={item.href}>
-                <MenuItem {...item} />
-              </li>
-            ))}
-          </ul>
+      <MenuColumn label="Meta Assets" items={META_ASSETS} />
+      <MenuColumn label="TikTok Assets" items={TIKTOK_ASSETS} />
+      <div className="w-52 shrink-0">
+        <div className="flex h-full flex-col justify-between rounded-xl border border-border/60 bg-muted/40 p-4">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Ready-to-Use Setups</p>
+            <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+              Skip the hassle. Get a complete ad infrastructure — BMs, profiles, pages, pixels &amp; domains — fully configured and ready to run ads.
+            </p>
+          </div>
+          <div className="mt-4 space-y-2">
+            <Link
+              href="/setup"
+              className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+            >
+              Explore Setups
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-muted"
+            >
+              Custom Setup
+            </Link>
+          </div>
         </div>
-      ))}
+      </div>
     </div>
   )
 }
 
-// --- Trigger style matching existing nav ---
+/* ---------- 3. Resources (Company + Learn + Support) ---------- */
+
+function ResourcesPanel() {
+  return (
+    <div className="flex gap-4 p-4">
+      <MenuColumn label="Company" items={RESOURCES_COMPANY} />
+      <MenuColumn label="Learn" items={RESOURCES_LEARN} />
+      <MenuColumn label="Support" items={RESOURCES_SUPPORT} />
+    </div>
+  )
+}
+
+/* ---------- 4. GoAds Tools (Extensions + Utilities + Partners) ---------- */
+
+function ToolsPanel() {
+  return (
+    <div className="flex gap-4 p-4">
+      <MenuColumn label="Extensions" items={TOOLS_EXTENSIONS} />
+      <MenuColumn label="Utilities" items={TOOLS_UTILITIES} />
+      <MenuColumn label="Partners" items={TOOLS_PARTNERS} />
+    </div>
+  )
+}
+
+/* ---------- trigger style ---------- */
 
 const triggerClass =
-  'text-sm text-muted-foreground transition-all hover:text-foreground bg-transparent! hover:bg-transparent! focus:bg-transparent! data-[state=open]:bg-transparent! data-[state=open]:text-foreground px-0! h-auto! py-0! font-normal! gap-0.5 rounded-none! cursor-pointer'
+  'text-sm text-muted-foreground transition-all hover:text-accent-foreground hover:bg-accent! focus:bg-accent! bg-transparent! data-[state=open]:bg-accent! data-[state=open]:text-accent-foreground px-2.5! h-auto! py-1.5! font-normal! gap-0.5 rounded-md! cursor-pointer'
 
-// --- Main export ---
+/* ---------- main export ---------- */
 
 export function NavMegaMenu() {
   return (
     <NavigationMenu viewport={true} className="static">
       <NavigationMenuList className="gap-4">
 
-        {/* Products dropdown */}
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className={triggerClass}>
+            Agency Accounts
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <AgencyPanel />
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
         <NavigationMenuItem>
           <NavigationMenuTrigger className={triggerClass}>
             Products
@@ -294,7 +230,6 @@ export function NavMegaMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        {/* Resources dropdown */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className={triggerClass}>
             Resources
@@ -302,6 +237,24 @@ export function NavMegaMenu() {
           <NavigationMenuContent>
             <ResourcesPanel />
           </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className={triggerClass}>
+            GoAds Tools
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ToolsPanel />
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <Link
+            href="/about"
+            className="text-sm text-muted-foreground transition-all hover:text-accent-foreground hover:bg-accent rounded-md px-2.5 py-1.5"
+          >
+            About
+          </Link>
         </NavigationMenuItem>
 
       </NavigationMenuList>

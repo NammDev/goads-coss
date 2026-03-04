@@ -1,0 +1,138 @@
+import { FacebookIcon, GithubIcon, InstagramIcon, TwitterIcon } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+
+import { MotionPreset } from '@/components/ui/motion-preset'
+
+type TeamMember = {
+  image: string
+  alt: string
+  name: string
+  role: string
+  description: string
+  socialLinks: {
+    facebook: string
+    twitter: string
+    github: string
+    instagram: string
+  }
+}[]
+
+const Team = ({ teamMembers }: { teamMembers: TeamMember }) => {
+  return (
+    <section className='py-8 sm:py-16 lg:py-24'>
+      <div className='mx-auto max-w-[1416px] px-4 lg:px-6'>
+        <div className='mb-12 space-y-4 text-center sm:mb-16 lg:mb-24'>
+          <MotionPreset
+            component='p'
+            className='text-primary text-sm font-medium uppercase'
+            fade
+            slide={{ direction: 'up', offset: 50 }}
+            blur
+            transition={{ duration: 0.5 }}
+          >
+            Our Team
+          </MotionPreset>
+
+          <MotionPreset
+            component='h2'
+            className='text-2xl font-semibold md:text-3xl lg:text-4xl'
+            fade
+            slide={{ direction: 'up', offset: 50 }}
+            blur
+            transition={{ duration: 0.5 }}
+            delay={0.3}
+          >
+            Get to Know the Team Powering Our Success!
+          </MotionPreset>
+
+          <MotionPreset
+            component='p'
+            className='text-muted-foreground text-xl'
+            fade
+            blur
+            slide={{ direction: 'up', offset: 50 }}
+            delay={0.6}
+            transition={{ duration: 0.5 }}
+          >
+            A dedicated group of innovators, strategists, and creators working together to drive excellence.
+          </MotionPreset>
+        </div>
+
+        {/* Team Members */}
+        <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
+          {teamMembers.map((member, index) => (
+            <MotionPreset
+              key={index}
+              fade
+              blur
+              slide={{ direction: 'up' }}
+              delay={0.9 + index * 0.15}
+              transition={{ duration: 0.85 }}
+            >
+              <Card className='h-full gap-0 overflow-hidden py-0 shadow-none transition-shadow duration-300 hover:shadow-md lg:flex-row'>
+                <CardContent className='px-0 max-lg:max-h-55 lg:w-66'>
+                  <img src={member.image} alt={member.alt} className='size-full object-cover lg:rounded-l-xl' />
+                </CardContent>
+                <div className='flex grow-1 flex-col justify-between'>
+                  <CardHeader className='gap-5 pt-6 pb-5'>
+                    <div className='flex items-center justify-between gap-2'>
+                      <CardTitle className='text-xl'>{member.name}</CardTitle>
+                      <span className='text-muted-foreground'>{member.role}</span>
+                    </div>
+                    <CardDescription className='text-base'>{member.description}</CardDescription>
+                  </CardHeader>
+                  <CardFooter className='mx-6 gap-3 border-t border-dashed px-0 !pt-5 pb-6'>
+                    <Button
+                      size='icon'
+                      asChild
+                      className='size-7 bg-sky-600/10 text-sky-600 hover:bg-sky-600/20 focus-visible:ring-sky-600/20 dark:bg-sky-400/10 dark:text-sky-400 dark:hover:bg-sky-400/20 dark:focus-visible:ring-sky-400/40'
+                    >
+                      <a href={member.socialLinks.facebook}>
+                        <FacebookIcon className='size-4.5' />
+                        <span className='sr-only'>Check</span>
+                      </a>
+                    </Button>
+                    <Button
+                      size='icon'
+                      asChild
+                      className='size-7 bg-amber-600/10 text-amber-600 hover:bg-amber-600/20 focus-visible:ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400 dark:hover:bg-amber-400/20 dark:focus-visible:ring-amber-400/40'
+                    >
+                      <a href={member.socialLinks.twitter}>
+                        <TwitterIcon className='size-4.5' />
+                        <span className='sr-only'>Check</span>
+                      </a>
+                    </Button>
+                    <Button
+                      size='icon'
+                      asChild
+                      className='bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40 size-7'
+                    >
+                      <a href={member.socialLinks.github}>
+                        <GithubIcon className='size-4.5' />
+                        <span className='sr-only'>Check</span>
+                      </a>
+                    </Button>
+                    <Button
+                      size='icon'
+                      asChild
+                      className='bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 size-7'
+                    >
+                      <a href={member.socialLinks.instagram}>
+                        <InstagramIcon className='size-4.5' />
+                        <span className='sr-only'>Check</span>
+                      </a>
+                    </Button>
+                  </CardFooter>
+                </div>
+              </Card>
+            </MotionPreset>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default Team
