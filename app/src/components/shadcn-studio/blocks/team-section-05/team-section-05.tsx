@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { MotionPreset } from '@/components/ui/motion-preset'
+import { SectionHeader } from '@/components/section-header'
 
 type TeamMember = {
   image: string
@@ -23,42 +24,14 @@ const Team = ({ teamMembers }: { teamMembers: TeamMember }) => {
   return (
     <section className='py-8 sm:py-16 lg:py-24'>
       <div className='mx-auto max-w-[1416px] px-4 lg:px-6'>
-        <div className='mb-12 space-y-4 text-center sm:mb-16 lg:mb-24'>
-          <MotionPreset
-            component='p'
-            className='text-primary text-sm font-medium uppercase'
-            fade
-            slide={{ direction: 'up', offset: 50 }}
-            blur
-            transition={{ duration: 0.5 }}
-          >
-            Our Team
-          </MotionPreset>
-
-          <MotionPreset
-            component='h2'
-            className='text-2xl font-semibold md:text-3xl lg:text-4xl'
-            fade
-            slide={{ direction: 'up', offset: 50 }}
-            blur
-            transition={{ duration: 0.5 }}
-            delay={0.3}
-          >
-            Get to Know the Team Powering Our Success!
-          </MotionPreset>
-
-          <MotionPreset
-            component='p'
-            className='text-muted-foreground text-xl'
-            fade
-            blur
-            slide={{ direction: 'up', offset: 50 }}
-            delay={0.6}
-            transition={{ duration: 0.5 }}
-          >
-            A dedicated group of innovators, strategists, and creators working together to drive excellence.
-          </MotionPreset>
-        </div>
+        <SectionHeader
+          label='Our Team'
+          labelVariant='uppercase'
+          heading='Get to Know the Team Powering Our Success!'
+          description='A dedicated group of innovators, strategists, and creators working together to drive excellence.'
+          descriptionClassName='max-w-none text-xl'
+          className='mb-12 sm:mb-16 lg:mb-24'
+        />
 
         {/* Team Members */}
         <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
@@ -87,7 +60,7 @@ const Team = ({ teamMembers }: { teamMembers: TeamMember }) => {
                     <Button
                       size='icon'
                       asChild
-                      className='size-7 bg-sky-600/10 text-sky-600 hover:bg-sky-600/20 focus-visible:ring-sky-600/20 dark:bg-sky-400/10 dark:text-sky-400 dark:hover:bg-sky-400/20 dark:focus-visible:ring-sky-400/40'
+                      className='bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40 size-7'
                     >
                       <a href={member.socialLinks.facebook}>
                         <FacebookIcon className='size-4.5' />
@@ -97,7 +70,7 @@ const Team = ({ teamMembers }: { teamMembers: TeamMember }) => {
                     <Button
                       size='icon'
                       asChild
-                      className='size-7 bg-amber-600/10 text-amber-600 hover:bg-amber-600/20 focus-visible:ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400 dark:hover:bg-amber-400/20 dark:focus-visible:ring-amber-400/40'
+                      className='bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40 size-7'
                     >
                       <a href={member.socialLinks.twitter}>
                         <TwitterIcon className='size-4.5' />

@@ -3,9 +3,11 @@ const ROWS = 8
 const CELL_SIZE = 56.815
 const TOTAL = COLS * ROWS
 
-export default function HeroGridBg() {
+const DEFAULT_VARS = '[--cell-border-color:color-mix(in_oklab,var(--accent),black_10%)] [--cell-fill-color:var(--accent)] [--cell-shadow-color:color-mix(in_oklab,var(--accent),black_43%)] dark:[--cell-border-color:color-mix(in_oklab,var(--accent),white_14%)] dark:[--cell-fill-color:color-mix(in_oklab,var(--accent),black_22%)] dark:[--cell-shadow-color:var(--accent)]'
+
+export default function HeroGridBg({ className }: { className?: string } = {}) {
   return (
-    <div className="absolute inset-0 h-full w-full [--cell-border-color:color-mix(in_oklab,var(--accent),black_10%)] [--cell-fill-color:var(--accent)] [--cell-shadow-color:color-mix(in_oklab,var(--accent),black_43%)] dark:[--cell-border-color:color-mix(in_oklab,var(--accent),white_14%)] dark:[--cell-fill-color:color-mix(in_oklab,var(--accent),black_22%)] dark:[--cell-shadow-color:var(--accent)]">
+    <div className={`absolute inset-0 h-full w-full ${DEFAULT_VARS} ${className ?? ''}`}>
       <div className="relative flex h-auto w-auto justify-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0 z-[2] h-full w-full overflow-hidden" />
         <div

@@ -12,7 +12,7 @@ import type { ReviewCard } from '@/components/shadcn-studio/blocks/testimonials-
 const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
   return (
     <section>
-      <div className='mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 py-8 md:px-6 md:py-16 lg:px-8'>
+      <div className='container flex flex-col gap-16 py-8 md:py-16'>
         <div className='space-y-2.5'>
           <MotionPreset fade blur slide={{ direction: 'down', offset: 50 }} transition={{ duration: 0.5 }}>
             <Badge variant='outline' className='rounded-none px-1.5'>
@@ -49,8 +49,8 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               transition={{ duration: 0.5 }}
             >
               <p className='text-muted-foreground max-w-xl text-xl'>
-                I&apos;m grateful to collaborate with forward-thinking brands and teams who value design that creates a
-                real difference in user experiences and drives business success.
+                Our clients trust GoAds to deliver reliable ad infrastructure, premium accounts, and the support they
+                need to scale without interruption.
               </p>
             </MotionPreset>
           </div>
@@ -67,7 +67,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               transition={{ duration: 0.6 }}
               className='text-muted-foreground text-center text-xl'
             >
-              I&apos;m grateful to collaborate with brands and teams .
+              Hear from advertisers who scaled their campaigns with GoAds infrastructure.
             </MotionPreset>
 
             <MotionPreset

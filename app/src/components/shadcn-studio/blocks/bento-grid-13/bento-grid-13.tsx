@@ -377,7 +377,7 @@ const BentoGrid = () => {
                       <span className='text-muted-foreground text-xs font-light'>09:15</span>
                       <span className='text-sm'>Riley Smith</span>
                     </div>
-                    <span className='text-green-600 dark:text-green-400'>$2,000</span>
+                    <span className='text-primary'>$2,000</span>
                   </div>
 
                   <div className='flex w-58 items-center gap-3 rounded-xl border py-1.5 pr-3 pl-2 hover:shadow-md'>
@@ -393,7 +393,7 @@ const BentoGrid = () => {
                       <span className='text-muted-foreground text-xs font-light'>11:45</span>
                       <span className='text-sm'>Taylor Morgan</span>
                     </div>
-                    <span className='text-green-600 dark:text-green-400'>$2,200</span>
+                    <span className='text-primary'>$2,200</span>
                   </div>
 
                   <div className='flex w-58 items-center gap-3 rounded-xl border py-1.5 pr-3 pl-2 hover:shadow-md'>
@@ -409,7 +409,7 @@ const BentoGrid = () => {
                       <span className='text-muted-foreground text-xs font-light'>14:45</span>
                       <span className='text-sm'>Alex Thomas</span>
                     </div>
-                    <span className='text-green-600 dark:text-green-400'>$1,500</span>
+                    <span className='text-primary'>$1,500</span>
                   </div>
                 </Marquee>
 
@@ -427,7 +427,7 @@ const BentoGrid = () => {
                       <span className='text-muted-foreground text-xs font-light'>19:15</span>
                       <span className='text-sm'>Jamie Parker</span>
                     </div>
-                    <span className='text-green-600 dark:text-green-400'>$800</span>
+                    <span className='text-primary'>$800</span>
                   </div>
 
                   <div className='flex w-58 items-center gap-3 rounded-xl border py-1.5 pr-3 pl-2 hover:shadow-md'>
@@ -443,7 +443,7 @@ const BentoGrid = () => {
                       <span className='text-muted-foreground text-xs font-light'>18:30</span>
                       <span className='text-sm'>Casey Reynolds</span>
                     </div>
-                    <span className='text-green-600 dark:text-green-400'>$750</span>
+                    <span className='text-primary'>$750</span>
                   </div>
 
                   <div className='flex w-58 items-center gap-3 rounded-xl border py-1.5 pr-3 pl-2 hover:shadow-md'>
@@ -459,7 +459,7 @@ const BentoGrid = () => {
                       <span className='text-muted-foreground text-xs font-light'>09:15</span>
                       <span className='text-sm'>Jordan Lee</span>
                     </div>
-                    <span className='text-green-600 dark:text-green-400'>$3,250</span>
+                    <span className='text-primary'>$3,250</span>
                   </div>
                 </Marquee>
               </MotionPreset>

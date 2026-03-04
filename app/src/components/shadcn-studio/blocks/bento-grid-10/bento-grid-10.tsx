@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { MotionPreset } from '@/components/ui/motion-preset'
 import { Orbiting } from '@/components/ui/orbiting'
+import { SectionHeader } from '@/components/section-header'
 
 import CommitItem from '@/components/shadcn-studio/blocks/bento-grid-10/commit-item'
 import CardAskPlainLanguage from '@/components/shadcn-studio/blocks/bento-grid-10/card-ask-plain-language'
@@ -15,22 +16,12 @@ const BentoGrid = () => {
   return (
     <section className='py-8 sm:py-16 lg:py-24'>
       <div className='container space-y-12 sm:space-y-16'>
-        <div className='flex flex-col items-center gap-4 text-center'>
-          <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }}>
-            <span className='font-medium underline underline-offset-6'>Meta Assets</span>
-          </MotionPreset>
-          <MotionPreset fade slide={{ direction: 'down' }} delay={0.1} transition={{ duration: 0.5 }}>
-            <h2 className='text-2xl font-semibold sm:text-3xl lg:text-4xl'>
-              Everything you need to run ads at scale
-            </h2>
-          </MotionPreset>
-          <MotionPreset fade slide={{ direction: 'down' }} delay={0.2} transition={{ duration: 0.5 }}>
-            <p className='text-muted-foreground max-w-2xl text-lg'>
-              Business Managers, Pages, Profiles, and verified assets — fully set up and ready to power your campaigns across Meta platforms.
-            </p>
-          </MotionPreset>
-        </div>
-      <div className='grid grid-cols-1 gap-6 lg:grid-cols-5'>
+        <SectionHeader
+          label='Meta Assets'
+          heading='Everything you need to run ads at scale'
+          description='Business Managers, Pages, Profiles, and verified assets — fully set up and ready to power your campaigns across Meta platforms.'
+        />
+        <div className='grid grid-cols-1 gap-6 lg:grid-cols-5'>
         <MotionPreset
           fade
           blur
@@ -359,7 +350,7 @@ const BentoGrid = () => {
         >
           <CardParticles />
         </MotionPreset>
-      </div>
+        </div>
       </div>
     </section>
   )

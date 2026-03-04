@@ -1,4 +1,5 @@
 import { MotionPreset } from '@/components/ui/motion-preset'
+import { SectionHeader } from '@/components/section-header'
 
 import UserAnalytics from '@/components/shadcn-studio/blocks/bento-grid-19/user-analytics'
 import ProductMetrics from '@/components/shadcn-studio/blocks/bento-grid-19/product-metrics'
@@ -12,22 +13,12 @@ const BentoGrid = () => {
   return (
     <section className='py-8 sm:py-16 lg:py-24'>
       <div className='container space-y-12 sm:space-y-16'>
-        <div className='flex flex-col items-center gap-4 text-center'>
-          <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }}>
-            <span className='font-medium underline underline-offset-6'>Agency Ad Accounts</span>
-          </MotionPreset>
-          <MotionPreset fade slide={{ direction: 'down' }} delay={0.1} transition={{ duration: 0.5 }}>
-            <h2 className='text-2xl font-semibold sm:text-3xl lg:text-4xl'>
-              Premium accounts built for scale
-            </h2>
-          </MotionPreset>
-          <MotionPreset fade slide={{ direction: 'down' }} delay={0.2} transition={{ duration: 0.5 }}>
-            <p className='text-muted-foreground max-w-2xl text-lg'>
-              Rent verified Meta, Google, and TikTok agency ad accounts with higher trust scores, better approval rates, and unlimited scaling potential.
-            </p>
-          </MotionPreset>
-        </div>
-      <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
+        <SectionHeader
+          label='Agency Ad Accounts'
+          heading='Premium accounts built for scale'
+          description='Rent verified Meta, Google, and TikTok agency ad accounts with higher trust scores, better approval rates, and unlimited scaling potential.'
+        />
+        <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
         <div className='grid grid-rows-2 gap-6'>
           <MotionPreset
             fade
@@ -151,7 +142,7 @@ const BentoGrid = () => {
             </div>
           </MotionPreset>
         </div>
-      </div>
+        </div>
       </div>
     </section>
   )

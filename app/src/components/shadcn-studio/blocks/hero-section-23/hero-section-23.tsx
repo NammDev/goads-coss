@@ -40,7 +40,7 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
 
   return (
     <section className='flex-1 overflow-hidden'>
-      <div className='mx-auto flex h-full max-w-7xl flex-col pt-4 pb-8 sm:pt-6 sm:pb-16 lg:pt-8 lg:pb-24'>
+      <div className='mx-auto flex h-full max-w-[1416px] flex-col px-4 pt-4 pb-8 sm:pt-6 sm:pb-16 lg:px-6 lg:pt-8 lg:pb-24'>
         <div className='relative grid grid-cols-1 gap-12 max-xl:justify-center sm:gap-16 lg:gap-24 xl:grid-cols-2'>
           <div className='space-y-32 p-8'>
             <div className='flex flex-col justify-center gap-6 max-xl:items-center max-xl:text-center md:max-xl:mx-auto md:max-xl:max-w-150'>

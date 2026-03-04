@@ -8,6 +8,7 @@ import { BorderBeam } from '@/components/ui/border-beam'
 import { MotionPreset } from '@/components/ui/motion-preset'
 import { Marquee } from '@/components/ui/marquee'
 import { Card, CardContent } from '@/components/ui/card'
+import { WavyUnderline } from '@/components/section-header'
 import { WordRotate, Typewriter } from './word-rotate'
 import HeroGridBg from './hero-grid-bg'
 
@@ -49,7 +50,7 @@ export default function HeroClone() {
   return (
     <section id="hero" className="relative overflow-hidden space-y-8 py-8 sm:space-y-16 sm:py-16 lg:py-24">
       <HeroGridBg />
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-7 px-4 text-center sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto flex max-w-[1416px] flex-col items-center gap-7 px-4 text-center lg:px-6">
 
         {/* Badge with BorderBeam */}
         <MotionPreset fade blur slide={{ direction: 'down', offset: 50 }} transition={{ duration: 0.5 }}>
@@ -70,9 +71,7 @@ export default function HeroClone() {
             Stop Losing Accounts. Start{' '}
             <span className="relative font-extrabold">
               <WordRotate words={ROTATE_WORDS} />
-              <svg width="453" height="8" fill="none" className="absolute -bottom-0.5 left-0 w-full">
-                <path d="M2 6.75068C53.4722 -1.10509 368.533 2.14284 451.5 6.75085" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-              </svg>
+              <WavyUnderline className="-bottom-0.5" />
             </span>
             <br />
             with Confidence

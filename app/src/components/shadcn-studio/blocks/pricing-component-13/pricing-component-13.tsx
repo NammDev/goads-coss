@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { MotionPreset } from '@/components/ui/motion-preset'
+import { SectionHeader, WavyUnderline } from '@/components/section-header'
 
 import { cn } from '@/lib/utils'
 
@@ -25,39 +26,12 @@ const Pricing = ({ plans }: { plans: Plan[] }) => {
   return (
     <section className='py-8 sm:py-16 lg:py-24'>
       <div className='container space-y-12 sm:space-y-16'>
-        <div className='flex flex-col items-center gap-4 text-center'>
-          <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }} inView>
-            <span className='font-medium underline underline-offset-6'>Pricing</span>
-          </MotionPreset>
-          <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }} delay={0.1} inView>
-            <h2 className='text-2xl font-semibold sm:text-3xl lg:text-4xl'>
-              Simple,{' '}
-              <span className='relative font-bold'>
-                Transparent
-                <svg
-                  width='453'
-                  height='8'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='absolute -bottom-1 left-0 w-full'
-                >
-                  <path
-                    d='M2 6.75068C53.4722 -1.10509 368.533 2.14284 451.5 6.75085'
-                    stroke='currentColor'
-                    strokeWidth='2.5'
-                    strokeLinecap='round'
-                  />
-                </svg>
-              </span>{' '}
-              Pricing
-            </h2>
-          </MotionPreset>
-          <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }} delay={0.2} inView>
-            <p className='text-muted-foreground max-w-2xl text-lg'>
-              No hidden fees. No long-term contracts. Pick the plan that fits your scale.
-            </p>
-          </MotionPreset>
-        </div>
+        <SectionHeader
+          label='Pricing'
+          heading={<>Simple,{' '}<span className='relative font-bold'>Transparent<WavyUnderline /></span>{' '}Pricing</>}
+          description='No hidden fees. No long-term contracts. Pick the plan that fits your scale.'
+          inView
+        />
 
         <MotionPreset fade slide={{ direction: 'up' }} transition={{ duration: 0.5 }} delay={0.3} inView>
           <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-6'>

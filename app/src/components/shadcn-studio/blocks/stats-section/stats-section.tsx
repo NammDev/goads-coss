@@ -1,6 +1,7 @@
 import { GithubIcon, ComponentIcon, BlocksIcon, UsersRoundIcon } from 'lucide-react'
 
 import { MotionPreset } from '@/components/ui/motion-preset'
+import { SectionHeader, WavyUnderline } from '@/components/section-header'
 
 const stats = [
   { icon: GithubIcon, value: '3,242', suffix: '+', label: 'BMs Sold' },
@@ -12,38 +13,14 @@ const stats = [
 const StatsSection = () => {
   return (
     <section id='stats' className='space-y-12 py-8 sm:space-y-16 sm:py-16 lg:py-24'>
-      <div className='container flex flex-col items-center gap-4 text-center'>
-        <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }} inView>
-          <span className='font-medium underline underline-offset-6'>Stats</span>
-        </MotionPreset>
-        <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }} delay={0.1} inView>
-          <h2 className='text-2xl font-semibold sm:text-3xl lg:text-4xl'>
-            <span className='relative font-bold'>
-              GoAds
-              <svg
-                width='453'
-                height='8'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-                className='absolute -bottom-1 left-0 w-full'
-              >
-                <path
-                  d='M2 6.75068C53.4722 -1.10509 368.533 2.14284 451.5 6.75085'
-                  stroke='currentColor'
-                  strokeWidth='2.5'
-                  strokeLinecap='round'
-                />
-              </svg>
-            </span>{' '}
-            Impact
-          </h2>
-        </MotionPreset>
-        <MotionPreset fade slide={{ direction: 'down' }} transition={{ duration: 0.5 }} delay={0.2} inView>
-          <p className='text-muted-foreground max-w-4xl text-lg'>
-            Celebrating the milestones achieved with our clients worldwide.
-          </p>
-        </MotionPreset>
-      </div>
+      <SectionHeader
+        label='Stats'
+        heading={<><span className='relative font-bold'>GoAds<WavyUnderline /></span>{' '}Impact</>}
+        description='Celebrating the milestones achieved with our clients worldwide.'
+        descriptionClassName='max-w-4xl'
+        inView
+        className='container'
+      />
 
       <MotionPreset fade slide={{ direction: 'up' }} transition={{ duration: 0.5 }} delay={0.3} inView>
         <div className='container'>
