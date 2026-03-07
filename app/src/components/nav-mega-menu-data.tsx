@@ -127,7 +127,7 @@ export const RESOURCES_LEARN = [
     icon: FileText,
     title: 'Documentation',
     description: 'Guides, setup docs & API references',
-    href: '/doc',
+    href: '/docs',
   },
   {
     icon: Star,
