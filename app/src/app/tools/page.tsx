@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { PageHero } from "@/components/page-hero";
+import { PageHeroBig } from "@/components/page-hero-big";
 import { SectionDivider } from "@/components/section-divider";
 import { WavyUnderline } from "@/components/section-header";
 import CTASection from "@/components/shadcn-studio/blocks/cta-section-05/cta-section-05";
@@ -23,19 +23,40 @@ export default function ToolsHubPage() {
   return (
     <main className="flex-1">
       {/* Hero */}
-      <PageHero
-        label="Free Tools"
+      <PageHeroBig
+        badge="Free Tools"
+        tagline="No sign-up required. 100% client-side."
         heading={
           <>
             Essential{" "}
-            <span className="relative text-primary">
+            <span className="relative inline-block">
               Toolkit
-              <WavyUnderline />
+              <WavyUnderline className="-bottom-1.5 left-[8%] h-2 w-5/6" />
             </span>{" "}
             for Ads Management
           </>
         }
         description="Free online tools to manage your ad accounts, process data, and boost productivity. No sign-up required."
+        ctas={[
+          { label: "Browse Tools", href: "#tools" },
+          { label: "Talk to Sales", href: "/talk-to-sales", variant: "outline" },
+        ]}
+        illustration={
+          <div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Hero illustration"
+              className="h-93.5 dark:hidden"
+              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1.png?height=374&format=auto"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Hero illustration dark"
+              className="hidden h-93.5 dark:block"
+              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1-dark.png?height=374&format=auto"
+            />
+          </div>
+        }
       />
       <SectionDivider />
 

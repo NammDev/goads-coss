@@ -35,7 +35,7 @@ export function PageHeroBig({
   illustration,
 }: PageHeroBigProps) {
   return (
-    <section className="relative overflow-hidden py-12 sm:py-16 lg:py-24">
+    <section className={`relative overflow-hidden pt-12 sm:pt-16 lg:pt-24 ${illustration ? '' : 'pb-12 sm:pb-16 lg:pb-24'}`}>
       <HeroGridBg />
 
       <div className="relative z-10 mx-auto flex max-w-[1416px] flex-col items-center gap-6 px-4 text-center lg:px-6">

@@ -152,6 +152,22 @@ export default function AboutPage() {
         ctas={[
           { label: 'View Our Plans', href: '/#pricing' },
         ]}
+        illustration={
+          <div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Hero illustration"
+              className="h-93.5 dark:hidden"
+              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1.png?height=374&format=auto"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Hero illustration dark"
+              className="hidden h-93.5 dark:block"
+              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1-dark.png?height=374&format=auto"
+            />
+          </div>
+        }
       />
       <SectionDivider />
       <AboutUs aboutUsData={aboutUsData} />
