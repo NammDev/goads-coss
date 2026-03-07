@@ -1,31 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import {
-  Building2,
-  Search,
-  Globe,
-  Briefcase,
-  UserIcon,
-  FileTextIcon,
-  VideoIcon,
-  ShieldBan,
-  BadgeCheck,
-  ShieldCheck,
-  Users,
-  HelpCircle,
-  BookOpen,
-  FileText,
-  Handshake,
-  Menu,
-  Star,
-  CreditCard,
-  Trophy,
-  CircleHelp,
-  Wrench,
-  Phone,
-  HeartHandshake,
-} from 'lucide-react'
+import { Menu, Wrench } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -37,56 +13,22 @@ import {
 } from '@/components/ui/sheet'
 import { Separator } from '@/components/ui/separator'
 import { SsLogo } from './site-header-icons'
+import {
+  AGENCY_ACCOUNTS,
+  PRODUCT_ASSETS,
+  PRODUCT_SERVICES,
+  RESOURCES_COMPANY,
+  RESOURCES_LEARN,
+  RESOURCES_SUPPORT,
+} from '@/components/nav-mega-menu-data'
 
-/* ====== Agency Accounts ====== */
-
-const AGENCY_ACCOUNTS = [
-  { icon: Building2, title: 'Facebook Agency Accounts', href: '/agency-ad-account' },
-  { icon: Search, title: 'Google Agency Accounts', href: '/google-agency' },
-  { icon: Globe, title: 'TikTok Agency Accounts', href: '/tiktok-agency' },
-]
-
-/* ====== Products — Assets ====== */
-
-const PRODUCT_ASSETS = [
-  { icon: Briefcase, title: 'Business Managers', href: '/bm' },
-  { icon: UserIcon, title: 'Facebook Profiles', href: '/profiles' },
-  { icon: FileTextIcon, title: 'Facebook Pages', href: '/pages' },
-  { icon: VideoIcon, title: 'TikTok Assets', href: '/tiktok-accounts' },
-]
-
-/* ====== Products — Services ====== */
-
-const PRODUCT_SERVICES = [
-  { icon: ShieldBan, title: 'Unban Meta Assets', href: '/unban' },
-  { icon: BadgeCheck, title: 'Blue Verification', href: '/blue-verification' },
-  { icon: ShieldCheck, title: 'Verified Business Manager', href: '/bm' },
-]
-
-/* ====== Resources — Company ====== */
-
-const RESOURCES_COMPANY = [
-  { icon: Users, title: 'About Us', href: '/about' },
-  { icon: Trophy, title: 'Milestones', href: '/milestones' },
-  { icon: Handshake, title: 'Partner Offers', href: '/partners' },
-  { icon: HeartHandshake, title: 'Become a Partner', href: '/affiliate' },
-]
-
-/* ====== Resources — Learn ====== */
-
-const RESOURCES_LEARN = [
-  { icon: BookOpen, title: 'Blog', href: '/blog' },
-  { icon: FileText, title: 'Documentation', href: '/docs' },
-  { icon: Star, title: 'Reviews', href: '/reviews' },
-  { icon: CircleHelp, title: 'FAQ', href: '/faq' },
-]
-
-/* ====== Resources — Support ====== */
-
-const RESOURCES_SUPPORT = [
-  { icon: HelpCircle, title: 'Help Center', href: '/help' },
-  { icon: CreditCard, title: 'Payment Methods', href: '/payment' },
-  { icon: Phone, title: 'Talk to Sales', href: '/talk-to-sales' },
+const DRAWER_SECTIONS = [
+  { label: 'Agency Accounts', items: AGENCY_ACCOUNTS },
+  { label: 'Assets', items: PRODUCT_ASSETS },
+  { label: 'Services', items: PRODUCT_SERVICES },
+  { label: 'Company', items: RESOURCES_COMPANY },
+  { label: 'Learn', items: RESOURCES_LEARN },
+  { label: 'Support', items: RESOURCES_SUPPORT },
 ]
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -97,7 +39,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-function DrawerItem({ icon: Icon, title, href }: { icon: React.ElementType; title: string; href: string }) {
+function DrawerItem({ icon: Icon, title, href }: { icon: React.ElementType; title: string; description?: string; href: string }) {
   return (
     <SheetClose asChild>
       <Link href={href} className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-foreground transition-colors hover:bg-muted/60">
@@ -123,47 +65,15 @@ export function NavMobileDrawer() {
           <SheetTitle className="text-lg font-semibold">goads/agency</SheetTitle>
         </SheetHeader>
 
-        {/* Agency Accounts */}
-        <div className="flex flex-col gap-0.5 px-3 pb-3">
-          <SectionLabel>Agency Accounts</SectionLabel>
-          {AGENCY_ACCOUNTS.map(item => <DrawerItem key={item.href} {...item} />)}
-        </div>
-        <Separator />
-
-        {/* Products: Assets */}
-        <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>Assets</SectionLabel>
-          {PRODUCT_ASSETS.map(item => <DrawerItem key={item.href} {...item} />)}
-        </div>
-        <Separator />
-
-        {/* Products: Services */}
-        <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>Services</SectionLabel>
-          {PRODUCT_SERVICES.map(item => <DrawerItem key={item.title} {...item} />)}
-        </div>
-        <Separator />
-
-        {/* Resources: Company */}
-        <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>Company</SectionLabel>
-          {RESOURCES_COMPANY.map(item => <DrawerItem key={item.href} {...item} />)}
-        </div>
-        <Separator />
-
-        {/* Resources: Learn */}
-        <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>Learn</SectionLabel>
-          {RESOURCES_LEARN.map(item => <DrawerItem key={item.href} {...item} />)}
-        </div>
-        <Separator />
-
-        {/* Resources: Support */}
-        <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>Support</SectionLabel>
-          {RESOURCES_SUPPORT.map(item => <DrawerItem key={item.href} {...item} />)}
-        </div>
-        <Separator />
+        {DRAWER_SECTIONS.map(({ label, items }, i) => (
+          <div key={label}>
+            <div className={`flex flex-col gap-0.5 px-3 ${i === 0 ? 'pb-3' : 'py-3'}`}>
+              <SectionLabel>{label}</SectionLabel>
+              {items.map(item => <DrawerItem key={item.title} {...item} />)}
+            </div>
+            <Separator />
+          </div>
+        ))}
 
         {/* Tools */}
         <div className="flex flex-col gap-0.5 px-3 py-3">
