@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { MotionPreset } from '@/components/ui/motion-preset'
+import { SectionHeader } from '@/components/section-header'
 import { cn } from '@/lib/utils'
 import type { ProductCategory, UpsellItem } from '@/components/product-catalog'
 
@@ -185,24 +186,14 @@ export function ProductCatalogGrid({
     <section className="py-16 lg:py-24">
       <div className="mx-auto max-w-[1416px] px-4 lg:px-6">
         {(heading || subheading) && (
-          <MotionPreset
-            fade
-            slide={{ direction: 'up', offset: 20 }}
-            blur="6px"
-            transition={{ duration: 0.5 }}
-            className="mb-10 text-center"
-          >
-            {heading && (
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                {heading}
-              </h2>
-            )}
-            {subheading && (
-              <p className="text-muted-foreground mx-auto mt-2 max-w-2xl text-lg">
-                {subheading}
-              </p>
-            )}
-          </MotionPreset>
+          <div className="mb-10">
+            <SectionHeader
+              label="Catalog"
+              heading={heading}
+              description={subheading}
+              inView
+            />
+          </div>
         )}
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
