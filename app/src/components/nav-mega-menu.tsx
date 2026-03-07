@@ -16,9 +16,7 @@ import {
   RESOURCES_COMPANY,
   RESOURCES_LEARN,
   RESOURCES_SUPPORT,
-  TOOLS_EXTENSIONS,
-  TOOLS_UTILITIES,
-  TOOLS_PARTNERS,
+  TOOLS_ALL,
 } from '@/components/nav-mega-menu-data'
 
 /* ---------- shared sub-components ---------- */
@@ -42,18 +40,34 @@ function MenuItem({
   description: string
   href: string
 }) {
+  const isExternal = href.startsWith('http')
   return (
     <NavigationMenuLink asChild>
-      <Link
-        href={href}
-        className="flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
-      >
-        <MenuIcon Icon={Icon} />
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium text-foreground leading-snug">{title}</p>
-          <p className="mt-0.5 text-xs text-muted-foreground leading-snug line-clamp-2">{description}</p>
-        </div>
-      </Link>
+      {isExternal ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+        >
+          <MenuIcon Icon={Icon} />
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-medium text-foreground leading-snug">{title}</p>
+            <p className="mt-0.5 text-xs text-muted-foreground leading-snug line-clamp-2">{description}</p>
+          </div>
+        </a>
+      ) : (
+        <Link
+          href={href}
+          className="flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+        >
+          <MenuIcon Icon={Icon} />
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-medium text-foreground leading-snug">{title}</p>
+            <p className="mt-0.5 text-xs text-muted-foreground leading-snug line-clamp-2">{description}</p>
+          </div>
+        </Link>
+      )}
     </NavigationMenuLink>
   )
 }
@@ -97,13 +111,13 @@ function AgencyPanel() {
           </div>
           <div className="mt-4 space-y-2">
             <Link
-              href="/setup"
+              href="/pricing"
               className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
             >
               Explore Setups
             </Link>
             <Link
-              href="/contact"
+              href="/talk-to-sales"
               className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               Custom Setup
@@ -129,7 +143,7 @@ function AgencyPanel() {
               View Pricing
             </Link>
             <Link
-              href="/contact"
+              href="/talk-to-sales"
               className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               Talk to Sales
@@ -141,7 +155,7 @@ function AgencyPanel() {
   )
 }
 
-/* ---------- 2. Products (Meta + TikTok + Setup/CTA) ---------- */
+/* ---------- 2. Products (Meta + TikTok + CTA) ---------- */
 
 function ProductsPanel() {
   return (
@@ -158,13 +172,13 @@ function ProductsPanel() {
           </div>
           <div className="mt-4 space-y-2">
             <Link
-              href="/setup"
+              href="/pricing"
               className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
             >
               Explore Setups
             </Link>
             <Link
-              href="/contact"
+              href="/talk-to-sales"
               className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-muted"
             >
               Custom Setup
@@ -188,22 +202,13 @@ function ResourcesPanel() {
   )
 }
 
-/* ---------- 4. GoAds Tools (Extensions + Utilities + Partners) ---------- */
-
-function ToolsPanel() {
-  return (
-    <div className="flex gap-4 p-4">
-      <MenuColumn label="Extensions" items={TOOLS_EXTENSIONS} />
-      <MenuColumn label="Utilities" items={TOOLS_UTILITIES} />
-      <MenuColumn label="Partners" items={TOOLS_PARTNERS} />
-    </div>
-  )
-}
-
 /* ---------- trigger style ---------- */
 
 const triggerClass =
   'text-sm text-muted-foreground transition-all hover:text-accent-foreground hover:bg-accent! focus:bg-accent! bg-transparent! data-[state=open]:bg-accent! data-[state=open]:text-accent-foreground px-2.5! h-auto! py-1.5! font-normal! gap-0.5 rounded-md! cursor-pointer'
+
+const linkClass =
+  'text-sm text-muted-foreground transition-all hover:text-accent-foreground hover:bg-accent rounded-md px-2.5 py-1.5'
 
 /* ---------- main export ---------- */
 
@@ -240,19 +245,13 @@ export function NavMegaMenu() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuTrigger className={triggerClass}>
-            GoAds Tools
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ToolsPanel />
-          </NavigationMenuContent>
+          <Link href={TOOLS_ALL[0].href} className={linkClass}>
+            Tools
+          </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link
-            href="/about"
-            className="text-sm text-muted-foreground transition-all hover:text-accent-foreground hover:bg-accent rounded-md px-2.5 py-1.5"
-          >
+          <Link href="/about" className={linkClass}>
             About
           </Link>
         </NavigationMenuItem>

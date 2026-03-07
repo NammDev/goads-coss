@@ -6,22 +6,25 @@ import {
   Search,
   Globe,
   Briefcase,
-  TrendingUp,
-  RefreshCw,
-  MapPin,
+  UserIcon,
+  FileTextIcon,
+  VideoIcon,
+  PackageIcon,
   Users,
   HelpCircle,
   BookOpen,
   FileText,
-  Code2,
-  Activity,
   MessageCircle,
-  Database,
   Handshake,
   Menu,
-  Compass,
-  DollarSign,
-  Info,
+  Star,
+  CreditCard,
+  Trophy,
+  CircleHelp,
+  Wrench,
+  Phone,
+  HeartHandshake,
+  ExternalLink,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -35,36 +38,54 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SsLogo } from './site-header-icons'
 
-const NAV_LINKS = [
-  { icon: Compass, label: 'How It Works', href: '/#how-it-works' },
-  { icon: DollarSign, label: 'Pricing', href: '/#pricing' },
-  { icon: Info, label: 'About', href: '/#about' },
+/* ====== Agency Accounts ====== */
+
+const AGENCY_ACCOUNTS = [
+  { icon: Building2, title: 'Facebook Agency Accounts', href: '/agency-ad-account' },
+  { icon: Search, title: 'Google Agency Accounts', href: '/google-agency' },
+  { icon: Globe, title: 'TikTok Agency Accounts', href: '/tiktok-agency' },
 ]
 
-const PRODUCTS_BY_PLATFORM = [
-  { icon: Building2, title: 'Meta Agency Accounts', href: '/products/meta-agency-accounts' },
-  { icon: Search, title: 'Google Whitelisted', href: '/products/google-whitelisted' },
-  { icon: Globe, title: 'TikTok Verified', href: '/products/tiktok-verified' },
-  { icon: Briefcase, title: 'Business Managers', href: '/products/business-managers' },
+/* ====== Products — Meta Assets ====== */
+
+const META_ASSETS = [
+  { icon: Briefcase, title: 'Business Managers', href: '/bm' },
+  { icon: UserIcon, title: 'Facebook Profiles', href: '/profiles' },
+  { icon: FileTextIcon, title: 'Facebook Pages', href: '/pages' },
+  { icon: PackageIcon, title: 'Meta Other Services', href: '/meta-services' },
 ]
 
-const PRODUCTS_BY_NEED = [
-  { icon: TrendingUp, title: 'Scale Ad Spend', href: '/solutions/scale-ad-spend' },
-  { icon: RefreshCw, title: 'Replace Banned Accounts', href: '/solutions/replace-banned' },
-  { icon: MapPin, title: 'New Market Entry', href: '/solutions/new-market' },
-  { icon: Users, title: 'Agency Setup', href: '/solutions/agency-setup' },
+/* ====== Products — TikTok Assets ====== */
+
+const TIKTOK_ASSETS = [
+  { icon: VideoIcon, title: 'TikTok Accounts', href: '/tiktok-accounts' },
 ]
 
-const RESOURCES = [
-  { icon: HelpCircle, title: 'Help Center', href: '/help' },
+/* ====== Resources — Company ====== */
+
+const RESOURCES_COMPANY = [
+  { icon: Users, title: 'About Us', href: '/about' },
+  { icon: Trophy, title: 'Milestones', href: '/milestones' },
+  { icon: Handshake, title: 'Partner Offers', href: '/partners' },
+  { icon: HeartHandshake, title: 'Become a Partner', href: '/affiliate' },
+]
+
+/* ====== Resources — Learn ====== */
+
+const RESOURCES_LEARN = [
   { icon: BookOpen, title: 'Blog', href: '/blog' },
-  { icon: FileText, title: 'Case Studies', href: '/case-studies' },
-  { icon: Code2, title: 'API Docs', href: '/docs/api' },
-  { icon: Activity, title: 'Status Page', href: '/status' },
-  { icon: Users, title: 'Contact Sales', href: '/contact' },
-  { icon: MessageCircle, title: 'Telegram Support', href: '/telegram' },
-  { icon: Database, title: 'Knowledge Base', href: '/knowledge-base' },
-  { icon: Handshake, title: 'Partner Program', href: '/partners' },
+  { icon: FileText, title: 'Documentation', href: '/doc' },
+  { icon: Star, title: 'Reviews', href: '/reviews' },
+  { icon: CircleHelp, title: 'FAQ', href: '/faq' },
+]
+
+/* ====== Resources — Support ====== */
+
+const RESOURCES_SUPPORT = [
+  { icon: HelpCircle, title: 'Help Center', href: '/help' },
+  { icon: CreditCard, title: 'Payment Methods', href: '/payment' },
+  { icon: Phone, title: 'Talk to Sales', href: '/talk-to-sales' },
+  { icon: MessageCircle, title: 'Telegram Support', href: 'https://t.me/GoAdsSupport', external: true },
 ]
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -75,13 +96,22 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-function DrawerItem({ icon: Icon, title, href }: { icon: React.ElementType; title: string; href: string }) {
+function DrawerItem({ icon: Icon, title, href, external }: { icon: React.ElementType; title: string; href: string; external?: boolean }) {
+  const cls = "flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-foreground transition-colors hover:bg-muted/60"
   return (
     <SheetClose asChild>
-      <Link href={href} className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-foreground transition-colors hover:bg-muted/60">
-        <Icon className="size-4 text-muted-foreground" />
-        {title}
-      </Link>
+      {external ? (
+        <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
+          <Icon className="size-4 text-muted-foreground" />
+          {title}
+          <ExternalLink className="ml-auto size-3.5 text-muted-foreground" />
+        </a>
+      ) : (
+        <Link href={href} className={cls}>
+          <Icon className="size-4 text-muted-foreground" />
+          {title}
+        </Link>
+      )}
     </SheetClose>
   )
 }
@@ -102,41 +132,69 @@ export function NavMobileDrawer() {
           <SheetTitle className="text-lg font-semibold">goads/agency</SheetTitle>
         </SheetHeader>
 
-        {/* Nav links (immediately below logo, no separator) */}
+        {/* Agency Accounts */}
         <div className="flex flex-col gap-0.5 px-3 pb-3">
-          {NAV_LINKS.map(link => (
-            <DrawerItem key={link.href} icon={link.icon} title={link.label} href={link.href} />
-          ))}
-        </div>
-
-        <Separator />
-
-        {/* Products: By Platform */}
-        <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>By Platform</SectionLabel>
-          {PRODUCTS_BY_PLATFORM.map(item => (
+          <SectionLabel>Agency Accounts</SectionLabel>
+          {AGENCY_ACCOUNTS.map(item => (
             <DrawerItem key={item.href} {...item} />
           ))}
         </div>
 
         <Separator />
 
-        {/* Products: By Need */}
+        {/* Products: Meta Assets */}
         <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>By Need</SectionLabel>
-          {PRODUCTS_BY_NEED.map(item => (
+          <SectionLabel>Meta Assets</SectionLabel>
+          {META_ASSETS.map(item => (
             <DrawerItem key={item.href} {...item} />
           ))}
         </div>
 
         <Separator />
 
-        {/* Resources */}
+        {/* Products: TikTok Assets */}
         <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>Resources</SectionLabel>
-          {RESOURCES.map(item => (
+          <SectionLabel>TikTok Assets</SectionLabel>
+          {TIKTOK_ASSETS.map(item => (
             <DrawerItem key={item.href} {...item} />
           ))}
+        </div>
+
+        <Separator />
+
+        {/* Resources: Company */}
+        <div className="flex flex-col gap-0.5 px-3 py-3">
+          <SectionLabel>Company</SectionLabel>
+          {RESOURCES_COMPANY.map(item => (
+            <DrawerItem key={item.href} {...item} />
+          ))}
+        </div>
+
+        <Separator />
+
+        {/* Resources: Learn */}
+        <div className="flex flex-col gap-0.5 px-3 py-3">
+          <SectionLabel>Learn</SectionLabel>
+          {RESOURCES_LEARN.map(item => (
+            <DrawerItem key={item.href} {...item} />
+          ))}
+        </div>
+
+        <Separator />
+
+        {/* Resources: Support */}
+        <div className="flex flex-col gap-0.5 px-3 py-3">
+          <SectionLabel>Support</SectionLabel>
+          {RESOURCES_SUPPORT.map(item => (
+            <DrawerItem key={item.href} {...item} />
+          ))}
+        </div>
+
+        <Separator />
+
+        {/* Tools */}
+        <div className="flex flex-col gap-0.5 px-3 py-3">
+          <DrawerItem icon={Wrench} title="Tools" href="/tools" />
         </div>
       </SheetContent>
     </Sheet>
