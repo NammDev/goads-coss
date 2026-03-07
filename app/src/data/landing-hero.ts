@@ -40,23 +40,23 @@ export const PLATFORM_LOGOS: PlatformLogo[] = [
 ]
 
 export interface BrandLogo {
-  image: string
+  icon: string
   name: string
 }
 
 export const BRAND_LOGOS: BrandLogo[] = [
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/google-logo.png', name: 'Google' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/amazon-logo.png', name: 'Amazon' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/hubspot-logo.png', name: 'Hubspot' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/walmart-logo.png', name: 'Walmart' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/microsoft-logo.png', name: 'Microsoft' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/airbnb-logo.png', name: 'Airbnb' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/fedex-logo.png', name: 'Fedex' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/adobe-logo.png', name: 'Adobe' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/shopify-logo.png', name: 'Shopify' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/ola-logo.png', name: 'Ola' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/huawei-logo.png', name: 'Huawei' },
-  { image: 'https://cdn.shadcnstudio.com/ss-assets/brand-logo/bookmyshow-logo.png', name: 'Book My Show' },
+  { icon: 'https://cdn.simpleicons.org/meta/0081FB', name: 'Meta' },
+  { icon: 'https://cdn.simpleicons.org/facebook/1877F2', name: 'Facebook' },
+  { icon: 'https://cdn.simpleicons.org/tiktok/000000', name: 'TikTok' },
+  { icon: 'https://cdn.simpleicons.org/instagram/E4405F', name: 'Instagram' },
+  { icon: 'https://cdn.simpleicons.org/google/4285F4', name: 'Google' },
+  { icon: 'https://cdn.simpleicons.org/googleads/4285F4', name: 'Google Ads' },
+  { icon: 'https://cdn.simpleicons.org/meta/0081FB', name: 'Meta' },
+  { icon: 'https://cdn.simpleicons.org/facebook/1877F2', name: 'Facebook' },
+  { icon: 'https://cdn.simpleicons.org/tiktok/000000', name: 'TikTok' },
+  { icon: 'https://cdn.simpleicons.org/instagram/E4405F', name: 'Instagram' },
+  { icon: 'https://cdn.simpleicons.org/google/4285F4', name: 'Google' },
+  { icon: 'https://cdn.simpleicons.org/googleads/4285F4', name: 'Google Ads' },
 ]
 
 // hero-section-23 word rotate

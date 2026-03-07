@@ -110,22 +110,24 @@ export default function HeroClone() {
           <div className="from-background pointer-events-none absolute inset-y-0 left-0 z-1 w-35 bg-gradient-to-r to-transparent" />
           <div className="from-background pointer-events-none absolute inset-y-0 right-0 z-1 w-35 bg-gradient-to-l to-transparent" />
           <div className="w-full overflow-hidden">
-            <Marquee pauseOnHover duration={20} gap={1.5}>
+            <Marquee pauseOnHover duration={40} gap={1.5}>
               {BRAND_LOGOS.slice(0, 7).map((logo, index) => (
                 <Card key={index} className="rounded-lg border-none shadow-md">
-                  <CardContent className="flex flex-col items-center px-9">
-                    <img src={logo.image} alt={logo.name} className="h-6" />
+                  <CardContent className="flex items-center gap-2.5 px-9">
+                    <img src={logo.icon} alt={logo.name} className="h-6 w-6" />
+                    <span className="text-sm font-semibold tracking-tight whitespace-nowrap">{logo.name}</span>
                   </CardContent>
                 </Card>
               ))}
             </Marquee>
           </div>
           <div className="w-full overflow-hidden">
-            <Marquee pauseOnHover duration={20} gap={1.5} reverse>
+            <Marquee pauseOnHover duration={40} gap={1.5} reverse>
               {BRAND_LOGOS.slice(7).map((logo, index) => (
                 <Card key={index} className="rounded-lg border-none shadow-md">
-                  <CardContent className="flex flex-col items-center px-9">
-                    <img src={logo.image} alt={logo.name} className="h-6" />
+                  <CardContent className="flex items-center gap-2.5 px-9">
+                    <img src={logo.icon} alt={logo.name} className="h-6 w-6" />
+                    <span className="text-sm font-semibold tracking-tight whitespace-nowrap">{logo.name}</span>
                   </CardContent>
                 </Card>
               ))}
