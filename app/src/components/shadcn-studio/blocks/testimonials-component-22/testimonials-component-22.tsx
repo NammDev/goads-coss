@@ -105,7 +105,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               transition={{ duration: 0.6 }}
               className='flex justify-center gap-4 border-y py-8'
             >
-              <Button variant='outline' asChild className='rounded-full !px-4'>
+              <Button variant='outline' asChild className='btn-mirror-sweep btn-tertiary !px-4'>
                 <a href='https://t.me/GoAdsSupport' target='_blank' rel='noopener noreferrer'>
                   Contact Support
                   <MessageSquareMore />

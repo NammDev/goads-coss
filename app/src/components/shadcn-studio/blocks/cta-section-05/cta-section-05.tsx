@@ -1,7 +1,8 @@
-import { MessageCircleIcon, HashIcon } from 'lucide-react'
+import { MessageCircleIcon, HashIcon, ArrowUpRightIcon } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { CraftButton, CraftButtonLabel, CraftButtonIcon } from '@/components/ui/craft-button'
 import { Card, CardContent } from '@/components/ui/card'
 import { MotionPreset } from '@/components/ui/motion-preset'
 
@@ -80,13 +81,20 @@ const CTASection = () => {
 
         <MotionPreset fade blur zoom={{ initialScale: 0.95 }} delay={1.2} transition={{ duration: 0.7 }}>
           <div className='border-primary bg-background relative mx-auto -mt-9.25 flex size-fit gap-3 rounded-xl border-2 p-3'>
-            <Button size='lg' className='rounded-lg text-base' asChild>
+            <CraftButton size='lg' asChild className='text-base'>
               <a href='https://t.me/GoAdsSupport' target='_blank' rel='noopener noreferrer'>
-                <MessageCircleIcon className='size-5' />
-                <span className='max-sm:hidden'>Telegram</span>
+                <CraftButtonLabel>
+                  <span className='flex items-center gap-2'>
+                    <MessageCircleIcon className='size-5' />
+                    <span className='max-sm:hidden'>Telegram</span>
+                  </span>
+                </CraftButtonLabel>
+                <CraftButtonIcon>
+                  <ArrowUpRightIcon className='size-3 stroke-2 transition-transform duration-500 group-hover:rotate-45' />
+                </CraftButtonIcon>
               </a>
-            </Button>
-            <Button size='lg' variant='secondary' className='rounded-lg text-base' asChild>
+            </CraftButton>
+            <Button size='lg' variant='outline' className='btn-mirror-sweep btn-tertiary text-base' asChild>
               <a href='https://discord.gg/goads' target='_blank' rel='noopener noreferrer'>
                 <HashIcon className='size-5' />
                 <span className='max-sm:hidden'>Discord</span>

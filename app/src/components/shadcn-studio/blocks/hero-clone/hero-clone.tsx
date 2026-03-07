@@ -1,6 +1,8 @@
 'use client'
 
-import { ArrowRight } from 'lucide-react'
+import { ArrowUpRightIcon } from 'lucide-react'
+import { CraftButton, CraftButtonLabel, CraftButtonIcon } from '@/components/ui/craft-button'
+import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Rating } from '@/components/ui/rating'
 import { Separator } from '@/components/ui/separator'
@@ -96,9 +98,19 @@ export default function HeroClone() {
         {/* CTA Button */}
         <MotionPreset fade blur slide={{ direction: 'down', offset: 50 }} delay={0.75} transition={{ duration: 0.5 }}>
           <div className="z-10 flex flex-wrap justify-center gap-4">
-            <a href="#pricing" className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground h-10 px-6 rounded-lg text-base shadow-sm hover:bg-secondary/80 transition-colors">
-              Get Started <ArrowRight className="size-4" />
-            </a>
+            <CraftButton asChild size='lg' className='text-base'>
+              <a href='/#pricing'>
+                <CraftButtonLabel>Get Started</CraftButtonLabel>
+                <CraftButtonIcon>
+                  <ArrowUpRightIcon className='size-3 stroke-2 transition-transform duration-500 group-hover:rotate-45' />
+                </CraftButtonIcon>
+              </a>
+            </CraftButton>
+            <Button asChild variant='outline' className='btn-mirror-sweep btn-tertiary text-base' size='lg'>
+              <a href='/talk-to-sales'>
+                Talk to Sales
+              </a>
+            </Button>
           </div>
         </MotionPreset>
 

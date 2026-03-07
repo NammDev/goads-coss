@@ -42,7 +42,7 @@ function MenuItem({
   href: string
 }) {
   const isExternal = href.startsWith('http')
-  const cls = "flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-primary/10 hover:text-foreground focus:bg-primary/10 focus:text-foreground focus:outline-none"
+  const cls = "flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-primary/15 hover:text-foreground focus:bg-primary/15 focus:text-foreground focus:outline-none"
   return (
     <NavigationMenuLink asChild>
       {isExternal ? (
@@ -112,14 +112,14 @@ function CtaCard({
         <div className="mt-4 space-y-2">
           <Link
             href={primaryHref}
-            className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+            className="btn-mirror-sweep btn-secondary inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
           >
             {primaryLabel}
           </Link>
           {secondaryLabel && secondaryHref && (
             <Link
               href={secondaryHref}
-              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-primary/10 hover:text-foreground"
+              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-primary/15 hover:text-foreground"
             >
               {secondaryLabel}
             </Link>
@@ -229,7 +229,7 @@ function ToolsPanel() {
           </div>
           <Link
             href="/tools"
-            className="btn-cta-glow mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+            className="btn-mirror-sweep btn-secondary mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
           >
             Browse All Tools
             <ArrowRightIcon className="size-3.5" />
@@ -243,10 +243,10 @@ function ToolsPanel() {
 /* ---------- trigger style ---------- */
 
 const triggerClass =
-  'text-sm text-muted-foreground transition-all hover:text-foreground hover:bg-primary/10! focus:bg-primary/10! bg-transparent! data-[state=open]:bg-primary/10! data-[state=open]:text-foreground px-2.5! h-auto! py-1.5! font-normal! gap-0.5 rounded-md! cursor-pointer'
+  'text-sm text-muted-foreground transition-all hover:text-foreground hover:bg-primary/15! focus:bg-primary/15! bg-transparent! data-[state=open]:bg-primary/10! data-[state=open]:text-foreground px-2.5! h-auto! py-1.5! font-normal! gap-0.5 rounded-md! cursor-pointer'
 
 const linkClass =
-  'text-sm text-muted-foreground transition-all hover:text-foreground hover:bg-primary/10 rounded-md px-2.5 py-1.5'
+  'text-sm text-muted-foreground transition-all hover:text-foreground hover:bg-primary/15 rounded-md px-2.5 py-1.5'
 
 /* ---------- main export ---------- */
 

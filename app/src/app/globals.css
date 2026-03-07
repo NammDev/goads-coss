@@ -69,8 +69,8 @@
   --secondary-foreground: oklch(0.92 0 0);
   --muted: oklch(0.27 0 0);
   --muted-foreground: oklch(0.72 0 0);
-  --accent: oklch(0.38 0.14 265.59);
-  --accent-foreground: oklch(0.88 0.06 254.63);
+  --accent: oklch(0.30 0.08 250);
+  --accent-foreground: oklch(0.88 0.04 270);
   --destructive: oklch(0.64 0.21 25.39);
   --border: oklch(0.37 0 0);
   --input: oklch(0.37 0 0);
@@ -217,22 +217,117 @@
   @apply mx-auto max-w-[1416px] px-4 lg:px-6;
 }
 
+/* ── Mirror sweep base (shared by .btn-secondary & .btn-tertiary) ── */
+.btn-mirror-sweep {
+  position: relative;
+  overflow: hidden;
+  border: none !important;
+  box-shadow: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
+}
+
+.btn-mirror-sweep:hover,
+.btn-mirror-sweep:focus-visible {
+  transform: scale(1.01);
+}
+
+.btn-mirror-sweep::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  z-index: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  transition: none;
+}
+
+.btn-mirror-sweep:hover::before {
+  left: 100%;
+  transition: left 1.8s ease-out;
+}
+
+/* ── Type 2: Secondary — primary bg, white text, white sweep ── */
+.btn-secondary {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  background-color: var(--primary) !important;
+}
+
+.btn-secondary::before {
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.12) 45%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0.12) 55%,
+    transparent 70%
+  );
+}
+
+/* ── Type 3: Tertiary — white bg, border, hover bg-primary/15 ── */
+.btn-tertiary {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--border) !important;
+  overflow: visible;
+  transition: background-color 0.2s ease-out;
+}
+
+.btn-tertiary:hover,
+.btn-tertiary:focus-visible {
+  background-color: oklch(from var(--primary) l c h / 0.15) !important;
+  transform: none;
+}
+
+.btn-tertiary::before {
+  display: none;
+}
+
+/* Legacy alias */
 .btn-cta-glow {
-  box-shadow:
-    0px 1px 8px 0px color-mix(in oklab, white 20%, transparent) inset,
-    0px 0px 0px 1px var(--primary),
-    0px 0px 0px 1px var(--primary),
-    0px 0px 0px 1.5px color-mix(in oklab, white 30%, transparent) inset,
-    0px 2px 2px 0px color-mix(in oklab, black 20%, transparent);
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
 }
 
 .btn-cta-glow:hover,
 .btn-cta-glow:focus-visible {
-  box-shadow:
-    0px 1px 8px 0px color-mix(in oklab, white 40%, transparent) inset,
-    0px 0px 0px 1px var(--primary),
-    0px 0px 0px 1px color-mix(in oklab, white 30%, transparent) inset,
-    0px 3px 4px 0px color-mix(in oklab, black 30%, transparent);
+  background-color: var(--primary) !important;
+}
+
+.btn-cta-glow::before {
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.12) 45%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0.12) 55%,
+    transparent 70%
+  );
+}
+
+/* ── CTA button (Type 1) — hover bg matches tertiary tint ── */
+.btn-cta-hover-bg:hover {
+  background-color: color-mix(in oklab, var(--primary), white 95%) !important;
+}
+
+:is(.dark) .btn-cta-hover-bg:hover {
+  background-color: color-mix(in oklab, var(--primary), black 70%) !important;
+}
+
+.btn-cta-expand-bg {
+  background-color: color-mix(in oklab, var(--primary), white 95%);
+}
+
+:is(.dark) .btn-cta-expand-bg {
+  background-color: color-mix(in oklab, var(--primary), black 70%);
 }
 
 a.link-animated {

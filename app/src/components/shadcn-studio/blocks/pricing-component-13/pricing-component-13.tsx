@@ -64,7 +64,7 @@ const Pricing = ({ plans }: { plans: Plan[] }) => {
                         {plan.description}
                       </p>
                     </div>
-                    <Button variant={plan.isPopular ? 'default' : 'secondary'} size='lg' className='w-full rounded-full'>
+                    <Button size='lg' className={cn('btn-mirror-sweep w-full', plan.highlight ? 'btn-tertiary' : 'btn-secondary')}>
                       {plan.buttonText}
                     </Button>
                   </CardContent>

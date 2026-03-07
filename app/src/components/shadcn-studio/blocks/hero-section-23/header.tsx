@@ -54,13 +54,13 @@ const Header = ({ navigationData, className }: HeaderProps) => {
 
         {/* Login Button */}
 
-        <Button className='rounded-full max-lg:hidden' asChild>
+        <Button className='max-lg:hidden' asChild>
           <a href='#'>Login</a>
         </Button>
 
         {/* Navigation for small screens */}
         <div className='flex gap-4 lg:hidden'>
-          <Button className='rounded-full' asChild>
+          <Button asChild>
             <a href='#'>Login</a>
           </Button>
 

@@ -15,6 +15,7 @@ import { BorderBeam } from '@/components/ui/border-beam'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import { Button } from '@/components/ui/button'
+import { CraftButton, CraftButtonLabel, CraftButtonIcon } from '@/components/ui/craft-button'
 
 import RatingsCard from '@/components/shadcn-studio/blocks/statistics-card-04'
 import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
@@ -44,8 +45,8 @@ const HeroSection = ({
   avatars,
   heading = 'Buy Meta Business Manager',
   subheading,
-  primaryCta = { label: 'Get Your BM Today', href: '/#pricing' },
-  secondaryCta = { label: 'Talk to Support', href: 'https://t.me/GoAdsSupport' },
+  primaryCta = { label: 'Get Started', href: '/#pricing' },
+  secondaryCta = { label: 'Talk to Sales', href: '/talk-to-sales' },
   card1,
   card2,
   card3,
@@ -95,20 +96,17 @@ const HeroSection = ({
                 delay={0.7}
                 className='flex flex-wrap items-center gap-4 max-sm:flex-col'
               >
-                <Button
-                  asChild
-                  size='lg'
-                  className='relative w-fit overflow-hidden rounded-full text-base before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:transition-[background-position_0s_ease] before:duration-1000 hover:before:bg-[position:-100%_0,0_0] has-[>svg]:px-6 dark:before:bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.2)_50%,transparent_75%,transparent_100%)]'
-                >
+                <CraftButton asChild size='lg' className='text-base'>
                   <a href={primaryCta.href}>
-                    {primaryCta.label}
-                    <RocketIcon />
+                    <CraftButtonLabel>{primaryCta.label}</CraftButtonLabel>
+                    <CraftButtonIcon>
+                      <RocketIcon className='size-3 stroke-2' />
+                    </CraftButtonIcon>
                   </a>
-                </Button>
-                <Button asChild variant='outline' className='rounded-full text-base has-[>svg]:px-6' size='lg'>
-                  <a href={secondaryCta.href} target='_blank' rel='noopener noreferrer'>
+                </CraftButton>
+                <Button asChild variant='outline' className='btn-mirror-sweep btn-tertiary text-base' size='lg'>
+                  <a href={secondaryCta.href}>
                     {secondaryCta.label}
-                    <MessageSquareMoreIcon />
                   </a>
                 </Button>
               </MotionPreset>

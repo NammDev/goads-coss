@@ -42,7 +42,7 @@ export function SiteHeader() {
                 <NavMobileDrawer />
 
                 {/* Search */}
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" className="hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15">
                   <Search />
                   <span className="sr-only">Search</span>
                 </Button>
@@ -69,10 +69,10 @@ export function SiteHeader() {
               {/* Auth + CTA */}
               <div className="flex items-center gap-2">
                 {/* Sign in — text on sm+, icon on mobile */}
-                <Button variant="outline" asChild className="max-sm:hidden hover:bg-primary/10 hover:text-foreground dark:hover:bg-primary/10">
+                <Button variant="outline" asChild className="max-sm:hidden hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15">
                   <a href="/auth/login">Sign in</a>
                 </Button>
-                <Button variant="outline" size="icon" asChild className="!hidden max-sm:!flex hover:bg-primary/10 hover:text-foreground dark:hover:bg-primary/10">
+                <Button variant="outline" size="icon" asChild className="!hidden max-sm:!flex hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15">
                   <a href="/auth/login">
                     <LogIn />
                     <span className="sr-only">Sign in</span>
@@ -82,14 +82,14 @@ export function SiteHeader() {
                 {/* CTA — full on md+, icon-only on mobile */}
                 <a
                   href="/#pricing"
-                  className="btn-cta-glow inline-flex shrink-0 items-center justify-center gap-1 rounded-md bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
+                  className="btn-mirror-sweep btn-secondary inline-flex shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
                 >
                   Get Started
                   <SsCtaIcon />
                 </a>
                 <a
                   href="/#pricing"
-                  className="btn-cta-glow inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
+                  className="btn-mirror-sweep btn-secondary inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
                 >
                   <SsCtaIcon />
                   <span className="sr-only">Get Started</span>

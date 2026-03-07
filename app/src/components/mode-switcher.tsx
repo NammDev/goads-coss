@@ -13,7 +13,7 @@ export function ModeSwitcher() {
 
   return (
     <button
-      className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md border bg-background text-sm font-medium shadow-xs transition-all hover:bg-primary/10 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none dark:bg-input/30 dark:border-input dark:hover:bg-primary/20"
+      className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md border bg-background text-sm font-medium shadow-xs transition-all hover:bg-primary/15 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none dark:bg-input/30 dark:border-input dark:hover:bg-primary/15"
       onClick={toggleTheme}
       type="button"
     >
