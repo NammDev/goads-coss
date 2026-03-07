@@ -1,4 +1,7 @@
+import { UsersIcon, TrendingUpIcon } from 'lucide-react'
 import HeroSection from '@/components/shadcn-studio/blocks/hero-section-23/hero-section-23'
+import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
+import RatingsCard from '@/components/shadcn-studio/blocks/statistics-card-04'
 import PageHeroCard from '@/components/shadcn-studio/blocks/page-hero-card'
 import { ProductCatalog } from '@/components/product-catalog'
 import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonials-component-22/testimonials-component-22'
@@ -22,6 +25,27 @@ export default function PagesPage() {
         }
         primaryCta={{ label: 'Get Your Page Today', href: '/pages#pricing' }}
         secondaryCta={{ label: 'Talk to Support', href: 'https://t.me/GoAdsSupport' }}
+        card1={
+          <StatisticsCard
+            title="Followers"
+            badgeContent="Avg. per page"
+            value="10K+"
+            changePercentage="+52%"
+            icon={<UsersIcon />}
+            trend="up"
+            className="h-full gap-2 py-3"
+          />
+        }
+        card2={
+          <RatingsCard
+            title="Pages Delivered"
+            badgeContent="All time"
+            value="2,134"
+            changePercentage={18.3}
+            svg={<TrendingUpIcon className="size-16 text-primary/10" />}
+            className="h-full"
+          />
+        }
         card3={<PageHeroCard className="sm:w-full sm:max-w-100" />}
       />
       <SectionDivider />

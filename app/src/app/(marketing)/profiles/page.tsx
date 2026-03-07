@@ -1,4 +1,7 @@
+import { CalendarIcon, PackageCheckIcon } from 'lucide-react'
 import HeroSection from '@/components/shadcn-studio/blocks/hero-section-23/hero-section-23'
+import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
+import RatingsCard from '@/components/shadcn-studio/blocks/statistics-card-04'
 import ProfileHeroCard from '@/components/shadcn-studio/blocks/profile-hero-card'
 import { ProductCatalog } from '@/components/product-catalog'
 import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonials-component-22/testimonials-component-22'
@@ -23,6 +26,27 @@ export default function ProfilesPage() {
         }
         primaryCta={{ label: 'Get Your Profile Today', href: '/profiles#pricing' }}
         secondaryCta={{ label: 'Talk to Support', href: 'https://t.me/GoAdsSupport' }}
+        card1={
+          <StatisticsCard
+            title="Account Age"
+            badgeContent="Aged profiles"
+            value="7+ Years"
+            changePercentage="+100%"
+            icon={<CalendarIcon />}
+            trend="up"
+            className="h-full gap-2 py-3"
+          />
+        }
+        card2={
+          <RatingsCard
+            title="Profiles Sold"
+            badgeContent="This month"
+            value="1,842"
+            changePercentage={24.5}
+            svg={<PackageCheckIcon className="size-16 text-primary/10" />}
+            className="h-full"
+          />
+        }
         card3={<ProfileHeroCard className="sm:w-full sm:max-w-100" />}
       />
       <SectionDivider />

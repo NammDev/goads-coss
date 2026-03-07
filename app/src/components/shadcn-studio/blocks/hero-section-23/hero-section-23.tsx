@@ -34,6 +34,8 @@ interface HeroSectionProps {
   subheading?: React.ReactNode
   primaryCta?: { label: string; href: string }
   secondaryCta?: { label: string; href: string }
+  card1?: React.ReactNode
+  card2?: React.ReactNode
   card3?: React.ReactNode
 }
 
@@ -43,6 +45,8 @@ const HeroSection = ({
   subheading,
   primaryCta = { label: 'Get Your BM Today', href: '/#pricing' },
   secondaryCta = { label: 'Talk to Support', href: 'https://t.me/GoAdsSupport' },
+  card1,
+  card2,
   card3,
 }: HeroSectionProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -174,28 +178,32 @@ const HeroSection = ({
             <HeroSvg className='absolute -inset-y-9 -z-1 max-md:hidden xl:inset-y-0' />
             <div className='mb-14 grid w-full grid-cols-1 gap-10 px-2 pt-2 max-xl:max-w-140 md:mb-7 md:grid-cols-2'>
               <div ref={cardRef1} className='relative'>
-                <StatisticsCard
-                  title='Statistics'
-                  badgeContent='Last 6 months'
-                  value='$13.4k'
-                  changePercentage='+38%'
-                  icon={<TicketCheckIcon />}
-                  trend='up'
-                  className='h-full gap-2 py-3'
-                />
+                {card1 ?? (
+                  <StatisticsCard
+                    title='Statistics'
+                    badgeContent='Last 6 months'
+                    value='$13.4k'
+                    changePercentage='+38%'
+                    icon={<TicketCheckIcon />}
+                    trend='up'
+                    className='h-full gap-2 py-3'
+                  />
+                )}
                 <div className='bg-background absolute -inset-2 -z-1 rounded-xl border'>
                   <BorderBeam duration={15} size={60} colorFrom='var(--primary)' colorTo='var(--primary)' />
                 </div>
               </div>
               <div ref={cardRef2} className='relative'>
-                <RatingsCard
-                  title='Customers'
-                  badgeContent='Daily customers'
-                  value='42.4k'
-                  changePercentage={9.2}
-                  svg={<CustomersCardSvg />}
-                  className='h-full'
-                />
+                {card2 ?? (
+                  <RatingsCard
+                    title='Customers'
+                    badgeContent='Daily customers'
+                    value='42.4k'
+                    changePercentage={9.2}
+                    svg={<CustomersCardSvg />}
+                    className='h-full'
+                  />
+                )}
                 <div className='bg-background absolute -inset-2 -z-1 rounded-xl border'>
                   <BorderBeam duration={15} size={60} colorFrom='var(--primary)' colorTo='var(--primary)' />
                 </div>
