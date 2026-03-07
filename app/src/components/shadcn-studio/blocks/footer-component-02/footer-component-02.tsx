@@ -58,38 +58,8 @@ const Footer = () => {
         </div>
         <div className='col-span-full grid grid-cols-2 gap-6 sm:grid-cols-4 lg:col-span-4 lg:gap-8'>
           <div className='flex flex-col gap-5'>
-            <div className='text-lg font-medium'>Company</div>
+            <div className='text-lg font-medium'>Products</div>
             <ul className='text-muted-foreground space-y-3'>
-              <li>
-                <a href='/about' className='hover:text-foreground transition-colors duration-300'>
-                  About
-                </a>
-              </li>
-              <li>
-                <a href='/#features' className='hover:text-foreground transition-colors duration-300'>
-                  Products
-                </a>
-              </li>
-              <li>
-                <a href='/blog' className='hover:text-foreground transition-colors duration-300'>
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href='/#pricing' className='hover:text-foreground transition-colors duration-300'>
-                  Pricing
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className='flex flex-col gap-5'>
-            <div className='text-lg font-medium'>Support</div>
-            <ul className='text-muted-foreground space-y-3'>
-              <li>
-                <a href='https://t.me/GoAdsSupport' className='hover:text-foreground transition-colors duration-300'>
-                  Contact Support
-                </a>
-              </li>
               <li>
                 <a href='/agency-ad-account' className='hover:text-foreground transition-colors duration-300'>
                   Agency Ad Accounts
@@ -101,8 +71,68 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href='/#faq' className='hover:text-foreground transition-colors duration-300'>
+                <a href='/profiles' className='hover:text-foreground transition-colors duration-300'>
+                  Facebook Profiles
+                </a>
+              </li>
+              <li>
+                <a href='/pages' className='hover:text-foreground transition-colors duration-300'>
+                  Facebook Pages
+                </a>
+              </li>
+              <li>
+                <a href='/tiktok-accounts' className='hover:text-foreground transition-colors duration-300'>
+                  TikTok Accounts
+                </a>
+              </li>
+              <li>
+                <a href='/unban' className='hover:text-foreground transition-colors duration-300'>
+                  Unban Services
+                </a>
+              </li>
+              <li>
+                <a href='/blue-verification' className='hover:text-foreground transition-colors duration-300'>
+                  Blue Verification
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className='flex flex-col gap-5'>
+            <div className='text-lg font-medium'>Resources</div>
+            <ul className='text-muted-foreground space-y-3'>
+              <li>
+                <a href='/about' className='hover:text-foreground transition-colors duration-300'>
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href='/blog' className='hover:text-foreground transition-colors duration-300'>
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a href='/reviews' className='hover:text-foreground transition-colors duration-300'>
+                  Reviews
+                </a>
+              </li>
+              <li>
+                <a href='/faq' className='hover:text-foreground transition-colors duration-300'>
                   FAQ
+                </a>
+              </li>
+              <li>
+                <a href='/tools' className='hover:text-foreground transition-colors duration-300'>
+                  Free Tools
+                </a>
+              </li>
+              <li>
+                <a href='/payment' className='hover:text-foreground transition-colors duration-300'>
+                  Payment Methods
+                </a>
+              </li>
+              <li>
+                <a href='/talk-to-sales' className='hover:text-foreground transition-colors duration-300'>
+                  Talk to Sales
                 </a>
               </li>
             </ul>

@@ -42,7 +42,7 @@ export default function ToolsHubPage() {
           { label: "Browse Tools", href: "#tools" },
           { label: "Talk to Sales", href: "/talk-to-sales", variant: "outline" },
         ]}
-        illustration={<ToolsIllustration className="h-93.5" />}
+        illustration={<ToolsIllustration className="h-72" />}
       />
       <SectionDivider />
 

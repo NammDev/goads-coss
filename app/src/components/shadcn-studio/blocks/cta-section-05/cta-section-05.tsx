@@ -11,7 +11,7 @@ const CTASection = () => {
   return (
     <section className='pt-8 pb-16 sm:py-16 lg:py-24'>
       <div className='container'>
-        <Card className='relative overflow-hidden rounded-3xl border-none pt-20 pb-32 text-center shadow-2xl max-sm:pt-10 max-sm:pb-15' style={{ backgroundColor: 'color-mix(in oklch, var(--primary), black 70%)' }}>
+        <Card className='relative overflow-hidden rounded-3xl border-none pt-20 pb-32 text-center shadow-2xl max-sm:pt-10 max-sm:pb-15 dark:!bg-black' style={{ backgroundColor: 'color-mix(in oklch, var(--primary), black 70%)' }}>
           {/* Dotted grid overlay */}
           <div
             aria-hidden='true'

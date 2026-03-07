@@ -69,10 +69,10 @@ export function SiteHeader() {
               {/* Auth + CTA */}
               <div className="flex items-center gap-2">
                 {/* Sign in — text on sm+, icon on mobile */}
-                <Button variant="outline" asChild className="max-sm:hidden">
+                <Button variant="outline" asChild className="max-sm:hidden hover:bg-primary/10 hover:text-foreground dark:hover:bg-primary/10">
                   <a href="/auth/login">Sign in</a>
                 </Button>
-                <Button variant="outline" size="icon" asChild className="!hidden max-sm:!flex">
+                <Button variant="outline" size="icon" asChild className="!hidden max-sm:!flex hover:bg-primary/10 hover:text-foreground dark:hover:bg-primary/10">
                   <a href="/auth/login">
                     <LogIn />
                     <span className="sr-only">Sign in</span>

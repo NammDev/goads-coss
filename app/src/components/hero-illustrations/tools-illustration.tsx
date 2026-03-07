@@ -47,7 +47,7 @@ export function ToolsIllustration({ className }: { className?: string }) {
       <div className="from-background pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r to-transparent" />
       <div className="from-background pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l to-transparent" />
 
-      <div className="flex flex-col items-center justify-center gap-4 py-6">
+      <div className="flex flex-col items-center justify-center gap-4 pt-4">
         {/* Row 1 — 5 cards */}
         <div className="flex gap-3">
           {row1.map((tool, i) => {
@@ -97,14 +97,9 @@ export function ToolsIllustration({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Floating badges */}
+      {/* Floating badge */}
       <div className="absolute right-8 top-2 z-20">
         <Badge className="bg-emerald-600 text-white hover:bg-emerald-700 shadow-md">100% Free</Badge>
-      </div>
-      <div className="absolute bottom-2 left-1/2 z-20 -translate-x-1/2">
-        <Badge variant="outline" className="gap-1 bg-background/80 text-xs backdrop-blur-sm">
-          9 tools — no sign-up — 100% client-side
-        </Badge>
       </div>
     </div>
   )
