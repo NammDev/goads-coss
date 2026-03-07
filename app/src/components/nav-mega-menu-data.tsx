@@ -97,12 +97,6 @@ export const PRODUCT_SERVICES = [
     description: 'Verified badge for Pages & Instagram',
     href: '/blue-verification',
   },
-  {
-    icon: ShieldCheck,
-    title: 'Verified Business Manager',
-    description: 'Meta-verified BMs with higher trust scores',
-    href: '/bm',
-  },
 ]
 
 /* ====== Resources — Company ====== */
