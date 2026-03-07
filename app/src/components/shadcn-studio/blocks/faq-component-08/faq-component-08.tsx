@@ -60,7 +60,7 @@ const FAQ = ({ tabsData }: { tabsData: FAQTab }) => {
                       {tab.faqs.map((item, index) => (
                         <AccordionItem key={index} value={`item-${index + 1}`}>
                           <AccordionTrigger className='px-5 text-base'>{item.question}</AccordionTrigger>
-                          <AccordionContent className='text-muted-foreground px-5 text-base'>
+                          <AccordionContent className='text-muted-foreground whitespace-pre-line px-5 text-base'>
                             {item.answer}
                           </AccordionContent>
                         </AccordionItem>

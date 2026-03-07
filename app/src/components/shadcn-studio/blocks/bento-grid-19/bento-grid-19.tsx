@@ -82,9 +82,9 @@ const BentoGrid = () => {
           >
             <EnterpriseCollaboration />
             <div className='space-y-2 px-6'>
-              <h3 className='text-2xl font-semibold'>Built for brands that scale</h3>
+              <h3 className='text-2xl font-semibold'>GoAds Agency</h3>
               <p className='text-muted-foreground text-sm'>
-                GoAds sits at the center of your advertising ecosystem — connecting you to every major platform with verified, high-trust infrastructure trusted by advertisers worldwide.
+                GoAds provides verified <strong>Meta, Google, and TikTok Agency Ad Accounts</strong> so brands can scale with more stability and less downtime.
               </p>
             </div>
           </MotionPreset>

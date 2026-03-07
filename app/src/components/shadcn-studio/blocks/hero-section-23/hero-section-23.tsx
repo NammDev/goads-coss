@@ -18,7 +18,7 @@ import { Button } from '@/components/ui/button'
 
 import RatingsCard from '@/components/shadcn-studio/blocks/statistics-card-04'
 import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
-import TotalSalesCard from '@/components/shadcn-studio/blocks/chart-total-sales'
+import BmHierarchyCard from '@/components/shadcn-studio/blocks/bm-hierarchy-card'
 
 import { HERO_SECTION_WORDS as words } from '@/data/landing-hero'
 
@@ -56,14 +56,13 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
               </MotionPreset>
               <MotionPreset fade slide={{ offset: 50 }} blur transition={{ duration: 0.5 }} delay={0.3}>
                 <h1 className='inline max-w-3xl text-3xl leading-[1.29167] font-bold sm:text-4xl lg:text-5xl'>
-                  Premium Agency Ad Accounts for{' '}
-                  <WordRotate words={words} duration={2000} className='inline-block w-fit overflow-visible py-0' />
+                  Buy Meta Business Manager
                 </h1>
               </MotionPreset>
               <MotionPreset fade slide={{ offset: 50 }} blur transition={{ duration: 0.5 }} delay={0.5}>
                 <p className='text-muted-foreground text-xl'>
-                  Stop losing accounts to bans and restrictions. GoAds provides verified agency ad accounts with
-                  7-day warranty, under 2-hour support, and 97% stability rate.
+                  Stop worrying about BM restrictions and unstable assets.
+                  GoAds provides <strong>high-quality Meta Business Managers ready for scaling</strong>, trusted by agencies and media buyers worldwide.
                 </p>
               </MotionPreset>
               <MotionPreset
@@ -81,7 +80,7 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
                   className='relative w-fit overflow-hidden rounded-full text-base before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:transition-[background-position_0s_ease] before:duration-1000 hover:before:bg-[position:-100%_0,0_0] has-[>svg]:px-6 dark:before:bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.2)_50%,transparent_75%,transparent_100%)]'
                 >
                   <a href='/#pricing'>
-                    Get Started Today
+                    Get Your BM Today
                     <RocketIcon />
                   </a>
                 </Button>
@@ -114,13 +113,13 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
                 </div>
 
                 <div>
-                  <p className='text-sm'>Rated 4.5+ by 500+ clients</p>
+                  <p className='text-sm'>Rated <strong>4.9★ by 500+ clients</strong></p>
                   <Rating
                     readOnly
                     variant='yellow'
                     size={24}
-                    value={4.5}
-                    precision={0.5}
+                    value={4.9}
+                    precision={0.1}
                     className='max-sm:justify-center'
                   />
                 </div>
@@ -135,7 +134,7 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
                 transition={{ duration: 0.5 }}
                 className='text-muted-foreground'
               >
-                Trusted by 500+ advertisers across 30+ countries
+                Trusted by advertisers in <strong>30+ countries</strong>
               </MotionPreset>
               <MotionPreset
                 fade
@@ -194,7 +193,7 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
             </div>
             <div ref={chartRef} className='flex w-full items-center justify-center px-2'>
               <div className='relative w-fit'>
-                <TotalSalesCard className='sm:w-full sm:max-w-100' />
+                <BmHierarchyCard className='sm:w-full sm:max-w-100' />
                 <div className='bg-background absolute -inset-2 -z-1 rounded-xl border'>
                   <BorderBeam duration={15} size={60} colorFrom='var(--primary)' colorTo='var(--primary)' />
                 </div>

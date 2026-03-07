@@ -81,7 +81,7 @@ export const pricingPlans: PricingPlan[] = [
     description: 'Bulletproof setup for serious advertisers scaling campaigns.',
     features: [
       { title: '1x BM5 Verified', description: '$250 spending limit', available: true },
-      { title: '2x BM3 Verified', description: 'Business Managers with 3 ad account slots', available: true },
+      { title: '1x BM3 Verified', description: 'Business Manager with 3 ad account slots', available: true },
       { title: '4x Premium Profiles', description: 'High-trust profiles ready for advertising', available: true },
       { title: '3x Aged Reinstated Pages', description: 'Established pages for campaign stability', available: true },
       { title: '14-Day Warranty', description: 'Replacement for profile issues', available: true },

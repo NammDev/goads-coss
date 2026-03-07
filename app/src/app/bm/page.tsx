@@ -13,8 +13,6 @@ export default function BMPage() {
       <SectionDivider />
 
       <ProductCatalog
-        heading="Choose Your Business Manager"
-        subheading="Select the right BM for your ad operations. All include 7-day warranty and priority support."
         categories={bmCategories}
         upsells={upsells}
       />

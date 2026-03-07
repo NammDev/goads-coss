@@ -1,6 +1,7 @@
 import { Orbiting } from '@/components/ui/orbiting'
 
 import Logo from '@/assets/svg/logo'
+import { MetaLogo, GoogleLogo, TikTokLogo, InstagramLogo, BingLogo, YouTubeLogo } from '@/assets/svg/ad-platform-logos'
 
 const EnterpriseCollaboration = () => {
   return (
@@ -8,79 +9,32 @@ const EnterpriseCollaboration = () => {
       <div className='absolute flex size-88 flex-col items-center justify-center'>
         <Orbiting duration={30} radius={175} strokeWidth={1} startingAngle={45}>
           <span className='bg-background grid size-13 place-content-center rounded-full border shadow-sm'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-65.png?width=30&format=auto'
-              alt='Amazon Logo'
-              className='size-7.5 dark:hidden'
-            />
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-65-dark.png?width=30&format=auto'
-              alt='Amazon Logo Dark'
-              className='hidden size-7.5 dark:inline-block'
-            />
+            <MetaLogo className='size-7.5' />
           </span>
           <span className='bg-background grid size-13 place-content-center rounded-full border shadow-sm'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-66.png?width=30&format=auto'
-              alt='Netflix Logo'
-              className='size-7.5'
-            />
+            <GoogleLogo className='size-7.5' />
           </span>
           <span className='bg-background grid size-13 place-content-center rounded-full border shadow-sm'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-70.png?width=30&format=auto'
-              alt='Subway Logo'
-              className='size-7.5'
-            />
+            <TikTokLogo className='size-7.5' />
           </span>
           <span className='bg-background grid size-13 place-content-center rounded-full border shadow-sm'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-69.png?width=30&format=auto'
-              alt='Starbucks Logo'
-              className='size-7.5'
-            />
+            <InstagramLogo className='size-7.5' />
           </span>
         </Orbiting>
         <Orbiting duration={30} radius={135.5} strokeWidth={1} startingAngle={90}>
           <span className='bg-background grid size-13 place-content-center rounded-full border shadow-sm'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-71.png?width=30&format=auto'
-              alt='Nike Logo'
-              className='size-7.5 dark:hidden'
-            />
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-71-dark.png?width=30&format=auto'
-              alt='Nike Logo Dark'
-              className='hidden size-7.5 dark:inline-block'
-            />
+            <BingLogo className='size-7.5' />
           </span>
           <span className='bg-background grid size-13 place-content-center rounded-full border shadow-sm'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-72.png?width=30&format=auto'
-              alt='H & M Logo'
-              className='size-7.5'
-            />
+            <YouTubeLogo className='size-7.5' />
           </span>
         </Orbiting>
         <Orbiting duration={30} radius={90} strokeWidth={1}>
           <span className='bg-background grid size-13 place-content-center rounded-full border shadow-sm'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-73.png?width=30&format=auto'
-              alt='Adidas Logo'
-              className='size-7.5 dark:hidden'
-            />
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-73-dark.png?width=30&format=auto'
-              alt='Adidas Logo Dark'
-              className='hidden size-7.5 dark:inline-block'
-            />
+            <MetaLogo className='size-7.5' />
           </span>
           <span className='bg-background grid size-13 place-content-center rounded-full border shadow-sm'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-67.png?width=30&format=auto'
-              alt='Prime Video Logo'
-              className='size-7.5'
-            />
+            <GoogleLogo className='size-7.5' />
           </span>
         </Orbiting>
 

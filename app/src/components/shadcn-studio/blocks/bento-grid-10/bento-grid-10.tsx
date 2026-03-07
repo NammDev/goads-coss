@@ -11,6 +11,7 @@ import CardAskPlainLanguage from '@/components/shadcn-studio/blocks/bento-grid-1
 import CardParticles from '@/components/shadcn-studio/blocks/bento-grid-10/card-particles'
 
 import Logo from '@/assets/svg/logo'
+import { MetaLogo, GoogleLogo, TikTokLogo, InstagramLogo, BingLogo, YouTubeLogo } from '@/assets/svg/ad-platform-logos'
 
 const BentoGrid = () => {
   return (
@@ -40,108 +41,52 @@ const BentoGrid = () => {
               <div className='relative flex size-151 flex-col items-center justify-center'>
                 <Orbiting duration={30} radius={280}>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/react-logo.png?width=28&format=auto'
-                      alt='React Logo'
-                      className='size-7'
-                    />
+                    <MetaLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/vite-logo.png?width=28&format=auto'
-                      alt='Vite Logo'
-                      className='size-7'
-                    />
+                    <GoogleLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/react-logo.png?width=28&format=auto'
-                      alt='React Logo'
-                      className='size-7'
-                    />
+                    <TikTokLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/vite-logo.png?width=28&format=auto'
-                      alt='Vite Logo'
-                      className='size-7'
-                    />
+                    <InstagramLogo className='size-7' />
                   </span>
                 </Orbiting>
                 <Orbiting duration={30} radius={220} reverse speed={1.33}>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/figma-icon.png?width=28&format=auto'
-                      alt='Figma Logo'
-                      className='size-7'
-                    />
+                    <BingLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/claude-icon.png?width=28&format=auto'
-                      alt='Claude Logo'
-                      className='size-7'
-                    />
+                    <YouTubeLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/figma-icon.png?width=28&format=auto'
-                      alt='Figma Logo'
-                      className='size-7'
-                    />
+                    <BingLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/claude-icon.png?width=28&format=auto'
-                      alt='Claude Logo'
-                      className='size-7'
-                    />
+                    <YouTubeLogo className='size-7' />
                   </span>
                 </Orbiting>
                 <Orbiting duration={30} radius={160} speed={1.67}>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/laravel-icon.png?width=28&format=auto'
-                      alt='Laravel Logo'
-                      className='size-7'
-                    />
+                    <MetaLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/remix-icon.png?width=28&format=auto'
-                      alt='Remix Logo'
-                      className='size-7 dark:invert'
-                    />
+                    <TikTokLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/laravel-icon.png?width=28&format=auto'
-                      alt='Laravel Logo'
-                      className='size-7'
-                    />
+                    <MetaLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/remix-icon.png?width=28&format=auto'
-                      alt='Remix Logo'
-                      className='size-7 dark:invert'
-                    />
+                    <TikTokLogo className='size-7' />
                   </span>
                 </Orbiting>
                 <Orbiting duration={30} radius={100} reverse speed={2}>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/nextjs-logo.png?width=28&format=auto'
-                      alt='Next.js Logo'
-                      className='size-7 dark:invert'
-                    />
+                    <GoogleLogo className='size-7' />
                   </span>
                   <span className='bg-card grid size-11 place-content-center overflow-hidden rounded-full'>
-                    <img
-                      src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/nextjs-logo.png?width=28&format=auto'
-                      alt='Next.js Logo'
-                      className='size-7 dark:invert'
-                    />
+                    <InstagramLogo className='size-7' />
                   </span>
                 </Orbiting>
 
@@ -186,22 +131,18 @@ const BentoGrid = () => {
                   >
                     <Card className='h-full min-w-52 shadow-lg'>
                       <CardContent className='flex flex-col items-start gap-4'>
-                        <img
-                          src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/figma-icon.png?width=28&format=auto'
-                          alt='Figma Logo'
-                          className='size-7'
-                        />
+                        <MetaLogo className='size-7' />
                         <div className='bg-muted flex items-center gap-3 rounded-sm p-2'>
                           <Table2Icon className='size-5 shrink-0' />
-                          <span>Authentication</span>
+                          <span>Verified Asset</span>
                         </div>
                         <div className='bg-muted flex items-center gap-3 rounded-sm p-2'>
                           <Table2Icon className='size-5 shrink-0' />
-                          <span>Desktop size</span>
+                          <span>Aged reinstated Asset</span>
                         </div>
                         <div className='bg-muted flex items-center gap-3 rounded-sm p-2'>
                           <Table2Icon className='size-5 shrink-0' />
-                          <span>Payments</span>
+                          <span>Service variety</span>
                         </div>
                       </CardContent>
                     </Card>
@@ -216,22 +157,13 @@ const BentoGrid = () => {
                     <Card className='h-full min-w-52 pb-0 shadow-lg'>
                       <CardContent className='flex flex-1 flex-col gap-4 px-4'>
                         <div className='flex gap-2'>
-                          <img
-                            src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/claude-icon.png?width=28&format=auto'
-                            alt='Claude Logo'
-                            className='size-7'
-                          />
-                          <img
-                            src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/github-icon.png?width=28&format=auto'
-                            alt='GitHub Logo'
-                            className='size-7 dark:invert'
-                          />
+                          <TikTokLogo className='size-7' />
+                          <GoogleLogo className='size-7' />
                         </div>
                         <div className='relative flex h-full max-h-46 flex-col gap-4 overflow-hidden pt-4 pl-7.5'>
                           <span className='bg-border absolute inset-y-0 left-2.75 w-0.5 rounded-full' />
-                          <CommitItem message='Commits on 28, APR' />
-                          <CommitItem message='Commits on 04, APR' />
-                          <CommitItem message='Commits on 23, MAR' />
+                          <CommitItem message='Flexible payment options' />
+                          <CommitItem message='Committed to customer trust' />
                           <div className='from-card absolute inset-x-0 top-0 h-4 bg-gradient-to-b to-transparent' />
                           <div className='from-card absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t to-transparent' />
                         </div>
@@ -248,17 +180,9 @@ const BentoGrid = () => {
                     <Card className='h-full min-w-52 overflow-hidden shadow-lg'>
                       <CardContent className='flex h-full flex-col gap-4'>
                         <div className='flex gap-2'>
-                          <Logo className='size-7 shrink-0' />
-                          <img
-                            src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/react-logo.png?width=28&format=auto'
-                            alt='React Logo'
-                            className='size-7'
-                          />
-                          <img
-                            src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/claude-icon.png?width=28&format=auto'
-                            alt='Claude Logo'
-                            className='size-7'
-                          />
+                          <MetaLogo className='size-7' />
+                          <GoogleLogo className='size-7' />
+                          <TikTokLogo className='size-7' />
                         </div>
                         <div className='grid h-full place-content-center'>
                           <div className='relative z-1 flex h-full flex-col items-center justify-center'>

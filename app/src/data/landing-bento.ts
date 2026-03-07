@@ -61,14 +61,12 @@ export const STAY_INFORMED_DATA: StayInformedItem[] = [
 // --- bento-grid-10: card-ask-plain-language ---
 
 export const BENTO10_CHATS: string[] = [
-  'Create a sidebar layout with icons and labels',
-  'Generate a login form with email and password',
-  'Turn this card into a responsive UI block',
-  'Convert this Figma design to Tailwind + React code',
-  'Create a dashboard layout with a sidebar & widgets.',
-  'Create a sidebar layout with icons and labels',
-  'Generate a login form with email and password',
-  'Turn this card into a responsive UI block',
-  'Convert this Figma design to Tailwind + React code',
-  'Create a dashboard layout with a sidebar & widgets.',
+  'Huge thanks to GoAds for the fast support and reliable service',
+  'Thank you GoAds for the quick help and professional service',
+  'Really appreciate the support from GoAds, great service as always.',
+  'Thank you GoAds for the amazing support and smooth service, truly appreciate the help!',
+  'Huge thanks to GoAds for the fast support and reliable service',
+  'Thank you GoAds for the quick help and professional service',
+  'Really appreciate the support from GoAds, great service as always.',
+  'Thank you GoAds for the amazing support and smooth service, truly appreciate the help!',
 ]

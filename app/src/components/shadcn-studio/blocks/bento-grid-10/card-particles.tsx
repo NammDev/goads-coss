@@ -4,6 +4,7 @@ import { Particles } from '@/components/ui/particles'
 
 import Logo from '@/assets/svg/logo'
 import Rocket from '@/assets/svg/rocket'
+import { MetaLogo, GoogleLogo } from '@/assets/svg/ad-platform-logos'
 
 const CardParticles = () => {
   return (
@@ -22,18 +23,10 @@ const CardParticles = () => {
             <Logo className='size-8' />
           </span>
           <span className='bg-card grid size-12 place-content-center overflow-hidden rounded-full border shadow-[4px_15px_32px_0_rgba(0,0,0,0.40)]'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/react-logo.png?width=32&format=auto'
-              alt='React Logo'
-              className='size-8'
-            />
+            <MetaLogo className='size-8' />
           </span>
           <span className='bg-card grid size-12 place-content-center overflow-hidden rounded-full border shadow-[4px_15px_32px_0_rgba(0,0,0,0.40)]'>
-            <img
-              src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/claude-icon.png?width=32&format=auto'
-              alt='Claude Logo'
-              className='size-8'
-            />
+            <GoogleLogo className='size-8' />
           </span>
         </div>
       </MotionPreset>
