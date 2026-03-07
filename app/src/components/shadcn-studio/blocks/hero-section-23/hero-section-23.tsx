@@ -22,13 +22,29 @@ import BmHierarchyCard from '@/components/shadcn-studio/blocks/bm-hierarchy-card
 
 import { HERO_SECTION_WORDS as words } from '@/data/landing-hero'
 
-type Avatar = {
+type AvatarItem = {
   src: string
   fallback: string
   name: string
-}[]
+}
 
-const HeroSection = ({ avatars }: { avatars: Avatar }) => {
+interface HeroSectionProps {
+  avatars: AvatarItem[]
+  heading?: string
+  subheading?: React.ReactNode
+  primaryCta?: { label: string; href: string }
+  secondaryCta?: { label: string; href: string }
+  card3?: React.ReactNode
+}
+
+const HeroSection = ({
+  avatars,
+  heading = 'Buy Meta Business Manager',
+  subheading,
+  primaryCta = { label: 'Get Your BM Today', href: '/#pricing' },
+  secondaryCta = { label: 'Talk to Support', href: 'https://t.me/GoAdsSupport' },
+  card3,
+}: HeroSectionProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const cardRef1 = useRef<HTMLDivElement>(null)
   const cardRef2 = useRef<HTMLDivElement>(null)
@@ -56,13 +72,12 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
               </MotionPreset>
               <MotionPreset fade slide={{ offset: 50 }} blur transition={{ duration: 0.5 }} delay={0.3}>
                 <h1 className='inline max-w-3xl text-3xl leading-[1.29167] font-bold sm:text-4xl lg:text-5xl'>
-                  Buy Meta Business Manager
+                  {heading}
                 </h1>
               </MotionPreset>
               <MotionPreset fade slide={{ offset: 50 }} blur transition={{ duration: 0.5 }} delay={0.5}>
                 <p className='text-muted-foreground text-xl'>
-                  Stop worrying about BM restrictions and unstable assets.
-                  GoAds provides <strong>high-quality Meta Business Managers ready for scaling</strong>, trusted by agencies and media buyers worldwide.
+                  {subheading ?? (<>Stop worrying about BM restrictions and unstable assets. GoAds provides <strong>high-quality Meta Business Managers ready for scaling</strong>, trusted by agencies and media buyers worldwide.</>)}
                 </p>
               </MotionPreset>
               <MotionPreset
@@ -79,14 +94,14 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
                   size='lg'
                   className='relative w-fit overflow-hidden rounded-full text-base before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:transition-[background-position_0s_ease] before:duration-1000 hover:before:bg-[position:-100%_0,0_0] has-[>svg]:px-6 dark:before:bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.2)_50%,transparent_75%,transparent_100%)]'
                 >
-                  <a href='/#pricing'>
-                    Get Your BM Today
+                  <a href={primaryCta.href}>
+                    {primaryCta.label}
                     <RocketIcon />
                   </a>
                 </Button>
                 <Button asChild variant='outline' className='rounded-full text-base has-[>svg]:px-6' size='lg'>
-                  <a href='https://t.me/GoAdsSupport' target='_blank' rel='noopener noreferrer'>
-                    Talk to Support
+                  <a href={secondaryCta.href} target='_blank' rel='noopener noreferrer'>
+                    {secondaryCta.label}
                     <MessageSquareMoreIcon />
                   </a>
                 </Button>
@@ -193,7 +208,7 @@ const HeroSection = ({ avatars }: { avatars: Avatar }) => {
             </div>
             <div ref={chartRef} className='flex w-full items-center justify-center px-2'>
               <div className='relative w-fit'>
-                <BmHierarchyCard className='sm:w-full sm:max-w-100' />
+                {card3 ?? <BmHierarchyCard className='sm:w-full sm:max-w-100' />}
                 <div className='bg-background absolute -inset-2 -z-1 rounded-xl border'>
                   <BorderBeam duration={15} size={60} colorFrom='var(--primary)' colorTo='var(--primary)' />
                 </div>
