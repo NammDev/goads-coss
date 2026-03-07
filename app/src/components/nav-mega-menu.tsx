@@ -42,7 +42,7 @@ function MenuItem({
   href: string
 }) {
   const isExternal = href.startsWith('http')
-  const cls = "flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+  const cls = "flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-primary/10 hover:text-foreground focus:bg-primary/10 focus:text-foreground focus:outline-none"
   return (
     <NavigationMenuLink asChild>
       {isExternal ? (
@@ -119,7 +119,7 @@ function CtaCard({
           {secondaryLabel && secondaryHref && (
             <Link
               href={secondaryHref}
-              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-primary/10 hover:text-foreground"
             >
               {secondaryLabel}
             </Link>
@@ -243,10 +243,10 @@ function ToolsPanel() {
 /* ---------- trigger style ---------- */
 
 const triggerClass =
-  'text-sm text-muted-foreground transition-all hover:text-accent-foreground hover:bg-accent! focus:bg-accent! bg-transparent! data-[state=open]:bg-accent! data-[state=open]:text-accent-foreground px-2.5! h-auto! py-1.5! font-normal! gap-0.5 rounded-md! cursor-pointer'
+  'text-sm text-muted-foreground transition-all hover:text-foreground hover:bg-primary/10! focus:bg-primary/10! bg-transparent! data-[state=open]:bg-primary/10! data-[state=open]:text-foreground px-2.5! h-auto! py-1.5! font-normal! gap-0.5 rounded-md! cursor-pointer'
 
 const linkClass =
-  'text-sm text-muted-foreground transition-all hover:text-accent-foreground hover:bg-accent rounded-md px-2.5 py-1.5'
+  'text-sm text-muted-foreground transition-all hover:text-foreground hover:bg-primary/10 rounded-md px-2.5 py-1.5'
 
 /* ---------- main export ---------- */
 

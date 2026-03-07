@@ -4,7 +4,8 @@ import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonial
 import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { SectionDivider } from '@/components/section-divider'
-import { avatars, bmCategories, upsells, reviews, faqTabsData } from './bm-page-data'
+import { avatars, bmCategories, upsells, reviews } from './bm-page-data'
+import { faqTabsData } from '@/data/landing-faq'
 
 export default function BMPage() {
   return (

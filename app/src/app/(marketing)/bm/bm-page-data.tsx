@@ -7,7 +7,6 @@ import {
 import type { ProductCategory, UpsellItem } from '@/components/product-catalog'
 
 export { reviews } from '@/data/landing-reviews-pricing-faq'
-export { faqTabsData } from '@/data/landing-faq'
 
 export const avatars = [
   {
