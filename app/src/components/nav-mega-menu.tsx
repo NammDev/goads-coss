@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { ArrowRightIcon, WrenchIcon } from 'lucide-react'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,12 +12,12 @@ import {
 } from '@/components/ui/navigation-menu'
 import {
   AGENCY_ACCOUNTS,
-  META_ASSETS,
-  TIKTOK_ASSETS,
+  PRODUCT_ASSETS,
+  PRODUCT_SERVICES,
   RESOURCES_COMPANY,
   RESOURCES_LEARN,
   RESOURCES_SUPPORT,
-  TOOLS_ALL,
+  TOOLS_LIST,
 } from '@/components/nav-mega-menu-data'
 
 /* ---------- shared sub-components ---------- */
@@ -41,15 +42,11 @@ function MenuItem({
   href: string
 }) {
   const isExternal = href.startsWith('http')
+  const cls = "flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
   return (
     <NavigationMenuLink asChild>
       {isExternal ? (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
-        >
+        <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
           <MenuIcon Icon={Icon} />
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-foreground leading-snug">{title}</p>
@@ -57,10 +54,7 @@ function MenuItem({
           </div>
         </a>
       ) : (
-        <Link
-          href={href}
-          className="flex flex-row items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
-        >
+        <Link href={href} className={cls}>
           <MenuIcon Icon={Icon} />
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-foreground leading-snug">{title}</p>
@@ -86,111 +80,102 @@ function MenuColumn({ label, items }: { label: string; items: typeof AGENCY_ACCO
       <ColumnLabel>{label}</ColumnLabel>
       <ul className="space-y-0.5">
         {items.map(item => (
-          <li key={item.href}><MenuItem {...item} /></li>
+          <li key={item.href + item.title}><MenuItem {...item} /></li>
         ))}
       </ul>
     </div>
   )
 }
 
-/* ---------- 1. Agency Accounts (single column + CTA) ---------- */
+function CtaCard({
+  title,
+  description,
+  primaryLabel,
+  primaryHref,
+  secondaryLabel,
+  secondaryHref,
+}: {
+  title: string
+  description: string
+  primaryLabel: string
+  primaryHref: string
+  secondaryLabel?: string
+  secondaryHref?: string
+}) {
+  return (
+    <div className="w-52 shrink-0">
+      <div className="flex h-full flex-col justify-between rounded-xl border border-border/60 bg-muted/40 p-4">
+        <div>
+          <p className="text-sm font-semibold text-foreground">{title}</p>
+          <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">{description}</p>
+        </div>
+        <div className="mt-4 space-y-2">
+          <Link
+            href={primaryHref}
+            className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+          >
+            {primaryLabel}
+          </Link>
+          {secondaryLabel && secondaryHref && (
+            <Link
+              href={secondaryHref}
+              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              {secondaryLabel}
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ---------- 1. Agency Accounts ---------- */
 
 function AgencyPanel() {
   return (
     <div className="flex gap-4 p-4">
       <MenuColumn label="By Platform" items={AGENCY_ACCOUNTS} />
-
-      {/* Ready-to-Use Setups */}
-      <div className="w-52 shrink-0">
-        <div className="flex h-full flex-col justify-between rounded-xl border border-border/60 bg-muted/40 p-4">
-          <div>
-            <p className="text-sm font-semibold text-foreground">Ready-to-Use Setups</p>
-            <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-              Skip the hassle — BMs, profiles, pages, pixels &amp; domains fully configured.
-            </p>
-          </div>
-          <div className="mt-4 space-y-2">
-            <Link
-              href="/pricing"
-              className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
-            >
-              Explore Setups
-            </Link>
-            <Link
-              href="/talk-to-sales"
-              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            >
-              Custom Setup
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Need agency accounts? */}
-      <div className="w-52 shrink-0">
-        <div className="flex h-full flex-col justify-between rounded-xl border border-border/60 bg-muted/40 p-4">
-          <div>
-            <p className="text-sm font-semibold text-foreground">Need agency accounts?</p>
-            <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-              7-day warranty, verified agency setup, and &lt;2h support response.
-            </p>
-          </div>
-          <div className="mt-4 space-y-2">
-            <Link
-              href="/pricing"
-              className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
-            >
-              View Pricing
-            </Link>
-            <Link
-              href="/talk-to-sales"
-              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            >
-              Talk to Sales
-            </Link>
-          </div>
-        </div>
-      </div>
+      <CtaCard
+        title="Ready-to-Use Setups"
+        description="Skip the hassle — BMs, profiles, pages, pixels & domains fully configured."
+        primaryLabel="Explore Setups"
+        primaryHref="/pricing"
+        secondaryLabel="Talk to Sales"
+        secondaryHref="/talk-to-sales"
+      />
+      <CtaCard
+        title="Need agency accounts?"
+        description="7-day warranty, verified agency setup, and <2h support response."
+        primaryLabel="View Pricing"
+        primaryHref="/pricing"
+        secondaryLabel="Talk to Sales"
+        secondaryHref="/talk-to-sales"
+      />
     </div>
   )
 }
 
-/* ---------- 2. Products (Meta + TikTok + CTA) ---------- */
+/* ---------- 2. Products (Assets + Services + CTA) ---------- */
 
 function ProductsPanel() {
   return (
     <div className="flex gap-4 p-4">
-      <MenuColumn label="Meta Assets" items={META_ASSETS} />
-      <MenuColumn label="TikTok Assets" items={TIKTOK_ASSETS} />
-      <div className="w-52 shrink-0">
-        <div className="flex h-full flex-col justify-between rounded-xl border border-border/60 bg-muted/40 p-4">
-          <div>
-            <p className="text-sm font-semibold text-foreground">Ready-to-Use Setups</p>
-            <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-              Skip the hassle. Get a complete ad infrastructure — BMs, profiles, pages, pixels &amp; domains — fully configured and ready to run ads.
-            </p>
-          </div>
-          <div className="mt-4 space-y-2">
-            <Link
-              href="/pricing"
-              className="btn-cta-glow inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
-            >
-              Explore Setups
-            </Link>
-            <Link
-              href="/talk-to-sales"
-              className="inline-flex w-full items-center justify-center rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-muted"
-            >
-              Custom Setup
-            </Link>
-          </div>
-        </div>
-      </div>
+      <MenuColumn label="Assets" items={PRODUCT_ASSETS} />
+      <MenuColumn label="Services" items={PRODUCT_SERVICES} />
+      <CtaCard
+        title="Ready-to-Use Setups"
+        description="Complete ad infrastructure — BMs, profiles, pages, pixels & domains — fully configured."
+        primaryLabel="Explore Setups"
+        primaryHref="/pricing"
+        secondaryLabel="Talk to Sales"
+        secondaryHref="/talk-to-sales"
+      />
     </div>
   )
 }
 
-/* ---------- 3. Resources (Company + Learn + Support) ---------- */
+/* ---------- 3. Resources ---------- */
 
 function ResourcesPanel() {
   return (
@@ -198,6 +183,59 @@ function ResourcesPanel() {
       <MenuColumn label="Company" items={RESOURCES_COMPANY} />
       <MenuColumn label="Learn" items={RESOURCES_LEARN} />
       <MenuColumn label="Support" items={RESOURCES_SUPPORT} />
+    </div>
+  )
+}
+
+/* ---------- 4. Tools (list + visual CTA) ---------- */
+
+function ToolsPanel() {
+  return (
+    <div className="flex gap-4 p-4">
+      <div className="w-64">
+        <ColumnLabel>Free Tools</ColumnLabel>
+        <ul className="space-y-0.5">
+          {TOOLS_LIST.slice(0, 5).map(item => (
+            <li key={item.href}><MenuItem {...item} /></li>
+          ))}
+        </ul>
+      </div>
+      <div className="w-64">
+        <ColumnLabel>&nbsp;</ColumnLabel>
+        <ul className="space-y-0.5">
+          {TOOLS_LIST.slice(5).map(item => (
+            <li key={item.href}><MenuItem {...item} /></li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Visual CTA card linking to /tools */}
+      <div className="w-56 shrink-0">
+        <div className="flex h-full flex-col justify-between rounded-xl border border-border/60 bg-muted/40 p-4">
+          {/* Decorative illustration */}
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex items-center justify-center rounded-xl bg-primary/10 p-4">
+              <div className="relative">
+                <WrenchIcon className="size-8 text-primary" />
+                <div className="absolute -right-1 -top-1 size-3 rounded-full bg-primary animate-pulse" />
+              </div>
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-semibold text-foreground">GoAds Toolbox</p>
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                9 free tools built for media buyers — data processing, security & utilities.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/tools"
+            className="btn-cta-glow mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+          >
+            Browse All Tools
+            <ArrowRightIcon className="size-3.5" />
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }
@@ -245,9 +283,12 @@ export function NavMegaMenu() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href={TOOLS_ALL[0].href} className={linkClass}>
+          <NavigationMenuTrigger className={triggerClass}>
             Tools
-          </Link>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ToolsPanel />
+          </NavigationMenuContent>
         </NavigationMenuItem>
 
         <NavigationMenuItem>

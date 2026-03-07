@@ -9,12 +9,13 @@ import {
   UserIcon,
   FileTextIcon,
   VideoIcon,
-  PackageIcon,
+  ShieldBan,
+  BadgeCheck,
+  ShieldCheck,
   Users,
   HelpCircle,
   BookOpen,
   FileText,
-  MessageCircle,
   Handshake,
   Menu,
   Star,
@@ -24,7 +25,6 @@ import {
   Wrench,
   Phone,
   HeartHandshake,
-  ExternalLink,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -46,19 +46,21 @@ const AGENCY_ACCOUNTS = [
   { icon: Globe, title: 'TikTok Agency Accounts', href: '/tiktok-agency' },
 ]
 
-/* ====== Products — Meta Assets ====== */
+/* ====== Products — Assets ====== */
 
-const META_ASSETS = [
+const PRODUCT_ASSETS = [
   { icon: Briefcase, title: 'Business Managers', href: '/bm' },
   { icon: UserIcon, title: 'Facebook Profiles', href: '/profiles' },
   { icon: FileTextIcon, title: 'Facebook Pages', href: '/pages' },
-  { icon: PackageIcon, title: 'Meta Other Services', href: '/meta-services' },
+  { icon: VideoIcon, title: 'TikTok Assets', href: '/tiktok-accounts' },
 ]
 
-/* ====== Products — TikTok Assets ====== */
+/* ====== Products — Services ====== */
 
-const TIKTOK_ASSETS = [
-  { icon: VideoIcon, title: 'TikTok Accounts', href: '/tiktok-accounts' },
+const PRODUCT_SERVICES = [
+  { icon: ShieldBan, title: 'Unban Meta Assets', href: '/unban' },
+  { icon: BadgeCheck, title: 'Blue Verification', href: '/blue-verification' },
+  { icon: ShieldCheck, title: 'Verified Business Manager', href: '/bm' },
 ]
 
 /* ====== Resources — Company ====== */
@@ -74,7 +76,7 @@ const RESOURCES_COMPANY = [
 
 const RESOURCES_LEARN = [
   { icon: BookOpen, title: 'Blog', href: '/blog' },
-  { icon: FileText, title: 'Documentation', href: '/doc' },
+  { icon: FileText, title: 'Documentation', href: '/docs' },
   { icon: Star, title: 'Reviews', href: '/reviews' },
   { icon: CircleHelp, title: 'FAQ', href: '/faq' },
 ]
@@ -85,7 +87,6 @@ const RESOURCES_SUPPORT = [
   { icon: HelpCircle, title: 'Help Center', href: '/help' },
   { icon: CreditCard, title: 'Payment Methods', href: '/payment' },
   { icon: Phone, title: 'Talk to Sales', href: '/talk-to-sales' },
-  { icon: MessageCircle, title: 'Telegram Support', href: 'https://t.me/GoAdsSupport', external: true },
 ]
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -96,22 +97,13 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-function DrawerItem({ icon: Icon, title, href, external }: { icon: React.ElementType; title: string; href: string; external?: boolean }) {
-  const cls = "flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-foreground transition-colors hover:bg-muted/60"
+function DrawerItem({ icon: Icon, title, href }: { icon: React.ElementType; title: string; href: string }) {
   return (
     <SheetClose asChild>
-      {external ? (
-        <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
-          <Icon className="size-4 text-muted-foreground" />
-          {title}
-          <ExternalLink className="ml-auto size-3.5 text-muted-foreground" />
-        </a>
-      ) : (
-        <Link href={href} className={cls}>
-          <Icon className="size-4 text-muted-foreground" />
-          {title}
-        </Link>
-      )}
+      <Link href={href} className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-foreground transition-colors hover:bg-muted/60">
+        <Icon className="size-4 text-muted-foreground" />
+        {title}
+      </Link>
     </SheetClose>
   )
 }
@@ -126,7 +118,6 @@ export function NavMobileDrawer() {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-80 overflow-y-auto p-0">
-        {/* Logo + title */}
         <SheetHeader className="flex flex-row items-center gap-2.5 px-5 py-4">
           <SsLogo />
           <SheetTitle className="text-lg font-semibold">goads/agency</SheetTitle>
@@ -135,61 +126,43 @@ export function NavMobileDrawer() {
         {/* Agency Accounts */}
         <div className="flex flex-col gap-0.5 px-3 pb-3">
           <SectionLabel>Agency Accounts</SectionLabel>
-          {AGENCY_ACCOUNTS.map(item => (
-            <DrawerItem key={item.href} {...item} />
-          ))}
+          {AGENCY_ACCOUNTS.map(item => <DrawerItem key={item.href} {...item} />)}
         </div>
-
         <Separator />
 
-        {/* Products: Meta Assets */}
+        {/* Products: Assets */}
         <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>Meta Assets</SectionLabel>
-          {META_ASSETS.map(item => (
-            <DrawerItem key={item.href} {...item} />
-          ))}
+          <SectionLabel>Assets</SectionLabel>
+          {PRODUCT_ASSETS.map(item => <DrawerItem key={item.href} {...item} />)}
         </div>
-
         <Separator />
 
-        {/* Products: TikTok Assets */}
+        {/* Products: Services */}
         <div className="flex flex-col gap-0.5 px-3 py-3">
-          <SectionLabel>TikTok Assets</SectionLabel>
-          {TIKTOK_ASSETS.map(item => (
-            <DrawerItem key={item.href} {...item} />
-          ))}
+          <SectionLabel>Services</SectionLabel>
+          {PRODUCT_SERVICES.map(item => <DrawerItem key={item.title} {...item} />)}
         </div>
-
         <Separator />
 
         {/* Resources: Company */}
         <div className="flex flex-col gap-0.5 px-3 py-3">
           <SectionLabel>Company</SectionLabel>
-          {RESOURCES_COMPANY.map(item => (
-            <DrawerItem key={item.href} {...item} />
-          ))}
+          {RESOURCES_COMPANY.map(item => <DrawerItem key={item.href} {...item} />)}
         </div>
-
         <Separator />
 
         {/* Resources: Learn */}
         <div className="flex flex-col gap-0.5 px-3 py-3">
           <SectionLabel>Learn</SectionLabel>
-          {RESOURCES_LEARN.map(item => (
-            <DrawerItem key={item.href} {...item} />
-          ))}
+          {RESOURCES_LEARN.map(item => <DrawerItem key={item.href} {...item} />)}
         </div>
-
         <Separator />
 
         {/* Resources: Support */}
         <div className="flex flex-col gap-0.5 px-3 py-3">
           <SectionLabel>Support</SectionLabel>
-          {RESOURCES_SUPPORT.map(item => (
-            <DrawerItem key={item.href} {...item} />
-          ))}
+          {RESOURCES_SUPPORT.map(item => <DrawerItem key={item.href} {...item} />)}
         </div>
-
         <Separator />
 
         {/* Tools */}

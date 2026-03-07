@@ -6,20 +6,28 @@ import {
   UserIcon,
   FileTextIcon,
   VideoIcon,
-  PackageIcon,
+  ShieldBan,
+  BadgeCheck,
+  ShieldCheck,
   HelpCircle,
   BookOpen,
   Users,
-  MessageCircle,
   Handshake,
   Star,
   CreditCard,
   Trophy,
   CircleHelp,
-  Wrench,
   FileText,
   Phone,
   HeartHandshake,
+  Shield,
+  Cookie,
+  ListFilter,
+  Scissors,
+  Copy,
+  Merge,
+  StickyNote,
+  ImagePlus,
 } from 'lucide-react'
 
 /* ====== Agency Accounts ====== */
@@ -45,9 +53,9 @@ export const AGENCY_ACCOUNTS = [
   },
 ]
 
-/* ====== Products — Meta Assets ====== */
+/* ====== Products — Assets ====== */
 
-export const META_ASSETS = [
+export const PRODUCT_ASSETS = [
   {
     icon: Briefcase,
     title: 'Business Managers',
@@ -67,21 +75,33 @@ export const META_ASSETS = [
     href: '/pages',
   },
   {
-    icon: PackageIcon,
-    title: 'Meta Other Services',
-    description: 'Pixels, domains, fan pages & more',
-    href: '/meta-services',
+    icon: VideoIcon,
+    title: 'TikTok Assets',
+    description: 'Business Center, Shop & Channels',
+    href: '/tiktok-accounts',
   },
 ]
 
-/* ====== Products — TikTok Assets (single route) ====== */
+/* ====== Products — Services ====== */
 
-export const TIKTOK_ASSETS = [
+export const PRODUCT_SERVICES = [
   {
-    icon: VideoIcon,
-    title: 'TikTok Accounts',
-    description: 'Business Center, Shop & Channels — all in one',
-    href: '/tiktok-accounts',
+    icon: ShieldBan,
+    title: 'Unban Meta Assets',
+    description: 'Recover disabled BMs, profiles & pages',
+    href: '/unban',
+  },
+  {
+    icon: BadgeCheck,
+    title: 'Blue Verification',
+    description: 'Verified badge for Pages & Instagram',
+    href: '/blue-verification',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Verified Business Manager',
+    description: 'Meta-verified BMs with higher trust scores',
+    href: '/bm',
   },
 ]
 
@@ -164,21 +184,18 @@ export const RESOURCES_SUPPORT = [
     description: 'Book a 1-on-1 consultation',
     href: '/talk-to-sales',
   },
-  {
-    icon: MessageCircle,
-    title: 'Telegram Support',
-    description: 'Chat with @GoAdsSupport',
-    href: 'https://t.me/GoAdsSupport',
-  },
 ]
 
-/* ====== GoAds Tools (single route) ====== */
+/* ====== Tools ====== */
 
-export const TOOLS_ALL = [
-  {
-    icon: Wrench,
-    title: 'GoAds Tools',
-    description: 'Extensions, utilities & partner tools',
-    href: '/tools',
-  },
+export const TOOLS_LIST = [
+  { icon: Shield, title: '2FA Generator', description: 'Generate TOTP codes', href: '/tools/2fa' },
+  { icon: Cookie, title: 'Cookie Converter', description: 'JSON to UID|Pass|Cookie', href: '/tools/cookie' },
+  { icon: ListFilter, title: 'Account Filter', description: 'Parse & reformat accounts', href: '/tools/filter' },
+  { icon: Scissors, title: 'Split Data', description: 'Split text by delimiter', href: '/tools/split-data' },
+  { icon: Copy, title: 'Remove Duplicates', description: 'Deduplicate text lines', href: '/tools/remove-duplicates' },
+  { icon: Merge, title: 'Filter & Merge', description: 'Combine & merge by key', href: '/tools/merge' },
+  { icon: StickyNote, title: 'Online Notepad', description: 'Quick browser-saved notes', href: '/tools/notepad' },
+  { icon: Globe, title: 'IP Checker', description: 'Public IP & location info', href: '/tools/check-ip' },
+  { icon: ImagePlus, title: 'Batch Watermark', description: 'Watermark multiple images', href: '/tools/batch-watermark' },
 ]
