@@ -6,7 +6,7 @@ import Milestone2021 from '@/components/shadcn-studio/blocks/timeline-component-
 import Milestone2019 from '@/components/shadcn-studio/blocks/timeline-component-05/content/milestone-2019'
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
-import { PageHero } from '@/components/page-hero'
+import { PageHeroBig } from '@/components/page-hero-big'
 import { WavyUnderline } from '@/components/section-header'
 
 const releases: Release[] = [
@@ -35,8 +35,9 @@ const releases: Release[] = [
 export default function MilestonesPage() {
   return (
     <main className='flex-1'>
-      <PageHero
-        label='Our Journey'
+      <PageHeroBig
+        badge='Our Journey'
+        tagline='From day one to 500+ clients worldwide.'
         heading={
           <>
             Key{' '}
@@ -47,6 +48,10 @@ export default function MilestonesPage() {
           </>
         }
         description='From a small team helping local advertisers to a full-stack ad infrastructure platform serving 500+ clients in 30+ countries.'
+        ctas={[
+          { label: 'Get Started', href: '/#pricing' },
+          { label: 'Contact Us', href: '/help', variant: 'outline' },
+        ]}
       />
       <SectionDivider />
       <section className='py-8 sm:py-16 lg:py-24'>

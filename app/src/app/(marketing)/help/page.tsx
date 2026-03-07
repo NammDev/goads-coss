@@ -1,6 +1,6 @@
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
-import { PageHeroBig } from '@/components/page-hero-big'
+import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -73,9 +73,8 @@ const helpCategories = [
 export default function HelpPage() {
   return (
     <main className='flex-1'>
-      <PageHeroBig
-        badge='Support'
-        tagline='We are here to help you succeed.'
+      <PageHero
+        label='Support'
         heading={
           <>
             How Can We{' '}
@@ -87,10 +86,6 @@ export default function HelpPage() {
           </>
         }
         description='Find answers, get support, and learn how to make the most of GoAds products and services.'
-        ctas={[
-          { label: 'Chat on Telegram', href: 'https://t.me/GoAdsSupport', external: true },
-          { label: 'Browse FAQ', href: '/faq', variant: 'outline' },
-        ]}
       />
       <SectionDivider />
 
