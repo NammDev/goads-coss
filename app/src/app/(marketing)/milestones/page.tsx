@@ -8,6 +8,7 @@ import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { PageHeroBig } from '@/components/page-hero-big'
 import { WavyUnderline } from '@/components/section-header'
+import { MilestonesIllustration } from '@/components/hero-illustrations/milestones-illustration'
 
 const releases: Release[] = [
   {
@@ -52,22 +53,7 @@ export default function MilestonesPage() {
           { label: 'Get Started', href: '/#pricing' },
           { label: 'Contact Us', href: '/help', variant: 'outline' },
         ]}
-        illustration={
-          <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt="Hero illustration"
-              className="h-93.5 dark:hidden"
-              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1.png?height=374&format=auto"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt="Hero illustration dark"
-              className="hidden h-93.5 dark:block"
-              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1-dark.png?height=374&format=auto"
-            />
-          </div>
-        }
+        illustration={<MilestonesIllustration className="h-93.5" />}
       />
       <SectionDivider />
       <section className='py-8 sm:py-16 lg:py-24'>

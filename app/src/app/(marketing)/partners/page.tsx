@@ -93,13 +93,13 @@ export default function PartnersPage() {
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              alt="Hero illustration"
+              alt="Partners hero illustration"
               className="h-93.5 dark:hidden"
               src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1.png?height=374&format=auto"
             />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              alt="Hero illustration dark"
+              alt="Partners hero illustration dark"
               className="hidden h-93.5 dark:block"
               src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1-dark.png?height=374&format=auto"
             />

@@ -19,7 +19,7 @@ import {
   CircleHelp,
   FileText,
   Phone,
-  HeartHandshake,
+
   Shield,
   Cookie,
   ListFilter,
@@ -125,12 +125,6 @@ export const RESOURCES_COMPANY = [
     title: 'Partner Offers',
     description: 'Exclusive deals from our partners',
     href: '/partners',
-  },
-  {
-    icon: HeartHandshake,
-    title: 'Become a Partner',
-    description: 'Earn commissions as an affiliate',
-    href: '/affiliate',
   },
 ]
 
