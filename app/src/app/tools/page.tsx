@@ -5,6 +5,7 @@ import { SectionDivider } from "@/components/section-divider";
 import { WavyUnderline } from "@/components/section-header";
 import CTASection from "@/components/shadcn-studio/blocks/cta-section-05/cta-section-05";
 import { ToolsHubContent } from "@/components/tools-hub-content";
+import { ToolsIllustration } from "@/components/hero-illustrations/tools-illustration";
 
 export const metadata: Metadata = {
   title: "Free Online Tools for Ads Management | GoAds",
@@ -41,22 +42,7 @@ export default function ToolsHubPage() {
           { label: "Browse Tools", href: "#tools" },
           { label: "Talk to Sales", href: "/talk-to-sales", variant: "outline" },
         ]}
-        illustration={
-          <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt="Hero illustration"
-              className="h-93.5 dark:hidden"
-              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1.png?height=374&format=auto"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt="Hero illustration dark"
-              className="hidden h-93.5 dark:block"
-              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1-dark.png?height=374&format=auto"
-            />
-          </div>
-        }
+        illustration={<ToolsIllustration className="h-93.5" />}
       />
       <SectionDivider />
 

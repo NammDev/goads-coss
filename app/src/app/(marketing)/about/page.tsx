@@ -2,7 +2,7 @@ import AboutUs from '@/components/shadcn-studio/blocks/about-us-page-03/about-us
 import Team from '@/components/shadcn-studio/blocks/team-section-05/team-section-05'
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
-import { PageHeroBig } from '@/components/page-hero-big'
+import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
 
 /* ---------- About Us data ---------- */
@@ -80,12 +80,7 @@ const teamMembers = [
     role: 'CEO & Founder',
     description:
       'Serial entrepreneur with 8+ years in digital advertising. David founded GoAds to solve the account instability problem that plagues media buyers worldwide.',
-    socialLinks: {
-      facebook: '#',
-      twitter: '#',
-      github: '#',
-      instagram: '#',
-    },
+    socialLinks: { facebook: '#', twitter: '#', github: '#', instagram: '#' },
   },
   {
     image: 'https://cdn.shadcnstudio.com/ss-assets/blocks/marketing/team/team-2.png',
@@ -94,12 +89,7 @@ const teamMembers = [
     role: 'COO',
     description:
       'Operations expert who ensures every account is delivered on time with quality. Sarah oversees our 7-day warranty program and client success initiatives.',
-    socialLinks: {
-      facebook: '#',
-      twitter: '#',
-      github: '#',
-      instagram: '#',
-    },
+    socialLinks: { facebook: '#', twitter: '#', github: '#', instagram: '#' },
   },
   {
     image: 'https://cdn.shadcnstudio.com/ss-assets/blocks/marketing/team/team-3.png',
@@ -108,12 +98,7 @@ const teamMembers = [
     role: 'CTO',
     description:
       'Full-stack engineer building the tools and automation behind GoAds. From browser extensions to account monitoring — Michael makes the tech work.',
-    socialLinks: {
-      facebook: '#',
-      twitter: '#',
-      github: '#',
-      instagram: '#',
-    },
+    socialLinks: { facebook: '#', twitter: '#', github: '#', instagram: '#' },
   },
   {
     image: 'https://cdn.shadcnstudio.com/ss-assets/blocks/marketing/team/team-4.png',
@@ -122,12 +107,7 @@ const teamMembers = [
     role: 'Head of Support',
     description:
       'Leading our <2h response support team. Lisa and her team handle account issues, replacements, and setup consultations via Telegram and live chat.',
-    socialLinks: {
-      facebook: '#',
-      twitter: '#',
-      github: '#',
-      instagram: '#',
-    },
+    socialLinks: { facebook: '#', twitter: '#', github: '#', instagram: '#' },
   },
 ]
 
@@ -136,9 +116,8 @@ const teamMembers = [
 export default function AboutPage() {
   return (
     <main className="flex-1">
-      <PageHeroBig
-        badge="About Us"
-        tagline="Meet the team behind your ad infrastructure."
+      <PageHero
+        label="About Us"
         heading={
           <>
             The Team Behind{' '}
@@ -149,25 +128,6 @@ export default function AboutPage() {
           </>
         }
         description="5+ years of helping advertisers scale with premium ad infrastructure, verified accounts, and dedicated support."
-        ctas={[
-          { label: 'View Our Plans', href: '/#pricing' },
-        ]}
-        illustration={
-          <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt="Hero illustration"
-              className="h-93.5 dark:hidden"
-              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1.png?height=374&format=auto"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt="Hero illustration dark"
-              className="hidden h-93.5 dark:block"
-              src="https://cdn.shadcnstudio.com/ss-assets/landing-page/ambassador/image-1-dark.png?height=374&format=auto"
-            />
-          </div>
-        }
       />
       <SectionDivider />
       <AboutUs aboutUsData={aboutUsData} />
