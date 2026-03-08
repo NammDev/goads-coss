@@ -62,7 +62,7 @@ function CraftButton(props: CraftButtonProps) {
         size={size}
         asChild={asChild}
         className={cn(
-          'group relative cursor-pointer rounded-lg hover:opacity-90 transition-opacity duration-300',
+          'group btn-mirror-sweep btn-secondary relative cursor-pointer rounded-lg',
           className
         )}
         {...rest}

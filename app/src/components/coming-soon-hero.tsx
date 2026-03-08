@@ -104,13 +104,13 @@ export function ComingSoonHero({
         {/* CTA buttons */}
         <MotionPreset fade blur slide={{ direction: 'down', offset: 50 }} delay={0.75} transition={{ duration: 0.5 }}>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button size="lg" asChild>
+            <Button size="lg" asChild className="btn-mirror-sweep btn-secondary">
               <a href="https://t.me/GoAdsSupport" target="_blank" rel="noopener noreferrer">
                 <BellIcon className="size-4" />
                 Notify Me on Launch
               </a>
             </Button>
-            <Button size="lg" variant="outline" asChild>
+            <Button size="lg" variant="outline" asChild className="btn-mirror-sweep btn-tertiary">
               <a href="https://t.me/GoAdsSupport" target="_blank" rel="noopener noreferrer">
                 <MessageCircleIcon className="size-4" />
                 Talk to Sales

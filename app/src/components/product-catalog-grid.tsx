@@ -120,7 +120,7 @@ function CategoryCard({
               />
             ))}
           </div>
-          <Button size="sm" className="mt-3 w-full">
+          <Button size="sm" className="btn-mirror-sweep btn-secondary mt-3 w-full cursor-pointer">
             Buy {selected?.name} — ${selected?.price}
           </Button>
         </CardContent>
@@ -159,7 +159,7 @@ function UpsellRow({ item, index }: { item: UpsellItem; index: number }) {
           </div>
           <div className="flex shrink-0 items-center gap-3">
             <span className="text-sm font-bold">{item.price}</span>
-            <Button variant="outline" size="sm">
+            <Button size="sm" className="btn-mirror-sweep btn-secondary cursor-pointer">
               {item.buttonText ?? 'Buy'}
             </Button>
           </div>

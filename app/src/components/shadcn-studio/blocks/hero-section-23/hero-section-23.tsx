@@ -100,7 +100,7 @@ const HeroSection = ({
                   <a href={primaryCta.href}>
                     <CraftButtonLabel>{primaryCta.label}</CraftButtonLabel>
                     <CraftButtonIcon>
-                      <RocketIcon className='size-3 stroke-2' />
+                      <RocketIcon className='size-3 stroke-2 transition-transform duration-500 group-hover:rotate-45' />
                     </CraftButtonIcon>
                   </a>
                 </CraftButton>

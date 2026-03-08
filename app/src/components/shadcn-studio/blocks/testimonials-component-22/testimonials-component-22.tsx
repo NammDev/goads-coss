@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon, GlobeIcon, MessageSquareMore } from 'lucide-react'
+import { ArrowUpRightIcon, MessageSquareMore } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -28,7 +28,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
                 delay={0.3}
                 transition={{ duration: 0.5 }}
               >
-                Trusted by advertisers
+                Trusted by clients
               </MotionPreset>
               <MotionPreset
                 fade
@@ -37,7 +37,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
                 delay={0.45}
                 transition={{ duration: 0.5 }}
               >
-                worldwide. <GlobeIcon className='inline size-8 align-middle' />
+                around the globe. 🌍
               </MotionPreset>
             </h2>
 

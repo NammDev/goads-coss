@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import { CircleIcon } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
@@ -16,27 +19,33 @@ type Plans = {
 }
 
 const Pricing = ({ plans }: { plans: Plans[] }) => {
+  const defaultIdx = plans.findIndex(p => p.isPopular)
+  const [selectedIdx, setSelectedIdx] = useState(defaultIdx >= 0 ? defaultIdx : 0)
 
   return (
     <section className='py-8 sm:py-12'>
       <div className='mx-auto max-w-[1416px] space-y-12 px-4 sm:space-y-16 lg:space-y-24 lg:px-6'>
-        <Card className={'shadow-none'}>
+        <Card className='shadow-none'>
           <CardContent className='grid grid-cols-1 gap-0 md:grid-cols-2 lg:grid-cols-4'>
-            {plans.map(plan => {
+            {plans.map((plan, idx) => {
               const currentPrice = plan.monthlyPrice
-              const isProPlan = plan.isPopular
+              const isSelected = idx === selectedIdx
 
               return (
                 <div
                   key={plan.name}
-                  className={cn('flex flex-col gap-8 p-6', { 'bg-muted rounded-[14px] shadow-lg': isProPlan })}
+                  onClick={() => setSelectedIdx(idx)}
+                  className={cn(
+                    'flex cursor-pointer flex-col gap-8 p-6 transition-all duration-300',
+                    isSelected
+                      ? 'bg-muted rounded-[14px] shadow-lg'
+                      : 'hover:bg-muted/50 rounded-[14px]'
+                  )}
                 >
                   <div className='flex flex-col gap-6'>
-                    <div
-                      className={cn('flex items-center', { 'justify-between': isProPlan, 'justify-start': !isProPlan })}
-                    >
+                    <div className={cn('flex items-center', isSelected ? 'justify-between' : 'justify-start')}>
                       <h3 className='text-3xl font-bold'>{plan.name}</h3>
-                      {isProPlan && <Badge className='bg-primary rounded-lg px-3 py-1'>Popular</Badge>}
+                      {isSelected && <Badge className='bg-primary rounded-lg px-3 py-1'>Popular</Badge>}
                     </div>
                     <div className='flex'>
                       <span className='text-muted-foreground text-lg font-medium'>$</span>
@@ -57,7 +66,14 @@ const Pricing = ({ plans }: { plans: Plans[] }) => {
                   </div>
 
                   <div className='flex flex-1 items-end'>
-                    <Button variant={isProPlan ? 'default' : 'secondary'} size='lg' className='w-full'>
+                    <Button
+                      size='lg'
+                      variant={isSelected ? 'default' : 'outline'}
+                      className={cn(
+                        'w-full cursor-pointer',
+                        isSelected ? 'btn-mirror-sweep btn-secondary' : 'btn-mirror-sweep btn-tertiary'
+                      )}
+                    >
                       Choose
                     </Button>
                   </div>

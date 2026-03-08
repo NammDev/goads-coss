@@ -19,7 +19,7 @@
   --secondary-foreground: oklch(0.45 0.03 257.68);
   --muted: oklch(0.98 0 0);
   --muted-foreground: oklch(0.55 0.02 264.41);
-  --accent: oklch(0.95 0.03 233.56);
+  --accent: oklch(0.19 0.11 270.80 / 0.15);
   --accent-foreground: oklch(0.38 0.14 265.59);
   --destructive: oklch(0.64 0.21 25.39);
   --border: oklch(0.93 0.01 261.82);
@@ -69,7 +69,7 @@
   --secondary-foreground: oklch(0.92 0 0);
   --muted: oklch(0.27 0 0);
   --muted-foreground: oklch(0.72 0 0);
-  --accent: oklch(0.30 0.08 250);
+  --accent: oklch(0.65 0.15 270 / 0.15);
   --accent-foreground: oklch(0.88 0.04 270);
   --destructive: oklch(0.64 0.21 25.39);
   --border: oklch(0.37 0 0);
@@ -283,7 +283,7 @@
 
 .btn-tertiary:hover,
 .btn-tertiary:focus-visible {
-  background-color: oklch(from var(--primary) l c h / 0.15) !important;
+  background-color: color-mix(in oklch, var(--primary) 15%, transparent) !important;
   transform: none;
 }
 
@@ -291,44 +291,6 @@
   display: none;
 }
 
-/* Legacy alias */
-.btn-cta-glow {
-  background-color: var(--primary) !important;
-  color: var(--primary-foreground) !important;
-}
-
-.btn-cta-glow:hover,
-.btn-cta-glow:focus-visible {
-  background-color: var(--primary) !important;
-}
-
-.btn-cta-glow::before {
-  background: linear-gradient(
-    105deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.12) 45%,
-    rgba(255, 255, 255, 0.22) 50%,
-    rgba(255, 255, 255, 0.12) 55%,
-    transparent 70%
-  );
-}
-
-/* ── CTA button (Type 1) — hover bg matches tertiary tint ── */
-.btn-cta-hover-bg:hover {
-  background-color: color-mix(in oklab, var(--primary), white 95%) !important;
-}
-
-:is(.dark) .btn-cta-hover-bg:hover {
-  background-color: color-mix(in oklab, var(--primary), black 70%) !important;
-}
-
-.btn-cta-expand-bg {
-  background-color: color-mix(in oklab, var(--primary), white 95%);
-}
-
-:is(.dark) .btn-cta-expand-bg {
-  background-color: color-mix(in oklab, var(--primary), black 70%);
-}
 
 a.link-animated {
     position: relative;
