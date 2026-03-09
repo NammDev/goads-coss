@@ -112,7 +112,7 @@ function CtaCard({
         <div className="mt-4 space-y-2">
           <Link
             href={primaryHref}
-            className="btn-mirror-sweep btn-secondary inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+            className="btn-mirror-sweep btn-secondary relative overflow-hidden inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
           >
             {primaryLabel}
           </Link>
