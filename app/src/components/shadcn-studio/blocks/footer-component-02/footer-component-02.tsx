@@ -136,7 +136,7 @@ const Footer = () => {
                   placeholder='Your email...'
                   aria-label='Email for newsletter'
                 />
-                <Button size='icon' type='submit' className='rounded-lg' aria-label='Subscribe'>
+                <Button size='icon' type='submit' className='btn-mirror-sweep btn-secondary rounded-lg' aria-label='Subscribe'>
                   <ArrowRightIcon />
                 </Button>
               </div>

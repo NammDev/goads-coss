@@ -68,7 +68,7 @@ export function FloatingContactButton() {
         onClick={() => setOpen(prev => !prev)}
         aria-label={open ? 'Close contact menu' : 'Open contact menu'}
         className={cn(
-          'size-14 cursor-pointer rounded-full shadow-xl transition-all duration-300 hover:shadow-2xl',
+          'btn-mirror-sweep btn-secondary size-14 cursor-pointer rounded-full shadow-xl transition-all duration-300 hover:shadow-2xl',
           open && 'rotate-90',
         )}
       >
