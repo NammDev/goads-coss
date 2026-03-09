@@ -52,24 +52,22 @@ const FAQ = ({ tabsData }: { tabsData: FAQTab }) => {
                 })}
               </TabsList>
 
-              {/* Tab Content — grid-stack keeps tallest tab height */}
+              {/* Tab Content */}
               <div className='lg:col-span-2'>
-                <div className='grid [&>*]:col-start-1 [&>*]:row-start-1'>
-                  {tabsData.map(tab => (
-                    <TabsContent key={tab.value} value={tab.value} forceMount className='mt-0 data-[state=inactive]:pointer-events-none data-[state=inactive]:invisible'>
-                      <Accordion type='single' collapsible className='w-full rounded-lg border' defaultValue='item-1'>
-                        {tab.faqs.map((item, index) => (
-                          <AccordionItem key={index} value={`item-${index + 1}`}>
-                            <AccordionTrigger className='cursor-pointer px-5 text-base'>{item.question}</AccordionTrigger>
-                            <AccordionContent className='text-muted-foreground whitespace-pre-line px-5 text-base'>
-                              {item.answer}
-                            </AccordionContent>
-                          </AccordionItem>
-                        ))}
-                      </Accordion>
-                    </TabsContent>
-                  ))}
-                </div>
+                {tabsData.map(tab => (
+                  <TabsContent key={tab.value} value={tab.value} className='mt-0'>
+                    <Accordion type='single' collapsible className='w-full rounded-lg border' defaultValue='item-1'>
+                      {tab.faqs.map((item, index) => (
+                        <AccordionItem key={index} value={`item-${index + 1}`}>
+                          <AccordionTrigger className='cursor-pointer px-5 text-base'>{item.question}</AccordionTrigger>
+                          <AccordionContent className='text-muted-foreground whitespace-pre-line px-5 text-base'>
+                            {item.answer}
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </TabsContent>
+                ))}
               </div>
             </div>
           </Tabs>
