@@ -5,18 +5,19 @@ import { MessageCircleIcon, XIcon, UserPlusIcon } from 'lucide-react'
 import { TelegramLogo, WhatsAppLogo } from '@/assets/svg/ad-platform-logos'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { CONTACT } from '@/data/contact-info'
 
 const CONTACT_ITEMS = [
   {
     label: 'WhatsApp',
-    href: 'https://wa.me/84865717497?text=Hello!%20I%27m%20interested%20in%20your%20products.',
+    href: CONTACT.whatsapp.withMessage,
     icon: WhatsAppLogo,
     iconClass: 'text-[#25D366]',
     external: true,
   },
   {
     label: 'Telegram',
-    href: 'https://t.me/goads_official?text=Hello!%20I%27m%20interested%20in%20your%20products.',
+    href: CONTACT.telegram.officialWithMessage,
     icon: TelegramLogo,
     iconClass: 'text-[#26A5E4]',
     external: true,

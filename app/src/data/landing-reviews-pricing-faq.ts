@@ -1,8 +1,19 @@
 // ---------------------------------------------------------------------------
 // Reviews & Pricing Plans Data (previously in src/app/page-data.ts)
 // ---------------------------------------------------------------------------
+// NOTE: Prices are derived from the canonical source: pricing-plans-data.ts
+// Features here are richer (with title/description/available) to suit
+// pricing-component-13; pricing-plans-data.ts uses flat string[] for
+// pricing-component-09 on the /pricing page.
+// ---------------------------------------------------------------------------
 
 import type { ReviewCard } from '@/components/shadcn-studio/blocks/testimonials-component-22/review-stack'
+import { pricingPlans as canonicalPlans } from './pricing-plans-data'
+
+// Build a price lookup keyed by plan name for single source of truth on prices
+const priceByName = Object.fromEntries(
+  canonicalPlans.map((p) => [p.name, p.monthlyPrice])
+)
 
 // --- Testimonials ---
 
@@ -63,7 +74,7 @@ export interface PricingPlan {
 export const pricingPlans: PricingPlan[] = [
   {
     name: 'Advanced Setup',
-    price: '250',
+    price: String(priceByName['Advanced Setup'] ?? 250),
     buttonText: 'Get Started',
     description: 'Essential setup for advertisers getting started with agency infrastructure.',
     features: [
@@ -75,7 +86,7 @@ export const pricingPlans: PricingPlan[] = [
   },
   {
     name: 'Premium Setup',
-    price: '650',
+    price: String(priceByName['Premium Setup'] ?? 650),
     buttonText: 'Scale Now',
     isPopular: true,
     description: 'Bulletproof setup for serious advertisers scaling campaigns.',
@@ -89,7 +100,7 @@ export const pricingPlans: PricingPlan[] = [
   },
   {
     name: 'Elite Setup',
-    price: '890',
+    price: String(priceByName['Elite Setup'] ?? 890),
     buttonText: 'Go Elite',
     description: 'Bulletproof setup for agencies and high-volume advertisers.',
     highlight: true,

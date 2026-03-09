@@ -10,6 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Separator } from '@/components/ui/separator'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useCart, type CartItem } from '@/lib/cart-context'
+import { CONTACT } from '@/data/contact-info'
 
 /* ---------- hover intent hook (prevents flicker across trigger↔content gap) ---------- */
 
@@ -106,7 +107,7 @@ function CartEmpty() {
 
 /* ---------- main popover ---------- */
 
-const TELEGRAM_URL = 'https://t.me/GoAdsSupport'
+const TELEGRAM_URL = CONTACT.telegram.support
 
 function buildTelegramMessage(items: CartItem[], subtotal: number, payment: string) {
   const lines = items.map(

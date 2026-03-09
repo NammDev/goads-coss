@@ -1,5 +1,6 @@
 import { ArrowRightIcon } from 'lucide-react'
 import { TelegramLogo, WhatsAppLogo } from '@/assets/svg/ad-platform-logos'
+import { CONTACT } from '@/data/contact-info'
 import { LinkedInIcon } from '@/components/site-header-icons'
 
 import { Button } from '@/components/ui/button'
@@ -23,7 +24,7 @@ const Footer = () => {
           <Separator className='!w-35' />
           <div className='flex items-center gap-4'>
             <a
-              href='https://t.me/goads_official'
+              href={CONTACT.telegram.official}
               target='_blank'
               rel='noopener noreferrer'
               className='text-muted-foreground transition-colors hover:text-foreground'
@@ -32,7 +33,7 @@ const Footer = () => {
               <TelegramLogo className='size-5' />
             </a>
             <a
-              href='https://wa.me/84865717497'
+              href={CONTACT.whatsapp.main}
               target='_blank'
               rel='noopener noreferrer'
               className='text-muted-foreground transition-colors hover:text-foreground'

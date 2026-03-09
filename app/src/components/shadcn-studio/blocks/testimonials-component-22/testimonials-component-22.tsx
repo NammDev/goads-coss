@@ -1,4 +1,5 @@
 import { ArrowUpRightIcon, MessageSquareMore } from 'lucide-react'
+import { CONTACT } from '@/data/contact-info'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -106,7 +107,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               className='flex justify-center gap-4 border-y py-8'
             >
               <Button variant='outline' asChild className='btn-mirror-sweep btn-tertiary !px-4'>
-                <a href='https://t.me/GoAdsSupport' target='_blank' rel='noopener noreferrer'>
+                <a href={CONTACT.telegram.support} target='_blank' rel='noopener noreferrer'>
                   Contact Support
                   <MessageSquareMore />
                 </a>

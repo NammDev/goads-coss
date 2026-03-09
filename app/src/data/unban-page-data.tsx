@@ -1,34 +1,10 @@
-import {
-  ShieldCheckIcon,
-  HeadphonesIcon,
-} from 'lucide-react'
+import { ShieldCheckIcon } from 'lucide-react'
 
 import type { ProductCategory, UpsellItem } from '@/components/product-catalog'
+import { defaultAvatars } from '@/data/shared-avatars'
+import { defaultUpsell } from '@/data/shared-upsells'
 
-export { reviews } from '@/data/landing-reviews-pricing-faq'
-
-export const avatars = [
-  {
-    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-3.png',
-    fallback: 'DT',
-    name: 'Duc Tran',
-  },
-  {
-    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-6.png',
-    fallback: 'ML',
-    name: 'Mike Lee',
-  },
-  {
-    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png',
-    fallback: 'SN',
-    name: 'Sarah Nguyen',
-  },
-  {
-    src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-16.png',
-    fallback: 'JW',
-    name: 'Jenny Wilson',
-  },
-]
+export const avatars = defaultAvatars
 
 export const unbanCategories: ProductCategory[] = [
   {
@@ -65,12 +41,10 @@ export const unbanCategories: ProductCategory[] = [
 
 export const unbanUpsells: UpsellItem[] = [
   {
-    icon: <HeadphonesIcon className="size-5" />,
+    ...defaultUpsell,
     title: 'Custom Recovery Solutions',
     description:
       'Have a complex case? Contact us for a tailored recovery plan with dedicated support and priority handling.',
-    price: 'Custom',
     features: ['Case assessment', 'Dedicated manager', 'Priority handling', '98% success rate'],
-    buttonText: 'Contact Sales',
   },
 ]

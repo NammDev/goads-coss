@@ -1,12 +1,8 @@
-import { MessageCircleIcon, ClockIcon, ShieldCheckIcon, HeadphonesIcon } from 'lucide-react'
+import { MessageCircleIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-
-const benefits = [
-  { icon: ClockIcon, title: 'Response < 2 hours', description: 'Our team responds within 2 hours during business hours.' },
-  { icon: ShieldCheckIcon, title: '7-Day Warranty', description: 'Every purchase comes with a full 7-day replacement warranty.' },
-  { icon: HeadphonesIcon, title: 'Dedicated Support', description: 'Get a dedicated account manager for enterprise orders.' },
-]
+import { CONTACT } from '@/data/contact-info'
+import { salesBenefits } from '@/data/talk-to-sales-data'
 
 export default function TalkToSalesPage() {
   return (
@@ -27,19 +23,19 @@ export default function TalkToSalesPage() {
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" asChild className="gap-2">
-                <a href="https://t.me/GoAdsSupport" target="_blank" rel="noopener noreferrer">
+                <a href={CONTACT.telegram.support} target="_blank" rel="noopener noreferrer">
                   <MessageCircleIcon className="size-4" />
                   Chat on Telegram
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="mailto:support@goads.shop">Email Us</a>
+                <a href={`mailto:${CONTACT.email}`}>Email Us</a>
               </Button>
             </div>
           </div>
 
           <div className="mx-auto mt-16 grid max-w-4xl gap-6 sm:grid-cols-3">
-            {benefits.map(({ icon: Icon, title, description }) => (
+            {salesBenefits.map(({ icon: Icon, title, description }) => (
               <Card key={title}>
                 <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
                   <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10">

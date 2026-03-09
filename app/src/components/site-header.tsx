@@ -6,10 +6,11 @@ import { SsLogo, SsCtaIcon, LinkedInIcon, TelegramIcon, DiscordIcon } from './si
 import { NavMegaMenu } from './nav-mega-menu'
 import { NavMobileDrawer } from './nav-mobile-drawer'
 import { CartButtonWrapper } from './cart-button-wrapper'
+import { CONTACT } from '@/data/contact-info'
 
 const SOCIAL_LINKS = [
-  { href: '#', icon: LinkedInIcon, label: 'LinkedIn' },
-  { href: '#', icon: TelegramIcon, label: 'Telegram' },
+  { href: CONTACT.linkedin, icon: LinkedInIcon, label: 'LinkedIn' },
+  { href: CONTACT.telegram.official, icon: TelegramIcon, label: 'Telegram' },
 ]
 
 export function SiteHeader() {
@@ -45,7 +46,7 @@ export function SiteHeader() {
               {/* Social icons — primary color, same size-9 as theme/cart */}
               <div className="flex items-center gap-1 max-lg:hidden">
                 {SOCIAL_LINKS.map(({ href, icon: Icon, label }) => (
-                  <a key={label} target="_blank" rel="noopener noreferrer" href={href} className="inline-flex size-9 items-center justify-center rounded-md text-primary transition-colors hover:bg-primary/15">
+                  <a key={label} target="_blank" rel="noopener noreferrer" href={href} className="inline-flex size-9 items-center justify-center rounded-md text-primary transition-colors hover:text-primary/70">
                     <Icon />
                     <span className="sr-only">{label}</span>
                   </a>

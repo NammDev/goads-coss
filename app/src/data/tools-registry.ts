@@ -11,7 +11,6 @@ import {
   ImagePlus,
   LayoutGrid,
   ListFilter,
-  Mail,
   Merge,
   ScanFace,
   Scissors,
@@ -191,13 +190,6 @@ export const TOOLS: ToolItem[] = [
     title: "Random Face Generator",
     description: "Generate random avatar photos instantly",
     icon: Image,
-    category: "utility",
-  },
-  {
-    slug: "getnada",
-    title: "Quick Read Getnada",
-    description: "Read your temporary Getnada inbox without leaving the page",
-    icon: Mail,
     category: "utility",
   },
 ];

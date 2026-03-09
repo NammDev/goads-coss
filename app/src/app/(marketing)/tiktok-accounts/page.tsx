@@ -8,7 +8,9 @@ import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonial
 import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { SectionDivider } from '@/components/section-divider'
-import { avatars, tiktokCategories, tiktokUpsells, reviews } from './tiktok-page-data'
+import { CONTACT } from '@/data/contact-info'
+import { avatars, tiktokCategories } from '@/data/tiktok-page-data'
+import { reviews } from '@/data/landing-reviews-pricing-faq'
 import { faqTabsData } from '@/data/landing-faq'
 
 export default function TikTokAccountsPage() {
@@ -24,7 +26,7 @@ export default function TikTokAccountsPage() {
           </>
         }
         primaryCta={{ label: 'Get Your TikTok Account', href: '/tiktok-accounts#pricing' }}
-        secondaryCta={{ label: 'Talk to Support', href: 'https://t.me/GoAdsSupport' }}
+        secondaryCta={{ label: 'Talk to Support', href: CONTACT.telegram.support }}
         card1={
           <StatisticsCard
             title="Account Types"
@@ -52,7 +54,7 @@ export default function TikTokAccountsPage() {
 
       <ProductCatalog
         categories={tiktokCategories}
-        upsells={tiktokUpsells}
+        enterpriseCard={{ description: 'Need bulk TikTok accounts or custom configurations? Contact us for volume discounts and dedicated support.' }}
       />
       <SectionDivider />
 

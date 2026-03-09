@@ -8,7 +8,9 @@ import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonial
 import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { SectionDivider } from '@/components/section-divider'
-import { avatars, verificationCategories, verificationUpsells, reviews } from './verification-page-data'
+import { CONTACT } from '@/data/contact-info'
+import { avatars, verificationCategories } from '@/data/verification-page-data'
+import { reviews } from '@/data/landing-reviews-pricing-faq'
 import { faqTabsData } from '@/data/landing-faq'
 
 export default function BlueVerificationPage() {
@@ -24,7 +26,7 @@ export default function BlueVerificationPage() {
           </>
         }
         primaryCta={{ label: 'Request Verification', href: '/blue-verification#pricing' }}
-        secondaryCta={{ label: 'Talk to Support', href: 'https://t.me/GoAdsSupport' }}
+        secondaryCta={{ label: 'Talk to Support', href: CONTACT.telegram.support }}
         card1={
           <StatisticsCard
             title="Platforms"
@@ -52,7 +54,11 @@ export default function BlueVerificationPage() {
 
       <ProductCatalog
         categories={verificationCategories}
-        upsells={verificationUpsells}
+        enterpriseCard={{
+          title: 'Custom Verification Solutions',
+          description: 'Need verification for multiple accounts or platforms? Contact us for volume discounts and dedicated support.',
+          features: ['Multi-platform', 'Volume discounts', 'Dedicated manager', 'Priority processing'],
+        }}
       />
       <SectionDivider />
 

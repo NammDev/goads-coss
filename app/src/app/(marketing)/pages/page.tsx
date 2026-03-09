@@ -8,7 +8,9 @@ import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonial
 import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { SectionDivider } from '@/components/section-divider'
-import { avatars, pageCategories, pageUpsells, reviews } from './pages-page-data'
+import { CONTACT } from '@/data/contact-info'
+import { avatars, pageCategories } from '@/data/pages-page-data'
+import { reviews } from '@/data/landing-reviews-pricing-faq'
 import { faqTabsData } from '@/data/landing-faq'
 
 export default function PagesPage() {
@@ -24,7 +26,7 @@ export default function PagesPage() {
           </>
         }
         primaryCta={{ label: 'Get Your Page Today', href: '/pages#pricing' }}
-        secondaryCta={{ label: 'Talk to Support', href: 'https://t.me/GoAdsSupport' }}
+        secondaryCta={{ label: 'Talk to Support', href: CONTACT.telegram.support }}
         card1={
           <StatisticsCard
             title="Followers"
@@ -52,7 +54,10 @@ export default function PagesPage() {
 
       <ProductCatalog
         categories={pageCategories}
-        upsells={pageUpsells}
+        enterpriseCard={{
+          description: 'Need bulk pages or custom configurations? Contact us for volume discounts and dedicated support.',
+          features: ['Volume discounts', 'Dedicated manager', 'Custom branding', 'Priority support'],
+        }}
       />
       <SectionDivider />
 

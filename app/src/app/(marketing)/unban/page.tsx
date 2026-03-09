@@ -8,7 +8,9 @@ import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonial
 import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { SectionDivider } from '@/components/section-divider'
-import { avatars, unbanCategories, unbanUpsells, reviews } from './unban-page-data'
+import { CONTACT } from '@/data/contact-info'
+import { avatars, unbanCategories } from '@/data/unban-page-data'
+import { reviews } from '@/data/landing-reviews-pricing-faq'
 import { faqTabsData } from '@/data/landing-faq'
 
 export default function UnbanPage() {
@@ -24,7 +26,7 @@ export default function UnbanPage() {
           </>
         }
         primaryCta={{ label: 'Request Service', href: '/unban#pricing' }}
-        secondaryCta={{ label: 'Talk to Support', href: 'https://t.me/GoAdsSupport' }}
+        secondaryCta={{ label: 'Talk to Support', href: CONTACT.telegram.support }}
         card1={
           <StatisticsCard
             title="Success Rate"
@@ -52,7 +54,11 @@ export default function UnbanPage() {
 
       <ProductCatalog
         categories={unbanCategories}
-        upsells={unbanUpsells}
+        enterpriseCard={{
+          title: 'Custom Recovery Solutions',
+          description: 'Have a complex case? Contact us for a tailored recovery plan with dedicated support and priority handling.',
+          features: ['Case assessment', 'Dedicated manager', 'Priority handling', '98% success rate'],
+        }}
       />
       <SectionDivider />
 

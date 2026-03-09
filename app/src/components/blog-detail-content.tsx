@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import DOMPurify from "isomorphic-dompurify"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -117,7 +118,7 @@ export function BlogDetailContent({ post }: { post: BlogPost }) {
                 className="prose mb-10 max-w-none scroll-mt-24 dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground prose-li:marker:text-muted-foreground"
               >
                 <h2>{section.title}</h2>
-                <div dangerouslySetInnerHTML={{ __html: section.content }} />
+                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content) }} />
               </section>
             ))}
           </div>

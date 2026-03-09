@@ -6,34 +6,8 @@ import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
 import { Badge } from '@/components/ui/badge'
 import { InfoCard, InfoCardGrid } from '@/components/info-card'
-import { Bitcoin, Landmark, ArrowRightLeft } from 'lucide-react'
 import { GoAdsLogo } from '@/assets/svg/ad-platform-logos'
-
-/* ---------- Payment methods data ---------- */
-
-const methods = [
-  {
-    icon: Bitcoin,
-    name: 'Cryptocurrency',
-    description: 'USDT (TRC20/ERC20), BTC, ETH, and other major coins via direct wallet transfer.',
-    badge: 'Most Popular',
-    badgeVariant: 'default' as const,
-  },
-  {
-    icon: Landmark,
-    name: 'Bank Transfer',
-    description: 'Direct bank wire transfer available for orders above $500. Processing takes 1-2 business days.',
-    badge: null,
-    badgeVariant: 'outline' as const,
-  },
-  {
-    icon: ArrowRightLeft,
-    name: 'Wise (TransferWise)',
-    description: 'Low-fee international transfers via Wise. Great for clients outside the US and EU.',
-    badge: 'Low Fees',
-    badgeVariant: 'secondary' as const,
-  },
-]
+import { paymentMethods } from '@/data/payment-page-data'
 
 /* ---------- page ---------- */
 
@@ -58,7 +32,7 @@ export default function PaymentPage() {
       <section className='py-8 sm:py-16 lg:py-24'>
         <div className='mx-auto max-w-[1416px] px-4 lg:px-6'>
           <InfoCardGrid>
-            {methods.map((method, i) => (
+            {paymentMethods.map((method, i) => (
               <InfoCard key={method.name} index={i}>
                 {/* top: name + badge/price area */}
                 <div className='flex items-start justify-between gap-3'>

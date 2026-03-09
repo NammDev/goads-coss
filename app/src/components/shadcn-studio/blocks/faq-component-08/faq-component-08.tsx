@@ -52,11 +52,16 @@ const FAQ = ({ tabsData }: { tabsData: FAQTab }) => {
                 })}
               </TabsList>
 
-              {/* Tab Content */}
-              <div className='lg:col-span-2'>
+              {/* Tab Content — grid stacking keeps height of tallest tab */}
+              <div className='lg:col-span-2 grid'>
                 {tabsData.map(tab => (
-                  <TabsContent key={tab.value} value={tab.value} className='mt-0'>
-                    <Accordion type='single' collapsible className='w-full rounded-lg border' defaultValue='item-1'>
+                  <TabsContent
+                    key={tab.value}
+                    value={tab.value}
+                    forceMount
+                    className='mt-0 col-start-1 row-start-1 data-[state=inactive]:invisible'
+                  >
+                    <Accordion type='single' className='w-full rounded-lg border' defaultValue='item-1'>
                       {tab.faqs.map((item, index) => (
                         <AccordionItem key={index} value={`item-${index + 1}`}>
                           <AccordionTrigger className='cursor-pointer px-5 text-base'>{item.question}</AccordionTrigger>

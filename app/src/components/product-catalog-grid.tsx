@@ -7,8 +7,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { SectionHeader } from '@/components/section-header'
 import { cn } from '@/lib/utils'
-import { UpsellCard } from '@/components/product-catalog'
 import type { ProductCategory, UpsellItem } from '@/components/product-catalog'
+import { UpsellCard } from '@/components/product-catalog'
+import { EnterpriseSolutionCard, type EnterpriseSolutionProps } from '@/components/enterprise-solution-card'
 
 /* ---------- product row (selectable) ---------- */
 
@@ -121,11 +122,13 @@ export function ProductCatalogGrid({
   subheading,
   categories,
   upsells,
+  enterpriseCard,
 }: {
   heading?: string
   subheading?: string
   categories: ProductCategory[]
   upsells?: UpsellItem[]
+  enterpriseCard?: EnterpriseSolutionProps
 }) {
   return (
     <section className="py-16 lg:py-24">
@@ -147,7 +150,15 @@ export function ProductCatalogGrid({
           ))}
         </div>
 
-        {upsells && upsells.length > 0 && (
+        {/* enterprise solution card */}
+        {enterpriseCard && (
+          <div className="mt-8">
+            <EnterpriseSolutionCard {...enterpriseCard} />
+          </div>
+        )}
+
+        {/* legacy upsells */}
+        {!enterpriseCard && upsells && upsells.length > 0 && (
           <div className="mt-8 space-y-4">
             {upsells.map((item, idx) => (
               <UpsellCard key={item.title} item={item} index={idx} />

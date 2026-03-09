@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { MotionPreset } from '@/components/ui/motion-preset'
 
 import LogoVector from '@/assets/svg/logo-vector'
+import { CONTACT } from '@/data/contact-info'
 
 const CTASection = () => {
   return (
@@ -81,13 +82,13 @@ const CTASection = () => {
         <MotionPreset fade blur zoom={{ initialScale: 0.95 }} delay={1.2} transition={{ duration: 0.7 }}>
           <div className='border-primary bg-background relative mx-auto -mt-9.25 flex size-fit gap-3 rounded-xl border-2 p-3'>
             <Button size='lg' asChild className='btn-mirror-sweep btn-secondary text-base'>
-              <a href='https://t.me/goads_official?text=Hello!%20I%27m%20interested%20in%20your%20products.' target='_blank' rel='noopener noreferrer'>
+              <a href={CONTACT.telegram.officialWithMessage} target='_blank' rel='noopener noreferrer'>
                 <MessageCircleIcon className='size-5' />
                 <span className='max-sm:hidden'>Telegram</span>
               </a>
             </Button>
             <Button size='lg' variant='outline' className='btn-mirror-sweep btn-tertiary text-base' asChild>
-              <a href='https://wa.me/84865717497?text=Hello!%20I%27m%20interested%20in%20your%20products.' target='_blank' rel='noopener noreferrer'>
+              <a href={CONTACT.whatsapp.withMessage} target='_blank' rel='noopener noreferrer'>
                 <PhoneIcon className='size-5' />
                 <span className='max-sm:hidden'>WhatsApp</span>
               </a>
