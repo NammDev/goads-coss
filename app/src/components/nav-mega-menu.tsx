@@ -229,7 +229,7 @@ function ToolsPanel() {
           </div>
           <Link
             href="/tools"
-            className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+            className="btn-mirror-sweep btn-secondary relative overflow-hidden mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
           >
             Browse All Tools
             <ArrowRightIcon className="size-3.5" />
