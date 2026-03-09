@@ -6,6 +6,7 @@ import { MessageSquareMoreIcon, RocketIcon, TicketCheckIcon } from 'lucide-react
 
 import HeroSvg from '@/assets/svg/hero-svg'
 import CustomersCardSvg from '@/assets/svg/customers-card-svg'
+import { MetaLogo, GoogleLogo, TikTokLogo, InstagramLogo, YouTubeLogo, WhatsAppLogo, BingLogo } from '@/assets/svg/ad-platform-logos'
 
 import { MotionPreset } from '@/components/ui/motion-preset'
 import { WordRotate } from '@/components/ui/word-rotate'
@@ -13,6 +14,7 @@ import { Rating } from '@/components/ui/rating'
 import { AnimatedBeam } from '@/components/ui/animated-beam'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Marquee } from '@/components/ui/marquee'
 
 import { Button } from '@/components/ui/button'
 import { CraftButton, CraftButtonLabel, CraftButtonIcon } from '@/components/ui/craft-button'
@@ -164,13 +166,29 @@ const HeroSection = ({
               >
                 <div className='from-background pointer-events-none absolute inset-y-0 left-0 z-1 w-15 bg-gradient-to-r via-85% to-transparent' />
                 <div className='from-background pointer-events-none absolute inset-y-0 right-0 z-1 w-15 bg-gradient-to-l via-85% to-transparent' />
-                <div className='flex flex-wrap items-center gap-x-8 gap-y-3 py-2'>
-                  <span className='text-muted-foreground text-sm font-medium'>Meta Partner</span>
-                  <span className='text-muted-foreground text-sm font-medium'>Google Whitelisted</span>
-                  <span className='text-muted-foreground text-sm font-medium'>TikTok Verified</span>
-                  <span className='text-muted-foreground text-sm font-medium'>7-Day Warranty</span>
-                  <span className='text-muted-foreground text-sm font-medium'>97% Stability Rate</span>
-                </div>
+                <Marquee duration={25} gap={2} pauseOnHover>
+                  <span className='text-muted-foreground flex items-center gap-1.5 text-sm font-medium whitespace-nowrap'>
+                    <MetaLogo className='size-4' /> Meta
+                  </span>
+                  <span className='text-muted-foreground flex items-center gap-1.5 text-sm font-medium whitespace-nowrap'>
+                    <GoogleLogo className='size-4' /> Google Ads
+                  </span>
+                  <span className='text-muted-foreground flex items-center gap-1.5 text-sm font-medium whitespace-nowrap'>
+                    <TikTokLogo className='size-4' /> TikTok
+                  </span>
+                  <span className='text-muted-foreground flex items-center gap-1.5 text-sm font-medium whitespace-nowrap'>
+                    <InstagramLogo className='size-4' /> Instagram
+                  </span>
+                  <span className='text-muted-foreground flex items-center gap-1.5 text-sm font-medium whitespace-nowrap'>
+                    <YouTubeLogo className='size-4' /> YouTube
+                  </span>
+                  <span className='text-muted-foreground flex items-center gap-1.5 text-sm font-medium whitespace-nowrap'>
+                    <WhatsAppLogo className='size-4' /> WhatsApp
+                  </span>
+                  <span className='text-muted-foreground flex items-center gap-1.5 text-sm font-medium whitespace-nowrap'>
+                    <BingLogo className='size-4' /> Bing Ads
+                  </span>
+                </Marquee>
               </MotionPreset>
             </div>
           </div>

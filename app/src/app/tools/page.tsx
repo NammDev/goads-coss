@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { PageHeroBig } from "@/components/page-hero-big";
 import { SectionDivider } from "@/components/section-divider";
 import { WavyUnderline } from "@/components/section-header";
 import CTASection from "@/components/shadcn-studio/blocks/cta-section-05/cta-section-05";
+import { ToolsHubSkeleton } from "@/components/skeletons/tools-hub-skeleton";
 import { ToolsHubContent } from "@/components/tools-hub-content";
 import { ToolsIllustration } from "@/components/hero-illustrations/tools-illustration";
 
@@ -39,15 +41,17 @@ export default function ToolsHubPage() {
         }
         description="Free online tools to manage your ad accounts, process data, and boost productivity. No sign-up required."
         ctas={[
-          { label: "Browse Tools", href: "#tools" },
-          { label: "Talk to Sales", href: "/talk-to-sales", variant: "outline" },
+          { label: "Browse Tools", href: "#tools", className: "btn-mirror-sweep btn-secondary" },
+          { label: "Talk to Sales", href: "/talk-to-sales", variant: "outline", className: "btn-tertiary" },
         ]}
-        illustration={<ToolsIllustration className="h-72" />}
+        illustration={<ToolsIllustration />}
       />
       <SectionDivider />
 
-      {/* Search + Featured + Categories (client component for search) */}
-      <ToolsHubContent />
+      {/* Tools grid with skeleton fallback */}
+      <Suspense fallback={<ToolsHubSkeleton />}>
+        <ToolsHubContent />
+      </Suspense>
       <SectionDivider />
 
       {/* CTA */}

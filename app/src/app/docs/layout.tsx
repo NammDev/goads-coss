@@ -7,7 +7,7 @@ export default function DocsLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="relative isolate flex min-h-svh flex-col overflow-clip [--header-height:4rem]">
+    <div className="relative isolate flex min-h-svh flex-col overflow-x-clip [--header-height:4rem]">
       {/* Vertical grid frame lines — same as marketing layout */}
       <div
         aria-hidden="true"

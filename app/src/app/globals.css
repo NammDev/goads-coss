@@ -335,3 +335,13 @@ a.link-animated:hover::before {
     transform: scaleX(1);
     transform-origin: left;
 }
+
+/* ── Skeleton → content transition ── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}

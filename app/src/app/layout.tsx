@@ -1,6 +1,8 @@
 import "./globals.css";
 
 import { fontMono, fontSans } from "@/fonts";
+import { CommandMenu } from "@/components/command-menu";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Metadata } from "next";
@@ -34,6 +36,8 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <TooltipProvider>
+            <ScrollToTop />
+            <CommandMenu />
             {children}
           </TooltipProvider>
         </ThemeProvider>
