@@ -18,9 +18,9 @@ const BentoGrid = () => {
     <section className='py-8 sm:py-16 lg:py-24'>
       <div className='container space-y-12 sm:space-y-16'>
         <SectionHeader
-          label='Meta Assets'
+          label='Meta, TikTok and Google Assets'
           heading='Everything you need to run ads at scale'
-          description='Business Managers, Pages, Profiles, and verified assets — fully set up and ready to power your campaigns across Meta platforms.'
+          description='Business Managers, Pages, Profiles, and verified assets — fully set up and ready to power your campaigns across Meta, TikTok and Google platforms.'
         />
         <div className='grid grid-cols-1 gap-6 lg:grid-cols-5'>
         <MotionPreset

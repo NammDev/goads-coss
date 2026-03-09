@@ -1,69 +1,90 @@
+'use client'
+
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
+import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
 import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
-import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import {
-  MessageCircle,
-  BookOpen,
-  CreditCard,
-  HelpCircle,
-  Shield,
-  Zap,
-  ExternalLink,
-} from 'lucide-react'
+import { InfoCard, InfoCardGrid } from '@/components/info-card'
+import { MotionPreset } from '@/components/ui/motion-preset'
+import { ArrowUpRightIcon, ArrowRightIcon, BookOpen, CreditCard, Phone, Users, Star, Handshake } from 'lucide-react'
+import { GoAdsLogo } from '@/assets/svg/ad-platform-logos'
 import Link from 'next/link'
+import { faqTabsData } from '@/data/landing-faq'
 
-/* ---------- Help categories ---------- */
+/* ---------- Top cards (with spotlight + 3D) ---------- */
 
-const helpCategories = [
+const helpCards = [
   {
-    icon: MessageCircle,
-    title: 'Telegram Support',
+    title: 'Contact GoAds',
     description: 'Get real-time help from our support team. Average response time under 2 hours.',
-    action: 'Open Telegram',
-    href: 'https://t.me/GoAdsSupport',
-    external: true,
+    links: [
+      { label: 'Telegram', href: 'https://t.me/goads_official', external: true },
+      { label: 'WhatsApp', href: 'https://wa.me/84865717497', external: true },
+    ],
   },
   {
-    icon: HelpCircle,
-    title: 'FAQ',
-    description: 'Find answers to common questions about accounts, delivery, warranties, and more.',
-    action: 'View FAQ',
-    href: '/faq',
-    external: false,
+    title: 'Pricing',
+    description: 'Browse our full product catalog with transparent pricing for all ad accounts and assets.',
+    links: [{ label: 'View Pricing', href: '/pricing', external: false }],
   },
   {
-    icon: CreditCard,
-    title: 'Payment Help',
-    description: 'Learn about accepted payment methods, processing times, and transaction support.',
-    action: 'Payment Methods',
-    href: '/payment',
-    external: false,
+    title: 'Toolkits',
+    description: 'Free tools for media buyers — 2FA generator, cookie converter, account filter, and more.',
+    links: [{ label: 'Open Toolkits', href: '/tools', external: false }],
   },
-  {
-    icon: Shield,
-    title: 'Warranty & Replacements',
-    description: 'Understand our 7-day warranty policy and how to request account replacements.',
-    action: 'Learn More',
-    href: '/faq',
-    external: false,
-  },
-  {
-    icon: Zap,
-    title: 'Getting Started',
-    description: 'New to GoAds? Learn how to set up your first agency account and start running ads.',
-    action: 'View Guide',
-    href: '/blog',
-    external: false,
-  },
+]
+
+/* ---------- Bottom resource links (Linear-style 2-col grid) ---------- */
+
+const resourceLinks = [
   {
     icon: BookOpen,
     title: 'Blog & Guides',
     description: 'Tips, tutorials, and best practices for media buyers using GoAds infrastructure.',
-    action: 'Read Blog',
+    label: 'Read Blog',
     href: '/blog',
+    external: false,
+  },
+  {
+    icon: CreditCard,
+    title: 'Payment Methods',
+    description: 'Crypto, bank transfer, Wise, and other payment options we accept.',
+    label: 'View Methods',
+    href: '/payment',
+    external: false,
+  },
+  {
+    icon: Phone,
+    title: 'Talk to Sales',
+    description: 'Book a 1-on-1 consultation for bulk orders or custom enterprise deals.',
+    label: 'Talk to Sales',
+    href: '/talk-to-sales',
+    external: false,
+  },
+  {
+    icon: Star,
+    title: 'Reviews',
+    description: 'See what 500+ clients say about our products and support quality.',
+    label: 'Read Reviews',
+    href: '/reviews',
+    external: false,
+  },
+  {
+    icon: Users,
+    title: 'About Us',
+    description: '5+ years in ad infrastructure serving media buyers worldwide.',
+    label: 'About GoAds',
+    href: '/about',
+    external: false,
+  },
+  {
+    icon: Handshake,
+    title: 'Partner Offers',
+    description: 'Exclusive deals from our partners on anti-detect browsers and tools.',
+    label: 'View Partners',
+    href: '/partners',
     external: false,
   },
 ]
@@ -89,36 +110,83 @@ export default function HelpPage() {
       />
       <SectionDivider />
 
+      {/* Top cards section */}
       <section className='py-8 sm:py-16 lg:py-24'>
         <div className='mx-auto max-w-[1416px] px-4 lg:px-6'>
-          <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-            {helpCategories.map((cat) => (
-              <Card key={cat.title} className='flex flex-col'>
-                <CardContent className='flex flex-1 flex-col gap-4 p-6'>
-                  <div className='bg-primary/10 flex size-10 items-center justify-center rounded-lg'>
-                    <cat.icon className='text-primary size-5' />
+          <InfoCardGrid>
+            {helpCards.map((card, i) => (
+              <InfoCard key={card.title} index={i}>
+                {/* top: title + description */}
+                <div>
+                  <h3 className='text-sm font-semibold leading-tight'>{card.title}</h3>
+                  <p className='text-muted-foreground mt-2 text-sm leading-relaxed'>{card.description}</p>
+                </div>
+
+                {/* spacer */}
+                <div className='min-h-6' />
+
+                {/* bottom: logo + buttons */}
+                <div className='flex items-end justify-between'>
+                  <GoAdsLogo className='size-6' />
+                  <div className='flex gap-2'>
+                    {card.links.map((link) => (
+                      <Button key={link.label} size='sm' variant='outline' className='cursor-pointer gap-1.5' asChild>
+                        {link.external ? (
+                          <a href={link.href} target='_blank' rel='noopener noreferrer'>
+                            {link.label}
+                            <ArrowUpRightIcon className='size-3.5 transition-transform duration-200 group-hover/card:rotate-45' />
+                          </a>
+                        ) : (
+                          <Link href={link.href}>
+                            {link.label}
+                            <ArrowRightIcon className='size-3.5' />
+                          </Link>
+                        )}
+                      </Button>
+                    ))}
                   </div>
-                  <div className='space-y-1'>
-                    <h3 className='text-lg font-semibold'>{cat.title}</h3>
-                    <p className='text-muted-foreground text-sm'>{cat.description}</p>
-                  </div>
-                  <Button variant='outline' className='mt-auto w-full' asChild>
-                    {cat.external ? (
-                      <a href={cat.href} target='_blank' rel='noopener noreferrer'>
-                        {cat.action}
-                        <ExternalLink className='ml-2 size-4' />
-                      </a>
+                </div>
+              </InfoCard>
+            ))}
+          </InfoCardGrid>
+        </div>
+      </section>
+
+      {/* Resource links section (Linear-style 2-col grid) */}
+      <section className='pb-8 sm:pb-16 lg:pb-24'>
+        <div className='mx-auto max-w-[1416px] px-4 lg:px-6'>
+          <div className='border-border/60 grid grid-cols-1 border-t sm:grid-cols-2'>
+            {resourceLinks.map((item, i) => (
+              <MotionPreset
+                key={item.title}
+                fade
+                slide={{ direction: 'up', offset: 15 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                delay={0.05 * i}
+              >
+                <div className='border-border/60 border-b p-6 sm:p-8 sm:odd:border-r'>
+                  <h3 className='text-base font-semibold'>{item.title}</h3>
+                  <p className='text-muted-foreground mt-1.5 text-sm leading-relaxed'>{item.description}</p>
+                  <Link
+                    href={item.href}
+                    className='text-foreground mt-3 inline-flex items-center gap-1.5 text-sm font-medium hover:underline'
+                  >
+                    {item.label}
+                    {item.external ? (
+                      <ArrowUpRightIcon className='size-3.5' />
                     ) : (
-                      <Link href={cat.href}>{cat.action}</Link>
+                      <ArrowRightIcon className='size-3.5' />
                     )}
-                  </Button>
-                </CardContent>
-              </Card>
+                  </Link>
+                </div>
+              </MotionPreset>
             ))}
           </div>
         </div>
       </section>
 
+      <SectionDivider />
+      <FAQ tabsData={faqTabsData} />
       <SectionDivider />
       <CTASection />
     </main>

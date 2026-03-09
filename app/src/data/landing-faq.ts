@@ -83,9 +83,24 @@ export const faqTabsData: FAQTab[] = [
     icon: SettingsIcon,
     faqs: [
       {
-        question: 'Warranty Policy',
+        question: 'What is GoAds warranty policy?',
         answer:
-          'GoAds offers a strong warranty policy to ensure clients receive reliable assets.\nIf an asset encounters unexpected restrictions within the warranty period, a replacement or support will be provided promptly.\n\nWarranty covers replacement only; we do not offer refunds.\nOnce delivered, clients are fully responsible for the asset\'s usage. Restrictions or bans arising after usage begins are outside our control.\nReplacements are valid only if the BM or profile meets the above warranty conditions at the time of claim.\n\nGuarantees Offered with Business Manager Purchases\n1/ If a Business Manager is restricted, disabled, or its limits are reduced within 24 hours before any action is taken by the buyer, it will be replaced immediately.\n2/ If the verification status of a Business Manager is revoked within 14 days, a replacement will be issued. This applies only to Business Managers verified with original documents.\n\nCases Where Replacement Is Not Possible\n1/ Credit or debit cards are added to the Business Manager or its ad accounts.\n2/ Ads are launched through any ad account under the Business Manager.\n3/ Major changes are made to the Business Manager, except renaming.\n4/ Pages are created using the Business Manager.\n5/ A domain name is added and verified within the Business Manager.\n6/ One or more ad accounts are created in the Business Manager.\n\nReasons for Refusal of Replacement\n1/ The reliability of payment methods added to the Business Manager or ad accounts cannot be verified, and some may be flagged or restricted by Facebook.\n2/ Ads run through the Business Manager are beyond the provider\'s control, and non-compliance with Facebook\'s rules can lead to restrictions.\n3/ If there is a history of bans or repeated violations, the connected domains or accounts may already be flagged or monitored by Facebook.\n4/ Business Managers that are used or carry risk cannot be resold, since buyers are entitled to new, unused accounts only.\n5/ Each Business Manager is delivered in good condition at the time of purchase. Any issues occurring after usage begins are the buyer\'s responsibility.',
+          'At GoAds, all assets are delivered in working condition and carefully checked before delivery. Our warranty covers replacement only — refunds are not provided under any circumstances.\n\nOnce an asset has been delivered and begins to be used, the responsibility for its operation and compliance with platform policies belongs to the client.',
+      },
+      {
+        question: 'Business Manager warranty (72 hours)',
+        answer:
+          'If a Business Manager becomes restricted or disabled within 72 hours after delivery, GoAds will provide a replacement, provided that no activity has been performed inside the Business Manager.\n\nActivities that void the warranty:\n• Adding payment methods\n• Running advertisements\n• Creating ad accounts or pages\n• Adding or verifying domains\n• Making administrative or structural changes',
+      },
+      {
+        question: 'Facebook Profile warranty (7 days)',
+        answer:
+          'All Facebook Profiles include a 7-day warranty from delivery. If a profile becomes restricted or disabled within the warranty period, GoAds will provide a replacement with no limit on the number of replacements during the 7-day period.',
+      },
+      {
+        question: 'When does the warranty not apply?',
+        answer:
+          'Warranty requests may be declined if:\n• The asset has already been used or modified\n• Payment methods, domains, or pages have been added\n• Advertisements have been launched\n• The asset has been exposed to risk due to policy violations or flagged payment methods/domains\n\nAssets that have already been used cannot be resold as new and do not qualify for replacement.',
       },
     ],
   },

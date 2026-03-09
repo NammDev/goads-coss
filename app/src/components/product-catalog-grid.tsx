@@ -4,11 +4,10 @@ import { useState } from 'react'
 import { CheckIcon, SparklesIcon } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { MotionPreset } from '@/components/ui/motion-preset'
+import { Card, CardContent } from '@/components/ui/card'
 import { SectionHeader } from '@/components/section-header'
 import { cn } from '@/lib/utils'
+import { UpsellCard } from '@/components/product-catalog'
 import type { ProductCategory, UpsellItem } from '@/components/product-catalog'
 
 /* ---------- product row (selectable) ---------- */
@@ -49,67 +48,53 @@ function ProductRow({
         </div>
         {isPopular && <SparklesIcon className="size-3 shrink-0 text-foreground/60" />}
         <span className={cn('truncate text-sm', isPopular && 'font-semibold')}>
-          {product.badge && (
-            <span className="text-muted-foreground mr-1 text-xs">{product.badge}</span>
-          )}
           {product.name}
         </span>
       </div>
-      <span className="shrink-0 text-sm font-semibold">${product.price}</span>
+      <span className="shrink-0 text-sm font-semibold">
+        {product.price === 'contact' ? 'Contact' : `$${product.price}`}
+      </span>
     </button>
   )
 }
 
-/* ---------- category card with selection ---------- */
+/* ---------- category card ---------- */
 
-function CategoryCard({
-  category,
-  index,
-}: {
-  category: ProductCategory
-  index: number
-}) {
+function CategoryCard({ category }: { category: ProductCategory }) {
   const defaultIndex = category.products.findIndex((p) => p.isPopular)
   const [selectedIdx, setSelectedIdx] = useState(defaultIndex >= 0 ? defaultIndex : 0)
-  const selected = category.products[selectedIdx]
 
   return (
-    <MotionPreset
-      fade
-      slide={{ direction: 'up', offset: 20 }}
-      blur="4px"
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      delay={0.08 * index}
-    >
-      <Card className="flex h-full flex-col">
-        <CardHeader className="pb-3">
-          <div className="flex items-start gap-3">
-            {category.icon && (
-              <div className="bg-primary/10 flex size-9 shrink-0 items-center justify-center rounded-lg">
-                {category.icon}
-              </div>
-            )}
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <CardTitle className="text-base">{category.title}</CardTitle>
-                {category.badge && (
-                  <Badge variant="outline" className="text-[10px]">
-                    {category.badge}
-                  </Badge>
-                )}
-              </div>
-              {category.description && (
-                <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs leading-snug">
-                  {category.description}
-                </p>
+    <Card className="flex h-full flex-col">
+      <CardContent className="flex h-full flex-col gap-0 px-5 py-4">
+        {/* header */}
+        <div className="flex items-start gap-3 pb-3">
+          {category.icon && (
+            <div className="bg-primary/10 flex size-9 shrink-0 items-center justify-center rounded-lg">
+              {category.icon}
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-bold leading-tight">{category.title}</h3>
+              {category.badge && (
+                <Badge variant="outline" className="text-[10px]">
+                  {category.badge}
+                </Badge>
               )}
             </div>
+            {category.description && (
+              <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs leading-snug">
+                {category.description}
+              </p>
+            )}
           </div>
-        </CardHeader>
+        </div>
 
-        <Separator />
+        <div className="border-border/60 border-t" />
 
-        <CardContent className="flex flex-1 flex-col gap-1 p-3">
+        {/* product rows */}
+        <div className="flex flex-1 flex-col gap-1 pt-3">
           <div className="flex-1 space-y-1">
             {category.products.map((product, i) => (
               <ProductRow
@@ -121,51 +106,11 @@ function CategoryCard({
             ))}
           </div>
           <Button size="sm" className="btn-mirror-sweep btn-secondary mt-3 w-full cursor-pointer">
-            Buy {selected?.name} — ${selected?.price}
+            {category.buttonText ?? 'Buy'}
           </Button>
-        </CardContent>
-      </Card>
-    </MotionPreset>
-  )
-}
-
-/* ---------- compact upsell ---------- */
-
-function UpsellRow({ item, index }: { item: UpsellItem; index: number }) {
-  return (
-    <MotionPreset
-      fade
-      slide={{ direction: 'up', offset: 15 }}
-      blur="4px"
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      delay={0.3 + 0.1 * index}
-    >
-      <Card className="border-dashed">
-        <CardContent className="flex items-center justify-between gap-4 p-4">
-          <div className="flex items-center gap-3">
-            {item.icon && (
-              <div className="bg-muted flex size-9 shrink-0 items-center justify-center rounded-lg">
-                {item.icon}
-              </div>
-            )}
-            <div className="min-w-0">
-              <h3 className="text-sm font-semibold">{item.title}</h3>
-              {item.features && (
-                <p className="text-muted-foreground mt-0.5 text-xs">
-                  {item.features.join(' · ')}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="flex shrink-0 items-center gap-3">
-            <span className="text-sm font-bold">{item.price}</span>
-            <Button size="sm" className="btn-mirror-sweep btn-secondary cursor-pointer">
-              {item.buttonText ?? 'Buy'}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </MotionPreset>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -197,15 +142,15 @@ export function ProductCatalogGrid({
         )}
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((cat, i) => (
-            <CategoryCard key={cat.title} category={cat} index={i} />
+          {categories.map((cat) => (
+            <CategoryCard key={cat.title} category={cat} />
           ))}
         </div>
 
         {upsells && upsells.length > 0 && (
           <div className="mt-8 space-y-4">
-            {upsells.map((item, i) => (
-              <UpsellRow key={item.title} item={item} index={i} />
+            {upsells.map((item, idx) => (
+              <UpsellCard key={item.title} item={item} index={idx} />
             ))}
           </div>
         )}

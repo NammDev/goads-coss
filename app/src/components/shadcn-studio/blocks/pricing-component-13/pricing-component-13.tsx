@@ -29,7 +29,7 @@ const Pricing = ({ plans }: { plans: Plan[] }) => {
         <SectionHeader
           label='Pricing'
           heading={<>Simple,{' '}<span className='relative font-bold'>Transparent<WavyUnderline /></span>{' '}Pricing</>}
-          description='No hidden fees. No long-term contracts. Pick the plan that fits your scale.'
+          description='No hidden fees. No long-term contracts. Pick the Facebook setup that fits your scale.'
           inView
         />
 

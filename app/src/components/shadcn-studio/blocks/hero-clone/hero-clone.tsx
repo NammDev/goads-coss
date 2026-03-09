@@ -9,11 +9,11 @@ import { Separator } from '@/components/ui/separator'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { MotionPreset } from '@/components/ui/motion-preset'
 import { Marquee } from '@/components/ui/marquee'
-import { Card, CardContent } from '@/components/ui/card'
 import { WavyUnderline } from '@/components/section-header'
 import { WordRotate, Typewriter } from './word-rotate'
 import HeroGridBg from './hero-grid-bg'
-import { ROTATE_WORDS, TYPEWRITER_WORDS, AVATARS, PLATFORM_LOGOS, BRAND_LOGOS } from '@/data/landing-hero'
+import { ROTATE_WORDS, TYPEWRITER_WORDS, AVATARS, PLATFORM_LOGOS } from '@/data/landing-hero'
+import { MARQUEE_BRANDS } from '@/assets/svg/brand-marquee-logos'
 
 export default function HeroClone() {
   return (
@@ -122,26 +122,22 @@ export default function HeroClone() {
           <div className="from-background pointer-events-none absolute inset-y-0 left-0 z-1 w-35 bg-gradient-to-r to-transparent" />
           <div className="from-background pointer-events-none absolute inset-y-0 right-0 z-1 w-35 bg-gradient-to-l to-transparent" />
           <div className="w-full overflow-hidden">
-            <Marquee pauseOnHover duration={40} gap={1.5}>
-              {BRAND_LOGOS.slice(0, 7).map((logo, index) => (
-                <Card key={index} className="rounded-lg border-none shadow-md">
-                  <CardContent className="flex items-center gap-2.5 px-9">
-                    <img src={logo.icon} alt={logo.name} className="h-6 w-6" />
-                    <span className="text-sm font-semibold tracking-tight whitespace-nowrap">{logo.name}</span>
-                  </CardContent>
-                </Card>
+            <Marquee pauseOnHover duration={45} gap={1}>
+              {MARQUEE_BRANDS.map((brand, index) => (
+                <div key={index} className="group flex items-center gap-2.5 rounded-xl border bg-background/80 px-5 py-2.5 transition-colors hover:border-primary/30 hover:bg-primary/5">
+                  <img src={brand.src} alt={brand.name} className="size-5 shrink-0 object-contain" />
+                  <span className="text-sm font-medium text-muted-foreground whitespace-nowrap transition-colors group-hover:text-foreground">{brand.name}</span>
+                </div>
               ))}
             </Marquee>
           </div>
-          <div className="w-full overflow-hidden">
-            <Marquee pauseOnHover duration={40} gap={1.5} reverse>
-              {BRAND_LOGOS.slice(7).map((logo, index) => (
-                <Card key={index} className="rounded-lg border-none shadow-md">
-                  <CardContent className="flex items-center gap-2.5 px-9">
-                    <img src={logo.icon} alt={logo.name} className="h-6 w-6" />
-                    <span className="text-sm font-semibold tracking-tight whitespace-nowrap">{logo.name}</span>
-                  </CardContent>
-                </Card>
+          <div className="mt-2 w-full overflow-hidden">
+            <Marquee pauseOnHover duration={45} gap={1} reverse>
+              {[...MARQUEE_BRANDS].reverse().map((brand, index) => (
+                <div key={index} className="group flex items-center gap-2.5 rounded-xl border bg-background/80 px-5 py-2.5 transition-colors hover:border-primary/30 hover:bg-primary/5">
+                  <img src={brand.src} alt={brand.name} className="size-5 shrink-0 object-contain" />
+                  <span className="text-sm font-medium text-muted-foreground whitespace-nowrap transition-colors group-hover:text-foreground">{brand.name}</span>
+                </div>
               ))}
             </Marquee>
           </div>

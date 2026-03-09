@@ -3,13 +3,12 @@ import { Search, LogIn, Palette } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ModeSwitcher } from '@/components/mode-switcher'
 import { Separator } from '@/components/ui/separator'
-import { SsLogo, SsCtaIcon, XIcon, DiscordIcon } from './site-header-icons'
+import { SsLogo, SsCtaIcon, LinkedInIcon } from './site-header-icons'
 import { NavMegaMenu } from './nav-mega-menu'
 import { NavMobileDrawer } from './nav-mobile-drawer'
 
 const SOCIAL_LINKS = [
-  { href: 'https://t.me/GoAdsSupport', icon: DiscordIcon, label: 'Telegram' },
-  { href: '#', icon: XIcon, label: 'X' },
+  { href: 'https://www.linkedin.com/company/goads-agency-vn/', icon: LinkedInIcon, label: 'LinkedIn' },
 ]
 
 const navLinkClass = 'text-sm text-muted-foreground transition-all hover:text-foreground'

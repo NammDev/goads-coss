@@ -1,17 +1,13 @@
+'use client'
+
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
-import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import {
-  Bitcoin,
-  Landmark,
-  CreditCard,
-  Wallet,
-  ArrowRightLeft,
-  CircleDollarSign,
-} from 'lucide-react'
+import { InfoCard, InfoCardGrid } from '@/components/info-card'
+import { Bitcoin, Landmark, ArrowRightLeft } from 'lucide-react'
+import { GoAdsLogo } from '@/assets/svg/ad-platform-logos'
 
 /* ---------- Payment methods data ---------- */
 
@@ -31,32 +27,11 @@ const methods = [
     badgeVariant: 'outline' as const,
   },
   {
-    icon: CreditCard,
-    name: 'PayPal',
-    description: 'Pay securely via PayPal. A small processing fee may apply for PayPal transactions.',
-    badge: null,
-    badgeVariant: 'outline' as const,
-  },
-  {
     icon: ArrowRightLeft,
     name: 'Wise (TransferWise)',
     description: 'Low-fee international transfers via Wise. Great for clients outside the US and EU.',
     badge: 'Low Fees',
     badgeVariant: 'secondary' as const,
-  },
-  {
-    icon: Wallet,
-    name: 'Perfect Money',
-    description: 'E-wallet payment option with instant processing. Ideal for recurring purchases.',
-    badge: null,
-    badgeVariant: 'outline' as const,
-  },
-  {
-    icon: CircleDollarSign,
-    name: 'Other Methods',
-    description: 'Contact our sales team for additional payment options including Payoneer, Skrill, and local methods.',
-    badge: null,
-    badgeVariant: 'outline' as const,
   },
 ]
 
@@ -82,26 +57,35 @@ export default function PaymentPage() {
 
       <section className='py-8 sm:py-16 lg:py-24'>
         <div className='mx-auto max-w-[1416px] px-4 lg:px-6'>
-          <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-            {methods.map((method) => (
-              <Card key={method.name}>
-                <CardContent className='flex flex-col gap-3 p-6'>
-                  <div className='flex items-center gap-3'>
-                    <div className='bg-primary/10 flex size-10 items-center justify-center rounded-lg'>
-                      <method.icon className='text-primary size-5' />
-                    </div>
-                    <h3 className='text-lg font-semibold'>{method.name}</h3>
-                    {method.badge && (
-                      <Badge variant={method.badgeVariant} className='ml-auto text-xs'>
-                        {method.badge}
-                      </Badge>
-                    )}
+          <InfoCardGrid>
+            {methods.map((method, i) => (
+              <InfoCard key={method.name} index={i}>
+                {/* top: name + badge/price area */}
+                <div className='flex items-start justify-between gap-3'>
+                  <h3 className='text-sm font-semibold leading-tight'>{method.name}</h3>
+                  {method.badge && (
+                    <Badge variant={method.badgeVariant} className='shrink-0 text-xs'>
+                      {method.badge}
+                    </Badge>
+                  )}
+                </div>
+
+                {/* description */}
+                <p className='text-muted-foreground mt-2 text-sm leading-relaxed'>{method.description}</p>
+
+                {/* spacer */}
+                <div className='min-h-4' />
+
+                {/* bottom: logo + icon */}
+                <div className='flex items-end justify-between'>
+                  <GoAdsLogo className='size-6' />
+                  <div className='bg-primary/10 flex size-8 items-center justify-center rounded-lg'>
+                    <method.icon className='text-primary size-4' />
                   </div>
-                  <p className='text-muted-foreground text-sm'>{method.description}</p>
-                </CardContent>
-              </Card>
+                </div>
+              </InfoCard>
             ))}
-          </div>
+          </InfoCardGrid>
         </div>
       </section>
 

@@ -1,105 +1,50 @@
 import {
-  BuildingIcon,
-  ShieldCheckIcon,
-  FileTextIcon,
   UserIcon,
-  GlobeIcon,
-  SearchIcon,
+  BuildingIcon,
+  FileTextIcon,
   VideoIcon,
   WrenchIcon,
+  ShieldCheckIcon,
   HeadphonesIcon,
 } from 'lucide-react'
 
 import type { ProductCategory, UpsellItem } from '@/components/product-catalog'
 
-/* ---------- Meta Agency Ad Accounts ---------- */
+/* ---------- Facebook Profiles ---------- */
 
-const agencyAccounts: ProductCategory = {
-  icon: <ShieldCheckIcon className="size-5" />,
-  title: 'Meta Agency Ad Accounts',
-  badge: 'Best Seller',
+const facebookProfiles: ProductCategory = {
+  icon: <UserIcon className="size-5" />,
+  title: 'Facebook Profiles',
   description:
-    'Pre-approved ad accounts under verified agency setups with higher trust scores',
+    'If you need other types of Facebook profiles, feel free to contact us for custom options.',
+  buttonText: 'Add to Cart',
   products: [
-    {
-      name: 'Agency Account $250',
-      badge: 'Verified',
-      description: 'Agency ad account with $250 daily spend limit. Ideal for testing campaigns.',
-      price: 35,
-      unit: 'account',
-      purchased: 4210,
-    },
-    {
-      name: 'Agency Account Nolimit',
-      badge: 'Verified',
-      description: 'Agency ad account with no spending cap. Scale without restrictions.',
-      price: 55,
-      unit: 'account',
-      purchased: 2890,
-      isPopular: true,
-    },
-    {
-      name: 'Agency Account + Page',
-      badge: 'Verified',
-      description: 'Agency ad account bundled with a Facebook Page — ready to run ads instantly.',
-      price: 65,
-      unit: 'bundle',
-      purchased: 1540,
-    },
-    {
-      name: 'Agency Account VIA',
-      description: 'Via-type agency account for specific geo-targeted campaigns.',
-      price: 45,
-      unit: 'account',
-      purchased: 980,
-    },
+    { name: 'Asia Reinstated Aged Facebook Profile', price: 30 },
+    { name: 'USA Reinstated Aged Facebook Profile', price: 40 },
+    { name: 'Premium Asia Reinstated Facebook Profile', price: 40 },
+    { name: 'Premium USA Reinstated Facebook Profile', price: 50 },
+    { name: 'Asia Super Aged (7+ Years) Double Reinstated Profile', price: 95 },
+    { name: 'USA Super Aged (7+ Years) Double Reinstated Profile', price: 110 },
   ],
 }
 
-/* ---------- Business Managers ---------- */
+/* ---------- Business Manager ---------- */
 
-const businessManagers: ProductCategory = {
+const businessManager: ProductCategory = {
   icon: <BuildingIcon className="size-5" />,
-  title: 'Business Managers',
-  description:
-    'Full BM setups for managing multiple ad accounts, pages, and team members',
+  title: 'Business Manager',
+  description: 'Need a different BM setup? Contact us for custom configurations.',
+  buttonText: 'Add to Cart',
   products: [
-    {
-      name: 'BM1',
-      description: 'Business Manager with 1 ad account — ready for immediate use.',
-      price: 29,
-      unit: 'unit',
-      purchased: 3242,
-    },
-    {
-      name: 'BM3',
-      description: 'Business Manager with 3 ad accounts — ideal for scaling campaigns.',
-      price: 69,
-      unit: 'unit',
-      purchased: 1849,
-      isPopular: true,
-    },
-    {
-      name: 'BM5',
-      description: 'Business Manager with 5 ad accounts — great for agencies.',
-      price: 99,
-      unit: 'unit',
-      purchased: 1205,
-    },
-    {
-      name: 'BM5 Nolimit',
-      description: 'Business Manager with 5 ad accounts — no daily spending limits.',
-      price: 149,
-      unit: 'unit',
-      purchased: 812,
-    },
-    {
-      name: 'BM10',
-      description: 'Business Manager with 10 ad accounts — maximum capacity.',
-      price: 199,
-      unit: 'unit',
-      purchased: 456,
-    },
+    { name: 'BM1 Verified', price: 80 },
+    { name: 'BM3 Verified', price: 180, isPopular: true },
+    { name: 'BM5 Verified ($250 DSL)', price: 320 },
+    { name: 'BM5 Verified (Unlimited DSL)', price: 390 },
+    { name: 'BM10 Verified ($250 DSL)', price: 'contact' },
+    { name: 'BM10 Verified (Unlimited DSL)', price: 'contact' },
+    { name: 'BM Verified WhatsApp API (250 limit)', price: 100 },
+    { name: 'BM Verified WhatsApp API (2,000 limit)', price: 280 },
+    { name: 'BM Verified WhatsApp API (10,000 limit)', price: 1400 },
   ],
 }
 
@@ -108,137 +53,63 @@ const businessManagers: ProductCategory = {
 const facebookPages: ProductCategory = {
   icon: <FileTextIcon className="size-5" />,
   title: 'Facebook Pages',
-  description: 'Aged and verified Facebook Pages for ad campaigns and brand presence',
+  description: 'Need pages with different followers, niches, or history? Contact us.',
+  buttonText: 'Add to Cart',
   products: [
-    {
-      name: 'New Page',
-      description: 'Fresh Facebook Page — clean history, ready to customize.',
-      price: 5,
-      unit: 'page',
-      purchased: 6820,
-    },
-    {
-      name: 'Aged Page (1+ year)',
-      description: 'Facebook Page aged 1+ year with organic history. Better trust score for ads.',
-      price: 15,
-      unit: 'page',
-      purchased: 3150,
-      isPopular: true,
-    },
-    {
-      name: 'Aged Page (3+ years)',
-      description: 'Facebook Page aged 3+ years. Highest trust, best ad approval rates.',
-      price: 25,
-      unit: 'page',
-      purchased: 1780,
-    },
-    {
-      name: 'Marketplace Page',
-      description: 'Page with Marketplace access enabled — ideal for e-commerce sellers.',
-      price: 20,
-      unit: 'page',
-      purchased: 940,
-    },
+    { name: 'Aged Reinstated Facebook Page', price: 35 },
+    { name: '1,000–3,000 Follower Facebook Page', price: 45 },
+    { name: '5,000 Follower Facebook Page', price: 65 },
+    { name: '10,000 Follower Facebook Page', price: 110, isPopular: true },
+    { name: 'Livestream Ads Ready Facebook Page', price: 200 },
+    { name: 'Monetized Facebook Page (10,000 Followers)', price: 300 },
+    { name: 'Verified Facebook Page (Blue Badge)', price: 600 },
   ],
 }
 
-/* ---------- Facebook Profiles ---------- */
+/* ---------- TikTok Accounts ---------- */
 
-const facebookProfiles: ProductCategory = {
-  icon: <UserIcon className="size-5" />,
-  title: 'Facebook Profiles',
-  description: 'Verified and aged profiles for running personal ad accounts and BMs',
-  products: [
-    {
-      name: 'New Profile',
-      description: 'Fresh Facebook Profile with basic setup — ready for use.',
-      price: 8,
-      unit: 'profile',
-      purchased: 5430,
-    },
-    {
-      name: 'Aged Profile (1+ year)',
-      description: 'Aged profile with friends and activity history. Safer for ad operations.',
-      price: 20,
-      unit: 'profile',
-      purchased: 2760,
-      isPopular: true,
-    },
-    {
-      name: 'Aged Profile (3+ years)',
-      description: 'Heavily aged profile — best stability, highest trust score.',
-      price: 35,
-      unit: 'profile',
-      purchased: 1120,
-    },
-    {
-      name: 'Profile + BM1',
-      badge: 'Bundle',
-      description: 'Aged profile bundled with a BM1 — complete starter kit.',
-      price: 45,
-      unit: 'bundle',
-      purchased: 890,
-    },
-  ],
-}
-
-/* ---------- Google Ads Accounts ---------- */
-
-const googleAds: ProductCategory = {
-  icon: <SearchIcon className="size-5" />,
-  title: 'Google Whitelisted Accounts',
-  badge: 'New',
-  description: 'Pre-approved Google Ads accounts with whitelisted payment methods',
-  products: [
-    {
-      name: 'Google Ads — Threshold',
-      description: 'Google Ads account with spending threshold — run ads before paying.',
-      price: 45,
-      unit: 'account',
-      purchased: 1890,
-      isPopular: true,
-    },
-    {
-      name: 'Google Ads — Invoice',
-      description: 'Invoice-billing Google Ads account — pay monthly after spending.',
-      price: 65,
-      unit: 'account',
-      purchased: 980,
-    },
-    {
-      name: 'Google Ads — Agency',
-      badge: 'Whitelisted',
-      description: 'Whitelisted agency account with higher spending limits and support.',
-      price: 99,
-      unit: 'account',
-      purchased: 560,
-    },
-  ],
-}
-
-/* ---------- TikTok Ads Accounts ---------- */
-
-const tiktokAds: ProductCategory = {
+const tiktokAccounts: ProductCategory = {
   icon: <VideoIcon className="size-5" />,
-  title: 'TikTok Verified Accounts',
-  description: 'Verified TikTok advertising accounts for running campaigns at scale',
+  title: 'TikTok Accounts',
+  description: 'Looking for other TikTok assets or setups? Contact us.',
+  buttonText: 'Add to Cart',
   products: [
-    {
-      name: 'TikTok Agency Account',
-      badge: 'Verified',
-      description: 'Verified TikTok Ads account under agency setup — stable and scalable.',
-      price: 55,
-      unit: 'account',
-      purchased: 1340,
-      isPopular: true,
-    },
-    {
-      name: 'TikTok Personal Account',
-      description: 'Personal TikTok Ads account — great for testing and small campaigns.',
-      price: 30,
-      unit: 'account',
-      purchased: 2100,
-    },
+    { name: 'Fresh TikTok Channel Account (0 Followers)', price: 60 },
+    { name: 'TikTok Shop Info USA', price: 80 },
+    { name: 'TikTok Ads Business Account (Verified for Ads)', price: 120, isPopular: true },
+    { name: 'TikTok Affiliate Account (1,000+ Followers)', price: 180 },
+    { name: 'TikTok Shop Info USA (Jumio Verified)', price: 400 },
+  ],
+}
+
+/* ---------- Unban Services ---------- */
+
+const unbanServices: ProductCategory = {
+  icon: <WrenchIcon className="size-5" />,
+  title: 'Unban Services',
+  description:
+    'If your case is not listed here, feel free to contact us for consultation.',
+  buttonText: 'Request Service',
+  products: [
+    { name: 'Unban Facebook Profile Service', price: 'contact' },
+    { name: 'Unban Facebook Page Service', price: 'contact' },
+    { name: 'Unban Instagram Profile Service', price: 'contact' },
+  ],
+}
+
+/* ---------- Blue Badge Verification ---------- */
+
+const blueBadgeVerification: ProductCategory = {
+  icon: <ShieldCheckIcon className="size-5" />,
+  title: 'Blue Badge Verification',
+  description: 'If your case is not listed here, contact us for consultation.',
+  buttonText: 'Request Service',
+  products: [
+    { name: 'Business Manager Verification Service', price: 100 },
+    { name: 'Facebook Profile Blue Badge Verification', price: 600 },
+    { name: 'Instagram Profile Blue Badge Verification', price: 600 },
+    { name: 'Facebook Page Blue Badge Verification', price: 600 },
+    { name: 'Social Media Engagement Boost', price: 'contact' },
   ],
 }
 
@@ -246,21 +117,12 @@ const tiktokAds: ProductCategory = {
 
 export const pricingUpsells: UpsellItem[] = [
   {
-    icon: <WrenchIcon className="size-5" />,
-    title: 'Full Bulletproof Setup — 2 BM + 2 Profiles + Pages',
-    description:
-      'Complete ready-to-go bulletproof setup. Includes 2 verified BMs, 2 aged profiles, pages, pixel setup, domain verification, and full configuration.',
-    price: '$350',
-    features: ['2 Verified BMs', '2 Aged Profiles', 'Pages included', 'Pixel & domain setup'],
-    buttonText: 'Buy Now',
-  },
-  {
     icon: <HeadphonesIcon className="size-5" />,
-    title: 'Enterprise — Custom Bulk Order',
+    title: 'Custom Enterprise Solutions',
     description:
-      'Need 50+ accounts or a custom mix of products? Contact us for a tailored quote, dedicated account manager, and priority delivery.',
+      'Need a custom setup? Contact us directly for a tailored quote, dedicated account manager, and priority delivery.',
     price: 'Custom',
-    features: ['Volume discounts', 'Dedicated manager', 'Custom mix', 'Priority support'],
+    features: ['Volume discounts', 'Dedicated manager', 'Custom configuration', 'Priority support'],
     buttonText: 'Contact Sales',
   },
 ]
@@ -268,10 +130,10 @@ export const pricingUpsells: UpsellItem[] = [
 /* ---------- all categories ---------- */
 
 export const pricingCategories: ProductCategory[] = [
-  agencyAccounts,
-  businessManagers,
-  facebookPages,
   facebookProfiles,
-  googleAds,
-  tiktokAds,
+  businessManager,
+  facebookPages,
+  tiktokAccounts,
+  unbanServices,
+  blueBadgeVerification,
 ]

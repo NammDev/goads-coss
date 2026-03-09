@@ -1,4 +1,6 @@
-import { ArrowRightIcon, MessageSquareIcon, SendIcon, TwitterIcon, YoutubeIcon } from 'lucide-react'
+import { ArrowRightIcon } from 'lucide-react'
+import { TelegramLogo, WhatsAppLogo } from '@/assets/svg/ad-platform-logos'
+import { LinkedInIcon } from '@/components/site-header-icons'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,46 +15,39 @@ const Footer = () => {
             goads/agency
           </a>
           <p className='text-muted-foreground'>
-            Stop Losing Accounts. Start Scaling. GoAds provides premium Meta, Google, and TikTok ad
-            infrastructure with 7-day warranty and under 2-hour support response.
+            Premium Meta, Google & TikTok ad infrastructure for agencies and media buyers.
+          </p>
+          <p className='text-muted-foreground text-sm'>
+            Support response under 2 hours.
           </p>
           <Separator className='!w-35' />
           <div className='flex items-center gap-4'>
             <a
-              href='https://t.me/GoAdsSupport'
+              href='https://t.me/goads_official'
               target='_blank'
               rel='noopener noreferrer'
               className='text-muted-foreground transition-colors hover:text-foreground'
               aria-label='Telegram'
             >
-              <SendIcon className='size-5' />
+              <TelegramLogo className='size-5' />
             </a>
             <a
-              href='#'
+              href='https://wa.me/84865717497'
               target='_blank'
               rel='noopener noreferrer'
               className='text-muted-foreground transition-colors hover:text-foreground'
-              aria-label='Twitter / X'
+              aria-label='WhatsApp'
             >
-              <TwitterIcon className='size-5' />
+              <WhatsAppLogo className='size-5' />
             </a>
             <a
-              href='#'
+              href='https://www.linkedin.com/company/goads-agency-vn/'
               target='_blank'
               rel='noopener noreferrer'
               className='text-muted-foreground transition-colors hover:text-foreground'
-              aria-label='YouTube'
+              aria-label='LinkedIn'
             >
-              <YoutubeIcon className='size-5' />
-            </a>
-            <a
-              href='#'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='text-muted-foreground transition-colors hover:text-foreground'
-              aria-label='Discord'
-            >
-              <MessageSquareIcon className='size-5' />
+              <LinkedInIcon className='size-5' />
             </a>
           </div>
         </div>
@@ -116,11 +111,6 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href='/faq' className='hover:text-foreground transition-colors duration-300'>
-                  FAQ
-                </a>
-              </li>
-              <li>
                 <a href='/tools' className='hover:text-foreground transition-colors duration-300'>
                   Free Tools
                 </a>
@@ -164,7 +154,7 @@ const Footer = () => {
 
       <Separator />
 
-      <div className='container flex justify-center py-6'>
+      <div className='container flex flex-col items-center gap-3 py-6 sm:flex-row sm:justify-between'>
         <p className='text-center font-medium text-balance'>
           {`©${new Date().getFullYear()}`}{' '}
           <a href='/' className='link-animated'>
@@ -172,6 +162,11 @@ const Footer = () => {
           </a>
           {' '}&ndash; Stop Losing Accounts. Start Scaling.
         </p>
+        <nav className='flex gap-4 text-sm text-muted-foreground'>
+          <a href='/terms-of-service' className='transition-colors hover:text-foreground'>Terms</a>
+          <a href='/privacy-policy' className='transition-colors hover:text-foreground'>Privacy</a>
+          <a href='/refund-policy' className='transition-colors hover:text-foreground'>Refund</a>
+        </nav>
       </div>
     </footer>
   )

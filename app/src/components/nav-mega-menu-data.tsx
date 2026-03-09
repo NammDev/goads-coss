@@ -16,7 +16,6 @@ import {
   Star,
   CreditCard,
   Trophy,
-  CircleHelp,
   FileText,
   Phone,
 
@@ -142,12 +141,6 @@ export const RESOURCES_LEARN = [
     title: 'Reviews',
     description: 'What our clients say',
     href: '/reviews',
-  },
-  {
-    icon: CircleHelp,
-    title: 'FAQ',
-    description: 'Common questions answered',
-    href: '/faq',
   },
 ]
 

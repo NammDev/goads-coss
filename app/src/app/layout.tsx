@@ -1,8 +1,12 @@
 import "./globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 import { fontMono, fontSans } from "@/fonts";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { FloatingContactButton } from "@/components/floating-contact-button";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -35,6 +39,9 @@ export default function RootLayout({
         <ThemeProvider>
           <TooltipProvider>
             {children}
+            <FloatingContactButton />
+            <Analytics />
+            <SpeedInsights />
           </TooltipProvider>
         </ThemeProvider>
       </body>

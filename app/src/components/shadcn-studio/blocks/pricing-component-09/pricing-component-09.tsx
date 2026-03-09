@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { CircleIcon } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -43,16 +42,16 @@ const Pricing = ({ plans }: { plans: Plans[] }) => {
                   )}
                 >
                   <div className='flex flex-col gap-6'>
-                    <div className={cn('flex items-center', isSelected ? 'justify-between' : 'justify-start')}>
-                      <h3 className='text-3xl font-bold'>{plan.name}</h3>
-                      {isSelected && <Badge className='bg-primary rounded-lg px-3 py-1'>Popular</Badge>}
-                    </div>
+                    <h3 className='text-3xl font-bold'>{plan.name}</h3>
                     <div className='flex'>
-                      <span className='text-muted-foreground text-lg font-medium'>$</span>
-                      <NumberTicker value={currentPrice} className='text-5xl font-bold' />
-                      <span className='text-muted-foreground self-end text-lg font-medium'>
-                        /month
-                      </span>
+                      {currentPrice > 0 ? (
+                        <>
+                          <span className='text-muted-foreground text-lg font-medium'>$</span>
+                          <NumberTicker value={currentPrice} className='text-5xl font-bold' />
+                        </>
+                      ) : (
+                        <span className='text-5xl font-bold'>Contact</span>
+                      )}
                     </div>
                   </div>
 
@@ -74,7 +73,7 @@ const Pricing = ({ plans }: { plans: Plans[] }) => {
                         isSelected ? 'btn-mirror-sweep btn-secondary' : 'btn-mirror-sweep btn-tertiary'
                       )}
                     >
-                      Choose
+                      {currentPrice > 0 ? 'Choose' : 'Contact Sales'}
                     </Button>
                   </div>
                 </div>

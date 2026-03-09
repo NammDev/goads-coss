@@ -8,54 +8,53 @@ import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
 import { faqTabsData } from '@/data/landing-faq'
 
-/* ---------- pricing data ---------- */
+/* ---------- pricing plans (content from landing page) ---------- */
 
 const plans = [
   {
-    name: 'Starter',
-    monthlyPrice: 49,
-    annualPrice: 468,
+    name: 'Advanced Setup',
+    monthlyPrice: 250,
+    annualPrice: 2400,
     features: [
-      '2 Agency Ad Accounts',
-      '1 Business Manager',
-      '7-day account warranty',
-      'Email & chat support',
-      'Basic account setup guide',
+      '1x BM3 Verified (3 ad account slots)',
+      '2x Premium Profiles',
+      '1x Aged Reinstated Page',
+      '14-Day Warranty',
     ],
   },
   {
-    name: 'Growth',
-    monthlyPrice: 149,
-    annualPrice: 1428,
+    name: 'Premium Setup',
+    monthlyPrice: 650,
+    annualPrice: 6240,
     features: [
-      '5 Agency Ad Accounts',
-      '2 Business Managers',
-      '7-day account warranty',
-      'Priority support (<2h response)',
-      'Account health monitoring',
+      '1x BM5 Verified ($250 spending limit)',
+      '1x BM3 Verified (3 ad account slots)',
+      '4x Premium Profiles',
+      '3x Aged Reinstated Pages',
+      '14-Day Warranty',
     ],
   },
   {
-    name: 'Agency',
-    monthlyPrice: 399,
-    annualPrice: 3828,
+    name: 'Elite Setup',
+    monthlyPrice: 890,
+    annualPrice: 8544,
     isPopular: true,
     features: [
-      '15 Agency Ad Accounts',
-      '5 Business Managers',
-      '7-day account warranty',
-      'Dedicated Telegram channel',
-      'Instant replacement service',
+      '2x BM5 Verified ($250 limit each)',
+      '6x Premium Profiles',
+      '3x Aged Reinstated Pages',
+      '1x 10,000 Followers Page',
+      '14-Day Warranty',
     ],
   },
   {
-    name: 'Enterprise',
-    monthlyPrice: 999,
-    annualPrice: 9588,
+    name: 'Customize',
+    monthlyPrice: 0,
+    annualPrice: 0,
     features: [
-      'Unlimited Ad Accounts',
-      'Unlimited Business Managers',
-      'Extended warranty period',
+      'Custom number of ad accounts',
+      'Custom BMs, profiles, pages & more',
+      'Flexible warranty options',
       'Dedicated account manager',
       'Custom SLA & onboarding',
     ],
@@ -78,7 +77,6 @@ export default function PricingPage() {
             </span>
           </>
         }
-        description="Choose the plan that fits your scale. All plans include a 7-day warranty and priority support."
       />
       <SectionDivider />
       <Pricing plans={plans} />
@@ -86,7 +84,6 @@ export default function PricingPage() {
 
       <ProductCatalogGrid
         heading="All Products & Services"
-        subheading="Browse our full catalog. Every product includes a 7-day warranty and priority support."
         categories={pricingCategories}
         upsells={pricingUpsells}
       />

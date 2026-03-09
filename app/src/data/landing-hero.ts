@@ -45,18 +45,26 @@ export interface BrandLogo {
 }
 
 export const BRAND_LOGOS: BrandLogo[] = [
-  { icon: 'https://cdn.simpleicons.org/meta/0081FB', name: 'Meta' },
   { icon: 'https://cdn.simpleicons.org/facebook/1877F2', name: 'Facebook' },
-  { icon: 'https://cdn.simpleicons.org/tiktok/000000', name: 'TikTok' },
   { icon: 'https://cdn.simpleicons.org/instagram/E4405F', name: 'Instagram' },
-  { icon: 'https://cdn.simpleicons.org/google/4285F4', name: 'Google' },
-  { icon: 'https://cdn.simpleicons.org/googleads/4285F4', name: 'Google Ads' },
   { icon: 'https://cdn.simpleicons.org/meta/0081FB', name: 'Meta' },
-  { icon: 'https://cdn.simpleicons.org/facebook/1877F2', name: 'Facebook' },
-  { icon: 'https://cdn.simpleicons.org/tiktok/000000', name: 'TikTok' },
-  { icon: 'https://cdn.simpleicons.org/instagram/E4405F', name: 'Instagram' },
+  { icon: 'https://cdn.simpleicons.org/whatsapp/25D366', name: 'WhatsApp' },
   { icon: 'https://cdn.simpleicons.org/google/4285F4', name: 'Google' },
-  { icon: 'https://cdn.simpleicons.org/googleads/4285F4', name: 'Google Ads' },
+  { icon: 'https://cdn.simpleicons.org/tiktok/000000', name: 'TikTok' },
+  { icon: '/partners/incogniton.jpg', name: 'Incogniton' },
+  { icon: '/partners/adspower.png', name: 'AdsPower' },
+  { icon: '/partners/dolphin-anty.svg', name: 'Dolphin{anty}' },
+  { icon: '/partners/floxy.avif', name: 'Floxy' },
+  { icon: 'https://cdn.simpleicons.org/facebook/1877F2', name: 'Facebook' },
+  { icon: 'https://cdn.simpleicons.org/instagram/E4405F', name: 'Instagram' },
+  { icon: 'https://cdn.simpleicons.org/meta/0081FB', name: 'Meta' },
+  { icon: 'https://cdn.simpleicons.org/whatsapp/25D366', name: 'WhatsApp' },
+  { icon: 'https://cdn.simpleicons.org/google/4285F4', name: 'Google' },
+  { icon: 'https://cdn.simpleicons.org/tiktok/000000', name: 'TikTok' },
+  { icon: '/partners/incogniton.jpg', name: 'Incogniton' },
+  { icon: '/partners/adspower.png', name: 'AdsPower' },
+  { icon: '/partners/dolphin-anty.svg', name: 'Dolphin{anty}' },
+  { icon: '/partners/floxy.avif', name: 'Floxy' },
 ]
 
 // hero-section-23 word rotate
