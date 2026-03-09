@@ -112,7 +112,7 @@ function CtaCard({
         <div className="mt-4 space-y-2">
           <Link
             href={primaryHref}
-            className="btn-mirror-sweep btn-secondary inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+            className="inline-flex w-full items-center justify-center rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
           >
             {primaryLabel}
           </Link>
@@ -229,7 +229,7 @@ function ToolsPanel() {
           </div>
           <Link
             href="/tools"
-            className="btn-mirror-sweep btn-secondary mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
+            className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/90"
           >
             Browse All Tools
             <ArrowRightIcon className="size-3.5" />

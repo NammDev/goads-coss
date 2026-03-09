@@ -82,14 +82,14 @@ export function SiteHeader() {
                 {/* CTA — full on md+, icon-only on mobile */}
                 <a
                   href="/#pricing"
-                  className="btn-mirror-sweep btn-secondary inline-flex shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
+                  className="inline-flex shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
                 >
                   Get Started
                   <SsCtaIcon />
                 </a>
                 <a
                   href="/#pricing"
-                  className="btn-mirror-sweep btn-secondary inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
+                  className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
                 >
                   <SsCtaIcon />
                   <span className="sr-only">Get Started</span>
