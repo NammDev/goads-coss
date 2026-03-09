@@ -12,7 +12,7 @@ import { useCart } from '@/lib/cart-context'
 
 export type Product = {
   name: string
-  description: string
+  description?: string
   price: number | 'contact'
   unit?: string
   purchased?: number
@@ -21,6 +21,7 @@ export type Product = {
 }
 
 export type ProductCategory = {
+  buttonText?: string
   icon?: React.ReactNode
   title: string
   description?: string
@@ -220,7 +221,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
 /* ---------- upsell card ---------- */
 
-function UpsellCard({ item, index }: { item: UpsellItem; index: number }) {
+export function UpsellCard({ item, index }: { item: UpsellItem; index: number }) {
   return (
     <MotionPreset
       fade
