@@ -1,7 +1,6 @@
 import Link from 'next/link'
-import { Search } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { ModeSwitcher } from '@/components/mode-switcher'
+import { SearchTrigger } from '@/components/search-trigger'
 import { Separator } from '@/components/ui/separator'
 import { SsLogo, SsCtaIcon, XIcon } from './site-header-icons'
 import { NavMegaMenu } from './nav-mega-menu'
@@ -49,10 +48,7 @@ export function SiteHeader() {
             <Separator orientation="vertical" className="!h-8 max-lg:hidden" />
 
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon" className="hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15">
-                <Search />
-                <span className="sr-only">Search</span>
-              </Button>
+              <SearchTrigger />
               <ModeSwitcher />
               <CartButtonWrapper />
               <a

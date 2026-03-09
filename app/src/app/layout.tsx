@@ -5,6 +5,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/lib/cart-context";
 import { Toaster } from "@/components/ui/sonner";
+import { CommandMenu } from "@/components/command-menu";
+import { FloatingContactButton } from "@/components/floating-contact-button";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -40,6 +43,9 @@ export default function RootLayout({
           <CartProvider>
             <TooltipProvider>
               {children}
+              <CommandMenu />
+              <FloatingContactButton />
+              <ScrollToTop />
               <Toaster position="top-right" />
             </TooltipProvider>
           </CartProvider>
