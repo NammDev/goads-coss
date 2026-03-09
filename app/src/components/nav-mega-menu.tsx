@@ -275,19 +275,19 @@ export function NavMegaMenu() {
 
         <NavigationMenuItem>
           <NavigationMenuTrigger className={triggerClass}>
-            Resources
+            Tools
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ResourcesPanel />
+            <ToolsPanel />
           </NavigationMenuContent>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuTrigger className={triggerClass}>
-            Tools
+            Resources
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ToolsPanel />
+            <ResourcesPanel />
           </NavigationMenuContent>
         </NavigationMenuItem>
 
