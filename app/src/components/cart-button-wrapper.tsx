@@ -14,9 +14,9 @@ export function CartButtonWrapper() {
     <ShoppingCartSheet
       trigger={
         <Button
-          variant='outline'
+          variant='ghost'
           size='icon'
-          className='relative hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15'
+          className='relative border-transparent hover:bg-primary/15 hover:text-foreground'
         >
           <ShoppingCart className='size-4' />
           <span className='sr-only'>Cart</span>

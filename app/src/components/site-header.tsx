@@ -2,13 +2,14 @@ import Link from 'next/link'
 import { ModeSwitcher } from '@/components/mode-switcher'
 import { SearchTrigger } from '@/components/search-trigger'
 import { Separator } from '@/components/ui/separator'
-import { SsLogo, SsCtaIcon, XIcon } from './site-header-icons'
+import { SsLogo, SsCtaIcon, LinkedInIcon, TelegramIcon, DiscordIcon } from './site-header-icons'
 import { NavMegaMenu } from './nav-mega-menu'
 import { NavMobileDrawer } from './nav-mobile-drawer'
 import { CartButtonWrapper } from './cart-button-wrapper'
 
 const SOCIAL_LINKS = [
-  { href: '#', icon: XIcon, label: 'X' },
+  { href: '#', icon: LinkedInIcon, label: 'LinkedIn' },
+  { href: '#', icon: TelegramIcon, label: 'Telegram' },
 ]
 
 export function SiteHeader() {
@@ -36,36 +37,42 @@ export function SiteHeader() {
             <div className="flex items-center gap-2 lg:gap-4">
               <NavMobileDrawer />
 
-            <div className="flex items-center gap-3 max-lg:hidden">
-              {SOCIAL_LINKS.map(({ href, icon: Icon, label }) => (
-                <a key={label} target="_blank" rel="noopener noreferrer" href={href} className="text-muted-foreground transition-colors hover:text-foreground">
-                  <Icon />
-                  <span className="sr-only">{label}</span>
-                </a>
-              ))}
-            </div>
-
-            <Separator orientation="vertical" className="!h-8 max-lg:hidden" />
-
-            <div className="flex items-center gap-2">
+              {/* Search */}
               <SearchTrigger />
-              <ModeSwitcher />
-              <CartButtonWrapper />
-              <a
-                href="/auth/login"
-                className="inline-flex shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
-              >
-                Sign in
-                <SsCtaIcon />
-              </a>
-              <a
-                href="/auth/login"
-                className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
-              >
-                <SsCtaIcon />
-                <span className="sr-only">Sign in</span>
-              </a>
-            </div>
+
+              <Separator orientation="vertical" className="!h-8 max-lg:hidden" />
+
+              {/* Social icons — primary color, same size-9 as theme/cart */}
+              <div className="flex items-center gap-1 max-lg:hidden">
+                {SOCIAL_LINKS.map(({ href, icon: Icon, label }) => (
+                  <a key={label} target="_blank" rel="noopener noreferrer" href={href} className="inline-flex size-9 items-center justify-center rounded-md text-primary transition-colors hover:bg-primary/15">
+                    <Icon />
+                    <span className="sr-only">{label}</span>
+                  </a>
+                ))}
+              </div>
+
+              <Separator orientation="vertical" className="!h-8 max-lg:hidden" />
+
+              {/* Theme toggle + Cart */}
+              <div className="flex items-center gap-2">
+                <ModeSwitcher />
+                <CartButtonWrapper />
+                <a
+                  href="/auth/login"
+                  className="inline-flex shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
+                >
+                  Sign in
+                  <SsCtaIcon />
+                </a>
+                <a
+                  href="/auth/login"
+                  className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
+                >
+                  <SsCtaIcon />
+                  <span className="sr-only">Sign in</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
