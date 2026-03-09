@@ -56,6 +56,8 @@
 
 }
 
+/* Tailwind v4 @custom-variant dark generates `.dark *` descendant selector,
+   but CSS variables must be set on :root itself. Dual selector ensures both work. */
 :root.dark, .dark {
   --background: oklch(0.14 0 0);
   --foreground: oklch(0.99 0 0);
@@ -218,17 +220,17 @@
 }
 
 /* ── Mirror sweep base (shared by .btn-secondary & .btn-tertiary) ── */
-.btn-mirror-sweep {
+.btn-mirror-sweep[data-slot="button"] {
   position: relative;
   overflow: hidden;
-  border: none !important;
+  border: none;
   box-shadow: none;
   cursor: pointer;
   transition: transform 0.2s ease-out;
 }
 
-.btn-mirror-sweep:hover,
-.btn-mirror-sweep:focus-visible {
+.btn-mirror-sweep[data-slot="button"]:hover,
+.btn-mirror-sweep[data-slot="button"]:focus-visible {
   transform: scale(1.01);
 }
 
@@ -251,14 +253,14 @@
 }
 
 /* ── Type 2: Secondary — primary bg, white text, white sweep ── */
-.btn-secondary {
-  background-color: var(--primary) !important;
-  color: var(--primary-foreground) !important;
+.btn-secondary[data-slot="button"] {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
 }
 
-.btn-secondary:hover,
-.btn-secondary:focus-visible {
-  background-color: var(--primary) !important;
+.btn-secondary[data-slot="button"]:hover,
+.btn-secondary[data-slot="button"]:focus-visible {
+  background-color: var(--primary);
 }
 
 .btn-secondary::before {
@@ -273,17 +275,16 @@
 }
 
 /* ── Type 3: Tertiary — white bg, border, hover bg-primary/15 ── */
-.btn-tertiary {
-  background-color: var(--background) !important;
-  color: var(--foreground) !important;
-  border: 1px solid var(--border) !important;
-  overflow: visible;
+.btn-tertiary[data-slot="button"] {
+  background-color: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
   transition: background-color 0.2s ease-out;
 }
 
-.btn-tertiary:hover,
-.btn-tertiary:focus-visible {
-  background-color: color-mix(in oklch, var(--primary) 15%, transparent) !important;
+.btn-tertiary[data-slot="button"]:hover,
+.btn-tertiary[data-slot="button"]:focus-visible {
+  background-color: color-mix(in oklch, var(--primary) 15%, transparent);
   transform: none;
 }
 
@@ -292,15 +293,15 @@
 }
 
 /* ── Tertiary look + secondary sweep effect ── */
-.btn-tertiary-sweep {
-  background-color: var(--background) !important;
-  color: var(--foreground) !important;
-  border: 1px solid var(--border) !important;
+.btn-tertiary-sweep[data-slot="button"] {
+  background-color: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
 }
 
-.btn-tertiary-sweep:hover,
-.btn-tertiary-sweep:focus-visible {
-  background-color: var(--background) !important;
+.btn-tertiary-sweep[data-slot="button"]:hover,
+.btn-tertiary-sweep[data-slot="button"]:focus-visible {
+  background-color: var(--background);
 }
 
 .btn-tertiary-sweep::before {

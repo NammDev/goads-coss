@@ -47,7 +47,8 @@ All colors live in `globals.css` as CSS custom properties. Components reference 
 - **NEVER** use raw hex/rgb/oklch values in components — always `text-primary`, `bg-muted`, `border-border`, etc.
 - **NEVER** create component-scoped CSS variables — all tokens go in `globals.css`
 - Dark mode handled by `.dark` class override in `globals.css` — components don't need conditional styling
-- Current primary: blue (`oklch(0.62 0.19 259.76)`) — changeable in one place
+- Current primary (light): deep blue-purple `oklch(0.19 0.11 270.80)`
+- Current primary (dark): near-white `oklch(0.92 0 0)` — for text contrast on dark bg
 
 ---
 
@@ -57,7 +58,7 @@ All colors live in `globals.css` as CSS custom properties. Components reference 
 
 ```
 Sans:  Geist (--font-sans) → body text, headings, UI
-Mono:  Geist Mono (--font-mono) → code, badges, technical labels
+Mono:  JetBrains Mono (--font-mono) → code, badges, technical labels
 ```
 
 - Loaded via `geist` npm package in `src/fonts/index.ts`
@@ -319,13 +320,26 @@ All animations use `MotionPreset` wrapper (Framer Motion v12):
 
 ## 8. Custom CSS Patterns
 
-### Allowed Custom Classes (in globals.css)
+### Button System (4 Tiers)
+
+| Tier | Component/Class | Appearance | Usage Rule |
+|------|----------------|------------|------------|
+| **CTA (Tier 1)** | `<CraftButton>` + `btn-mirror-sweep btn-secondary` | Primary bg, icon circle, sweep | Max 1 per section. Hero, CTA banner only. |
+| **Secondary (Tier 2)** | `<Button>` + `btn-secondary btn-mirror-sweep` | Primary bg, sweep (no icon circle) | Pricing highlights, card actions. |
+| **Tertiary (Tier 3)** | `<Button>` + `btn-tertiary` | White bg, border, hover bg-primary/15 | Low-emphasis: "Learn more", secondary nav. |
+| **Tertiary-Sweep (Tier 4)** | `<Button>` + `btn-tertiary-sweep btn-mirror-sweep` | White bg, border, primary-tinted sweep | Paired with CTA in hero sections. |
+
+### Other Custom Classes
 
 | Class | Purpose |
 |-------|---------|
 | `container` | Layout container utility |
-| `.btn-cta-glow` | Glowing CTA button shadow effect |
 | `.link-animated` | Hover underline animation (scaleX) |
+
+- All buttons use `rounded-lg` (set in button.tsx base)
+- All buttons default to `size="lg"` in marketing sections
+- CraftButton is compound: `CraftButton > CraftButtonLabel + CraftButtonIcon`
+- See `docs/button-system.md` for full spec with code examples
 
 ### Rules for Adding Custom CSS
 
@@ -357,6 +371,23 @@ All animations use `MotionPreset` wrapper (Framer Motion v12):
 
 - Opacity adjustments: `dark:opacity-80` when a decorative element needs subtle change
 - SVG fills that reference non-token colors (rare)
+
+### Dark Theme Palette
+
+The dark theme uses a **neutral palette** (0 chroma on all colors):
+
+| Token | Light Value | Dark Value | Notes |
+|-------|------------|------------|-------|
+| `--background` | `oklch(1.00 0 0)` white | `oklch(0.14 0 0)` near-black | Page bg |
+| `--foreground` | `oklch(0.32 0 0)` dark gray | `oklch(0.99 0 0)` near-white | Body text |
+| `--card` | `oklch(1.00 0 0)` white | `oklch(0.20 0 0)` dark gray | Card surfaces |
+| `--primary` | `oklch(0.19 0.11 270.80)` blue-purple | `oklch(0.92 0 0)` near-white | CTAs, links |
+| `--secondary` | `oklch(0.97 0 0)` near-white | `oklch(0.27 0 0)` muted dark | Secondary surfaces |
+| `--muted` | `oklch(0.98 0 0)` | `oklch(0.27 0 0)` | Disabled, placeholder |
+| `--accent` | primary at 15% | `oklch(0.27 0 0)` | Hover states |
+| `--border` | `oklch(0.93 0.01 261.82)` | `oklch(1.00 0 0 / 10%)` | White at 10% opacity |
+
+Key: Dark theme has NO color saturation. All values use chroma `0` (pure grayscale) except light-mode primary/accent which retain blue-purple hue.
 
 ---
 
@@ -529,6 +560,19 @@ src/data/
 | Section divider | `SectionDivider` component — border + corner dots |
 | Token | CSS custom property in `globals.css` (e.g., `--primary`) |
 | Adapt | Process of modifying a shadcn block to match goads layout/tokens |
+
+---
+
+## Related Documents
+
+| Doc | Purpose |
+|-----|---------|
+| [button-system.md](button-system.md) | Full button hierarchy spec with code examples |
+| [color-system.md](color-system.md) | All CSS variables with light/dark values |
+| [component-catalog.md](component-catalog.md) | UI primitives + blocks inventory |
+| [routing-map.md](routing-map.md) | All routes with block composition |
+| [block-adaptation.md](block-adaptation.md) | shadcn studio block adaptation checklist |
+| [data-patterns.md](data-patterns.md) | Static data typing and structure |
 
 ---
 
