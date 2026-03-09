@@ -64,7 +64,7 @@ const Pricing = ({ plans }: { plans: Plan[] }) => {
                         {plan.description}
                       </p>
                     </div>
-                    <Button size='lg' className={cn('btn-mirror-sweep w-full', plan.highlight ? 'btn-tertiary' : 'btn-secondary')}>
+                    <Button size='lg' className={cn('btn-mirror-sweep w-full', plan.highlight ? 'btn-tertiary-sweep' : 'btn-secondary')}>
                       {plan.buttonText}
                     </Button>
                   </CardContent>
