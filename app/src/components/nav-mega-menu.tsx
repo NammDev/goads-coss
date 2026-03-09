@@ -252,7 +252,7 @@ const linkClass =
 
 export function NavMegaMenu() {
   return (
-    <NavigationMenu viewport={true} className="static">
+    <NavigationMenu viewport={true} className="static" delayDuration={0} skipDelayDuration={500}>
       <NavigationMenuList className="gap-4">
 
         <NavigationMenuItem>

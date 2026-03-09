@@ -1,18 +1,18 @@
 'use client'
 
-import { useRef } from 'react'
-import { ArrowUpRightIcon } from 'lucide-react'
+import { useEffect, useRef, useState, useCallback } from 'react'
+import { ArrowUpRightIcon, Loader2, Check } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { MotionPreset } from '@/components/ui/motion-preset'
 import { MetaLogo, WhatsAppLogo } from '@/assets/svg/ad-platform-logos'
-import { useCardEffects } from '@/components/info-card'
+import { useCart } from '@/lib/cart-context'
 
 /* ---------- types ---------- */
 
 export type Product = {
   name: string
-  description?: string
+  description: string
   price: number | 'contact'
   unit?: string
   purchased?: number
@@ -25,7 +25,6 @@ export type ProductCategory = {
   title: string
   description?: string
   badge?: string
-  buttonText?: string
   products: Product[]
 }
 
@@ -36,6 +35,84 @@ export type UpsellItem = {
   price: string
   features?: string[]
   buttonText?: string
+}
+
+/* ---------- spotlight + 3D effect hook ---------- */
+
+function useCardEffects(containerRef: React.RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const cards = container.querySelectorAll<HTMLElement>('.product-card')
+
+    const handleMouseMove = (ev: MouseEvent) => {
+      cards.forEach((card) => {
+        const blob = card.querySelector<HTMLElement>('.blob')
+        const fblob = card.querySelector<HTMLElement>('.fake-blob')
+        if (!blob || !fblob) return
+
+        const rec = fblob.getBoundingClientRect()
+        blob.style.opacity = '1'
+        blob.animate(
+          [
+            {
+              transform: `translate(${ev.clientX - rec.left - rec.width / 2}px, ${ev.clientY - rec.top - rec.height / 2}px)`,
+            },
+          ],
+          { duration: 300, fill: 'forwards' }
+        )
+      })
+    }
+
+    cards.forEach((card) => {
+      const inner = card.querySelector<HTMLElement>('.card-inner')
+      if (!inner) return
+
+      let rect: DOMRect
+      let animFrame: number | undefined
+
+      const animate = (mouseX: number, mouseY: number) => {
+        if (!rect) rect = card.getBoundingClientRect()
+        const cx = rect.left + rect.width / 2
+        const cy = rect.top + rect.height / 2
+        const rx = -(mouseY - cy) * 0.02
+        const ry = (mouseX - cx) * 0.02
+        inner.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.015, 1.015, 1.015)`
+      }
+
+      const onEnter = () => {
+        inner.style.transition = 'transform 0.2s ease-out'
+        rect = card.getBoundingClientRect()
+      }
+      const onMove = (e: MouseEvent) => {
+        if (animFrame) cancelAnimationFrame(animFrame)
+        animFrame = requestAnimationFrame(() => animate(e.clientX, e.clientY))
+      }
+      const onLeave = () => {
+        if (animFrame) cancelAnimationFrame(animFrame)
+        inner.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale3d(1, 1, 1)'
+        inner.style.transition = 'transform 0.4s ease-out'
+      }
+
+      card.addEventListener('mouseenter', onEnter)
+      card.addEventListener('mousemove', onMove)
+      card.addEventListener('mouseleave', onLeave)
+
+      ;(card as any).__cleanup3D = () => {
+        if (animFrame) cancelAnimationFrame(animFrame)
+        card.removeEventListener('mouseenter', onEnter)
+        card.removeEventListener('mousemove', onMove)
+        card.removeEventListener('mouseleave', onLeave)
+      }
+    })
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      cards.forEach((card) => { ;(card as any).__cleanup3D?.() })
+    }
+  }, [containerRef])
 }
 
 /* ---------- card logos by badge ---------- */
@@ -49,7 +126,52 @@ function CardLogos({ badge }: { badge?: string }) {
 
 /* ---------- product card ---------- */
 
+function useAddToCart(product: Product) {
+  const { addItem } = useCart()
+  const [state, setState] = useState<'idle' | 'loading' | 'done'>('idle')
+
+  const trigger = useCallback(() => {
+    if (product.price === 'contact' || state !== 'idle') return
+    setState('loading')
+    setTimeout(() => {
+      addItem(product)
+      setState('done')
+      setTimeout(() => setState('idle'), 1200)
+    }, 600)
+  }, [product, addItem, state])
+
+  return { state, trigger }
+}
+
+function AddToCartButton({ product, state, onTrigger }: { product: Product; state: 'idle' | 'loading' | 'done'; onTrigger: () => void }) {
+  if (product.price === 'contact') {
+    return (
+      <Button size="sm" variant="outline" className="cursor-pointer gap-1.5">
+        Contact
+        <ArrowUpRightIcon className="size-3.5 transition-transform duration-200 group-hover/card:rotate-45" />
+      </Button>
+    )
+  }
+
+  return (
+    <Button
+      size="sm"
+      variant="outline"
+      className="cursor-pointer gap-1.5 min-w-[90px]"
+      onClick={(e) => { e.stopPropagation(); onTrigger() }}
+      disabled={state === 'loading'}
+    >
+      {state === 'loading' && <Loader2 className="size-3.5 animate-spin" />}
+      {state === 'done' && <Check className="size-3.5" />}
+      {state === 'idle' && <ArrowUpRightIcon className="size-3.5 transition-transform duration-200 group-hover/card:rotate-45" />}
+      {state === 'loading' ? 'Adding...' : state === 'done' ? 'Added' : 'Buy Now'}
+    </Button>
+  )
+}
+
 function ProductCard({ product, index }: { product: Product; index: number }) {
+  const { state, trigger } = useAddToCart(product)
+
   return (
     <MotionPreset
       fade
@@ -58,7 +180,10 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       delay={0.05 * index}
     >
-      <div className="info-card group/card relative cursor-pointer overflow-hidden rounded-xl bg-border p-px transition-all duration-200 ease-out">
+      <div
+        className="product-card group/card relative cursor-pointer overflow-hidden rounded-xl bg-border p-px transition-all duration-200 ease-out"
+        onClick={trigger}
+      >
         <div className="card-inner h-full">
           <Card className="h-full border-none transition-all duration-200 ease-out group-hover/card:bg-card/90 group-hover/card:backdrop-blur-[20px]">
             <CardContent className="flex h-full flex-col justify-between px-5 py-4">
@@ -80,10 +205,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
               {/* bottom: logos left, button right */}
               <div className="flex items-end justify-between">
                 <CardLogos badge={product.badge} />
-                <Button size="sm" variant="outline" className="cursor-pointer gap-1.5">
-                  {product.price === 'contact' ? 'Contact' : 'Buy Now'}
-                  <ArrowUpRightIcon className="size-3.5 transition-transform duration-200 group-hover/card:rotate-45" />
-                </Button>
+                <AddToCartButton product={product} state={state} onTrigger={trigger} />
               </div>
             </CardContent>
           </Card>
@@ -98,7 +220,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
 /* ---------- upsell card ---------- */
 
-export function UpsellCard({ item, index }: { item: UpsellItem; index: number }) {
+function UpsellCard({ item, index }: { item: UpsellItem; index: number }) {
   return (
     <MotionPreset
       fade
@@ -107,7 +229,7 @@ export function UpsellCard({ item, index }: { item: UpsellItem; index: number })
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       delay={0.2 + 0.1 * index}
     >
-      <div className="info-card group/card relative cursor-pointer overflow-hidden rounded-xl bg-border p-px transition-all duration-200 ease-out">
+      <div className="product-card group/card relative cursor-pointer overflow-hidden rounded-xl bg-border p-px transition-all duration-200 ease-out">
         <div className="card-inner">
           <Card className="border-none transition-all duration-200 ease-out group-hover/card:bg-card/90 group-hover/card:backdrop-blur-[20px]">
             <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">

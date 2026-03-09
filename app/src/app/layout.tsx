@@ -1,14 +1,10 @@
 import "./globals.css";
 
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
 import { fontMono, fontSans } from "@/fonts";
-import { CommandMenu } from "@/components/command-menu";
-import { ScrollToTop } from "@/components/scroll-to-top";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { FloatingContactButton } from "@/components/floating-contact-button";
+import { CartProvider } from "@/lib/cart-context";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -39,14 +35,12 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} relative bg-background font-sans text-foreground antialiased`}
       >
         <ThemeProvider>
-          <TooltipProvider>
-            <ScrollToTop />
-            <CommandMenu />
-            {children}
-            <FloatingContactButton />
-            <Analytics />
-            <SpeedInsights />
-          </TooltipProvider>
+          <CartProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster position="top-right" />
+            </TooltipProvider>
+          </CartProvider>
         </ThemeProvider>
       </body>
     </html>
