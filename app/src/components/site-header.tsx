@@ -1,17 +1,16 @@
 import Link from 'next/link'
-import { Search, LogIn, Palette } from 'lucide-react'
+import { LogIn } from "lucide-react"
 import { Button } from '@/components/ui/button'
 import { ModeSwitcher } from '@/components/mode-switcher'
 import { Separator } from '@/components/ui/separator'
 import { SsLogo, SsCtaIcon, LinkedInIcon } from './site-header-icons'
 import { NavMegaMenu } from './nav-mega-menu'
 import { NavMobileDrawer } from './nav-mobile-drawer'
+import { SearchTrigger } from './search-trigger'
 
 const SOCIAL_LINKS = [
   { href: 'https://www.linkedin.com/company/goads-agency-vn/', icon: LinkedInIcon, label: 'LinkedIn' },
 ]
-
-const navLinkClass = 'text-sm text-muted-foreground transition-all hover:text-foreground'
 
 export function SiteHeader() {
   return (
@@ -40,11 +39,8 @@ export function SiteHeader() {
                 {/* Mobile hamburger — below 1440px */}
                 <NavMobileDrawer />
 
-                {/* Search */}
-                <Button variant="outline" size="icon" className="hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15">
-                  <Search />
-                  <span className="sr-only">Search</span>
-                </Button>
+                {/* Search — opens Cmd+K palette */}
+                <SearchTrigger />
 
                 {/* Dark mode toggle */}
                 <ModeSwitcher />

@@ -4,7 +4,7 @@ import ErrorPage04 from "@/components/shadcn-studio/blocks/error-page-04/error-p
 
 export default function NotFound() {
   return (
-    <div className="relative isolate flex min-h-svh flex-col overflow-clip [--header-height:4rem]">
+    <div className="relative isolate flex min-h-svh flex-col overflow-x-clip [--header-height:4rem]">
       {/* Vertical grid frame lines (left + right) */}
       <div
         aria-hidden="true"

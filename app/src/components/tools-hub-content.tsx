@@ -1,200 +1,204 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, Lock, Search, Sparkles, Zap } from "lucide-react";
+import { ArrowUpRightIcon } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { MotionPreset } from "@/components/ui/motion-preset";
-import {
-  TOOL_CATEGORIES,
-  TOOLS,
-  getFeaturedTools,
-  getToolsByCategory,
-  type ToolItem,
-} from "@/data/tools-registry";
+import Logo from "@/assets/svg/logo";
+import { TOOLS, getFeaturedTools, type ToolItem } from "@/data/tools-registry";
 
-/** Compact tool card used in category grids */
-function ToolCard({ tool, index }: { tool: ToolItem; index: number }) {
+/* ---------- 3D spotlight + tilt effect (from BM page) ---------- */
+
+function useCardEffects(containerRef: React.RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const cards = container.querySelectorAll<HTMLElement>(".tool-card");
+
+    const handleMouseMove = (ev: MouseEvent) => {
+      cards.forEach((card) => {
+        const blob = card.querySelector<HTMLElement>(".blob");
+        const fblob = card.querySelector<HTMLElement>(".fake-blob");
+        if (!blob || !fblob) return;
+
+        const rec = fblob.getBoundingClientRect();
+        blob.style.opacity = "1";
+        blob.animate(
+          [
+            {
+              transform: `translate(${ev.clientX - rec.left - rec.width / 2}px, ${ev.clientY - rec.top - rec.height / 2}px)`,
+            },
+          ],
+          { duration: 300, fill: "forwards" }
+        );
+      });
+    };
+
+    cards.forEach((card) => {
+      const inner = card.querySelector<HTMLElement>(".card-inner");
+      if (!inner) return;
+
+      let rect: DOMRect;
+      let animFrame: number | undefined;
+
+      const animate = (mouseX: number, mouseY: number) => {
+        if (!rect) rect = card.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const rx = -(mouseY - cy) * 0.02;
+        const ry = (mouseX - cx) * 0.02;
+        inner.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.015, 1.015, 1.015)`;
+      };
+
+      const onEnter = () => {
+        inner.style.transition = "transform 0.2s ease-out";
+        rect = card.getBoundingClientRect();
+      };
+      const onMove = (e: MouseEvent) => {
+        if (animFrame) cancelAnimationFrame(animFrame);
+        animFrame = requestAnimationFrame(() => animate(e.clientX, e.clientY));
+      };
+      const onLeave = () => {
+        if (animFrame) cancelAnimationFrame(animFrame);
+        inner.style.transform =
+          "perspective(800px) rotateX(0) rotateY(0) scale3d(1, 1, 1)";
+        inner.style.transition = "transform 0.4s ease-out";
+      };
+
+      card.addEventListener("mouseenter", onEnter);
+      card.addEventListener("mousemove", onMove);
+      card.addEventListener("mouseleave", onLeave);
+
+      (card as any).__cleanup3D = () => {
+        if (animFrame) cancelAnimationFrame(animFrame);
+        card.removeEventListener("mouseenter", onEnter);
+        card.removeEventListener("mousemove", onMove);
+        card.removeEventListener("mouseleave", onLeave);
+      };
+    });
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      cards.forEach((card) => {
+        (card as any).__cleanup3D?.();
+      });
+    };
+  }, [containerRef]);
+}
+
+/* ---------- BM-style tool card ---------- */
+
+function ToolCardBM({ tool, index }: { tool: ToolItem; index: number }) {
   const Icon = tool.icon;
   return (
     <MotionPreset
       fade
-      slide={{ direction: "up" }}
-      transition={{ duration: 0.4 }}
-      delay={index * 0.08}
+      slide={{ direction: "up", offset: 20 }}
+      blur="4px"
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      delay={0.05 * index}
       inView
     >
       <Link href={`/tools/${tool.slug}`}>
-        <Card className="group flex items-start gap-4 p-5 transition-all hover:shadow-md hover:border-primary/30">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-            <Icon className="size-5" />
+        <div className="tool-card group/card relative cursor-pointer overflow-hidden rounded-xl bg-border p-px transition-all duration-200 ease-out">
+          <div className="card-inner h-full">
+            <Card className="h-full border-none transition-all duration-200 ease-out group-hover/card:bg-card/90 group-hover/card:backdrop-blur-[20px]">
+              <CardContent className="flex h-full flex-col justify-between px-5 py-4">
+                {/* top: icon + name left, price right */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <Icon className="size-4 text-primary" />
+                    <h3 className="text-sm font-semibold leading-tight">
+                      {tool.title}
+                    </h3>
+                  </div>
+                  <span className="shrink-0 text-lg font-bold text-primary">
+                    Free
+                  </span>
+                </div>
+
+                {/* description */}
+                <p className="text-muted-foreground mt-2 text-xs">
+                  {tool.description}
+                </p>
+
+                {/* spacer */}
+                <div className="min-h-6" />
+
+                {/* bottom: GoAds logo left, button right */}
+                <div className="flex items-end justify-between">
+                  <Logo className="size-6" />
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="cursor-pointer gap-1.5"
+                  >
+                    Open Tool
+                    <ArrowUpRightIcon className="size-3.5 transition-transform duration-200 group-hover/card:rotate-45" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-          <div className="min-w-0 flex-1">
-            <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
-              {tool.title}
-            </h3>
-            <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
-              {tool.description}
-            </p>
-          </div>
-          <ArrowRight className="size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 mt-1" />
-        </Card>
+
+          <div className="blob absolute top-0 left-0 size-20 rounded-full bg-foreground/20 opacity-0 blur-2xl transition-all duration-200 ease-out" />
+          <div className="fake-blob absolute top-0 left-0 size-20 rounded-full" />
+        </div>
       </Link>
     </MotionPreset>
   );
 }
 
-/** Large featured tool card */
-function FeaturedToolCard({ tool, index }: { tool: ToolItem; index: number }) {
-  const Icon = tool.icon;
-  return (
-    <MotionPreset
-      fade
-      slide={{ direction: "up" }}
-      transition={{ duration: 0.5 }}
-      delay={index * 0.12}
-      inView
-    >
-      <Link href={`/tools/${tool.slug}`}>
-        <Card className="group relative flex flex-col gap-4 p-6 transition-all hover:shadow-lg hover:border-primary/40 h-full">
-          {/* Badge */}
-          <Badge variant="outline" className="w-fit text-xs">
-            Popular
-          </Badge>
-
-          {/* Icon */}
-          <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-            <Icon className="size-6" />
-          </div>
-
-          {/* Text */}
-          <div className="space-y-2 flex-1">
-            <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
-              {tool.title}
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              {tool.description}
-            </p>
-          </div>
-
-          {/* Link */}
-          <span className="flex items-center gap-1.5 text-sm font-medium text-primary">
-            Open tool
-            <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
-          </span>
-        </Card>
-      </Link>
-    </MotionPreset>
-  );
-}
-
-/** Trust badges row */
-function TrustBadges() {
-  const badges = [
-    { icon: Zap, text: "100% Free" },
-    { icon: Lock, text: "Data stays in browser" },
-    { icon: Sparkles, text: "No sign-up required" },
-  ];
-
-  return (
-    <MotionPreset fade transition={{ duration: 0.5 }} delay={0.2} inView>
-      <div className="flex flex-wrap items-center justify-center gap-6 py-2">
-        {badges.map((b) => (
-          <div
-            key={b.text}
-            className="flex items-center gap-2 text-sm text-muted-foreground"
-          >
-            <b.icon className="size-4 text-primary" />
-            {b.text}
-          </div>
-        ))}
-      </div>
-    </MotionPreset>
-  );
-}
+/* ---------- main export ---------- */
 
 export function ToolsHubContent() {
-  const [search, setSearch] = useState("");
-  const featured = getFeaturedTools();
+  const containerRef = useRef<HTMLDivElement>(null);
+  useCardEffects(containerRef);
 
-  // Filter tools by search query
-  const query = search.toLowerCase().trim();
-  const filteredCategories = TOOL_CATEGORIES.map((cat) => ({
-    ...cat,
-    tools: getToolsByCategory(cat.id).filter(
-      (t) =>
-        !query ||
-        t.title.toLowerCase().includes(query) ||
-        t.description.toLowerCase().includes(query)
-    ),
-  })).filter((cat) => cat.tools.length > 0);
-
-  const showFeatured = !query; // Hide featured when searching
+  const popularTools = getFeaturedTools();
+  const allTools = TOOLS;
 
   return (
-    <section className="py-8 sm:py-16 lg:py-24">
+    <section id="tools" className="py-8 sm:py-16 lg:py-24" ref={containerRef}>
       <div className="container space-y-12 sm:space-y-16">
-        {/* Search bar */}
-        <MotionPreset fade slide={{ direction: "down" }} transition={{ duration: 0.4 }}>
-          <div className="mx-auto max-w-md">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search tools..."
-                className="pl-10 h-11"
-              />
-            </div>
+        {/* Popular Tools */}
+        <div className="space-y-6">
+          <MotionPreset
+            fade
+            slide={{ direction: "down" }}
+            transition={{ duration: 0.4 }}
+            inView
+          >
+            <h2 className="text-xl font-semibold">Popular Tools</h2>
+          </MotionPreset>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {popularTools.map((tool, i) => (
+              <ToolCardBM key={tool.slug} tool={tool} index={i} />
+            ))}
           </div>
-        </MotionPreset>
+        </div>
 
-        {/* Trust badges */}
-        {showFeatured && <TrustBadges />}
-
-        {/* Featured tools */}
-        {showFeatured && (
-          <div className="space-y-6">
-            <MotionPreset fade slide={{ direction: "down" }} transition={{ duration: 0.4 }} inView>
-              <h2 className="text-xl font-semibold">Featured Tools</h2>
-            </MotionPreset>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {featured.map((tool, i) => (
-                <FeaturedToolCard key={tool.slug} tool={tool} index={i} />
-              ))}
-            </div>
+        {/* All Tools */}
+        <div className="space-y-6">
+          <MotionPreset
+            fade
+            slide={{ direction: "down" }}
+            transition={{ duration: 0.4 }}
+            inView
+          >
+            <h2 className="text-xl font-semibold">All Tools</h2>
+          </MotionPreset>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {allTools.map((tool, i) => (
+              <ToolCardBM key={tool.slug} tool={tool} index={i} />
+            ))}
           </div>
-        )}
-
-        {/* Categories */}
-        {filteredCategories.map((category) => (
-          <div key={category.id} className="space-y-5">
-            <MotionPreset fade slide={{ direction: "down" }} transition={{ duration: 0.4 }} inView>
-              <div className="flex items-center gap-3">
-                <h2 className="text-lg font-semibold">{category.label}</h2>
-                <Badge variant="outline" className="text-xs font-normal">
-                  {category.tools.length}
-                </Badge>
-              </div>
-            </MotionPreset>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {category.tools.map((tool, i) => (
-                <ToolCard key={tool.slug} tool={tool} index={i} />
-              ))}
-            </div>
-          </div>
-        ))}
-
-        {/* No results */}
-        {filteredCategories.length === 0 && (
-          <div className="py-12 text-center text-muted-foreground">
-            <p className="text-lg">No tools found for &ldquo;{search}&rdquo;</p>
-            <p className="text-sm mt-1">Try a different search term</p>
-          </div>
-        )}
+        </div>
       </div>
     </section>
   );

@@ -4,6 +4,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { fontMono, fontSans } from "@/fonts";
+import { CommandMenu } from "@/components/command-menu";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { FloatingContactButton } from "@/components/floating-contact-button";
@@ -38,6 +40,8 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <TooltipProvider>
+            <ScrollToTop />
+            <CommandMenu />
             {children}
             <FloatingContactButton />
             <Analytics />
