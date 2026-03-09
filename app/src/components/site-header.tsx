@@ -1,18 +1,16 @@
 import Link from 'next/link'
-import { Search, LogIn, Palette } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ModeSwitcher } from '@/components/mode-switcher'
 import { Separator } from '@/components/ui/separator'
-import { SsLogo, SsCtaIcon, XIcon, DiscordIcon } from './site-header-icons'
+import { SsLogo, SsCtaIcon, XIcon } from './site-header-icons'
 import { NavMegaMenu } from './nav-mega-menu'
 import { NavMobileDrawer } from './nav-mobile-drawer'
+import { CartButtonWrapper } from './cart-button-wrapper'
 
 const SOCIAL_LINKS = [
-  { href: 'https://t.me/GoAdsSupport', icon: DiscordIcon, label: 'Telegram' },
   { href: '#', icon: XIcon, label: 'X' },
 ]
-
-const navLinkClass = 'text-sm text-muted-foreground transition-all hover:text-foreground'
 
 export function SiteHeader() {
   return (
@@ -37,64 +35,41 @@ export function SiteHeader() {
 
             {/* Action buttons */}
             <div className="flex items-center gap-2 lg:gap-4">
-              <div className="flex items-center gap-2">
-                {/* Mobile hamburger — below 1440px */}
-                <NavMobileDrawer />
+              <NavMobileDrawer />
 
-                {/* Search */}
-                <Button variant="outline" size="icon" className="hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15">
-                  <Search />
-                  <span className="sr-only">Search</span>
-                </Button>
-
-                {/* Dark mode toggle */}
-                <ModeSwitcher />
-
-           
-              </div>
-
-              {/* Separator */}
-              <Separator orientation="vertical" className="!h-8 max-lg:hidden" />
-
-              {/* Social links */}
-              <div className="flex items-center gap-3 max-lg:hidden">
-                {SOCIAL_LINKS.map(({ href, icon: Icon, label }) => (
-                  <a key={label} target="_blank" rel="noopener noreferrer" href={href} className="text-muted-foreground transition-colors hover:text-foreground">
-                    <Icon />
-                    <span className="sr-only">{label}</span>
-                  </a>
-                ))}
-              </div>
-
-              {/* Auth + CTA */}
-              <div className="flex items-center gap-2">
-                {/* Sign in — text on sm+, icon on mobile */}
-                <Button variant="outline" asChild className="max-sm:hidden hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15">
-                  <a href="/auth/login">Sign in</a>
-                </Button>
-                <Button variant="outline" size="icon" asChild className="!hidden max-sm:!flex hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15">
-                  <a href="/auth/login">
-                    <LogIn />
-                    <span className="sr-only">Sign in</span>
-                  </a>
-                </Button>
-
-                {/* CTA — full on md+, icon-only on mobile */}
-                <a
-                  href="/#pricing"
-                  className="inline-flex shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
-                >
-                  Get Started
-                  <SsCtaIcon />
+            <div className="flex items-center gap-3 max-lg:hidden">
+              {SOCIAL_LINKS.map(({ href, icon: Icon, label }) => (
+                <a key={label} target="_blank" rel="noopener noreferrer" href={href} className="text-muted-foreground transition-colors hover:text-foreground">
+                  <Icon />
+                  <span className="sr-only">{label}</span>
                 </a>
-                <a
-                  href="/#pricing"
-                  className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
-                >
-                  <SsCtaIcon />
-                  <span className="sr-only">Get Started</span>
-                </a>
-              </div>
+              ))}
+            </div>
+
+            <Separator orientation="vertical" className="!h-8 max-lg:hidden" />
+
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="icon" className="hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15">
+                <Search />
+                <span className="sr-only">Search</span>
+              </Button>
+              <ModeSwitcher />
+              <CartButtonWrapper />
+              <a
+                href="/auth/login"
+                className="inline-flex shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
+              >
+                Sign in
+                <SsCtaIcon />
+              </a>
+              <a
+                href="/auth/login"
+                className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
+              >
+                <SsCtaIcon />
+                <span className="sr-only">Sign in</span>
+              </a>
+            </div>
             </div>
           </div>
         </div>

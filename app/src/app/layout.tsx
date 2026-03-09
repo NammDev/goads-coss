@@ -3,6 +3,8 @@ import "./globals.css";
 import { fontMono, fontSans } from "@/fonts";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { CartProvider } from "@/lib/cart-context";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -33,9 +35,12 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} relative bg-background font-sans text-foreground antialiased`}
       >
         <ThemeProvider>
-          <TooltipProvider>
-            {children}
-          </TooltipProvider>
+          <CartProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster position="top-right" />
+            </TooltipProvider>
+          </CartProvider>
         </ThemeProvider>
       </body>
     </html>
