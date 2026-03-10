@@ -1,5 +1,3 @@
-'use client'
-
 import Image from 'next/image'
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'

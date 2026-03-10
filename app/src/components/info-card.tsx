@@ -1,5 +1,3 @@
-'use client'
-
 import type { ReactNode } from 'react'
 import { Card3D, Card3DGrid } from '@/components/card-3d'
 

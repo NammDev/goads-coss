@@ -1,5 +1,3 @@
-'use client'
-
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { PageHero } from '@/components/page-hero'
