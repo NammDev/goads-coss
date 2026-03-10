@@ -15,7 +15,7 @@ const Milestone2023 = () => {
         <Accordion type='multiple' className='-mt-4 mb-0 w-full' defaultValue={['item-1']}>
           <AccordionItem value='item-1'>
             <AccordionTrigger className='hover:no-underline [&>svg]:size-6'>
-              <Badge className='h-6 rounded-sm border-none bg-green-600/10 text-green-600 dark:bg-green-400/10 dark:text-green-400'>
+              <Badge className='h-6 rounded-sm border-none bg-success/10 text-success'>
                 Growth
               </Badge>
             </AccordionTrigger>
@@ -29,7 +29,7 @@ const Milestone2023 = () => {
           </AccordionItem>
           <AccordionItem value='item-2'>
             <AccordionTrigger className='hover:no-underline [&>svg]:size-6'>
-              <Badge className='h-6 rounded-sm border-none bg-sky-600/10 text-sky-600 dark:bg-sky-400/10 dark:text-sky-400'>
+              <Badge className='h-6 rounded-sm border-none bg-info/10 text-info'>
                 Products
               </Badge>
             </AccordionTrigger>

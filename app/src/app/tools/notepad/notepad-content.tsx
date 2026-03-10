@@ -139,7 +139,7 @@ export function NotepadContent() {
           <span className="flex items-center gap-1">
             {saved && (
               <>
-                <Check className="size-3 text-green-500" />
+                <Check className="size-3 text-success" />
                 Auto-saved
               </>
             )}

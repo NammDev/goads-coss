@@ -44,7 +44,7 @@ export function FbIconsContent() {
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm" className="gap-1.5" onClick={copyAll}>
             {copied === "__all__" ? (
-              <Check className="size-3.5 text-emerald-500" />
+              <Check className="size-3.5 text-success" />
             ) : (
               <Copy className="size-3.5" />
             )}
@@ -65,7 +65,7 @@ export function FbIconsContent() {
                 >
                   {icon}
                   {copied === icon && (
-                    <span className="absolute inset-0 flex items-center justify-center rounded-lg bg-background/80 text-xs font-medium text-emerald-600">
+                    <span className="absolute inset-0 flex items-center justify-center rounded-lg bg-background/80 text-xs font-medium text-success">
                       ✓
                     </span>
                   )}

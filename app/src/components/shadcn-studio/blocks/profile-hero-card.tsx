@@ -26,7 +26,7 @@ const ProfileHeroCard = ({ className }: ProfileHeroCardProps) => {
 
         {/* Avatar with gradient + verified overlay */}
         <div className='relative'>
-          <div className='size-14 rounded-full bg-gradient-to-br from-primary/70 via-primary to-blue-400 flex items-center justify-center shadow-md'>
+          <div className='size-14 rounded-full bg-gradient-to-br from-primary/70 via-primary to-primary/60 flex items-center justify-center shadow-md'>
             <span className='text-primary-foreground text-xl font-bold select-none'>F</span>
           </div>
           <div className='absolute -bottom-1 -right-1 bg-primary rounded-full p-0.5 shadow'>

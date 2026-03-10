@@ -15,7 +15,7 @@ const Milestone2019 = () => {
         <Accordion type='multiple' className='-mt-4 mb-0 w-full' defaultValue={['item-1']}>
           <AccordionItem value='item-1'>
             <AccordionTrigger className='hover:no-underline [&>svg]:size-6'>
-              <Badge className='h-6 rounded-sm border-none bg-green-600/10 text-green-600 dark:bg-green-400/10 dark:text-green-400'>
+              <Badge className='h-6 rounded-sm border-none bg-success/10 text-success'>
                 Foundation
               </Badge>
             </AccordionTrigger>

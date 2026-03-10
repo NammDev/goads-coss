@@ -64,8 +64,8 @@ const TurnViewersToOrders = () => {
       >
         <div className='bg-card flex items-start gap-3 rounded-md border px-4 py-1.5'>
           <Avatar className='size-7 rounded-lg'>
-            <AvatarFallback className='rounded-lg bg-green-600/10 text-xs dark:bg-green-400/10'>
-              <BadgeCheckIcon className='size-4 text-green-600 dark:text-green-400' />
+            <AvatarFallback className='rounded-lg bg-success/10 text-xs'>
+              <BadgeCheckIcon className='size-4 text-success' />
             </AvatarFallback>
           </Avatar>
           <div className='flex flex-col'>
@@ -75,8 +75,8 @@ const TurnViewersToOrders = () => {
         </div>
         <div className='bg-card flex items-start gap-3 rounded-md border px-4 py-1.5'>
           <Avatar className='size-7 rounded-lg'>
-            <AvatarFallback className='rounded-lg bg-green-600/10 text-xs dark:bg-green-400/10'>
-              <BadgeCheckIcon className='size-4 text-green-600 dark:text-green-400' />
+            <AvatarFallback className='rounded-lg bg-success/10 text-xs'>
+              <BadgeCheckIcon className='size-4 text-success' />
             </AvatarFallback>
           </Avatar>
           <div className='flex flex-col'>
@@ -86,8 +86,8 @@ const TurnViewersToOrders = () => {
         </div>
         <div className='bg-card flex items-start gap-3 rounded-md border px-4 py-1.5'>
           <Avatar className='size-7 rounded-lg'>
-            <AvatarFallback className='rounded-lg bg-green-600/10 text-xs dark:bg-green-400/10'>
-              <BadgeCheckIcon className='size-4 text-green-600 dark:text-green-400' />
+            <AvatarFallback className='rounded-lg bg-success/10 text-xs'>
+              <BadgeCheckIcon className='size-4 text-success' />
             </AvatarFallback>
           </Avatar>
           <div className='flex flex-col'>
@@ -97,8 +97,8 @@ const TurnViewersToOrders = () => {
         </div>
         <div className='bg-card flex items-start gap-3 rounded-md border px-4 py-1.5'>
           <Avatar className='size-7 rounded-lg'>
-            <AvatarFallback className='rounded-lg bg-green-600/10 text-xs dark:bg-green-400/10'>
-              <BadgeCheckIcon className='size-4 text-green-600 dark:text-green-400' />
+            <AvatarFallback className='rounded-lg bg-success/10 text-xs'>
+              <BadgeCheckIcon className='size-4 text-success' />
             </AvatarFallback>
           </Avatar>
           <div className='flex flex-col'>

@@ -40,7 +40,7 @@ const VerificationHeroCard = ({ className }: VerificationHeroCardProps) => {
               <Logo className='size-4' />
               <span className='text-sm font-medium'>{label}</span>
             </div>
-            <CheckCircleIcon className='size-4 text-blue-500' />
+            <CheckCircleIcon className='size-4 text-info' />
           </div>
         ))}
       </div>

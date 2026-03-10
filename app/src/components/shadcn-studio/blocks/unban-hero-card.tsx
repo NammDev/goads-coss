@@ -29,8 +29,8 @@ const UnbanHeroCard = ({ className }: UnbanHeroCardProps) => {
           <div className='bg-primary flex size-11 items-center justify-center rounded-xl'>
             <ShieldCheckIcon className='text-primary-foreground size-5' />
           </div>
-          <div className='bg-emerald-500/10 border-emerald-500/30 absolute -right-3 -bottom-2 flex size-7 items-center justify-center rounded-lg border'>
-            <RefreshCwIcon className='text-emerald-500 size-3.5' />
+          <div className='bg-success/10 border-success/30 absolute -right-3 -bottom-2 flex size-7 items-center justify-center rounded-lg border'>
+            <RefreshCwIcon className='text-success size-3.5' />
           </div>
         </div>
 
@@ -47,7 +47,7 @@ const UnbanHeroCard = ({ className }: UnbanHeroCardProps) => {
             <Logo className='text-destructive/50 size-4 shrink-0' />
             <span className='text-muted-foreground text-xs font-medium'>{label}</span>
             <ArrowRightIcon className='text-muted-foreground/50 mx-auto size-3 shrink-0' />
-            <span className='text-emerald-500 text-xs font-semibold'>{status}</span>
+            <span className='text-success text-xs font-semibold'>{status}</span>
           </div>
         ))}
       </div>

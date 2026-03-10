@@ -60,7 +60,7 @@ const CTASection = () => {
               </MotionPreset>
             </div>
             <MotionPreset
-              className='absolute top-0 -left-64 text-[#F4F4F5]/10 max-sm:-left-60'
+              className='absolute top-0 -left-64 text-muted-foreground/10 max-sm:-left-60'
               fade
               slide
               transition={{ duration: 0.8 }}
@@ -69,7 +69,7 @@ const CTASection = () => {
             </MotionPreset>
 
             <MotionPreset
-              className='absolute top-0 -right-64 text-[#F4F4F5]/10 max-sm:-right-60'
+              className='absolute top-0 -right-64 text-muted-foreground/10 max-sm:-right-60'
               fade
               slide={{ direction: 'right' }}
               transition={{ duration: 0.8 }}

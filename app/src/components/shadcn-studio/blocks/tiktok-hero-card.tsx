@@ -37,7 +37,7 @@ const TikTokHeroCard = ({ className }: TikTokHeroCardProps) => {
           <div key={label} className='bg-muted/50 border-border flex items-center gap-3 rounded-lg border px-3 py-2.5'>
             <Icon className='text-primary size-4 shrink-0' />
             <span className='text-sm font-medium flex-1'>{label}</span>
-            <span className='size-2 rounded-full bg-green-500 shrink-0' />
+            <span className='size-2 rounded-full bg-success shrink-0' />
           </div>
         ))}
       </div>

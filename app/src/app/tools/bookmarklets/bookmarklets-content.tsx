@@ -68,9 +68,9 @@ export function BookmarkletsContent() {
           </p>
         </div>
 
-        <Card className="bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-800/40">
+        <Card className="bg-warning/10 border-warning/30">
           <CardContent className="pt-4 pb-4">
-            <p className="text-xs text-amber-800 dark:text-amber-300">
+            <p className="text-xs text-warning">
               <strong>How to use:</strong> Copy the code, create a new bookmark in your browser, paste the code as the URL, and click the bookmark on any page.
             </p>
           </CardContent>
@@ -97,7 +97,7 @@ export function BookmarkletsContent() {
                     onClick={() => copy(bm.name, bm.code)}
                   >
                     {copied === bm.name ? (
-                      <Check className="size-3.5 text-emerald-500" />
+                      <Check className="size-3.5 text-success" />
                     ) : (
                       <Copy className="size-3.5" />
                     )}

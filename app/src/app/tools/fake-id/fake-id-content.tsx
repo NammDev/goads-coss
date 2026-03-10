@@ -61,8 +61,8 @@ export function FakeIdContent() {
           </p>
         </div>
 
-        <Card className="border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/30">
-          <CardContent className="py-3 px-4 text-xs text-amber-800 dark:text-amber-300">
+        <Card className="border-warning/30 bg-warning/10">
+          <CardContent className="py-3 px-4 text-xs text-warning">
             Disclaimer: This tool generates fictional ID card images for UI testing and
             educational purposes only. Do not use generated images to deceive or impersonate.
           </CardContent>

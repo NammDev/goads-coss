@@ -46,16 +46,16 @@ function CopyCode({ code = 'javascript' }: CopyCodeProps) {
     let result = code
 
     // 1. Strings (blue) - process first to protect content
-    result = result.replace(/"([^"]*)"/g, '<span class="text-blue-600 dark:text-blue-400">"$1"</span>')
-    result = result.replace(/\b(agent)\b/g, '<span class="text-blue-600 dark:text-blue-400">$1</span>')
+    result = result.replace(/"([^"]*)"/g, '<span class="text-info">"$1"</span>')
+    result = result.replace(/\b(agent)\b/g, '<span class="text-info">$1</span>')
 
     // 2. Keywords (red/green)
-    result = result.replace(/\b(const|let|var|new|false)\b/g, '<span class="text-red-600 dark:text-red-400">$1</span>')
+    result = result.replace(/\b(const|let|var|new|false)\b/g, '<span class="text-destructive">$1</span>')
 
-    result = result.replace(/\b(AIAgent|true)\b/g, '<span class="text-green-600 dark:text-green-400">$1</span>')
+    result = result.replace(/\b(AIAgent|true)\b/g, '<span class="text-success">$1</span>')
 
     // 3. Comments (gray) - process last
-    result = result.replace(/\/\/ ([^\n]*)/g, '<span class="text-gray-500 dark:text-gray-400">// $1</span>')
+    result = result.replace(/\/\/ ([^\n]*)/g, '<span class="text-muted-foreground">// $1</span>')
 
     return result
   }
