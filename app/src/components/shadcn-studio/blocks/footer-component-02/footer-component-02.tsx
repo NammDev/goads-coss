@@ -1,4 +1,8 @@
+'use client'
+
+import { type FormEvent, useRef } from 'react'
 import { ArrowRightIcon } from 'lucide-react'
+import { toast } from 'sonner'
 import { TelegramLogo, WhatsAppLogo } from '@/assets/svg/ad-platform-logos'
 import { CONTACT } from '@/data/contact-info'
 import { LinkedInIcon } from '@/components/site-header-icons'
@@ -8,6 +12,13 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 
 const Footer = () => {
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    toast.success('Thank you for subscribing!')
+    formRef.current?.reset()
+  }
   return (
     <footer>
       <div className='container grid grid-cols-6 gap-6 py-8 sm:gap-8 sm:py-16 md:py-24'>
@@ -131,16 +142,17 @@ const Footer = () => {
           <div className='col-span-full flex flex-col gap-5 sm:col-span-2'>
             <div>
               <p className='mb-3 text-lg font-medium'>Stay Updated</p>
-              <div className='flex gap-2'>
+              <form ref={formRef} onSubmit={handleSubmit} className='flex gap-2'>
                 <Input
                   type='email'
+                  required
                   placeholder='Your email...'
                   aria-label='Email for newsletter'
                 />
                 <Button size='icon' type='submit' className='btn-mirror-sweep btn-secondary rounded-lg' aria-label='Subscribe'>
                   <ArrowRightIcon />
                 </Button>
-              </div>
+              </form>
             </div>
             <Separator />
 
