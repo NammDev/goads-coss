@@ -112,6 +112,5 @@ export default function SomePage() {
 
 ## See Also
 
-- `docs/block-adaptation.md` — adding new blocks to pages
+- `docs/design-guidelines.md` — design system + block adaptation protocol
 - `docs/component-catalog.md` — full component inventory
-- `app/src/app/(marketing)/` — all marketing page source files

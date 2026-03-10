@@ -142,6 +142,5 @@ Components are organized into three layers: UI primitives in `src/components/ui/
 
 ## See Also
 
-- `docs/block-adaptation.md` — how to adapt new blocks
+- `docs/design-guidelines.md` — design system, block adaptation, button hierarchy
 - `docs/routing-map.md` — which blocks appear on which pages
-- `docs/button-system.md` — CraftButton and Button usage

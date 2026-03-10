@@ -567,12 +567,9 @@ src/data/
 
 | Doc | Purpose |
 |-----|---------|
-| [button-system.md](button-system.md) | Full button hierarchy spec with code examples |
-| [color-system.md](color-system.md) | All CSS variables with light/dark values |
 | [component-catalog.md](component-catalog.md) | UI primitives + blocks inventory |
 | [routing-map.md](routing-map.md) | All routes with block composition |
-| [block-adaptation.md](block-adaptation.md) | shadcn studio block adaptation checklist |
-| [data-patterns.md](data-patterns.md) | Static data typing and structure |
+| `app/src/app/globals.css` | Token source of truth (all CSS variables) |
 
 ---
 
