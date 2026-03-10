@@ -82,13 +82,13 @@ const CTASection = () => {
         <MotionPreset fade blur zoom={{ initialScale: 0.95 }} delay={1.2} transition={{ duration: 0.7 }}>
           <div className='border-primary bg-background relative mx-auto -mt-9.25 flex size-fit gap-3 rounded-xl border-2 p-3'>
             <Button size='lg' asChild className='btn-mirror-sweep btn-secondary text-base'>
-              <a href={CONTACT.telegram.officialWithMessage} target='_blank' rel='noopener noreferrer'>
+              <a href={CONTACT.telegram.officialWithMessage} target='_blank' rel='noopener noreferrer' aria-label='Contact on Telegram'>
                 <MessageCircleIcon className='size-5' />
                 <span className='max-sm:hidden'>Telegram</span>
               </a>
             </Button>
             <Button size='lg' variant='outline' className='btn-mirror-sweep btn-tertiary text-base' asChild>
-              <a href={CONTACT.whatsapp.withMessage} target='_blank' rel='noopener noreferrer'>
+              <a href={CONTACT.whatsapp.withMessage} target='_blank' rel='noopener noreferrer' aria-label='Contact on WhatsApp'>
                 <PhoneIcon className='size-5' />
                 <span className='max-sm:hidden'>WhatsApp</span>
               </a>

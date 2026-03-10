@@ -24,7 +24,7 @@ export function DocsAiPanel({
             <Bot className="size-4 text-primary" />
             AI Assistant
           </div>
-          <Button variant="ghost" size="icon" className="size-7" onClick={onClose}>
+          <Button variant="ghost" size="icon" className="size-7" onClick={onClose} aria-label="Close AI panel">
             <X className="size-3.5" />
           </Button>
         </div>
@@ -50,7 +50,7 @@ export function DocsAiPanel({
               className="h-9 text-sm"
               disabled
             />
-            <Button size="icon" className="size-9 shrink-0" disabled>
+            <Button size="icon" className="size-9 shrink-0" disabled aria-label="Send message">
               <Send className="size-3.5" />
             </Button>
           </div>
