@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import ChangelogContent from '@/components/shadcn-studio/blocks/timeline-component-05/timeline-component-05'
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
@@ -5,6 +6,11 @@ import { PageHeroBig } from '@/components/page-hero-big'
 import { WavyUnderline } from '@/components/section-header'
 import { MilestonesIllustration } from '@/components/hero-illustrations/milestones-illustration'
 import { milestoneReleases } from '@/data/milestones-page-data'
+
+export const metadata: Metadata = {
+  title: "Milestones | GoAds Company Timeline",
+  description: "Explore GoAds journey — key milestones from founding to serving 500+ clients with premium ad infrastructure.",
+}
 
 export default function MilestonesPage() {
   return (

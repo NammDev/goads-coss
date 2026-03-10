@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import HeroClone from "@/components/shadcn-studio/blocks/hero-clone/hero-clone";
 import BentoGrid from "@/components/shadcn-studio/blocks/bento-grid-19/bento-grid-19";
 import BentoGrid10 from "@/components/shadcn-studio/blocks/bento-grid-10/bento-grid-10";
@@ -9,6 +10,11 @@ import CTASection from "@/components/shadcn-studio/blocks/cta-section-05/cta-sec
 import { SectionDivider } from "@/components/section-divider";
 import { reviews, pricingPlans } from "@/data/landing-reviews-pricing-faq";
 import { faqTabsData } from "@/data/landing-faq";
+
+export const metadata: Metadata = {
+  title: "GoAds - Stop Losing Accounts. Start Scaling.",
+  description: "Buy verified agency ad accounts, Business Managers & Meta assets. 7-day warranty, 24/7 support, 3,242+ BMs sold.",
+}
 
 export default function Page() {
   return (

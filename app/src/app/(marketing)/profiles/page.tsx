@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { CalendarIcon, PackageCheckIcon } from 'lucide-react'
 import HeroSection from '@/components/shadcn-studio/blocks/hero-section-23/hero-section-23'
 import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
@@ -12,6 +13,11 @@ import { CONTACT } from '@/data/contact-info'
 import { avatars, profileCategories } from '@/data/profiles-page-data'
 import { reviews } from '@/data/landing-reviews-pricing-faq'
 import { faqTabsData } from '@/data/landing-faq'
+
+export const metadata: Metadata = {
+  title: "Buy Facebook Profiles | Aged & Verified Accounts",
+  description: "Get aged, verified Facebook profiles for ad management. Multiple tiers available with 7-day warranty and instant delivery.",
+}
 
 export default function ProfilesPage() {
   return (

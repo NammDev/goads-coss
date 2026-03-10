@@ -1,8 +1,14 @@
+import type { Metadata } from "next"
 import { MessageCircleIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { CONTACT } from '@/data/contact-info'
 import { salesBenefits } from '@/data/talk-to-sales-data'
+
+export const metadata: Metadata = {
+  title: "Talk to Sales | Contact GoAds Team",
+  description: "Contact GoAds sales team via Telegram. Get personalized recommendations for agency ad accounts and Business Managers.",
+}
 
 export default function TalkToSalesPage() {
   return (

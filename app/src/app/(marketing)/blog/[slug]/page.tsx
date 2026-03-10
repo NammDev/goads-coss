@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { BlogDetailContent } from "@/components/blog-detail-content"
@@ -12,6 +13,16 @@ type Props = {
 
 export function generateStaticParams() {
   return blogPosts.map((post) => ({ slug: post.slug }))
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const post = getBlogPost(slug)
+  if (!post) return { title: "Post Not Found | GoAds" }
+  return {
+    title: `${post.title} | GoAds Blog`,
+    description: post.description,
+  }
 }
 
 export default async function BlogPostPage({ params }: Props) {

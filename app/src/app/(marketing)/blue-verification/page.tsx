@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { BadgeCheckIcon, GlobeIcon } from 'lucide-react'
 import HeroSection from '@/components/shadcn-studio/blocks/hero-section-23/hero-section-23'
 import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
@@ -12,6 +13,11 @@ import { CONTACT } from '@/data/contact-info'
 import { avatars, verificationCategories } from '@/data/verification-page-data'
 import { reviews } from '@/data/landing-reviews-pricing-faq'
 import { faqTabsData } from '@/data/landing-faq'
+
+export const metadata: Metadata = {
+  title: "Meta Blue Verification Service | Get Verified on Facebook",
+  description: "Get Meta Blue Verification for your Facebook page or profile. Professional verification service with guaranteed results.",
+}
 
 export default function BlueVerificationPage() {
   return (

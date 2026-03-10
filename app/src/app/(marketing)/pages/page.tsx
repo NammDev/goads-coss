@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { UsersIcon, TrendingUpIcon } from 'lucide-react'
 import HeroSection from '@/components/shadcn-studio/blocks/hero-section-23/hero-section-23'
 import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
@@ -12,6 +13,11 @@ import { CONTACT } from '@/data/contact-info'
 import { avatars, pageCategories } from '@/data/pages-page-data'
 import { reviews } from '@/data/landing-reviews-pricing-faq'
 import { faqTabsData } from '@/data/landing-faq'
+
+export const metadata: Metadata = {
+  title: "Buy Facebook Pages | Aged & Ready for Ads",
+  description: "Purchase aged Facebook Pages ready for advertising. Pre-warmed, verified, with 7-day replacement warranty.",
+}
 
 export default function PagesPage() {
   return (

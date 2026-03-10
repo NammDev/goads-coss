@@ -12,7 +12,7 @@ const SonnerWithActionDemo = () => {
         toast('Action completed successfully!', {
           action: {
             label: 'Undo',
-            onClick: () => console.log('Undo')
+            onClick: () => {}
           }
         })
       }

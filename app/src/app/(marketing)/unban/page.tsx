@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { ShieldCheckIcon, ClockIcon } from 'lucide-react'
 import HeroSection from '@/components/shadcn-studio/blocks/hero-section-23/hero-section-23'
 import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
@@ -12,6 +13,11 @@ import { CONTACT } from '@/data/contact-info'
 import { avatars, unbanCategories } from '@/data/unban-page-data'
 import { reviews } from '@/data/landing-reviews-pricing-faq'
 import { faqTabsData } from '@/data/landing-faq'
+
+export const metadata: Metadata = {
+  title: "Facebook Unban Service | Get Your Account Restored",
+  description: "Professional Facebook account unban service. Restore disabled ad accounts, BMs, and profiles with expert support.",
+}
 
 export default function UnbanPage() {
   return (

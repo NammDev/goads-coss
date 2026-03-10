@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import AboutUs from '@/components/shadcn-studio/blocks/about-us-page-03/about-us-page-03'
 import Team from '@/components/shadcn-studio/blocks/team-section-05/team-section-05'
 import { SectionDivider } from '@/components/section-divider'
@@ -7,6 +8,11 @@ import { WavyUnderline } from '@/components/section-header'
 import { aboutUsData, teamMembers } from '@/data/about-page-data'
 
 /* ---------- page ---------- */
+
+export const metadata: Metadata = {
+  title: "About GoAds | Our Story & Team",
+  description: "Learn about GoAds — 5+ years in ad infrastructure, 500+ clients served. Our mission is to help advertisers scale without bans.",
+}
 
 export default function AboutPage() {
   return (

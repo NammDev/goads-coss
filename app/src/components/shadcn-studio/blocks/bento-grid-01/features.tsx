@@ -72,7 +72,7 @@ const Features = () => {
                 Hundreds of component examples for all your website needs that meet accessibility criteria.
               </p>
               <Button size='lg' asChild>
-                <a href='#'>View Components</a>
+                <a href='/tools'>View Components</a>
               </Button>
             </CardContent>
 

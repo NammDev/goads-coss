@@ -1,9 +1,15 @@
+import type { Metadata } from "next"
 import { ComingSoonHero } from '@/components/coming-soon-hero'
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { comingSoonPages } from '@/data/coming-soon-data'
 
 const data = comingSoonPages['tiktok-agency']
+
+export const metadata: Metadata = {
+  title: "TikTok Agency Accounts | Coming Soon",
+  description: "GoAds TikTok agency advertising accounts coming soon. Premium TikTok ad infrastructure.",
+}
 
 export default function TikTokAgencyPage() {
   return (

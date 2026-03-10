@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { LayersIcon, ShoppingBagIcon } from 'lucide-react'
 import HeroSection from '@/components/shadcn-studio/blocks/hero-section-23/hero-section-23'
 import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
@@ -12,6 +13,11 @@ import { CONTACT } from '@/data/contact-info'
 import { avatars, tiktokCategories } from '@/data/tiktok-page-data'
 import { reviews } from '@/data/landing-reviews-pricing-faq'
 import { faqTabsData } from '@/data/landing-faq'
+
+export const metadata: Metadata = {
+  title: "Buy TikTok Ad Accounts | Verified & Agency-Backed",
+  description: "Get verified TikTok advertising accounts. Agency-backed, ready to scale with 7-day warranty and 24/7 support.",
+}
 
 export default function TikTokAccountsPage() {
   return (

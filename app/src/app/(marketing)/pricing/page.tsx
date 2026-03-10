@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Pricing from '@/components/shadcn-studio/blocks/pricing-component-09/pricing-component-09'
 import { ProductCatalogGrid } from '@/components/product-catalog-grid'
 import { pricingCategories } from '@/data/pricing-catalog-data'
@@ -10,6 +11,11 @@ import { faqTabsData } from '@/data/landing-faq'
 import { pricingPlans } from '@/data/pricing-plans-data'
 
 /* ---------- page ---------- */
+
+export const metadata: Metadata = {
+  title: "Pricing | GoAds Ad Account Plans & Packages",
+  description: "View GoAds pricing for agency ad accounts, Business Managers, profiles, and more. Transparent pricing with 7-day warranty.",
+}
 
 export default function PricingPage() {
   return (

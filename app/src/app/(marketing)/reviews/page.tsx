@@ -1,9 +1,15 @@
+import type { Metadata } from "next"
 import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonials-component-18/testimonials-component-18'
 import { SectionDivider } from '@/components/section-divider'
 import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
 import { reviewsPageTestimonials } from '@/data/reviews-page-data'
+
+export const metadata: Metadata = {
+  title: "Customer Reviews | GoAds Testimonials",
+  description: "Read reviews from 500+ GoAds customers. Real testimonials about our agency ad accounts, BMs, and support quality.",
+}
 
 export default function ReviewsPage() {
   return (
