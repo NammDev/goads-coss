@@ -3,7 +3,6 @@ import Pricing from '@/components/shadcn-studio/blocks/pricing-component-09/pric
 import { ProductCatalogGrid } from '@/components/product-catalog-grid'
 import { pricingCategories } from '@/data/pricing-catalog-data'
 import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
-import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { SectionDivider } from '@/components/section-divider'
 import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
@@ -44,9 +43,6 @@ export default function PricingPage() {
       <SectionDivider />
 
       <FAQ tabsData={faqTabsData} />
-      <SectionDivider />
-
-      <CTASection />
     </main>
   )
 }

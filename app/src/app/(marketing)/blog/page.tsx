@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import { BlogHero } from '@/components/blog-hero'
 import { BlogListing } from '@/components/blog-listing'
 import { SectionDivider } from '@/components/section-divider'
-import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 
 export const metadata: Metadata = {
   title: "Blog | GoAds Advertising Tips & Insights",
@@ -15,8 +14,6 @@ export default function BlogPage() {
       <BlogHero />
       <SectionDivider />
       <BlogListing />
-      <SectionDivider />
-      <CTASection />
     </main>
   )
 }

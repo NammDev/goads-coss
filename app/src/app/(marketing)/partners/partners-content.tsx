@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { SectionDivider } from '@/components/section-divider'
-import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
 import { Button } from '@/components/ui/button'
@@ -68,8 +67,6 @@ export function PartnersContent() {
         </div>
       </section>
 
-      <SectionDivider />
-      <CTASection />
     </main>
   )
 }

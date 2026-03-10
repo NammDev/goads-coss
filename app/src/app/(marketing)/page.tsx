@@ -6,7 +6,6 @@ import StatsSection from "@/components/shadcn-studio/blocks/stats-section/stats-
 import TestimonialsComponent from "@/components/shadcn-studio/blocks/testimonials-component-22/testimonials-component-22";
 import Pricing from "@/components/shadcn-studio/blocks/pricing-component-13/pricing-component-13";
 import FAQ from "@/components/shadcn-studio/blocks/faq-component-08/faq-component-08";
-import CTASection from "@/components/shadcn-studio/blocks/cta-section-05/cta-section-05";
 import { SectionDivider } from "@/components/section-divider";
 import { reviews, pricingPlans } from "@/data/landing-reviews-pricing-faq";
 import { faqTabsData } from "@/data/landing-faq";
@@ -38,9 +37,6 @@ export default function Page() {
       <SectionDivider />
 
       <FAQ tabsData={faqTabsData} />
-      <SectionDivider />
-
-      <CTASection />
     </main>
   );
 }

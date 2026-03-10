@@ -1,7 +1,5 @@
 import type { Metadata } from "next"
 import { ComingSoonHero } from '@/components/coming-soon-hero'
-import { SectionDivider } from '@/components/section-divider'
-import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { comingSoonPages } from '@/data/coming-soon-data'
 
 const data = comingSoonPages['tiktok-agency']
@@ -22,8 +20,6 @@ export default function TikTokAgencyPage() {
         description={data.description}
         features={[...data.features]}
       />
-      <SectionDivider />
-      <CTASection />
     </main>
   )
 }

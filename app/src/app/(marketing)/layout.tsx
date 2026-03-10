@@ -1,5 +1,7 @@
 import Footer from "@/components/shadcn-studio/blocks/footer-component-02/footer-component-02"
+import CTASection from "@/components/shadcn-studio/blocks/cta-section-05/cta-section-05"
 import { SiteHeader } from "@/components/site-header"
+import { SectionDivider } from "@/components/section-divider"
 
 export default function MarketingLayout({
   children,
@@ -20,6 +22,8 @@ export default function MarketingLayout({
       />
       <SiteHeader />
       {children}
+      <SectionDivider />
+      <CTASection />
       <Footer />
     </div>
   )

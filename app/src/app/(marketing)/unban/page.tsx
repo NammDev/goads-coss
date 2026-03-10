@@ -1,18 +1,11 @@
 import type { Metadata } from "next"
 import { ShieldCheckIcon, ClockIcon } from 'lucide-react'
-import HeroSection from '@/components/shadcn-studio/blocks/hero-section-23/hero-section-23'
 import StatisticsCard from '@/components/shadcn-studio/blocks/statistics-card-03'
 import RatingsCard from '@/components/shadcn-studio/blocks/statistics-card-04'
 import UnbanHeroCard from '@/components/shadcn-studio/blocks/unban-hero-card'
-import { ProductCatalog } from '@/components/product-catalog'
-import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonials-component-22/testimonials-component-22'
-import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
-import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
-import { SectionDivider } from '@/components/section-divider'
+import { ProductPageTemplate } from '@/components/product-page-template'
 import { CONTACT } from '@/data/contact-info'
 import { avatars, unbanCategories } from '@/data/unban-page-data'
-import { reviews } from '@/data/landing-reviews-pricing-faq'
-import { faqTabsData } from '@/data/landing-faq'
 
 export const metadata: Metadata = {
   title: "Facebook Unban Service | Get Your Account Restored",
@@ -21,19 +14,19 @@ export const metadata: Metadata = {
 
 export default function UnbanPage() {
   return (
-    <main className="flex-1">
-      <HeroSection
-        avatars={avatars}
-        heading="Professional Unban Services"
-        subheading={
+    <ProductPageTemplate
+      heroProps={{
+        avatars,
+        heading: "Professional Unban Services",
+        subheading: (
           <>
             GoAds provides <strong>professional unban services for Facebook, Instagram, TikTok accounts and pages</strong>.
             Recover restricted or disabled assets quickly with support trusted by agencies and media buyers worldwide.
           </>
-        }
-        primaryCta={{ label: 'Request Service', href: '/unban#pricing' }}
-        secondaryCta={{ label: 'Talk to Support', href: CONTACT.telegram.support }}
-        card1={
+        ),
+        primaryCta: { label: 'Request Service', href: '/unban#pricing' },
+        secondaryCta: { label: 'Talk to Support', href: CONTACT.telegram.support },
+        card1: (
           <StatisticsCard
             title="Success Rate"
             badgeContent="All recoveries"
@@ -43,8 +36,8 @@ export default function UnbanPage() {
             trend="up"
             className="h-full gap-2 py-3"
           />
-        }
-        card2={
+        ),
+        card2: (
           <RatingsCard
             title="Turnaround"
             badgeContent="Avg. recovery time"
@@ -53,28 +46,15 @@ export default function UnbanPage() {
             svg={<ClockIcon className="size-16 text-primary/10" />}
             className="h-full"
           />
-        }
-        card3={<UnbanHeroCard className="sm:w-full sm:max-w-100" />}
-      />
-      <SectionDivider />
-
-      <ProductCatalog
-        categories={unbanCategories}
-        enterpriseCard={{
-          title: 'Custom Recovery Solutions',
-          description: 'Have a complex case? Contact us for a tailored recovery plan with dedicated support and priority handling.',
-          features: ['Case assessment', 'Dedicated manager', 'Priority handling', '98% success rate'],
-        }}
-      />
-      <SectionDivider />
-
-      <TestimonialsComponent reviews={reviews} />
-      <SectionDivider />
-
-      <FAQ tabsData={faqTabsData} />
-      <SectionDivider />
-
-      <CTASection />
-    </main>
+        ),
+        card3: <UnbanHeroCard className="sm:w-full sm:max-w-100" />,
+      }}
+      catalogCategories={unbanCategories}
+      enterpriseCard={{
+        title: 'Custom Recovery Solutions',
+        description: 'Have a complex case? Contact us for a tailored recovery plan with dedicated support and priority handling.',
+        features: ['Case assessment', 'Dedicated manager', 'Priority handling', '98% success rate'],
+      }}
+    />
   )
 }

@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import TestimonialsComponent from '@/components/shadcn-studio/blocks/testimonials-component-18/testimonials-component-18'
 import { SectionDivider } from '@/components/section-divider'
-import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
 import { reviewsPageTestimonials } from '@/data/reviews-page-data'
@@ -30,8 +29,6 @@ export default function ReviewsPage() {
       />
       <SectionDivider />
       <TestimonialsComponent testimonials={reviewsPageTestimonials} />
-      <SectionDivider />
-      <CTASection />
     </main>
   )
 }

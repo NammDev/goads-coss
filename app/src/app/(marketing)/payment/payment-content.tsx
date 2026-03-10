@@ -1,5 +1,4 @@
 import { SectionDivider } from '@/components/section-divider'
-import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
 import { Badge } from '@/components/ui/badge'
@@ -59,8 +58,6 @@ export function PaymentContent() {
         </div>
       </section>
 
-      <SectionDivider />
-      <CTASection />
     </main>
   )
 }

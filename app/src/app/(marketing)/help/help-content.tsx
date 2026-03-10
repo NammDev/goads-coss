@@ -1,5 +1,4 @@
 import { SectionDivider } from '@/components/section-divider'
-import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
 import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
@@ -108,8 +107,6 @@ export function HelpContent() {
 
       <SectionDivider />
       <FAQ tabsData={faqTabsData} />
-      <SectionDivider />
-      <CTASection />
     </main>
   )
 }

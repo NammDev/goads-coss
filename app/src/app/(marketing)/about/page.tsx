@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import AboutUs from '@/components/shadcn-studio/blocks/about-us-page-03/about-us-page-03'
 import Team from '@/components/shadcn-studio/blocks/team-section-05/team-section-05'
 import { SectionDivider } from '@/components/section-divider'
-import CTASection from '@/components/shadcn-studio/blocks/cta-section-05/cta-section-05'
 import { PageHero } from '@/components/page-hero'
 import { WavyUnderline } from '@/components/section-header'
 import { aboutUsData, teamMembers } from '@/data/about-page-data'
@@ -34,8 +33,6 @@ export default function AboutPage() {
       <AboutUs aboutUsData={aboutUsData} />
       <SectionDivider />
       <Team teamMembers={teamMembers} />
-      <SectionDivider />
-      <CTASection />
     </main>
   )
 }
