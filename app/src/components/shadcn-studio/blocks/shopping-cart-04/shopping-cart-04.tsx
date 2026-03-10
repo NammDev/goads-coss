@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, type ReactNode } from 'react'
 
 import { MinusIcon, PlusIcon } from 'lucide-react'
@@ -73,7 +74,7 @@ const ShoppingCart = ({ defaultOpen = false, trigger, data, className }: Shoppin
                 <div className='flex grow items-center gap-6'>
                   <div className='relative w-fit'>
                     <div className='size-21.5 rounded-md border'>
-                      <img src={content.image} alt={content.name} />
+                      <Image src={content.image} alt={content.name} width={86} height={86} className='size-full object-contain' />
                     </div>
                     <Badge className='absolute -end-2.5 -top-2.5 h-5 min-w-5 px-1 tabular-nums'>
                       {quantities[content.id]}

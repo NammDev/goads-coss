@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { ArrowUpRightIcon, MessageSquareMore } from 'lucide-react'
 import { CONTACT } from '@/data/contact-info'
 
@@ -114,12 +115,12 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               </Button>
               <Separator orientation='vertical' />
               <CraftButton asChild>
-                <a href='/#pricing'>
+                <Link href='/#pricing'>
                   <CraftButtonLabel>View Plans</CraftButtonLabel>
                   <CraftButtonIcon>
                     <ArrowUpRightIcon className='size-3 stroke-2 transition-transform duration-500 group-hover:rotate-45' />
                   </CraftButtonIcon>
-                </a>
+                </Link>
               </CraftButton>
             </MotionPreset>
           </div>

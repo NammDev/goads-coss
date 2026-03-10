@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { Bar, BarChart } from 'recharts'
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -48,9 +49,11 @@ const ProductInsightsCard = ({ className }: { className?: string }) => {
           <span className='text-lg font-semibold'>Product insight</span>
           <span className='text-muted-foreground text-sm'>Published on 12 MAY 2025 - 6:10 PM</span>
         </div>
-        <img
+        <Image
           src='https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/widgets/image-7.png'
           alt='Product'
+          width={82}
+          height={82}
           className='w-20.5 rounded-md'
         />
       </CardHeader>

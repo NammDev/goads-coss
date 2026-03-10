@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { FacebookIcon, GithubIcon, InstagramIcon, TwitterIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -46,7 +47,7 @@ const Team = ({ teamMembers }: { teamMembers: TeamMember }) => {
             >
               <Card className='h-full gap-0 overflow-hidden py-0 shadow-none transition-shadow duration-300 hover:shadow-md lg:flex-row'>
                 <CardContent className='px-0 max-lg:max-h-55 lg:w-66'>
-                  <img src={member.image} alt={member.alt} className='size-full object-cover lg:rounded-l-xl' />
+                  <Image src={member.image} alt={member.alt} width={264} height={220} className='size-full object-cover lg:rounded-l-xl' />
                 </CardContent>
                 <div className='flex grow-1 flex-col justify-between'>
                   <CardHeader className='gap-5 pt-6 pb-5'>

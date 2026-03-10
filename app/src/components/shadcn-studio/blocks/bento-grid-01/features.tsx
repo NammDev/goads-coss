@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 
 import { FileTextIcon, GemIcon, GiftIcon, Grid2x2CheckIcon, LeafIcon } from 'lucide-react'
@@ -72,13 +74,15 @@ const Features = () => {
                 Hundreds of component examples for all your website needs that meet accessibility criteria.
               </p>
               <Button size='lg' asChild>
-                <a href='/tools'>View Components</a>
+                <Link href='/tools'>View Components</Link>
               </Button>
             </CardContent>
 
-            <img
+            <Image
               src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-1.png'
               alt='Components Example'
+              width={600}
+              height={300}
               className='w-full dark:invert'
             />
           </Card>
@@ -108,9 +112,11 @@ const Features = () => {
                   ref={span1Ref}
                   className='bg-card z-1 flex size-13 items-center justify-center rounded-full border'
                 >
-                  <img
+                  <Image
                     src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/nextjs-logo.png'
                     alt='Next.js Logo'
+                    width={56}
+                    height={28}
                     className='h-7 dark:invert'
                   />
                 </span>
@@ -120,9 +126,11 @@ const Features = () => {
                     ref={span2Ref}
                     className='bg-card z-1 flex size-13 items-center justify-center rounded-full border'
                   >
-                    <img
+                    <Image
                       src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/vite-logo.png'
                       alt='Vite Logo'
+                      width={26}
+                      height={26}
                       className='h-6.5'
                     />
                   </span>
@@ -130,9 +138,11 @@ const Features = () => {
                     ref={span3Ref}
                     className='bg-card z-1 flex size-13 items-center justify-center rounded-full border'
                   >
-                    <img
+                    <Image
                       src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/tailwind-logo.png'
                       alt='Tailwind Logo'
+                      width={80}
+                      height={20}
                       className='h-5'
                     />
                   </span>

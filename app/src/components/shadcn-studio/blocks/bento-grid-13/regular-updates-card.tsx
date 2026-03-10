@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { TrendingDownIcon, TrendingUpIcon, TriangleAlertIcon, UserPlusIcon, UsersIcon } from 'lucide-react'
@@ -146,7 +147,7 @@ const RegularUpdatesCard = () => {
               </Badge>
             </div>
 
-            <img src={notification.productImage} alt={notification.productAlt} className='size-13' />
+            <Image src={notification.productImage} alt={notification.productAlt} width={52} height={52} className='size-13' />
           </motion.div>
         ))}
       </MotionPreset>

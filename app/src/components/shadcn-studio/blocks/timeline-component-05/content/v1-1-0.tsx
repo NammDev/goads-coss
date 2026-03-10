@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
@@ -12,10 +13,12 @@ const V1_1_0_Content = () => {
             semantic, and fully type-safe — built for scaling design systems.
           </p>
         </div>
-        <img
+        <Image
           src='https://cdn.shadcnstudio.com/ss-assets/blocks/marketing/timeline/image-03.png'
           alt='Component Sync Demo'
-          className='rounded-[10px] border'
+          width={800}
+          height={450}
+          className='rounded-[10px] border w-full'
         />
         <p className='text-muted-foreground text-sm'>
           Design Tokens 2.0 introduces a complete overhaul of how themes are managed within shadcnstudio. With this

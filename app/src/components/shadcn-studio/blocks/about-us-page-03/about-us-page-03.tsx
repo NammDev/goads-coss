@@ -1,5 +1,6 @@
 import type { JSX } from 'react'
 
+import Image from 'next/image'
 import { MessageCircleIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -50,15 +51,19 @@ const AboutUs = ({ aboutUsData }: { aboutUsData: AboutUsData }) => {
 
           <div className='flex justify-center pb-8 lg:justify-end'>
             <div className='bg-primary/10 relative flex max-w-112 items-end rounded-tl-[60px] rounded-tr-xl'>
-              <img
+              <Image
                 src='https://cdn.shadcnstudio.com/ss-assets/blocks/marketing/about-us/image-17.png'
                 alt='About us illustration'
+                width={448}
+                height={500}
                 className='w-full'
               />
               <div className='absolute -bottom-8 left-0 sm:-left-15'>
-                <img
+                <Image
                   src='https://cdn.shadcnstudio.com/ss-assets/blocks/marketing/about-us/image-7.png'
                   alt='About us card'
+                  width={176}
+                  height={120}
                   className='max-w-44 dark:invert'
                 />
               </div>

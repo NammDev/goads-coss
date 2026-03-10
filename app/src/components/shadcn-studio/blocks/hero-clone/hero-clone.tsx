@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowUpRightIcon } from 'lucide-react'
 import { CraftButton, CraftButtonLabel, CraftButtonIcon } from '@/components/ui/craft-button'
 import { Button } from '@/components/ui/button'
@@ -89,7 +91,7 @@ export default function HeroClone() {
             <Separator orientation="vertical" className="h-12 max-md:hidden" />
             <div className="flex items-center gap-5 dark:invert">
               {PLATFORM_LOGOS.map(logo => (
-                <img key={logo.alt} src={logo.src} alt={logo.alt} className="h-[26px]" />
+                <Image key={logo.alt} src={logo.src} alt={logo.alt} width={80} height={26} className="h-[26px] w-auto" />
               ))}
             </div>
           </div>
@@ -99,17 +101,17 @@ export default function HeroClone() {
         <MotionPreset fade blur slide={{ direction: 'down', offset: 50 }} delay={0.75} transition={{ duration: 0.5 }}>
           <div className="z-10 flex flex-wrap justify-center gap-4">
             <CraftButton asChild size='lg' className='text-base'>
-              <a href='/#pricing'>
+              <Link href='/#pricing'>
                 <CraftButtonLabel>Get Started</CraftButtonLabel>
                 <CraftButtonIcon>
                   <ArrowUpRightIcon className='size-3 stroke-2 transition-transform duration-500 group-hover:rotate-45' />
                 </CraftButtonIcon>
-              </a>
+              </Link>
             </CraftButton>
             <Button asChild variant='outline' className='btn-mirror-sweep btn-tertiary text-base' size='lg'>
-              <a href='/talk-to-sales'>
+              <Link href='/talk-to-sales'>
                 Talk to Sales
-              </a>
+              </Link>
             </Button>
           </div>
         </MotionPreset>
@@ -125,7 +127,7 @@ export default function HeroClone() {
             <Marquee pauseOnHover duration={45} gap={1}>
               {MARQUEE_BRANDS.map((brand, index) => (
                 <div key={index} className="group flex items-center gap-2.5 rounded-xl border bg-background/80 px-5 py-2.5 transition-colors hover:border-primary/30 hover:bg-primary/5">
-                  <img src={brand.src} alt={brand.name} className="size-5 shrink-0 object-contain" />
+                  <Image src={brand.src} alt={brand.name} width={20} height={20} className="size-5 shrink-0 object-contain" />
                   <span className="text-sm font-medium text-muted-foreground whitespace-nowrap transition-colors group-hover:text-foreground">{brand.name}</span>
                 </div>
               ))}
@@ -135,7 +137,7 @@ export default function HeroClone() {
             <Marquee pauseOnHover duration={45} gap={1} reverse>
               {[...MARQUEE_BRANDS].reverse().map((brand, index) => (
                 <div key={index} className="group flex items-center gap-2.5 rounded-xl border bg-background/80 px-5 py-2.5 transition-colors hover:border-primary/30 hover:bg-primary/5">
-                  <img src={brand.src} alt={brand.name} className="size-5 shrink-0 object-contain" />
+                  <Image src={brand.src} alt={brand.name} width={20} height={20} className="size-5 shrink-0 object-contain" />
                   <span className="text-sm font-medium text-muted-foreground whitespace-nowrap transition-colors group-hover:text-foreground">{brand.name}</span>
                 </div>
               ))}

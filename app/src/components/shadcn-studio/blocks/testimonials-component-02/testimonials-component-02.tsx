@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
 import { Rating } from '@/components/ui/rating'
@@ -74,7 +75,7 @@ const TestimonialsComponent = ({
                     <Rating readOnly variant='yellow' size={24} value={testimonial.rating} precision={0.5} />
 
                     <div className='flex grow justify-end gap-1.5'>
-                      <img src={testimonial.platformImage} alt={testimonial.platformName} className='size-5.5' />
+                      <Image src={testimonial.platformImage} alt={testimonial.platformName} width={22} height={22} className='size-5.5' />
                       <span className='text-sm'>{testimonial.platformName}</span>
                     </div>
                   </div>

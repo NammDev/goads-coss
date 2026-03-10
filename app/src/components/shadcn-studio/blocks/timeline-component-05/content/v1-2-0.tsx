@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { CopyCode } from '@/components/ui/copy-code'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -28,24 +29,28 @@ const agent = new AIAgent({
         <div className='flex flex-wrap items-center gap-4'>
           {/* vite */}
           <div className='flex items-center gap-1.5 rounded-[6px] bg-amber-600/10 px-3 py-1 dark:bg-amber-400/10'>
-            <img src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/vite-logo.png' alt='Vite' className='h-4.5' />
+            <Image src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/vite-logo.png' alt='Vite' width={18} height={18} className='h-4.5' />
             <span className='text-xs font-medium'>Vite</span>
           </div>
           {/* React */}
           <div className='flex items-center gap-1.5 rounded-[6px] bg-sky-600/10 px-3 py-1 dark:bg-sky-400/10'>
-            <img src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/react-logo.png' alt='React' className='h-4.5' />
+            <Image src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/react-logo.png' alt='React' width={18} height={18} className='h-4.5' />
             <span className='text-xs font-medium'>React</span>
           </div>
           {/* Angular */}
           <div className='bg-destructive/10 flex items-center gap-1.5 rounded-[6px] px-3 py-1'>
-            <img
+            <Image
               src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/astro-icon.png'
               alt='Astro'
+              width={18}
+              height={18}
               className='h-4.5 dark:hidden'
             />
-            <img
+            <Image
               src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/astro-icon-dark.png'
               alt='Astro'
+              width={18}
+              height={18}
               className='hidden h-4.5 dark:block'
             />
             <span className='text-xs font-medium'>Astro</span>

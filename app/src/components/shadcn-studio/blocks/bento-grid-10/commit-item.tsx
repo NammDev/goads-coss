@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 const CommitItem = ({ message }: { message: string }) => {
   return (
     <div className='relative space-y-2'>
@@ -20,9 +22,11 @@ const CommitItem = ({ message }: { message: string }) => {
       </svg>
       <div className='text-xs'>{message}</div>
       <div className='bg-muted flex items-center gap-2 rounded-sm p-1.5'>
-        <img
+        <Image
           src='https://cdn.shadcnstudio.com/ss-assets/brand-logo/github-icon.png?width=20&format=auto'
           alt='GitHub Logo'
+          width={20}
+          height={20}
           className='size-5 shrink-0 dark:invert'
         />
         <div className='flex-1 space-y-1.5'>

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
@@ -20,10 +21,12 @@ const V1_3_0_Content = () => {
             <li>Automatically resolve dependency conflicts</li>
           </ul>
         </div>
-        <img
+        <Image
           src='https://cdn.shadcnstudio.com/ss-assets/blocks/marketing/timeline/image-04.png'
           alt='Component Sync Demo'
-          className='rounded-[10px]'
+          width={800}
+          height={450}
+          className='rounded-[10px] w-full'
         />
         <Accordion type='multiple' className='-mt-4 mb-0 w-full' defaultValue={['item-1']}>
           <AccordionItem value='item-1'>

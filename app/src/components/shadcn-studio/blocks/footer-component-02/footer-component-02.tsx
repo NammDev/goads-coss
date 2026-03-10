@@ -3,6 +3,7 @@
 import { type FormEvent, useRef } from 'react'
 import { ArrowRightIcon } from 'lucide-react'
 import { toast } from 'sonner'
+import Link from 'next/link'
 import { TelegramLogo, WhatsAppLogo } from '@/assets/svg/ad-platform-logos'
 import { CONTACT } from '@/data/contact-info'
 import { LinkedInIcon } from '@/components/site-header-icons'
@@ -23,9 +24,9 @@ const Footer = () => {
     <footer>
       <div className='container grid grid-cols-6 gap-6 py-8 sm:gap-8 sm:py-16 md:py-24'>
         <div className='col-span-full flex flex-col items-start gap-4 lg:col-span-2'>
-          <a href='/' className='text-xl font-semibold'>
+          <Link href='/' className='text-xl font-semibold'>
             goads/agency
-          </a>
+          </Link>
           <p className='text-muted-foreground'>
             Premium Meta, Google & TikTok ad infrastructure for agencies and media buyers.
           </p>
@@ -68,39 +69,39 @@ const Footer = () => {
             <div className='text-lg font-medium'>Products</div>
             <ul className='text-muted-foreground space-y-3'>
               <li>
-                <a href='/agency-ad-account' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/agency-ad-account' className='hover:text-foreground transition-colors duration-300'>
                   Agency Ad Accounts
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/bm' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/bm' className='hover:text-foreground transition-colors duration-300'>
                   Business Managers
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/profiles' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/profiles' className='hover:text-foreground transition-colors duration-300'>
                   Facebook Profiles
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/pages' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/pages' className='hover:text-foreground transition-colors duration-300'>
                   Facebook Pages
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/tiktok-accounts' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/tiktok-accounts' className='hover:text-foreground transition-colors duration-300'>
                   TikTok Accounts
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/unban' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/unban' className='hover:text-foreground transition-colors duration-300'>
                   Unban Services
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/blue-verification' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/blue-verification' className='hover:text-foreground transition-colors duration-300'>
                   Blue Verification
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -108,34 +109,34 @@ const Footer = () => {
             <div className='text-lg font-medium'>Resources</div>
             <ul className='text-muted-foreground space-y-3'>
               <li>
-                <a href='/about' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/about' className='hover:text-foreground transition-colors duration-300'>
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/blog' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/blog' className='hover:text-foreground transition-colors duration-300'>
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/reviews' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/reviews' className='hover:text-foreground transition-colors duration-300'>
                   Reviews
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/tools' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/tools' className='hover:text-foreground transition-colors duration-300'>
                   Free Tools
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/payment' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/payment' className='hover:text-foreground transition-colors duration-300'>
                   Payment Methods
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='/talk-to-sales' className='hover:text-foreground transition-colors duration-300'>
+                <Link href='/talk-to-sales' className='hover:text-foreground transition-colors duration-300'>
                   Talk to Sales
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -170,15 +171,15 @@ const Footer = () => {
       <div className='container flex flex-col items-center gap-3 py-6 sm:flex-row sm:justify-between'>
         <p className='text-center font-medium text-balance'>
           {`©${new Date().getFullYear()}`}{' '}
-          <a href='/' className='link-animated'>
+          <Link href='/' className='link-animated'>
             GoAds
-          </a>
+          </Link>
           {' '}&ndash; Stop Losing Accounts. Start Scaling.
         </p>
         <nav className='flex gap-4 text-sm text-muted-foreground'>
-          <a href='/terms-of-service' className='transition-colors hover:text-foreground'>Terms</a>
-          <a href='/privacy-policy' className='transition-colors hover:text-foreground'>Privacy</a>
-          <a href='/refund-policy' className='transition-colors hover:text-foreground'>Refund</a>
+          <Link href='/terms-of-service' className='transition-colors hover:text-foreground'>Terms</Link>
+          <Link href='/privacy-policy' className='transition-colors hover:text-foreground'>Privacy</Link>
+          <Link href='/refund-policy' className='transition-colors hover:text-foreground'>Refund</Link>
         </nav>
       </div>
     </footer>

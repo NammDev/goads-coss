@@ -59,20 +59,20 @@ export function SiteHeader() {
               <div className="flex items-center gap-2">
                 <ModeSwitcher />
                 <CartButtonWrapper />
-                <a
+                <Link
                   href="/auth/login"
                   className="btn-mirror-sweep btn-secondary relative overflow-hidden inline-flex shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 h-9 px-4 py-2 max-md:hidden"
                 >
                   Sign in
                   <SsCtaIcon />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/auth/login"
                   className="btn-mirror-sweep btn-secondary relative overflow-hidden inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 md:hidden"
                 >
                   <SsCtaIcon />
                   <span className="sr-only">Sign in</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
