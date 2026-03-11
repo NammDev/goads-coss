@@ -1,29 +1,35 @@
 # WT3: Auth Infrastructure
 
-> Branch: `phase-2a/auth-infra`
+> Branch: `phase-2a/backend` | Status: ✅ All 4 phases complete
 
 ## Scope
 
-PostgreSQL database + Better Auth + RBAC middleware. Foundation for admin panel + customer portal.
+PostgreSQL database + Better Auth + RBAC proxy + encryption. Foundation for admin panel + customer portal.
 
 ## File Ownership
 
-- `src/lib/auth/` — Better Auth config, client, server
-- `src/lib/db/` — Drizzle ORM schema, migrations, client
-- `src/middleware.ts` — route protection
-- `drizzle.config.ts` — Drizzle config
+- `src/lib/auth/` — Better Auth server config (`auth.ts`), client (`auth-client.ts`), role guard (`require-role.ts`)
+- `src/lib/db/` — Drizzle client, schema (enums, auth/product/order tables), encryption, seed
+- `src/proxy.ts` — coarse route protection (Next.js 16, Node.js runtime)
+- `src/app/api/auth/[...all]/route.ts` — Better Auth API handler
+- `src/app/(auth)/` — login + unauthorized pages
+- `src/app/(admin)/` — admin layouts with role guards (staff, super_admin)
+- `src/app/(portal)/` — portal layout with role guard (all authenticated)
+- `drizzle.config.ts` — Drizzle CLI config
 - `.env.local` — DB connection string, auth secrets (DO NOT commit)
-- `package.json` — new dependencies only
 
 **DO NOT touch:** existing components, pages, CSS, theme files
 
-## Stack Decision
+## Stack Decision (Final)
 
 | Layer | Choice | Why |
 |-------|--------|-----|
-| Database | PostgreSQL (Neon/Supabase) | Relational, encrypted fields, RBAC |
-| ORM | Drizzle | Type-safe, lightweight, good DX with Better Auth |
-| Auth | Better Auth | Self-hosted, email/password, role-based, Next.js native |
+| Database | **Supabase** (PostgreSQL) | Free tier, dashboard, connection pooling |
+| ORM | **Drizzle** | Type-safe, lightweight, Better Auth adapter |
+| Driver | **postgres** (postgres.js) | Pure JS, `prepare: false` for Supabase pooling |
+| Auth | **Better Auth v1.5** | Self-hosted, email/password, scrypt hashing, Next.js native |
+| Route Protection | **proxy.ts** (Next.js 16) | Node.js runtime, replaces middleware.ts |
+| Auth Pattern | **2-layer** | Proxy (session check) + Server Component (role validation) |
 | Encryption | `node:crypto` AES-256-GCM | Encrypt BM IDs, invite links at rest |
 
 ## Database Schema
@@ -126,80 +132,69 @@ updatedAt       timestamp
 | `/(admin)/staff/*` | super_admin | Staff management |
 | `/(admin)/settings/*` | super_admin | System settings |
 
-### Middleware Logic
+### Route Protection (2-Layer Architecture)
 
 ```
-1. Check route pattern
-2. If public route → pass through
-3. If protected route → check session
-4. No session → redirect to /login
-5. Has session → check role against route
-6. Insufficient role → redirect to /unauthorized
+Layer 1: proxy.ts (COARSE — session existence only)
+  ├── Public route? → Pass through
+  ├── /api/auth/*? → Pass through
+  ├── Protected route + no session? → Redirect /login?callbackUrl=...
+  └── Protected route + has session? → Pass through
+
+Layer 2: Server Component layouts (DETAILED — role validation)
+  ├── requireRole("staff", "super_admin") → admin routes
+  ├── requireRole("super_admin") → finance/staff/settings routes
+  └── requireRole("customer", "staff", "super_admin") → portal routes
 ```
 
-## Implementation Steps
+This 2-layer approach eliminates the Next.js middleware auth bypass vulnerability (CVE-2025).
 
-### Step 1: Dependencies
+## Implementation Status
 
-```bash
-pnpm add better-auth drizzle-orm @neondatabase/serverless
-pnpm add -D drizzle-kit
-```
+### Phase 1: Database Setup ✅
 
-### Step 2: Database Setup
+- [x] Supabase project created + connection string configured
+- [x] `drizzle.config.ts` + `src/lib/db/index.ts` (singleton pattern)
+- [x] Schema: `enums.ts`, `auth-tables.ts`, `product-tables.ts`, `order-tables.ts`, `index.ts`
+- [x] DB scripts: `db:push`, `db:generate`, `db:migrate`, `db:studio`, `db:seed`
 
-- [ ] Create Neon project (or local PostgreSQL)
-- [ ] Add `DATABASE_URL` to `.env.local`
-- [ ] Create `drizzle.config.ts`
-- [ ] Create `src/lib/db/index.ts` — Drizzle client
-- [ ] Create `src/lib/db/schema.ts` — all table schemas
+### Phase 2: Better Auth ✅
 
-### Step 3: Better Auth
+- [x] `src/lib/auth/auth.ts` — betterAuth + drizzleAdapter + nextCookies() plugin
+- [x] `src/lib/auth/auth-client.ts` — createAuthClient + exported hooks
+- [x] `src/app/api/auth/[...all]/route.ts` — toNextJsHandler
+- [x] Custom fields: role (`input: false`), telegramId, notes
 
-- [ ] Create `src/lib/auth/auth.ts` — server-side auth config
-- [ ] Create `src/lib/auth/auth-client.ts` — client-side auth
-- [ ] Create `src/app/api/auth/[...all]/route.ts` — API handler
-- [ ] Add `BETTER_AUTH_SECRET` to `.env.local`
-- [ ] Configure Better Auth with Drizzle adapter
-- [ ] Add role field to user schema
+### Phase 3: RBAC Route Protection ✅
 
-### Step 4: RBAC Middleware
+- [x] `src/proxy.ts` — coarse session check (Next.js 16 Node.js runtime)
+- [x] `src/lib/auth/require-role.ts` — server-side role guard
+- [x] `src/app/(auth)/login/page.tsx` — email/password form + sonner toasts
+- [x] `src/app/(auth)/unauthorized/page.tsx` — access denied card
+- [x] Admin/portal/finance/staff/settings layout guards
 
-- [ ] Create `src/middleware.ts`
-- [ ] Define route matchers for public/protected/admin routes
-- [ ] Implement session check + role validation
-- [ ] Create `/login` page (email/password form)
-- [ ] Create `/unauthorized` page
+### Phase 4: Encryption + Seed ✅
 
-### Step 5: Encryption Utility
+- [x] `src/lib/db/encryption.ts` — AES-256-GCM encrypt/decrypt (random IV)
+- [x] `src/lib/db/seed.ts` — 2 super_admins + 8 products (idempotent)
+- [x] Script: `tsx --env-file=.env.local` for env injection before module load
 
-- [ ] Create `src/lib/db/encryption.ts`
-- [ ] AES-256-GCM encrypt/decrypt functions
-- [ ] Add `ENCRYPTION_KEY` to `.env.local`
-- [ ] Use in delivered_items schema hooks
+## QA Results
 
-### Step 6: Seed Data
-
-- [ ] Create seed script `src/lib/db/seed.ts`
-- [ ] Seed super_admin: nammdev, justin
-- [ ] Seed sample products (match existing product pages)
-- [ ] Add `pnpm db:seed` script
-
-### Step 7: DB Scripts
-
-- [ ] `pnpm db:push` — push schema to DB
-- [ ] `pnpm db:migrate` — run migrations
-- [ ] `pnpm db:studio` — Drizzle Studio for debugging
-- [ ] `pnpm db:seed` — seed initial data
+- **TypeScript**: Zero errors (`tsc --noEmit`)
+- **Next.js Build**: Compiled in 4.9s, 54 static pages
+- **ESLint**: Auth files clean
+- **Seed**: Idempotent verified (run twice = same result)
 
 ## Success Criteria
 
-- [ ] PostgreSQL connected + schema pushed
-- [ ] Better Auth login/logout works (email/password)
-- [ ] 3 roles created and enforced via middleware
-- [ ] Public routes unaffected
-- [ ] Protected routes redirect to login
-- [ ] Role-based access working (admin vs customer routes)
-- [ ] Sensitive fields encrypted/decrypted correctly
-- [ ] Super admin accounts seeded
-- [ ] No auth secrets committed to git
+- [x] Supabase PostgreSQL connected + schema pushed
+- [x] Better Auth login/logout works (email/password)
+- [x] 3 roles defined and enforced (proxy + server component)
+- [x] Public routes unaffected
+- [x] Protected routes redirect to login
+- [x] Role-based access via server component guards
+- [x] AES-256-GCM encryption/decryption working
+- [x] 2 super_admin accounts + 8 products seeded
+- [x] No auth secrets committed to git
+- [x] `pnpm build` passes without errors
