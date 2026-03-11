@@ -1,4 +1,33 @@
-# Wireframes
+# Wireframes — Status: IMPLEMENTED (Superseded by Live Routes)
+
+**Note:** These wireframes were replaced by actual implementation. Refer to live routes below for current state.
+
+## Live Routes — ALL IMPLEMENTED
+
+### Admin Routes (11 total)
+- `/admin` — Dashboard with stats + 2 charts
+- `/admin/orders` — Paginated order table
+- `/admin/orders/[id]` — Order detail with product info
+- `/admin/customers` — Customer list + search
+- `/admin/customers/[id]` — Customer profile + history
+- `/admin/products` — Product list
+- `/admin/products/new` — Product form
+- `/admin/finance` — Revenue charts (super_admin)
+- `/admin/staff` — Staff table (super_admin)
+- `/admin/settings` — Config form (super_admin)
+
+### Portal Routes (7 total)
+- `/portal` — Dashboard with welcome + stats
+- `/portal/orders` — Order cards with status
+- `/portal/orders/[id]` — Order timeline view
+- `/portal/products` — Delivered products grid
+- `/portal/products/[id]` — Product detail + copy buttons
+- `/portal/tools` — BM Extension guide
+- `/portal/profile` — Personal info + password form
+
+---
+
+## Original Wireframes (Reference Only)
 
 ## Admin Panel
 

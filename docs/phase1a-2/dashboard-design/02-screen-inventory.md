@@ -1,63 +1,65 @@
-# Screen Inventory
+# Screen Inventory — Status: IMPLEMENTED
 
-## Admin Panel — `/(admin)`
+## Admin Panel — 11 Routes
 
-| # | Screen | Route | Layout | Key Components |
+| # | Screen | Route | Status | Key Components |
 |---|--------|-------|--------|----------------|
-| 1 | Dashboard | `/(admin)` | Stats + Charts + Recent Orders | stats-cards, chart-weekly-overview, chart-conversion-rate, datatable (recent 5) |
-| 2 | Order List | `/(admin)/orders` | Table + Filters | datatable-order, status-badges, date-range filter, search |
-| 3 | Order Detail | `/(admin)/orders/[id]` | Detail view + Actions | order-info card, status-update dropdown, ship-product dialog, timeline |
-| 4 | Customer List | `/(admin)/customers` | Table + Search | datatable-customer, total-spend column, search |
-| 5 | Customer Detail | `/(admin)/customers/[id]` | Profile + History | customer-info card, order-history table, notes textarea |
-| 6 | Product List | `/(admin)/products` | Table + Inventory | datatable-product, inventory-count badge, type filter |
-| 7 | Product Form | `/(admin)/products/new` | Form | create/edit product form, type selector, BM ID input |
-| 8 | Finance | `/(admin)/finance` | Charts + Reports | revenue-chart, chart-project-timeline, export button. **super_admin only** |
-| 9 | Staff | `/(admin)/staff` | Table + Invite | staff-table, role-badge, invite-dialog. **super_admin only** |
-| 10 | Settings | `/(admin)/settings` | Form sections | system-config forms. **super_admin only** |
+| 1 | Dashboard | `/admin` | ✅ Live | stats-cards, 2 charts, recent orders table |
+| 2 | Order List | `/admin/orders` | ✅ Live | datatable, status filters, pagination, search |
+| 3 | Order Detail | `/admin/orders/[id]` | ✅ Live | order-info card, status-update dropdown |
+| 4 | Customer List | `/admin/customers` | ✅ Live | datatable, search, total-spend column |
+| 5 | Customer Detail | `/admin/customers/[id]` | ✅ Live | customer-info, order-history table |
+| 6 | Product List | `/admin/products` | ✅ Live | datatable, inventory-count, type filter |
+| 7 | Product Form | `/admin/products/new` | ✅ Live | form: name, type, price, description, stock |
+| 8 | Finance | `/admin/finance` | ✅ Live | 4 stats cards + 2 charts (super_admin only) |
+| 9 | Staff | `/admin/staff` | ✅ Live | staff table, role badges (super_admin only) |
+| 10 | Settings | `/admin/settings` | ✅ Live | config form sections (super_admin only) |
 
-## Customer Portal — `/(portal)`
+## Customer Portal — 7 Routes
 
-| # | Screen | Route | Layout | Key Components |
+| # | Screen | Route | Status | Key Components |
 |---|--------|-------|--------|----------------|
-| 1 | Dashboard | `/(portal)` | Welcome + Stats + Recent | welcome-header, stats-cards (3), recent-orders list |
-| 2 | Orders | `/(portal)/orders` | Card list | order-cards with status-badge + timeline-preview |
-| 3 | Order Detail | `/(portal)/orders/[id]` | Timeline + Info | status-timeline (full), product-list, order-info |
-| 4 | Products | `/(portal)/products` | Card grid | product-cards with type-badge, status-badge |
-| 5 | Product Detail | `/(portal)/products/[id]` | Detail + Actions | BM ID (copy), invite-link (copy), status, instructions |
-| 6 | Tools | `/(portal)/tools` | Guide layout | BM Extension install guide, step-by-step instructions |
-| 7 | Profile | `/(portal)/profile` | Form | personal-info form, password-change form |
+| 1 | Dashboard | `/portal` | ✅ Live | welcome msg, 3 stats cards, recent orders |
+| 2 | Orders | `/portal/orders` | ✅ Live | order cards with status badges + timeline |
+| 3 | Order Detail | `/portal/orders/[id]` | ✅ Live | status-timeline, product list, order-info |
+| 4 | Products | `/portal/products` | ✅ Live | product card grid with status badges |
+| 5 | Product Detail | `/portal/products/[id]` | ✅ Live | BM ID + invite link copy buttons |
+| 6 | Tools | `/portal/tools` | ✅ Live | BM Extension guide with 5 steps |
+| 7 | Profile | `/portal/profile` | ✅ Live | personal-info form, password-change form |
 
-## Route Groups
+## File Structure — IMPLEMENTED
 
 ```
-app/
-├── (admin)/
-│   ├── layout.tsx          ← Admin sidebar + header + role guard
-│   ├── page.tsx            ← Admin dashboard
+app/src/app/
+├── admin/
+│   ├── layout.tsx                    ← SidebarProvider + DashboardSidebar + DashboardHeader
+│   ├── page.tsx                      ← Dashboard (stats + charts)
 │   ├── orders/
-│   │   ├── page.tsx        ← Order list
-│   │   └── [id]/page.tsx   ← Order detail
+│   │   ├── page.tsx                  ← Order list (table + pagination)
+│   │   └── [id]/page.tsx             ← Order detail
 │   ├── customers/
-│   │   ├── page.tsx
-│   │   └── [id]/page.tsx
+│   │   ├── page.tsx                  ← Customer list
+│   │   └── [id]/page.tsx             ← Customer detail
 │   ├── products/
-│   │   ├── page.tsx
-│   │   └── new/page.tsx
-│   ├── finance/page.tsx
-│   ├── staff/page.tsx
-│   └── settings/page.tsx
-├── (portal)/
-│   ├── layout.tsx          ← Portal sidebar + header + auth guard
-│   ├── page.tsx            ← Portal dashboard
+│   │   ├── page.tsx                  ← Product list
+│   │   └── new/page.tsx              ← Product form
+│   ├── finance/page.tsx              ← Finance dashboard (super_admin)
+│   ├── staff/page.tsx                ← Staff table (super_admin)
+│   └── settings/page.tsx             ← Settings form (super_admin)
+├── portal/
+│   ├── layout.tsx                    ← Portal-specific layout + responsive sidebar
+│   ├── page.tsx                      ← Portal dashboard
 │   ├── orders/
-│   │   ├── page.tsx
-│   │   └── [id]/page.tsx
+│   │   ├── page.tsx                  ← Orders list
+│   │   └── [id]/page.tsx             ← Order detail
 │   ├── products/
-│   │   ├── page.tsx
-│   │   └── [id]/page.tsx
-│   ├── tools/page.tsx
-│   └── profile/page.tsx
-└── (auth)/
-    ├── login/page.tsx
-    └── register/page.tsx
+│   │   ├── page.tsx                  ← Products grid
+│   │   └── [id]/page.tsx             ← Product detail
+│   ├── tools/page.tsx                ← BM Extension guide
+│   └── profile/page.tsx              ← Profile form
 ```
+
+**Key Notes:**
+- No route groups `(admin)` or `(portal)` — direct routes `/admin/*` and `/portal/*`
+- Shared layout components in `src/components/dashboard/`
+- Mock data in `src/data/` — admin-nav.ts, portal-nav.ts, mock-*.ts files

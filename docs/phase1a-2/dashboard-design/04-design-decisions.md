@@ -1,6 +1,6 @@
-# Design Decisions
+# Design Decisions — Status: IMPLEMENTED
 
-All decisions reference `docs/design-guidelines.md` as canonical source.
+All decisions follow `docs/design-guidelines.md`. Below shows actual implementations:
 
 ## 1. Color Scheme — Same as Marketing
 
@@ -30,19 +30,17 @@ All decisions reference `docs/design-guidelines.md` as canonical source.
 | Stats number | `text-2xl font-bold` |
 | BM ID / codes | `font-mono text-sm` |
 
-## 3. Language — Vietnamese Labels
+## 3. Language — Vietnamese Labels — IMPLEMENTED
 
 **Decision**: Vietnamese for user-facing text. English for technical terms.
 
-| Vietnamese | English (keep as-is) |
-|-----------|---------------------|
-| Đơn hàng | Dashboard (nav label) |
-| Khách hàng | Status: Active/Inactive |
-| Sản phẩm | BM ID, Business Manager |
-| Tài chính | Admin, Editor, Subscriber |
-| Cài đặt | — |
+**Implemented In:**
+- `src/data/admin-nav.ts` — Nav labels (Đơn hàng, Khách hàng, Sản phẩm, Tài chính, Nhân viên, Cài đặt)
+- `src/data/portal-nav.ts` — Portal nav (Dashboard, Đơn hàng, Sản phẩm, Công cụ, Hồ sơ)
+- Page titles, form labels, table headers across all routes
+- Technical terms kept English: BM ID, Business Manager, Agency Account, Meta Assets
 
-**Rationale**: 100% Vietnamese customer base. Technical terms (BM, Agency Account) stay English — customers already use them.
+**Rationale**: 100% Vietnamese customer base. Technical terms (BM, Agency Account) stay English — customers already know them.
 
 ## 4. Density — Compact Tables, Relaxed Cards
 
@@ -57,30 +55,37 @@ All decisions reference `docs/design-guidelines.md` as canonical source.
 
 **Rationale**: Admin needs to scan lots of rows. Portal needs comfortable UX for non-technical users.
 
-## 5. Admin Mobile — Desktop-Only with Warning
+## 5. Admin Mobile — Desktop-Only with Warning — IMPLEMENTED
 
 **Decision**: Show warning banner on `< 768px`. Don't block access, just warn.
 
+**Implementation:** `src/components/dashboard/mobile-warning.tsx` (13 LOC)
+
 ```tsx
-// mobile-warning.tsx
 <div className="fixed inset-x-0 bottom-0 z-50 border-t bg-yellow-50 p-3 text-center text-sm md:hidden">
   Sử dụng máy tính để có trải nghiệm tốt nhất
 </div>
 ```
 
+Included in `admin/layout.tsx` below content area.
+
 **Rationale**: Admin users are staff — always at desks. No ROI in optimizing complex tables/forms for mobile.
 
-## 6. Customer Portal Mobile — Fully Responsive
+## 6. Customer Portal Mobile — Fully Responsive — IMPLEMENTED
 
 **Decision**: Mobile-first responsive design.
 
+**Implementation:** `portal/layout.tsx` + responsive utilities across all portal routes
+
 | Breakpoint | Sidebar | Content |
 |-----------|---------|---------|
-| `< 768px` | Hidden → Sheet overlay | Full-width, stacked |
-| `768px+` | Visible, collapsible | Fluid, max-w-7xl |
+| `< 768px` | Sheet overlay (swipe-to-close) | Full-width, stacked |
+| `768px+` | Sidebar visible, collapsible | Fluid, max-w-7xl |
 
-- Order cards stack vertically
-- Timeline becomes vertical on mobile
-- Copy buttons remain accessible (tap target ≥ 44px)
+**Responsive Elements:**
+- Order cards: `flex flex-col sm:flex-row` stacking
+- Timeline: Vertical on mobile, horizontal on desktop
+- Grids: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`
+- Touch targets: All ≥ 44px (copy buttons, etc.)
 
 **Rationale**: Customers check order status on phones. Must work perfectly on mobile.

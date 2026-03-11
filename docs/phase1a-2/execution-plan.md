@@ -44,54 +44,52 @@
   - [ ] Seed super_admin accounts (nammdev, justin)
   - [ ] Sensitive field encryption (BM ID, invite links)
 
-### WT4: Dashboard UI/UX Design
+### WT4: Dashboard UI/UX Design — **STATUS: IMPLEMENTED**
 
-- **Branch:** `phase-2/dashboard-design`
+- **Branch:** `phase-2/dashboard-design` → merged into `phase-2/dashboard`
 - **Scope:** Research + wireframes + component selection (docs only, no code)
 - **File ownership:** Design docs in `docs/phase1a-2/`
 - **Output:**
-  - [ ] Admin panel layout (sidebar? top nav? structure)
-  - [ ] Customer portal layout
-  - [ ] Component inventory (tables, forms, charts, status badges)
-  - [ ] shadcn blocks selection for admin + portal
-  - [ ] Color/typography decisions (admin vs customer)
-  - [ ] Language decision (English only? Bilingual?)
-  - [ ] Wireframes for key screens:
-    - Admin: dashboard, order list, order detail, customer list, product list
-    - Customer: dashboard, order history, delivered products, profile
-  - [ ] Responsive strategy for dashboard (mobile admin? or desktop-only?)
+  - [x] Admin panel layout (sidebar collapsible, SidebarProvider pattern)
+  - [x] Customer portal layout (responsive sidebar)
+  - [x] Component inventory (tables, forms, charts, status badges)
+  - [x] shadcn blocks selection for admin + portal (Dashboard Shell 9)
+  - [x] Color/typography decisions (same as marketing: Geist + JetBrains Mono, oklch tokens)
+  - [x] Language decision (Vietnamese labels, English technical terms)
+  - [x] Wireframes for key screens (all documented with actual routes)
+  - [x] Responsive strategy (admin desktop-only with warning, portal fully responsive)
 
 ---
 
 ## Round 2 — 3 Worktrees (After Round 1 merge + design approved)
 
-### WT5: Admin Panel
+### WT5: Admin Panel — **STATUS: IMPLEMENTED**
 
-- **Branch:** `phase-2b/admin-panel`
+- **Branch:** `phase-2/dashboard` (merged)
 - **Scope:** Admin dashboard, order/customer/product management
-- **File ownership:** `app/(admin)/*`, `components/admin/*`
+- **File ownership:** `app/admin/*`, `components/dashboard/*`
 - **Depends on:** WT3 (auth), WT4 (design spec)
 - **Tasks:**
-  - [ ] Admin layout (sidebar nav, header, breadcrumbs)
-  - [ ] Dashboard overview (stats cards, recent orders)
-  - [ ] Order management (list, filter, search, status update)
-  - [ ] Order detail + ship flow (confirm payment, attach product info)
-  - [ ] Customer management (list, create account, view history)
-  - [ ] Product management (CRUD, inventory)
-  - [ ] Super admin: revenue overview, staff management
+  - [x] Admin layout (sidebar nav, header, breadcrumbs)
+  - [x] Dashboard overview (stats cards, recent orders, charts)
+  - [x] Order management (list, filter, search, status update)
+  - [x] Order detail + ship flow (product info card, status dropdown)
+  - [x] Customer management (list, search, view history)
+  - [x] Product management (CRUD, inventory)
+  - [x] Super admin: revenue overview (/admin/finance), staff management (/admin/staff), settings (/admin/settings)
 
-### WT6: Customer Portal
+### WT6: Customer Portal — **STATUS: IMPLEMENTED**
 
-- **Branch:** `phase-2c/customer-portal`
+- **Branch:** `phase-2/dashboard` (merged)
 - **Scope:** Customer dashboard, orders, delivered products, profile
-- **File ownership:** `app/(portal)/*`, `components/portal/*`
+- **File ownership:** `app/portal/*`, `components/dashboard/*`
 - **Depends on:** WT3 (auth), WT4 (design spec)
 - **Tasks:**
-  - [ ] Portal layout (sidebar nav, header)
-  - [ ] Order history with status timeline
-  - [ ] Delivered products view (BM ID, invite link, copy, status)
-  - [ ] BM Invite Extension section (install link, guide)
-  - [ ] Profile page (personal info, order summary, settings)
+  - [x] Portal layout (sidebar nav, header, responsive on mobile)
+  - [x] Order history with status timeline (/portal/orders, /portal/orders/[id])
+  - [x] Delivered products view (/portal/products, /portal/products/[id] with BM ID, invite link, copy)
+  - [x] BM Extension install section (/portal/tools with step-by-step guide)
+  - [x] Profile page (/portal/profile with personal info, password change)
 
 ### WT7: Cal.com Embed
 

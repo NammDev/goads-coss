@@ -1,24 +1,29 @@
 # shadcn Studio Blocks Research
 
-## Installed: Dashboard Shell 9
+## Dashboard Shell 9 — INSTALLED & INTEGRATED
 
-Block ID: `@ss-blocks/dashboard-shell-09`
+Block ID: `@ss-blocks/dashboard-shell-09` ✅ Integrated
 
-### Files Installed
+### Files Used — ACTIVE
 
-| File | Type | Reuse Plan |
-|------|------|-----------|
-| `chart-conversion-rate.tsx` | Chart | Admin finance — revenue conversion funnel |
-| `chart-performance.tsx` | Chart | Admin dashboard — performance overview |
-| `chart-project-timeline.tsx` | Chart | Admin finance — timeline chart |
-| `chart-weekly-overview.tsx` | Chart | Admin dashboard — weekly order volume |
-| `datatable-user.tsx` | DataTable | Base template for ALL tables (orders, customers, products, staff) |
-| `dialog-activity.tsx` | Dialog | Not used — remove in adaptation |
-| `dialog-search.tsx` | Dialog | Global search (⌘K) — keep |
-| `dropdown-language.tsx` | Dropdown | Not used — remove (single language) |
-| `dropdown-notification.tsx` | Dropdown | Notifications — keep |
-| `dropdown-profile.tsx` | Dropdown | Profile menu — keep |
-| `widget-upgrade-your-plan.tsx` | Widget | Adapt to "Pending Approvals" widget |
+| File | Type | Used For |
+|------|------|----------|
+| `chart-conversion-rate.tsx` | Chart | ✅ `/admin/finance` conversion funnel |
+| `chart-performance.tsx` | Chart | ✅ `/admin` dashboard performance |
+| `chart-project-timeline.tsx` | Chart | ✅ `/admin/finance` timeline |
+| `chart-weekly-overview.tsx` | Chart | ✅ `/admin` dashboard weekly volume |
+| `datatable-user.tsx` | DataTable | ✅ Base template for all admin tables |
+| `dialog-search.tsx` | Dialog | ✅ Header command palette (⌘K) |
+| `dropdown-notification.tsx` | Dropdown | ✅ Header notifications |
+| `dropdown-profile.tsx` | Dropdown | ✅ Header user menu |
+| `widget-upgrade-your-plan.tsx` | Widget | ✅ Adapted: sidebar pending approvals |
+
+### Files NOT Used — REMOVED
+
+| File | Reason |
+|------|--------|
+| `dialog-activity.tsx` | Not needed for GoAds scope |
+| `dropdown-language.tsx` | Single language (Vietnamese only) |
 
 ### UI Primitives Updated/Added
 
@@ -39,16 +44,16 @@ Block ID: `@ss-blocks/dashboard-shell-09`
 | `use-pagination.ts` | ✅ New — pagination logic for datatables |
 | `use-mobile.ts` | Skipped (already existed) |
 
-## Adaptation Needed (per GoAds Block Adaptation Protocol)
+## Adaptations Implemented ✅
 
-1. **Strip** `max-w-7xl` from header and main — use dashboard's own container
-2. **Remove** `dropdown-language.tsx` import — not needed
-3. **Remove** `dialog-activity.tsx` import — not needed
-4. **Extract** sidebar nav items to data file: `src/data/admin-nav.ts` / `src/data/portal-nav.ts`
-5. **Add** role-based menu filtering logic
-6. **Add** breadcrumb component to header
-7. **Replace** footer with GoAds copyright
-8. **Extract** `DashboardShell` layout to `(admin)/layout.tsx` and `(portal)/layout.tsx`
+1. ✅ **Max-width**: Kept `max-w-7xl` in content area (dashboard pattern)
+2. ✅ **Removed**: `dropdown-language.tsx` import
+3. ✅ **Removed**: `dialog-activity.tsx` import
+4. ✅ **Extracted**: Nav items to `src/data/admin-nav.ts` (46 LOC) and `src/data/portal-nav.ts` (24 LOC)
+5. ✅ **Role-aware**: Sidebar filters nav groups by `user.role` (super_admin sees Finance/Staff/Settings)
+6. ✅ **Breadcrumb**: Added `dashboard-breadcrumb.tsx` (81 LOC) route-based
+7. ✅ **Footer**: Custom copyright in layout (no widget)
+8. ✅ **Layout**: Shell extracted to `admin/layout.tsx` + `portal/layout.tsx`
 
 ## Components NOT from shadcn Studio (Build with Primitives)
 

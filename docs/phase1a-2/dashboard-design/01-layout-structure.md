@@ -1,8 +1,8 @@
-# Layout Structure
+# Layout Structure — Status: IMPLEMENTED
 
 ## Navigation: Sidebar (Collapsible)
 
-Based on Dashboard Shell 9 pattern — collapsible sidebar with icon-only mode.
+Implemented using Dashboard Shell 9 pattern — collapsible sidebar with icon-only mode.
 
 ### Sidebar
 
@@ -28,10 +28,12 @@ Based on Dashboard Shell 9 pattern — collapsible sidebar with icon-only mode.
 └─────────────────────┘
 ```
 
-- **Collapse behavior**: `collapsible='icon'` — shrinks to icon-only rail
-- **Role-aware**: Management group hidden for non-super_admin
-- **Active state**: `SidebarMenuButton` isActive prop
-- **Badges**: Order count badge on Orders item
+**Implementation:**
+- **Component**: `dashboard-sidebar.tsx` (142 LOC) in `src/components/dashboard/`
+- **Collapse**: `collapsible='icon'` mode works automatically
+- **Role-aware**: Nav items filtered by `user.role` in sidebar component
+- **Active state**: Route-based using Next.js router
+- **Badges**: Pending count from mock data (displays on Orders item)
 
 ### Header
 
@@ -41,51 +43,51 @@ Based on Dashboard Shell 9 pattern — collapsible sidebar with icon-only mode.
 └──────────────────────────────────────────────────────────┘
 ```
 
-- `SidebarTrigger` — toggle sidebar
-- `SearchDialog` (command palette) — ⌘K shortcut
-- Notification dropdown — bell icon with dot indicator
-- Profile dropdown — avatar + name + role, links to profile/logout
-- **NO** language switcher (Vietnamese-only UI labels)
-- **NO** activity dialog (not needed for GoAds scope)
+**Implementation:**
+- **Trigger**: `SidebarTrigger` from shell-09 (⌘K shortcut)
+- **Search**: `dialog-search.tsx` from shell-09 (command palette)
+- **Notifications**: `dropdown-notification.tsx` from shell-09
+- **Profile**: `dropdown-profile.tsx` from shell-09 (theme toggle, logout)
+- **Language**: None — Vietnamese-only UI
+- **Components**: `dashboard-header.tsx` (79 LOC) wraps all header elements
 
-### Content Area
+### Content Area — IMPLEMENTED
 
 ```tsx
 <main className="flex-1 px-4 py-6 sm:px-6">
   <div className="mx-auto max-w-7xl">
-    {/* Breadcrumbs */}
+    <DashboardBreadcrumb /> {/* dashboard-breadcrumb.tsx */}
     {/* Page content */}
   </div>
 </main>
 ```
 
-- Max-width: `max-w-7xl` (1280px) inside main area
-- Padding: `px-4 py-6 sm:px-6`
-- Scrolling: main area scrolls, sidebar + header sticky
+- **Max-width**: `max-w-7xl` (1280px)
+- **Padding**: `px-4 py-6 sm:px-6`
+- **Scrolling**: Main scrolls, sidebar + header sticky (via SidebarProvider)
+- **Breadcrumb**: `dashboard-breadcrumb.tsx` (81 LOC) route-based
 
-### Mobile Strategy
+### Mobile Strategy — IMPLEMENTED
 
-| Panel | Strategy |
-|-------|----------|
-| **Admin** | Desktop-only. Show warning banner on `< 768px`: "Use desktop for best experience" |
-| **Portal** | Fully responsive. Sidebar → Sheet overlay on mobile. Content stacks vertically |
+| Panel | Strategy | Implementation |
+|-------|----------|-----------------|
+| **Admin** | Desktop-only warning on <768px | `mobile-warning.tsx` (13 LOC) — fixed banner |
+| **Portal** | Fully responsive | Sidebar → Sheet on mobile, content stacks |
 
-### Portal Sidebar (Simplified)
+### Portal Sidebar (Simplified) — IMPLEMENTED
+
+File: `/src/data/portal-nav.ts` (24 LOC)
 
 ```
-┌─────────────────────┐
-│ GoAds Logo           │
-├─────────────────────┤
-│ Dashboard            │
-│ Orders               │
-│ Products             │
-│ Tools                │
-│ Profile              │
-├─────────────────────┤
-│ User avatar + name   │
-└─────────────────────┘
+Main routes:
+  - Dashboard
+  - Đơn hàng (Orders)
+  - Sản phẩm (Products)
+  - Công cụ (Tools)
+  - Hồ sơ (Profile)
 ```
 
-- Fewer items, no management group
+- Fewer items than admin, no management group
 - No footer widget
-- Mobile: sidebar becomes Sheet (slide-in from left)
+- Mobile: Sheet overlay with swipe-to-close
+- Responsive CSS via `md:` breakpoints

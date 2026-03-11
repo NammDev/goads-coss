@@ -1,16 +1,17 @@
-# Component Inventory
+# Component Inventory — Status: IMPLEMENTED
 
-## From Dashboard Shell 9 (REUSE)
+## From Dashboard Shell 9 — REUSED
 
-| Component | Source File | Adapt For |
-|-----------|------------|-----------|
-| Sidebar + Collapsible Nav | `page.tsx` (inline) | Extract to shared layout, add role-filtering |
-| Data Table (sortable, paginated) | `datatable-user.tsx` | Orders, Customers, Products, Staff tables |
-| Search Dialog (⌘K) | `dialog-search.tsx` | Global search across orders/customers/products |
-| Notification Dropdown | `dropdown-notification.tsx` | Order status change notifications |
-| Profile Dropdown | `dropdown-profile.tsx` | User menu (profile, logout, theme toggle) |
-| Charts (4 types) | `chart-*.tsx` | Revenue, order volume, conversion charts |
-| Upgrade Plan Widget | `widget-upgrade-your-plan.tsx` | Pending approvals widget (sidebar footer) |
+| Component | File | Reused For |
+|-----------|------|-----------|
+| Data Table Template | `datatable-user.tsx` (466 LOC) | Orders, customers, products, staff tables |
+| Charts (4 types) | `chart-*.tsx` | `chart-weekly-overview.tsx`, `chart-performance.tsx`, `chart-conversion-rate.tsx`, `chart-project-timeline.tsx` |
+| Search Dialog | `dialog-search.tsx` | Command palette (⌘K) in header |
+| Notifications Dropdown | `dropdown-notification.tsx` | Header notifications bell |
+| Profile Dropdown | `dropdown-profile.tsx` | Header user menu (profile, logout, theme) |
+| Pending Widget | `widget-upgrade-your-plan.tsx` | Adapted to sidebar footer "Pending Approvals" |
+| Pagination | `pagination.tsx` | Table pagination controls |
+| Checkbox | `checkbox.tsx` | Table row selection
 
 ## From shadcn/ui Primitives (ALREADY INSTALLED)
 
@@ -33,16 +34,19 @@
 | `Breadcrumb` | `@/components/ui/breadcrumb` | Route-based breadcrumbs |
 | `Avatar` | `@/components/ui/avatar` | User avatars |
 
-## Custom Components (BUILD — using shadcn primitives)
+## Custom Components Built — Using shadcn Primitives
 
-| Component | Base | Description |
-|-----------|------|-------------|
-| `stats-card.tsx` | `Card` + Lucide icon | Number + label + trend arrow + percentage. 4 per row on admin dashboard |
-| `status-badge.tsx` | `Badge` | Color-coded order status mapping (see below) |
-| `order-timeline.tsx` | Custom div + CSS | Horizontal step indicator: Ordered → Paid → Shipped → Done |
-| `copy-button.tsx` | `Button` + `navigator.clipboard` | Click-to-copy for BM ID, invite links. Shows checkmark on success |
-| `empty-state.tsx` | `Card` + Lucide icon | Centered icon + message + optional CTA button |
-| `mobile-warning.tsx` | `Card` | Banner: "Use desktop for best experience" on admin < 768px |
+| Component | LOC | Location | Description |
+|-----------|-----|----------|-------------|
+| `stats-card.tsx` | 46 | `src/components/dashboard/` | Stats card: number + label + trend % |
+| `status-badge.tsx` | 55 | `src/components/dashboard/` | Color-coded status (8 statuses: pending, confirmed, paid, processing, shipped, completed, cancelled, refunded) |
+| `order-timeline.tsx` | 85 | `src/components/dashboard/` | Timeline: Ordered → Confirmed → Paid → Shipped → Done |
+| `copy-button.tsx` | 42 | `src/components/dashboard/` | Copy-to-clipboard button (BM ID, invite links, shows checkmark on success) |
+| `empty-state.tsx` | 28 | `src/components/dashboard/` | Empty state placeholder with icon + message + optional CTA |
+| `mobile-warning.tsx` | 13 | `src/components/dashboard/` | Fixed banner: "Sử dụng máy tính để có trải nghiệm tốt nhất" on admin <768px |
+| `dashboard-sidebar.tsx` | 142 | `src/components/dashboard/` | Sidebar with role-aware nav groups + pending widget |
+| `dashboard-header.tsx` | 79 | `src/components/dashboard/` | Header with trigger, search, notifications, profile |
+| `dashboard-breadcrumb.tsx` | 81 | `src/components/dashboard/` | Route-based breadcrumbs |
 
 ## Status Badge Color Map
 
@@ -59,12 +63,23 @@ const ORDER_STATUS_COLORS = {
 } as const
 ```
 
-## Dependency Summary
+## Mock Data Files
 
-| Package | Already Installed? | Needed For |
-|---------|-------------------|------------|
-| `@tanstack/react-table` | ✅ Yes (via shell-09) | All data tables |
-| `lucide-react` | ✅ Yes | Icons throughout |
-| `recharts` | ✅ Yes (via chart) | All charts |
-| `date-fns` | ❌ Need to add | Date formatting, relative time |
-| `sonner` | ❌ Need to add | Toast notifications (copy success, status update) |
+| File | LOC | Purpose |
+|------|-----|---------|
+| `src/data/mock-orders.ts` | 196 | 45 sample orders with products, customers, status |
+| `src/data/mock-customers.ts` | 147 | 12 sample customers with contact info, spending |
+| `src/data/mock-products.ts` | 89 | 6 product types (Agency, BM, Google, TikTok, Meta Asset) |
+| `src/data/mock-delivered-items.ts` | 201 | Delivered products per customer |
+| `src/data/admin-nav.ts` | 46 | Admin navigation items (role-aware) |
+| `src/data/portal-nav.ts` | 24 | Portal navigation items |
+
+## Dependencies — All Available
+
+| Package | Status | Used For |
+|---------|--------|----------|
+| `@tanstack/react-table` | ✅ Installed | Data tables (orders, customers, products, staff) |
+| `lucide-react` | ✅ Installed | Icons throughout |
+| `recharts` | ✅ Installed | Charts (weekly, performance, conversion, timeline) |
+| `date-fns` | ✅ Installed | Date formatting, relative time |
+| `sonner` | ✅ Installed | Toast notifications (copy success) |
