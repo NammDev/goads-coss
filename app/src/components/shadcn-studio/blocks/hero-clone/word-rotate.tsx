@@ -101,7 +101,7 @@ export function Typewriter({ words, typingSpeed = 80, pauseDuration = 2000 }: Ty
 
   return (
     <>
-      <span className="text-black dark:text-white">{displayed}</span>
+      <span className="text-foreground">{displayed}</span>
       <span className="bg-primary inline-block h-6 w-0.5 rounded-sm animate-pulse" />
     </>
   )

@@ -62,7 +62,7 @@ function CopyCode({ code = 'javascript' }: CopyCodeProps) {
 
   return (
     <div className='bg-muted relative rounded-[14px] p-2.5' style={{ fontFamily: "'Fira Code', monospace" }}>
-      <div className='rounded-[10px] bg-white px-3.5 py-2.5 text-xs dark:bg-black'>
+      <div className='rounded-[10px] bg-background px-3.5 py-2.5 text-xs'>
         <pre className='overflow-x-auto'>
           <code dangerouslySetInnerHTML={{ __html: highlightCode(code) }} />
         </pre>

@@ -318,11 +318,13 @@ function Rating({
         disabled && 'opacity-50',
         className
       )}
-      aria-label={readOnly ? `${value} stars` : 'Rating'}
-      aria-valuemin={0}
-      aria-valuemax={max}
-      aria-valuenow={value}
-      aria-valuetext={`${value} of ${max} stars`}
+      aria-label={readOnly ? `Rating: ${value} out of ${max} stars` : 'Rating'}
+      {...(!readOnly ? {
+        'aria-valuemin': 0,
+        'aria-valuemax': max,
+        'aria-valuenow': value,
+        'aria-valuetext': `${value} of ${max} stars`,
+      } : {})}
       {...props}
     >
       {stars.map(({ key, points }) => (

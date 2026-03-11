@@ -29,15 +29,15 @@ Goal: Marketing site with order flow, replacing goads.shop.
 
 Goal: Quality audit before Phase 2.
 
-**Status: Not started**
+**Status: In Progress** — WT2 Dark Mode Audit completed (2026-03-11)
 
-| Task | Priority |
-|------|----------|
-| Mobile responsive audit (375/768/1024/1440px) | High |
-| Dark mode audit (all pages + blocks) | High |
-| Lighthouse audit (target > 90) | High |
-| Cart mobile UI fix | High |
-| Cal.com embed on `/talk-to-sales` | Medium |
+| Task | Priority | Status |
+|------|----------|--------|
+| Mobile responsive audit (375/768/1024/1440px) | High | Pending |
+| Dark mode audit (all pages + blocks) | High | ✅ Done — branch `phase-1a/dark` |
+| Lighthouse audit (target > 90) | High | ✅ Done — A11y 100, BP 96-100, SEO 100 |
+| Cart mobile UI fix | High | Pending |
+| Cal.com embed on `/talk-to-sales` | Medium | Pending |
 
 ---
 
@@ -167,7 +167,7 @@ Goal: Automation, payments, analytics, scaling.
 
 ```
 Phase 1  ✅  Marketing site + cart + tools + blog + docs + SEO
-Phase 1A ⏳  Polish & audits
+Phase 1A 🔄  Polish & audits — WT2 Dark Mode + Lighthouse ✅, mobile responsive pending
 Phase 2  ⏳  Auth → Admin Panel → Customer Portal (FOUNDATION)
 Phase 3  ⏳  Extension Platform + Community + Search (needs Phase 2)
 Phase 4  ⏳  Payments + Automation + Analytics + Growth

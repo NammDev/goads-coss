@@ -80,7 +80,7 @@ export const Particles: React.FC<ParticlesProps> = ({
   ease = 50,
   size = 0.4,
   refresh = false,
-  color = '#ffffff',
+  color,
   vx = 0,
   vy = 0,
   ...props
@@ -95,6 +95,19 @@ export const Particles: React.FC<ParticlesProps> = ({
   const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1
   const rafID = React.useRef<number | null>(null)
   const resizeTimeout = React.useRef<NodeJS.Timeout | null>(null)
+
+  // Resolve particle color: use prop, or read --foreground CSS variable as hex fallback
+  const resolvedColor = React.useMemo(() => {
+    if (color) return color
+    if (typeof document === 'undefined') return '#ffffff'
+    const fg = getComputedStyle(document.documentElement).getPropertyValue('--foreground').trim()
+    // oklch values can't be parsed to hex easily, use white/black based on dark mode
+    if (fg) {
+      const isDark = document.documentElement.classList.contains('dark')
+      return isDark ? '#ffffff' : '#000000'
+    }
+    return '#ffffff'
+  }, [color])
 
   React.useEffect(() => {
     if (canvasRef.current) {
@@ -128,7 +141,7 @@ export const Particles: React.FC<ParticlesProps> = ({
       window.removeEventListener('resize', handleResize)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [color])
+  }, [resolvedColor])
 
   React.useEffect(() => {
     onMouseMove()
@@ -208,7 +221,7 @@ export const Particles: React.FC<ParticlesProps> = ({
     }
   }
 
-  const rgb = hexToRgb(color)
+  const rgb = hexToRgb(resolvedColor)
 
   const drawCircle = (circle: Circle, update = false) => {
     if (context.current) {

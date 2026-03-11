@@ -8,6 +8,8 @@
 
 GoAds is a static Next.js 16 marketing website for a Meta/Facebook ad infrastructure provider. No backend or database — all content is static TypeScript data files. Hosted on Vercel.
 
+**Current Phase:** Phase 1A (Polish & Audits) — Dark mode and Lighthouse audits completed. Branch: `phase-1a/dark`
+
 ## Stats
 
 | Metric | Count |

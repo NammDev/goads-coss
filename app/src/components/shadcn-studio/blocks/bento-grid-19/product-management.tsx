@@ -223,7 +223,8 @@ const ProductManagement = () => {
       <Button
         variant='outline'
         size='icon'
-        className='absolute top-6 left-6 z-10 size-10.5 rounded-full border-white bg-white/50 hover:bg-white/60'
+        className='absolute top-6 left-6 z-10 size-10.5 rounded-full border-border bg-background/50 hover:bg-background/60'
+        aria-label='Product management'
       >
         <RocketIcon className='size-5' />
       </Button>

@@ -4,7 +4,30 @@
 
 ---
 
-## [Unreleased] — Phase 1 MVP In Progress
+## [2026-03-11] — WT2 Dark Mode + Lighthouse Audit Complete
+
+### Completed
+- **WT2 Dark Mode Audit** (`phase-1a/dark` branch)
+  - All hardcoded colors replaced with CSS variable tokens
+  - Canvas components (particles, ripple) made theme-aware
+  - External SVG images fixed with `unoptimized` prop in Next.js Image
+  - CTA section dark mode text visibility corrected
+  - 18 files modified across 5 implementation phases
+
+- **Lighthouse Audit**
+  - Accessibility: 100
+  - Best Practices: 96-100
+  - SEO: 100
+
+- **ARIA Accessibility Fixes**
+  - Rating component accessibility improved
+  - Skip-to-content navigation added
+  - Logo aria-label added
+  - `prefers-reduced-motion` media query support added
+
+---
+
+## [Unreleased] — Phase 1 MVP Complete
 
 ### Added
 - Landing page with hero, bento grids, stats, pricing, testimonials, FAQ, CTA

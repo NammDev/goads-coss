@@ -17,7 +17,7 @@ const CardParticles = () => {
         className='relative flex flex-1 justify-center px-6 py-4'
       >
         <Rocket />
-        <Particles className='absolute inset-0 z-0' quantity={25} staticity={75} size={1.2} color='#808080' refresh />
+        <Particles className='absolute inset-0 z-0' quantity={25} staticity={75} size={1.2} refresh />
         <div className='absolute bottom-18 flex items-center gap-6'>
           <span className='bg-card grid size-12 place-content-center overflow-hidden rounded-full border shadow-[4px_15px_32px_0_rgba(0,0,0,0.40)]'>
             <Logo className='size-8' />

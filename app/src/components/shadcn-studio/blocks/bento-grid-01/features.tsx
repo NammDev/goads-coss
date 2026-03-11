@@ -83,7 +83,7 @@ const Features = () => {
               alt='Components Example'
               width={600}
               height={300}
-              className='w-full dark:invert'
+              className='w-full dark:opacity-85 dark:brightness-90'
             />
           </Card>
           <div className='blob bg-primary absolute top-0 left-0 -z-1 size-62.5 rounded-full opacity-0 blur-2xl transition-all duration-300 ease-in-out' />
@@ -117,7 +117,7 @@ const Features = () => {
                     alt='Next.js Logo'
                     width={56}
                     height={28}
-                    className='h-7 dark:invert'
+                    className='h-7 dark:brightness-0 dark:invert'
                   />
                 </span>
 
@@ -255,7 +255,7 @@ const Features = () => {
             <img
               src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-2.png'
               alt='Unstyled & Accessible Plugins'
-              className='w-full dark:invert'
+              className='w-full dark:opacity-85 dark:brightness-90'
             />
           </Card>
           <div className='blob bg-primary absolute top-0 left-0 -z-1 size-62.5 rounded-full opacity-0 blur-2xl transition-all duration-300 ease-in-out' />
@@ -280,7 +280,7 @@ const Features = () => {
               <img
                 src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-3.png'
                 alt='Ready-to-use Templates'
-                className='z-1 w-full opacity-40 blur-[3px] dark:grayscale dark:invert'
+                className='z-1 w-full opacity-40 blur-[3px] dark:opacity-20 dark:brightness-75'
               />
               <div className='to-primary/10 absolute inset-0 bg-gradient-to-b from-transparent' />
               <span className='text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl font-medium'>
@@ -335,7 +335,7 @@ const Features = () => {
               <img
                 src='https://cdn.shadcnstudio.com/ss-assets/blocks/bento-grid/image-5.png'
                 alt='Ready-to-use Templates'
-                className='z-1 w-full opacity-40 blur-[3px] dark:grayscale dark:invert'
+                className='z-1 w-full opacity-40 blur-[3px] dark:opacity-20 dark:brightness-75'
               />
               <div className='to-primary/10 absolute inset-0 bg-gradient-to-b from-transparent' />
               <span className='text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl font-medium'>

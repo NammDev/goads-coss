@@ -55,7 +55,7 @@ const LogoCloud = ({ brandLogos }: { brandLogos: brandLogos[] }) => {
               {brandLogos.slice(0, 7).map((logo, index) => (
                 <Card key={index} className='rounded-lg border-none shadow-md'>
                   <CardContent className='flex flex-col items-center px-9'>
-                    <Image src={logo.image} alt={logo.name} width={120} height={24} className='h-6' />
+                    <Image src={logo.image} alt={logo.name} width={120} height={24} className='h-6' unoptimized />
                   </CardContent>
                 </Card>
               ))}
@@ -66,7 +66,7 @@ const LogoCloud = ({ brandLogos }: { brandLogos: brandLogos[] }) => {
               {brandLogos.slice(7).map((logo, index) => (
                 <Card key={index} className='rounded-lg border-none shadow-md'>
                   <CardContent className='flex flex-col items-center px-9'>
-                    <Image src={logo.image} alt={logo.name} width={120} height={24} className='h-6' />
+                    <Image src={logo.image} alt={logo.name} width={120} height={24} className='h-6' unoptimized />
                   </CardContent>
                 </Card>
               ))}

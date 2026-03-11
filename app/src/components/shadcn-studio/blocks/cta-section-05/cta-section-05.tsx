@@ -12,13 +12,13 @@ const CTASection = () => {
   return (
     <section className='pt-8 pb-16 sm:py-16 lg:py-24'>
       <div className='container'>
-        <Card className='relative overflow-hidden rounded-3xl border-none pt-20 pb-32 text-center shadow-2xl max-sm:pt-10 max-sm:pb-15 dark:!bg-black' style={{ backgroundColor: 'color-mix(in oklch, var(--primary), black 70%)' }}>
+        <Card className='relative overflow-hidden rounded-3xl border-none bg-primary pt-20 pb-32 text-center shadow-2xl max-sm:pt-10 max-sm:pb-15 dark:bg-card'>
           {/* Dotted grid overlay */}
           <div
             aria-hidden='true'
             className='pointer-events-none absolute inset-0 z-0'
             style={{
-              backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)',
+              backgroundImage: 'radial-gradient(circle, oklch(1.00 0 0 / 0.12) 1px, transparent 1px)',
               backgroundSize: '24px 24px',
             }}
           />
@@ -31,13 +31,13 @@ const CTASection = () => {
                 delay={0.3}
                 transition={{ duration: 0.5 }}
               >
-                <Badge variant='outline' className='border-white text-sm font-normal text-white'>
+                <Badge variant='outline' className='border-primary-foreground text-sm font-normal text-primary-foreground dark:border-foreground dark:text-foreground'>
                   Get in touch
                 </Badge>
               </MotionPreset>
               <MotionPreset
                 component='h2'
-                className='text-2xl font-semibold text-white md:text-3xl lg:text-4xl'
+                className='text-2xl font-semibold text-primary-foreground dark:text-foreground md:text-3xl lg:text-4xl'
                 fade
                 blur
                 slide={{ direction: 'down', offset: 50 }}
@@ -49,7 +49,7 @@ const CTASection = () => {
 
               <MotionPreset
                 component='p'
-                className='text-xl text-balance text-white/80 lg:w-10/12'
+                className='text-xl text-balance text-primary-foreground/80 dark:text-muted-foreground lg:w-10/12'
                 fade
                 blur
                 slide={{ direction: 'down', offset: 50 }}

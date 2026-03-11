@@ -89,9 +89,9 @@ export default function HeroClone() {
               </div>
             </div>
             <Separator orientation="vertical" className="h-12 max-md:hidden" />
-            <div className="flex items-center gap-5 dark:invert">
+            <div className="flex items-center gap-5 dark:brightness-0 dark:invert">
               {PLATFORM_LOGOS.map(logo => (
-                <Image key={logo.alt} src={logo.src} alt={logo.alt} width={80} height={26} className="h-[26px] w-auto" />
+                <Image key={logo.alt} src={logo.src} alt={logo.alt} width={80} height={26} className="h-[26px] w-auto" unoptimized />
               ))}
             </div>
           </div>

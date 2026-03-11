@@ -79,8 +79,8 @@ const DivGrid = ({
   rows = 7,
   cols = 30,
   cellSize = 56.815,
-  borderColor = '#3f3f46',
-  fillColor = 'rgba(14,165,233,0.3)',
+  borderColor = 'var(--cell-border-color, var(--border))',
+  fillColor = 'var(--cell-fill-color, var(--accent))',
   clickedCell = null,
   onCellClick = () => {},
   interactive = true
