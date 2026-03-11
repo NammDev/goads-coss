@@ -54,7 +54,7 @@ export function SplitDataContent() {
         <div className="flex flex-wrap items-end gap-4">
           <div className="space-y-1.5">
             <Label className="text-xs">Delimiter</Label>
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1">
               {PRESET_DELIMITERS.map((d) => (
                 <button
                   key={d.value}

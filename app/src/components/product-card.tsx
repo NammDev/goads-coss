@@ -49,7 +49,7 @@ function AddToCartButton({
 }) {
   if (product.price === 'contact') {
     return (
-      <Button size="sm" variant="outline" className="cursor-pointer gap-1.5">
+      <Button size="sm" variant="outline" className="min-h-11 cursor-pointer gap-1.5">
         Contact
         <ArrowUpRightIcon className="size-3.5 transition-transform duration-200 group-hover/card:rotate-45" />
       </Button>
@@ -60,7 +60,7 @@ function AddToCartButton({
     <Button
       size="sm"
       variant="outline"
-      className="cursor-pointer gap-1.5 min-w-[90px]"
+      className="min-h-11 min-w-[90px] cursor-pointer gap-1.5"
       onClick={(e) => { e.stopPropagation(); onTrigger() }}
       disabled={state === 'loading'}
     >

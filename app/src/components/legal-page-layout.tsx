@@ -12,7 +12,7 @@ export function LegalPageLayout({ title, lastUpdated, children }: LegalPageLayou
       {/* Header */}
       <section className="pt-12 pb-8 sm:pt-20 sm:pb-12">
         <div className="container">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">{title}</h1>
           <p className="mt-3 text-sm text-muted-foreground">Last updated: {lastUpdated}</p>
         </div>
       </section>

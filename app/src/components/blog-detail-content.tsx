@@ -115,7 +115,7 @@ export function BlogDetailContent({ post }: { post: BlogPost }) {
               <section
                 key={section.id}
                 id={section.id}
-                className="prose mb-10 max-w-none scroll-mt-24 dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground prose-li:marker:text-muted-foreground"
+                className="prose mb-10 max-w-none scroll-mt-24 overflow-x-auto dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground prose-li:marker:text-muted-foreground prose-pre:overflow-x-auto"
               >
                 <h2>{section.title}</h2>
                 <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content) }} />

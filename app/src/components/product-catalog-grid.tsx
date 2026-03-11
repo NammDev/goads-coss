@@ -36,7 +36,7 @@ function ProductRow({
         isPopular && !selected && 'bg-foreground/[0.02]'
       )}
     >
-      <div className="flex min-w-0 items-center gap-2">
+      <div className="flex min-w-0 flex-1 items-center gap-2">
         <div
           className={cn(
             'flex size-4 shrink-0 items-center justify-center rounded-full border transition-colors',
@@ -48,11 +48,11 @@ function ProductRow({
           {selected && <CheckIcon className="size-2.5 stroke-[3]" />}
         </div>
         {isPopular && <SparklesIcon className="size-3 shrink-0 text-foreground/60" />}
-        <span className={cn('truncate text-sm', isPopular && 'font-semibold')}>
+        <span className={cn('truncate text-xs sm:text-sm', isPopular && 'font-semibold')}>
           {product.name}
         </span>
       </div>
-      <span className="shrink-0 text-sm font-semibold">
+      <span className="shrink-0 text-xs sm:text-sm font-semibold">
         {product.price === 'contact' ? 'Contact' : `$${product.price}`}
       </span>
     </button>
@@ -66,8 +66,8 @@ function CategoryCard({ category }: { category: ProductCategory }) {
   const [selectedIdx, setSelectedIdx] = useState(defaultIndex >= 0 ? defaultIndex : 0)
 
   return (
-    <Card className="flex h-full flex-col">
-      <CardContent className="flex h-full flex-col gap-0 px-5 py-4">
+    <Card className="flex h-full flex-col overflow-hidden">
+      <CardContent className="flex h-full flex-col gap-0 px-3 sm:px-5 py-4">
         {/* header */}
         <div className="flex items-start gap-3 pb-3">
           {category.icon && (

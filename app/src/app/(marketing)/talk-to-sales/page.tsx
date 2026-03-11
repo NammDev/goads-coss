@@ -20,7 +20,7 @@ export default function TalkToSalesPage() {
               <MessageCircleIcon className="size-4" />
               Available 7 days a week
             </div>
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
               Talk to Our Sales Team
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">

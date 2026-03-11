@@ -25,7 +25,7 @@ const AboutUs = ({ aboutUsData }: { aboutUsData: AboutUsData }) => {
       <div className='mx-auto max-w-[1416px] px-4 lg:px-6'>
   
 
-        <div className='grid items-center gap-16 lg:grid-cols-2'>
+        <div className='grid items-center gap-8 lg:gap-16 lg:grid-cols-2'>
           <div className='space-y-6'>
             <h3 className='text-xl font-semibold'>{aboutUsData.contentTitle}</h3>
             <p className='text-muted-foreground'>{aboutUsData.contentDescription}</p>

@@ -38,25 +38,25 @@ export function CartItemRow({ item }: { item: CartItem }) {
             minValue={1}
             className='w-24'
           >
-            <Group className='border-input data-focus-within:border-ring data-focus-within:ring-ring/50 relative inline-flex h-7 w-full items-center overflow-hidden rounded-md border bg-transparent text-xs shadow-xs transition-[color,box-shadow] outline-none data-focus-within:ring-[3px]'>
+            <Group className='border-input data-focus-within:border-ring data-focus-within:ring-ring/50 relative inline-flex h-9 w-full items-center overflow-hidden rounded-md border bg-transparent text-xs shadow-xs transition-[color,box-shadow] outline-none data-focus-within:ring-[3px]'>
               <AriaButton
                 slot='decrement'
-                className='cursor-pointer bg-primary/10 text-muted-foreground hover:bg-primary/15 hover:text-foreground ms-1 flex aspect-square h-4.5 items-center justify-center rounded-sm transition-colors'
+                className='cursor-pointer bg-primary/10 text-muted-foreground hover:bg-primary/15 hover:text-foreground ms-1 flex aspect-square h-7 min-w-[1.75rem] items-center justify-center rounded-sm transition-colors'
               >
-                <MinusIcon className='size-2.5' />
+                <MinusIcon className='size-3' />
               </AriaButton>
               <Input className='w-full grow px-1 py-1 text-center tabular-nums outline-none' />
               <AriaButton
                 slot='increment'
-                className='cursor-pointer bg-primary/10 text-muted-foreground hover:bg-primary/15 hover:text-foreground me-1 flex aspect-square h-4.5 items-center justify-center rounded-sm transition-colors'
+                className='cursor-pointer bg-primary/10 text-muted-foreground hover:bg-primary/15 hover:text-foreground me-1 flex aspect-square h-7 min-w-[1.75rem] items-center justify-center rounded-sm transition-colors'
               >
-                <PlusIcon className='size-2.5' />
+                <PlusIcon className='size-3' />
               </AriaButton>
             </Group>
           </NumberField>
           <button
             onClick={() => removeItem(item.id)}
-            className='cursor-pointer flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive'
+            className='cursor-pointer flex min-h-[2.75rem] min-w-[2.75rem] items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive'
           >
             <Trash2 className='size-3.5' />
           </button>
