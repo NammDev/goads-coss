@@ -49,7 +49,7 @@ const CTASection = () => {
 
               <MotionPreset
                 component='p'
-                className='text-xl text-balance text-primary-foreground/80 dark:text-muted-foreground lg:w-10/12'
+                className='text-base text-balance text-primary-foreground/80 dark:text-muted-foreground sm:text-xl lg:w-10/12'
                 fade
                 blur
                 slide={{ direction: 'down', offset: 50 }}

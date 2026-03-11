@@ -35,22 +35,22 @@ const Pricing = ({ plans }: { plans: Plans[] }) => {
                   key={plan.name}
                   onClick={() => setSelectedIdx(idx)}
                   className={cn(
-                    'flex cursor-pointer flex-col gap-8 p-6 transition-all duration-300',
+                    'flex cursor-pointer flex-col gap-6 sm:gap-8 p-4 sm:p-6 transition-all duration-300',
                     isSelected
                       ? 'bg-muted rounded-[14px] shadow-lg'
                       : 'hover:bg-muted/50 rounded-[14px]'
                   )}
                 >
                   <div className='flex flex-col gap-6'>
-                    <h3 className='text-3xl font-bold'>{plan.name}</h3>
+                    <h3 className='text-xl sm:text-3xl font-bold'>{plan.name}</h3>
                     <div className='flex'>
                       {currentPrice > 0 ? (
                         <>
-                          <span className='text-muted-foreground text-lg font-medium'>$</span>
-                          <NumberTicker value={currentPrice} className='text-5xl font-bold' />
+                          <span className='text-muted-foreground text-base sm:text-lg font-medium'>$</span>
+                          <NumberTicker value={currentPrice} className='text-3xl sm:text-5xl font-bold' />
                         </>
                       ) : (
-                        <span className='text-5xl font-bold'>Contact</span>
+                        <span className='text-3xl sm:text-5xl font-bold'>Contact</span>
                       )}
                     </div>
                   </div>
@@ -59,7 +59,7 @@ const Pricing = ({ plans }: { plans: Plans[] }) => {
                     {plan.features.map((feature, featureIndex) => (
                       <div key={featureIndex} className='flex items-start gap-2 py-1'>
                         <CircleIcon className='bg-primary mt-2 size-2 shrink-0 rounded-full' />
-                        <p className='text-base'>{feature}</p>
+                        <p className='text-sm sm:text-base'>{feature}</p>
                       </div>
                     ))}
                   </div>

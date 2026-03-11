@@ -22,7 +22,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
             </Badge>
           </MotionPreset>
           <div className='flex justify-between gap-4 max-md:flex-col'>
-            <h2 className='max-w-100 text-2xl font-semibold sm:text-3xl lg:text-4xl'>
+            <h2 className='max-w-full text-2xl font-semibold sm:max-w-100 sm:text-3xl lg:text-4xl'>
               <MotionPreset
                 fade
                 blur
@@ -50,7 +50,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               slide={{ direction: 'down', offset: 50 }}
               transition={{ duration: 0.5 }}
             >
-              <p className='text-muted-foreground max-w-xl text-xl'>
+              <p className='text-muted-foreground max-w-xl text-base sm:text-xl'>
                 At GoAds, we believe providing advertising assets is only part of the job. Our team works directly with every client, helping them choose the right setup, solving issues quickly, and ensuring their campaigns keep running without interruption.
               </p>
             </MotionPreset>
@@ -105,7 +105,7 @@ const TestimonialsComponent = ({ reviews }: { reviews: ReviewCard[] }) => {
               blur
               slide={{ direction: 'down', offset: 50 }}
               transition={{ duration: 0.6 }}
-              className='flex justify-center gap-4 border-y py-8'
+              className='flex flex-wrap justify-center gap-4 border-y py-8'
             >
               <Button variant='outline' asChild className='btn-mirror-sweep btn-tertiary !px-4'>
                 <a href={CONTACT.telegram.support} target='_blank' rel='noopener noreferrer'>

@@ -72,7 +72,7 @@ export function BlogDetailHeader({ post }: { post: BlogPost }) {
           transition={{ duration: 0.5 }}
           delay={0.2}
         >
-          <div className="flex items-center gap-3 text-sm">
+          <div className="flex flex-wrap items-center gap-3 text-sm">
             <Avatar className="h-8 w-8">
               <AvatarImage
                 src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp"

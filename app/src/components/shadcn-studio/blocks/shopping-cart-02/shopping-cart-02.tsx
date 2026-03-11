@@ -55,9 +55,11 @@ const ShoppingCart = ({ defaultOpen = false, trigger }: ShoppingCartProps) => {
   const [note, setNote] = useState('')
   const [openPopovers, setOpenPopovers] = useState<Record<string, boolean>>({})
 
-  /* auto-open sheet when item added */
+  /* auto-open sheet when item added — desktop only, mobile shows toast instead */
   useEffect(() => {
-    const handler = () => setOpen(true)
+    const handler = () => {
+      if (window.innerWidth >= 768) setOpen(true)
+    }
     window.addEventListener('cart:item-added', handler)
     return () => window.removeEventListener('cart:item-added', handler)
   }, [])
@@ -80,7 +82,7 @@ const ShoppingCart = ({ defaultOpen = false, trigger }: ShoppingCartProps) => {
       <SheetTrigger asChild>{trigger}</SheetTrigger>
       <SheetContent
         side='right'
-        className='flex w-full flex-col gap-0 p-0 sm:max-w-[28rem] [&>button]:top-5 [&>button]:right-5 [&>button>svg]:size-5'
+        className='flex w-80 sm:max-w-[28rem] flex-col gap-0 p-0 [&>button]:top-5 [&>button]:right-5 [&>button>svg]:size-5'
       >
         {/* header */}
         <SheetHeader className='px-6 pt-6 pb-4'>

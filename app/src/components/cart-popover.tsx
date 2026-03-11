@@ -8,6 +8,13 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { useCart } from '@/lib/cart-context'
 import { CONTACT } from '@/data/contact-info'
 import { CartItemRow, CartEmpty } from '@/components/cart-item'
@@ -66,6 +73,38 @@ function useHeaderGap(triggerRef: React.RefObject<HTMLButtonElement | null>) {
   return gap
 }
 
+/* ---------- shared cart body (reused in both Sheet and Popover) ---------- */
+
+interface CartBodyProps {
+  items: ReturnType<typeof useCart>['items']
+  subtotal: number
+  payment: 'crypto' | 'wise'
+  onPaymentChange: (p: 'crypto' | 'wise') => void
+  onOrder: () => void
+  scrollAreaClass?: string
+}
+
+function CartBody({ items, subtotal, payment, onPaymentChange, onOrder, scrollAreaClass }: CartBodyProps) {
+  if (items.length === 0) return <CartEmpty />
+  return (
+    <>
+      <ScrollArea className={scrollAreaClass ?? 'max-h-72'}>
+        <div className='px-4 py-1'>
+          {items.map((item) => (
+            <CartItemRow key={item.id} item={item} />
+          ))}
+        </div>
+      </ScrollArea>
+      <CartSummary
+        subtotal={subtotal}
+        payment={payment}
+        onPaymentChange={onPaymentChange}
+        onOrder={onOrder}
+      />
+    </>
+  )
+}
+
 /* ---------- main export ---------- */
 
 export function CartPopover() {
@@ -75,6 +114,7 @@ export function CartPopover() {
   const autoCloseTimer = useRef<ReturnType<typeof setTimeout>>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const headerGap = useHeaderGap(triggerRef)
+  const isMobile = useIsMobile()
 
   const handleOrder = useCallback(() => {
     const msg = buildTelegramMessage(items, subtotal, payment === 'crypto' ? 'Crypto (USDT)' : 'Wise Transfer')
@@ -83,39 +123,86 @@ export function CartPopover() {
     setOpen(false)
   }, [items, subtotal, payment, clearCart, setOpen])
 
-  /* auto-open popover when an item is added */
+  /* auto-open when an item is added */
   useEffect(() => {
     const handler = () => {
       setOpen(true)
       if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current)
-      autoCloseTimer.current = setTimeout(() => setOpen(false), 3000)
+      // on mobile, keep open until user dismisses; on desktop, auto-close after 3s
+      if (!isMobile) {
+        autoCloseTimer.current = setTimeout(() => setOpen(false), 3000)
+      }
     }
     window.addEventListener('cart:item-added', handler)
     return () => {
       window.removeEventListener('cart:item-added', handler)
       if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current)
     }
-  }, [setOpen])
+  }, [setOpen, isMobile])
 
+  /* ---------- trigger button (shared) ---------- */
+  const triggerButton = (
+    <Button
+      ref={triggerRef}
+      variant='outline'
+      size='icon'
+      className='relative hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15 data-[state=open]:bg-primary/10 data-[state=open]:text-foreground'
+      onMouseEnter={isMobile ? undefined : handleEnter}
+      onMouseLeave={isMobile ? undefined : handleLeave}
+    >
+      <ShoppingCart className='size-4' />
+      <span className='sr-only'>Cart</span>
+      {totalItems > 0 && (
+        <Badge className='absolute -top-1.5 -right-1.5 h-4.5 min-w-4.5 px-1 tabular-nums text-[10px]'>
+          {totalItems > 99 ? '99+' : totalItems}
+        </Badge>
+      )}
+    </Button>
+  )
+
+  /* ---------- mobile: Sheet sidebar ---------- */
+  if (isMobile) {
+    return (
+      <Sheet open={open} onOpenChange={setOpen}>
+        <div
+          onClick={() => setOpen(true)}
+          className='contents'
+        >
+          {triggerButton}
+        </div>
+        <SheetContent
+          side='right'
+          className='w-[85vw] max-w-[380px] p-0 flex flex-col'
+        >
+          <SheetHeader className='flex flex-row items-center justify-between gap-2 px-4 py-3 border-b'>
+            <SheetTitle className='font-medium text-base'>Cart</SheetTitle>
+            {totalItems > 0 && (
+              <Badge variant='secondary' className='h-6 rounded-full px-2 text-xs'>
+                {totalItems} {totalItems === 1 ? 'item' : 'items'}
+              </Badge>
+            )}
+          </SheetHeader>
+
+          <div className='flex flex-col flex-1 overflow-hidden'>
+            <CartBody
+              items={items}
+              subtotal={subtotal}
+              payment={payment}
+              onPaymentChange={setPayment}
+              onOrder={handleOrder}
+              scrollAreaClass='flex-1 overflow-y-auto'
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
+    )
+  }
+
+  /* ---------- desktop: Popover (unchanged) ---------- */
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          ref={triggerRef}
-          variant='outline'
-          size='icon'
-          className='relative hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15 data-[state=open]:bg-primary/10 data-[state=open]:text-foreground'
-          onMouseEnter={handleEnter}
-          onMouseLeave={handleLeave}
-        >
-          <ShoppingCart className='size-4' />
-          <span className='sr-only'>Cart</span>
-          {totalItems > 0 && (
-            <Badge className='absolute -top-1.5 -right-1.5 h-4.5 min-w-4.5 px-1 tabular-nums text-[10px]'>
-              {totalItems > 99 ? '99+' : totalItems}
-            </Badge>
-          )}
-        </Button>
+        {triggerButton}
       </PopoverTrigger>
 
       <PopoverContent
@@ -141,25 +228,13 @@ export function CartPopover() {
 
           <Separator />
 
-          {items.length === 0 ? (
-            <CartEmpty />
-          ) : (
-            <>
-              <ScrollArea className='max-h-72'>
-                <div className='px-4 py-1'>
-                  {items.map((item) => (
-                    <CartItemRow key={item.id} item={item} />
-                  ))}
-                </div>
-              </ScrollArea>
-              <CartSummary
-                subtotal={subtotal}
-                payment={payment}
-                onPaymentChange={setPayment}
-                onOrder={handleOrder}
-              />
-            </>
-          )}
+          <CartBody
+            items={items}
+            subtotal={subtotal}
+            payment={payment}
+            onPaymentChange={setPayment}
+            onOrder={handleOrder}
+          />
         </div>
       </PopoverContent>
     </Popover>
