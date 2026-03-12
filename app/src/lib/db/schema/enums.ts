@@ -20,20 +20,21 @@ export const productTypeEnum = pgEnum("product_type", [
   "other",
 ]);
 
-/** Order lifecycle status */
+/** Order lifecycle status — digital products use "delivered" not "shipped" */
 export const orderStatusEnum = pgEnum("order_status", [
   "pending",
   "paid",
   "processing",
-  "shipped",
+  "delivered",
   "completed",
   "cancelled",
 ]);
 
 /** Supported payment methods */
 export const paymentMethodEnum = pgEnum("payment_method", [
-  "bank_transfer",
   "crypto",
+  "wise",
+  "paypal",
   "other",
 ]);
 
