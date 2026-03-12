@@ -46,6 +46,7 @@ export const credentialSchemaMap = {
   agency_account: bmCredentials,
   bm: bmCredentials,
   profile: profileCredentials,
+  page: pageCredentials,
   google_agency: adAccountCredentials,
   tiktok_agency: tiktokCredentials,
   tiktok_account: tiktokCredentials,

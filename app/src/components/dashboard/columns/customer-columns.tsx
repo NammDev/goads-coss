@@ -6,8 +6,9 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import type { MockCustomer } from '@/data/mock-customers'
-import { mockOrders } from '@/data/mock-orders'
+import { mockOrders, mockOrderItems } from '@/data/mock-orders'
 import { formatVND } from '@/lib/format'
+import { formatUSD } from '@/lib/format-currency'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 
 export const customerColumns: ColumnDef<MockCustomer, unknown>[] = [
@@ -86,8 +87,8 @@ export function CustomerExpandedRow({ customer }: { customer: MockCustomer }) {
             <Link href={`/admin/orders/${order.id}`} className="font-mono hover:underline">
               {order.id}
             </Link>
-            <span>{order.items.length} item{order.items.length !== 1 ? 's' : ''}</span>
-            <span className="font-medium">{formatVND(order.totalAmount)}</span>
+            <span>{mockOrderItems.filter(i => i.orderId === order.id).length} item{mockOrderItems.filter(i => i.orderId === order.id).length !== 1 ? 's' : ''}</span>
+            <span className="font-medium">{formatUSD(order.totalAmount)}</span>
             <StatusBadge status={order.status} />
           </div>
         ))}

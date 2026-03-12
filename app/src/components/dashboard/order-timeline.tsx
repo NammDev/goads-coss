@@ -3,26 +3,23 @@
 import { cn } from '@/lib/utils'
 import type { OrderStatus } from '@/data/mock-orders'
 
-/** Timeline steps in sequential order */
+/** Timeline steps matching DB orderStatusEnum (excludes cancelled) */
 const TIMELINE_STEPS = [
   { key: 'pending', label: 'Placed' },
-  { key: 'confirmed', label: 'Confirmed' },
   { key: 'paid', label: 'Paid' },
   { key: 'processing', label: 'Processing' },
-  { key: 'shipped', label: 'Shipped' },
+  { key: 'delivered', label: 'Delivered' },
   { key: 'completed', label: 'Completed' },
 ] as const
 
 /** Map order status to the highest completed step index */
 const STATUS_TO_STEP: Record<OrderStatus, number> = {
   pending: 0,
-  confirmed: 1,
-  paid: 2,
-  processing: 3,
-  shipped: 4,
-  completed: 5,
+  paid: 1,
+  processing: 2,
+  delivered: 3,
+  completed: 4,
   cancelled: -1,
-  refunded: -1,
 }
 
 type OrderTimelineProps = {
@@ -35,7 +32,6 @@ type OrderTimelineProps = {
 export function OrderTimeline({ status, className, compact = false }: OrderTimelineProps) {
   const activeStep = STATUS_TO_STEP[status]
 
-  // Don't show timeline for cancelled/refunded
   if (activeStep === -1) return null
 
   return (
@@ -46,7 +42,6 @@ export function OrderTimeline({ status, className, compact = false }: OrderTimel
 
         return (
           <div key={step.key} className="flex items-center">
-            {/* Step dot + label */}
             <div className="flex flex-col items-center gap-1">
               <div
                 className={cn(
@@ -68,7 +63,6 @@ export function OrderTimeline({ status, className, compact = false }: OrderTimel
               )}
             </div>
 
-            {/* Connector line */}
             {!isLast && (
               <div
                 className={cn(

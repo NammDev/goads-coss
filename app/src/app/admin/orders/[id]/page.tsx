@@ -7,7 +7,7 @@ import { ArrowLeftIcon } from 'lucide-react'
 
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { OrderTimeline } from '@/components/dashboard/order-timeline'
-import { mockOrders } from '@/data/mock-orders'
+import { mockOrders, mockOrderItems } from '@/data/mock-orders'
 import { mockCustomers } from '@/data/mock-customers'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -21,8 +21,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-const formatVND = (amount: number) =>
-  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount)
+import { formatUSD } from '@/lib/format-currency'
 
 export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -84,7 +83,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
             <Separator />
             <div className="flex justify-between">
               <span className="text-muted-foreground">Total</span>
-              <span className="font-semibold">{formatVND(order.totalAmount)}</span>
+              <span className="font-semibold">{formatUSD(order.totalAmount)}</span>
             </div>
           </CardContent>
         </Card>
@@ -136,20 +135,20 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
               </TableRow>
             </TableHeader>
             <TableBody>
-              {order.items.map((item) => (
-                <TableRow key={item.productId}>
+              {mockOrderItems.filter(i => i.orderId === order.id).map((item) => (
+                <TableRow key={item.id}>
                   <TableCell className="font-medium">{item.productName}</TableCell>
                   <TableCell className="text-muted-foreground capitalize">{item.productType}</TableCell>
                   <TableCell className="text-right">{item.quantity}</TableCell>
-                  <TableCell className="text-right">{formatVND(item.unitPrice)}</TableCell>
+                  <TableCell className="text-right">{formatUSD(item.unitPrice)}</TableCell>
                   <TableCell className="text-right font-medium">
-                    {formatVND(item.quantity * item.unitPrice)}
+                    {formatUSD(parseFloat(item.unitPrice) * item.quantity)}
                   </TableCell>
                 </TableRow>
               ))}
               <TableRow>
                 <TableCell colSpan={4} className="text-right font-semibold">Total</TableCell>
-                <TableCell className="text-right font-bold">{formatVND(order.totalAmount)}</TableCell>
+                <TableCell className="text-right font-bold">{formatUSD(order.totalAmount)}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

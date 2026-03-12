@@ -5,7 +5,7 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import type { MockProduct } from '@/data/mock-products'
 import { productTypeLabels } from '@/data/mock-products'
-import { formatVND } from '@/lib/format'
+import { formatUSD } from '@/lib/format-currency'
 
 export const productColumns: ColumnDef<MockProduct, unknown>[] = [
   {
@@ -23,7 +23,7 @@ export const productColumns: ColumnDef<MockProduct, unknown>[] = [
   {
     accessorKey: 'price',
     header: 'Price',
-    cell: ({ row }) => <span className="font-medium">{formatVND(row.original.price)}</span>,
+    cell: ({ row }) => <span className="font-medium">{formatUSD(row.original.price)}</span>,
   },
   {
     accessorKey: 'stock',

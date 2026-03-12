@@ -7,19 +7,19 @@ import { StatsCard } from '@/components/dashboard/stats-card'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { OrderTimeline } from '@/components/dashboard/order-timeline'
 import { EmptyState } from '@/components/dashboard/empty-state'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { mockOrders } from '@/data/mock-orders'
-import { mockDeliveredItems } from '@/data/mock-delivered-items'
+import { Card, CardContent } from '@/components/ui/card'
+import { mockOrders, mockOrderItems } from '@/data/mock-orders'
+import { getDeliveredItemsForCustomer } from '@/data/mock-delivered-items'
+import { formatUSD } from '@/lib/format-currency'
 import { format } from 'date-fns'
 
 const CURRENT_CUSTOMER_ID = 'cust-001'
 
 const myOrders = mockOrders.filter(o => o.customerId === CURRENT_CUSTOMER_ID)
-const myDeliveredItems = mockDeliveredItems.filter(d => d.customerId === CURRENT_CUSTOMER_ID)
-const activeOrdersCount = myOrders.filter(o => o.status !== 'completed' && o.status !== 'cancelled' && o.status !== 'refunded').length
-
-const formatVND = (amount: number) =>
-  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount)
+const myDeliveredItems = getDeliveredItemsForCustomer(CURRENT_CUSTOMER_ID)
+const activeOrdersCount = myOrders.filter(
+  o => o.status !== 'completed' && o.status !== 'cancelled'
+).length
 
 export default function PortalDashboardPage() {
   const recentOrders = myOrders.slice(0, 5)
@@ -55,35 +55,38 @@ export default function PortalDashboardPage() {
           />
         ) : (
           <div className="grid gap-4">
-            {recentOrders.map(order => (
-              <Card key={order.id} className="shadow-none">
-                <CardContent className="p-4">
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <div className="space-y-1">
-                      <p className="font-medium">{order.id}</p>
-                      <p className="text-muted-foreground text-sm">
-                        {order.items.length} item{order.items.length !== 1 ? 's' : ''} · {formatVND(order.totalAmount)}
-                      </p>
-                      <p className="text-muted-foreground text-xs">
-                        {format(new Date(order.createdAt), 'dd/MM/yyyy')}
-                      </p>
+            {recentOrders.map(order => {
+              const items = mockOrderItems.filter(i => i.orderId === order.id)
+              return (
+                <Card key={order.id} className="shadow-none">
+                  <CardContent className="p-4">
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div className="space-y-1">
+                        <p className="font-medium">{order.id}</p>
+                        <p className="text-muted-foreground text-sm">
+                          {items.length} item{items.length !== 1 ? 's' : ''} · {formatUSD(order.totalAmount)}
+                        </p>
+                        <p className="text-muted-foreground text-xs">
+                          {format(new Date(order.createdAt), 'dd/MM/yyyy')}
+                        </p>
+                      </div>
+                      <div className="flex flex-col items-end gap-2">
+                        <StatusBadge status={order.status} />
+                        <Link
+                          href={`/portal/orders/${order.id}`}
+                          className="text-primary text-xs hover:underline"
+                        >
+                          View details →
+                        </Link>
+                      </div>
                     </div>
-                    <div className="flex flex-col items-end gap-2">
-                      <StatusBadge status={order.status} />
-                      <Link
-                        href={`/portal/orders/${order.id}`}
-                        className="text-primary text-xs hover:underline"
-                      >
-                        View details →
-                      </Link>
+                    <div className="mt-3">
+                      <OrderTimeline status={order.status} compact />
                     </div>
-                  </div>
-                  <div className="mt-3">
-                    <OrderTimeline status={order.status} compact />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              )
+            })}
           </div>
         )}
       </div>

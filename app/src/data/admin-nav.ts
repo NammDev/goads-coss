@@ -10,11 +10,18 @@ import {
   SettingsIcon,
 } from 'lucide-react'
 
+export type NavSubItem = {
+  label: string
+  href: string
+  badge?: string
+}
+
 export type NavItem = {
   icon: ComponentType
   label: string
   href: string
   badge?: string
+  children?: NavSubItem[]
 }
 
 export type NavGroup = {

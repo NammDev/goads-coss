@@ -3,9 +3,10 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { FileWarningIcon, MoreVerticalIcon } from 'lucide-react'
+import { ChevronRightIcon, FileWarningIcon, MoreVerticalIcon } from 'lucide-react'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   Sidebar,
   SidebarContent,
@@ -18,9 +19,12 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from '@/components/ui/sidebar'
 import Logo from '@/assets/svg/logo'
-import type { NavGroup } from '@/data/admin-nav'
+import type { NavGroup, NavItem } from '@/data/admin-nav'
 
 type DashboardSidebarProps = {
   navGroups: NavGroup[]
@@ -57,12 +61,16 @@ export function DashboardSidebar({
             {group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
             <SidebarGroupContent>
               <SidebarMenu>
-                {group.items.map(item => {
-                  const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
-
-                  return (
+                {group.items.map(item =>
+                  item.children?.length ? (
+                    <CollapsibleNavItem key={item.href} item={item} pathname={pathname} />
+                  ) : (
                     <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton tooltip={item.label} isActive={isActive} asChild>
+                      <SidebarMenuButton
+                        tooltip={item.label}
+                        isActive={pathname === item.href || pathname.startsWith(item.href + '/')}
+                        asChild
+                      >
                         <Link href={item.href}>
                           <item.icon />
                           <span>{item.label}</span>
@@ -74,8 +82,8 @@ export function DashboardSidebar({
                         </SidebarMenuBadge>
                       )}
                     </SidebarMenuItem>
-                  )
-                })}
+                  ),
+                )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -88,6 +96,46 @@ export function DashboardSidebar({
         </SidebarFooter>
       )}
     </Sidebar>
+  )
+}
+
+/** Collapsible nav item with sub-menu children */
+function CollapsibleNavItem({ item, pathname }: { item: NavItem; pathname: string }) {
+  const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+
+  return (
+    <Collapsible asChild defaultOpen={isActive} className="group/collapsible">
+      <SidebarMenuItem>
+        <CollapsibleTrigger asChild>
+          <SidebarMenuButton tooltip={item.label} isActive={isActive}>
+            <item.icon />
+            <span>{item.label}</span>
+            <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+          </SidebarMenuButton>
+        </CollapsibleTrigger>
+        {item.badge && (
+          <SidebarMenuBadge className="bg-primary/10 rounded-full">
+            {item.badge}
+          </SidebarMenuBadge>
+        )}
+        <CollapsibleContent>
+          <SidebarMenuSub>
+            {item.children!.map((sub) => (
+              <SidebarMenuSubItem key={sub.href}>
+                <SidebarMenuSubButton asChild isActive={pathname === sub.href}>
+                  <Link href={sub.href}>
+                    <span>{sub.label}</span>
+                    {sub.badge && (
+                      <span className="ml-auto text-xs text-muted-foreground">{sub.badge}</span>
+                    )}
+                  </Link>
+                </SidebarMenuSubButton>
+              </SidebarMenuSubItem>
+            ))}
+          </SidebarMenuSub>
+        </CollapsibleContent>
+      </SidebarMenuItem>
+    </Collapsible>
   )
 }
 

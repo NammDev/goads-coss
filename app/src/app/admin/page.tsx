@@ -7,8 +7,8 @@ import { StatsCard } from '@/components/dashboard/stats-card'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import WeeklyOverviewCard from '@/components/shadcn-studio/blocks/chart-weekly-overview'
 import PerformanceCard from '@/components/shadcn-studio/blocks/chart-performance'
-import { mockOrders } from '@/data/mock-orders'
-import { formatVND } from '@/lib/format'
+import { mockOrders, mockOrderItems } from '@/data/mock-orders'
+import { formatUSD } from '@/lib/format-currency'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import {
@@ -93,8 +93,8 @@ export default function AdminDashboardPage() {
                     </Link>
                   </TableCell>
                   <TableCell>{order.customerName}</TableCell>
-                  <TableCell>{order.items.length} item{order.items.length !== 1 ? 's' : ''}</TableCell>
-                  <TableCell>{formatVND(order.totalAmount)}</TableCell>
+                  <TableCell>{mockOrderItems.filter(i => i.orderId === order.id).length} item{mockOrderItems.filter(i => i.orderId === order.id).length !== 1 ? 's' : ''}</TableCell>
+                  <TableCell>{formatUSD(order.totalAmount)}</TableCell>
                   <TableCell>
                     <StatusBadge status={order.status} />
                   </TableCell>

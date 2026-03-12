@@ -17,13 +17,13 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-export const orderColumns: ColumnDef<MockOrder, unknown>[] = [
+export const portalOrderColumns: ColumnDef<MockOrder, unknown>[] = [
   {
     accessorKey: 'id',
     header: 'Order ID',
     cell: ({ row }) => (
       <Link
-        href={`/admin/orders/${row.original.id}`}
+        href={`/portal/orders/${row.original.id}`}
         className="font-mono text-sm font-medium hover:text-primary hover:underline"
         onClick={(e) => e.stopPropagation()}
       >
@@ -33,15 +33,17 @@ export const orderColumns: ColumnDef<MockOrder, unknown>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: 'customerName',
-    header: 'Customer',
-  },
-  {
     id: 'items',
     header: 'Products',
     cell: ({ row }) => {
-      const count = mockOrderItems.filter(i => i.orderId === row.original.id).length
-      return <span>{count} item{count !== 1 ? 's' : ''}</span>
+      const items = mockOrderItems.filter((i) => i.orderId === row.original.id)
+      const count = items.length
+      const names = items.map((i) => i.productName).join(', ')
+      return (
+        <span className="text-muted-foreground text-sm" title={names}>
+          {count} item{count !== 1 ? 's' : ''}
+        </span>
+      )
     },
     enableSorting: false,
   },
@@ -66,8 +68,10 @@ export const orderColumns: ColumnDef<MockOrder, unknown>[] = [
   },
 ]
 
-/** Expanded row: order items sub-table */
-export function OrderExpandedRow({ order }: { order: MockOrder }) {
+/** Expanded row: order items sub-table (read-only, no admin actions) */
+export function PortalOrderExpandedRow({ order }: { order: MockOrder }) {
+  const items = mockOrderItems.filter((i) => i.orderId === order.id)
+
   return (
     <div className="space-y-2">
       <p className="text-sm font-medium">Order Items</p>
@@ -82,7 +86,7 @@ export function OrderExpandedRow({ order }: { order: MockOrder }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {mockOrderItems.filter(i => i.orderId === order.id).map((item) => (
+          {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="font-medium">{item.productName}</TableCell>
               <TableCell className="text-muted-foreground capitalize">{item.productType}</TableCell>
@@ -95,11 +99,6 @@ export function OrderExpandedRow({ order }: { order: MockOrder }) {
           ))}
         </TableBody>
       </Table>
-      {order.notes && (
-        <p className="text-muted-foreground text-sm">
-          <span className="font-medium text-foreground">Notes:</span> {order.notes}
-        </p>
-      )}
     </div>
   )
 }

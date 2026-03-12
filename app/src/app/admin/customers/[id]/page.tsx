@@ -7,7 +7,7 @@ import { ArrowLeftIcon } from 'lucide-react'
 
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { mockCustomers } from '@/data/mock-customers'
-import { mockOrders } from '@/data/mock-orders'
+import { mockOrders, mockOrderItems } from '@/data/mock-orders'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -22,6 +22,9 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { formatUSD } from '@/lib/format-currency'
+
+/** VND still used for customer.totalSpent (legacy mock field) */
 const formatVND = (amount: number) =>
   new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount)
 
@@ -152,8 +155,8 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                         {order.id}
                       </Link>
                     </TableCell>
-                    <TableCell>{order.items.length} item{order.items.length !== 1 ? 's' : ''}</TableCell>
-                    <TableCell>{formatVND(order.totalAmount)}</TableCell>
+                    <TableCell>{mockOrderItems.filter(i => i.orderId === order.id).length} item{mockOrderItems.filter(i => i.orderId === order.id).length !== 1 ? 's' : ''}</TableCell>
+                    <TableCell>{formatUSD(order.totalAmount)}</TableCell>
                     <TableCell><StatusBadge status={order.status} /></TableCell>
                     <TableCell className="text-muted-foreground text-sm">
                       {format(new Date(order.createdAt), 'dd/MM/yyyy')}

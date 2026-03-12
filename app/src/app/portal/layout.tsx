@@ -1,14 +1,20 @@
 'use client'
 
+import { useMemo } from 'react'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { DashboardSidebar } from '@/components/dashboard/dashboard-sidebar'
 import { DashboardHeader } from '@/components/dashboard/dashboard-header'
-import { portalNavItems } from '@/data/portal-nav'
+import { buildPortalNavItems } from '@/data/portal-nav'
 import type { NavGroup } from '@/data/admin-nav'
 
-const portalNavGroups: NavGroup[] = [{ items: portalNavItems }]
+const CURRENT_CUSTOMER_ID = 'cust-001'
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
+  const portalNavGroups: NavGroup[] = useMemo(
+    () => [{ items: buildPortalNavItems(CURRENT_CUSTOMER_ID) }],
+    [],
+  )
+
   return (
     <SidebarProvider>
       <DashboardSidebar navGroups={portalNavGroups} showPendingWidget={false} />
