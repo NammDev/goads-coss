@@ -1,13 +1,20 @@
-'use client'
-
-import { WalletIcon, ShoppingCartIcon, ReceiptIcon, TrendingUpIcon } from 'lucide-react'
+import { WalletIcon, ShoppingCartIcon, ReceiptIcon, UsersIcon } from 'lucide-react'
 
 import { StatsCard } from '@/components/dashboard/stats-card'
 import WeeklyOverviewCard from '@/components/shadcn-studio/blocks/chart-weekly-overview'
 import ProjectTimelineCard from '@/components/shadcn-studio/blocks/chart-project-timeline'
 import { Badge } from '@/components/ui/badge'
+import { getAdminStats } from '@/lib/db/queries'
+import { formatUSD } from '@/lib/format-currency'
 
-export default function FinancePage() {
+export default async function FinancePage() {
+  const stats = await getAdminStats()
+
+  const avgPerOrder =
+    stats.totalOrders > 0
+      ? parseFloat(stats.totalRevenue) / stats.totalOrders
+      : 0
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
@@ -20,29 +27,29 @@ export default function FinancePage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatsCard
           title="Revenue"
-          value="45M ₫"
+          value={formatUSD(stats.totalRevenue)}
           icon={WalletIcon}
           trend="up"
           trendValue="18%"
         />
         <StatsCard
           title="Orders"
-          value="32"
+          value={String(stats.totalOrders)}
           icon={ShoppingCartIcon}
           trend="up"
           trendValue="12%"
         />
         <StatsCard
           title="Avg. per Order"
-          value="1.4M ₫"
+          value={formatUSD(avgPerOrder)}
           icon={ReceiptIcon}
           trend="up"
           trendValue="5%"
         />
         <StatsCard
-          title="Growth"
-          value="23%"
-          icon={TrendingUpIcon}
+          title="Customers"
+          value={String(stats.totalCustomers)}
+          icon={UsersIcon}
           trend="up"
           trendValue="23%"
         />

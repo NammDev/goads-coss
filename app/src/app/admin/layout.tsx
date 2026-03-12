@@ -1,26 +1,23 @@
-'use client'
+import { requireRole } from '@/lib/auth/require-role'
+import { getAllProductCounts, getPendingOrderCount } from '@/lib/db/queries'
+import { AdminShell } from './admin-shell'
 
-import { SidebarProvider } from '@/components/ui/sidebar'
-import { DashboardSidebar } from '@/components/dashboard/dashboard-sidebar'
-import { DashboardHeader } from '@/components/dashboard/dashboard-header'
-import { MobileWarning } from '@/components/dashboard/mobile-warning'
-import { adminNavGroups } from '@/data/admin-nav'
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const session = await requireRole('super_admin', 'staff')
+  const roleLabel = session.user.role === 'super_admin' ? 'Super Admin' : 'Staff'
+  const [productCounts, pendingOrderCount] = await Promise.all([
+    getAllProductCounts(),
+    getPendingOrderCount(),
+  ])
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-      <DashboardSidebar
-        navGroups={adminNavGroups}
-        showPendingWidget={true}
-        pendingCount={13}
-      />
-      <div className="flex min-h-svh flex-1 flex-col">
-        <DashboardHeader userName="nammdev" userRole="Super Admin" />
-        <main className="flex-1 px-4 py-6 sm:px-6">
-          <div className="mx-auto max-w-7xl">{children}</div>
-        </main>
-        <MobileWarning />
-      </div>
-    </SidebarProvider>
+    <AdminShell
+      userName={session.user.name}
+      userRole={roleLabel}
+      productCounts={productCounts}
+      pendingOrderCount={pendingOrderCount}
+    >
+      {children}
+    </AdminShell>
   )
 }

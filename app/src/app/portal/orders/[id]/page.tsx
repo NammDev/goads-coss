@@ -1,17 +1,11 @@
-'use client'
-
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { ArrowLeftIcon } from 'lucide-react'
-import { use } from 'react'
 
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { OrderTimeline } from '@/components/dashboard/order-timeline'
 import { CredentialFields } from '@/components/dashboard/credential-fields'
-import { mockOrders, mockOrderItems } from '@/data/mock-orders'
-import { mockDeliveredItems, getProductNameForItem } from '@/data/mock-delivered-items'
-import { productTypeLabels } from '@/data/mock-products'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -24,24 +18,44 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { requireRole } from '@/lib/auth/require-role'
+import { getOrderById } from '@/lib/db/queries'
+import { decrypt } from '@/lib/db/encryption'
 import { formatUSD } from '@/lib/format-currency'
+import { productTypeLabels } from '@/data/mock-products'
+import type { ProductType } from '@/lib/validators/credential-schemas'
 
-const CURRENT_CUSTOMER_ID = 'cust-001'
+function safeDecrypt(encrypted: string | null): Record<string, string> | undefined {
+  if (!encrypted) return undefined
+  try {
+    return JSON.parse(decrypt(encrypted)) as Record<string, string>
+  } catch {
+    return undefined
+  }
+}
 
-export default function PortalOrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
-  const order = mockOrders.find((o) => o.id === id && o.customerId === CURRENT_CUSTOMER_ID)
+export default async function PortalOrderDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const session = await requireRole('customer')
+  const { id } = await params
+  const detail = await getOrderById(id)
 
-  if (!order) notFound()
+  if (!detail || detail.customerId !== session.user.id) {
+    redirect('/portal/orders')
+  }
 
-  const items = mockOrderItems.filter((i) => i.orderId === order.id)
-  const deliveredItems = mockDeliveredItems.filter((d) => d.orderId === order.id)
+  const { items, deliveredItems, ...order } = detail
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/portal/orders"><ArrowLeftIcon className="mr-1 size-4" />Back</Link>
+          <Link href="/portal/orders">
+            <ArrowLeftIcon className="mr-1 size-4" />Back
+          </Link>
         </Button>
         <h1 className="text-2xl font-semibold">{order.id}</h1>
         <StatusBadge status={order.status} />
@@ -93,7 +107,6 @@ export default function PortalOrderDetailPage({ params }: { params: Promise<{ id
             <TableHeader>
               <TableRow>
                 <TableHead>Product Name</TableHead>
-                <TableHead>Type</TableHead>
                 <TableHead className="text-right">Qty</TableHead>
                 <TableHead className="text-right">Unit Price</TableHead>
                 <TableHead className="text-right">Subtotal</TableHead>
@@ -102,15 +115,7 @@ export default function PortalOrderDetailPage({ params }: { params: Promise<{ id
             <TableBody>
               {items.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>
-                    <Link
-                      href={`/portal/products/${item.productType}`}
-                      className="font-medium text-primary hover:underline"
-                    >
-                      {item.productName}
-                    </Link>
-                  </TableCell>
-                  <TableCell className="text-muted-foreground capitalize">{item.productType}</TableCell>
+                  <TableCell className="font-medium">{item.productName}</TableCell>
                   <TableCell className="text-right">{item.quantity}</TableCell>
                   <TableCell className="text-right">{formatUSD(item.unitPrice)}</TableCell>
                   <TableCell className="text-right font-medium">
@@ -119,7 +124,7 @@ export default function PortalOrderDetailPage({ params }: { params: Promise<{ id
                 </TableRow>
               ))}
               <TableRow>
-                <TableCell colSpan={4} className="text-right font-semibold">Total</TableCell>
+                <TableCell colSpan={3} className="text-right font-semibold">Total</TableCell>
                 <TableCell className="text-right font-bold">{formatUSD(order.totalAmount)}</TableCell>
               </TableRow>
             </TableBody>
@@ -132,27 +137,24 @@ export default function PortalOrderDetailPage({ params }: { params: Promise<{ id
         <Card className="shadow-none">
           <CardHeader><span className="text-lg font-semibold">Delivered Items</span></CardHeader>
           <CardContent className="space-y-3">
-            {deliveredItems.map((item) => (
-              <div key={item.id} className="rounded-md border p-3 space-y-2">
-                <div className="flex items-center justify-between">
-                  <Link
-                    href={`/portal/products/${item.productType}`}
-                    className="font-medium text-primary hover:underline"
-                  >
-                    {getProductNameForItem(item)}
-                  </Link>
-                  <Badge variant="secondary" className="text-xs">
-                    {productTypeLabels[item.productType] ?? item.productType}
-                  </Badge>
+            {deliveredItems.map((item) => {
+              const credentials = safeDecrypt(item.credentials)
+              const typeLabel = productTypeLabels[item.productType as ProductType] ?? item.productType
+              return (
+                <div key={item.id} className="rounded-md border p-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">{item.uid ?? item.id}</span>
+                    <Badge variant="secondary" className="text-xs">{typeLabel}</Badge>
+                  </div>
+                  <CredentialFields
+                    productType={item.productType as ProductType}
+                    credentials={credentials}
+                    uid={item.uid ?? undefined}
+                    compact
+                  />
                 </div>
-                <CredentialFields
-                  productType={item.productType}
-                  credentials={item.credentials}
-                  uid={item.uid}
-                  compact
-                />
-              </div>
-            ))}
+              )
+            })}
           </CardContent>
         </Card>
       )}

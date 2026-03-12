@@ -12,6 +12,7 @@ export const productTypeEnum = pgEnum("product_type", [
   "agency_account",
   "bm",
   "profile",
+  "page",
   "google_agency",
   "tiktok_agency",
   "tiktok_account",
@@ -36,6 +37,12 @@ export const paymentMethodEnum = pgEnum("payment_method", [
   "wise",
   "paypal",
   "other",
+]);
+
+/** Wallet transaction types */
+export const walletTransactionTypeEnum = pgEnum("wallet_transaction_type", [
+  "topup",
+  "deduct",
 ]);
 
 /** Delivered item health status */

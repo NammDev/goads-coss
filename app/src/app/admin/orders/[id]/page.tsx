@@ -1,15 +1,13 @@
-'use client'
-
-import { use } from 'react'
+import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { ArrowLeftIcon } from 'lucide-react'
 
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { OrderTimeline } from '@/components/dashboard/order-timeline'
-import { mockOrders, mockOrderItems } from '@/data/mock-orders'
-import { mockCustomers } from '@/data/mock-customers'
+import { getOrderById } from '@/lib/db/queries'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -20,13 +18,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
 import { formatUSD } from '@/lib/format-currency'
+import { DeliverDialog } from './deliver-dialog'
+import { DeliveredItemsSection } from './delivered-items-section'
+import type { ProductType } from '@/lib/validators/credential-schemas'
 
-export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
-  const order = mockOrders.find((o) => o.id === id)
-  const customer = order ? mockCustomers.find((c) => c.id === order.customerId) : null
+export default async function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const order = await getOrderById(id)
 
   if (!order) {
     return (
@@ -38,6 +37,14 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
       </div>
     )
   }
+
+  // Build a set of delivered orderItemIds for quick lookup
+  const deliveredItemIdSet = new Set(
+    order.deliveredItems.map((d) => d.orderItemId).filter(Boolean)
+  )
+
+  const totalItems = order.items.length
+  const deliveredCount = order.deliveredItems.length
 
   return (
     <div className="space-y-6">
@@ -72,6 +79,11 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
             </div>
             <Separator />
             <div className="flex justify-between">
+              <span className="text-muted-foreground">Delivery</span>
+              <span className="text-sm">{deliveredCount}/{totalItems} items</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
               <span className="text-muted-foreground">Created</span>
               <span>{format(new Date(order.createdAt), 'dd/MM/yyyy HH:mm')}</span>
             </div>
@@ -93,67 +105,82 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
           <CardContent className="space-y-3 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Name</span>
-              <Link href={`/admin/customers/${order.customerId}`} className="hover:text-primary font-medium hover:underline">
+              <Link
+                href={`/admin/customers/${order.customerId}`}
+                className="hover:text-primary font-medium hover:underline"
+              >
                 {order.customerName}
               </Link>
             </div>
-            {customer && (
-              <>
-                <Separator />
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Email</span>
-                  <span>{customer.email}</span>
-                </div>
-                <Separator />
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Phone</span>
-                  <span>{customer.phone}</span>
-                </div>
-                <Separator />
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Telegram</span>
-                  <span>{customer.telegram}</span>
-                </div>
-              </>
-            )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Products table */}
+      {/* Products table with delivery actions */}
       <Card className="shadow-none">
-        <CardHeader><span className="text-lg font-semibold">Products</span></CardHeader>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-semibold">Products</span>
+            <Badge variant="outline" className="text-xs">
+              {deliveredCount}/{totalItems} delivered
+            </Badge>
+          </div>
+        </CardHeader>
         <CardContent className="p-0">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Product Name</TableHead>
-                <TableHead>Type</TableHead>
                 <TableHead className="text-right">Qty</TableHead>
                 <TableHead className="text-right">Unit Price</TableHead>
                 <TableHead className="text-right">Subtotal</TableHead>
+                <TableHead className="text-right">Status</TableHead>
+                <TableHead className="text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockOrderItems.filter(i => i.orderId === order.id).map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.productName}</TableCell>
-                  <TableCell className="text-muted-foreground capitalize">{item.productType}</TableCell>
-                  <TableCell className="text-right">{item.quantity}</TableCell>
-                  <TableCell className="text-right">{formatUSD(item.unitPrice)}</TableCell>
-                  <TableCell className="text-right font-medium">
-                    {formatUSD(parseFloat(item.unitPrice) * item.quantity)}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {order.items.map((item) => {
+                const isDelivered = deliveredItemIdSet.has(item.id)
+                return (
+                  <TableRow key={item.id}>
+                    <TableCell className="font-medium">{item.productName}</TableCell>
+                    <TableCell className="text-right">{item.quantity}</TableCell>
+                    <TableCell className="text-right">{formatUSD(item.unitPrice)}</TableCell>
+                    <TableCell className="text-right font-medium">
+                      {formatUSD(parseFloat(item.unitPrice) * item.quantity)}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {isDelivered ? (
+                        <Badge variant="default" className="text-xs">Delivered</Badge>
+                      ) : (
+                        <Badge variant="secondary" className="text-xs">Pending</Badge>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {!isDelivered && (
+                        <DeliverDialog
+                          orderId={order.id}
+                          orderItemId={item.id}
+                          productType={item.productType as ProductType}
+                          productName={item.productName}
+                        />
+                      )}
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
               <TableRow>
-                <TableCell colSpan={4} className="text-right font-semibold">Total</TableCell>
+                <TableCell colSpan={3} className="text-right font-semibold">Total</TableCell>
                 <TableCell className="text-right font-bold">{formatUSD(order.totalAmount)}</TableCell>
+                <TableCell colSpan={2} />
               </TableRow>
             </TableBody>
           </Table>
         </CardContent>
       </Card>
+
+      {/* Delivered credentials */}
+      <DeliveredItemsSection items={order.deliveredItems} />
 
       {/* Notes */}
       {order.notes && (

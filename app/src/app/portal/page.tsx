@@ -1,42 +1,40 @@
-'use client'
-
 import Link from 'next/link'
-import { ShoppingCartIcon, PackageIcon, ZapIcon } from 'lucide-react'
-
-import { StatsCard } from '@/components/dashboard/stats-card'
-import { StatusBadge } from '@/components/dashboard/status-badge'
-import { OrderTimeline } from '@/components/dashboard/order-timeline'
-import { EmptyState } from '@/components/dashboard/empty-state'
-import { Card, CardContent } from '@/components/ui/card'
-import { mockOrders, mockOrderItems } from '@/data/mock-orders'
-import { getDeliveredItemsForCustomer } from '@/data/mock-delivered-items'
-import { formatUSD } from '@/lib/format-currency'
 import { format } from 'date-fns'
 
-const CURRENT_CUSTOMER_ID = 'cust-001'
+import { StatusBadge } from '@/components/dashboard/status-badge'
+import { OrderTimeline } from '@/components/dashboard/order-timeline'
+import { Card, CardContent } from '@/components/ui/card'
+import { requireRole } from '@/lib/auth/require-role'
+import { getPortalStats, getOrdersByCustomerId } from '@/lib/db/queries'
+import { formatUSD } from '@/lib/format-currency'
+import { PortalStats } from './portal-stats'
 
-const myOrders = mockOrders.filter(o => o.customerId === CURRENT_CUSTOMER_ID)
-const myDeliveredItems = getDeliveredItemsForCustomer(CURRENT_CUSTOMER_ID)
-const activeOrdersCount = myOrders.filter(
-  o => o.status !== 'completed' && o.status !== 'cancelled'
-).length
+export default async function PortalDashboardPage() {
+  const session = await requireRole('customer')
+  const userId = session.user.id
 
-export default function PortalDashboardPage() {
-  const recentOrders = myOrders.slice(0, 5)
+  const [stats, orders] = await Promise.all([
+    getPortalStats(userId),
+    getOrdersByCustomerId(userId),
+  ])
+
+  const recentOrders = orders.slice(0, 5)
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Welcome back, Nguyen Van A</h1>
+        <h1 className="text-2xl font-semibold">
+          Welcome back, {session.user.name ?? 'Customer'}
+        </h1>
         <p className="text-muted-foreground mt-1 text-sm">Here&apos;s an overview of your account.</p>
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-3">
-        <StatsCard title="Total Orders" value={myOrders.length} icon={ShoppingCartIcon} />
-        <StatsCard title="Active" value={activeOrdersCount} icon={ZapIcon} />
-        <StatsCard title="Products Received" value={myDeliveredItems.length} icon={PackageIcon} />
-      </div>
+      <PortalStats
+        totalOrders={stats.totalOrders}
+        pendingOrders={stats.pendingOrders}
+        activeItems={stats.activeItems}
+      />
 
       {/* Recent Orders */}
       <div className="space-y-4">
@@ -48,45 +46,41 @@ export default function PortalDashboardPage() {
         </div>
 
         {recentOrders.length === 0 ? (
-          <EmptyState
-            icon={ShoppingCartIcon}
-            title="No orders yet"
-            description="You have no orders."
-          />
+          <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+            <p className="text-lg font-semibold">No orders yet</p>
+            <p className="text-muted-foreground text-sm">You have no orders.</p>
+          </div>
         ) : (
           <div className="grid gap-4">
-            {recentOrders.map(order => {
-              const items = mockOrderItems.filter(i => i.orderId === order.id)
-              return (
-                <Card key={order.id} className="shadow-none">
-                  <CardContent className="p-4">
-                    <div className="flex flex-wrap items-start justify-between gap-2">
-                      <div className="space-y-1">
-                        <p className="font-medium">{order.id}</p>
-                        <p className="text-muted-foreground text-sm">
-                          {items.length} item{items.length !== 1 ? 's' : ''} · {formatUSD(order.totalAmount)}
-                        </p>
-                        <p className="text-muted-foreground text-xs">
-                          {format(new Date(order.createdAt), 'dd/MM/yyyy')}
-                        </p>
-                      </div>
-                      <div className="flex flex-col items-end gap-2">
-                        <StatusBadge status={order.status} />
-                        <Link
-                          href={`/portal/orders/${order.id}`}
-                          className="text-primary text-xs hover:underline"
-                        >
-                          View details →
-                        </Link>
-                      </div>
+            {recentOrders.map(order => (
+              <Card key={order.id} className="shadow-none">
+                <CardContent className="p-4">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div className="space-y-1">
+                      <p className="font-medium">{order.id}</p>
+                      <p className="text-muted-foreground text-sm">
+                        {formatUSD(order.totalAmount)}
+                      </p>
+                      <p className="text-muted-foreground text-xs">
+                        {format(new Date(order.createdAt), 'dd/MM/yyyy')}
+                      </p>
                     </div>
-                    <div className="mt-3">
-                      <OrderTimeline status={order.status} compact />
+                    <div className="flex flex-col items-end gap-2">
+                      <StatusBadge status={order.status} />
+                      <Link
+                        href={`/portal/orders/${order.id}`}
+                        className="text-primary text-xs hover:underline"
+                      >
+                        View details →
+                      </Link>
                     </div>
-                  </CardContent>
-                </Card>
-              )
-            })}
+                  </div>
+                  <div className="mt-3">
+                    <OrderTimeline status={order.status} compact />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         )}
       </div>

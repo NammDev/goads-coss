@@ -1,13 +1,9 @@
-'use client'
-
 import Link from 'next/link'
-import { ShoppingCartIcon, WalletIcon, ClockIcon, PackageIcon } from 'lucide-react'
 
-import { StatsCard } from '@/components/dashboard/stats-card'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import WeeklyOverviewCard from '@/components/shadcn-studio/blocks/chart-weekly-overview'
 import PerformanceCard from '@/components/shadcn-studio/blocks/chart-performance'
-import { mockOrders, mockOrderItems } from '@/data/mock-orders'
+import { getAdminStats, getRecentOrders } from '@/lib/db/queries'
 import { formatUSD } from '@/lib/format-currency'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -19,45 +15,26 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { format } from 'date-fns'
+import { AdminStats } from './admin-stats'
 
-const recentOrders = mockOrders.slice(0, 5)
+export default async function AdminDashboardPage() {
+  const [stats, recentOrders] = await Promise.all([
+    getAdminStats(),
+    getRecentOrders(5),
+  ])
 
-export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Overview</h1>
 
       {/* Stats row */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatsCard
-          title="New Orders"
-          value="12"
-          icon={ShoppingCartIcon}
-          trend="up"
-          trendValue="12%"
-        />
-        <StatsCard
-          title="Revenue"
-          value="45M ₫"
-          icon={WalletIcon}
-          trend="up"
-          trendValue="8%"
-        />
-        <StatsCard
-          title="Pending"
-          value="5"
-          icon={ClockIcon}
-          trend="down"
-          trendValue="3%"
-        />
-        <StatsCard
-          title="Total Products"
-          value="128"
-          icon={PackageIcon}
-          trend="up"
-          trendValue="15%"
-        />
-      </div>
+      <AdminStats
+        totalOrders={String(stats.totalOrders)}
+        revenue={formatUSD(stats.totalRevenue)}
+        pendingOrders={String(stats.pendingOrders)}
+        totalProducts={String(stats.totalProducts)}
+      />
 
       {/* Charts row */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -79,9 +56,9 @@ export default function AdminDashboardPage() {
               <TableRow>
                 <TableHead>#</TableHead>
                 <TableHead>Customer</TableHead>
-                <TableHead>Products</TableHead>
                 <TableHead>Total</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Created</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -93,10 +70,12 @@ export default function AdminDashboardPage() {
                     </Link>
                   </TableCell>
                   <TableCell>{order.customerName}</TableCell>
-                  <TableCell>{mockOrderItems.filter(i => i.orderId === order.id).length} item{mockOrderItems.filter(i => i.orderId === order.id).length !== 1 ? 's' : ''}</TableCell>
                   <TableCell>{formatUSD(order.totalAmount)}</TableCell>
                   <TableCell>
                     <StatusBadge status={order.status} />
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {format(new Date(order.createdAt), 'dd/MM/yyyy')}
                   </TableCell>
                 </TableRow>
               ))}

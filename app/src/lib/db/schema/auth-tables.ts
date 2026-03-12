@@ -3,6 +3,7 @@ import {
   text,
   timestamp,
   boolean,
+  numeric,
 } from "drizzle-orm/pg-core";
 import { userRoleEnum } from "./enums";
 
@@ -18,6 +19,7 @@ export const users = pgTable("user", {
   emailVerified: boolean("emailVerified").notNull().default(false),
   image: text("image"),
   role: userRoleEnum("role").notNull().default("customer"),
+  balance: numeric("balance", { precision: 12, scale: 2 }).notNull().default("0"),
   telegramId: text("telegramId"),
   notes: text("notes"),
   createdAt: timestamp("createdAt").notNull().defaultNow(),

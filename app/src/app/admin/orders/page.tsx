@@ -1,19 +1,25 @@
-'use client'
+import Link from 'next/link'
+import { PlusIcon } from 'lucide-react'
 
-import { AdminDataTable } from '@/components/dashboard/admin-data-table'
-import { orderColumns, OrderExpandedRow } from '@/components/dashboard/columns/order-columns'
-import { mockOrders } from '@/data/mock-orders'
+import { getAllOrders } from '@/lib/db/queries'
+import { Button } from '@/components/ui/button'
+import { OrdersTable } from './orders-table'
 
-export default function OrdersPage() {
+export default async function OrdersPage() {
+  const orders = await getAllOrders()
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Orders</h1>
-      <AdminDataTable
-        data={mockOrders}
-        columns={orderColumns}
-        searchPlaceholder="Search by order ID or customer..."
-        renderExpandedRow={(order) => <OrderExpandedRow order={order} />}
-      />
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold">Orders</h1>
+        <Button asChild size="sm">
+          <Link href="/admin/orders/new">
+            <PlusIcon className="mr-1 size-4" />
+            Create Order
+          </Link>
+        </Button>
+      </div>
+      <OrdersTable data={orders} />
     </div>
   )
 }

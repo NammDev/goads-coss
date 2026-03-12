@@ -35,6 +35,12 @@ export const auth = betterAuth({
         defaultValue: "customer",
         input: false, // Users cannot self-assign roles
       },
+      balance: {
+        type: "string",
+        required: false,
+        defaultValue: "0",
+        input: false, // Balance managed via wallet actions only
+      },
       telegramId: {
         type: "string",
         required: false,

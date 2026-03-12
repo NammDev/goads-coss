@@ -12,7 +12,6 @@ import {
 
 import { productTypeLabels } from '@/data/mock-products'
 import type { ProductType } from '@/data/mock-products'
-import { mockDeliveredItems } from '@/data/mock-delivered-items'
 
 export type NavSubItem = {
   label: string
@@ -35,43 +34,54 @@ export type NavGroup = {
   superAdminOnly?: boolean
 }
 
-/** Build admin product sub-items grouped by type with delivered items count */
-function buildAdminProductChildren(): NavSubItem[] {
-  const countByType = new Map<ProductType, number>()
-  for (const d of mockDeliveredItems) {
-    const type = d.productType as ProductType
-    countByType.set(type, (countByType.get(type) ?? 0) + 1)
-  }
+/** Ordered product types for admin sidebar */
+const adminProductTypeOrder: ProductType[] = [
+  'agency_account',
+  'bm',
+  'profile',
+  'google_agency',
+  'tiktok_agency',
+  'tiktok_account',
+  'blue_verification',
+  'unban',
+  'other',
+]
 
-  return Array.from(countByType.entries()).map(([type, count]) => ({
-    label: productTypeLabels[type],
-    href: `/admin/products/${type}`,
-    badge: String(count),
-  }))
+/** Build admin product sub-items from real product counts */
+function buildAdminProductChildren(productCounts: Record<string, number>): NavSubItem[] {
+  return adminProductTypeOrder
+    .filter((type) => (productCounts[type] ?? 0) > 0)
+    .map((type) => ({
+      label: productTypeLabels[type],
+      href: `/admin/products/${type}`,
+      badge: String(productCounts[type]),
+    }))
 }
 
-/** Admin sidebar navigation — ordered by design spec */
-export const adminNavGroups: NavGroup[] = [
-  {
-    items: [
-      { icon: LayoutDashboardIcon, label: 'Dashboard', href: '/admin' },
-      { icon: ShoppingCartIcon, label: 'Orders', href: '/admin/orders', badge: '5' },
-      { icon: UsersIcon, label: 'Customers', href: '/admin/customers' },
-      {
-        icon: PackageIcon,
-        label: 'Products',
-        href: '/admin/products',
-        children: buildAdminProductChildren(),
-      },
-    ],
-  },
-  {
-    label: 'Management',
-    superAdminOnly: true,
-    items: [
-      { icon: WalletIcon, label: 'Finance', href: '/admin/finance' },
-      { icon: UserCogIcon, label: 'Staff', href: '/admin/staff' },
-      { icon: SettingsIcon, label: 'Settings', href: '/admin/settings' },
-    ],
-  },
-]
+/** Build admin sidebar nav groups — accepts product counts from server */
+export function buildAdminNavGroups(productCounts: Record<string, number>): NavGroup[] {
+  return [
+    {
+      items: [
+        { icon: LayoutDashboardIcon, label: 'Dashboard', href: '/admin' },
+        { icon: ShoppingCartIcon, label: 'Orders', href: '/admin/orders' },
+        { icon: UsersIcon, label: 'Customers', href: '/admin/customers' },
+        {
+          icon: PackageIcon,
+          label: 'Products',
+          href: '/admin/products',
+          children: buildAdminProductChildren(productCounts),
+        },
+      ],
+    },
+    {
+      label: 'Management',
+      superAdminOnly: true,
+      items: [
+        { icon: WalletIcon, label: 'Finance', href: '/admin/finance' },
+        { icon: UserCogIcon, label: 'Staff', href: '/admin/staff' },
+        { icon: SettingsIcon, label: 'Settings', href: '/admin/settings' },
+      ],
+    },
+  ]
+}
