@@ -68,7 +68,7 @@ export const portalOrderColumns: ColumnDef<MockOrder, unknown>[] = [
   },
 ]
 
-/** Expanded row: order items sub-table (read-only, no admin actions) */
+/** Expanded row: order items sub-table with links to product pages */
 export function PortalOrderExpandedRow({ order }: { order: MockOrder }) {
   const items = mockOrderItems.filter((i) => i.orderId === order.id)
 
@@ -88,7 +88,15 @@ export function PortalOrderExpandedRow({ order }: { order: MockOrder }) {
         <TableBody>
           {items.map((item) => (
             <TableRow key={item.id}>
-              <TableCell className="font-medium">{item.productName}</TableCell>
+              <TableCell>
+                <Link
+                  href={`/portal/products/${item.productType}`}
+                  className="font-medium text-primary hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {item.productName}
+                </Link>
+              </TableCell>
               <TableCell className="text-muted-foreground capitalize">{item.productType}</TableCell>
               <TableCell className="text-right">{item.quantity}</TableCell>
               <TableCell className="text-right">{formatUSD(item.unitPrice)}</TableCell>

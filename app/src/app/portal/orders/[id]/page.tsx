@@ -102,7 +102,14 @@ export default function PortalOrderDetailPage({ params }: { params: Promise<{ id
             <TableBody>
               {items.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.productName}</TableCell>
+                  <TableCell>
+                    <Link
+                      href={`/portal/products/${item.productType}`}
+                      className="font-medium text-primary hover:underline"
+                    >
+                      {item.productName}
+                    </Link>
+                  </TableCell>
                   <TableCell className="text-muted-foreground capitalize">{item.productType}</TableCell>
                   <TableCell className="text-right">{item.quantity}</TableCell>
                   <TableCell className="text-right">{formatUSD(item.unitPrice)}</TableCell>
@@ -128,7 +135,12 @@ export default function PortalOrderDetailPage({ params }: { params: Promise<{ id
             {deliveredItems.map((item) => (
               <div key={item.id} className="rounded-md border p-3 space-y-2">
                 <div className="flex items-center justify-between">
-                  <p className="font-medium">{getProductNameForItem(item)}</p>
+                  <Link
+                    href={`/portal/products/${item.productType}`}
+                    className="font-medium text-primary hover:underline"
+                  >
+                    {getProductNameForItem(item)}
+                  </Link>
                   <Badge variant="secondary" className="text-xs">
                     {productTypeLabels[item.productType] ?? item.productType}
                   </Badge>
