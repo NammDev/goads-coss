@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "drizzle-kit": "^0.31.9"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
   }
 }

@@ -1,6 +1,6 @@
 # GoAds Development Roadmap
 
-> 4 phases: MVP (done) → Auth + Dashboard → Extension + Community → Growth & AI
+> 4 phases: MVP (done) → Auth + Dashboard (in progress) → Extension + Community → Growth & AI
 
 ---
 
@@ -25,37 +25,55 @@ Goal: Marketing site with order flow, replacing goads.shop.
 
 ---
 
-## Phase 1A — Polish & Audits
+## Phase 1A — Polish & Audits ✅
 
 Goal: Quality audit before Phase 2.
 
-**Status: In Progress** — WT2 Dark Mode Audit completed (2026-03-11)
+**Status: DONE** — All tasks completed (2026-03-11)
 
-| Task | Priority | Status |
-|------|----------|--------|
-| Mobile responsive audit (375/768/1024/1440px) | High | Pending |
-| Dark mode audit (all pages + blocks) | High | ✅ Done — branch `phase-1a/dark` |
-| Lighthouse audit (target > 90) | High | ✅ Done — A11y 100, BP 96-100, SEO 100 |
-| Cart mobile UI fix | High | Pending |
-| Cal.com embed on `/talk-to-sales` | Medium | Pending |
+| Task | Status |
+|------|--------|
+| Mobile responsive audit (375/768/1024/1440px) | ✅ Done — `phase-1a/mobile` |
+| Dark mode audit (all pages + blocks) | ✅ Done — `phase-1a/dark` |
+| Lighthouse audit (target > 90) | ✅ Done — A11y 100, BP 96-100, SEO 100 |
+| Cart mobile UI fix | ✅ Done — included in mobile audit |
+| Cal.com embed on `/talk-to-sales` | Deferred to Phase 2 |
 
 ---
 
-## Phase 2 — Auth + Dashboard
+## Phase 2 — Auth + Dashboard 🔄
 
 Goal: Auth system + admin panel + customer portal. Foundation for everything else.
 
-**Status: Not started**
+**Status: In Progress** — Infrastructure + Dashboard UI done, wiring + integration pending
 
-### Operational Flow
+### 2A — Infrastructure ✅
 
-```
-Customer → Cart form → Telegram bot → Admin tư vấn
-→ Admin tạo account cho khách (nếu mới)
-→ Khách chuyển tiền → Admin confirm thủ công
-→ Admin ship hàng trong web (gắn BM ID, invite link, etc.)
-→ Khách login → xem đơn hàng + sản phẩm đã nhận
-```
+| Area | Reference |
+|------|-----------|
+| PostgreSQL (Supabase) + Drizzle ORM | `docs/auth-infrastructure.md` |
+| Better Auth v1.5 (email/password) | `src/lib/auth/` |
+| RBAC proxy (super_admin / staff / customer) | `src/proxy.ts`, `src/lib/auth/require-role.ts` |
+| Sensitive field encryption (BM ID, invite links) | `src/lib/db/encryption.ts` |
+| Login + unauthorized pages | `src/app/(auth)/` |
+
+### 2B — Dashboard UI ✅
+
+| Area | Routes | Reference |
+|------|--------|-----------|
+| Admin Panel | 11 routes (`/admin/*`) | `docs/dashboard-design/` |
+| Admin DataTables | Orders, Customers, Products, Staff | `plans/260312-1616-admin-dashboard-datatable/` (sorting, search, pagination, expansion) |
+| Customer Portal | 7 routes (`/portal/*`) | `docs/dashboard-design/` |
+| Shared components | sidebar, header, stats, status badge, timeline, admin-data-table | `src/components/dashboard/` |
+
+### 2C — Remaining Tasks
+
+| # | Task | Priority | Notes |
+|---|------|----------|-------|
+| 1 | Wire dashboard → real DB | Critical | Replace mock data with Drizzle queries (admin + portal) |
+| 2 | Order flow (end-to-end) | Critical | Cart → Admin confirm payment → Ship → Customer sees order |
+| 3 | Cross-role E2E testing | High | Verify permissions: super_admin, staff, customer |
+| 4 | Cal.com embed `/talk-to-sales` | Medium | Scheduling widget for sales consultations |
 
 ### RBAC
 
@@ -65,39 +83,10 @@ Customer → Cart form → Telegram bot → Admin tư vấn
 | Staff | ~3 employees | Orders, customers, ship. No finance/staff/settings |
 | Customer | buyers | Own orders, delivered products, tools, profile |
 
-### 2A — Infrastructure (do first)
-
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| PostgreSQL setup | Critical | Users, orders, products, delivered items |
-| Auth (Better Auth) | Critical | Email/password. Admin creates customer accounts |
-| RBAC middleware | Critical | 3 roles with route protection |
-| Telegram bot | Critical | Receive cart forms, auto-notify on status change |
-| Data encryption | Critical | Sensitive fields (BM ID, invite links) encrypted at rest |
-
-### 2B — Admin Panel
-
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| Dashboard overview | Critical | New orders, pending ships, revenue (super_admin only) |
-| Order management | Critical | CRUD, status flow: Pending → Paid → Processing → Shipped → Completed |
-| Order ship flow | Critical | Confirm payment, set dates, attach product info |
-| Customer management | Critical | Create accounts, purchase history, notes, total spend |
-| Product management | High | CRUD products, inventory tracking |
-| Telegram notifications | Medium | Auto-notify customer on order status change |
-
-### 2C — Customer Portal
-
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| Order history | Critical | Status timeline: Ordered → Paid → Processing → Shipped → Done |
-| Delivered products | Critical | BM ID, name, invite link (copy), status (active/inactive) |
-| Profile page | High | Personal info, order summary, settings |
-
 ### Data Security
 
-- Sensitive fields encrypted at rest in PostgreSQL
-- Google Sheets: internal admin only (1-way DB → Sheet sync), never exposed to customers
+- Sensitive fields encrypted at rest (PostgreSQL)
+- Google Sheets: internal admin only (1-way DB → Sheet sync)
 - Customer data visible only after authentication
 
 ---
@@ -123,7 +112,14 @@ Portal login → JWT stored → Extension reads token → GoAds API → BM invit
 
 Distribution: Chrome Web Store or manual .crx from portal.
 
-### 3B — Community
+### 3B — Telegram Bot
+
+| Feature | Priority | Notes |
+|---------|----------|-------|
+| Receive cart forms | High | Cart submission → Telegram notification to admin |
+| Order status notifications | High | Auto-notify customer on status change |
+
+### 3C — Community
 
 | Feature | Priority | Notes |
 |---------|----------|-------|
@@ -131,7 +127,7 @@ Distribution: Chrome Web Store or manual .crx from portal.
 | Public user profiles | Medium | Activity, reputation |
 | Moderation tools | Medium | Admin/staff moderation |
 
-### 3C — Search & Docs Enhancement
+### 3D — Search & Docs Enhancement
 
 | Feature | Priority | Notes |
 |---------|----------|-------|
@@ -167,8 +163,8 @@ Goal: Automation, payments, analytics, scaling.
 
 ```
 Phase 1  ✅  Marketing site + cart + tools + blog + docs + SEO
-Phase 1A 🔄  Polish & audits — WT2 Dark Mode + Lighthouse ✅, mobile responsive pending
-Phase 2  ⏳  Auth → Admin Panel → Customer Portal (FOUNDATION)
+Phase 1A ✅  Dark mode + mobile responsive + Lighthouse audits
+Phase 2  🔄  Auth ✅ + Dashboard UI ✅ + DB wiring + Telegram bot (pending)
 Phase 3  ⏳  Extension Platform + Community + Search (needs Phase 2)
 Phase 4  ⏳  Payments + Automation + Analytics + Growth
 ```

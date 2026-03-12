@@ -8,6 +8,7 @@ import { StatusBadge } from '@/components/dashboard/status-badge'
 import WeeklyOverviewCard from '@/components/shadcn-studio/blocks/chart-weekly-overview'
 import PerformanceCard from '@/components/shadcn-studio/blocks/chart-performance'
 import { mockOrders } from '@/data/mock-orders'
+import { formatVND } from '@/lib/format'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import {
@@ -18,9 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-
-const formatVND = (amount: number) =>
-  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount)
 
 const recentOrders = mockOrders.slice(0, 5)
 

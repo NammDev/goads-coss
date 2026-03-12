@@ -3,10 +3,9 @@
 import { useState } from 'react'
 import { UserPlusIcon } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
+import { AdminDataTable } from '@/components/dashboard/admin-data-table'
+import { staffColumns, type StaffMember } from '@/components/dashboard/columns/staff-columns'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -23,24 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-
-type StaffRole = 'super_admin' | 'admin' | 'staff'
-
-type StaffMember = {
-  id: string
-  name: string
-  email: string
-  role: StaffRole
-  online: boolean
-}
 
 const STAFF_DATA: StaffMember[] = [
   { id: 's-001', name: 'nammdev', email: 'nammdev@goads.shop', role: 'super_admin', online: true },
@@ -48,18 +29,6 @@ const STAFF_DATA: StaffMember[] = [
   { id: 's-003', name: 'Staff A', email: 'staffa@goads.shop', role: 'staff', online: false },
   { id: 's-004', name: 'Staff B', email: 'staffb@goads.shop', role: 'staff', online: false },
 ]
-
-const ROLE_LABELS: Record<StaffRole, string> = {
-  super_admin: 'Super Admin',
-  admin: 'Admin',
-  staff: 'Staff',
-}
-
-const ROLE_BADGE_CLASS: Record<StaffRole, string> = {
-  super_admin: 'bg-primary/10 text-primary border-transparent',
-  admin: 'bg-blue-100 text-blue-800 border-transparent dark:bg-blue-900/30 dark:text-blue-400',
-  staff: 'bg-gray-100 text-gray-700 border-transparent dark:bg-gray-900/30 dark:text-gray-400',
-}
 
 export default function StaffPage() {
   const [open, setOpen] = useState(false)
@@ -102,63 +71,20 @@ export default function StaffPage() {
                 </Select>
               </div>
               <div className="flex justify-end gap-3 pt-2">
-                <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+                <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+                  Cancel
+                </Button>
                 <Button type="submit">Send Invite</Button>
               </div>
             </form>
           </DialogContent>
         </Dialog>
       </div>
-
-      <Card className="shadow-none">
-        <CardHeader>
-          <span className="text-lg font-semibold">Staff Members ({STAFF_DATA.length})</span>
-        </CardHeader>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Staff Member</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {STAFF_DATA.map((member) => (
-                <TableRow key={member.id}>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Avatar className="size-8 rounded-md">
-                        <AvatarFallback className="rounded-md text-xs">
-                          {member.name.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      <span className="font-medium">{member.name}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">{member.email}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className={ROLE_BADGE_CLASS[member.role]}>
-                      {ROLE_LABELS[member.role]}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={`size-2 rounded-full ${member.online ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-600'}`}
-                      />
-                      <span className="text-sm">
-                        {member.online ? 'Online' : 'Offline'}
-                      </span>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <AdminDataTable
+        data={STAFF_DATA}
+        columns={staffColumns}
+        searchPlaceholder="Search staff..."
+      />
     </div>
   )
 }
