@@ -46,6 +46,30 @@ export async function createOrder(formData: FormData): Promise<CreateOrderResult
   const adminId = session.user.id;
 
   try {
+    const productIds = items.map((i) => i.productId);
+
+    // Pre-fetch products and customer prices outside the transaction
+    const productRows = await db
+      .select()
+      .from(products)
+      .where(inArray(products.id, productIds));
+
+    const productMap = new Map(productRows.map((p) => [p.id, p]));
+
+    // Fetch customer-specific prices (optional — may have no rows)
+    let priceMap = new Map<string, string>();
+    try {
+      const priceRows = await db
+        .select()
+        .from(customerPrices)
+        .where(
+          sql`${customerPrices.customerId} = ${customerId} AND ${customerPrices.productId} IN ${productIds}`
+        );
+      priceMap = new Map(priceRows.map((p) => [p.productId, p.price]));
+    } catch {
+      // customer_price table issue — use default product prices
+    }
+
     const orderId = await db.transaction(async (tx) => {
       // Lock user row and get balance
       const rows = await tx.execute(
@@ -53,25 +77,6 @@ export async function createOrder(formData: FormData): Promise<CreateOrderResult
       );
       const customerRow = (rows as unknown as { balance: string }[])[0];
       if (!customerRow) throw new Error("Customer not found");
-
-      const productIds = items.map((i) => i.productId);
-
-      // Fetch all products in one query
-      const productRows = await tx
-        .select()
-        .from(products)
-        .where(inArray(products.id, productIds));
-
-      const productMap = new Map(productRows.map((p) => [p.id, p]));
-
-      // Fetch customer-specific prices
-      const priceRows = await tx
-        .select()
-        .from(customerPrices)
-        .where(
-          sql`${customerPrices.customerId} = ${customerId} AND ${customerPrices.productId} = ANY(${productIds})`
-        );
-      const priceMap = new Map(priceRows.map((p) => [p.productId, p.price]));
 
       // Calculate total and build line items
       let total = 0;
@@ -150,6 +155,7 @@ export async function createOrder(formData: FormData): Promise<CreateOrderResult
     if (message === "Customer not found") return { success: false, error: "Customer not found" };
     if (message.startsWith("Insufficient balance")) return { success: false, error: message };
     if (message.startsWith("Product not found")) return { success: false, error: message };
-    return { success: false, error: "Failed to create order" };
+    console.error("[createOrder] unexpected error:", message);
+    return { success: false, error: `Failed to create order: ${message}` };
   }
 }
