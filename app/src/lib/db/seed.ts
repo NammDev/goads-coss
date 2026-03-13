@@ -1,9 +1,11 @@
 import { db } from "./index";
 import { users, products, orders, orderItems, deliveredItems } from "./schema";
-import { auth } from "@/lib/auth/auth";
+import { createClerkClient } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 import { encrypt } from "./encryption";
+
+const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY! });
 
 const SUPER_ADMINS = [
   { name: "nammdev", email: "nammdev@goads.shop", password: "NammDev2024!" },
@@ -40,11 +42,21 @@ async function seedAdmins() {
       continue;
     }
 
-    await auth.api.signUpEmail({
-      body: { name: admin.name, email: admin.email, password: admin.password },
+    const [firstName, ...rest] = admin.name.split(" ");
+    const clerkUser = await clerk.users.createUser({
+      emailAddress: [admin.email],
+      password: admin.password,
+      firstName,
+      lastName: rest.join(" ") || undefined,
+      publicMetadata: { role: "super_admin" },
     });
 
-    await db.update(users).set({ role: "super_admin" }).where(eq(users.email, admin.email));
+    await db.insert(users).values({
+      id: clerkUser.id,
+      name: admin.name,
+      email: admin.email,
+      role: "super_admin",
+    }).onConflictDoUpdate({ target: users.id, set: { role: "super_admin" } });
     console.log(`  created super_admin: ${admin.email}`);
   }
 }
@@ -59,9 +71,19 @@ async function seedTestCustomer() {
     return;
   }
 
-  await auth.api.signUpEmail({
-    body: TEST_CUSTOMER,
+  const clerkUser = await clerk.users.createUser({
+    emailAddress: [TEST_CUSTOMER.email],
+    password: TEST_CUSTOMER.password,
+    firstName: TEST_CUSTOMER.name,
+    publicMetadata: { role: "customer" },
   });
+
+  await db.insert(users).values({
+    id: clerkUser.id,
+    name: TEST_CUSTOMER.name,
+    email: TEST_CUSTOMER.email,
+    role: "customer",
+  }).onConflictDoNothing();
   console.log(`  created customer: ${TEST_CUSTOMER.email}`);
 }
 

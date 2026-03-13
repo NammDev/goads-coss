@@ -47,17 +47,19 @@ Goal: Auth system + admin panel + customer portal with full CRUD business flow.
 
 **Status: 80% Complete** — Core features built, testing + auth stability pending
 
-### 2A — Auth Infrastructure ✅ (needs stability review)
+### 2A — Auth Infrastructure 🔄 (migrating to Clerk)
 
 | Area | Status | Reference |
 |------|--------|-----------|
 | PostgreSQL (Supabase) + Drizzle ORM | ✅ Done | `src/lib/db/` |
-| Better Auth v1.5 (email/password) | ✅ Done | `src/lib/auth/` |
-| RBAC (super_admin / staff / customer) | ✅ Done | `src/lib/auth/require-role.ts` |
+| ~~Better Auth v1.5 (email/password)~~ | 🔄 Replacing | Migrating to Clerk |
+| Role-based access (super_admin / staff / customer) | 🔄 Migrating | Moving to Clerk session claims |
 | Field encryption (BM ID, invite links) | ✅ Done | `src/lib/db/encryption.ts` |
-| Login + unauthorized pages | ✅ Done | `src/app/(auth)/` |
+| Login + unauthorized pages | 🔄 Replacing | Will use Clerk `<SignIn/>` components |
+| Clerk setup + middleware | ⏳ Pending | Edge middleware for route protection |
+| Webhook sync (Clerk → DB) | ⏳ Pending | Sync user metadata to local `user` table |
 
-**Known issues:** Auth stability concerns — session handling, edge cases. Evaluating Clerk as potential replacement (see Auth Decision below).
+**Decision (2026-03-13):** Migrate from Better Auth to Clerk. Rationale: auth stability issues, missing features (password reset, social login, MFA, edge middleware) would take ~7-10 days to build vs ~6-8 days to migrate with all features included out-of-box. Trade-off accepted: vendor lock-in in exchange for zero auth maintenance.
 
 ### 2B — Admin Panel ✅
 
@@ -106,46 +108,19 @@ Goal: Auth system + admin panel + customer portal with full CRUD business flow.
 
 | # | Task | Priority | Status | Notes |
 |---|------|----------|--------|-------|
-| 1 | Auth stability | Critical | 🔴 | Session drops, edge cases — evaluate Clerk migration |
+| 1 | Clerk migration | Critical | 🔄 | Decision: migrate to Clerk (2026-03-13). Replace Better Auth, add edge middleware, webhook sync |
 | 2 | `drizzle-kit push` broken | High | 🔴 | CHECK constraint bug in drizzle-kit 0.31.9 — manual SQL required |
-| 3 | Customer price query in transaction | High | 🟡 Fixed | Moved outside tx to avoid PG transaction abort cascade |
-| 4 | Cross-role E2E testing | High | ⏳ | Verify all 3 roles: super_admin, staff, customer |
-| 5 | Admin finance page | Medium | ⏳ | Needs real revenue/stats queries |
-| 6 | Admin settings page | Medium | ⏳ | Needs real settings CRUD |
-| 7 | Portal tools integration | Medium | ⏳ | Wire to actual tool pages |
-| 8 | Error handling UX | Medium | ⏳ | Toast notifications for all actions (currently text-only) |
-| 9 | Cal.com embed `/talk-to-sales` | Low | ⏳ | Scheduling widget |
+| 3 | Cal.com embed `/talk-to-sales` | Low | ⏳ | Scheduling widget |
+| 4 | Cross-role E2E testing | Low | ⏳ | Verify 2 roles (super_admin, customer) after all issues resolved |
 
-### RBAC
+### 2F — Polish & Enhancements
 
-| Role | Who | Access |
-|------|-----|--------|
-| Super Admin | nammdev, justin | Full: finance, staff, settings, all CRUD |
-| Staff | ~3 employees | Orders, customers, deliver. No finance/staff/settings |
-| Customer | buyers | Own orders, delivered products, wallet, tools, profile |
-
-### Auth Decision: Better Auth vs Clerk
-
-**Current:** Better Auth v1.5 (self-hosted, email/password, custom DB schema)
-
-| Aspect | Better Auth | Clerk |
-|--------|-------------|-------|
-| Cost | Free (self-hosted) | Free < 10K MAU, then $0.02/user |
-| DB control | Full — user table is yours | Clerk manages users externally, webhook sync needed |
-| Custom fields (balance, role, telegramId) | Direct columns on user table | Clerk metadata (limited) + separate DB table for business data |
-| RBAC | Manual implementation (done) | Built-in Organizations + Roles |
-| Pre-built UI | None — custom login pages | `<SignIn/>`, `<UserButton/>`, fully themed |
-| Session stability | Varies — manual session management | Battle-tested, edge runtime native |
-| Migration effort | N/A | Medium — rewrite auth layer, keep business tables |
-| Vendor lock-in | None | High — tied to Clerk infrastructure |
-
-**Recommendation:** TBD — depends on severity of current auth issues. If auth is causing real user-facing bugs, Clerk saves time. If issues are fixable, Better Auth keeps full control and $0 cost.
-
-### Data Security
-
-- Sensitive fields encrypted at rest (PostgreSQL)
-- Customer data visible only after authentication
-- Balance operations use `SELECT ... FOR UPDATE` row locking
+| # | Task | Priority | Status | Notes |
+|---|------|----------|--------|-------|
+| 1 | Admin finance page | Medium | ⏳ | Needs real revenue/stats queries |
+| 2 | Admin settings page | Medium | ⏳ | Needs real settings CRUD |
+| 3 | Portal tools integration | Medium | ⏳ | Wire to actual tool pages |
+| 4 | Error handling UX | Medium | ⏳ | Toast notifications for all actions (currently text-only) |
 
 ---
 
@@ -222,7 +197,7 @@ Goal: Automation, payments, analytics, scaling.
 ```
 Phase 1  ✅  Marketing site + cart + tools + blog + docs + SEO
 Phase 1A ✅  Dark mode + mobile responsive + Lighthouse audits
-Phase 2  🔄  Auth ✅ + Admin ✅ + Portal ✅ + CRUD ✅ + Testing/Auth stability (pending)
+Phase 2  🔄  Admin ✅ + Portal ✅ + CRUD ✅ + Auth migrating to Clerk (pending)
 Phase 3  ⏳  Extension Platform + Community + Search (needs Phase 2)
 Phase 4  ⏳  Payments + Automation + Analytics + Growth
 ```

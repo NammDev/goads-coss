@@ -1,28 +1,38 @@
-import { auth } from "@/lib/auth/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { auth, currentUser } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 
-type Role = "super_admin" | "staff" | "customer";
+type Role = 'super_admin' | 'staff' | 'customer'
 
 /**
  * Server-side role guard — use in layout.tsx or page.tsx (server components only).
- * Redirects to /login if no session, /unauthorized if role not allowed.
- * Returns the session if authorized.
+ * Redirects to /sign-in if no session, /unauthorized if role not allowed.
+ * Returns session-compatible shape: { user: { id, name, email, role, image } }
  */
 export async function requireRole(...allowedRoles: Role[]) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const { userId } = await auth()
 
-  if (!session) {
-    redirect("/login");
+  if (!userId) {
+    redirect('/sign-in')
   }
 
-  const userRole = session.user.role as Role;
+  const user = await currentUser()
+  if (!user) redirect('/sign-in')
 
-  if (!allowedRoles.includes(userRole)) {
-    redirect("/unauthorized");
+  const role = (user.publicMetadata.role as Role) ?? 'customer'
+
+  if (!allowedRoles.includes(role)) {
+    redirect('/unauthorized')
   }
 
-  return session;
+  return {
+    user: {
+      id: userId,
+      name: user.firstName
+        ? `${user.firstName} ${user.lastName ?? ''}`.trim()
+        : (user.emailAddresses[0]?.emailAddress ?? 'User'),
+      email: user.emailAddresses[0]?.emailAddress ?? '',
+      role,
+      image: user.imageUrl,
+    },
+  }
 }

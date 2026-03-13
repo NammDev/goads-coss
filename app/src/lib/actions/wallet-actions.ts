@@ -1,11 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
 import { eq, sql } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 
-import { auth } from "@/lib/auth/auth";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { users, walletTransactions } from "@/lib/db/schema";
 import { topupSchema } from "@/lib/validators/wallet-schemas";
@@ -16,11 +15,12 @@ type TopupResult =
 
 export async function topupBalance(formData: FormData): Promise<TopupResult> {
   // Role guard
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (
-    !session ||
-    (session.user.role !== "super_admin" && session.user.role !== "staff")
-  ) {
+  const { userId } = await auth();
+  if (!userId) return { success: false, error: "Unauthorized" };
+
+  const user = await currentUser();
+  const role = (user?.publicMetadata?.role as string) ?? "customer";
+  if (role !== "super_admin" && role !== "staff") {
     return { success: false, error: "Unauthorized" };
   }
 
@@ -38,7 +38,7 @@ export async function topupBalance(formData: FormData): Promise<TopupResult> {
   }
 
   const { customerId, amount, note } = parsed.data;
-  const adminId = session.user.id;
+  const adminId = userId;
 
   try {
     const newBalance = await db.transaction(async (tx) => {

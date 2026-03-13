@@ -1,11 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
 import { eq, sql, inArray } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 
-import { auth } from "@/lib/auth/auth";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { users, orders, orderItems, walletTransactions, customerPrices, products } from "@/lib/db/schema";
 import { createOrderSchema } from "@/lib/validators/order-schemas";
@@ -15,11 +14,12 @@ type CreateOrderResult =
   | { success: false; error: string };
 
 export async function createOrder(formData: FormData): Promise<CreateOrderResult> {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (
-    !session ||
-    (session.user.role !== "super_admin" && session.user.role !== "staff")
-  ) {
+  const { userId } = await auth();
+  if (!userId) return { success: false, error: "Unauthorized" };
+
+  const user = await currentUser();
+  const role = (user?.publicMetadata?.role as string) ?? "customer";
+  if (role !== "super_admin" && role !== "staff") {
     return { success: false, error: "Unauthorized" };
   }
 
@@ -43,7 +43,7 @@ export async function createOrder(formData: FormData): Promise<CreateOrderResult
   }
 
   const { customerId, items, notes } = parsed.data;
-  const adminId = session.user.id;
+  const adminId = userId;
 
   try {
     const productIds = items.map((i) => i.productId);

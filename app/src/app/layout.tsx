@@ -1,6 +1,8 @@
 import "./globals.css";
 
 import { fontMono, fontSans } from "@/fonts";
+import { ClerkProvider } from "@clerk/nextjs";
+import { shadcn } from "@clerk/ui/themes";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/lib/cart-context";
@@ -52,17 +54,19 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ThemeProvider>
-          <CartProvider>
-            <TooltipProvider>
-              {children}
-              <CommandMenu />
-              <FloatingContactButton />
-              <ScrollToTop />
-              <Toaster position="top-right" />
-            </TooltipProvider>
-          </CartProvider>
-        </ThemeProvider>
+        <ClerkProvider appearance={{ theme: shadcn }}>
+          <ThemeProvider>
+            <CartProvider>
+              <TooltipProvider>
+                {children}
+                <CommandMenu />
+                <FloatingContactButton />
+                <ScrollToTop />
+                <Toaster position="top-right" />
+              </TooltipProvider>
+            </CartProvider>
+          </ThemeProvider>
+        </ClerkProvider>
         <Analytics />
         <SpeedInsights />
       </body>

@@ -14,13 +14,14 @@
     "db:seed": "tsx --env-file=.env.local src/lib/db/seed.ts"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.0.4",
+    "@clerk/ui": "^1.2.1",
     "@paralleldrive/cuid2": "^3.3.0",
     "@remixicon/react": "^4.9.0",
     "@stepperize/react": "^6.1.0",
     "@tanstack/react-table": "^8.21.3",
     "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.3.1",
-    "better-auth": "^1.5.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -45,6 +46,7 @@
     "react-use": "^17.6.0",
     "recharts": "^2.15.4",
     "sonner": "^2.0.7",
+    "svix": "^1.88.0",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
