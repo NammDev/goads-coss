@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { PackageCheckIcon } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,15 +28,11 @@ interface Props {
 export function DeliverDialog({ orderId, orderItemId, productType, productName }: Props) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
-
   const columns = getColumnsForType(productType);
   const hasFields = columns.length > 0;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
-
     const form = e.currentTarget;
     const formData = new FormData(form);
     formData.set("orderId", orderId);
@@ -45,9 +42,10 @@ export function DeliverDialog({ orderId, orderItemId, productType, productName }
     startTransition(async () => {
       const result = await deliverOrderItem(formData);
       if (!result.success) {
-        setError(result.error);
+        toast.error(result.error);
         return;
       }
+      toast.success("Item delivered successfully");
       setOpen(false);
     });
   };
@@ -94,8 +92,6 @@ export function DeliverDialog({ orderId, orderItemId, productType, productName }
               No credential fields for this product type.
             </p>
           )}
-
-          {error && <p className="text-sm text-destructive">{error}</p>}
 
           <div className="flex justify-end gap-2 pt-2">
             <Button

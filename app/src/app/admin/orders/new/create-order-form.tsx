@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { PlusIcon, TrashIcon } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,8 +32,6 @@ interface Props {
 export function CreateOrderForm({ customers, products }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
-
   const [customerId, setCustomerId] = useState("");
   const [items, setItems] = useState<LineItem[]>([{ productId: "", quantity: 1 }]);
   const [notes, setNotes] = useState("");
@@ -59,10 +58,8 @@ export function CreateOrderForm({ customers, products }: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
-
-    if (!customerId) return setError("Select a customer");
-    if (items.some((i) => !i.productId)) return setError("Select a product for each row");
+    if (!customerId) return toast.error("Select a customer");
+    if (items.some((i) => !i.productId)) return toast.error("Select a product for each row");
 
     const formData = new FormData();
     formData.set("customerId", customerId);
@@ -72,9 +69,10 @@ export function CreateOrderForm({ customers, products }: Props) {
     startTransition(async () => {
       const result = await createOrder(formData);
       if (!result.success) {
-        setError(result.error);
+        toast.error(result.error);
         return;
       }
+      toast.success("Order created successfully");
       router.push(`/admin/orders/${result.orderId}`);
     });
   };
@@ -207,8 +205,6 @@ export function CreateOrderForm({ customers, products }: Props) {
           />
         </CardContent>
       </Card>
-
-      {error && <p className="text-sm text-destructive">{error}</p>}
 
       <div className="flex justify-end">
         <Button type="submit" disabled={isPending}>

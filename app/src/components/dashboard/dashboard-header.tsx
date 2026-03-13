@@ -11,16 +11,32 @@ import NotificationDropdown from '@/components/shadcn-studio/blocks/dropdown-not
 import ProfileDropdown from '@/components/shadcn-studio/blocks/dropdown-profile'
 import { DashboardBreadcrumb } from '@/components/dashboard/dashboard-breadcrumb'
 
+/** Serialized notification passed from server → client boundary */
+export type SerializedNotification = {
+  id: string
+  userId: string
+  type: 'order_created' | 'balance_topup' | 'item_delivered' | 'system'
+  title: string
+  message: string
+  linkUrl: string | null
+  read: boolean
+  createdAt: string
+}
+
 type DashboardHeaderProps = {
   userName?: string
   userRole?: string
   userAvatar?: string
+  notifications?: SerializedNotification[]
+  unreadCount?: number
 }
 
 export function DashboardHeader({
   userName = 'Admin',
   userRole = 'Admin',
   userAvatar,
+  notifications = [],
+  unreadCount = 0,
 }: DashboardHeaderProps) {
   return (
     <header className="bg-card sticky top-0 z-50 border-b">
@@ -50,9 +66,13 @@ export function DashboardHeader({
             trigger={
               <Button variant="ghost" size="icon" className="relative">
                 <BellIcon />
-                <span className="bg-destructive absolute top-2 right-2.5 size-2 rounded-full" />
+                {unreadCount > 0 && (
+                  <span className="bg-destructive absolute top-2 right-2.5 size-2 rounded-full" />
+                )}
               </Button>
             }
+            notifications={notifications}
+            unreadCount={unreadCount}
           />
           <ProfileDropdown
             trigger={

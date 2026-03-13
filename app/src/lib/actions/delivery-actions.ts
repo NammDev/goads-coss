@@ -10,6 +10,7 @@ import { orders, orderItems, deliveredItems } from "@/lib/db/schema";
 import { encrypt } from "@/lib/db/encryption";
 import { credentialSchemaMap } from "@/lib/validators/credential-schemas";
 import type { ProductType } from "@/lib/validators/credential-schemas";
+import { createNotification } from "@/lib/actions/notification-actions";
 
 type DeliverResult =
   | { success: true; deliveredItemId: string }
@@ -107,6 +108,24 @@ export async function deliverOrderItem(formData: FormData): Promise<DeliverResul
     });
 
     revalidatePath(`/admin/orders/${orderId}`);
+
+    // Non-blocking notification for customer
+    const [order] = await db
+      .select({ customerId: orders.customerId })
+      .from(orders)
+      .where(eq(orders.id, orderId))
+      .limit(1);
+
+    if (order) {
+      createNotification({
+        userId: order.customerId,
+        type: "item_delivered",
+        title: "Item delivered",
+        message: `An item for order #${orderId.slice(-6)} has been delivered.`,
+        linkUrl: "/portal/products",
+      }).catch(() => {});
+    }
+
     return { success: true, deliveredItemId };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

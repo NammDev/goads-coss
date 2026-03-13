@@ -39,11 +39,12 @@ Phase 3: [██ E2E testing ██]
 | # | Task | Priority | Status | Description |
 |---|------|----------|--------|-------------|
 | 10 | Pixel-perfect shadcn studio tables | Medium | ⏳ | Refactor AdminDataTable dùng trực tiếp code shadcn studio — chỉ swap data/columns, giữ nguyên UI gốc |
-| 5 | Error handling UX | Medium | ⏳ | Thêm toast cho tất cả actions (thành công/thất bại). Hiện im lặng khi lỗi |
+| 5 | Error handling UX | Medium | ✅ | Thêm toast cho tất cả actions (thành công/thất bại). Hiện im lặng khi lỗi |
+| 16 | Notification center | Medium | ✅ | In-app notification center: DB table, bell icon dropdown với real data, mark-as-read, auto-create on actions |
 | 7 | Flow polish | Medium | ⏳ | Xử lý edge cases: balance=0, stock=0, duplicate delivery, empty states |
 | 8 | Cal.com embed | Low | ⏳ | Gắn widget đặt lịch gọi vào `/talk-to-sales` |
 
-**File ownership:** `components/dashboard/admin-data-table.tsx`, `*-table.tsx` wrappers, column defs, toast components, empty state components, `/talk-to-sales`
+**File ownership:** `components/dashboard/admin-data-table.tsx`, `*-table.tsx` wrappers, column defs, toast components, empty state components, `/talk-to-sales`, `lib/db/schema/notification-tables.ts`, `lib/db/queries/notification-queries.ts`, `lib/actions/notification-actions.ts`, `components/shadcn-studio/blocks/dropdown-notification.tsx`
 
 #### WT-B: `portal-catalog-profile`
 
@@ -106,7 +107,8 @@ All WTs merged  ──BLOCKS──→ Task 9 (E2E runs last)
 - Portal: profile page incomplete
 - Portal: tools page not wired
 - Admin: finance + settings pages empty
-- UX: no toast notifications on actions
+- ~~UX: no toast notifications on actions~~ ✅ Done
+- ~~UX: no notification center~~ ✅ Done (DB-backed bell icon dropdown, auto-notify on order/topup/delivery)
 - DX: drizzle-kit CHECK constraint bug blocking schema push
 - Performance: dashboard routes lag 1-2s do sequential DB queries + auth check mỗi navigation
 - Portal: no search across portal routes/content
