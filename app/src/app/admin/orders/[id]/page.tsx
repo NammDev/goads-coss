@@ -21,6 +21,7 @@ import {
 import { formatUSD } from '@/lib/format-currency'
 import { DeliverDialog } from './deliver-dialog'
 import { DeliveredItemsSection } from './delivered-items-section'
+import { ShareLinkSection } from '@/components/dashboard/share-link-section'
 import type { ProductType } from '@/lib/validators/credential-schemas'
 
 export default async function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -181,6 +182,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
       {/* Delivered credentials */}
       <DeliveredItemsSection items={order.deliveredItems} />
+
+      {/* Share link */}
+      <ShareLinkSection orderId={order.id} shareToken={order.shareToken} />
 
       {/* Notes */}
       {order.notes && (

@@ -17,6 +17,7 @@ import {
   getToolsByCategory,
   type ToolItem,
 } from "@/data/tools-registry";
+import { useToolVariant } from "@/lib/tool-context";
 
 /** Single tool link in the sidebar */
 function ToolLink({ tool, isActive }: { tool: ToolItem; isActive: boolean }) {
@@ -78,8 +79,11 @@ export function ToolsSidebar() {
   );
 }
 
-/** Mobile sidebar trigger + sheet drawer */
+/** Mobile sidebar trigger + sheet drawer — hidden in portal (dashboard sidebar handles nav) */
 export function ToolsSidebarMobile() {
+  const variant = useToolVariant();
+  if (variant === "portal") return null;
+
   return (
     <Sheet>
       <SheetTrigger asChild>

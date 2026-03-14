@@ -49,11 +49,11 @@ Phase 3: [██ E2E testing ██]
 
 | # | Task | Priority | Status | Description |
 |---|------|----------|--------|-------------|
-| 3 | Portal product catalog | High | ⏳ | Khách hàng xem sản phẩm trong portal → thêm giỏ hàng → gửi order qua Telegram |
-| 4 | Portal profile | Medium | ⏳ | Khách hàng xem/sửa thông tin cá nhân (name, telegramId). Hiện page trống |
-| 13 | Portal tools integration | Medium | ⏳ | Wire portal tools page to actual tool pages |
-| 14 | Portal search | Medium | ⏳ | Khách hàng search được các route/content trong portal (orders, products, wallet...) |
-| 15 | Public share links | High | ⏳ | Admin share link public cho khách xem order/product mà không cần login. Token-based hoặc signed URL |
+| 3 | Portal product catalog | High | ✅ | Dashboard → Shop. Reuse ProductCard + Card3D từ marketing. DB products + customer pricing. Category filter tabs. |
+| 4 | Portal profile | Medium | ✅ | Clerk `<UserProfile />` (avatar, name, email, password, MFA, sessions). ProfileDropdown wired real Clerk data + sign-out. Deleted custom profile-form. |
+| 13 | Portal tools integration | Medium | ✅ | All 20 marketing tools mirrored into portal via React context (ToolPageShell adapts to portal/marketing). Sidebar "Tools" group with 3 category collapsibles (Security, Data Processing, Utilities) + Extensions. BM extension moved to `/portal/tools/extensions`. |
+| 14 | Portal search | Medium | ✅ | Cmd+K search dialog wired to real DB — debounced server action searches orders, products, wallet via ILIKE. Static portal pages always visible. |
+| 15 | Public share links | High | ✅ | Admin generate/revoke share token from order detail. Public `/share/[token]` page with marketing layout (PageHero + bento CTA + order detail). Auth-aware: anonymous sees signup CTAs, owner sees "View in Portal". |
 
 **File ownership:** `portal/products/*` (catalog view), `portal/profile/*`, `portal/tools/*`, `portal/search/*`, `app/share/[token]/*`, cart logic
 
@@ -103,13 +103,13 @@ All WTs merged  ──BLOCKS──→ Task 9 (E2E runs last)
 ## What's Missing (this plan covers all)
 
 - ~~Auth: Clerk migration~~ ✅ Done
-- Portal: no product catalog in dashboard (customer can't browse, must go to marketing site)
-- Portal: profile page incomplete
-- Portal: tools page not wired
+- ~~Portal: no product catalog in dashboard~~ ✅ Done (Shop page with ProductCard + Card3D, category filter tabs, customer pricing)
+- ~~Portal: profile page incomplete~~ ✅ Done (Clerk `<UserProfile />`, ProfileDropdown wired with real Clerk data)
+- ~~Portal: tools page not wired~~ ✅ Done (20 tools + extensions in portal via context-based shell, categorized sidebar nav)
 - ~~Admin: finance page empty~~ ✅ Done — real queries + data tables
 - Admin: settings page — deferred to Phase 3
 - UX: no toast notifications on actions
 - ~~DX: drizzle-kit CHECK constraint bug~~ ⚠️ Upstream bug — workaround: `generate` + `migrate` instead of `push`
 - ~~Performance: dashboard routes lag 1-2s~~ ✅ Done — all routes < 100ms DB, parallel queries, loading skeletons, auth dedup, perf audit complete
-- Portal: no search across portal routes/content
-- Portal: no public share links (customer phải login mới xem được)
+- ~~Portal: no search across portal routes/content~~ ✅ Done (Cmd+K search with real DB queries)
+- ~~Portal: no public share links~~ ✅ Done (token-based `/share/[token]` with marketing layout + conversion CTAs)
