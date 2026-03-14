@@ -1,12 +1,11 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { PlusIcon } from 'lucide-react'
+import { PlusIcon, PackageIcon } from 'lucide-react'
 import { eq } from 'drizzle-orm'
 
 import { db } from '@/lib/db'
 import { deliveredItems } from '@/lib/db/schema'
 import { productTypeLabels } from '@/data/mock-products'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import type { ProductType } from '@/lib/validators/credential-schemas'
 import type { MockDeliveredItem } from '@/data/mock-delivered-items'
@@ -46,13 +45,16 @@ export default async function AdminProductTypePage({ params }: { params: Promise
   }))
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <h1 className="text-2xl font-semibold">{productTypeLabels[productType]}</h1>
-        <Badge variant="secondary">{items.length} items</Badge>
-      </div>
+    <div>
       {items.length === 0 ? (
-        <p className="text-muted-foreground">No delivered items in this category yet.</p>
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center">
+          <PackageIcon className="mb-3 size-10 text-muted-foreground/50" />
+          <p className="text-lg font-medium">No items yet</p>
+          <p className="mt-1 text-sm text-muted-foreground">No delivered items in {productTypeLabels[productType]} category.</p>
+          <Button asChild size="sm" className="mt-4">
+            <Link href="/admin/orders">Go to Orders to deliver</Link>
+          </Button>
+        </div>
       ) : (
         <AdminProductsTable
           items={items}

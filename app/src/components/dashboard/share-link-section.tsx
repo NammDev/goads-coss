@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { CopyIcon, CheckIcon, LinkIcon, RefreshCwIcon, Trash2Icon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { generateShareToken, revokeShareToken } from '@/lib/actions/order-actions'
 
@@ -14,6 +13,7 @@ interface Props {
   shareToken: string | null
 }
 
+/** Compact share link — renders as toolbar button(s), no Card wrapper */
 export function ShareLinkSection({ orderId, shareToken }: Props) {
   const [copied, setCopied] = useState(false)
   const [isPending, startTransition] = useTransition()
@@ -53,41 +53,29 @@ export function ShareLinkSection({ orderId, shareToken }: Props) {
     })
   }
 
+  if (!shareUrl) {
+    return (
+      <Button size="sm" onClick={handleGenerate} disabled={isPending}>
+        <LinkIcon className="mr-1 size-4" />
+        Generate Share Link
+      </Button>
+    )
+  }
+
   return (
-    <Card className="shadow-none">
-      <CardHeader>
-        <div className="flex items-center gap-2">
-          <LinkIcon className="size-4" />
-          <span className="text-lg font-semibold">Share Link</span>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {shareUrl ? (
-          <div className="space-y-3">
-            <div className="flex gap-2">
-              <Input value={shareUrl} readOnly className="font-mono text-sm" />
-              <Button variant="outline" size="icon" onClick={handleCopy} disabled={isPending}>
-                {copied ? <CheckIcon className="size-4 text-green-500" /> : <CopyIcon className="size-4" />}
-              </Button>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleRegenerate} disabled={isPending}>
-                <RefreshCwIcon className="mr-1 size-3.5" />
-                Regenerate
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleRevoke} disabled={isPending} className="text-destructive">
-                <Trash2Icon className="mr-1 size-3.5" />
-                Revoke
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <Button variant="outline" onClick={handleGenerate} disabled={isPending}>
-            <LinkIcon className="mr-1 size-4" />
-            Generate Share Link
-          </Button>
-        )}
-      </CardContent>
-    </Card>
+    <div className="flex items-center gap-2">
+      <div className="flex max-w-xs">
+        <Input value={shareUrl} readOnly className="font-mono text-xs h-8 rounded-r-none" />
+        <Button variant="outline" size="sm" className="rounded-l-none border-l-0" onClick={handleCopy} disabled={isPending}>
+          {copied ? <CheckIcon className="size-3.5 text-green-500" /> : <CopyIcon className="size-3.5" />}
+        </Button>
+      </div>
+      <Button variant="outline" size="sm" onClick={handleRegenerate} disabled={isPending}>
+        <RefreshCwIcon className="size-3.5" />
+      </Button>
+      <Button variant="outline" size="sm" onClick={handleRevoke} disabled={isPending} className="text-destructive">
+        <Trash2Icon className="size-3.5" />
+      </Button>
+    </div>
   )
 }
