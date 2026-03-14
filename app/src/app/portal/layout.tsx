@@ -7,7 +7,7 @@ export default async function PortalLayout({ children }: { children: React.React
   const productCounts = await getProductCountsByCustomerId(session.user.id)
 
   return (
-    <PortalShell userName={session.user.name ?? 'Customer'} productCounts={productCounts}>
+    <PortalShell userName={session.user.name ?? 'Customer'} userId={session.user.id} productCounts={productCounts}>
       {children}
     </PortalShell>
   )

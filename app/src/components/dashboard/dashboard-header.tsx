@@ -15,12 +15,14 @@ type DashboardHeaderProps = {
   userName?: string
   userRole?: string
   userAvatar?: string
+  userId?: string
 }
 
 export function DashboardHeader({
   userName = 'Admin',
   userRole = 'Admin',
   userAvatar,
+  userId,
 }: DashboardHeaderProps) {
   return (
     <header className="bg-card sticky top-0 z-50 border-b">
@@ -29,6 +31,7 @@ export function DashboardHeader({
           <SidebarTrigger className="[&_svg]:!size-5" />
           <Separator orientation="vertical" className="hidden !h-4 sm:block" />
           <SearchDialog
+            userId={userId}
             trigger={
               <>
                 <Button variant="ghost" className="hidden !bg-transparent px-1 py-0 font-normal sm:block">

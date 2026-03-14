@@ -9,6 +9,39 @@ import { db } from "@/lib/db";
 import { users, orders, orderItems, walletTransactions, customerPrices, products } from "@/lib/db/schema";
 import { createOrderSchema } from "@/lib/validators/order-schemas";
 
+/** Generate a public share token for an order (admin only) */
+export async function generateShareToken(orderId: string): Promise<{ success: boolean; token?: string; error?: string }> {
+  const { userId } = await auth();
+  if (!userId) return { success: false, error: "Unauthorized" };
+
+  const user = await currentUser();
+  const role = (user?.publicMetadata?.role as string) ?? "customer";
+  if (role !== "super_admin" && role !== "staff") {
+    return { success: false, error: "Unauthorized" };
+  }
+
+  const token = createId();
+  await db.update(orders).set({ shareToken: token }).where(eq(orders.id, orderId));
+  revalidatePath(`/admin/orders/${orderId}`);
+  return { success: true, token };
+}
+
+/** Revoke (remove) the share token for an order (admin only) */
+export async function revokeShareToken(orderId: string): Promise<{ success: boolean; error?: string }> {
+  const { userId } = await auth();
+  if (!userId) return { success: false, error: "Unauthorized" };
+
+  const user = await currentUser();
+  const role = (user?.publicMetadata?.role as string) ?? "customer";
+  if (role !== "super_admin" && role !== "staff") {
+    return { success: false, error: "Unauthorized" };
+  }
+
+  await db.update(orders).set({ shareToken: null }).where(eq(orders.id, orderId));
+  revalidatePath(`/admin/orders/${orderId}`);
+  return { success: true };
+}
+
 type CreateOrderResult =
   | { success: true; orderId: string }
   | { success: false; error: string };

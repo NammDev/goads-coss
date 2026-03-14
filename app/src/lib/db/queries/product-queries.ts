@@ -44,6 +44,32 @@ export async function getProductById(id: string): Promise<Product | null> {
   return rows[0] ?? null;
 }
 
+/** Get all active products with optional customer-specific prices */
+export async function getAllProductsWithCustomerPrices(
+  customerId: string,
+): Promise<ProductWithCustomerPrice[]> {
+  const rows = await db
+    .select({
+      product: products,
+      customPrice: customerPrices,
+    })
+    .from(products)
+    .leftJoin(
+      customerPrices,
+      and(
+        eq(customerPrices.productId, products.id),
+        eq(customerPrices.customerId, customerId),
+      ),
+    )
+    .where(eq(products.isActive, true))
+    .orderBy(asc(products.type), asc(products.name));
+
+  return rows.map((r) => ({
+    ...r.product,
+    customPrice: r.customPrice ?? null,
+  }));
+}
+
 /** Get a product with optional customer-specific price */
 export async function getProductWithCustomerPrice(
   productId: string,

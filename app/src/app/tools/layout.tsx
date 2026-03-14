@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import Footer from "@/components/shadcn-studio/blocks/footer-component-02/footer-component-02"
 import { SiteHeader } from "@/components/site-header"
-import { ToolsSidebar } from "@/components/tools-sidebar";
+export { ToolPageShell } from "@/components/tool-page-shell";
 
 export default function ToolsLayout({ children }: { children: ReactNode }) {
   return (
@@ -24,17 +24,3 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
   );
 }
 
-/**
- * Wrapper for individual tool pages that includes the sidebar.
- * Used by each /tools/[slug]/page.tsx — NOT by the hub /tools/page.tsx.
- */
-export function ToolPageShell({ children }: { children: ReactNode }) {
-  return (
-    <section className="py-6 sm:py-10 lg:py-14">
-      <div className="container flex gap-8">
-        <ToolsSidebar />
-        <div className="min-w-0 flex-1">{children}</div>
-      </div>
-    </section>
-  );
-}

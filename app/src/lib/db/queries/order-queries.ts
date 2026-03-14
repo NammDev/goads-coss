@@ -126,6 +126,38 @@ export async function getOrderItemsByOrderIds(
   }));
 }
 
+/** Get a single order by share token (public — no auth required) */
+export async function getOrderByShareToken(token: string): Promise<OrderDetail | null> {
+  const orderRows = await db
+    .select({ order: orders, customerName: users.name })
+    .from(orders)
+    .leftJoin(users, eq(orders.customerId, users.id))
+    .where(eq(orders.shareToken, token));
+
+  if (!orderRows[0]) return null;
+
+  const orderId = orderRows[0].order.id;
+  const [itemRows, deliveredRows] = await Promise.all([
+    db
+      .select({ item: orderItems, productName: products.name, productType: products.type })
+      .from(orderItems)
+      .leftJoin(products, eq(orderItems.productId, products.id))
+      .where(eq(orderItems.orderId, orderId)),
+    db.select().from(deliveredItems).where(eq(deliveredItems.orderId, orderId)),
+  ]);
+
+  return {
+    ...orderRows[0].order,
+    customerName: orderRows[0].customerName ?? "Unknown",
+    items: itemRows.map((r) => ({
+      ...r.item,
+      productName: r.productName ?? "Unknown",
+      productType: r.productType ?? "other",
+    })),
+    deliveredItems: deliveredRows,
+  };
+}
+
 /** Get count of pending orders */
 export async function getPendingOrderCount(): Promise<number> {
   const [result] = await db

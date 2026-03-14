@@ -1,91 +1,92 @@
 'use client'
 
-import { DownloadIcon, ExternalLinkIcon, MessageCircleIcon } from 'lucide-react'
+import { useRef } from 'react'
+import Link from 'next/link'
+import { ArrowUpRightIcon, PuzzleIcon } from 'lucide-react'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import Logo from '@/assets/svg/logo'
+import { TOOL_CATEGORIES, getToolsByCategory, getFeaturedTools, type ToolItem } from '@/data/tools-registry'
+import { Card3D, useCard3DEffects } from '@/components/card-3d'
 
-const INSTALL_STEPS = [
-  'Download the extension file (.zip) to your computer',
-  'Open Chrome browser and go to chrome://extensions',
-  'Enable "Developer mode" in the top right corner',
-  'Drag and drop the .zip file onto the extensions page or click "Load unpacked"',
-  'The extension will appear in your toolbar, ready to use',
-]
+function PortalToolCard({ tool, index }: { tool: ToolItem; index: number }) {
+  const Icon = tool.icon
+  return (
+    <Card3D index={index} inView>
+      <Link href={`/portal/tools/${tool.slug}`} className="flex h-full flex-col justify-between">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <Icon className="text-primary size-4" />
+            <h3 className="text-sm font-semibold leading-tight">{tool.title}</h3>
+          </div>
+          <span className="text-primary shrink-0 text-lg font-bold">Free</span>
+        </div>
+        <p className="text-muted-foreground mt-2 text-xs">{tool.description}</p>
+        <div className="min-h-6" />
+        <div className="flex items-end justify-between">
+          <Logo className="size-6" />
+          <Button size="sm" variant="outline" className="cursor-pointer gap-1.5">
+            Open Tool
+            <ArrowUpRightIcon className="group-hover/card:rotate-45 size-3.5 transition-transform duration-200" />
+          </Button>
+        </div>
+      </Link>
+    </Card3D>
+  )
+}
 
 export default function PortalToolsPage() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  useCard3DEffects(containerRef)
+
+  const featured = getFeaturedTools()
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-10" ref={containerRef}>
       <div>
         <h1 className="text-2xl font-semibold">Tools</h1>
-        <p className="text-muted-foreground mt-1 text-sm">Exclusive support tools for GoAds customers</p>
+        <p className="text-muted-foreground mt-1 text-sm">Free tools for ads account management</p>
       </div>
 
-      {/* BM Invite Extension */}
-      <Card className="shadow-none">
-        <CardHeader className="pb-3">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <CardTitle className="text-lg">BM Invite Extension</CardTitle>
-              <p className="text-muted-foreground mt-1 text-sm">
-                Chrome extension that automatically accepts Business Manager invitations,
-                saving time on account setup.
-              </p>
+      {/* Popular */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold">Popular Tools</h2>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((tool, i) => (
+            <PortalToolCard key={tool.slug} tool={tool} index={i} />
+          ))}
+        </div>
+      </div>
+
+      {/* By category */}
+      {TOOL_CATEGORIES.map((cat) => {
+        const tools = getToolsByCategory(cat.id)
+        return (
+          <div key={cat.id} className="space-y-4">
+            <h2 className="text-lg font-semibold">{cat.label}</h2>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {tools.map((tool, i) => (
+                <PortalToolCard key={tool.slug} tool={tool} index={i} />
+              ))}
             </div>
-            <Badge className="bg-green-100 text-green-800 border-transparent shrink-0 dark:bg-green-900/30 dark:text-green-400">
-              Eligible
-            </Badge>
           </div>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-3">
-          <Button size="sm" className="gap-2">
-            <DownloadIcon className="size-4" />
-            Download Extension
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" asChild>
-            <a href="https://goads.vn/tools/bm-invite" target="_blank" rel="noopener noreferrer">
-              <ExternalLinkIcon className="size-4" />
-              View Guide
-            </a>
-          </Button>
-        </CardContent>
-      </Card>
+        )
+      })}
 
-      {/* Install Guide */}
-      <Card className="shadow-none">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg">Installation Guide</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ol className="space-y-3">
-            {INSTALL_STEPS.map((step, idx) => (
-              <li key={idx} className="flex gap-3 text-sm">
-                <span className="bg-primary/10 text-primary flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
-                  {idx + 1}
-                </span>
-                <span className="pt-0.5">{step}</span>
-              </li>
-            ))}
-          </ol>
-        </CardContent>
-      </Card>
-
-      {/* Note */}
-      <div className="flex items-start gap-3 rounded-lg border border-dashed p-4 text-sm">
-        <MessageCircleIcon className="text-muted-foreground mt-0.5 size-4 shrink-0" />
-        <p className="text-muted-foreground">
-          Not eligible? Contact admin via{' '}
-          <a
-            href="https://t.me/goads_support"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline"
-          >
-            Telegram
-          </a>{' '}
-          to get activation support.
-        </p>
+      {/* Extensions link */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold">Extensions</h2>
+        <Link
+          href="/portal/tools/extensions"
+          className="bg-card hover:bg-accent flex items-center gap-3 rounded-lg border p-4 transition-colors"
+        >
+          <PuzzleIcon className="text-primary size-5" />
+          <div>
+            <p className="text-sm font-medium">BM Invite Extension</p>
+            <p className="text-muted-foreground text-xs">Chrome extension for automatic BM invitation acceptance</p>
+          </div>
+          <ArrowUpRightIcon className="text-muted-foreground ml-auto size-4" />
+        </Link>
       </div>
     </div>
   )
