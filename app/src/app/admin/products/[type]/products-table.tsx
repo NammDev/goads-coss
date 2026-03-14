@@ -16,7 +16,7 @@ const USAGE_RULES = [
   'Contact support immediately if the account is restricted.',
 ]
 
-function ExpandedProductRow({ item }: { item: MockDeliveredItem }) {
+export function ExpandedProductRow({ item }: { item: MockDeliveredItem }) {
   const warrantyUntil = item.warrantyUntil ? new Date(item.warrantyUntil) : null
   const warrantyDaysLeft = warrantyUntil ? differenceInDays(warrantyUntil, new Date()) : null
   const isExpired = warrantyDaysLeft !== null && warrantyDaysLeft < 0

@@ -30,6 +30,7 @@ type NavItem = {
   href: string
   badge?: string
   items?: NavSubItem[]
+  children?: NavSubItem[]
 }
 
 type NavMainProps = {
@@ -47,10 +48,11 @@ export function NavMain({ groupLabel, items }: NavMainProps) {
     <SidebarGroup>
       {groupLabel && <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>}
       <SidebarMenu>
-        {items.map((item) =>
-          item.items?.length ? (
+        {items.map((item) => {
+          const subs = item.children ?? item.items
+          return subs?.length ? (
             <Collapsible
-              key={item.href}
+              key={item.label}
               asChild
               defaultOpen={isItemActive(item)}
               className="group/collapsible"
@@ -70,7 +72,7 @@ export function NavMain({ groupLabel, items }: NavMainProps) {
                 )}
                 <CollapsibleContent>
                   <SidebarMenuSub>
-                    {item.items.map((sub) => (
+                    {subs.map((sub) => (
                       <SidebarMenuSubItem key={sub.href}>
                         <SidebarMenuSubButton asChild isActive={pathname === sub.href} className="cursor-pointer">
                           <Link href={sub.href}>
@@ -87,7 +89,7 @@ export function NavMain({ groupLabel, items }: NavMainProps) {
               </SidebarMenuItem>
             </Collapsible>
           ) : (
-            <SidebarMenuItem key={item.href}>
+            <SidebarMenuItem key={item.label}>
               <SidebarMenuButton
                 tooltip={item.label}
                 isActive={isItemActive(item)}
@@ -105,8 +107,8 @@ export function NavMain({ groupLabel, items }: NavMainProps) {
                 </SidebarMenuBadge>
               )}
             </SidebarMenuItem>
-          ),
-        )}
+          )
+        })}
       </SidebarMenu>
     </SidebarGroup>
   )

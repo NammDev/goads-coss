@@ -5,16 +5,14 @@ import {
   WalletIcon,
   WrenchIcon,
   UserIcon,
-  ShieldIcon,
-  DatabaseIcon,
-  SettingsIcon,
+  StarIcon,
   PuzzleIcon,
 } from 'lucide-react'
 
 import type { NavItem, NavSubItem, NavGroup } from '@/data/admin-nav'
 import { productTypeLabels } from '@/data/mock-products'
 import type { ProductType } from '@/data/mock-products'
-import { TOOL_CATEGORIES, getToolsByCategory } from '@/data/tools-registry'
+import { TOOLS } from '@/data/tools-registry'
 
 /** Ordered product types for sidebar display */
 const sidebarProductTypeOrder: ProductType[] = [
@@ -40,39 +38,39 @@ function buildProductChildren(productCounts: Record<string, number>): NavSubItem
     }))
 }
 
-/** Icons for tool category nav items */
-const toolCategoryIcons: Record<string, typeof WrenchIcon> = {
-  security: ShieldIcon,
-  data: DatabaseIcon,
-  utility: SettingsIcon,
-}
-
-/** Build tool category nav items for sidebar */
+/** Build tool nav items: Popular Tools + All Tools */
 export function buildToolsNavItems(): NavItem[] {
-  const categoryItems: NavItem[] = TOOL_CATEGORIES.map((cat) => {
-    const tools = getToolsByCategory(cat.id)
-    return {
-      icon: toolCategoryIcons[cat.id] ?? WrenchIcon,
-      label: cat.label,
-      href: `/portal/tools`,
-      children: tools.map((t): NavSubItem => ({
+  const popularTools = TOOLS.filter((t) => t.featured)
+  const allTools = TOOLS
+
+  return [
+    {
+      icon: StarIcon,
+      label: 'Popular Tools',
+      href: '/portal/tools',
+      children: popularTools.map((t): NavSubItem => ({
         label: t.title,
         href: `/portal/tools/${t.slug}`,
       })),
-    }
-  })
-
-  // Extensions category
-  categoryItems.push({
-    icon: PuzzleIcon,
-    label: 'Extensions',
-    href: '/portal/tools/extensions',
-    children: [
-      { label: 'BM Invite Extension', href: '/portal/tools/extensions' },
-    ],
-  })
-
-  return categoryItems
+    },
+    {
+      icon: WrenchIcon,
+      label: 'All Tools',
+      href: '/portal/tools',
+      children: allTools.map((t): NavSubItem => ({
+        label: t.title,
+        href: `/portal/tools/${t.slug}`,
+      })),
+    },
+    {
+      icon: PuzzleIcon,
+      label: 'Extensions',
+      href: '/portal/tools/extensions',
+      children: [
+        { label: 'BM Invite Extension', href: '/portal/tools/extensions' },
+      ],
+    },
+  ]
 }
 
 /** Build portal nav items — accepts product counts from server */

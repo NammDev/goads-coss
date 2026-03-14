@@ -56,11 +56,11 @@ export default async function PortalProductTypePage({
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">{productTypeLabels[productType]}</h1>
       {items.length === 0 ? (
-        <EmptyState
-          icon={PackageIcon}
-          title="No delivered products yet"
-          description="Products will appear here once items from your orders are delivered."
-        />
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center">
+          <PackageIcon className="mb-3 size-10 text-muted-foreground/50" />
+          <p className="text-lg font-medium">No delivered products yet</p>
+          <p className="mt-1 text-sm text-muted-foreground">Products will appear here once items from your orders are delivered.</p>
+        </div>
       ) : (
         <PortalProductsTable items={items} productType={productType} />
       )}

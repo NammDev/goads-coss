@@ -1,92 +1,144 @@
 'use client'
 
-import { useState, useMemo, useRef } from 'react'
-import { ProductCard } from '@/components/product-card'
-import { useCard3DEffects } from '@/components/card-3d'
+import { useState, useMemo } from 'react'
+import { MessageCircleIcon, SearchIcon } from 'lucide-react'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { productTypeLabels } from '@/data/mock-products'
 import type { Product } from '@/components/product-catalog'
 
-/* ---------- types ---------- */
+const TELEGRAM_HANDLE = 'goads_official'
 
 interface ShopCatalogProps {
-  /** Products mapped to ProductCard shape, with _type for filtering */
   products: (Product & { _type: string })[]
-  /** Unique product types present in data (ordered) */
   productTypes: string[]
 }
 
-/* ---------- tab button ---------- */
+/** Product card styled exactly like StatsCard — same Card/CardHeader/CardFooter pattern */
+function ShopProductCard({ product }: { product: Product & { _type: string } }) {
+  const price = typeof product.price === 'number' && product.price > 0
+    ? `$${product.price.toFixed(2)}`
+    : 'Contact us'
 
-function TabButton({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean
-  onClick: () => void
-  children: React.ReactNode
-}) {
+  const typeLabel = productTypeLabels[product._type as keyof typeof productTypeLabels] ?? product._type
+  const telegramUrl = `https://t.me/${TELEGRAM_HANDLE}?text=${encodeURIComponent(`Hi, I want to buy "${product.name}" (${typeLabel}). Please help me place an order.`)}`
+
   return (
-    <button
-      onClick={onClick}
-      className={`cursor-pointer whitespace-nowrap rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors ${
-        active
-          ? 'border-primary bg-primary text-primary-foreground'
-          : 'border-border hover:border-primary/30 hover:bg-primary/10'
-      }`}
-    >
-      {children}
-    </button>
+    <Card className="@container/card flex flex-col">
+      <CardHeader className="flex-1">
+        <CardTitle className="text-base font-semibold">
+          {product.name}
+        </CardTitle>
+        <CardAction>
+          <Badge variant="outline">{price}</Badge>
+        </CardAction>
+      </CardHeader>
+      <CardFooter className="flex items-center justify-end gap-1.5">
+        <a
+          href={telegramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-muted-foreground hover:text-primary transition-colors"
+          title="Ask about this product"
+        >
+          <MessageCircleIcon className="size-5" />
+        </a>
+        <Button size="sm" className="h-7 px-3 text-xs" asChild>
+          <a href={telegramUrl} target="_blank" rel="noopener noreferrer">
+            Buy Now
+          </a>
+        </Button>
+      </CardFooter>
+    </Card>
   )
 }
 
-/* ---------- shop catalog ---------- */
-
 export function ShopCatalog({ products, productTypes }: ShopCatalogProps) {
   const [active, setActive] = useState<string>('all')
-  const containerRef = useRef<HTMLDivElement>(null)
-  useCard3DEffects(containerRef)
+  const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    if (active === 'all') return products
-    return products.filter((p) => p._type === active)
-  }, [products, active])
+    let result = products
+    if (active !== 'all') result = result.filter((p) => p._type === active)
+    if (search) {
+      const q = search.toLowerCase()
+      result = result.filter((p) =>
+        p.name.toLowerCase().includes(q) ||
+        (p.description?.toLowerCase().includes(q))
+      )
+    }
+    return result
+  }, [products, active, search])
 
   return (
-    <div ref={containerRef} className="space-y-6">
-      {/* Category filter tabs */}
-      <div className="flex flex-wrap gap-2">
-        <TabButton active={active === 'all'} onClick={() => setActive('all')}>
-          All ({products.length})
-        </TabButton>
+    <div className="space-y-6">
+      {/* Category tabs — pill style */}
+      <div className="inline-flex items-center rounded-full bg-muted/30">
+        <button
+          onClick={() => setActive('all')}
+          className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all cursor-pointer ${
+            active === 'all'
+              ? 'bg-background text-foreground shadow-sm'
+              : 'text-foreground/70 hover:text-foreground'
+          }`}
+        >
+          All
+        </button>
         {productTypes.map((type) => {
           const count = products.filter((p) => p._type === type).length
-          const label =
-            productTypeLabels[type as keyof typeof productTypeLabels] ?? type
+          const label = productTypeLabels[type as keyof typeof productTypeLabels] ?? type
           return (
-            <TabButton
+            <button
               key={type}
-              active={active === type}
               onClick={() => setActive(type)}
+              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all cursor-pointer ${
+                active === type
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-foreground/70 hover:text-foreground'
+              }`}
             >
-              {label} ({count})
-            </TabButton>
+              {label}
+            </button>
           )
         })}
       </div>
 
-      {/* Product grid */}
+      {/* Search */}
+      <div className="w-full max-w-sm">
+        <div className="relative">
+          <Input
+            className="peer pl-9 border border-input shadow-sm"
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            type="text"
+          />
+          <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50">
+            <SearchIcon size={16} />
+          </div>
+        </div>
+      </div>
+
+      {/* Product grid — 4 columns, StatsCard style with gradient */}
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">
-          <p className="text-lg font-semibold">No products available</p>
-          <p className="text-muted-foreground text-sm">
-            Check back later for new products.
-          </p>
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center">
+          <p className="text-lg font-medium">No products found</p>
+          <p className="mt-1 text-sm text-muted-foreground">Try a different category or search term.</p>
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((product, i) => (
-            <ProductCard key={product.name} product={product} index={i} />
+        <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {filtered.map((product) => (
+            <ShopProductCard key={product.name} product={product} />
           ))}
         </div>
       )}

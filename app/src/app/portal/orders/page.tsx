@@ -1,8 +1,6 @@
-import { ShoppingBagIcon } from 'lucide-react'
-
 import { requireRole } from '@/lib/auth/require-role'
 import { getOrdersByCustomerId, getOrderItemsByCustomerId } from '@/lib/db/queries'
-import { EmptyState } from '@/components/dashboard/empty-state'
+import { PortalOrdersEmptyState } from './portal-orders-empty'
 import { PortalOrdersTable } from './portal-orders-table'
 
 export default async function PortalOrdersPage() {
@@ -30,11 +28,7 @@ export default async function PortalOrdersPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Your Orders</h1>
       {orders.length === 0 ? (
-        <EmptyState
-          icon={ShoppingBagIcon}
-          title="No orders yet"
-          description="Your orders will appear here once your account manager creates one for you."
-        />
+        <PortalOrdersEmptyState />
       ) : (
         <PortalOrdersTable orders={serializedOrders} orderItems={serializedItems} />
       )}

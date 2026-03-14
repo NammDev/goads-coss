@@ -7,6 +7,7 @@ import { ExternalLinkIcon } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AdminDataTable } from '@/components/dashboard/admin-data-table'
 import { buildPortalProductColumns } from '@/components/dashboard/columns/portal-product-columns'
+import { ExpandedProductRow } from '@/app/admin/products/[type]/products-table'
 import { decrypt } from '@/lib/db/encryption'
 import { productTypeLabels } from '@/data/mock-products'
 import type { DeliveredItem } from '@/lib/db/queries/order-queries'
@@ -70,21 +71,14 @@ export function OrderDetailDelivered({ items, toolbar }: Props) {
     const rows = grouped.get(type)!
     return (
       <div className="space-y-2">
-        <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Delivered Items</h2>
-        <Link
-          href="/admin/products"
-          className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          View all products <ExternalLinkIcon className="size-3.5" />
-        </Link>
-      </div>
         <AdminDataTable
           data={rows}
           columns={buildPortalProductColumns(type)}
-          searchPlaceholder="Search delivered items..."
+          searchPlaceholder="Search by UID, BM ID, email, credentials..."
           pageSize={10}
           toolbar={toolbar}
+          renderExpandedRow={(item) => <ExpandedProductRow item={item} />}
         />
       </div>
     )
@@ -92,15 +86,7 @@ export function OrderDetailDelivered({ items, toolbar }: Props) {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Delivered Items</h2>
-        <Link
-          href="/admin/products"
-          className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          View all products <ExternalLinkIcon className="size-3.5" />
-        </Link>
-      </div>
+      <h2 className="text-lg font-semibold">Delivered Items</h2>
       <Tabs defaultValue={types[0]}>
         <TabsList className="bg-muted/30 !p-0 rounded-full !h-10">
           {types.map((type) => (
