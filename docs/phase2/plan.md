@@ -61,10 +61,11 @@ Phase 3: [██ E2E testing ██]
 
 | # | Task | Priority | Status | Description |
 |---|------|----------|--------|-------------|
-| 6 | Dashboard performance | High | ⏳ | Giảm latency dashboard routes (2s→500ms): parallel queries, loading.tsx, prefetch, client cache |
-| 2 | drizzle-kit push fix | High | ⏳ | Fix bug CHECK constraint trong drizzle-kit để push schema không cần SQL thủ công |
-| 11 | Admin finance page | Medium | ⏳ | Wire real revenue/stats queries to admin finance page |
-| 12 | Admin settings page | Medium | ⏳ | Wire real settings CRUD to admin settings page |
+| 6 | Dashboard performance | High | ✅ | Parallel queries, loading.tsx skeletons, auth cache(). All routes < 100ms DB time. See `plans/260313-1805-dashboard-performance/` |
+| 2 | drizzle-kit push fix | High | ⚠️ Upstream | Root cause: Supabase auth/realtime CHECK constraints crash drizzle-kit parser (v0.31.9 bug). Added `schemaFilter: ["public"]` as best practice. Workaround: use `generate` + `migrate` instead of `push` |
+| 11 | Admin finance page | Medium | ✅ | Real revenue by product type, top customers, order status breakdown, 3 charts (bar/donut/area). See `plans/260313-1843-admin-finance/` |
+| 12 | ~~Admin settings page~~ | Medium | ➡️ Phase 3 | Deferred — depends on Telegram bot (3B) + notification system (Phase 4) |
+| NEW | Perf measurement & audit | Medium | ✅ | Measured all 21 routes, all DB queries < 100ms. Added missing loading.tsx for products routes. See `plans/260314-dashboard-perf-measurement/` |
 
 **File ownership:** `loading.tsx` files, `page.tsx` query optimization, `drizzle.config.ts`, `admin/finance/*`, `admin/settings/*`
 
@@ -105,9 +106,10 @@ All WTs merged  ──BLOCKS──→ Task 9 (E2E runs last)
 - Portal: no product catalog in dashboard (customer can't browse, must go to marketing site)
 - Portal: profile page incomplete
 - Portal: tools page not wired
-- Admin: finance + settings pages empty
+- ~~Admin: finance page empty~~ ✅ Done — real queries + data tables
+- Admin: settings page — deferred to Phase 3
 - UX: no toast notifications on actions
-- DX: drizzle-kit CHECK constraint bug blocking schema push
-- Performance: dashboard routes lag 1-2s do sequential DB queries + auth check mỗi navigation
+- ~~DX: drizzle-kit CHECK constraint bug~~ ⚠️ Upstream bug — workaround: `generate` + `migrate` instead of `push`
+- ~~Performance: dashboard routes lag 1-2s~~ ✅ Done — all routes < 100ms DB, parallel queries, loading skeletons, auth dedup, perf audit complete
 - Portal: no search across portal routes/content
 - Portal: no public share links (customer phải login mới xem được)

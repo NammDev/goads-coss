@@ -126,6 +126,24 @@ export async function getOrderItemsByOrderIds(
   }));
 }
 
+/** Get order items with product info for a customer (via JOIN, no sequential fetch) */
+export async function getOrderItemsByCustomerId(
+  customerId: string,
+): Promise<OrderItemWithProduct[]> {
+  const rows = await db
+    .select({ item: orderItems, productName: products.name, productType: products.type })
+    .from(orderItems)
+    .innerJoin(orders, eq(orderItems.orderId, orders.id))
+    .innerJoin(products, eq(orderItems.productId, products.id))
+    .where(eq(orders.customerId, customerId));
+
+  return rows.map((r) => ({
+    ...r.item,
+    productName: r.productName ?? "Unknown",
+    productType: r.productType ?? "other",
+  }));
+}
+
 /** Get count of pending orders */
 export async function getPendingOrderCount(): Promise<number> {
   const [result] = await db

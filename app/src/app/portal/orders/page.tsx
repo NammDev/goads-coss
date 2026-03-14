@@ -1,11 +1,13 @@
 import { requireRole } from '@/lib/auth/require-role'
-import { getOrdersByCustomerId, getOrderItemsByOrderIds } from '@/lib/db/queries'
+import { getOrdersByCustomerId, getOrderItemsByCustomerId } from '@/lib/db/queries'
 import { PortalOrdersTable } from './portal-orders-table'
 
 export default async function PortalOrdersPage() {
   const session = await requireRole('customer')
-  const orders = await getOrdersByCustomerId(session.user.id)
-  const orderItems = await getOrderItemsByOrderIds(orders.map((o) => o.id))
+  const [orders, orderItems] = await Promise.all([
+    getOrdersByCustomerId(session.user.id),
+    getOrderItemsByCustomerId(session.user.id),
+  ])
 
   // Serialize dates for client component
   const serializedOrders = orders.map((o) => ({

@@ -1,4 +1,4 @@
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, getTableColumns } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { deliveredItems, orders } from "@/lib/db/schema";
 import type { InferSelectModel } from "drizzle-orm";
@@ -16,27 +16,15 @@ export async function getDeliveredItemsByOrderId(
     .where(eq(deliveredItems.orderId, orderId));
 }
 
-/** Get all delivered items for a customer (through their orders) */
+/** Get all delivered items for a customer (single JOIN query, no N+1) */
 export async function getDeliveredItemsByCustomerId(
   customerId: string,
 ): Promise<DeliveredItem[]> {
-  const customerOrders = await db
-    .select({ id: orders.id })
-    .from(orders)
+  return db
+    .select(getTableColumns(deliveredItems))
+    .from(deliveredItems)
+    .innerJoin(orders, eq(deliveredItems.orderId, orders.id))
     .where(eq(orders.customerId, customerId));
-
-  if (customerOrders.length === 0) return [];
-
-  const results: DeliveredItem[] = [];
-  for (const order of customerOrders) {
-    const items = await db
-      .select()
-      .from(deliveredItems)
-      .where(eq(deliveredItems.orderId, order.id));
-    results.push(...items);
-  }
-
-  return results;
 }
 
 /** Get delivered items for a customer filtered by product type */

@@ -1,7 +1,11 @@
+import { cache } from 'react'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 
 type Role = 'super_admin' | 'staff' | 'customer'
+
+/** Dedup currentUser() per request — layout AND page both call requireRole() */
+const getCachedUser = cache(async () => currentUser())
 
 /**
  * Server-side role guard — use in layout.tsx or page.tsx (server components only).
@@ -15,7 +19,7 @@ export async function requireRole(...allowedRoles: Role[]) {
     redirect('/sign-in')
   }
 
-  const user = await currentUser()
+  const user = await getCachedUser()
   if (!user) redirect('/sign-in')
 
   const role = (user.publicMetadata.role as Role) ?? 'customer'

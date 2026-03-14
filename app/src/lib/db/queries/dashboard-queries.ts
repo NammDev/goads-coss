@@ -1,4 +1,4 @@
-import { eq, count, sum, inArray } from "drizzle-orm";
+import { eq, count, sum, and } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { orders, users, products, deliveredItems } from "@/lib/db/schema";
 
@@ -50,16 +50,9 @@ export async function getAdminStats(): Promise<AdminStats> {
   };
 }
 
-/** Aggregate stats for a customer's portal dashboard */
+/** Aggregate stats for a customer's portal dashboard — single parallel round */
 export async function getPortalStats(customerId: string): Promise<PortalStats> {
-  const customerOrders = await db
-    .select({ id: orders.id })
-    .from(orders)
-    .where(eq(orders.customerId, customerId));
-
-  const orderIds = customerOrders.map((o) => o.id);
-
-  const [orderTotals, pendingCount] = await Promise.all([
+  const [orderTotals, pendingCount, activeCount] = await Promise.all([
     db
       .select({ totalOrders: count(), totalSpent: sum(orders.totalAmount) })
       .from(orders)
@@ -67,24 +60,20 @@ export async function getPortalStats(customerId: string): Promise<PortalStats> {
     db
       .select({ pendingOrders: count() })
       .from(orders)
-      .where(eq(orders.customerId, customerId)),
-  ]);
-
-  let activeItems = 0;
-  if (orderIds.length > 0) {
-    const [activeCount] = await db
+      .where(
+        and(eq(orders.customerId, customerId), eq(orders.status, "pending")),
+      ),
+    db
       .select({ activeItems: count() })
       .from(deliveredItems)
-      .where(
-        inArray(deliveredItems.orderId, orderIds),
-      );
-    activeItems = activeCount?.activeItems ?? 0;
-  }
+      .innerJoin(orders, eq(deliveredItems.orderId, orders.id))
+      .where(eq(orders.customerId, customerId)),
+  ]);
 
   return {
     totalOrders: orderTotals[0]?.totalOrders ?? 0,
     totalSpent: orderTotals[0]?.totalSpent ?? "0",
-    activeItems,
+    activeItems: activeCount[0]?.activeItems ?? 0,
     pendingOrders: pendingCount[0]?.pendingOrders ?? 0,
   };
 }
