@@ -1,9 +1,19 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
+import { EllipsisVerticalIcon } from 'lucide-react'
 import type { ColumnDef } from '@tanstack/react-table'
 
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { formatUSD } from '@/lib/format-currency'
 import type { OrderWithCustomer } from '@/lib/db/queries'
@@ -22,6 +32,7 @@ export const adminOrderColumns: ColumnDef<OrderWithCustomer, unknown>[] = [
       </Link>
     ),
     enableSorting: false,
+    enableHiding: false,
   },
   {
     accessorKey: 'customerName',
@@ -49,7 +60,41 @@ export const adminOrderColumns: ColumnDef<OrderWithCustomer, unknown>[] = [
       </span>
     ),
   },
+  {
+    id: 'actions',
+    cell: ({ row }) => <AdminOrderRowActions orderId={row.original.id} />,
+    enableSorting: false,
+    enableHiding: false,
+  },
 ]
+
+function AdminOrderRowActions({ orderId }: { orderId: string }) {
+  const router = useRouter()
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="data-[state=open]:bg-muted text-muted-foreground size-8 cursor-pointer"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <EllipsisVerticalIcon size={16} />
+          <span className="sr-only">Open menu</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-36">
+        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); router.push(`/admin/orders/${orderId}`) }}>
+          View
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); router.push(`/admin/orders/${orderId}`) }}>
+          Edit Status
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 /** Expanded row: order notes (items loaded on detail page) */
 export function AdminOrderExpandedRow({ order }: { order: OrderWithCustomer }) {

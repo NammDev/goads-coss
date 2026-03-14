@@ -1,12 +1,18 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
+import { EllipsisVerticalIcon } from 'lucide-react'
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { StatusBadge } from '@/components/dashboard/status-badge'
-import type { OrderStatus } from '@/data/mock-orders'
-import { formatUSD } from '@/lib/format-currency'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import {
   Table,
   TableBody,
@@ -15,6 +21,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { StatusBadge } from '@/components/dashboard/status-badge'
+import type { OrderStatus } from '@/data/mock-orders'
+import { formatUSD } from '@/lib/format-currency'
 
 /** Serialized order from server (dates as ISO strings) */
 export type SerializedOrder = {
@@ -58,6 +67,7 @@ export const portalOrderColumns: ColumnDef<SerializedOrder, unknown>[] = [
       </Link>
     ),
     enableSorting: false,
+    enableHiding: false,
   },
   {
     accessorKey: 'totalAmount',
@@ -79,7 +89,37 @@ export const portalOrderColumns: ColumnDef<SerializedOrder, unknown>[] = [
       </span>
     ),
   },
+  {
+    id: 'actions',
+    cell: ({ row }) => <PortalOrderRowActions orderId={row.original.id} />,
+    enableSorting: false,
+    enableHiding: false,
+  },
 ]
+
+function PortalOrderRowActions({ orderId }: { orderId: string }) {
+  const router = useRouter()
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="data-[state=open]:bg-muted text-muted-foreground size-8 cursor-pointer"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <EllipsisVerticalIcon size={16} />
+          <span className="sr-only">Open menu</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-36">
+        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); router.push(`/portal/orders/${orderId}`) }}>
+          View Detail
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 /** Expanded row showing order items sub-table */
 export function PortalOrderExpandedRow({

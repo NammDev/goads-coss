@@ -1,14 +1,16 @@
 'use client'
 
 import { Fragment, type ReactNode, useId, useMemo, useState } from 'react'
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-  SearchIcon,
-} from 'lucide-react'
-import type { Column, ColumnDef, ColumnFiltersState, PaginationState, RowData, SortingState } from '@tanstack/react-table'
+import { ChevronDownIcon, ChevronUpIcon, SearchIcon } from 'lucide-react'
+import type {
+  Column,
+  ColumnDef,
+  ColumnFiltersState,
+  PaginationState,
+  RowData,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/react-table'
 import {
   flexRender,
   getCoreRowModel,
@@ -22,15 +24,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-} from '@/components/ui/pagination'
 import {
   Select,
   SelectContent,
@@ -46,7 +41,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { usePagination } from '@/hooks/use-pagination'
+import { TableColumnToggle } from '@/components/dashboard/table-column-toggle'
+import { TablePagination } from '@/components/dashboard/table-pagination'
 import { cn } from '@/lib/utils'
 
 declare module '@tanstack/react-table' {
@@ -69,13 +65,13 @@ type AdminDataTableProps<T> = {
   toolbar?: ReactNode
   /** Custom empty state rendered when table has no data */
   emptyState?: ReactNode
-  /** Page-size options for the "Show" dropdown (default: [5, 10, 25, 50]) */
+  /** Page-size options for the rows-per-page selector (default: [5, 10, 25, 50]) */
   pageSizeOptions?: number[]
   /** Column IDs to render per-column filter UI for (uses column meta.filterVariant) */
   filterColumns?: string[]
 }
 
-/** Reusable admin datatable matching DT5 invoice layout */
+/** Reusable admin datatable with column visibility, template-style pagination, and row actions */
 export function AdminDataTable<T>({
   data,
   columns,
@@ -91,6 +87,7 @@ export function AdminDataTable<T>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize,
@@ -99,10 +96,11 @@ export function AdminDataTable<T>({
   const table = useReactTable({
     data,
     columns,
-    state: { sorting, globalFilter, columnFilters, pagination },
+    state: { sorting, globalFilter, columnFilters, columnVisibility, pagination },
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -116,44 +114,16 @@ export function AdminDataTable<T>({
     getRowCanExpand: renderExpandedRow ? () => true : undefined,
   })
 
-  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
-    currentPage: table.getState().pagination.pageIndex + 1,
-    totalPages: table.getPageCount(),
-    paginationItemsToDisplay: 2,
-  })
-
   return (
     <div className="w-full">
       {/* Toolbar + Table in single bordered container */}
       <div className="border-b">
-        {/* Toolbar row — matches DT5 layout */}
-        <div className="flex gap-6 p-6 max-lg:flex-col lg:items-center lg:justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Label className="text-muted-foreground text-base font-normal max-sm:sr-only">
-                Show
-              </Label>
-              <Select
-                value={table.getState().pagination.pageSize.toString()}
-                onValueChange={(value) => table.setPageSize(Number(value))}
-              >
-                <SelectTrigger className="w-fit whitespace-nowrap">
-                  <SelectValue placeholder="Select number of results" />
-                </SelectTrigger>
-                <SelectContent className="[&_*[role=option]]:pr-8 [&_*[role=option]]:pl-2 [&_*[role=option]>span]:right-2 [&_*[role=option]>span]:left-auto">
-                  {pageSizeOptions.map((size) => (
-                    <SelectItem key={size} value={size.toString()}>
-                      {size}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            {toolbar}
-          </div>
-          <div className="flex flex-1 flex-wrap items-center gap-4 lg:justify-end">
+        {/* Toolbar: search+filters left, column toggle right */}
+        <div className="flex gap-3 p-4 max-lg:flex-col lg:items-center lg:justify-between">
+          {/* Left side: search + per-column filters + extra toolbar */}
+          <div className="flex flex-1 flex-wrap items-center gap-3">
             {/* Search input */}
-            <div className="w-full max-w-2xs">
+            <div className="w-full max-w-xs">
               <div className="relative">
                 <Input
                   className="peer pl-9"
@@ -181,6 +151,12 @@ export function AdminDataTable<T>({
               const col = table.getColumn(colId)
               return col ? <ColumnFilter key={colId} column={col} /> : null
             })}
+            {toolbar}
+          </div>
+
+          {/* Right side: Customize Columns */}
+          <div className="flex items-center gap-2">
+            <TableColumnToggle table={table} />
           </div>
         </div>
 
@@ -264,84 +240,8 @@ export function AdminDataTable<T>({
         </Table>
       </div>
 
-      {/* Pagination — always visible */}
-      <div className="flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col md:max-lg:flex-col">
-        <p className="text-muted-foreground text-sm whitespace-nowrap" aria-live="polite">
-          Showing{' '}
-          <span>
-            {table.getRowCount() === 0
-              ? 0
-              : table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}{' '}
-            to{' '}
-            {Math.min(
-              Math.max(
-                table.getState().pagination.pageIndex * table.getState().pagination.pageSize +
-                  table.getState().pagination.pageSize,
-                0
-              ),
-              table.getRowCount()
-            )}
-          </span>{' '}
-          of <span>{table.getRowCount()} entries</span>
-        </p>
-        {table.getPageCount() > 1 && (
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <Button
-                  variant="ghost"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label="Go to previous page"
-                >
-                  <ChevronLeftIcon aria-hidden="true" />
-                  Previous
-                </Button>
-              </PaginationItem>
-              {showLeftEllipsis && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-              {pages.map((page) => {
-                const isActive = page === table.getState().pagination.pageIndex + 1
-                return (
-                  <PaginationItem key={page}>
-                    <Button
-                      size="icon"
-                      className={cn(
-                        !isActive && 'bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40'
-                      )}
-                      onClick={() => table.setPageIndex(page - 1)}
-                      aria-current={isActive ? 'page' : undefined}
-                    >
-                      {page}
-                    </Button>
-                  </PaginationItem>
-                )
-              })}
-              {showRightEllipsis && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-              <PaginationItem>
-                <Button
-                  variant="ghost"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label="Go to next page"
-                >
-                  Next
-                  <ChevronRightIcon aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        )}
-      </div>
+      {/* Template-style pagination */}
+      <TablePagination table={table} pageSizeOptions={pageSizeOptions} />
     </div>
   )
 }

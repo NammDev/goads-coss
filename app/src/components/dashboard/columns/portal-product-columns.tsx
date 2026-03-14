@@ -1,8 +1,18 @@
 'use client'
 
 import { format } from 'date-fns'
+import { EllipsisVerticalIcon, CopyIcon } from 'lucide-react'
 import type { ColumnDef } from '@tanstack/react-table'
+
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { CopyableCell } from '@/components/dashboard/copyable-cell'
 import type { MockDeliveredItem, DeliveredItemStatus } from '@/data/mock-delivered-items'
 import { getProductNameForItem } from '@/data/mock-delivered-items'
@@ -81,5 +91,55 @@ export function buildPortalProductColumns(
     })
   )
 
-  return [...common, ...dynamic]
+  const actions: ColumnDef<MockDeliveredItem, unknown> = {
+    id: 'actions',
+    cell: ({ row }) => <ProductRowActions item={row.original} />,
+    enableSorting: false,
+    enableHiding: false,
+  }
+
+  return [...common, ...dynamic, actions]
+}
+
+function ProductRowActions({ item }: { item: MockDeliveredItem }) {
+  const credentialText = item.credentials
+    ? Object.entries(item.credentials)
+        .map(([k, v]) => `${k}: ${v}`)
+        .join('\n')
+    : ''
+
+  function copyCredentials() {
+    if (credentialText) {
+      navigator.clipboard.writeText(credentialText).catch(() => {})
+    }
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="data-[state=open]:bg-muted text-muted-foreground size-8 cursor-pointer"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <EllipsisVerticalIcon size={16} />
+          <span className="sr-only">Open menu</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-40">
+        <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
+          View
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={(e) => { e.stopPropagation(); copyCredentials() }}
+          disabled={!credentialText}
+        >
+          <CopyIcon size={14} />
+          Copy Credentials
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
 }

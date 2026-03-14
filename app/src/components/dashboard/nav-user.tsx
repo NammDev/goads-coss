@@ -2,7 +2,7 @@
 
 import { EllipsisVertical, LogOut, UserIcon } from 'lucide-react'
 import Link from 'next/link'
-import { useClerk } from '@clerk/nextjs'
+import { SignOutButton } from '@clerk/nextjs'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
@@ -32,8 +32,6 @@ type NavUserProps = {
 
 export function NavUser({ user, profileHref = '/portal/profile' }: NavUserProps) {
   const { isMobile } = useSidebar()
-  const { signOut } = useClerk()
-
   const initials = user.name.slice(0, 2).toUpperCase()
 
   return (
@@ -82,13 +80,12 @@ export function NavUser({ user, profileHref = '/portal/profile' }: NavUserProps)
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => signOut({ redirectUrl: '/sign-in' })}
-            >
-              <LogOut />
-              Sign out
-            </DropdownMenuItem>
+            <SignOutButton redirectUrl="/sign-in">
+              <DropdownMenuItem className="cursor-pointer">
+                <LogOut />
+                Sign out
+              </DropdownMenuItem>
+            </SignOutButton>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
