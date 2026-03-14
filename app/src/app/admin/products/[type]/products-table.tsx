@@ -99,9 +99,10 @@ function ExpandedProductRow({ item }: { item: MockDeliveredItem }) {
 interface AdminProductsTableProps {
   items: MockDeliveredItem[]
   productType: ProductType
+  toolbar?: React.ReactNode
 }
 
-export function AdminProductsTable({ items, productType }: AdminProductsTableProps) {
+export function AdminProductsTable({ items, productType, toolbar }: AdminProductsTableProps) {
   return (
     <AdminDataTable
       data={items}
@@ -109,6 +110,7 @@ export function AdminProductsTable({ items, productType }: AdminProductsTablePro
       renderExpandedRow={(item) => <ExpandedProductRow item={item} />}
       searchPlaceholder={`Search ${productTypeLabels[productType]}...`}
       pageSize={20}
+      toolbar={toolbar}
     />
   )
 }

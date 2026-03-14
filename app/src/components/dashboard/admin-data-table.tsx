@@ -116,17 +116,16 @@ export function AdminDataTable<T>({
 
   return (
     <div className="w-full">
-      {/* Toolbar + Table in single bordered container */}
-      <div className="border-b">
-        {/* Toolbar: search+filters left, column toggle right */}
-        <div className="flex gap-3 p-4 max-lg:flex-col lg:items-center lg:justify-between">
-          {/* Left side: search + per-column filters + extra toolbar */}
+      {/* Toolbar (outside border) */}
+      <div>
+        <div className="flex gap-3 pb-4 max-lg:flex-col lg:items-center lg:justify-between">
+          {/* Left side: search + per-column filters */}
           <div className="flex flex-1 flex-wrap items-center gap-3">
             {/* Search input */}
             <div className="w-full max-w-xs">
               <div className="relative">
                 <Input
-                  className="peer pl-9"
+                  className="peer pl-9 border border-input shadow-sm"
                   placeholder={searchPlaceholder}
                   value={
                     searchColumn
@@ -151,20 +150,22 @@ export function AdminDataTable<T>({
               const col = table.getColumn(colId)
               return col ? <ColumnFilter key={colId} column={col} /> : null
             })}
-            {toolbar}
           </div>
 
-          {/* Right side: Customize Columns */}
+          {/* Right side: Customize Columns + action buttons */}
           <div className="flex items-center gap-2">
             <TableColumnToggle table={table} />
+            {toolbar}
           </div>
         </div>
+      </div>
 
-        {/* Table */}
+      {/* Table in rounded bordered container */}
+      <div className="overflow-hidden rounded-lg border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="h-14 border-t">
+              <TableRow key={headerGroup.id} className="h-12 border-y bg-muted/50">
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}

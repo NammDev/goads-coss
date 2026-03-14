@@ -22,7 +22,7 @@ export function CustomerInsights() {
       </CardHeader>
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-muted/50 p-1 rounded-full h-12">
+          <TabsList className="grid w-full grid-cols-3 bg-muted/30 !p-0 rounded-full !h-10">
             <TabsTrigger
               value="growth"
               className="cursor-pointer flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium !text-foreground/70 transition-all data-[state=active]:!bg-background data-[state=active]:shadow-sm data-[state=active]:!text-foreground"

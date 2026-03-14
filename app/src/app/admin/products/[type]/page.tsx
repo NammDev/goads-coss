@@ -47,22 +47,25 @@ export default async function AdminProductTypePage({ params }: { params: Promise
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold">{productTypeLabels[productType]}</h1>
-          <Badge variant="secondary">{items.length} items</Badge>
-        </div>
-        <Button asChild>
-          <Link href="/admin/products/new">
-            <PlusIcon className="mr-1 size-4" />
-            New Product
-          </Link>
-        </Button>
+      <div className="flex items-center gap-3">
+        <h1 className="text-2xl font-semibold">{productTypeLabels[productType]}</h1>
+        <Badge variant="secondary">{items.length} items</Badge>
       </div>
       {items.length === 0 ? (
         <p className="text-muted-foreground">No delivered items in this category yet.</p>
       ) : (
-        <AdminProductsTable items={items} productType={productType} />
+        <AdminProductsTable
+          items={items}
+          productType={productType}
+          toolbar={
+            <Button asChild size="sm">
+              <Link href="/admin/products/new">
+                <PlusIcon className="mr-1 size-4" />
+                New Product
+              </Link>
+            </Button>
+          }
+        />
       )}
     </div>
   )
