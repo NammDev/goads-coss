@@ -190,7 +190,7 @@ export async function createOrder(formData: FormData): Promise<CreateOrderResult
       type: "order_created",
       title: "New order created",
       message: `Order #${orderId.slice(-6)} has been created and paid.`,
-      linkUrl: "/portal/orders",
+      linkUrl: `/portal/orders/${orderId}`,
     }).catch(() => {});
 
     return { success: true, orderId };

@@ -42,7 +42,7 @@ export function DeliverDialog({ orderId, orderItemId, productType, productName }
     startTransition(async () => {
       const result = await deliverOrderItem(formData);
       if (!result.success) {
-        toast.error(result.error);
+        toast.error(`Delivery failed: ${result.error}`);
         return;
       }
       toast.success("Item delivered successfully");

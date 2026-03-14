@@ -25,6 +25,7 @@ export type NavItem = {
   href: string
   badge?: string
   children?: NavSubItem[]
+  alwaysOpen?: boolean
 }
 
 export type NavGroup = {

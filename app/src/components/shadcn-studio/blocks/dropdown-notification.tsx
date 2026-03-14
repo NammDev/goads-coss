@@ -11,6 +11,7 @@ import {
   InfoIcon,
 } from "lucide-react";
 
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -74,7 +75,11 @@ const NotificationDropdown = ({
 
   const handleMarkAllRead = () => {
     startTransition(async () => {
-      await markAllRead();
+      const result = await markAllRead();
+      if (result?.error) {
+        toast.error(result.error);
+        return;
+      }
       setItems((prev) => prev.map((n) => ({ ...n, read: true })));
       setUnread(0);
       router.refresh();
@@ -86,7 +91,11 @@ const NotificationDropdown = ({
       const fd = new FormData();
       fd.set("notificationId", notification.id);
       startTransition(async () => {
-        await markRead(fd);
+        const result = await markRead(fd);
+        if (result?.error) {
+          toast.error(result.error);
+          return;
+        }
         setItems((prev) =>
           prev.map((n) => (n.id === notification.id ? { ...n, read: true } : n))
         );

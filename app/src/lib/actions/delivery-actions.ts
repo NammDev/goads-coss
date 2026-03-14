@@ -144,7 +144,7 @@ export async function deliverOrderItem(formData: FormData): Promise<DeliverResul
         type: "item_delivered",
         title: "Item delivered",
         message: `An item for order #${orderId.slice(-6)} has been delivered.`,
-        linkUrl: "/portal/products",
+        linkUrl: `/portal/orders/${orderId}`,
       }).catch(() => {});
     }
 

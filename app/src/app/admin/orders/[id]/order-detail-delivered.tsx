@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import Link from 'next/link'
 import { ExternalLinkIcon } from 'lucide-react'
 
+import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AdminDataTable } from '@/components/dashboard/admin-data-table'
 import { buildPortalProductColumns } from '@/components/dashboard/columns/portal-product-columns'
@@ -70,14 +71,11 @@ export function OrderDetailDelivered({ items, toolbar }: Props) {
     <div className="space-y-2">
       <h2 className="text-lg font-semibold">Delivered Items</h2>
       <Tabs defaultValue={types[0]}>
-        <TabsList className="bg-muted/30 !p-0 rounded-full !h-10">
+        <TabsList className="h-9 w-fit">
           {types.map((type) => (
-            <TabsTrigger
-              key={type}
-              value={type}
-              className="cursor-pointer rounded-full px-4 py-2 text-sm font-medium !text-foreground/70 transition-all data-[state=active]:!bg-background data-[state=active]:shadow-sm data-[state=active]:!text-foreground"
-            >
-              {productTypeLabels[type] ?? type} ({grouped.get(type)!.length})
+            <TabsTrigger key={type} value={type} className="cursor-pointer">
+              {productTypeLabels[type] ?? type}
+              <Badge variant="secondary">{grouped.get(type)!.length}</Badge>
             </TabsTrigger>
           ))}
         </TabsList>

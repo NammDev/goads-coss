@@ -22,25 +22,16 @@ export function CustomerInsights() {
       </CardHeader>
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-muted/30 !p-0 rounded-full !h-10">
-            <TabsTrigger
-              value="growth"
-              className="cursor-pointer flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium !text-foreground/70 transition-all data-[state=active]:!bg-background data-[state=active]:shadow-sm data-[state=active]:!text-foreground"
-            >
+          <TabsList className="h-9 w-fit">
+            <TabsTrigger value="growth" className="cursor-pointer">
               <TrendingUp className="h-4 w-4" />
               Growth
             </TabsTrigger>
-            <TabsTrigger
-              value="demographics"
-              className="cursor-pointer flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium !text-foreground/70 transition-all data-[state=active]:!bg-background data-[state=active]:shadow-sm data-[state=active]:!text-foreground"
-            >
+            <TabsTrigger value="demographics" className="cursor-pointer">
               <UserIcon className="h-4 w-4" />
               Demographics
             </TabsTrigger>
-            <TabsTrigger
-              value="regions"
-              className="cursor-pointer flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium !text-foreground/70 transition-all data-[state=active]:!bg-background data-[state=active]:shadow-sm data-[state=active]:!text-foreground"
-            >
+            <TabsTrigger value="regions" className="cursor-pointer">
               <MapPin className="h-4 w-4" />
               Regions
             </TabsTrigger>

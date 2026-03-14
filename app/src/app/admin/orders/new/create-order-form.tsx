@@ -69,7 +69,16 @@ export function CreateOrderForm({ customers, products }: Props) {
     startTransition(async () => {
       const result = await createOrder(formData);
       if (!result.success) {
-        toast.error(result.error);
+        // Reformat insufficient balance error with actionable guidance
+        if (result.error.startsWith("Insufficient balance")) {
+          const availableMatch = result.error.match(/available: \$([0-9.]+)/);
+          const available = availableMatch ? availableMatch[1] : selectedCustomer?.balance ?? "0.00";
+          toast.error(
+            `Insufficient balance. Current: $${parseFloat(available).toFixed(2)}. Please contact your account manager to top up.`
+          );
+        } else {
+          toast.error(result.error);
+        }
         return;
       }
       toast.success("Order created successfully");

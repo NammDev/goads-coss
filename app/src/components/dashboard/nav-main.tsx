@@ -88,7 +88,7 @@ export function NavMain({ groupLabel, items }: NavMainProps) {
             >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.label} isActive={subs.some((sub) => pathname === sub.href)} className="cursor-pointer">
+                  <SidebarMenuButton tooltip={item.label} className="cursor-pointer">
                     <item.icon />
                     <span>{item.label}</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />

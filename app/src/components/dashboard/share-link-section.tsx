@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { CopyIcon, CheckIcon, LinkIcon, RefreshCwIcon, Trash2Icon } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -32,7 +33,12 @@ export function ShareLinkSection({ orderId, shareToken }: Props) {
 
   function handleGenerate() {
     startTransition(async () => {
-      await generateShareToken(orderId)
+      const result = await generateShareToken(orderId)
+      if (result.error) {
+        toast.error(result.error)
+        return
+      }
+      toast.success('Share link generated')
       router.refresh()
     })
   }
@@ -40,7 +46,12 @@ export function ShareLinkSection({ orderId, shareToken }: Props) {
   function handleRevoke() {
     if (!confirm('Revoke share link? Anyone with the current link will lose access.')) return
     startTransition(async () => {
-      await revokeShareToken(orderId)
+      const result = await revokeShareToken(orderId)
+      if (result.error) {
+        toast.error(result.error)
+        return
+      }
+      toast.success('Share link revoked')
       router.refresh()
     })
   }
@@ -48,7 +59,12 @@ export function ShareLinkSection({ orderId, shareToken }: Props) {
   function handleRegenerate() {
     if (!confirm('Regenerate share link? The old link will stop working.')) return
     startTransition(async () => {
-      await generateShareToken(orderId)
+      const result = await generateShareToken(orderId)
+      if (result.error) {
+        toast.error(result.error)
+        return
+      }
+      toast.success('Share link regenerated')
       router.refresh()
     })
   }

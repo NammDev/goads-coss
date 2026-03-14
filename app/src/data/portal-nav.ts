@@ -45,6 +45,15 @@ export function buildToolsNavItems(): NavItem[] {
 
   return [
     {
+      icon: PuzzleIcon,
+      label: 'Extensions',
+      href: '/portal/tools/extensions',
+      alwaysOpen: true,
+      children: [
+        { label: 'BM Invite Extension', href: '/portal/tools/extensions' },
+      ],
+    },
+    {
       icon: StarIcon,
       label: 'Popular Tools',
       href: '/portal/tools',
@@ -57,19 +66,13 @@ export function buildToolsNavItems(): NavItem[] {
     {
       icon: WrenchIcon,
       label: 'All Tools',
-      href: '/portal/tools',
-      children: allTools.map((t): NavSubItem => ({
-        label: t.title,
-        href: `/portal/tools/${t.slug}`,
-      })),
-    },
-    {
-      icon: PuzzleIcon,
-      label: 'Extensions',
-      href: '/portal/tools/extensions',
-      children: [
-        { label: 'BM Invite Extension', href: '/portal/tools/extensions' },
-      ],
+      href: '#all-tools',
+      children: allTools
+        .filter((t) => !t.featured)
+        .map((t): NavSubItem => ({
+          label: t.title,
+          href: `/portal/tools/${t.slug}`,
+        })),
     },
   ]
 }
