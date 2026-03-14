@@ -1,15 +1,16 @@
 'use client'
 
-import { SidebarProvider } from '@/components/ui/sidebar'
-import { DashboardSidebar } from '@/components/dashboard/dashboard-sidebar'
-import { DashboardHeader } from '@/components/dashboard/dashboard-header'
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/dashboard/app-sidebar'
+import { SiteHeader } from '@/components/dashboard/site-header'
+import { SiteFooter } from '@/components/dashboard/site-footer'
 import { MobileWarning } from '@/components/dashboard/mobile-warning'
 import { buildAdminNavGroups } from '@/data/admin-nav'
-
-import type { SerializedNotification } from '@/components/dashboard/dashboard-header'
+import type { SerializedNotification } from '@/components/dashboard/site-header'
 
 interface AdminShellProps {
   userName: string
+  userEmail: string
   userRole: string
   productCounts: Record<string, number>
   pendingOrderCount: number
@@ -18,24 +19,42 @@ interface AdminShellProps {
   children: React.ReactNode
 }
 
-/** Client wrapper — keeps Lucide icons in client boundary */
-export function AdminShell({ userName, userRole, productCounts, pendingOrderCount, notifications, unreadCount, children }: AdminShellProps) {
+export function AdminShell({
+  userName,
+  userEmail,
+  userRole,
+  productCounts,
+  pendingOrderCount,
+  notifications,
+  unreadCount,
+  children,
+}: AdminShellProps) {
   const navGroups = buildAdminNavGroups(productCounts)
 
   return (
-    <SidebarProvider>
-      <DashboardSidebar
+    <SidebarProvider
+      style={
+        {
+          '--sidebar-width': '16rem',
+          '--sidebar-width-icon': '3rem',
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar
         navGroups={navGroups}
-        showPendingWidget={true}
+        user={{ name: userName, email: userEmail, role: userRole }}
+        title="Admin Dashboard"
+        profileHref="/admin/settings"
         pendingCount={pendingOrderCount}
       />
-      <div className="flex min-h-svh flex-1 flex-col">
-        <DashboardHeader userName={userName} userRole={userRole} notifications={notifications} unreadCount={unreadCount} />
-        <main className="flex-1 px-4 py-6 sm:px-6">
+      <SidebarInset>
+        <SiteHeader notifications={notifications} unreadCount={unreadCount} />
+        <div className="@container/main flex flex-1 flex-col gap-4 p-4 lg:p-6">
           {children}
-        </main>
+        </div>
+        <SiteFooter />
         <MobileWarning />
-      </div>
+      </SidebarInset>
     </SidebarProvider>
   )
 }

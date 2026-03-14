@@ -1,7 +1,6 @@
 'use client'
 
-import { ShoppingCartIcon, PackageIcon, ZapIcon } from 'lucide-react'
-import { StatsCard } from '@/components/dashboard/stats-card'
+import { StatsCard, StatsGrid } from '@/components/dashboard/stats-card'
 
 interface PortalStatsProps {
   totalOrders: number
@@ -12,10 +11,31 @@ interface PortalStatsProps {
 /** Client wrapper to keep Lucide icons in client boundary */
 export function PortalStats({ totalOrders, pendingOrders, activeItems }: PortalStatsProps) {
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
-      <StatsCard title="Total Orders" value={totalOrders} icon={ShoppingCartIcon} />
-      <StatsCard title="Pending Orders" value={pendingOrders} icon={ZapIcon} />
-      <StatsCard title="Active Items" value={activeItems} icon={PackageIcon} />
-    </div>
+    <StatsGrid>
+      <StatsCard
+        title="Total Orders"
+        value={totalOrders}
+        badge={`${totalOrders}`}
+        trend="up"
+        trendLabel="All time orders"
+        trendDescription="Your complete order history"
+      />
+      <StatsCard
+        title="Pending Orders"
+        value={pendingOrders}
+        badge={pendingOrders > 0 ? 'Active' : 'None'}
+        trend={pendingOrders > 0 ? 'up' : 'down'}
+        trendLabel={pendingOrders > 0 ? 'Orders in progress' : 'No pending orders'}
+        trendDescription="Waiting for delivery"
+      />
+      <StatsCard
+        title="Active Items"
+        value={activeItems}
+        badge={`${activeItems}`}
+        trend="up"
+        trendLabel="Products delivered"
+        trendDescription="Available in your account"
+      />
+    </StatsGrid>
   )
 }

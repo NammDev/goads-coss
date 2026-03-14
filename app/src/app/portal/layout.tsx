@@ -20,6 +20,7 @@ export default async function PortalLayout({ children }: { children: React.React
   return (
     <PortalShell
       userName={session.user.name ?? 'Customer'}
+      userEmail={session.user.email}
       userId={session.user.id}
       productCounts={productCounts}
       notifications={serializedNotifications}

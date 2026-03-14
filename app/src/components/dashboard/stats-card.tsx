@@ -1,46 +1,66 @@
-'use client'
+import { TrendingDown, TrendingUp } from 'lucide-react'
 
-import type { ComponentType } from 'react'
-
-import { TrendingUpIcon, TrendingDownIcon } from 'lucide-react'
-
-import { cn } from '@/lib/utils'
-import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 type StatsCardProps = {
   title: string
   value: string | number
-  icon: ComponentType<{ className?: string }>
-  trend?: 'up' | 'down'
-  trendValue?: string
-  className?: string
+  badge: string
+  trend: 'up' | 'down'
+  trendLabel: string
+  trendDescription: string
 }
 
-export function StatsCard({ title, value, icon: Icon, trend, trendValue, className }: StatsCardProps) {
+export function StatsCard({
+  title,
+  value,
+  badge,
+  trend,
+  trendLabel,
+  trendDescription,
+}: StatsCardProps) {
   return (
-    <Card className={cn('shadow-none', className)}>
-      <CardContent className="flex items-center gap-4 p-6">
-        <div className="bg-primary/10 flex size-12 shrink-0 items-center justify-center rounded-lg">
-          <Icon className="text-primary size-6" />
+    <Card className="@container/card">
+      <CardHeader>
+        <CardDescription>{title}</CardDescription>
+        <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+          {value}
+        </CardTitle>
+        <CardAction>
+          <Badge variant="outline">
+            {trend === 'up' ? <TrendingUp /> : <TrendingDown />}
+            {badge}
+          </Badge>
+        </CardAction>
+      </CardHeader>
+      <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <div className="line-clamp-1 flex gap-2 font-medium">
+          {trendLabel}{' '}
+          {trend === 'up' ? (
+            <TrendingUp className="size-4" />
+          ) : (
+            <TrendingDown className="size-4" />
+          )}
         </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-muted-foreground text-sm">{title}</p>
-          <div className="flex items-baseline gap-2">
-            <p className="text-2xl font-bold">{value}</p>
-            {trend && trendValue && (
-              <span
-                className={cn(
-                  'flex items-center gap-0.5 text-xs font-medium',
-                  trend === 'up' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-                )}
-              >
-                {trend === 'up' ? <TrendingUpIcon className="size-3" /> : <TrendingDownIcon className="size-3" />}
-                {trendValue}
-              </span>
-            )}
-          </div>
-        </div>
-      </CardContent>
+        <div className="text-muted-foreground">{trendDescription}</div>
+      </CardFooter>
     </Card>
+  )
+}
+
+/** Grid wrapper with the template's gradient card styling */
+export function StatsGrid({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {children}
+    </div>
   )
 }

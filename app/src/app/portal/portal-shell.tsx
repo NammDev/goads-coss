@@ -1,13 +1,15 @@
 'use client'
 
-import { SidebarProvider } from '@/components/ui/sidebar'
-import { DashboardSidebar } from '@/components/dashboard/dashboard-sidebar'
-import { DashboardHeader } from '@/components/dashboard/dashboard-header'
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/dashboard/app-sidebar'
+import { SiteHeader } from '@/components/dashboard/site-header'
+import { SiteFooter } from '@/components/dashboard/site-footer'
 import { buildPortalNavGroups } from '@/data/portal-nav'
-import type { SerializedNotification } from '@/components/dashboard/dashboard-header'
+import type { SerializedNotification } from '@/components/dashboard/site-header'
 
 interface PortalShellProps {
   userName: string
+  userEmail: string
   userId: string
   productCounts: Record<string, number>
   notifications?: SerializedNotification[]
@@ -15,19 +17,43 @@ interface PortalShellProps {
   children: React.ReactNode
 }
 
-/** Client wrapper — keeps Lucide icons in client boundary */
-export function PortalShell({ userName, userId, productCounts, notifications, unreadCount, children }: PortalShellProps) {
-  const portalNavGroups = buildPortalNavGroups(productCounts)
+export function PortalShell({
+  userName,
+  userEmail,
+  userId,
+  productCounts,
+  notifications,
+  unreadCount,
+  children,
+}: PortalShellProps) {
+  const navGroups = buildPortalNavGroups(productCounts)
 
   return (
-    <SidebarProvider>
-      <DashboardSidebar navGroups={portalNavGroups} showPendingWidget={false} />
-      <div className="flex min-h-svh flex-1 flex-col">
-        <DashboardHeader userName={userName} userId={userId} userRole="Customer" notifications={notifications} unreadCount={unreadCount} />
-        <main className="flex-1 px-4 py-6 sm:px-6">
+    <SidebarProvider
+      style={
+        {
+          '--sidebar-width': '16rem',
+          '--sidebar-width-icon': '3rem',
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar
+        navGroups={navGroups}
+        user={{ name: userName, email: userEmail, role: 'Customer' }}
+        title="Customer Portal"
+        profileHref="/portal/profile"
+      />
+      <SidebarInset>
+        <SiteHeader
+          userId={userId}
+          notifications={notifications}
+          unreadCount={unreadCount}
+        />
+        <div className="@container/main flex flex-1 flex-col gap-4 p-4 lg:p-6">
           {children}
-        </main>
-      </div>
+        </div>
+        <SiteFooter />
+      </SidebarInset>
     </SidebarProvider>
   )
 }

@@ -22,6 +22,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <AdminShell
       userName={session.user.name}
+      userEmail={session.user.email}
       userRole={roleLabel}
       productCounts={productCounts}
       pendingOrderCount={pendingOrderCount}

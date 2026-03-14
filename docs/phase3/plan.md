@@ -13,9 +13,33 @@ branch: main
 
 ---
 
+## Pre-WT: Dashboard Shell Overhaul (on main)
+→ [phase-00-dashboard-shell-overhaul.md](./phase-00-dashboard-shell-overhaul.md)
+
+**MUST complete before creating worktrees.** Shell = foundation for all WTs.
+
+**Source:** [shadcn-dashboard-landing-template](https://github.com/shadcnstore/shadcn-dashboard-landing-template) — pixel-perfect port of shell components.
+
+| Step | Task | Scope |
+|------|------|-------|
+| 0 | Clone template locally | `/tmp/shadcn-dashboard-template` |
+| 1 | Port layout shell | `app-sidebar`, `site-header`, `site-footer`, `nav-main`, `nav-user`, dashboard layout |
+| 2 | Adapt nav data | Convert GoAds admin/portal nav to template format |
+| 3 | Wire GoAds data | Search, notifications, Clerk user, real DB stats |
+| 4 | Port stats cards | 4-card grid with icon, value, growth badge |
+| 5 | Verify & clean up | Build check, dark mode, responsive, delete old components |
+| 6 | Push main | All WTs fetch main before starting |
+
+**Files to DELETE:** `admin-shell.tsx`, `portal-shell.tsx`, `dashboard-sidebar.tsx`, `dashboard-header.tsx`, `dashboard-breadcrumb.tsx`
+**Files to CREATE:** `app-sidebar.tsx`, `nav-main.tsx`, `nav-user.tsx`, `site-header.tsx`, `site-footer.tsx`, `command-search.tsx`
+
+**After done:** push main → all WTs (including wt-d máy khác) fetch main mới trước khi bắt đầu.
+
+---
+
 ## Worktree Strategy
 
-4 parallel worktrees, no file overlap.
+4 parallel worktrees, no file overlap. **Start AFTER shell overhaul merged to main.**
 
 ### WT-A: `auth-bugs` (Code + Clerk config)
 
@@ -66,10 +90,12 @@ branch: main
 ## Dependencies
 
 ```
-WT-A (auth)     ──NO DEPS── start immediately
-WT-B (logic)    ──NO DEPS── start immediately
-WT-C (nav)      ──NO DEPS── start immediately
-WT-D (UI)       ──NO DEPS── start immediately (máy khác)
+Pre-WT (shell)  ──ON MAIN── must finish first
+                            ↓ push main
+WT-A (auth)     ──NO DEPS── start after shell merged
+WT-B (logic)    ──NO DEPS── start after shell merged
+WT-C (nav)      ──NO DEPS── start after shell merged
+WT-D (UI)       ──NO DEPS── start after shell merged (máy khác fetch main)
 
 All WTs merged  ──BLOCKS──→ Final QA + Roadmap update
 ```

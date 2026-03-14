@@ -1,28 +1,14 @@
-import Link from 'next/link'
-
-import { StatusBadge } from '@/components/dashboard/status-badge'
-import WeeklyOverviewCard from '@/components/shadcn-studio/blocks/chart-weekly-overview'
-import PerformanceCard from '@/components/shadcn-studio/blocks/chart-performance'
-import { getAdminStats, getRecentOrders } from '@/lib/db/queries'
+import { ChartAreaInteractive } from '@/components/dashboard/chart-area-interactive'
+import { getAdminStats } from '@/lib/db/queries'
 import { formatUSD } from '@/lib/format-currency'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { format } from 'date-fns'
 import { AdminStats } from './admin-stats'
+import { RevenueBreakdown } from '@/components/dashboard/revenue-breakdown'
+import { RecentTransactions } from '@/components/dashboard/recent-transactions'
+import { TopProducts } from '@/components/dashboard/top-products'
+import { CustomerInsights } from '@/components/dashboard/customer-insights'
 
 export default async function AdminDashboardPage() {
-  const [stats, recentOrders] = await Promise.all([
-    getAdminStats(),
-    getRecentOrders(5),
-  ])
+  const stats = await getAdminStats()
 
   return (
     <div className="space-y-6">
@@ -37,52 +23,26 @@ export default async function AdminDashboardPage() {
       />
 
       {/* Charts row */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <WeeklyOverviewCard />
-        <PerformanceCard />
+      <ChartAreaInteractive />
+
+      {/* Revenue Breakdown + Recent Transactions */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
+        <div className="lg:col-span-4">
+          <RevenueBreakdown />
+        </div>
+        <div className="lg:col-span-3">
+          <RecentTransactions />
+        </div>
       </div>
 
-      {/* Recent orders */}
-      <Card className="shadow-none">
-        <CardHeader className="flex items-center justify-between">
-          <span className="text-lg font-semibold">Recent Orders</span>
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/admin/orders">View all</Link>
-          </Button>
-        </CardHeader>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>#</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recentOrders.map((order) => (
-                <TableRow key={order.id}>
-                  <TableCell className="font-mono text-sm">
-                    <Link href={`/admin/orders/${order.id}`} className="hover:underline">
-                      {order.id}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{order.customerName}</TableCell>
-                  <TableCell>{formatUSD(order.totalAmount)}</TableCell>
-                  <TableCell>
-                    <StatusBadge status={order.status} />
-                  </TableCell>
-                  <TableCell className="text-muted-foreground text-sm">
-                    {format(new Date(order.createdAt), 'dd/MM/yyyy')}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      {/* Top Products + Recent Transactions (second instance) */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <TopProducts />
+        <RecentTransactions />
+      </div>
+
+      {/* Customer Insights - full width */}
+      <CustomerInsights />
     </div>
   )
 }
