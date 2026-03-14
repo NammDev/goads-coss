@@ -1,6 +1,6 @@
 'use client'
 
-import { EllipsisVertical, LogOut, UserIcon } from 'lucide-react'
+import { EllipsisVertical, LogOut, UserIcon, WalletIcon } from 'lucide-react'
 import Link from 'next/link'
 import { SignOutButton } from '@clerk/nextjs'
 
@@ -76,6 +76,12 @@ export function NavUser({ user, profileHref = '/portal/profile' }: NavUserProps)
                 <Link href={profileHref}>
                   <UserIcon />
                   Profile
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer">
+                <Link href="/portal/wallet">
+                  <WalletIcon />
+                  Wallet
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

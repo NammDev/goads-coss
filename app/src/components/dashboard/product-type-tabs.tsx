@@ -15,26 +15,23 @@ const tabOrder = [
 
 interface Props {
   productCounts: Record<string, number>
+  /** Base path for tab links (e.g. "/admin/products" or "/portal/products") */
+  basePath: string
 }
 
-/** Route-based product type tabs — styled like shadcnstore dashboard tabs */
-export function ProductTypeTabs({ productCounts }: Props) {
+/** Shared route-based product type tabs — pill style */
+export function ProductTypeTabs({ productCounts, basePath }: Props) {
   const pathname = usePathname()
-
-  // Show all product types, even with 0 items
-  const visibleTabs = [...tabOrder]
-
-  if (visibleTabs.length === 0) return null
 
   return (
     <div className="inline-flex items-center rounded-full bg-muted/30">
-      {visibleTabs.map((type) => {
-        const isActive = pathname === `/admin/products/${type}`
+      {[...tabOrder].map((type) => {
+        const isActive = pathname === `${basePath}/${type}`
         const count = productCounts[type] ?? 0
         return (
           <Link
             key={type}
-            href={`/admin/products/${type}`}
+            href={`${basePath}/${type}`}
             className={cn(
               'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all',
               isActive

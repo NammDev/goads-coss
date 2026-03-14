@@ -48,6 +48,7 @@ export function buildToolsNavItems(): NavItem[] {
       icon: StarIcon,
       label: 'Popular Tools',
       href: '/portal/tools',
+      alwaysOpen: true,
       children: popularTools.map((t): NavSubItem => ({
         label: t.title,
         href: `/portal/tools/${t.slug}`,
@@ -78,14 +79,7 @@ export function buildPortalNavItems(productCounts: Record<string, number>): NavI
   return [
     { icon: StoreIcon, label: 'Shop', href: '/portal' },
     { icon: ShoppingCartIcon, label: 'Orders', href: '/portal/orders' },
-    { icon: WalletIcon, label: 'Wallet', href: '/portal/wallet' },
-    {
-      icon: PackageIcon,
-      label: 'Products',
-      href: '/portal/products',
-      children: buildProductChildren(productCounts),
-    },
-    { icon: UserIcon, label: 'Profile', href: '/portal/profile' },
+    { icon: PackageIcon, label: 'Products', href: '/portal/products' },
   ]
 }
 

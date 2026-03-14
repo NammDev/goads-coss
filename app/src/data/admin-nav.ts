@@ -66,12 +66,7 @@ export function buildAdminNavGroups(productCounts: Record<string, number>): NavG
         { icon: LayoutDashboardIcon, label: 'Dashboard', href: '/admin' },
         { icon: ShoppingCartIcon, label: 'Orders', href: '/admin/orders' },
         { icon: UsersIcon, label: 'Customers', href: '/admin/customers' },
-        {
-          icon: PackageIcon,
-          label: 'Products',
-          href: '/admin/products',
-          children: buildAdminProductChildren(productCounts),
-        },
+        { icon: PackageIcon, label: 'Products', href: '/admin/products' },
       ],
     },
     {

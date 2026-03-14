@@ -31,6 +31,8 @@ type NavItem = {
   badge?: string
   items?: NavSubItem[]
   children?: NavSubItem[]
+  /** If true, children always visible, no collapse toggle */
+  alwaysOpen?: boolean
 }
 
 type NavMainProps = {
@@ -53,16 +55,40 @@ export function NavMain({ groupLabel, items }: NavMainProps) {
       <SidebarMenu>
         {items.map((item) => {
           const subs = item.children ?? item.items
+
+          // Always-open items: render children without Collapsible wrapper
+          if (subs?.length && item.alwaysOpen) {
+            return (
+              <SidebarMenuItem key={item.label}>
+                <SidebarMenuButton tooltip={item.label} className="cursor-default pointer-events-none">
+                  <item.icon />
+                  <span>{item.label}</span>
+                </SidebarMenuButton>
+                <SidebarMenuSub>
+                  {subs.map((sub) => (
+                    <SidebarMenuSubItem key={sub.href}>
+                      <SidebarMenuSubButton asChild isActive={pathname === sub.href} className="cursor-pointer">
+                        <Link href={sub.href}>
+                          <span>{sub.label}</span>
+                        </Link>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </SidebarMenuItem>
+            )
+          }
+
           return subs?.length ? (
             <Collapsible
               key={item.label}
               asChild
-              defaultOpen={item.label === 'Popular Tools' || subs.some((sub) => pathname === sub.href)}
+              defaultOpen={subs.some((sub) => pathname === sub.href)}
               className="group/collapsible"
             >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.label} isActive={isItemActive(item)} className="cursor-pointer">
+                  <SidebarMenuButton tooltip={item.label} isActive={subs.some((sub) => pathname === sub.href)} className="cursor-pointer">
                     <item.icon />
                     <span>{item.label}</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
