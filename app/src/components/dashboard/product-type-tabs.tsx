@@ -34,7 +34,7 @@ export function ProductTypeTabs({ productCounts, basePath }: Props) {
             <TabsTrigger key={type} value={type} className="cursor-pointer" asChild>
               <Link href={`${basePath}/${type}`}>
                 {productTypeLabels[type]}
-                {count > 0 && <Badge variant="secondary">{count}</Badge>}
+                {count > 0 && <Badge className="bg-primary text-primary-foreground">{count}</Badge>}
               </Link>
             </TabsTrigger>
           )
