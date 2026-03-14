@@ -33,10 +33,10 @@ Goal: Quality audit before Phase 2.
 
 | Task | Status |
 |------|--------|
-| Mobile responsive audit (375/768/1024/1440px) | ✅ Done — `phase-1a/mobile` |
-| Dark mode audit (all pages + blocks) | ✅ Done — `phase-1a/dark` |
+| Mobile responsive audit (375/768/1024/1440px) | ✅ Done |
+| Dark mode audit (all pages + blocks) | ✅ Done |
 | Lighthouse audit (target > 90) | ✅ Done — A11y 100, BP 96-100, SEO 100 |
-| Cart mobile UI fix | ✅ Done — included in mobile audit |
+| Cart mobile UI fix | ✅ Done |
 | Cal.com embed on `/talk-to-sales` | Deferred to Phase 2 |
 
 ---
@@ -45,82 +45,85 @@ Goal: Quality audit before Phase 2.
 
 Goal: Auth system + admin panel + customer portal with full CRUD business flow.
 
-**Status: 80% Complete** — Core features built, testing + auth stability pending
+**Status: 95% Complete** — All core features done, E2E testing remaining
 
-### 2A — Auth Infrastructure 🔄 (migrating to Clerk)
+### 2A — Auth Infrastructure ✅
 
 | Area | Status | Reference |
 |------|--------|-----------|
 | PostgreSQL (Supabase) + Drizzle ORM | ✅ Done | `src/lib/db/` |
-| ~~Better Auth v1.5 (email/password)~~ | 🔄 Replacing | Migrating to Clerk |
-| Role-based access (super_admin / staff / customer) | 🔄 Migrating | Moving to Clerk session claims |
+| Clerk auth (email/password, social, MFA) | ✅ Done | Migrated from Better Auth (2026-03-13) |
+| Role-based access (super_admin / staff / customer) | ✅ Done | Clerk session claims + `requireRole()` |
 | Field encryption (BM ID, invite links) | ✅ Done | `src/lib/db/encryption.ts` |
-| Login + unauthorized pages | 🔄 Replacing | Will use Clerk `<SignIn/>` components |
-| Clerk setup + middleware | ⏳ Pending | Edge middleware for route protection |
-| Webhook sync (Clerk → DB) | ⏳ Pending | Sync user metadata to local `user` table |
-
-**Decision (2026-03-13):** Migrate from Better Auth to Clerk. Rationale: auth stability issues, missing features (password reset, social login, MFA, edge middleware) would take ~7-10 days to build vs ~6-8 days to migrate with all features included out-of-box. Trade-off accepted: vendor lock-in in exchange for zero auth maintenance.
+| Clerk `<SignIn/>` / `<SignUp/>` pages | ✅ Done | `/sign-in`, `/sign-up` |
+| Edge middleware for route protection | ✅ Done | `middleware.ts` |
+| Webhook sync (Clerk → DB) | ✅ Done | User metadata synced to local `user` table |
 
 ### 2B — Admin Panel ✅
 
-25 files across `/admin/*`. All wired to real DB.
+25+ files across `/admin/*`. All wired to real DB.
 
 | Feature | Route | Key Components |
 |---------|-------|----------------|
 | Dashboard | `/admin` | `admin-stats.tsx` — real DB stats |
 | Customers list | `/admin/customers` | `customers-table.tsx` + Create Customer dialog |
 | Customer detail | `/admin/customers/[id]` | Balance card + Topup dialog + order history |
-| Orders list | `/admin/orders` | `orders-table.tsx` |
+| Orders list | `/admin/orders` | `orders-table.tsx` (DT5 shadcn studio layout) |
 | Create Order | `/admin/orders/new` | `create-order-form.tsx` — customer select, line items, balance check |
-| Order detail | `/admin/orders/[id]` | Deliver dialog (dynamic credential fields per product type) + delivered items |
+| Order detail | `/admin/orders/[id]` | Deliver dialog + delivered items + share link generation |
 | Products by type | `/admin/products/[type]` | `products-table.tsx` |
 | Staff | `/admin/staff` | `staff-client.tsx` |
-| Finance | `/admin/finance` | Revenue overview |
-| Settings | `/admin/settings` | App settings |
+| Finance | `/admin/finance` | ✅ Revenue by type, top customers, order status, 3 charts |
+| Settings | `/admin/settings` | ➡️ Deferred to Phase 3 |
 
-**Server Actions:** `customer-actions.ts`, `order-actions.ts`, `delivery-actions.ts`, `wallet-actions.ts`
+**Server Actions:** `customer-actions.ts`, `order-actions.ts`, `delivery-actions.ts`, `wallet-actions.ts`, `notification-actions.ts`
 
 ### 2C — Customer Portal ✅
 
-16 files across `/portal/*`. All wired to real DB.
+20+ files across `/portal/*`. All wired to real DB.
 
 | Feature | Route | Key Components |
 |---------|-------|----------------|
 | Dashboard | `/portal` | `portal-stats.tsx` — customer-specific stats |
-| Orders | `/portal/orders` | `portal-orders-table.tsx` |
+| Orders | `/portal/orders` | `portal-orders-table.tsx` + empty states |
 | Order detail | `/portal/orders/[id]` | Delivered items with credentials |
+| Product catalog (Shop) | `/portal/products` | ProductCard + Card3D, category filter tabs, customer pricing |
 | Products by type | `/portal/products/[type]` | `portal-products-table.tsx` |
 | Product detail | `/portal/products/[type]/[id]` | Single product view |
 | Wallet | `/portal/wallet` | `wallet-table.tsx` — transaction history |
-| Profile | `/portal/profile` | `profile-form.tsx` |
-| Tools | `/portal/tools` | Free tools page |
+| Profile | `/portal/profile` | Clerk `<UserProfile />` (avatar, name, email, MFA, sessions) |
+| Tools | `/portal/tools` | 20 tools + extensions, categorized sidebar |
+| Search (Cmd+K) | Portal-wide | Real DB search — orders, products, wallet via ILIKE |
 
 ### 2D — Data Layer ✅
 
 | Layer | Files | Coverage |
 |-------|-------|----------|
-| DB Schema | 5 files: auth, products, orders, wallet, enums | 10 tables + 6 enums |
-| Queries | 7 files: customer, order, product, wallet, dashboard, delivered-item | All CRUD reads |
-| Actions | 4 files: customer, order, delivery, wallet | All CRUD writes |
+| DB Schema | 6 files: auth, products, orders, wallet, enums, notifications | 11 tables + 6 enums |
+| Queries | 8 files: customer, order, product, wallet, dashboard, delivered-item, finance, notification | All CRUD reads |
+| Actions | 5 files: customer, order, delivery, wallet, notification | All CRUD writes |
 | Validators | 4 files: customer, order, wallet, credential schemas | Zod schemas + dynamic per-product-type fields |
 
-### 2E — Known Issues & Remaining Work
+### 2E — UX & Performance ✅
 
-| # | Task | Priority | Status | Notes |
-|---|------|----------|--------|-------|
-| 1 | Clerk migration | Critical | 🔄 | Decision: migrate to Clerk (2026-03-13). Replace Better Auth, add edge middleware, webhook sync |
-| 2 | `drizzle-kit push` broken | High | 🔴 | CHECK constraint bug in drizzle-kit 0.31.9 — manual SQL required |
-| 3 | Cal.com embed `/talk-to-sales` | Low | ⏳ | Scheduling widget |
-| 4 | Cross-role E2E testing | Low | ⏳ | Verify 2 roles (super_admin, customer) after all issues resolved |
+| Feature | Status | Details |
+|---------|--------|---------|
+| Toast notifications | ✅ Done | All actions (success/failure) show toast |
+| Notification center | ✅ Done | DB-backed bell dropdown, auto-notify on order/topup/delivery, mark-as-read |
+| Loading skeletons | ✅ Done | All admin + portal routes have `loading.tsx` |
+| Dashboard performance | ✅ Done | Parallel queries, auth cache(), all routes < 100ms DB |
+| Pixel-perfect tables | ✅ Done | DT5 shadcn studio layout — search, column filters, pagination |
+| Empty states | ✅ Done | Portal + admin empty state components |
+| Public share links | ✅ Done | Token-based `/share/[token]` with marketing layout + conversion CTAs |
+| `drizzle-kit push` fix | ⚠️ Upstream | Workaround: `generate` + `migrate` instead of `push` |
 
-### 2F — Polish & Enhancements
+### 2F — Remaining Work
 
-| # | Task | Priority | Status | Notes |
-|---|------|----------|--------|-------|
-| 1 | Admin finance page | Medium | ⏳ | Needs real revenue/stats queries |
-| 2 | Admin settings page | Medium | ⏳ | Needs real settings CRUD |
-| 3 | Portal tools integration | Medium | ⏳ | Wire to actual tool pages |
-| 4 | Error handling UX | Medium | ⏳ | Toast notifications for all actions (currently text-only) |
+| # | Task | Priority | Status |
+|---|------|----------|--------|
+| 1 | Cal.com embed `/talk-to-sales` | Low | ⏳ |
+| 2 | Cross-role E2E testing | Low | ⏳ |
+| 3 | Admin settings page | Medium | ➡️ Phase 3 (depends on Telegram bot + notifications) |
 
 ---
 
@@ -197,8 +200,8 @@ Goal: Automation, payments, analytics, scaling.
 ```
 Phase 1  ✅  Marketing site + cart + tools + blog + docs + SEO
 Phase 1A ✅  Dark mode + mobile responsive + Lighthouse audits
-Phase 2  🔄  Admin ✅ + Portal ✅ + CRUD ✅ + Auth migrating to Clerk (pending)
-Phase 3  ⏳  Extension Platform + Community + Search (needs Phase 2)
+Phase 2  🔄  Auth ✅ + Admin ✅ + Portal ✅ + CRUD ✅ + UX ✅ + Perf ✅ (E2E pending)
+Phase 3  ⏳  Extension Platform + Community + Search
 Phase 4  ⏳  Payments + Automation + Analytics + Growth
 ```
 
