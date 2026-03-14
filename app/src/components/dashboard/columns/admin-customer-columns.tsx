@@ -53,6 +53,7 @@ export const adminCustomerColumns: ColumnDef<CustomerWithStats, unknown>[] = [
       <span className="text-muted-foreground capitalize">{row.original.role}</span>
     ),
     enableSorting: false,
+    meta: { filterVariant: 'select' },
   },
 ]
 

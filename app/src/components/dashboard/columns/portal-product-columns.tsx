@@ -56,6 +56,7 @@ export function buildPortalProductColumns(
           </Badge>
         )
       },
+      meta: { filterVariant: 'select' },
     },
     {
       id: 'note',

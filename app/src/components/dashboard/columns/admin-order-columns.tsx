@@ -38,6 +38,7 @@ export const adminOrderColumns: ColumnDef<OrderWithCustomer, unknown>[] = [
     accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => <StatusBadge status={row.original.status} />,
+    meta: { filterVariant: 'select' },
   },
   {
     accessorKey: 'createdAt',

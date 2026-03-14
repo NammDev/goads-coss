@@ -95,6 +95,7 @@ export function PortalProductsTable({ items, productType }: PortalProductsTableP
       columns={buildPortalProductColumns(productType)}
       renderExpandedRow={(item) => <ExpandedProductRow item={item} />}
       searchPlaceholder={`Search ${productTypeLabels[productType]}...`}
+      filterColumns={['status']}
       pageSize={20}
     />
   )

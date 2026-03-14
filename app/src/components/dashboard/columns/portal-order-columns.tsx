@@ -5,8 +5,7 @@ import { format } from 'date-fns'
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { StatusBadge } from '@/components/dashboard/status-badge'
-import type { MockOrder } from '@/data/mock-orders'
-import { mockOrderItems } from '@/data/mock-orders'
+import type { OrderStatus } from '@/data/mock-orders'
 import { formatUSD } from '@/lib/format-currency'
 import {
   Table,
@@ -17,7 +16,35 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-export const portalOrderColumns: ColumnDef<MockOrder, unknown>[] = [
+/** Serialized order from server (dates as ISO strings) */
+export type SerializedOrder = {
+  id: string
+  orderNumber: number
+  customerId: string
+  totalAmount: string
+  currency: string
+  paymentMethod: string | null
+  status: string
+  shareToken: string | null
+  notes: string | null
+  paymentDate: string | null
+  deliveredAt: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+/** Serialized order item from server */
+export type SerializedOrderItem = {
+  id: string
+  orderId: string
+  productId: string
+  quantity: number
+  unitPrice: string
+  createdAt: string
+  productName: string
+}
+
+export const portalOrderColumns: ColumnDef<SerializedOrder, unknown>[] = [
   {
     accessorKey: 'id',
     header: 'Order ID',
@@ -33,21 +60,6 @@ export const portalOrderColumns: ColumnDef<MockOrder, unknown>[] = [
     enableSorting: false,
   },
   {
-    id: 'items',
-    header: 'Products',
-    cell: ({ row }) => {
-      const items = mockOrderItems.filter((i) => i.orderId === row.original.id)
-      const count = items.length
-      const names = items.map((i) => i.productName).join(', ')
-      return (
-        <span className="text-muted-foreground text-sm" title={names}>
-          {count} item{count !== 1 ? 's' : ''}
-        </span>
-      )
-    },
-    enableSorting: false,
-  },
-  {
     accessorKey: 'totalAmount',
     header: 'Total',
     cell: ({ row }) => <span className="font-medium">{formatUSD(row.original.totalAmount)}</span>,
@@ -55,7 +67,8 @@ export const portalOrderColumns: ColumnDef<MockOrder, unknown>[] = [
   {
     accessorKey: 'status',
     header: 'Status',
-    cell: ({ row }) => <StatusBadge status={row.original.status} />,
+    cell: ({ row }) => <StatusBadge status={row.original.status as OrderStatus} />,
+    meta: { filterVariant: 'select' },
   },
   {
     accessorKey: 'createdAt',
@@ -68,9 +81,19 @@ export const portalOrderColumns: ColumnDef<MockOrder, unknown>[] = [
   },
 ]
 
-/** Expanded row: order items sub-table with links to product pages */
-export function PortalOrderExpandedRow({ order }: { order: MockOrder }) {
-  const items = mockOrderItems.filter((i) => i.orderId === order.id)
+/** Expanded row showing order items sub-table */
+export function PortalOrderExpandedRow({
+  order,
+  orderItems,
+}: {
+  order: SerializedOrder
+  orderItems: SerializedOrderItem[]
+}) {
+  const items = orderItems.filter((i) => i.orderId === order.id)
+
+  if (items.length === 0) {
+    return <p className="text-sm text-muted-foreground">No items found for this order.</p>
+  }
 
   return (
     <div className="space-y-2">
@@ -79,7 +102,6 @@ export function PortalOrderExpandedRow({ order }: { order: MockOrder }) {
         <TableHeader>
           <TableRow>
             <TableHead>Product</TableHead>
-            <TableHead>Type</TableHead>
             <TableHead className="text-right">Qty</TableHead>
             <TableHead className="text-right">Unit Price</TableHead>
             <TableHead className="text-right">Subtotal</TableHead>
@@ -88,16 +110,7 @@ export function PortalOrderExpandedRow({ order }: { order: MockOrder }) {
         <TableBody>
           {items.map((item) => (
             <TableRow key={item.id}>
-              <TableCell>
-                <Link
-                  href={`/portal/products/${item.productType}`}
-                  className="font-medium text-primary hover:underline"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {item.productName}
-                </Link>
-              </TableCell>
-              <TableCell className="text-muted-foreground capitalize">{item.productType}</TableCell>
+              <TableCell className="font-medium">{item.productName}</TableCell>
               <TableCell className="text-right">{item.quantity}</TableCell>
               <TableCell className="text-right">{formatUSD(item.unitPrice)}</TableCell>
               <TableCell className="text-right font-medium">

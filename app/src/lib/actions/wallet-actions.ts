@@ -8,6 +8,7 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { users, walletTransactions } from "@/lib/db/schema";
 import { topupSchema } from "@/lib/validators/wallet-schemas";
+import { createNotification } from "@/lib/actions/notification-actions";
 
 type TopupResult =
   | { success: true; newBalance: string }
@@ -74,6 +75,16 @@ export async function topupBalance(formData: FormData): Promise<TopupResult> {
 
     revalidatePath(`/admin/customers/${customerId}`);
     revalidatePath("/admin/customers");
+
+    // Non-blocking notification for customer
+    createNotification({
+      userId: customerId,
+      type: "balance_topup",
+      title: "Balance topped up",
+      message: `$${amount.toFixed(2)} has been added to your wallet.`,
+      linkUrl: "/portal/wallet",
+    }).catch(() => {});
+
     return { success: true, newBalance };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

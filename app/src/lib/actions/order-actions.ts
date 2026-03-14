@@ -8,6 +8,7 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { users, orders, orderItems, walletTransactions, customerPrices, products } from "@/lib/db/schema";
 import { createOrderSchema } from "@/lib/validators/order-schemas";
+import { createNotification } from "@/lib/actions/notification-actions";
 
 /** Generate a public share token for an order (admin only) */
 export async function generateShareToken(orderId: string): Promise<{ success: boolean; token?: string; error?: string }> {
@@ -182,6 +183,16 @@ export async function createOrder(formData: FormData): Promise<CreateOrderResult
 
     revalidatePath("/admin/orders");
     revalidatePath(`/admin/customers/${customerId}`);
+
+    // Non-blocking notification for customer
+    createNotification({
+      userId: customerId,
+      type: "order_created",
+      title: "New order created",
+      message: `Order #${orderId.slice(-6)} has been created and paid.`,
+      linkUrl: "/portal/orders",
+    }).catch(() => {});
+
     return { success: true, orderId };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { PackageIcon } from 'lucide-react'
 
 import { requireRole } from '@/lib/auth/require-role'
 import { getDeliveredItemsByType } from '@/lib/db/queries'
@@ -6,6 +7,7 @@ import type { ProductType as DBProductType } from '@/lib/db/queries'
 import { productTypeLabels } from '@/data/mock-products'
 import type { MockDeliveredItem } from '@/data/mock-delivered-items'
 import type { ProductType } from '@/lib/validators/credential-schemas'
+import { EmptyState } from '@/components/dashboard/empty-state'
 import { PortalProductsTable } from './portal-products-table'
 
 const validTypes = new Set<string>(Object.keys(productTypeLabels))
@@ -54,7 +56,11 @@ export default async function PortalProductTypePage({
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">{productTypeLabels[productType]}</h1>
       {items.length === 0 ? (
-        <p className="text-muted-foreground">No delivered products in this category yet.</p>
+        <EmptyState
+          icon={PackageIcon}
+          title="No delivered products yet"
+          description="Products will appear here once items from your orders are delivered."
+        />
       ) : (
         <PortalProductsTable items={items} productType={productType} />
       )}

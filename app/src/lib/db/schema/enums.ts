@@ -45,6 +45,14 @@ export const walletTransactionTypeEnum = pgEnum("wallet_transaction_type", [
   "deduct",
 ]);
 
+/** Notification types for in-app notification center */
+export const notificationTypeEnum = pgEnum("notification_type", [
+  "order_created",
+  "balance_topup",
+  "item_delivered",
+  "system",
+]);
+
 /** Delivered item health status */
 export const deliveredItemStatusEnum = pgEnum("delivered_item_status", [
   "active",
