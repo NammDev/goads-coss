@@ -51,10 +51,14 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
       />
 
       {/* Delivered items grouped by product type */}
-      <OrderDetailDelivered
-        items={order.deliveredItems}
-        toolbar={<ShareLinkSection orderId={order.id} shareToken={order.shareToken} />}
-      />
+      {order.deliveredItems.length > 0 ? (
+        <OrderDetailDelivered
+          items={order.deliveredItems}
+          toolbar={<ShareLinkSection orderId={order.id} shareToken={order.shareToken} />}
+        />
+      ) : (
+        <ShareLinkSection orderId={order.id} shareToken={order.shareToken} />
+      )}
 
       {/* Notes */}
       {order.notes && (

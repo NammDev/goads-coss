@@ -66,24 +66,6 @@ export function OrderDetailDelivered({ items, toolbar }: Props) {
 
   const types = Array.from(grouped.keys())
 
-  if (types.length === 1) {
-    const type = types[0]!
-    const rows = grouped.get(type)!
-    return (
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold">Delivered Items</h2>
-        <AdminDataTable
-          data={rows}
-          columns={buildPortalProductColumns(type)}
-          searchPlaceholder="Search by UID, BM ID, email, credentials..."
-          pageSize={10}
-          toolbar={toolbar}
-          renderExpandedRow={(item) => <ExpandedProductRow item={item} />}
-        />
-      </div>
-    )
-  }
-
   return (
     <div className="space-y-2">
       <h2 className="text-lg font-semibold">Delivered Items</h2>
@@ -104,8 +86,10 @@ export function OrderDetailDelivered({ items, toolbar }: Props) {
             <AdminDataTable
               data={grouped.get(type)!}
               columns={buildPortalProductColumns(type)}
-              searchPlaceholder="Search delivered items..."
+              searchPlaceholder="Search by UID, BM ID, email, credentials..."
               pageSize={10}
+              toolbar={toolbar}
+              renderExpandedRow={(item) => <ExpandedProductRow item={item} />}
             />
           </TabsContent>
         ))}

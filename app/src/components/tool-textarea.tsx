@@ -98,8 +98,8 @@ export function ToolTextarea({
           readOnly={readOnly}
           rows={rows}
           className={cn(
-            "w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm font-mono",
-            "placeholder:text-muted-foreground",
+            "w-full rounded-lg border-2 border-border bg-background px-3 py-2.5 text-sm font-mono",
+            "placeholder:text-muted-foreground/70",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             "resize-y min-h-[120px]",
             readOnly && "bg-muted/30 cursor-default"

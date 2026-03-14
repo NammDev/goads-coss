@@ -41,8 +41,11 @@ type NavMainProps = {
 export function NavMain({ groupLabel, items }: NavMainProps) {
   const pathname = usePathname()
 
-  const isItemActive = (item: NavItem) =>
-    pathname === item.href || pathname.startsWith(item.href + '/')
+  const isItemActive = (item: NavItem) => {
+    // Root dashboard paths (/admin, /portal) — exact match only
+    if (item.href === '/admin' || item.href === '/portal') return pathname === item.href
+    return pathname === item.href || pathname.startsWith(item.href + '/')
+  }
 
   return (
     <SidebarGroup>
@@ -54,7 +57,7 @@ export function NavMain({ groupLabel, items }: NavMainProps) {
             <Collapsible
               key={item.label}
               asChild
-              defaultOpen={isItemActive(item)}
+              defaultOpen={item.label === 'Popular Tools' || subs.some((sub) => pathname === sub.href)}
               className="group/collapsible"
             >
               <SidebarMenuItem>
