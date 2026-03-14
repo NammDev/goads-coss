@@ -16,6 +16,7 @@ export function CustomersTable({ data, toolbar }: CustomersTableProps) {
       data={data}
       columns={adminCustomerColumns}
       searchPlaceholder="Search by name or email..."
+      filterColumns={['role']}
       renderExpandedRow={(customer) => <AdminCustomerExpandedRow customer={customer} />}
       toolbar={toolbar}
     />

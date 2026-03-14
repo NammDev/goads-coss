@@ -10,6 +10,7 @@ export function OrdersTable({ data }: { data: OrderWithCustomer[] }) {
       data={data}
       columns={adminOrderColumns}
       searchPlaceholder="Search by order ID or customer..."
+      filterColumns={['status']}
       renderExpandedRow={(order) => <AdminOrderExpandedRow order={order} />}
     />
   )

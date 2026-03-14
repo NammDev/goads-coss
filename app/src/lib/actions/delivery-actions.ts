@@ -61,6 +61,28 @@ export async function deliverOrderItem(formData: FormData): Promise<DeliverResul
   }
 
   try {
+    // Validate orderItemId belongs to this order
+    const [orderItem] = await db
+      .select({ id: orderItems.id })
+      .from(orderItems)
+      .where(eq(orderItems.id, orderItemId))
+      .limit(1);
+
+    if (!orderItem) {
+      return { success: false, error: "Order item not found" };
+    }
+
+    // Check for duplicate delivery
+    const [existingDelivery] = await db
+      .select({ id: deliveredItems.id })
+      .from(deliveredItems)
+      .where(eq(deliveredItems.orderItemId, orderItemId))
+      .limit(1);
+
+    if (existingDelivery) {
+      return { success: false, error: "This item has already been delivered" };
+    }
+
     const credJson = JSON.stringify(credentialFields);
     let encryptedCreds: string;
     try {
