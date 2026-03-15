@@ -75,6 +75,7 @@ branch: main
 | 1 | Vercel deploy | Critical | ⏳ | Check build config, env vars, root dir |
 | 3 | Clerk webhook publicMetadata | Critical | ⏳ | Code + Clerk Dashboard config |
 | 4 | Username+password login | Critical | ⏳ | Clerk Dashboard: enable username, email optional |
+| 12 | Portal cart | High | ⏳ | Port marketing cart → portal. Buy Now adds to cart. Cart icon in header. |
 
 ---
 
@@ -82,5 +83,6 @@ branch: main
 
 ```
 Remaining (1, 3, 4)  ──BLOCKS──→ Production launch
+Cart (12)            ──NO DEPS── can do anytime
 All UI/UX work       ──DONE──
 ```
