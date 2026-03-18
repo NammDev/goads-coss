@@ -1,88 +1,26 @@
 ---
 status: in-progress
-created: 2026-03-14
+created: 2026-03-16
 branch: main
 ---
 
-# Phase 3 — Polish & Launch-Ready
+# Phase 3 — Deploy & Go Live
 
-> Goal: Fix all bugs, polish UI/UX, make app production-ready before market launch.
-
----
-
-## Completed (2026-03-14 ~ 2026-03-15)
-
-### Dashboard Shell Overhaul ✅
-- Ported shell from shadcnstore template (sidebar, header, footer, nav)
-- Twitter theme (#1e9df1), radius 1rem, floating sidebar, icon collapse
-- Stats cards, area chart, pie chart, recent transactions, top products, customer insights
-- ModeToggle, SidebarNotification, SearchTrigger
-
-### Table UI Overhaul ✅
-- Column visibility (Customize Columns dropdown)
-- Template-style pagination (Rows per page + Page X of Y + nav buttons)
-- Row action menus on all tables
-- Rounded border table container, bg-muted header row
-- Toolbar: search + filters left, customize + action buttons right
-
-### Order Detail Redesign ✅
-- 2-col layout: Order Summaries (Top Products card-list style) + Billing (icon cards with warranty)
-- Delivered Items: product-type tabs + AdminDataTable + expandable rows
-- Share Link (admin) / View All Products (portal) in toolbar
-- Reused components between admin and portal (DRY)
-
-### Portal Shop Redesign ✅
-- StatsCard-style product cards, 4-col grid, search
-- Buy Now + Ask (Telegram) buttons per card
-- $0 prices → "Contact us"
-
-### Products Sync ✅
-- Shared ProductTypeTabs component with basePath prop (DRY)
-- Both admin/portal use identical layout (title + tabs + table)
-- Default shadcn Tabs with Badge counts (primary color)
-
-### Sidebar Polish ✅
-- Admin: Products flat link, tab navigation on page
-- Portal: Shop → Orders → Products | Tools (Popular always-open + All collapsible)
-- Wallet + Profile in user dropdown
-- Extensions always-open, All Tools = non-popular only
-- Fixed: active state, duplicate keys, parent never active for collapsible
-
-### Toast & Notifications ✅
-- All server actions have toast.success/toast.error feedback
-- Insufficient balance: actionable error with current balance
-- Notification deep links: order_created + item_delivered → /portal/orders/{orderId}
-
-### Bug Fixes ✅
-- Sign In button: /auth/login → /sign-in (Clerk)
-- NavUser: useClerk SSR → SignOutButton
-- EmptyState: icon serialization (server/client boundary)
-- NavMain: children/items compat, alwaysOpen support
-- Sidebar active state: exact match for root paths
-- Tab standardization: default shadcn TabsList/TabsTrigger everywhere
-- Border/input colors: darker (#cfd9de) for visibility
-
-### Skeletons ✅
-- All routes have loading.tsx: admin (7) + portal (6) + marketing (1)
-- Order detail skeleton matches new 2-col layout
+> Goal: Deploy to production, finalize auth config, harden for launch.
 
 ---
 
-## Remaining
+## Tasks
 
 | # | Task | Priority | Status | Notes |
 |---|------|----------|--------|-------|
-| 1 | Vercel deploy | Critical | ⏳ | Check build config, env vars, root dir |
-| 3 | Clerk webhook publicMetadata | Critical | ⏳ | Code + Clerk Dashboard config |
-| 4 | Username+password login | Critical | ⏳ | Clerk Dashboard: enable username, email optional |
-| 12 | Portal cart | High | ⏳ | Port marketing cart → portal. Buy Now adds to cart. Cart icon in header. |
-
----
-
-## Dependencies
-
-```
-Remaining (1, 3, 4)  ──BLOCKS──→ Production launch
-Cart (12)            ──NO DEPS── can do anytime
-All UI/UX work       ──DONE──
-```
+| 1 | Vercel deploy + Clerk Production | Critical | ⏳ | Custom domain → Clerk Prod instance → env vars → webhook. See `task-01-vercel-deploy.md` |
+| 2 | ~~Clerk webhook publicMetadata~~ | Critical | ✅ | Merged into Task 1 Step 6 (webhook setup) |
+| 3 | ~~Username+password login~~ | Critical | ✅ | Done — Clerk Dashboard already requires username |
+| 4 | ~~Global error boundary~~ | Critical | ✅ | global-error.tsx + error.tsx at root, auth, admin, portal |
+| 5 | Rate limiting server actions | High | ⏳ | Prevent abuse on cart/order/wallet actions |
+| 6 | ~~Mock data cleanup~~ | High | ✅ | RecentTransactions now uses getRecentOrders() from DB |
+| 7 | ~~CSP headers~~ | High | ✅ | CSP + X-Frame-Options + X-XSS + Referrer-Policy + Permissions-Policy in next.config |
+| 8 | ~~robots noindex admin/portal~~ | High | ✅ | robots.ts disallow + metadata noindex on admin/portal layouts |
+| 9 | Cross-role E2E testing | Medium | ⏳ | Smoke test all roles before going live |
+| 10 | Logging/monitoring (Sentry) | Medium | ⏳ | Production error tracking |

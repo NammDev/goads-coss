@@ -1,6 +1,6 @@
 # GoAds Development Roadmap
 
-> 4 phases: MVP (done) → Auth + Dashboard (nearly complete) → Extension + Community → Growth & AI
+> 7 phases: MVP ✅ → Auth ✅ → Deploy → Analytics → Extension → Community → UI Redesign
 
 ---
 
@@ -41,11 +41,11 @@ Goal: Quality audit before Phase 2.
 
 ---
 
-## Phase 2 — Auth + Admin + Portal 🔄
+## Phase 2 — Auth + Admin + Portal ✅
 
 Goal: Auth system + admin panel + customer portal with full CRUD business flow.
 
-**Status: 95% Complete** — All core features done, E2E testing remaining
+**Status: DONE** — All core features + UI polish complete
 
 ### 2A — Auth Infrastructure ✅
 
@@ -117,81 +117,127 @@ Goal: Auth system + admin panel + customer portal with full CRUD business flow.
 | Public share links | ✅ Done | Token-based `/share/[token]` with marketing layout + conversion CTAs |
 | `drizzle-kit push` fix | ⚠️ Upstream | Workaround: `generate` + `migrate` instead of `push` |
 
-### 2F — Remaining Work
+### 2F — Polish & Launch-Ready ✅
 
-| # | Task | Priority | Status |
-|---|------|----------|--------|
-| 1 | Cal.com embed `/talk-to-sales` | Low | ⏳ |
-| 2 | Cross-role E2E testing | Low | ⏳ |
-| 3 | Admin settings page | Medium | ➡️ Phase 3 (depends on Telegram bot + notifications) |
+UI/UX polish sprint (2026-03-14 ~ 2026-03-16).
 
----
-
-## Phase 3 — Extension + Community + Search
-
-Goal: Extension platform, community forum, advanced search. All depend on Phase 2 auth.
-
-**Status: Not started**
-
-### 3A — BM Invite Extension (Chrome)
-
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| Extension API endpoints | Critical | JWT auth, BM invite link CRUD |
-| Chrome extension | Critical | Login via portal → JWT → fetch BM invites → inject to browser |
-| Extension access control | High | Admin toggles access per customer (qualifying purchases) |
-| Extension infrastructure | High | Designed for future tool extensions |
-
-```
-Portal login → JWT stored → Extension reads token → GoAds API → BM invite links
-```
-
-Distribution: Chrome Web Store or manual .crx from portal.
-
-### 3B — Telegram Bot
-
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| Receive cart forms | High | Cart submission → Telegram notification to admin |
-| Order status notifications | High | Auto-notify customer on status change |
-
-### 3C — Community
-
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| Discussion board | Medium | Requires auth from Phase 2 |
-| Public user profiles | Medium | Activity, reputation |
-| Moderation tools | Medium | Admin/staff moderation |
-
-### 3D — Search & Docs Enhancement
-
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| Doc search (Pagefind / Algolia) | Medium | Full-text across knowledge base |
-| AI Ask (RAG) | Medium | Chat with docs, answer customer questions |
-| Cross-content search | Low | Search across community + docs + blog |
+| Feature | Status | Details |
+|---------|--------|---------|
+| Dashboard shell overhaul | ✅ Done | Ported shell from shadcnstore (sidebar, header, footer, nav, charts) |
+| Table UI overhaul | ✅ Done | Column visibility, template pagination, row actions, rounded borders |
+| Order detail redesign | ✅ Done | 2-col layout, delivered items tabs, share link / view all products |
+| Portal shop redesign | ✅ Done | StatsCard-style cards, 4-col grid, search, category pills |
+| Portal cart integration | ✅ Done | Buy Now → add-to-cart, cart icon in portal header, same cart as marketing |
+| Products sync | ✅ Done | Shared ProductTypeTabs (admin + portal), Badge counts |
+| Sidebar polish | ✅ Done | Admin flat Products link, Portal grouped nav, Tools popular/all split |
+| Skeletons | ✅ Done | All routes: admin (7) + portal (6) + marketing (1) |
+| Bug fixes | ✅ Done | Sign In route, NavUser SSR, EmptyState serialization, active states, borders |
 
 ---
 
-## Phase 4 — Growth & Intelligence
+## Phase 3 — Deploy & Go Live 🔄
 
-Goal: Automation, payments, analytics, scaling.
+Goal: Deploy to production, finalize auth config.
 
-**Status: Not started**
+**Status: In Progress** | **Timeline: Mar 16–19**
 
-| Feature | Priority | Notes |
-|---------|----------|-------|
-| Payment integration | High | SePay (VietQR) VN + Stripe international |
-| Auto-delivery pipeline | High | Payment confirmed → assign → push to portal |
-| CMS for blog/docs | High | Staff manages content without code |
-| Admin analytics | High | Revenue, MRR, ARPU, LTV |
-| Warranty tracking | High | 7-day countdown, 1-click claim |
-| Email notifications | High | Order confirmed, delivered, warranty expiring |
-| Live product monitoring | Medium | Auto-check BMs/profiles, ban alerts |
-| Referral/Affiliate | Medium | Invite link + commission tracking |
-| Customer segmentation | Medium | Whale vs casual, targeted marketing |
-| Tool tiers (free/pro) | Medium | Gate advanced tools behind login |
-| Bulk order API | Low | Enterprise integration |
+| # | Task | Priority | Status | Notes |
+|---|------|----------|--------|-------|
+| 1 | Vercel deploy + Clerk Production | Critical | ⏳ | Need custom domain → Clerk Prod instance → env vars. See `docs/phase3/task-01-vercel-deploy.md` |
+| 2 | ~~Clerk webhook publicMetadata~~ | Critical | ✅ | Merged into Task 1 (webhook setup) |
+| 3 | ~~Username+password login~~ | Critical | ✅ | Done — Clerk Dashboard already requires username |
+| 4 | ~~Global error boundary~~ | Critical | ✅ | `global-error.tsx` + `error.tsx` at root, auth, admin, portal |
+| 5 | Rate limiting server actions | High | ⏳ | Prevent abuse on cart/order/wallet actions |
+| 6 | ~~Mock data cleanup~~ | High | ✅ | RecentTransactions now uses `getRecentOrders()` from DB |
+| 7 | ~~CSP headers~~ | High | ✅ | CSP + X-Frame-Options + X-XSS + Referrer-Policy + Permissions-Policy |
+| 8 | ~~robots noindex admin/portal~~ | High | ✅ | `robots.ts` disallow + metadata `noindex` on admin/portal layouts |
+| 9 | Cross-role E2E testing | Medium | ⏳ | Blocked by Task 1 (needs production deploy) |
+| 10 | Logging/monitoring (Sentry) | Medium | ⏳ | Production error tracking |
+
+---
+
+## Phase 4 — Analytics & Monitoring
+
+Goal: Business intelligence, warranty system, product health monitoring.
+
+**Status: Not started** | **Timeline: Mar 19–23**
+
+| # | Task | Priority | Status | Notes |
+|---|------|----------|--------|-------|
+| 1 | Admin analytics | High | ⏳ | Revenue, MRR, ARPU, LTV dashboards |
+| 2 | Dashboard date range filter | High | ⏳ | Filter analytics by period (7d/30d/90d/custom) |
+| 3 | Warranty tracking | High | ⏳ | 7-day countdown, 1-click claim |
+| 4 | Export CSV/PDF | Medium | ⏳ | Orders, customers, finance reports for offline use |
+| 5 | Live product monitoring | Medium | ⏳ | Auto-check BMs/profiles, ban alerts |
+| 6 | DB indexes audit | Medium | ⏳ | Optimize query performance for growing data |
+| 7 | Doc search (Pagefind/Algolia) | Medium | ⏳ | Full-text across knowledge base |
+| 8 | Cal.com embed `/talk-to-sales` | Low | ⏳ | |
+
+---
+
+## Phase 5 — BM Invite Extension
+
+Goal: Chrome extension for BM invite link management.
+
+**Status: Not started** | **Timeline: Mar 23–25**
+
+| # | Task | Priority | Status | Notes |
+|---|------|----------|--------|-------|
+| 1 | BM Invite Extension API | High | ⏳ | JWT auth, BM invite link CRUD endpoints |
+| 2 | Chrome extension | High | ⏳ | Portal JWT → fetch BM invites → inject to browser |
+| 3 | Extension access control | Medium | ⏳ | Admin toggles access per customer |
+
+---
+
+## Phase 6 — Community
+
+Goal: Community features for customer engagement.
+
+**Status: Not started** | **Timeline: After Phase 5**
+
+| # | Task | Priority | Notes |
+|---|------|----------|-------|
+| 1 | Discussion board | Medium | Requires auth |
+| 2 | Public user profiles | Medium | Activity, reputation |
+| 3 | Moderation tools | Medium | Admin/staff moderation |
+| 4 | CMS for blog/docs | High | Staff manages content without code |
+| 5 | Email notifications | High | Order confirmed, delivered, warranty expiring |
+| 6 | Customer segmentation | Medium | Whale vs casual, targeted marketing |
+
+---
+
+## Phase 7 — UI Redesign from Figma
+
+Goal: Implement Trang's new UI designs. May replace current shadcn-based style entirely.
+
+**Status: Not started** | **Timeline: End of Mar (after Trang delivers Figma)**
+
+> Trang (intern designer) is redesigning the full UI on Figma — delivers end of March. Final design may diverge from current shadcn style.
+
+| # | Task | Priority | Notes |
+|---|------|----------|-------|
+| 1 | Figma handoff review | Critical | Audit all screens, create component inventory |
+| 2 | Design system setup | Critical | New tokens, colors, typography from Figma |
+| 3 | Marketing pages rebuild | High | Home, product pages, blog, about, etc. |
+| 4 | Portal UI rebuild | High | Shop, orders, dashboard, profile |
+| 5 | Admin UI rebuild | High | Dashboard, tables, forms, dialogs |
+| 6 | Responsive + dark mode audit | Medium | Verify on 375/768/1024/1440px |
+
+---
+
+## Backlog (2027+)
+
+Deferred features — revisit when business scale requires them.
+
+| Feature | Reason for deferral |
+|---------|---------------------|
+| Telegram Bot (notifications) | 1-on-1 chat with customers works fine at current scale |
+| Payment integration (SePay/Stripe) | 1-on-1 customer care for now, manual flow |
+| Auto-delivery pipeline | Depends on payment integration |
+| AI Ask (RAG) | Future — manual support preferred currently |
+| Tool tiers (free/pro) | Not needed at current scale |
+| Bulk order API | Enterprise feature, no demand yet |
+| Referral/Affiliate | Growth feature, premature at this stage |
 
 ---
 
@@ -200,14 +246,16 @@ Goal: Automation, payments, analytics, scaling.
 ```
 Phase 1  ✅  Marketing site + cart + tools + blog + docs + SEO
 Phase 1A ✅  Dark mode + mobile responsive + Lighthouse audits
-Phase 2  🔄  Auth ✅ + Admin ✅ + Portal ✅ + CRUD ✅ + UX ✅ + Perf ✅ (E2E pending)
-Phase 3  ⏳  Extension Platform + Community + Search
-Phase 4  ⏳  Payments + Automation + Analytics + Growth
+Phase 2  ✅  Auth + Admin + Portal + CRUD + UX + Perf + Polish
+Phase 3  🔄  Deploy & Go Live (Mar 16–19)
+Phase 4  ⏳  Analytics & Monitoring (Mar 19–23)
+Phase 5  ⏳  BM Invite Extension (Mar 23–25)
+Phase 6  ⏳  Community + CMS + Email
+Phase 7  ⏳  UI Redesign from Figma (end of Mar, after Trang delivers)
+Backlog  📋  Telegram Bot, Payments, auto-delivery, AI, referral (2027+)
 ```
 
 ```
-Dependency:  Phase 2 (Auth) ──► Phase 3A (Extension)
-                             ──► Phase 3B (Community)
-                             ──► Phase 3C (Search/AI)
-                             ──► Phase 4  (all)
+Phase 2 ──► Phase 3 (Deploy) ──► Phase 4 (Analytics) ──► Phase 5 (Extension) ──► Phase 6 (Community)
+Figma   ──► Phase 7 (UI Rebuild)
 ```
