@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ModeToggle } from '@/components/mode-toggle'
+import { CartButtonWrapper } from '@/components/cart-button-wrapper'
 import SearchDialog from '@/components/shadcn-studio/blocks/dialog-search'
 import NotificationDropdown from '@/components/shadcn-studio/blocks/dropdown-notification'
 /** Serialized notification passed from server → client boundary */
@@ -53,6 +54,7 @@ export function SiteHeader({ userId, notifications = [], unreadCount = 0 }: Site
 
         {/* Right side */}
         <div className="ml-auto flex items-center gap-1">
+          <CartButtonWrapper />
           <NotificationDropdown
             trigger={
               <Button variant="ghost" size="icon" className="relative cursor-pointer">

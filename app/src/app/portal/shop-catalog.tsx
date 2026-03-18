@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { MessageCircleIcon, SearchIcon } from 'lucide-react'
+import { useState, useMemo, useCallback } from 'react'
+import { SearchIcon, Loader2, Check, ShoppingCartIcon } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -9,29 +9,45 @@ import { Input } from '@/components/ui/input'
 import {
   Card,
   CardAction,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
 import { productTypeLabels } from '@/data/mock-products'
+import { useCart } from '@/lib/cart-context'
 import type { Product } from '@/components/product-catalog'
-
-const TELEGRAM_HANDLE = 'goads_official'
 
 interface ShopCatalogProps {
   products: (Product & { _type: string })[]
   productTypes: string[]
 }
 
+/** Add-to-cart with loading/done feedback */
+function useAddToCart(product: Product) {
+  const { addItem } = useCart()
+  const [state, setState] = useState<'idle' | 'loading' | 'done'>('idle')
+
+  const trigger = useCallback(() => {
+    if (product.price === 'contact' || state !== 'idle') return
+    setState('loading')
+    setTimeout(() => {
+      addItem(product)
+      setState('done')
+      setTimeout(() => setState('idle'), 1200)
+    }, 400)
+  }, [product, addItem, state])
+
+  return { state, trigger }
+}
+
 /** Product card styled exactly like StatsCard — same Card/CardHeader/CardFooter pattern */
 function ShopProductCard({ product }: { product: Product & { _type: string } }) {
+  const { state, trigger } = useAddToCart(product)
   const price = typeof product.price === 'number' && product.price > 0
     ? `$${product.price.toFixed(2)}`
     : 'Contact us'
 
-  const typeLabel = productTypeLabels[product._type as keyof typeof productTypeLabels] ?? product._type
-  const telegramUrl = `https://t.me/${TELEGRAM_HANDLE}?text=${encodeURIComponent(`Hi, I want to buy "${product.name}" (${typeLabel}). Please help me place an order.`)}`
+  const isContact = product.price === 'contact' || (typeof product.price === 'number' && product.price <= 0)
 
   return (
     <Card className="@container/card flex flex-col">
@@ -44,20 +60,23 @@ function ShopProductCard({ product }: { product: Product & { _type: string } }) 
         </CardAction>
       </CardHeader>
       <CardFooter className="flex items-center justify-end gap-1.5">
-        <a
-          href={telegramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-muted-foreground hover:text-primary transition-colors"
-          title="Ask about this product"
-        >
-          <MessageCircleIcon className="size-5" />
-        </a>
-        <Button size="sm" className="h-7 px-3 text-xs" asChild>
-          <a href={telegramUrl} target="_blank" rel="noopener noreferrer">
-            Buy Now
-          </a>
-        </Button>
+        {isContact ? (
+          <Button size="sm" className="h-7 px-3 text-xs" variant="outline" disabled>
+            Contact us
+          </Button>
+        ) : (
+          <Button
+            size="sm"
+            className="h-7 min-w-[88px] px-3 text-xs gap-1 cursor-pointer"
+            onClick={trigger}
+            disabled={state === 'loading'}
+          >
+            {state === 'loading' && <Loader2 className="size-3 animate-spin" />}
+            {state === 'done' && <Check className="size-3" />}
+            {state === 'idle' && <ShoppingCartIcon className="size-3" />}
+            {state === 'loading' ? 'Adding...' : state === 'done' ? 'Added' : 'Buy Now'}
+          </Button>
+        )}
       </CardFooter>
     </Card>
   )
