@@ -1,7 +1,12 @@
+import type { Metadata } from 'next'
 import { requireRole } from '@/lib/auth/require-role'
 import { getAllProductCounts, getPendingOrderCount } from '@/lib/db/queries'
 import { getNotifications, getUnreadNotificationCount } from '@/lib/db/queries/notification-queries'
 import { AdminShell } from './admin-shell'
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+}
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await requireRole('super_admin', 'staff')
