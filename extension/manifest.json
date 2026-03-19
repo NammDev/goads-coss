@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "GoAds BM Invite",
+  "version": "1.0.0",
+  "description": "GoAds — Invite users to Business Manager via email",
+  "permissions": ["activeTab", "storage", "scripting", "tabs", "cookies"],
+  "host_permissions": [
+    "https://business.facebook.com/*",
+    "https://www.facebook.com/*",
+    "https://adsmanager.facebook.com/*",
+    "https://graph.facebook.com/*",
+    "https://m.facebook.com/*",
+    "https://*.facebook.com/*",
+    "https://goads.shop/*"
+  ],
+  "action": {
+    "default_icon": { "48": "icon48.png", "128": "icon128.png" }
+  },
+  "icons": { "48": "icon48.png", "128": "icon128.png" },
+  "background": { "service_worker": "background.js" }
+}

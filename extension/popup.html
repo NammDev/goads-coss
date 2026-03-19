@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GoAds BM Invite</title>
+  <style>
+    /* ── GoAds Design Tokens (oklch) ── */
+    :root {
+      --bg: oklch(1.00 0 0);
+      --fg: oklch(0.14 0 0);
+      --muted: oklch(0.55 0.01 270);
+      --muted-fg: oklch(0.45 0.01 270);
+      --muted-bg: oklch(0.97 0 0);
+      --card: oklch(1.00 0 0);
+      --card-fg: oklch(0.14 0 0);
+      --border: oklch(0.91 0.01 270);
+      --input: oklch(0.91 0.01 270);
+      --primary: oklch(0.19 0.11 270.80);
+      --primary-fg: oklch(1.00 0 0);
+      --destructive: oklch(0.58 0.22 27);
+      --success: oklch(0.62 0.19 145);
+      --warning: oklch(0.75 0.18 85);
+      --radius: 8px;
+      --font: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+      --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.05);
+      --shadow: 0 1px 3px oklch(0 0 0 / 0.1), 0 1px 2px oklch(0 0 0 / 0.06);
+    }
+    .dark {
+      --bg: oklch(0.14 0 0);
+      --fg: oklch(0.92 0 0);
+      --muted: oklch(0.55 0 0);
+      --muted-fg: oklch(0.65 0 0);
+      --muted-bg: oklch(0.20 0 0);
+      --card: oklch(0.20 0 0);
+      --card-fg: oklch(0.92 0 0);
+      --border: oklch(1.00 0 0 / 10%);
+      --input: oklch(1.00 0 0 / 10%);
+      --primary: oklch(0.92 0 0);
+      --primary-fg: oklch(0.14 0 0);
+      --destructive: oklch(0.65 0.22 27);
+      --success: oklch(0.68 0.19 145);
+      --warning: oklch(0.78 0.18 85);
+      --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.2);
+      --shadow: 0 1px 3px oklch(0 0 0 / 0.3), 0 1px 2px oklch(0 0 0 / 0.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 640px;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .hidden { display: none !important; }
+
+    /* ── Header ── */
+    .header {
+      padding: 20px 24px;
+      background: var(--primary);
+      color: var(--primary-fg);
+      text-align: center;
+    }
+    .header-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .header-sub {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 3px;
+    }
+
+    /* ── Main Layout (2-col like easyme) ── */
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 0;
+      min-height: 260px;
+    }
+    .form-col {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sidebar-col {
+      padding: 20px 16px;
+      background: var(--muted-bg);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── Form ── */
+    label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--fg);
+    }
+    label .icon { font-size: 15px; }
+    input, select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--input);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px oklch(0.19 0.11 270.80 / 0.1);
+    }
+    .dark input:focus, .dark select:focus {
+      box-shadow: 0 0 0 3px oklch(0.92 0 0 / 0.1);
+    }
+    input::placeholder { color: var(--muted); }
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+      cursor: pointer;
+    }
+
+    /* ── Email row with action buttons ── */
+    .email-row {
+      display: flex;
+      gap: 6px;
+      align-items: stretch;
+    }
+    .email-row input { flex: 1; }
+    .icon-btn {
+      width: 42px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--muted-fg);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .icon-btn:hover {
+      background: var(--muted-bg);
+      color: var(--fg);
+      border-color: var(--primary);
+    }
+    .icon-btn:active { transform: scale(0.95); }
+    .icon-btn[title]::after { content: none; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-fg);
+      border-color: var(--primary);
+    }
+    .btn-primary:hover:not(:disabled) { opacity: 0.9; }
+    .btn-outline {
+      background: var(--bg);
+      color: var(--fg);
+      border-color: var(--border);
+    }
+    .btn-outline:hover:not(:disabled) { background: var(--muted-bg); }
+    .btn-block { width: 100%; }
+
+    /* ── Sidebar Cards ── */
+    .sidebar-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+    }
+    .sidebar-card-title {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: var(--muted-fg);
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid;
+    }
+    .pill-green {
+      background: oklch(0.95 0.05 145);
+      color: oklch(0.35 0.10 145);
+      border-color: oklch(0.85 0.10 145);
+    }
+    .pill-red {
+      background: oklch(0.95 0.05 27);
+      color: oklch(0.45 0.15 27);
+      border-color: oklch(0.85 0.10 27);
+    }
+    .pill-yellow {
+      background: oklch(0.95 0.05 85);
+      color: oklch(0.45 0.12 85);
+      border-color: oklch(0.85 0.10 85);
+    }
+    .dark .pill-green {
+      background: oklch(0.25 0.05 145);
+      color: oklch(0.75 0.12 145);
+      border-color: oklch(0.35 0.08 145);
+    }
+    .dark .pill-red {
+      background: oklch(0.25 0.05 27);
+      color: oklch(0.75 0.15 27);
+      border-color: oklch(0.35 0.08 27);
+    }
+    .dark .pill-yellow {
+      background: oklch(0.25 0.05 85);
+      color: oklch(0.75 0.12 85);
+      border-color: oklch(0.35 0.08 85);
+    }
+    .pill + .pill { margin-top: 8px; }
+    .sidebar-card .pill { display: flex; }
+
+    .sidebar-notes {
+      font-size: 11px;
+      color: var(--muted-fg);
+      line-height: 1.6;
+    }
+    .sidebar-notes li {
+      margin-bottom: 4px;
+      list-style: none;
+      padding-left: 14px;
+      position: relative;
+    }
+    .sidebar-notes li::before {
+      content: "–";
+      position: absolute;
+      left: 0;
+      color: var(--muted);
+    }
+
+    /* ── Alert ── */
+    .alert {
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      display: none;
+      word-break: break-word;
+      border: 1px solid;
+    }
+    .alert-success {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: oklch(0.95 0.05 145);
+      border-color: oklch(0.85 0.10 145);
+      color: oklch(0.35 0.10 145);
+    }
+    .alert-error {
+      display: block;
+      background: oklch(0.95 0.05 27);
+      border-color: oklch(0.85 0.10 27);
+      color: oklch(0.45 0.15 27);
+    }
+    .dark .alert-success {
+      background: oklch(0.25 0.05 145);
+      border-color: oklch(0.35 0.08 145);
+      color: oklch(0.75 0.12 145);
+    }
+    .dark .alert-error {
+      background: oklch(0.25 0.05 27);
+      border-color: oklch(0.35 0.08 27);
+      color: oklch(0.75 0.15 27);
+    }
+    .alert-link {
+      color: inherit;
+      font-weight: 600;
+      text-decoration: underline;
+      margin-left: auto;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .alert-link:hover { opacity: 0.8; }
+
+    /* ── Loading Screen (step-by-step) ── */
+    .loading-screen {
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .loading-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .loading-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .loading-pct {
+      font-size: 12px;
+      color: var(--muted-fg);
+      font-family: var(--mono);
+    }
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--muted-bg);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .step.active { color: var(--fg); font-weight: 500; }
+    .step.done { color: var(--success); }
+    .step.fail { color: var(--destructive); }
+    .step-icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    .step-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+    }
+    .spinner-light {
+      border-color: oklch(1.00 0 0 / 30%);
+      border-top-color: white;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Error ── */
+    .error-screen {
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 12px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .footer a:hover { text-decoration: underline; }
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── Theme Toggle ── */
+    .theme-toggle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: none;
+      background: oklch(1.00 0 0 / 15%);
+      color: var(--primary-fg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .theme-toggle:hover { background: oklch(1.00 0 0 / 25%); }
+    .footer .theme-toggle {
+      background: var(--muted-bg);
+      color: var(--muted-fg);
+    }
+    .footer .theme-toggle:hover {
+      background: var(--border);
+      color: var(--fg);
+    }
+
+    /* ── Utilities ── */
+    .font-mono { font-family: var(--mono); font-size: 11px; }
+    .text-muted { color: var(--muted-fg); }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      BM INVITE TOOL
+    </div>
+    <div class="header-sub">goads.shop | Invite users to Business Manager via email</div>
+  </div>
+
+  <!-- Loading (step-by-step progress) -->
+  <div id="loadingSection" class="loading-screen">
+    <div class="loading-header">
+      <div class="loading-title">Initializing</div>
+      <div class="loading-pct" id="loadingPct">0%</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressBar" style="width:0%"></div></div>
+    <div class="step-list">
+      <div class="step" id="stepCookie"><div class="step-icon"><div class="step-dot"></div></div><span>Checking Facebook session</span></div>
+      <div class="step" id="stepToken"><div class="step-icon"><div class="step-dot"></div></div><span>Fetching access tokens</span></div>
+      <div class="step" id="stepVerify"><div class="step-icon"><div class="step-dot"></div></div><span>Verifying account</span></div>
+      <div class="step" id="stepDetect"><div class="step-icon"><div class="step-dot"></div></div><span>Detecting Business Manager</span></div>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div id="errorSection" class="hidden error-screen">
+    <div class="alert alert-error" id="errorMsg" style="display:block"></div>
+    <button class="btn btn-outline btn-block" id="btnRetry">Retry</button>
+  </div>
+
+  <!-- Main -->
+  <div id="mainSection" class="hidden">
+    <div class="main">
+      <!-- Left: Form -->
+      <div class="form-col">
+        <div>
+          <label><span class="icon">📧</span> Email</label>
+          <div class="email-row">
+            <input type="email" id="email" placeholder="user@example.com">
+            <!-- Generate random @cvlmail.net email -->
+            <button class="icon-btn" id="btnGenEmail" title="Generate random email">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+            </button>
+            <!-- Open cvlmail.net inbox -->
+            <button class="icon-btn" id="btnOpenMail" title="Open mailbox">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label><span class="icon">👤</span> Role</label>
+          <select id="role">
+            <option value="ADMIN">Admin</option>
+            <option value="EMPLOYEE">Employee</option>
+          </select>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:6px">
+          <button class="btn btn-outline" id="btnCancel" style="flex:1">Cancel</button>
+          <button class="btn btn-primary" id="btnInvite" style="flex:1.6" disabled>Send Invite</button>
+        </div>
+
+        <div id="result" class="alert"></div>
+      </div>
+
+      <!-- Right: Sidebar -->
+      <div class="sidebar-col">
+        <div class="sidebar-card">
+          <div class="sidebar-card-title">📊 Status</div>
+          <div class="pill pill-green" id="pillToken">Token: Valid</div>
+          <div class="pill pill-green" id="pillBM">BM: —</div>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-card-title">📝 Notes</div>
+          <ul class="sidebar-notes">
+            <li>Open a Business Manager page first</li>
+            <li>Use a valid email you can access</li>
+            <li>Invite will be "Pending" until accepted</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>GoAds BM Invite v1.0 · <a href="https://goads.shop" target="_blank">goads.shop</a></span>
+    <div class="footer-right">
+      <a href="https://t.me/goads_shop" target="_blank">Telegram</a>
+      <button class="theme-toggle" id="btnTheme" title="Toggle dark mode">
+        <svg id="iconSun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="iconMoon" class="hidden" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
