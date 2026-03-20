@@ -51,6 +51,28 @@ export const notificationTypeEnum = pgEnum("notification_type", [
   "balance_topup",
   "item_delivered",
   "system",
+  "community_reply",
+  "community_solution",
+]);
+
+/** Community post lifecycle — discussions use open/solved/closed, feedback uses extended statuses */
+export const communityPostStatusEnum = pgEnum("community_post_status", [
+  "open",
+  "solved",
+  "closed",
+  "in_review",
+  "planned",
+  "in_progress",
+  "completed",
+  "rejected",
+]);
+
+/** Reasons for flagging community content */
+export const communityReportReasonEnum = pgEnum("community_report_reason", [
+  "spam",
+  "inappropriate",
+  "offtopic",
+  "other",
 ]);
 
 /** Delivered item health status */
