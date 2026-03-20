@@ -4,8 +4,17 @@ import Link from 'next/link'
 import type { ColumnDef } from '@tanstack/react-table'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 import { formatUSD } from '@/lib/format-currency'
-import type { CustomerWithStats } from '@/lib/db/queries'
+import type { CustomerWithStats, CustomerSegment } from '@/lib/db/queries'
+
+const SEGMENT_CONFIG: Record<CustomerSegment, { label: string; className: string }> = {
+  whale: { label: 'Whale', className: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400' },
+  regular: { label: 'Regular', className: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' },
+  casual: { label: 'Casual', className: 'bg-muted text-muted-foreground' },
+  new: { label: 'New', className: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400' },
+}
 
 export const adminCustomerColumns: ColumnDef<CustomerWithStats, unknown>[] = [
   {
@@ -45,6 +54,19 @@ export const adminCustomerColumns: ColumnDef<CustomerWithStats, unknown>[] = [
     cell: ({ row }) => (
       <span className="font-medium">{formatUSD(row.original.totalSpent)}</span>
     ),
+  },
+  {
+    accessorKey: 'segment',
+    header: 'Segment',
+    cell: ({ row }) => {
+      const config = SEGMENT_CONFIG[row.original.segment]
+      return (
+        <Badge variant="outline" className={cn('border-transparent', config.className)}>
+          {config.label}
+        </Badge>
+      )
+    },
+    meta: { filterVariant: 'select' },
   },
   {
     accessorKey: 'role',

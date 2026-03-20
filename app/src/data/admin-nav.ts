@@ -8,6 +8,7 @@ import {
   WalletIcon,
   UserCogIcon,
   SettingsIcon,
+  ShieldIcon,
 } from 'lucide-react'
 
 import { productTypeLabels } from '@/data/mock-products'
@@ -68,6 +69,7 @@ export function buildAdminNavGroups(productCounts: Record<string, number>): NavG
         { icon: ShoppingCartIcon, label: 'Orders', href: '/admin/orders' },
         { icon: UsersIcon, label: 'Customers', href: '/admin/customers' },
         { icon: PackageIcon, label: 'Products', href: '/admin/products' },
+        { icon: ShieldIcon, label: 'Community', href: '/admin/community' },
       ],
     },
     {

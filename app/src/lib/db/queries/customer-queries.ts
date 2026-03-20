@@ -6,12 +6,23 @@ import type { InferSelectModel } from "drizzle-orm";
 export type User = InferSelectModel<typeof users>;
 type Order = InferSelectModel<typeof orders>;
 
+export type CustomerSegment = "whale" | "regular" | "casual" | "new";
+
 export type CustomerWithStats = User & {
   orderCount: number;
   totalSpent: string;
+  segment: CustomerSegment;
 };
 
 export type CustomerDetail = User & { orders: Order[] };
+
+/** Compute customer segment from spending + order data */
+function computeSegment(totalSpent: number, orderCount: number): CustomerSegment {
+  if (orderCount === 0) return "new";
+  if (totalSpent >= 500) return "whale";
+  if (totalSpent >= 100) return "regular";
+  return "casual";
+}
 
 /** Get all users with role='customer', including order count and total spent */
 export async function getAllCustomers(): Promise<CustomerWithStats[]> {
@@ -38,10 +49,13 @@ export async function getAllCustomers(): Promise<CustomerWithStats[]> {
 
   return customers.map((c) => {
     const s = statsMap.get(c.id);
+    const spent = Number(s?.totalSpent ?? 0);
+    const orderCount = s?.orderCount ?? 0;
     return {
       ...c,
-      orderCount: s?.orderCount ?? 0,
+      orderCount,
       totalSpent: s?.totalSpent ?? "0",
+      segment: computeSegment(spent, orderCount),
     };
   });
 }

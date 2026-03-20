@@ -6,3 +6,4 @@ export * from "./order-tables";
 export * from "./wallet-tables";
 export * from "./notification-tables";
 export * from "./extension-tables";
+export * from "./community-tables";

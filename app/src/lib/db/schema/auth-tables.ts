@@ -14,6 +14,12 @@ export const users = pgTable("user", {
   balance: numeric("balance", { precision: 12, scale: 2 })
     .notNull()
     .default("0"),
+  /** Unique URL-safe username for public profile (e.g. /community/user/johndoe) */
+  username: text("username").unique(),
+  /** Short bio for community profile */
+  bio: text("bio"),
+  /** Avatar URL — falls back to Clerk avatar if null */
+  avatarUrl: text("avatarUrl"),
   telegramId: text("telegramId"),
   notes: text("notes"),
   createdAt: timestamp("createdAt").notNull().defaultNow(),

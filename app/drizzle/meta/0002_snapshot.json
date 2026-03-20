@@ -1,6 +1,6 @@
 {
-  "id": "fe93772b-1d69-4410-84fc-f69d0a03867a",
-  "prevId": "55c1b9d8-b771-4c09-8db6-baba45cbc14e",
+  "id": "937b7652-efff-46f7-8d54-340304bb2ce8",
+  "prevId": "fe93772b-1d69-4410-84fc-f69d0a03867a",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -41,6 +41,24 @@
           "notNull": true,
           "default": "'0'"
         },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bio": {
+          "name": "bio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatarUrl": {
+          "name": "avatarUrl",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "telegramId": {
           "name": "telegramId",
           "type": "text",
@@ -77,6 +95,13 @@
           "nullsNotDistinct": false,
           "columns": [
             "email"
+          ]
+        },
+        "user_username_unique": {
+          "name": "user_username_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "username"
           ]
         }
       },

@@ -12,8 +12,15 @@
     {
       "idx": 1,
       "version": "7",
-      "when": 1773934819697,
-      "tag": "0001_fresh_the_call",
+      "when": 1773919742252,
+      "tag": "0001_neat_morlun",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773966168610,
+      "tag": "0002_cynical_rawhide_kid",
       "breakpoints": true
     }
   ]
