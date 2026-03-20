@@ -189,20 +189,23 @@ Goal: Chrome extension for BM invite link management.
 
 ---
 
-## Phase 6 — Community
+## Phase 6 — Community 🔄
 
-Goal: Community features for customer engagement.
+Goal: Community discussion board for customer engagement (Foreplay + Vercel Community style).
 
-**Status: Not started** | **Timeline: After Phase 5**
+**Status: In Progress** | **Timeline: Mar 18–25** | **Branch: `feature/community`**
 
-| # | Task | Priority | Notes |
-|---|------|----------|-------|
-| 1 | Discussion board | Medium | Requires auth |
-| 2 | Public user profiles | Medium | Activity, reputation |
-| 3 | Moderation tools | Medium | Admin/staff moderation |
-| 4 | CMS for blog/docs | High | Staff manages content without code |
-| 5 | Email notifications | High | Order confirmed, delivered, warranty expiring |
-| 6 | Customer segmentation | Medium | Whale vs casual, targeted marketing |
+| # | Task | Priority | Status | Notes |
+|---|------|----------|--------|-------|
+| 1 | DB schema (7 tables) | High | ✅ | `community-tables.ts` — category, post, reply, upvote, report, view, subscription |
+| 2 | API layer (queries + actions) | High | ✅ | 9 queries + 12 server actions + notification integration |
+| 3 | UI pages | High | ⏳ | `/portal/community` list, `[slug]` detail, create post form |
+| 4 | Portal integration | High | ⏳ | Sidebar nav, auth-gated posting, Cmd+K search |
+| 5 | Admin moderation | Medium | ⏳ | `/admin/community` — report queue, pin/hide/status |
+| 6 | Public user profiles | Medium | ⏳ | `/community/user/[username]` — post history, reputation |
+| 7 | CMS for blog/docs | High | ⏳ | Staff manages content without code |
+| 8 | Email notifications | High | ⏳ | Order confirmed, delivered, warranty expiring |
+| 9 | Customer segmentation | Medium | ⏳ | Whale vs casual, targeted marketing |
 
 ---
 

@@ -4,6 +4,26 @@
 
 ---
 
+## [2026-03-19] — Phase 6 Community Foundation (DB + API)
+
+### Added
+- **Community DB schema** — 7 new tables: `community_category`, `community_post`, `community_reply`, `community_upvote`, `community_report`, `community_view`, `community_subscription`
+- **2 new enums**: `community_post_status` (8 values: open/solved/closed/in_review/planned/in_progress/completed/rejected), `community_report_reason` (spam/inappropriate/offtopic/other)
+- **Extended `notification_type`** with `community_reply` + `community_solution`
+- **9 query functions** (`community-queries.ts`): getCategories, getPosts (paginated), getPostBySlug, getPostsByAuthor, getMostHelpful (leaderboard), getPostStats, getReports, searchPosts
+- **12 server actions** (`community-actions.ts` + `community-admin-actions.ts`): createPost, updatePost, deletePost, createReply, markSolution, toggleUpvote, toggleSubscription, recordView, reportContent, reviewReport, togglePin, updatePostStatus
+- **8 default categories seeded**: Announcements, Q&A, Tips & Strategies, Showcase, Feedback, Troubleshooting, General, Introductions
+- **Auto-subscribe**: post authors + repliers auto-subscribed for notifications
+- **Notification integration**: subscribers notified on new replies, reply authors notified on solution mark
+
+### Design Decisions
+- Foreplay FeatureBase style: upvote-only (no downvotes), status badges, post card with vote count
+- Vercel Community style: flat replies (no nesting), open/solved/closed lifecycle, minimal layout
+- Denormalized counts (upvotesCount, repliesCount, viewsCount) for performance
+- Separate admin actions file to keep files under 200 LOC
+
+---
+
 ## [2026-03-11] — WT2 Dark Mode + Lighthouse Audit Complete
 
 ### Completed

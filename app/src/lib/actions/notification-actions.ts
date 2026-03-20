@@ -9,7 +9,7 @@ import {
   markAllNotificationsAsRead,
 } from "@/lib/db/queries/notification-queries";
 
-type NotificationType = "order_created" | "balance_topup" | "item_delivered" | "system";
+type NotificationType = "order_created" | "balance_topup" | "item_delivered" | "system" | "community_reply" | "community_solution";
 
 /** Internal helper — create a notification for a user */
 export async function createNotification(params: {
