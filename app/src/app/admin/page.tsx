@@ -1,16 +1,27 @@
+import { Suspense } from 'react'
 import { ChartAreaInteractive } from '@/components/dashboard/chart-area-interactive'
+import { DateRangeFilter } from '@/components/dashboard/date-range-filter'
 import { getAdminStats } from '@/lib/db/queries'
 import { getRecentOrders } from '@/lib/db/queries/order-queries'
+import { resolveDateRange } from '@/lib/date-range-presets'
 import { formatUSD } from '@/lib/format-currency'
 import { AdminStats } from './admin-stats'
 import { RevenueBreakdown } from '@/components/dashboard/revenue-breakdown'
 import { RecentTransactions } from '@/components/dashboard/recent-transactions'
 import { TopProducts } from '@/components/dashboard/top-products'
 import { CustomerInsights } from '@/components/dashboard/customer-insights'
+import { ProductHealthWidget } from '@/components/dashboard/product-health-widget'
 
-export default async function AdminDashboardPage() {
+type Props = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+export default async function AdminDashboardPage({ searchParams }: Props) {
+  const params = await searchParams
+  const dateRange = resolveDateRange(params)
+
   const [stats, recentOrders] = await Promise.all([
-    getAdminStats(),
+    getAdminStats(dateRange),
     getRecentOrders(5),
   ])
 
@@ -25,7 +36,12 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Overview</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-semibold">Overview</h1>
+        <Suspense>
+          <DateRangeFilter />
+        </Suspense>
+      </div>
 
       {/* Stats row */}
       <AdminStats
@@ -53,6 +69,9 @@ export default async function AdminDashboardPage() {
         <TopProducts />
         <RecentTransactions transactions={transactions} />
       </div>
+
+      {/* Product Health Overview */}
+      <ProductHealthWidget />
 
       {/* Customer Insights - full width */}
       <CustomerInsights />

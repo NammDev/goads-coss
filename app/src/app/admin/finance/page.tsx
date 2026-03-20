@@ -1,4 +1,7 @@
+import { Suspense } from 'react'
 import { Badge } from '@/components/ui/badge'
+import { DateRangeFilter } from '@/components/dashboard/date-range-filter'
+import { ExportCSVButton } from '@/components/dashboard/export-csv-button'
 import { FinanceStats } from './finance-stats'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import {
@@ -16,6 +19,7 @@ import {
   getOrderStatusBreakdown,
   getRevenueByMonth,
 } from '@/lib/db/queries'
+import { resolveDateRange } from '@/lib/date-range-presets'
 import { formatUSD } from '@/lib/format-currency'
 import { RevenueByTypeChart } from './revenue-by-type-chart'
 import { OrderStatusChart } from './order-status-chart'
@@ -34,13 +38,20 @@ function formatProductType(type: string): string {
   return type.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-export default async function FinancePage() {
+type Props = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+export default async function FinancePage({ searchParams }: Props) {
+  const params = await searchParams
+  const dateRange = resolveDateRange(params)
+
   const [stats, revenueByType, topCustomers, statusBreakdown, revenueByMonth] = await Promise.all([
-    getAdminStats(),
-    getRevenueByProductType(),
-    getTopCustomers(10),
-    getOrderStatusBreakdown(),
-    getRevenueByMonth(),
+    getAdminStats(dateRange),
+    getRevenueByProductType(dateRange),
+    getTopCustomers(10, dateRange),
+    getOrderStatusBreakdown(dateRange),
+    getRevenueByMonth(dateRange),
   ])
 
   const avgPerOrder =
@@ -55,16 +66,25 @@ export default async function FinancePage() {
         <Badge variant="outline" className="bg-primary/10 text-primary border-transparent text-xs">
           Super Admin
         </Badge>
-        <div className="ml-auto flex flex-wrap gap-2">
-          {statusBreakdown.map((s) => (
-            <span
-              key={s.status}
-              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_COLORS[s.status] ?? 'bg-muted text-muted-foreground'}`}
-            >
-              {formatProductType(s.status)}: {s.count}
-            </span>
-          ))}
+        <div className="ml-auto flex items-center gap-2">
+          <Suspense>
+            <ExportCSVButton endpoint="/api/admin/export/finance" />
+          </Suspense>
+          <Suspense>
+            <DateRangeFilter />
+          </Suspense>
         </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {statusBreakdown.map((s) => (
+          <span
+            key={s.status}
+            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_COLORS[s.status] ?? 'bg-muted text-muted-foreground'}`}
+          >
+            {formatProductType(s.status)}: {s.count}
+          </span>
+        ))}
       </div>
 
       <FinanceStats

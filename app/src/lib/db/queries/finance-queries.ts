@@ -1,6 +1,7 @@
-import { eq, desc, count, sum, sql } from "drizzle-orm";
+import { eq, desc, count, sum, sql, and } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { orders, orderItems, deliveredItems, users } from "@/lib/db/schema";
+import { dateRangeWhere, type DateRangeParams } from "./date-range-utils";
 
 export type RevenueByProductType = {
   productType: string;
@@ -22,7 +23,9 @@ export type OrderStatusCount = {
 };
 
 /** Revenue grouped by product type via delivered items joined to order items */
-export async function getRevenueByProductType(): Promise<RevenueByProductType[]> {
+export async function getRevenueByProductType(dateRange?: DateRangeParams): Promise<RevenueByProductType[]> {
+  const dateFilter = dateRange ? dateRangeWhere(deliveredItems.createdAt, dateRange) : undefined;
+
   const rows = await db
     .select({
       productType: deliveredItems.productType,
@@ -31,6 +34,7 @@ export async function getRevenueByProductType(): Promise<RevenueByProductType[]>
     })
     .from(deliveredItems)
     .innerJoin(orderItems, eq(deliveredItems.orderItemId, orderItems.id))
+    .where(dateFilter)
     .groupBy(deliveredItems.productType)
     .orderBy(desc(sum(sql<number>`${orderItems.unitPrice} * ${orderItems.quantity}`)));
 
@@ -42,7 +46,9 @@ export async function getRevenueByProductType(): Promise<RevenueByProductType[]>
 }
 
 /** Top N customers by total order spend */
-export async function getTopCustomers(limit: number): Promise<TopCustomer[]> {
+export async function getTopCustomers(limit: number, dateRange?: DateRangeParams): Promise<TopCustomer[]> {
+  const dateFilter = dateRange ? dateRangeWhere(orders.createdAt, dateRange) : undefined;
+
   const rows = await db
     .select({
       id: users.id,
@@ -53,6 +59,7 @@ export async function getTopCustomers(limit: number): Promise<TopCustomer[]> {
     })
     .from(orders)
     .innerJoin(users, eq(orders.customerId, users.id))
+    .where(dateFilter)
     .groupBy(users.id, users.name, users.email)
     .orderBy(desc(sum(orders.totalAmount)))
     .limit(limit);
@@ -67,13 +74,16 @@ export async function getTopCustomers(limit: number): Promise<TopCustomer[]> {
 }
 
 /** Count of orders per status */
-export async function getOrderStatusBreakdown(): Promise<OrderStatusCount[]> {
+export async function getOrderStatusBreakdown(dateRange?: DateRangeParams): Promise<OrderStatusCount[]> {
+  const dateFilter = dateRange ? dateRangeWhere(orders.createdAt, dateRange) : undefined;
+
   const rows = await db
     .select({
       status: orders.status,
       count: count(),
     })
     .from(orders)
+    .where(dateFilter)
     .groupBy(orders.status)
     .orderBy(desc(count()));
 
@@ -88,8 +98,12 @@ export type RevenueByMonth = {
   revenue: number;
 };
 
-/** Monthly revenue grouped by order creation month (last 12 months) */
-export async function getRevenueByMonth(): Promise<RevenueByMonth[]> {
+/** Monthly revenue grouped by order creation month, filtered by date range (defaults to last 12 months) */
+export async function getRevenueByMonth(dateRange?: DateRangeParams): Promise<RevenueByMonth[]> {
+  const dateFilter = dateRange
+    ? dateRangeWhere(orders.createdAt, dateRange)
+    : sql`${orders.createdAt} >= now() - interval '12 months'`;
+
   const rows = await db
     .select({
       month: sql<string>`to_char(${orders.createdAt}, 'Mon YYYY')`,
@@ -97,7 +111,7 @@ export async function getRevenueByMonth(): Promise<RevenueByMonth[]> {
       revenue: sum(orders.totalAmount),
     })
     .from(orders)
-    .where(sql`${orders.createdAt} >= now() - interval '12 months'`)
+    .where(dateFilter)
     .groupBy(
       sql`to_char(${orders.createdAt}, 'Mon YYYY')`,
       sql`to_char(${orders.createdAt}, 'YYYY-MM')`
