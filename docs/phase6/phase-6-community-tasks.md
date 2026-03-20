@@ -22,7 +22,7 @@ branch: feature/community
 | 6 | Public user profiles — UI | Medium | ✅ | `/portal/community/user/[username]` profile page with stats + post history + author links in PostCard |
 | 7 | Moderation tools — admin | Medium | ✅ | `/admin/community` — tabs (Reports queue + Posts management), pin/hide/status actions |
 | 8 | Moderation tools — report system | Medium | ✅ | Report dialog with reason select, admin review (approve/hide/dismiss), expanded row actions |
-| 9 | CMS for blog/docs | High | 🔜 | Deferred — staff manages blog posts + KB articles without code deploy |
+| 9 | ~~CMS for blog/docs~~ | — | ❌ | Removed — handled in separate phase |
 | 10 | Email notifications — transactional | High | 🔜 | Deferred — order confirmed, delivered, warranty expiring (Resend/SES) |
 | 11 | Email notifications — community | Medium | 🔜 | Deferred — new reply to your post, mention, weekly digest |
 | 12 | Customer segmentation | Medium | ✅ | Auto-computed segments (whale/regular/casual/new) from order data, filterable in admin |
