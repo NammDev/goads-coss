@@ -8,7 +8,7 @@ const cspDirectives = [
   "img-src 'self' data: blob: https://cdn.shadcnstudio.com https://randomuser.me https://cdn.simpleicons.org https://img.clerk.com https://notion-avatars.netlify.app https://*.clerk.accounts.dev",
   "font-src 'self' data:",
   "connect-src 'self' https://clerk.goads.shop https://*.clerk.accounts.dev https://va.vercel-scripts.com https://vitals.vercel-insights.com",
-  "frame-src 'self' https://clerk.goads.shop https://*.clerk.accounts.dev https://challenges.cloudflare.com",
+  "frame-src 'self' https://clerk.goads.shop https://*.clerk.accounts.dev https://challenges.cloudflare.com https://app.cal.com",
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",

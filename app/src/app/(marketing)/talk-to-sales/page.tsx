@@ -1,9 +1,11 @@
 import type { Metadata } from "next"
-import { MessageCircleIcon } from 'lucide-react'
+import { MessageCircleIcon, CalendarIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { CONTACT } from '@/data/contact-info'
 import { salesBenefits } from '@/data/talk-to-sales-data'
+import { CalEmbed } from '@/components/cal-embed'
 
 export const metadata: Metadata = {
   title: "Talk to Sales | Contact GoAds Team",
@@ -39,6 +41,26 @@ export default function TalkToSalesPage() {
               </Button>
             </div>
           </div>
+
+          {/* Cal.com booking embed */}
+          <div className="mx-auto mt-16 max-w-4xl">
+            <Separator className="mb-12" />
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5 text-sm text-muted-foreground mb-4">
+                <CalendarIcon className="size-4" />
+                Book a meeting
+              </div>
+              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                Schedule a Call
+              </h2>
+              <p className="mt-2 text-muted-foreground">
+                Pick a time that works for you. We&apos;ll discuss your needs and find the best solution.
+              </p>
+            </div>
+            <CalEmbed calLink="nam-khanh-nguyen-dhpuv7/30min" />
+          </div>
+
+          <Separator className="mx-auto mt-16 max-w-4xl" />
 
           <div className="mx-auto mt-16 grid max-w-4xl gap-6 sm:grid-cols-3">
             {salesBenefits.map(({ icon: Icon, title, description }) => (
