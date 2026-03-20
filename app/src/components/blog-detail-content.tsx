@@ -1,17 +1,18 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import DOMPurify from "isomorphic-dompurify"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
-import type { BlogPost } from "@/data/blog-posts"
+import { MarkdocRenderer } from "@/lib/markdoc-renderer"
+import type { TocHeading } from "@/lib/markdoc-renderer"
+import type { RenderableTreeNode } from "@markdoc/markdoc"
 
 function TableOfContents({
-  sections,
+  headings,
   activeId,
 }: {
-  sections: BlogPost["sections"]
+  headings: TocHeading[]
   activeId: string
 }) {
   return (
@@ -19,17 +20,17 @@ function TableOfContents({
       <span className="text-lg font-medium">Content</span>
       <nav className="mt-4">
         <ul className="space-y-1 border-l border-border">
-          {sections.map((section) => (
-            <li key={section.id}>
+          {headings.map((h) => (
+            <li key={h.id}>
               <a
-                href={`#${section.id}`}
+                href={`#${h.id}`}
                 className={`-ml-px block border-l-2 py-1.5 pl-4 text-sm transition-all duration-200 ${
-                  activeId === section.id
+                  activeId === h.id
                     ? "border-foreground font-medium text-foreground"
                     : "border-transparent text-muted-foreground hover:border-border hover:text-foreground"
                 }`}
               >
-                {section.title}
+                {h.title}
               </a>
             </li>
           ))}
@@ -69,61 +70,53 @@ function CtaSidebar() {
   )
 }
 
-export function BlogDetailContent({ post }: { post: BlogPost }) {
-  const [activeId, setActiveId] = useState(post.sections[0]?.id ?? "")
+type Props = {
+  description: string
+  headings: TocHeading[]
+  contentTree: RenderableTreeNode
+}
+
+export function BlogDetailContent({ description, headings, contentTree }: Props) {
+  const [activeId, setActiveId] = useState(headings[0]?.id ?? "")
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
-          }
+          if (entry.isIntersecting) setActiveId(entry.target.id)
         }
       },
       { rootMargin: "-20% 0px -60% 0px" }
     )
 
-    for (const section of post.sections) {
-      const el = document.getElementById(section.id)
+    for (const h of headings) {
+      const el = document.getElementById(h.id)
       if (el) observer.observe(el)
     }
 
     return () => observer.disconnect()
-  }, [post.sections])
+  }, [headings])
 
   return (
     <section className="py-8 sm:py-16 lg:py-24">
       <div className="container">
         <div className="grid gap-12 lg:grid-cols-4 lg:gap-20">
-          {/* Table of contents sidebar */}
-          <TableOfContents sections={post.sections} activeId={activeId} />
+          <TableOfContents headings={headings} activeId={activeId} />
 
-          {/* Main article content */}
           <div className="lg:col-span-2">
-            {/* Lead section */}
             <div className="mb-10">
-              <h2 className="text-3xl font-bold">{post.sections[0]?.title}</h2>
+              <h2 className="text-3xl font-bold">{headings[0]?.title}</h2>
               <p className="mt-3 max-w-prose text-lg leading-relaxed text-muted-foreground">
-                {post.description}
+                {description}
               </p>
               <div className="my-8 aspect-video w-full rounded-md bg-muted" />
             </div>
 
-            {/* Article sections */}
-            {post.sections.map((section) => (
-              <section
-                key={section.id}
-                id={section.id}
-                className="prose mb-10 max-w-none scroll-mt-24 overflow-x-auto dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground prose-li:marker:text-muted-foreground prose-pre:overflow-x-auto"
-              >
-                <h2>{section.title}</h2>
-                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(section.content) }} />
-              </section>
-            ))}
+            <div className="prose max-w-none scroll-mt-24 overflow-x-auto dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground prose-li:marker:text-muted-foreground prose-pre:overflow-x-auto">
+              <MarkdocRenderer content={contentTree} />
+            </div>
           </div>
 
-          {/* CTA sidebar */}
           <CtaSidebar />
         </div>
       </div>
