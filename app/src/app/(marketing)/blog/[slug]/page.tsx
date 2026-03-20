@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 
 import { BlogDetailContent } from "@/components/blog-detail-content"
 import { BlogDetailHeader } from "@/components/blog-detail-header"
+import { BlogMarkdocContent } from "@/components/blog-markdoc-content"
 import { SectionDivider } from "@/components/section-divider"
 import { reader } from "@/lib/keystatic-reader"
 import { transformMarkdoc, extractHeadingsFromNode } from "@/lib/markdoc-renderer"
@@ -54,8 +55,9 @@ export default async function BlogPostPage({ params }: Props) {
       <BlogDetailContent
         description={post.description}
         headings={headings}
-        contentTree={contentTree}
-      />
+      >
+        <BlogMarkdocContent content={contentTree} />
+      </BlogDetailContent>
     </main>
   )
 }

@@ -1,12 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { type ReactNode, useState, useEffect } from "react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
-import { MarkdocRenderer } from "@/lib/markdoc-renderer"
 import type { TocHeading } from "@/lib/markdoc-renderer"
-import type { RenderableTreeNode } from "@markdoc/markdoc"
 
 function TableOfContents({
   headings,
@@ -73,10 +71,10 @@ function CtaSidebar() {
 type Props = {
   description: string
   headings: TocHeading[]
-  contentTree: RenderableTreeNode
+  children: ReactNode
 }
 
-export function BlogDetailContent({ description, headings, contentTree }: Props) {
+export function BlogDetailContent({ description, headings, children }: Props) {
   const [activeId, setActiveId] = useState(headings[0]?.id ?? "")
 
   useEffect(() => {
@@ -113,7 +111,7 @@ export function BlogDetailContent({ description, headings, contentTree }: Props)
             </div>
 
             <div className="prose max-w-none scroll-mt-24 overflow-x-auto dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground prose-li:marker:text-muted-foreground prose-pre:overflow-x-auto">
-              <MarkdocRenderer content={contentTree} />
+              {children}
             </div>
           </div>
 

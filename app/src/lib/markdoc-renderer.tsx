@@ -53,7 +53,7 @@ export function extractHeadingsFromNode(node: Node): TocHeading[] {
   return headings
 }
 
-const components = {
+export const markdocComponents = {
   Callout: ({
     variant,
     title,
@@ -71,5 +71,5 @@ const components = {
 
 /** Render a Markdoc RenderableTreeNode to React */
 export function MarkdocRenderer({ content }: { content: RenderableTreeNode }) {
-  return <>{Markdoc.renderers.react(content, React, { components })}</>
+  return <>{Markdoc.renderers.react(content, React, { components: markdocComponents })}</>
 }

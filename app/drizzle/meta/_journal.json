@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1773306374722,
-      "tag": "0000_sticky_roland_deschain",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1773919742252,
-      "tag": "0001_neat_morlun",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1773966168610,
-      "tag": "0002_cynical_rawhide_kid",
+      "when": 1773975073448,
+      "tag": "0000_open_legion",
       "breakpoints": true
     }
   ]
