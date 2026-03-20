@@ -5,7 +5,7 @@ import { ArrowLeftIcon } from 'lucide-react'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import { Button } from '@/components/ui/button'
 import { requireRole } from '@/lib/auth/require-role'
-import { getOrderById } from '@/lib/db/queries'
+import { getOrderById, getWarrantyClaimsByOrderId } from '@/lib/db/queries'
 import { OrderDetailSummary } from '@/app/admin/orders/[id]/order-detail-summary'
 import { OrderDetailDelivered } from '@/app/admin/orders/[id]/order-detail-delivered'
 
@@ -16,7 +16,10 @@ export default async function PortalOrderDetailPage({
 }) {
   const session = await requireRole('customer')
   const { id } = await params
-  const order = await getOrderById(id)
+  const [order, claims] = await Promise.all([
+    getOrderById(id),
+    getWarrantyClaimsByOrderId(id),
+  ])
 
   if (!order || order.customerId !== session.user.id) {
     redirect('/portal/orders')
@@ -27,6 +30,11 @@ export default async function PortalOrderDetailPage({
   )
   const totalItems = order.items.length
   const deliveredCount = order.deliveredItems.length
+
+  // Build claim status lookup map: deliveredItemId → claimStatus
+  const claimStatusMap = new Map<string, string>(
+    claims.map((c) => [c.deliveredItemId, c.status])
+  )
 
   return (
     <div className="space-y-6">
@@ -53,6 +61,8 @@ export default async function PortalOrderDetailPage({
       {order.deliveredItems.length > 0 ? (
         <OrderDetailDelivered
           items={order.deliveredItems}
+          claimStatusMap={claimStatusMap}
+          showWarrantyActions
           toolbar={
             <Button size="sm" asChild>
               <Link href="/portal/products">View all products</Link>

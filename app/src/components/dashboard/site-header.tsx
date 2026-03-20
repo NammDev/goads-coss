@@ -14,7 +14,7 @@ import NotificationDropdown from '@/components/shadcn-studio/blocks/dropdown-not
 export type SerializedNotification = {
   id: string
   userId: string
-  type: 'order_created' | 'balance_topup' | 'item_delivered' | 'system'
+  type: 'order_created' | 'balance_topup' | 'item_delivered' | 'warranty_expiring' | 'warranty_claimed' | 'system'
   title: string
   message: string
   linkUrl: string | null
