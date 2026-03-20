@@ -1,6 +1,7 @@
 import { eq, count, sum, and } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { orders, users, products, deliveredItems } from "@/lib/db/schema";
+import { dateRangeWhere, type DateRangeParams } from "./date-range-utils";
 
 export type AdminStats = {
   totalOrders: number;
@@ -18,13 +19,16 @@ export type PortalStats = {
   pendingOrders: number;
 };
 
-/** Aggregate stats for the admin dashboard */
-export async function getAdminStats(): Promise<AdminStats> {
+/** Aggregate stats for the admin dashboard, optionally filtered by date range */
+export async function getAdminStats(dateRange?: DateRangeParams): Promise<AdminStats> {
+  const dateFilter = dateRange ? dateRangeWhere(orders.createdAt, dateRange) : undefined;
+
   const [orderTotals, customerCount, productCount, pendingCount, activeItems] =
     await Promise.all([
       db
         .select({ totalOrders: count(), totalRevenue: sum(orders.totalAmount) })
-        .from(orders),
+        .from(orders)
+        .where(dateFilter),
       db
         .select({ totalCustomers: count() })
         .from(users)
@@ -33,7 +37,7 @@ export async function getAdminStats(): Promise<AdminStats> {
       db
         .select({ pendingOrders: count() })
         .from(orders)
-        .where(eq(orders.status, "pending")),
+        .where(dateFilter ? and(eq(orders.status, "pending"), dateFilter) : eq(orders.status, "pending")),
       db
         .select({ activeDeliveredItems: count() })
         .from(deliveredItems)

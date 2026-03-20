@@ -1,6 +1,7 @@
 import { eq, desc, count, sum, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { orders, orderItems, deliveredItems, users, products } from "@/lib/db/schema";
+import { dateRangeWhere, type DateRangeParams } from "./date-range-utils";
 import type { InferSelectModel } from "drizzle-orm";
 
 export type Order = InferSelectModel<typeof orders>;
@@ -28,7 +29,9 @@ export type OrderStats = {
 };
 
 /** Get all orders with customer name */
-export async function getAllOrders(): Promise<OrderWithCustomer[]> {
+export async function getAllOrders(dateRange?: DateRangeParams): Promise<OrderWithCustomer[]> {
+  const dateFilter = dateRange ? dateRangeWhere(orders.createdAt, dateRange) : undefined;
+
   const rows = await db
     .select({
       order: orders,
@@ -36,6 +39,7 @@ export async function getAllOrders(): Promise<OrderWithCustomer[]> {
     })
     .from(orders)
     .leftJoin(users, eq(orders.customerId, users.id))
+    .where(dateFilter)
     .orderBy(desc(orders.createdAt));
 
   return rows.map((r) => ({

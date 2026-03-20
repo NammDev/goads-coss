@@ -1,10 +1,11 @@
 "use client";
 
 import { format } from "date-fns";
-import { ShieldCheckIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { WarrantyBadge } from "@/components/dashboard/warranty-badge";
+import { ItemStatusSelect } from "./item-status-select";
 import {
   Table,
   TableBody,
@@ -86,19 +87,11 @@ export function DeliveredItemsSection({ items }: Props) {
                     )}
                   </TableCell>
                   <TableCell>
-                    <Badge
-                      variant={item.status === "active" ? "default" : "secondary"}
-                      className="text-xs"
-                    >
-                      {item.status}
-                    </Badge>
+                    <ItemStatusSelect itemId={item.id} currentStatus={item.status} />
                   </TableCell>
                   <TableCell className="text-sm">
                     {item.warrantyUntil ? (
-                      <span className="flex items-center gap-1">
-                        <ShieldCheckIcon className="size-3.5 text-green-500" />
-                        {format(new Date(item.warrantyUntil), "dd/MM/yyyy")}
-                      </span>
+                      <WarrantyBadge warrantyUntil={new Date(item.warrantyUntil)} />
                     ) : (
                       <span className="text-muted-foreground">—</span>
                     )}

@@ -18,6 +18,10 @@ import type { ProductType } from '@/lib/validators/credential-schemas'
 interface Props {
   items: DeliveredItem[]
   toolbar?: React.ReactNode
+  /** Map of deliveredItemId → claimStatus for warranty display */
+  claimStatusMap?: Map<string, string>
+  /** Show warranty claim button — portal only */
+  showWarrantyActions?: boolean
 }
 
 function parseCredentials(raw: string | null): Record<string, string> | undefined {
@@ -34,7 +38,10 @@ function parseCredentials(raw: string | null): Record<string, string> | undefine
   }
 }
 
-function toMockShape(item: DeliveredItem): MockDeliveredItem {
+function toMockShape(
+  item: DeliveredItem,
+  claimStatusMap?: Map<string, string>,
+): MockDeliveredItem {
   return {
     id: item.id,
     orderId: item.orderId,
@@ -48,10 +55,11 @@ function toMockShape(item: DeliveredItem): MockDeliveredItem {
     createdAt: item.createdAt.toISOString(),
     updatedAt: item.updatedAt.toISOString(),
     note: undefined,
+    claimStatus: claimStatusMap?.get(item.id) ?? null,
   }
 }
 
-export function OrderDetailDelivered({ items, toolbar }: Props) {
+export function OrderDetailDelivered({ items, toolbar, claimStatusMap, showWarrantyActions = false }: Props) {
   if (items.length === 0) return null
 
   // Group by productType
@@ -60,10 +68,10 @@ export function OrderDetailDelivered({ items, toolbar }: Props) {
     for (const item of items) {
       const type = item.productType as ProductType
       const existing = map.get(type) ?? []
-      map.set(type, [...existing, toMockShape(item)])
+      map.set(type, [...existing, toMockShape(item, claimStatusMap)])
     }
     return map
-  }, [items])
+  }, [items, claimStatusMap])
 
   const types = Array.from(grouped.keys())
 
@@ -83,7 +91,7 @@ export function OrderDetailDelivered({ items, toolbar }: Props) {
           <TabsContent key={type} value={type} className="mt-4">
             <AdminDataTable
               data={grouped.get(type)!}
-              columns={buildPortalProductColumns(type)}
+              columns={buildPortalProductColumns(type, showWarrantyActions)}
               searchPlaceholder="Search by UID, BM ID, email, credentials..."
               pageSize={10}
               toolbar={toolbar}

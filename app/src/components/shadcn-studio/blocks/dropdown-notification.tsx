@@ -28,7 +28,7 @@ import { formatRelativeTime } from "@/lib/format-relative-time";
 /** Notification type from DB */
 type Notification = {
   id: string;
-  type: "order_created" | "balance_topup" | "item_delivered" | "system" | "community_reply" | "community_solution";
+  type: "order_created" | "balance_topup" | "item_delivered" | "warranty_expiring" | "warranty_claimed" | "community_reply" | "community_solution" | "system";
   title: string;
   message: string;
   linkUrl: string | null;

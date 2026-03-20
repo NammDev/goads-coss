@@ -21,6 +21,8 @@ export type MockDeliveredItem = {
   updatedAt: string
   /** Optional admin/delivery note */
   note?: string
+  /** Warranty claim status if a claim has been submitted */
+  claimStatus?: string | null
 }
 
 export const mockDeliveredItems: MockDeliveredItem[] = [

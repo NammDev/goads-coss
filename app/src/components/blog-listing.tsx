@@ -5,7 +5,15 @@ import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { blogPosts } from "@/data/blog-posts"
+
+export type BlogListingPost = {
+  slug: string
+  category: string
+  title: string
+  description: string
+  author: string
+  date: string
+}
 
 const categories = [
   "All Articles",
@@ -17,13 +25,13 @@ const categories = [
 
 type Category = (typeof categories)[number]
 
-export function BlogListing() {
+export function BlogListing({ posts }: { posts: BlogListingPost[] }) {
   const [active, setActive] = useState<Category>("All Articles")
 
   const filtered =
     active === "All Articles"
-      ? blogPosts
-      : blogPosts.filter((p) => p.category === active)
+      ? posts
+      : posts.filter((p) => p.category === active)
 
   return (
     <section className="py-8 sm:py-16 lg:py-24">

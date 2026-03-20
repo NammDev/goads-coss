@@ -1,7 +1,8 @@
-import { eq, inArray, count, sum } from "drizzle-orm";
+import { eq, inArray, count, sum, and } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { users, orders } from "@/lib/db/schema";
 import type { InferSelectModel } from "drizzle-orm";
+import { dateRangeWhere, type DateRangeParams } from "./date-range-utils";
 
 export type User = InferSelectModel<typeof users>;
 type Order = InferSelectModel<typeof orders>;
@@ -25,11 +26,16 @@ function computeSegment(totalSpent: number, orderCount: number): CustomerSegment
 }
 
 /** Get all users with role='customer', including order count and total spent */
-export async function getAllCustomers(): Promise<CustomerWithStats[]> {
+export async function getAllCustomers(dateRange?: DateRangeParams): Promise<CustomerWithStats[]> {
+  const dateFilter = dateRange ? dateRangeWhere(users.createdAt, dateRange) : undefined;
+  const whereClause = dateFilter
+    ? and(eq(users.role, "customer"), dateFilter)
+    : eq(users.role, "customer");
+
   const customers = await db
     .select()
     .from(users)
-    .where(eq(users.role, "customer"));
+    .where(whereClause);
 
   if (customers.length === 0) return [];
 

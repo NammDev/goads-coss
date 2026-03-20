@@ -1,13 +1,24 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { docsTabs } from "@/data/docs-navigation"
-import { getArticle } from "@/data/docs-articles"
+import { reader } from "@/lib/keystatic-reader"
+import { transformMarkdoc, MarkdocRenderer } from "@/lib/markdoc-renderer"
 import { DocsArticle } from "@/components/docs-article"
 import { DocsArticleNav } from "@/components/docs-article-nav"
 import { DocsBreadcrumb } from "@/components/docs-breadcrumb"
 
 type Props = {
   params: Promise<{ slug?: string[] }>
+}
+
+/** Find a Keystatic doc entry by its navSlug field matching the URL slug */
+async function getDocByNavSlug(navSlug: string) {
+  const slugs = await reader.collections.docs.list()
+  for (const s of slugs) {
+    const doc = await reader.collections.docs.read(s)
+    if (doc?.navSlug === navSlug) return { slug: s, doc }
+  }
+  return null
 }
 
 export default async function DocsPage({ params }: Props) {
@@ -38,7 +49,8 @@ export default async function DocsPage({ params }: Props) {
                   <h2 className="font-semibold">{tab.title}</h2>
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  {tab.items.length} {tab.items.length === 1 ? "topic" : "topics"}
+                  {tab.items.length}{" "}
+                  {tab.items.length === 1 ? "topic" : "topics"}
                 </p>
                 <div className="mt-3 flex items-center gap-1 text-sm font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
                   Explore <ArrowRight className="size-3.5" />
@@ -90,9 +102,13 @@ export default async function DocsPage({ params }: Props) {
     )
   }
 
-  // Article page
-  const article = getArticle(fullSlug)
-  if (!article) return <DocsNotFound />
+  // Article page — look up by navSlug
+  const result = await getDocByNavSlug(fullSlug)
+  if (!result) return <DocsNotFound />
+
+  const { doc } = result
+  const { node } = await doc.content()
+  const contentTree = transformMarkdoc(node)
 
   return (
     <div className="max-w-3xl">
@@ -100,11 +116,11 @@ export default async function DocsPage({ params }: Props) {
         <DocsBreadcrumb />
       </div>
       <DocsArticle
-        title={article.title}
-        description={article.description}
-        lastUpdated={article.lastUpdated}
+        title={doc.title}
+        description={doc.description}
+        lastUpdated={doc.lastUpdated}
       >
-        {article.content}
+        <MarkdocRenderer content={contentTree} />
       </DocsArticle>
       <DocsArticleNav currentSlug={fullSlug} />
       <div className="h-12" />

@@ -1,10 +1,40 @@
-import { eq, sql, getTableColumns } from "drizzle-orm";
+import { eq, sql, getTableColumns, desc } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { deliveredItems, orders } from "@/lib/db/schema";
 import type { InferSelectModel } from "drizzle-orm";
 import type { ProductType } from "./product-queries";
+import { dateRangeWhere, type DateRangeParams } from "./date-range-utils";
 
 type DeliveredItem = InferSelectModel<typeof deliveredItems>;
+
+export type DeliveredItemSummary = {
+  id: string;
+  orderId: string;
+  productType: string;
+  uid: string | null;
+  status: string;
+  warrantyUntil: Date | null;
+  deliveredAt: Date;
+};
+
+/** Get all delivered items for export (excludes credentials) */
+export async function getAllDeliveredItems(dateRange?: DateRangeParams): Promise<DeliveredItemSummary[]> {
+  const dateFilter = dateRange ? dateRangeWhere(deliveredItems.deliveredAt, dateRange) : undefined;
+
+  return db
+    .select({
+      id: deliveredItems.id,
+      orderId: deliveredItems.orderId,
+      productType: deliveredItems.productType,
+      uid: deliveredItems.uid,
+      status: deliveredItems.status,
+      warrantyUntil: deliveredItems.warrantyUntil,
+      deliveredAt: deliveredItems.deliveredAt,
+    })
+    .from(deliveredItems)
+    .where(dateFilter)
+    .orderBy(desc(deliveredItems.deliveredAt));
+}
 
 /** Get all delivered items for a specific order */
 export async function getDeliveredItemsByOrderId(
@@ -55,6 +85,23 @@ export async function getProductCountsByCustomerId(
     counts[row.productType] = row.count;
   }
   return counts;
+}
+
+/** Product health overview — count items by status */
+export type ProductHealthOverview = {
+  status: string;
+  count: number;
+};
+
+export async function getProductHealthOverview(): Promise<ProductHealthOverview[]> {
+  return db
+    .select({
+      status: deliveredItems.status,
+      count: sql<number>`count(*)::int`,
+    })
+    .from(deliveredItems)
+    .groupBy(deliveredItems.status)
+    .orderBy(deliveredItems.status);
 }
 
 /** Count all delivered items per product type (admin) */

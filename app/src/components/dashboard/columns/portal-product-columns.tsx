@@ -14,9 +14,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { CopyableCell } from '@/components/dashboard/copyable-cell'
+import { WarrantyBadge } from '@/components/dashboard/warranty-badge'
+import { WarrantyClaimDialog } from '@/app/portal/orders/[id]/warranty-claim-dialog'
 import type { MockDeliveredItem, DeliveredItemStatus } from '@/data/mock-delivered-items'
 import { getProductNameForItem } from '@/data/mock-delivered-items'
 import { getColumnsForType, type ProductType } from '@/lib/validators/credential-schemas'
+import { getWarrantyDisplayStatus } from '@/lib/utils/warranty-utils'
 
 const STATUS_CONFIG: Record<DeliveredItemStatus, { label: string; className: string }> = {
   active:   { label: 'Active',   className: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' },
@@ -26,7 +29,8 @@ const STATUS_CONFIG: Record<DeliveredItemStatus, { label: string; className: str
 }
 
 export function buildPortalProductColumns(
-  productType: ProductType
+  productType: ProductType,
+  showWarrantyActions = false,
 ): ColumnDef<MockDeliveredItem, unknown>[] {
   const credentialCols = getColumnsForType(productType)
 
@@ -91,6 +95,30 @@ export function buildPortalProductColumns(
     })
   )
 
+  const warrantyCol: ColumnDef<MockDeliveredItem, unknown> = {
+    id: 'warranty',
+    header: 'Warranty',
+    cell: ({ row }) => {
+      const item = row.original
+      const warrantyUntil = item.warrantyUntil ? new Date(item.warrantyUntil) : null
+      const claimStatus = item.claimStatus ?? null
+      const displayStatus = getWarrantyDisplayStatus(warrantyUntil, claimStatus)
+      const claimable = displayStatus === 'active' || displayStatus === 'expiring'
+      return (
+        <div className="flex items-center gap-2">
+          <WarrantyBadge warrantyUntil={warrantyUntil} claimStatus={claimStatus} />
+          {showWarrantyActions && (
+            <WarrantyClaimDialog
+              deliveredItemId={item.id}
+              disabled={!claimable}
+            />
+          )}
+        </div>
+      )
+    },
+    enableSorting: false,
+  }
+
   const actions: ColumnDef<MockDeliveredItem, unknown> = {
     id: 'actions',
     cell: ({ row }) => <ProductRowActions item={row.original} />,
@@ -98,7 +126,7 @@ export function buildPortalProductColumns(
     enableHiding: false,
   }
 
-  return [...common, ...dynamic, actions]
+  return [...common, ...dynamic, warrantyCol, actions]
 }
 
 function ProductRowActions({ item }: { item: MockDeliveredItem }) {

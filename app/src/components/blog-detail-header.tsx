@@ -12,9 +12,18 @@ import {
 } from "@/components/ui/breadcrumb"
 import { MotionPreset } from "@/components/ui/motion-preset"
 import HeroGridBg from "@/components/shadcn-studio/blocks/hero-clone/hero-grid-bg"
-import type { BlogPost } from "@/data/blog-posts"
+type BlogHeaderPost = {
+  slug: string
+  title: string
+  category: string
+  description: string
+  author: string
+  authorAvatar: string
+  date: string
+  readTime: string
+}
 
-export function BlogDetailHeader({ post }: { post: BlogPost }) {
+export function BlogDetailHeader({ post }: { post: BlogHeaderPost }) {
   return (
     <section className="relative z-[1] overflow-hidden py-12 md:py-14">
       <HeroGridBg />

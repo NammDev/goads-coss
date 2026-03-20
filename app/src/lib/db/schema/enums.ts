@@ -50,6 +50,8 @@ export const notificationTypeEnum = pgEnum("notification_type", [
   "order_created",
   "balance_topup",
   "item_delivered",
+  "warranty_expiring",
+  "warranty_claimed",
   "system",
   "community_reply",
   "community_solution",
@@ -73,6 +75,14 @@ export const communityReportReasonEnum = pgEnum("community_report_reason", [
   "inappropriate",
   "offtopic",
   "other",
+]);
+
+/** Warranty claim lifecycle status */
+export const warrantyClaimStatusEnum = pgEnum("warranty_claim_status", [
+  "pending",
+  "approved",
+  "rejected",
+  "replaced",
 ]);
 
 /** Delivered item health status */

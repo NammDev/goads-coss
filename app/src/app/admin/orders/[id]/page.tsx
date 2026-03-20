@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { ShareLinkSection } from '@/components/dashboard/share-link-section'
 import { OrderDetailSummary } from './order-detail-summary'
 import { OrderDetailDelivered } from './order-detail-delivered'
+import { WarrantyClaimsSection } from './warranty-claims-section'
 
 export default async function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -59,6 +60,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
       ) : (
         <ShareLinkSection orderId={order.id} shareToken={order.shareToken} />
       )}
+
+      {/* Warranty claims for this order */}
+      <WarrantyClaimsSection orderId={order.id} />
 
       {/* Notes */}
       {order.notes && (
