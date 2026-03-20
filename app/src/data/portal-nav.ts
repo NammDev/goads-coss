@@ -7,6 +7,7 @@ import {
   UserIcon,
   StarIcon,
   PuzzleIcon,
+  MessagesSquareIcon,
 } from 'lucide-react'
 
 import type { NavItem, NavSubItem, NavGroup } from '@/data/admin-nav'
@@ -83,6 +84,7 @@ export function buildPortalNavItems(productCounts: Record<string, number>): NavI
     { icon: StoreIcon, label: 'Shop', href: '/portal' },
     { icon: ShoppingCartIcon, label: 'Orders', href: '/portal/orders' },
     { icon: PackageIcon, label: 'Products', href: '/portal/products' },
+    { icon: MessagesSquareIcon, label: 'Community', href: '/portal/community' },
   ]
 }
 
