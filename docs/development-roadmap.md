@@ -1,6 +1,6 @@
 # GoAds Development Roadmap
 
-> 7 phases: MVP ✅ → Auth ✅ → Deploy → Analytics → Extension → Community → UI Redesign
+> 12 phases: MVP ✅ → Auth ✅ → Security ✅ → Analytics ✅ → Extension ✅ → Community V1 ✅ → Bugs 🔄 → Extension V2 → Community V2 → CMS → Deploy → UI
 
 ---
 
@@ -37,7 +37,7 @@ Goal: Quality audit before Phase 2.
 | Dark mode audit (all pages + blocks) | ✅ Done |
 | Lighthouse audit (target > 90) | ✅ Done — A11y 100, BP 96-100, SEO 100 |
 | Cart mobile UI fix | ✅ Done |
-| Cal.com embed on `/talk-to-sales` | Deferred to Phase 2 |
+| Cal.com embed on `/talk-to-sales` | ✅ Done (Phase 6) |
 
 ---
 
@@ -115,7 +115,6 @@ Goal: Auth system + admin panel + customer portal with full CRUD business flow.
 | Pixel-perfect tables | ✅ Done | DT5 shadcn studio layout — search, column filters, pagination |
 | Empty states | ✅ Done | Portal + admin empty state components |
 | Public share links | ✅ Done | Token-based `/share/[token]` with marketing layout + conversion CTAs |
-| `drizzle-kit push` fix | ⚠️ Upstream | Workaround: `generate` + `migrate` instead of `push` |
 
 ### 2F — Polish & Launch-Ready ✅
 
@@ -135,130 +134,239 @@ UI/UX polish sprint (2026-03-14 ~ 2026-03-16).
 
 ---
 
-## Phase 3 — Deploy & Go Live 🔄
+## Phase 3 — Security & Hardening ✅
 
-Goal: Deploy to production, finalize auth config.
+Goal: Security headers, error boundaries, auth polish.
 
-**Status: In Progress** | **Timeline: Mar 16–19**
+**Status: DONE**
 
-| # | Task | Priority | Status | Notes |
-|---|------|----------|--------|-------|
-| 1 | Vercel deploy + Clerk Production | Critical | ⏳ | Need custom domain → Clerk Prod instance → env vars. See `docs/phase3/task-01-vercel-deploy.md` |
-| 2 | ~~Clerk webhook publicMetadata~~ | Critical | ✅ | Merged into Task 1 (webhook setup) |
-| 3 | ~~Username+password login~~ | Critical | ✅ | Done — Clerk Dashboard already requires username |
-| 4 | ~~Global error boundary~~ | Critical | ✅ | `global-error.tsx` + `error.tsx` at root, auth, admin, portal |
-| 5 | Rate limiting server actions | High | ⏳ | Prevent abuse on cart/order/wallet actions |
-| 6 | ~~Mock data cleanup~~ | High | ✅ | RecentTransactions now uses `getRecentOrders()` from DB |
-| 7 | ~~CSP headers~~ | High | ✅ | CSP + X-Frame-Options + X-XSS + Referrer-Policy + Permissions-Policy |
-| 8 | ~~robots noindex admin/portal~~ | High | ✅ | `robots.ts` disallow + metadata `noindex` on admin/portal layouts |
-| 9 | Cross-role E2E testing | Medium | ⏳ | Blocked by Task 1 (needs production deploy) |
-| 10 | Logging/monitoring (Sentry) | Medium | ⏳ | Production error tracking |
+| Task | Status |
+|------|--------|
+| Clerk webhook publicMetadata | ✅ |
+| Username+password login | ✅ |
+| Global error boundary (`global-error.tsx` + `error.tsx`) | ✅ |
+| Mock data cleanup (RecentTransactions uses real DB) | ✅ |
+| CSP + security headers | ✅ |
+| robots noindex admin/portal | ✅ |
 
 ---
 
-## Phase 4 — Analytics & Monitoring
+## Phase 4 — Analytics & Monitoring ✅
 
 Goal: Business intelligence, warranty system, product health monitoring.
 
-**Status: Not started** | **Timeline: Mar 19–23**
+**Status: DONE** | **Completed: Mar 20** | **Branch: `ui-playground` → merged**
 
-| # | Task | Priority | Status | Notes |
-|---|------|----------|--------|-------|
-| 1 | Admin analytics | High | ⏳ | Revenue, MRR, ARPU, LTV dashboards |
-| 2 | Dashboard date range filter | High | ⏳ | Filter analytics by period (7d/30d/90d/custom) |
-| 3 | Warranty tracking | High | ⏳ | 7-day countdown, 1-click claim |
-| 4 | Export CSV/PDF | Medium | ⏳ | Orders, customers, finance reports for offline use |
-| 5 | Live product monitoring | Medium | ⏳ | Auto-check BMs/profiles, ban alerts |
-| 6 | DB indexes audit | Medium | ⏳ | Optimize query performance for growing data |
-| 7 | Doc search (Pagefind/Algolia) | Medium | ⏳ | Full-text across knowledge base |
-| 8 | Cal.com embed `/talk-to-sales` | Low | ⏳ | |
+| # | Task | Status | Highlights |
+|---|------|--------|------------|
+| 1 | Dashboard date range filter | ✅ | Presets (7d/30d/90d) + custom calendar, URL params, server-side |
+| 2 | Warranty tracking system | ✅ | `warranty_claims` table, WarrantyBadge, 1-click claim, admin approve/reject |
+| 3 | Export CSV | ✅ | 4 endpoints (orders/customers/finance/delivered-items), reusable button |
+| 4 | Product health monitoring | ✅ | Manual status update, auto-warranty-claim on ban, health widget |
+| 5 | Flexsearch + unified Cmd+K | ✅ | Replaced Pagefind with Flexsearch, unified search palette |
+| 6 | Keystatic CMS | ✅ | Blog + Docs CMS at `/keystatic`, Markdoc rendering |
 
 ---
 
-## Phase 5 — BM Invite Extension
+## Phase 5 — BM Extension ✅
 
-Goal: Chrome extension for BM invite link management.
+Goal: Chrome extension for BM invite link management on Facebook.
 
-**Status: Not started** | **Timeline: Mar 23–25**
+**Status: DONE** | **Completed: Mar 19** | **Branch: `feature/bm-extension` → merged**
 
-| # | Task | Priority | Status | Notes |
-|---|------|----------|--------|-------|
-| 1 | BM Invite Extension API | High | ⏳ | JWT auth, BM invite link CRUD endpoints |
-| 2 | Chrome extension | High | ⏳ | Portal JWT → fetch BM invites → inject to browser |
-| 3 | Extension access control | Medium | ⏳ | Admin toggles access per customer |
+| # | Task | Status | Highlights |
+|---|------|--------|------------|
+| 1 | Extension structure | ✅ | MV3 Chrome extension in `/extension/`, content script overlay |
+| 2 | Auth integration | ✅ | `extension_token` table, 90-day expiry, 4 API endpoints |
+| 3 | Portal token management | ✅ | Generate/copy/revoke UI in `/portal/tools/extensions` |
+| 4 | UI/UX | ✅ | 660px 2-col overlay, 4-step loading, GoAds branding |
 
----
-
-## Phase 6 — Community 🔄
-
-Goal: Community discussion board for customer engagement (Foreplay + Vercel Community style).
-
-**Status: In Progress** | **Timeline: Mar 18–25** | **Branch: `feature/community`**
-
-| # | Task | Priority | Status | Notes |
-|---|------|----------|--------|-------|
-| 1 | DB schema (7 tables) | High | ✅ | `community-tables.ts` — category, post, reply, upvote, report, view, subscription |
-| 2 | API layer (queries + actions) | High | ✅ | 9 queries + 12 server actions + notification integration |
-| 3 | UI pages | High | ⏳ | `/portal/community` list, `[slug]` detail, create post form |
-| 4 | Portal integration | High | ⏳ | Sidebar nav, auth-gated posting, Cmd+K search |
-| 5 | Admin moderation | Medium | ⏳ | `/admin/community` — report queue, pin/hide/status |
-| 6 | Public user profiles | Medium | ⏳ | `/community/user/[username]` — post history, reputation |
-| 7 | CMS for blog/docs | High | ⏳ | Staff manages content without code |
-| 8 | Email notifications | High | ⏳ | Order confirmed, delivered, warranty expiring |
-| 9 | Customer segmentation | Medium | ⏳ | Whale vs casual, targeted marketing |
+**Key files:** `extension/` (popup, content script, background), `src/lib/db/schema/extension-tables.ts`, `src/app/api/extension/`
 
 ---
 
-## Phase 7 — UI Redesign from Figma
+## Phase 6 — Community ✅ (V1 — cần rebuild)
 
-Goal: Implement Trang's new UI designs. May replace current shadcn-based style entirely.
+Goal: Community discussion board + customer segmentation + Cal.com embed.
 
-**Status: Not started** | **Timeline: End of Mar (after Trang delivers Figma)**
+**Status: V1 DONE** | **Completed: Mar 20** | **Branch: `feature/community` → merged**
 
-> Trang (intern designer) is redesigning the full UI on Figma — delivers end of March. Final design may diverge from current shadcn style.
+> ⚠️ **V1 cần rebuild thành public community (Vercel Community model).**
+> Hiện tại community đóng trong `/portal/` → không SEO, không kéo traffic.
+> Mục tiêu: cộng đồng mở, ai cũng xem được, SEO-driven content, kéo organic traffic.
+> Nghiên cứu kỹ Vercel Community trước khi rebuild. Xem report: `plans/reports/researcher-260321-0102-featurebase-research.md`
+
+| # | Task | Status | Highlights |
+|---|------|--------|------------|
+| 1 | Discussion board (DB + API + UI) | ✅ | 7 tables, 9 queries, 12 actions, 16 components |
+| 2 | Portal integration | ✅ | Nav item, auth-gated posting, `/portal/community` |
+| 3 | Public user profiles | ✅ | username/bio/avatar, `/portal/community/user/[username]` |
+| 4 | Admin moderation + reports | ✅ | `/admin/community` — pin/hide/status + report queue |
+| 5 | Customer segmentation | ✅ | Auto-computed tags (whale/regular/casual/new) |
+| 6 | Cal.com embed | ✅ | Inline on `/talk-to-sales` (CSP fixed) |
+
+---
+
+## Phase 7 — Bug Fixes & Quick Wins 🔄
+
+Goal: Fix bugs từ manual testing, polish trước khi tiếp tục.
+
+**Status: In Progress** | **Timeline: Mar 21–22**
+
+| # | Task | Priority | Status | Notes |
+|---|------|----------|--------|-------|
+| 1 | Export CSV: fix Forbidden (403) | Medium | ⏳ | `window.open()` → đổi sang `fetch()` + blob download |
+| 2 | Cmd+K duplicate dialog (admin/portal) | Medium | ⏳ | Bỏ `SearchDialog` hoặc disable `CommandMenu` theo route |
+| 3 | `/keystatic` auth guard | High | ⏳ | Restrict admin/staff only |
+| 4 | Cal.com CSP fix | Medium | ✅ | Thêm `app.cal.com` vào script-src + connect-src |
+| 5 | Floating chat button che nút | Low | ✅ | `pointer-events-none` on container |
+
+---
+
+## Phase 8 — Extension V2 (Clerk Auth + Distribution) ⏳
+
+Goal: Chuyển extension từ token auth sang Clerk session, hoàn thiện distribution.
+
+**Status: Not started** | **Timeline: Mar 22–24**
 
 | # | Task | Priority | Notes |
 |---|------|----------|-------|
-| 1 | Figma handoff review | Critical | Audit all screens, create component inventory |
-| 2 | Design system setup | Critical | New tokens, colors, typography from Figma |
-| 3 | Marketing pages rebuild | High | Home, product pages, blog, about, etc. |
+| 1 | Extension auth: đổi sang Clerk session login | High | Token share được = dùng miễn phí. Cần OAuth popup → Clerk login → session bind browser |
+| 2 | Extension download/install flow | High | Build zip + host static, hoặc publish Chrome Web Store |
+| 3 | Extension "View Guide" docs | Medium | Viết docs hướng dẫn cài + sử dụng extension cho customer |
+| 4 | Extension API URL: env-based | Low | Hiện hardcode localhost/goads.shop, cần config theo env |
+
+---
+
+## Phase 9 — Community V2 (Public + SEO) ⏳
+
+Goal: Rebuild community thành public-first, SEO-driven (Vercel Community model).
+
+**Status: Not started** | **Timeline: Mar 24–28** | **Requires: nghiên cứu Vercel Community**
+
+> Hiện tại community đóng trong `/portal/` → không SEO, không kéo traffic.
+> Mục tiêu: cộng đồng mở, ai cũng xem được, SEO-driven content, kéo organic traffic.
+
+| # | Task | Priority | Notes |
+|---|------|----------|-------|
+| 1 | Nghiên cứu Vercel Community (routes, SSR, auth, SEO) | High | Deep dive trước khi code |
+| 2 | Di chuyển `/portal/community` → `/community` (public route) | High | Marketing layout, SSR |
+| 3 | Public reading (không cần login) | High | Posts + replies visible to everyone + Google |
+| 4 | Login required để post/reply/vote (Vercel model) | High | Clerk auth, không anonymous |
+| 5 | SEO: meta tags, sitemap cho mỗi post | High | Mỗi post = 1 indexable page |
+| 6 | Public user profiles `/community/user/[username]` | Medium | Cũng public, Google index |
+
+---
+
+## Phase 10 — CMS & Content Workflow ⏳
+
+Goal: Hoàn thiện CMS workflow cho Thành quản lý blog/docs content.
+
+**Status: Not started** | **Timeline: Mar 25–26**
+
+| # | Task | Priority | Notes |
+|---|------|----------|-------|
+| 1 | Keystatic content branch workflow | High | Thành push branch riêng, Nam duyệt merge mỗi sáng |
+| 2 | Protected main branch + PR review | High | GitHub branch protection rules |
+| 3 | Content guidelines cho Thành | Medium | Template bài viết, quy chuẩn format, SEO checklist |
+
+---
+
+## Phase 11 — Deploy & Go Live ⏳
+
+Goal: Deploy to production sau khi hoàn thiện tất cả features.
+
+**Status: Blocked** | **Timeline: Sau Phase 10**
+
+| # | Task | Priority | Status | Notes |
+|---|------|----------|--------|-------|
+| 1 | Vercel deploy + Clerk Production | Critical | ⏳ | Custom domain → Clerk Prod → env vars |
+| 2 | Rate limiting server actions | High | ⏳ | Prevent abuse on cart/order/wallet actions |
+| 3 | Cross-role E2E testing | Medium | ⏳ | Needs production deploy |
+| 4 | Logging/monitoring (Sentry) | Medium | ⏳ | Production error tracking |
+
+**Already completed:**
+- ✅ Clerk webhook, username/password login, error boundaries
+- ✅ Mock data cleanup, CSP + security headers, robots noindex
+
+---
+
+## Phase 12 — UI Redesign from Figma ⏳
+
+Goal: Implement Trang's new UI designs.
+
+**Status: Not started** | **Timeline: After deploy + Trang delivers Figma**
+
+> Trang (intern designer) redesigning full UI on Figma — delivers end of March.
+
+| # | Task | Priority | Notes |
+|---|------|----------|-------|
+| 1 | Figma handoff review | Critical | Audit all screens, component inventory |
+| 2 | Design system setup | Critical | New tokens, colors, typography |
+| 3 | Marketing pages rebuild | High | Home, products, blog, about |
 | 4 | Portal UI rebuild | High | Shop, orders, dashboard, profile |
 | 5 | Admin UI rebuild | High | Dashboard, tables, forms, dialogs |
-| 6 | Responsive + dark mode audit | Medium | Verify on 375/768/1024/1440px |
+| 6 | Responsive + dark mode audit | Medium | 375/768/1024/1440px |
 
 ---
 
 ## Backlog (2027+)
 
-Deferred features — revisit when business scale requires them.
-
-| Feature | Reason for deferral |
-|---------|---------------------|
-| Telegram Bot (notifications) | 1-on-1 chat with customers works fine at current scale |
-| Payment integration (SePay/Stripe) | 1-on-1 customer care for now, manual flow |
-| Auto-delivery pipeline | Depends on payment integration |
-| AI Ask (RAG) | Future — manual support preferred currently |
-| Tool tiers (free/pro) | Not needed at current scale |
-| Bulk order API | Enterprise feature, no demand yet |
-| Referral/Affiliate | Growth feature, premature at this stage |
+| Feature | Reason |
+|---------|--------|
+| Telegram Bot | 1-on-1 chat works fine at current scale |
+| Payment integration (SePay/Stripe) | Manual flow for now |
+| Auto-delivery pipeline | Depends on payments |
+| AI Ask (RAG) | Manual support preferred |
+| Email notifications (Resend) | Needs provider setup |
+| Admin analytics (MRR/LTV) | Finance page covers basics |
+| DB indexes audit | When data grows |
+| Vercel cron (warranty expiry) | Needs Vercel Pro plan |
 
 ---
 
 ## Summary
 
 ```
-Phase 1  ✅  Marketing site + cart + tools + blog + docs + SEO
-Phase 1A ✅  Dark mode + mobile responsive + Lighthouse audits
-Phase 2  ✅  Auth + Admin + Portal + CRUD + UX + Perf + Polish
-Phase 3  🔄  Deploy & Go Live (Mar 16–19)
-Phase 4  ⏳  Analytics & Monitoring (Mar 19–23)
-Phase 5  ⏳  BM Invite Extension (Mar 23–25)
-Phase 6  ⏳  Community + CMS + Email
-Phase 7  ⏳  UI Redesign from Figma (end of Mar, after Trang delivers)
-Backlog  📋  Telegram Bot, Payments, auto-delivery, AI, referral (2027+)
+Phase 1   ✅  Marketing site + cart + tools + blog + docs + SEO
+Phase 1A  ✅  Dark mode + mobile responsive + Lighthouse audits
+Phase 2   ✅  Auth + Admin + Portal + CRUD + UX + Perf + Polish
+Phase 3   ✅  Security headers, error boundaries, mock cleanup
+Phase 4   ✅  Analytics, warranty, CSV export, Flexsearch, Keystatic CMS
+Phase 5   ✅  Chrome extension for BM invite management
+Phase 6   ✅  Community V1, moderation, user profiles, segmentation
+Phase 7   🔄  Bug fixes & quick wins (3 remaining)
+Phase 8   ⏳  Extension V2 — Clerk auth + distribution
+Phase 9   ⏳  Community V2 — public + SEO (Vercel model)
+Phase 10  ⏳  CMS & content workflow for Thành
+Phase 11  ⏳  Deploy & Go Live
+Phase 12  ⏳  UI Redesign from Figma
+Backlog   📋  Payments, email, AI, Telegram Bot (2027+)
 ```
 
 ```
-Phase 2 ──► Phase 3 (Deploy) ──► Phase 4 (Analytics) ──► Phase 5 (Extension) ──► Phase 6 (Community)
-Figma   ──► Phase 7 (UI Rebuild)
+Phase 7 (Bugs) → 8 (Extension V2) → 9 (Community V2) → 10 (CMS) → 11 (Deploy) → 12 (UI)
 ```
+
+## DB Schema (17 tables)
+
+After merging all branches, the combined schema has 17 tables:
+
+| Table | Source | Purpose |
+|-------|--------|---------|
+| user | Phase 2 | Auth + profile (username/bio/avatar added Phase 6) |
+| product | Phase 2 | Product catalog |
+| customer_price | Phase 2 | Per-customer pricing |
+| delivered_item | Phase 2 | Delivered credentials |
+| order / order_item | Phase 2 | Order management |
+| wallet_transaction | Phase 2 | Balance transactions |
+| notification | Phase 2 | In-app notifications |
+| extension_token | Phase 5 | Chrome extension auth tokens |
+| community_category | Phase 6 | Discussion board categories |
+| community_post | Phase 6 | Discussion posts |
+| community_reply | Phase 6 | Post replies |
+| community_report | Phase 6 | Content reports |
+| community_subscription | Phase 6 | Post subscriptions |
+| community_upvote | Phase 6 | Post/reply upvotes |
+| community_view | Phase 6 | Post view tracking |
+| warranty_claim | Phase 4 | Warranty claim management |

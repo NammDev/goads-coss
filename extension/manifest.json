@@ -11,7 +11,8 @@
     "https://graph.facebook.com/*",
     "https://m.facebook.com/*",
     "https://*.facebook.com/*",
-    "https://goads.shop/*"
+    "https://goads.shop/*",
+    "http://localhost:3000/*"
   ],
   "action": {
     "default_icon": { "48": "icon48.png", "128": "icon128.png" }

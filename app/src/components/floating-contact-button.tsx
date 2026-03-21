@@ -35,11 +35,11 @@ export function FloatingContactButton() {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="fixed right-5 bottom-5 z-50 flex flex-col items-end gap-3">
+    <div className="pointer-events-none fixed right-5 bottom-5 z-50 flex flex-col items-end gap-3">
       {/* Dropdown panel */}
       <div
         className={cn(
-          'min-w-56 origin-bottom-right overflow-hidden rounded-lg bg-background shadow-xl transition-all duration-300',
+          'pointer-events-auto min-w-56 origin-bottom-right overflow-hidden rounded-lg bg-background shadow-xl transition-all duration-300',
           open
             ? 'translate-y-0 scale-100 opacity-100'
             : 'pointer-events-none translate-y-2 scale-95 opacity-0',
@@ -69,7 +69,7 @@ export function FloatingContactButton() {
         onClick={() => setOpen(prev => !prev)}
         aria-label={open ? 'Close contact menu' : 'Open contact menu'}
         className={cn(
-          'btn-mirror-sweep btn-secondary size-14 cursor-pointer rounded-full shadow-xl transition-all duration-300 hover:shadow-2xl',
+          'pointer-events-auto btn-mirror-sweep btn-secondary size-14 cursor-pointer rounded-full shadow-xl transition-all duration-300 hover:shadow-2xl',
           open && 'rotate-90',
         )}
       >

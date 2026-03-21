@@ -276,7 +276,8 @@ async function detectCurrentBM() {
 }
 
 // ===== GOADS AUTH =====
-const GOADS_API = "https://goads.shop/api/extension";
+// TODO: switch to https://goads.shop/api/extension for production
+const GOADS_API = "http://localhost:3000/api/extension";
 
 /** Validate GoAds token via API and store in chrome.storage */
 async function validateGoAdsToken(token) {
