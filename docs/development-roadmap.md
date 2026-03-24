@@ -1,6 +1,6 @@
 # GoAds Development Roadmap
 
-> 12 phases: MVP ✅ → Auth ✅ → Security ✅ → Analytics ✅ → Extension ✅ → Community V1 ✅ → Bugs 🔄 → Extension V2 → Community V2 → CMS → Deploy → UI
+> 12 phases: MVP ✅ → Auth ✅ → Security ✅ → Analytics ✅ → Extension ✅ → Community V1 ✅ → Bugs 🔄 → Extension V2 → Community V2 ✅ → CMS → Deploy → UI
 
 ---
 
@@ -238,23 +238,57 @@ Goal: Chuyển extension từ token auth sang Clerk session, hoàn thiện distr
 
 ---
 
-## Phase 9 — Community V2 (Public + SEO) ⏳
+## Phase 9 — Community V2 (Public + SEO) ✅
 
 Goal: Rebuild community thành public-first, SEO-driven (Vercel Community model).
 
-**Status: Not started** | **Timeline: Mar 24–28** | **Requires: nghiên cứu Vercel Community**
+**Status: DONE** | **Completed: Mar 24** | **Branch: `feature/community-v2`**
 
-> Hiện tại community đóng trong `/portal/` → không SEO, không kéo traffic.
-> Mục tiêu: cộng đồng mở, ai cũng xem được, SEO-driven content, kéo organic traffic.
+> Community chuyển từ `/portal/community` (auth-gated) → `/community` (public marketing layout).
+> Mọi người đều xem được posts + replies. Login chỉ cần để post/reply/vote.
 
-| # | Task | Priority | Notes |
-|---|------|----------|-------|
-| 1 | Nghiên cứu Vercel Community (routes, SSR, auth, SEO) | High | Deep dive trước khi code |
-| 2 | Di chuyển `/portal/community` → `/community` (public route) | High | Marketing layout, SSR |
-| 3 | Public reading (không cần login) | High | Posts + replies visible to everyone + Google |
-| 4 | Login required để post/reply/vote (Vercel model) | High | Clerk auth, không anonymous |
-| 5 | SEO: meta tags, sitemap cho mỗi post | High | Mỗi post = 1 indexable page |
-| 6 | Public user profiles `/community/user/[username]` | Medium | Cũng public, Google index |
+| # | Task | Status | Highlights |
+|---|------|--------|------------|
+| 1 | Nghiên cứu Vercel Community | ✅ | Research report: `plans/reports/researcher-260321-0102-featurebase-research.md` |
+| 2 | Public routes `/community` (marketing layout) | ✅ | 7 new pages: listing, `[slug]`, `create`, `c/[category]`, `user/[username]`, layout, loading |
+| 3 | Portal → public redirects | ✅ | All 4 portal community routes redirect to `/community/*` |
+| 4 | Public reading (no login required) | ✅ | Posts + replies + categories visible to everyone + Google |
+| 5 | Auth-gated interactions | ✅ | Login required to post/reply/vote/subscribe/report |
+| 6 | SEO: meta tags, JSON-LD, sitemap | ✅ | OG meta per post, DiscussionForumPosting JSON-LD, dynamic sitemap (posts + categories) |
+| 7 | Public user profiles `/community/user/[username]` | ✅ | User stats + post history, Google-indexable |
+| 8 | Search + sort + pagination | ✅ | Full-text search (300ms debounce), sort by recent/top/trending, 20/page |
+| 9 | Category pages `/community/c/[category]` | ✅ | Category-filtered listing with metadata + breadcrumbs |
+| 10 | Responsive UI | ✅ | Desktop sidebar (categories + leaderboard), mobile category buttons |
+
+**Key files:** `app/src/app/(marketing)/community/` (7 pages), 7 modified components, `community-queries.ts` (9 queries), `sitemap.ts`
+
+### 9A — Manual UI Test Checklist
+
+| # | Test Case | Route | Expected | Status |
+|---|-----------|-------|----------|--------|
+| 1 | Community listing loads (logged out) | `/community` | Posts visible, no auth required | ⏳ |
+| 2 | Search posts | `/community?q=keyword` | Filtered results, 300ms debounce | ⏳ |
+| 3 | Sort: recent / top / trending | `/community?sort=top` | Order changes correctly | ⏳ |
+| 4 | Pagination | `/community?page=2` | Next/prev buttons, 20/page | ⏳ |
+| 5 | Category filter | `/community/c/q-and-a` | Category-specific posts + breadcrumbs | ⏳ |
+| 6 | Mobile categories | `/community` (< 1024px) | Horizontal category buttons visible | ⏳ |
+| 7 | Post detail (logged out) | `/community/[slug]` | Full post + replies visible, no auth needed | ⏳ |
+| 8 | Post detail SEO | `/community/[slug]` | OG meta + JSON-LD DiscussionForumPosting in source | ⏳ |
+| 9 | Upvote requires login | `/community/[slug]` | Click upvote → redirect to sign-in | ⏳ |
+| 10 | Reply requires login | `/community/[slug]` | Reply form shows sign-in prompt | ⏳ |
+| 11 | Create post (logged in) | `/community/create` | Form renders, category select, submit works | ⏳ |
+| 12 | Create post (logged out) | `/community/create` | Redirect to sign-in | ⏳ |
+| 13 | Subscribe/Unsubscribe | `/community/[slug]` | Toggle works, toast notification | ⏳ |
+| 14 | Report content | `/community/[slug]` | Report dialog opens, submit works | ⏳ |
+| 15 | User profile (public) | `/community/user/[username]` | Stats + post history visible without login | ⏳ |
+| 16 | Portal redirect → `/community` | `/portal/community` | 302 redirect to `/community` | ⏳ |
+| 17 | Portal redirect → post detail | `/portal/community/[slug]` | 302 redirect to `/community/[slug]` | ⏳ |
+| 18 | Portal redirect → create | `/portal/community/create` | 302 redirect to `/community/create` | ⏳ |
+| 19 | Portal redirect → user profile | `/portal/community/user/[username]` | 302 redirect to `/community/user/[username]` | ⏳ |
+| 20 | Sitemap includes community | `/sitemap.xml` | `/community`, `/community/[slug]`, `/community/c/[cat]` entries | ⏳ |
+| 21 | Sidebar: categories + leaderboard | `/community` (desktop) | Sticky sidebar, active category highlight, top 5 contributors | ⏳ |
+| 22 | Dark mode | All `/community/*` | No broken colors, proper contrast | ⏳ |
+| 23 | Mobile responsive (375px) | All `/community/*` | No overflow, sidebar hidden, mobile categories visible | ⏳ |
 
 ---
 
@@ -337,7 +371,7 @@ Phase 5   ✅  Chrome extension for BM invite management
 Phase 6   ✅  Community V1, moderation, user profiles, segmentation
 Phase 7   🔄  Bug fixes & quick wins (3 remaining)
 Phase 8   ⏳  Extension V2 — Clerk auth + distribution
-Phase 9   ⏳  Community V2 — public + SEO (Vercel model)
+Phase 9   ✅  Community V2 — public routes, SEO, JSON-LD, sitemap, portal redirects
 Phase 10  ⏳  CMS & content workflow for Thành
 Phase 11  ⏳  Deploy & Go Live
 Phase 12  ⏳  UI Redesign from Figma
@@ -345,7 +379,7 @@ Backlog   📋  Payments, email, AI, Telegram Bot (2027+)
 ```
 
 ```
-Phase 7 (Bugs) → 8 (Extension V2) → 9 (Community V2) → 10 (CMS) → 11 (Deploy) → 12 (UI)
+Phase 7 (Bugs) → 8 (Extension V2) → 10 (CMS) → 11 (Deploy) → 12 (UI)
 ```
 
 ## DB Schema (17 tables)
