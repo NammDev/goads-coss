@@ -23,7 +23,7 @@ export function CommunitySidebar({ categories, leaderboard, activeCategory }: Co
           asChild
           className={`justify-start ${!activeCategory ? "bg-secondary text-secondary-foreground" : ""}`}
         >
-          <Link href="/portal/community">All Posts</Link>
+          <Link href="/community">All Posts</Link>
         </Button>
         {categories.map((cat) => (
           <Button
@@ -33,7 +33,7 @@ export function CommunitySidebar({ categories, leaderboard, activeCategory }: Co
             asChild
             className={`justify-start ${activeCategory === cat.slug ? "bg-secondary text-secondary-foreground" : ""}`}
           >
-            <Link href={`/portal/community?category=${cat.slug}`}>
+            <Link href={`/community?category=${cat.slug}`}>
               {cat.icon && <span className="mr-1">{cat.icon}</span>}
               {cat.name}
             </Link>

@@ -22,7 +22,7 @@ export function CommunitySearchBar() {
           params.delete("q")
         }
         params.delete("page")
-        router.push(`/portal/community?${params.toString()}`)
+        router.push(`/community?${params.toString()}`)
       }, 300)
     },
     [router, searchParams],

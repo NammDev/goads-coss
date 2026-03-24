@@ -20,7 +20,7 @@ export function CommunityMobileCategories({ categories }: CommunityMobileCategor
       params.delete("category")
     }
     params.delete("page")
-    router.push(`/portal/community?${params.toString()}`)
+    router.push(`/community?${params.toString()}`)
   }
 
   return (

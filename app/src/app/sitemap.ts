@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next"
 import { blogPosts } from "@/data/blog-posts"
 import { TOOLS } from "@/data/tools-registry"
+import { getAllPostSlugs, getCategories } from "@/lib/db/queries/community-queries"
 
 const BASE_URL = "https://www.goads.shop"
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const marketingRoutes = [
     "",
     "/about",
@@ -28,16 +29,52 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy-policy",
     "/terms-of-service",
     "/refund-policy",
+    "/community",
   ]
 
   const toolRoutes = TOOLS.map((t) => `/tools/${t.slug}`)
   const blogRoutes = blogPosts.map((p) => `/blog/${p.slug}`)
-  const allRoutes = [...marketingRoutes, ...toolRoutes, ...blogRoutes]
 
-  return allRoutes.map((route) => ({
+  /* Community: dynamic post + category URLs from DB */
+  const [communityPosts, categories] = await Promise.all([
+    getAllPostSlugs(),
+    getCategories(),
+  ])
+
+  const communityPostRoutes: MetadataRoute.Sitemap = communityPosts.map(
+    (p) => ({
+      url: `${BASE_URL}/community/${p.slug}`,
+      lastModified: p.updatedAt,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }),
+  )
+
+  const communityCategoryRoutes: MetadataRoute.Sitemap = categories
+    .filter((c) => !c.isStaffOnly)
+    .map((c) => ({
+      url: `${BASE_URL}/community/c/${c.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    }))
+
+  const staticRoutes = [
+    ...marketingRoutes,
+    ...toolRoutes,
+    ...blogRoutes,
+  ]
+
+  const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${BASE_URL}${route}`,
     lastModified: new Date(),
-    changeFrequency: route.startsWith("/blog/") ? "weekly" : "monthly",
+    changeFrequency: route.startsWith("/blog/") ? "weekly" : ("monthly" as const),
     priority: route === "" ? 1.0 : route.startsWith("/blog/") ? 0.7 : 0.8,
   }))
+
+  return [
+    ...staticEntries,
+    ...communityPostRoutes,
+    ...communityCategoryRoutes,
+  ]
 }

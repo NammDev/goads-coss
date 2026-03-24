@@ -291,6 +291,22 @@ export async function getReports(status?: "open" | "reviewed" | "dismissed") {
     .orderBy(desc(communityReports.createdAt));
 }
 
+/** Get all post slugs + updatedAt for sitemap generation */
+export async function getAllPostSlugs(): Promise<
+  { slug: string; updatedAt: Date }[]
+> {
+  const rows = await db
+    .select({
+      slug: communityPosts.slug,
+      updatedAt: communityPosts.updatedAt,
+    })
+    .from(communityPosts)
+    .where(eq(communityPosts.isHidden, false))
+    .orderBy(desc(communityPosts.updatedAt));
+
+  return rows;
+}
+
 /** Search posts by title or body (ILIKE) */
 export async function searchPosts(
   query: string,
