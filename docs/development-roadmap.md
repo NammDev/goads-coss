@@ -1,6 +1,6 @@
 # GoAds Development Roadmap
 
-> 12 phases: MVP ✅ → Auth ✅ → Security ✅ → Analytics ✅ → Extension ✅ → Community V1 ✅ → Bugs 🔄 → Extension V2 → Community V2 → CMS → Deploy → UI
+> 12 phases: MVP ✅ → Auth ✅ → Security ✅ → Analytics ✅ → Extension ✅ → Community V1 ✅ → Bugs 🔄 → Extension V2 ✅ → Community V2 → CMS → Deploy → UI
 
 ---
 
@@ -223,18 +223,45 @@ Goal: Fix bugs từ manual testing, polish trước khi tiếp tục.
 
 ---
 
-## Phase 8 — Extension V2 (Clerk Auth + Distribution) ⏳
+## Phase 8 — Extension V2 (Clerk Auth + Distribution) ✅
 
 Goal: Chuyển extension từ token auth sang Clerk session, hoàn thiện distribution.
 
-**Status: Not started** | **Timeline: Mar 22–24**
+**Status: DONE** | **Completed: Mar 24** | **Branch: `feature/extension-v2`**
 
-| # | Task | Priority | Notes |
-|---|------|----------|-------|
-| 1 | Extension auth: đổi sang Clerk session login | High | Token share được = dùng miễn phí. Cần OAuth popup → Clerk login → session bind browser |
-| 2 | Extension download/install flow | High | Build zip + host static, hoặc publish Chrome Web Store |
-| 3 | Extension "View Guide" docs | Medium | Viết docs hướng dẫn cài + sử dụng extension cho customer |
-| 4 | Extension API URL: env-based | Low | Hiện hardcode localhost/goads.shop, cần config theo env |
+| # | Task | Status | Highlights |
+|---|------|--------|------------|
+| 1 | Extension auth: Clerk session cookie | ✅ | Đọc `__session` cookie từ goads.shop → verify qua `/api/extension/verify` → cache user. Auto re-verify mỗi 30 phút via `chrome.alarms`. Offline fallback dùng cached user |
+| 2 | Extension download/install flow | ✅ | `build-zip.sh` (dev/prod flag) → output `app/public/downloads/goads-bm-invite-v2.zip` |
+| 3 | Extension "View Guide" docs | ✅ | Markdoc guide tại `src/content/docs/bm-invite-extension-guide/` |
+| 4 | Extension config: env-based | ✅ | `config.js` (localhost) + `config.prod.js` (goads.shop), swap khi build zip |
+| 5 | Portal UI update | ✅ | Bỏ token generate/copy UI, thay bằng "Sign in with GoAds" flow hướng dẫn |
+| 6 | Verify API endpoint | ✅ | `POST /api/extension/verify` — Clerk `verifyToken()` + lookup user in DB |
+| 7 | Content.js v2 auth flow | ✅ | Bỏ token input, thêm "Sign in with GoAds" button + `visibilitychange` auto re-check |
+
+**Key changes vs V1:**
+- Auth: token-based → Clerk session cookie (không share được, bound to browser)
+- UX: paste token → 1-click "Sign in with GoAds" → auto-connect khi quay lại tab
+- Manifest v2.0.0, thêm permission `alarms`
+- Legacy v1 token API giữ lại cho backward compat
+
+### Manual UI Testing
+
+**Prerequisite:** Load extension vào Chrome (`chrome://extensions` → Load unpacked → chọn `extension/`)
+
+| # | Test | Steps | Expected |
+|---|------|-------|----------|
+| 1 | Extension chỉ chạy trên Facebook | Click icon trên google.com | Không có gì xảy ra (chỉ inject trên `business/www/adsmanager/m.facebook.com`) |
+| 2 | Auth screen hiển thị khi chưa login | Mở `business.facebook.com` → click extension icon | Hiện overlay → Auth screen với nút "Sign in with GoAds" |
+| 3 | Sign in flow | Click "Sign in with GoAds" | Mở tab mới → `localhost:3000/sign-in` (dev) hoặc `goads.shop/sign-in` (prod) |
+| 4 | Auto-connect sau sign in | Sign in ở tab GoAds → quay lại tab Facebook | Extension tự detect session cookie → hiện connected state (tên + role) |
+| 5 | Connected state UI | Sau khi auth thành công | Hiện tên user, GoAds pill badge, nút Disconnect |
+| 6 | Disconnect | Click "Disconnect" | Clear cached user, quay về Auth screen |
+| 7 | Offline fallback | Tắt mạng → click extension icon (đã login trước đó) | Hiện cached user với `offline: true` |
+| 8 | Session expired | Xóa cookie `__session` từ goads.shop → click icon | Quay về Auth screen, cached user bị xóa |
+| 9 | Portal extensions page | Mở `/portal/tools/extensions` | Hiện hướng dẫn 4 bước sign-in flow (không còn token input) |
+| 10 | Download zip | Chạy `./extension/build-zip.sh` | File `app/public/downloads/goads-bm-invite-v2.zip` được tạo |
+| 11 | Prod build zip | Chạy `./extension/build-zip.sh --prod` | Zip chứa `config.js` với `API_URL: "https://goads.shop/api/extension"` |
 
 ---
 
@@ -336,7 +363,7 @@ Phase 4   ✅  Analytics, warranty, CSV export, Flexsearch, Keystatic CMS
 Phase 5   ✅  Chrome extension for BM invite management
 Phase 6   ✅  Community V1, moderation, user profiles, segmentation
 Phase 7   🔄  Bug fixes & quick wins (3 remaining)
-Phase 8   ⏳  Extension V2 — Clerk auth + distribution
+Phase 8   ✅  Extension V2 — Clerk session auth + build zip + guide docs
 Phase 9   ⏳  Community V2 — public + SEO (Vercel model)
 Phase 10  ⏳  CMS & content workflow for Thành
 Phase 11  ⏳  Deploy & Go Live

@@ -61,15 +61,14 @@
       <!-- Auth Screen -->
       <div id="goads-authSection" class="goads-hidden">
         <div class="goads-auth-screen">
-          <div class="goads-auth-icon">🔑</div>
-          <div class="goads-auth-title">Connect to GoAds</div>
-          <div class="goads-auth-desc">Enter your extension token to use this tool. Get your token from the GoAds portal.</div>
+          <div class="goads-auth-icon">🔐</div>
+          <div class="goads-auth-title">Sign in to GoAds</div>
+          <div class="goads-auth-desc">Sign in with your GoAds account to use this tool. A new tab will open for you to log in.</div>
           <div class="goads-auth-form">
-            <input type="text" id="goads-authToken" placeholder="Paste your extension token here" spellcheck="false" autocomplete="off">
-            <button class="goads-btn goads-btn-primary" id="goads-btnConnect" style="width:100%">Connect</button>
+            <button class="goads-btn goads-btn-primary" id="goads-btnSignIn" style="width:100%">Sign in with GoAds</button>
           </div>
           <div id="goads-authError" class="goads-alert goads-alert-error"></div>
-          <a class="goads-auth-link" href="https://goads.shop/portal/tools/extensions" target="_blank">Get your token at goads.shop/portal →</a>
+          <div class="goads-auth-hint" style="text-align:center;font-size:12px;color:#888;margin-top:8px">After signing in, come back to this tab — it will connect automatically.</div>
         </div>
       </div>
 
@@ -170,10 +169,7 @@
     $("goads-btnOpenMail").addEventListener("click", openMailbox);
 
     // Auth screen buttons
-    $("goads-btnConnect").addEventListener("click", handleConnect);
-    $("goads-authToken").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") handleConnect();
-    });
+    $("goads-btnSignIn").addEventListener("click", handleSignIn);
     $("goads-btnDisconnect").addEventListener("click", handleDisconnect);
 
     // Close on Escape
@@ -186,11 +182,11 @@
   }
 
   // ══════════════════════════════════════
-  // ── GoAds Auth Flow ──
+  // ── GoAds Auth Flow (v2 — Clerk session) ──
   // ══════════════════════════════════════
 
   async function checkAuth() {
-    const res = await msg("getStoredAuth");
+    const res = await msg("checkGoAdsAuth");
     if (res.ok && res.user) {
       goadsUser = res.user;
       showConnectedState();
@@ -200,38 +196,33 @@
     }
   }
 
-  async function handleConnect() {
-    const input = $("goads-authToken");
-    const tokenVal = input.value.trim();
-    if (!tokenVal) return;
-
-    const btn = $("goads-btnConnect");
+  /** Open goads.shop sign-in in a new tab */
+  async function handleSignIn() {
+    const btn = $("goads-btnSignIn");
     const errEl = $("goads-authError");
     errEl.style.display = "none";
     btn.disabled = true;
-    btn.innerHTML = '<span class="goads-spinner"></span> Connecting...';
+    btn.innerHTML = '<span class="goads-spinner"></span> Opening sign-in...';
 
-    const res = await msg("validateToken", { token: tokenVal });
-    if (res.ok && res.user) {
-      goadsUser = res.user;
-      showConnectedState();
-      init(); // proceed to FB init
-    } else {
-      errEl.textContent = res.error || "Invalid token";
-      errEl.style.display = "block";
-    }
+    await msg("openSignIn");
 
     btn.disabled = false;
-    btn.textContent = "Connect";
+    btn.textContent = "Sign in with GoAds";
   }
 
   async function handleDisconnect() {
     await msg("clearAuth");
     goadsUser = null;
-    $("goads-authToken").value = "";
     $("goads-authError").style.display = "none";
     showScreen("auth");
   }
+
+  // Auto re-check auth when user returns to this tab (after signing in)
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && !goadsUser) {
+      checkAuth();
+    }
+  });
 
   function showConnectedState() {
     const nameEl = $("goads-userName");

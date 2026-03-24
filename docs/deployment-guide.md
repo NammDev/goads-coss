@@ -117,6 +117,65 @@ Add new domains to `images.remotePatterns` in `next.config.ts` before using.
 | CSS not applying | Check `globals.css` import in `layout.tsx` |
 | Dark mode broken | Verify `next-themes` ThemeProvider with `attribute="class"` |
 
+## Chrome Extension (GoAds BM Invite v2)
+
+### Architecture
+
+Extension v2 uses **Clerk session cookie auth** (replaces v1 token-based auth):
+- Reads `__session` cookie from `goads.shop` domain (set by Clerk after login)
+- Verifies via `POST /api/extension/verify` on the backend
+- Periodic re-verify every 30 min via `chrome.alarms`
+- Offline fallback: cached user in `chrome.storage.local`
+
+### Extension Files
+
+| File | Purpose |
+|------|---------|
+| `extension/manifest.json` | Manifest V3, permissions: activeTab, storage, scripting, tabs, cookies, alarms |
+| `extension/background.js` | Service worker — auth, BM detection, invite logic |
+| `extension/content.js` | Overlay UI injected into Facebook tabs |
+| `extension/content.css` | Overlay styles |
+| `extension/config.js` | Dev config (localhost:3000) |
+| `extension/config.prod.js` | Prod config (goads.shop) |
+| `extension/build-zip.sh` | Build script for distribution zip |
+
+### API Endpoint
+
+`POST /api/extension/verify` — verifies Clerk session JWT:
+- Source: `app/src/app/api/extension/verify/route.ts`
+- Input: `Authorization: Bearer <session_token>`
+- Output: `{ valid, user: { id, name, email, role } }`
+- Uses `@clerk/nextjs/server` `createClerkClient().verifyToken()`
+
+### Building Extension Zip
+
+```bash
+# Development build (localhost)
+cd extension
+./build-zip.sh
+
+# Production build (goads.shop)
+./build-zip.sh --prod
+```
+
+Output: `app/public/downloads/goads-bm-invite-v2.zip`
+
+The `--prod` flag swaps `config.js` → `config.prod.js` (changes API_URL and SITE_URL to production).
+
+### Portal Integration
+
+- Extension management page: `/portal/tools/extensions`
+- Token card (`extension-token-card.tsx`) updated: removed token generation/copy UI, shows "Sign in with GoAds" flow instructions
+- Docs guide: `app/src/content/docs/bm-invite-extension-guide/` (Markdoc)
+
+### Extension Auth Flow
+
+1. User clicks extension icon on Facebook
+2. Extension reads `__session` cookie from goads.shop
+3. If no cookie → shows "Sign in with GoAds" button → opens `/sign-in` tab
+4. User signs in → returns to Facebook tab → `visibilitychange` event triggers re-check
+5. Extension verifies session via `/api/extension/verify` → caches user info
+
 ## Performance Targets
 
 | Metric | Target | Tool |

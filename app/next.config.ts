@@ -18,9 +18,9 @@ const cspDirectives = [
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  allowedDevOrigins: ["http://192.168.1.64:3000", "192.168.1.64"],
+  allowedDevOrigins: ["http://192.168.1.64:3000", "192.168.1.64", "http://192.168.1.18:3001", "192.168.1.18"],
   turbopack: {
-    root: ".",
+    root: "..",
   },
   images: {
     remotePatterns: [

@@ -1,5 +1,9 @@
-// Background service worker — GoAds BM Invite v1.0
+// Background service worker — GoAds BM Invite v2.0
+// Auth: Clerk session cookie from goads.shop (replaces token-based auth)
 // Click extension icon → inject overlay UI into current tab
+
+// Load config (API_URL, SITE_URL) — swap config.js → config.prod.js for production
+importScripts("config.js");
 
 chrome.action.onClicked.addListener(async (tab) => {
   // Only inject on Facebook domains
@@ -27,9 +31,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     getAdAccountLimits: () => getAdAccountLimits(request.bmIds),
     detectCurrentBM: () => detectCurrentBM(),
     inviteBM: () => inviteBM(request.data),
+    // v2: Clerk session auth (replaces token-based)
+    checkGoAdsAuth: () => checkGoAdsAuth(),
+    openSignIn: () => openSignIn(),
+    clearAuth: () => clearAuth(),
+    // v1 legacy (kept for backward compat)
     validateToken: () => validateGoAdsToken(request.token),
     getStoredAuth: () => getStoredAuth(),
-    clearAuth: () => clearAuth(),
   };
   if (handlers[request.action]) {
     handlers[request.action]().then(r => sendResponse(r)).catch(e => sendResponse({ error: e.message }));
@@ -275,11 +283,97 @@ async function detectCurrentBM() {
   return { ok: false, error: "No BM detected. Open business.facebook.com with a BM first." };
 }
 
-// ===== GOADS AUTH =====
-// TODO: switch to https://goads.shop/api/extension for production
-const GOADS_API = "http://localhost:3000/api/extension";
+// ===== GOADS AUTH (v2 — Clerk session cookie) =====
+// Reads __session cookie from goads.shop set by Clerk after login
+// Verifies via /api/extension/verify on the server
+// Config loaded from config.js (imported via manifest)
+const GOADS_API = CONFIG.API_URL;
+const GOADS_SITE = CONFIG.SITE_URL;
 
-/** Validate GoAds token via API and store in chrome.storage */
+/** Read Clerk __session cookie from goads.shop domain */
+async function getClerkSessionCookie() {
+  return new Promise((resolve) => {
+    // Try production domain first, then localhost
+    chrome.cookies.get({ url: "https://goads.shop", name: "__session" }, (cookie) => {
+      if (cookie?.value) return resolve(cookie.value);
+      // Fallback to localhost for development
+      chrome.cookies.get({ url: "http://localhost:3000", name: "__session" }, (cookie2) => {
+        resolve(cookie2?.value || null);
+      });
+    });
+  });
+}
+
+/** Verify Clerk session JWT with backend and store user info */
+async function verifyClerkSession(sessionToken) {
+  try {
+    const resp = await fetch(GOADS_API + "/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + sessionToken,
+      },
+    });
+    const data = await resp.json();
+    if (data.valid && data.user) {
+      await chrome.storage.local.set({ goads_user: data.user });
+      return { ok: true, user: data.user };
+    }
+    return { ok: false, error: data.error || "Invalid session" };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
+
+/** Main auth check: read cookie → verify → return user */
+async function checkGoAdsAuth() {
+  try {
+    const session = await getClerkSessionCookie();
+    if (!session) {
+      // No cookie — check cached user (offline fallback)
+      const { goads_user } = await chrome.storage.local.get(["goads_user"]);
+      if (goads_user) return { ok: true, user: goads_user, offline: true, needsReauth: true };
+      return { ok: false, error: "Not signed in" };
+    }
+    const result = await verifyClerkSession(session);
+    if (result.ok) return result;
+    // Session invalid — clear cached user
+    await chrome.storage.local.remove(["goads_user"]);
+    return { ok: false, error: result.error || "Session expired" };
+  } catch (e) {
+    // Network error — use cached user
+    const { goads_user } = await chrome.storage.local.get(["goads_user"]);
+    if (goads_user) return { ok: true, user: goads_user, offline: true };
+    return { ok: false, error: e.message };
+  }
+}
+
+/** Open goads.shop sign-in page in a new tab */
+async function openSignIn() {
+  await chrome.tabs.create({ url: GOADS_SITE + "/sign-in" });
+  return { ok: true };
+}
+
+/** Clear GoAds auth from chrome.storage */
+async function clearAuth() {
+  await chrome.storage.local.remove(["goads_user"]);
+  return { ok: true };
+}
+
+// Periodic re-verify every 30 minutes via chrome.alarms
+chrome.alarms.create("goads-reverify", { periodInMinutes: 30 });
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  if (alarm.name === "goads-reverify") {
+    const result = await checkGoAdsAuth();
+    if (!result.ok) {
+      await chrome.storage.local.remove(["goads_user"]);
+    }
+  }
+});
+
+// ===== LEGACY AUTH (v1 — token-based, kept for backward compat) =====
+
+/** v1: Validate GoAds token via API (deprecated — use checkGoAdsAuth) */
 async function validateGoAdsToken(token) {
   try {
     const resp = await fetch(GOADS_API + "/auth", {
@@ -289,10 +383,7 @@ async function validateGoAdsToken(token) {
     });
     const data = await resp.json();
     if (data.valid && data.user) {
-      await chrome.storage.local.set({
-        goads_token: token,
-        goads_user: data.user,
-      });
+      await chrome.storage.local.set({ goads_user: data.user });
       return { ok: true, user: data.user };
     }
     return { ok: false, error: data.error || "Invalid token" };
@@ -301,38 +392,9 @@ async function validateGoAdsToken(token) {
   }
 }
 
-/** Get stored GoAds auth from chrome.storage and re-validate */
+/** v1: Get stored auth (deprecated — use checkGoAdsAuth) */
 async function getStoredAuth() {
-  try {
-    const { goads_token, goads_user } = await chrome.storage.local.get(["goads_token", "goads_user"]);
-    if (!goads_token) return { ok: false };
-    // Re-validate stored token
-    const resp = await fetch(GOADS_API + "/auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: goads_token }),
-    });
-    const data = await resp.json();
-    if (data.valid && data.user) {
-      // Update user info in storage
-      await chrome.storage.local.set({ goads_user: data.user });
-      return { ok: true, user: data.user };
-    }
-    // Token invalid/expired — clear storage
-    await chrome.storage.local.remove(["goads_token", "goads_user"]);
-    return { ok: false, error: data.error || "Token expired" };
-  } catch (e) {
-    // Network error — use cached user if available
-    const { goads_user } = await chrome.storage.local.get(["goads_user"]);
-    if (goads_user) return { ok: true, user: goads_user, offline: true };
-    return { ok: false, error: e.message };
-  }
-}
-
-/** Clear GoAds auth from chrome.storage */
-async function clearAuth() {
-  await chrome.storage.local.remove(["goads_token", "goads_user"]);
-  return { ok: true };
+  return checkGoAdsAuth();
 }
 
 // ===== INVITE BM (UNCHANGED from v8) =====

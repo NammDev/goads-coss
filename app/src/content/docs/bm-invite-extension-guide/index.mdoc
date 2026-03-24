@@ -1,0 +1,75 @@
+---
+title: BM Invite Extension Guide
+navSlug: meta/extensions/bm-invite
+description: How to install and use the GoAds BM Invite Chrome extension to send Business Manager invitations.
+lastUpdated: March 2026
+tab: meta
+---
+
+## What is BM Invite Extension?
+
+The GoAds BM Invite Extension is a Chrome extension that lets you send Business Manager invitations directly from Facebook — no need to navigate through complex Facebook settings.
+
+{% callout variant="info" title="Requirements" %}
+- Google Chrome browser (version 88+)
+- A GoAds customer account
+- Access to at least one Facebook Business Manager
+{% /callout %}
+
+## Step 1: Download the Extension
+
+1. Log in to your GoAds Portal at **goads.shop/portal**
+2. Go to **Tools → Extensions**
+3. Click **Download Extension v2.0** to download the `.zip` file
+
+## Step 2: Install on Chrome
+
+1. Open Chrome and go to **chrome://extensions**
+2. Enable **Developer mode** (toggle in the top-right corner)
+3. Drag and drop the downloaded `.zip` file onto the extensions page
+4. If Chrome doesn't accept the zip directly, unzip first, then click **Load unpacked** and select the unzipped folder
+5. The GoAds icon will appear in your toolbar
+
+{% callout variant="warning" title="Keep Developer Mode On" %}
+Since this extension is not published on Chrome Web Store, you need to keep Developer mode enabled. Chrome may occasionally show a warning — just dismiss it.
+{% /callout %}
+
+## Step 3: Sign In
+
+1. Open **facebook.com** or **business.facebook.com**
+2. Click the GoAds icon in Chrome toolbar — the extension overlay will appear
+3. Click **"Sign in with GoAds"** — a new tab opens to the GoAds sign-in page
+4. Sign in with your GoAds account (same email/password as the portal)
+5. After signing in, go back to the Facebook tab
+6. The extension will automatically detect your login and show **"Connected"**
+
+{% callout variant="info" title="Auto-reconnect" %}
+You only need to sign in once. The extension remembers your session. If the session expires, it will prompt you to sign in again.
+{% /callout %}
+
+## Step 4: Send BM Invitations
+
+1. Make sure you're on a Business Manager page (**business.facebook.com**)
+2. Click the GoAds icon — the overlay shows your connection status and detected BM
+3. Enter the **email address** to invite (or click the dice icon to generate a random email)
+4. Select the **role** (Admin or Employee)
+5. Click **Send Invite**
+6. The invitation will be sent immediately via Facebook's API
+
+## Troubleshooting
+
+### "Not logged in to Facebook"
+You need to be logged in to Facebook in the same Chrome browser. Sign in to facebook.com first.
+
+### "Could not fetch access token"
+Refresh the Facebook page and try again. This usually happens when Facebook's session cache is stale.
+
+### "No BM detected"
+Navigate to a Business Manager page first (business.facebook.com). The extension needs to detect which BM you want to send invitations from.
+
+### Extension not connecting after sign-in
+Make sure you signed in at **goads.shop** (not a different site). Try closing and reopening the extension overlay.
+
+## Need Help?
+
+Contact GoAds support via [Telegram](https://t.me/goads_support) for any issues with the extension.

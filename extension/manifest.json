@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "GoAds BM Invite",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "GoAds — Invite users to Business Manager via email",
-  "permissions": ["activeTab", "storage", "scripting", "tabs", "cookies"],
+  "permissions": ["activeTab", "storage", "scripting", "tabs", "cookies", "alarms"],
   "host_permissions": [
     "https://business.facebook.com/*",
     "https://www.facebook.com/*",
