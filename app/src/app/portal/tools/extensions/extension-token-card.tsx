@@ -1,14 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import {
-  KeyIcon,
-  CopyIcon,
-  CheckIcon,
-  Trash2Icon,
-  RefreshCwIcon,
-  Loader2Icon,
-} from 'lucide-react'
+import { KeyIcon, Trash2Icon, Loader2Icon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -22,10 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import {
-  generateExtensionToken,
-  revokeExtensionToken,
-} from '@/lib/actions/extension-actions'
+import { revokeExtensionToken } from '@/lib/actions/extension-actions'
 
 type TokenStatus = {
   hasToken: boolean
@@ -47,43 +37,19 @@ function formatDate(dateStr?: string | null) {
   })
 }
 
+const AUTH_STEPS = [
+  'Install the extension and open Facebook',
+  'Click "Sign in with GoAds" in the extension overlay',
+  'Sign in with your GoAds account (same as this portal)',
+  'Come back to Facebook — the extension connects automatically',
+]
+
 export function ExtensionTokenCard({ initial }: { initial: TokenStatus }) {
   const [status, setStatus] = useState(initial)
-  const [newToken, setNewToken] = useState<string | null>(null)
-  const [copied, setCopied] = useState(false)
   const [showRevoke, setShowRevoke] = useState(false)
   const [isPending, startTransition] = useTransition()
 
-  // Generate token
-  function handleGenerate() {
-    startTransition(async () => {
-      const res = await generateExtensionToken()
-      if (!res.success) {
-        toast.error(res.error)
-        return
-      }
-      setNewToken(res.data.token)
-      setStatus({
-        hasToken: true,
-        id: res.data.id,
-        expiresAt: res.data.expiresAt.toISOString(),
-        createdAt: new Date().toISOString(),
-        lastUsedAt: null,
-      })
-      toast.success('Token generated successfully')
-    })
-  }
-
-  // Copy token to clipboard
-  async function handleCopy() {
-    if (!newToken) return
-    await navigator.clipboard.writeText(newToken)
-    setCopied(true)
-    toast.success('Token copied to clipboard')
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  // Revoke token
+  // Revoke legacy token (transition period only)
   function handleRevoke() {
     if (!status.id) return
     startTransition(async () => {
@@ -93,60 +59,55 @@ export function ExtensionTokenCard({ initial }: { initial: TokenStatus }) {
         return
       }
       setStatus({ hasToken: false })
-      setNewToken(null)
       setShowRevoke(false)
-      toast.success('Token revoked')
+      toast.success('Legacy token revoked')
     })
   }
 
   return (
     <>
+      {/* How it works — v2 Clerk auth */}
       <Card className="shadow-none">
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <KeyIcon className="text-muted-foreground size-5" />
-              <CardTitle className="text-lg">Extension Token</CardTitle>
-            </div>
-            {status.hasToken ? (
-              <Badge className="border-transparent bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                Active
-              </Badge>
-            ) : (
-              <Badge variant="secondary">No Token</Badge>
-            )}
+          <div className="flex items-center gap-2">
+            <KeyIcon className="text-muted-foreground size-5" />
+            <CardTitle className="text-lg">How to Connect</CardTitle>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Token just generated — show once */}
-          {newToken && (
-            <div className="bg-muted rounded-lg border p-3">
-              <p className="mb-2 text-xs font-medium text-amber-600 dark:text-amber-400">
-                Copy this token now — it won&apos;t be shown again.
-              </p>
-              <div className="flex items-center gap-2">
-                <code className="flex-1 truncate rounded bg-black/5 px-2 py-1 font-mono text-xs dark:bg-white/5">
-                  {newToken}
-                </code>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="shrink-0 gap-1.5"
-                  onClick={handleCopy}
-                >
-                  {copied ? (
-                    <CheckIcon className="size-3.5" />
-                  ) : (
-                    <CopyIcon className="size-3.5" />
-                  )}
-                  {copied ? 'Copied' : 'Copy'}
-                </Button>
-              </div>
-            </div>
-          )}
+        <CardContent>
+          <p className="text-muted-foreground mb-4 text-sm">
+            The extension uses your GoAds account — no tokens needed.
+            Just sign in once and you&apos;re connected.
+          </p>
+          <ol className="space-y-2.5">
+            {AUTH_STEPS.map((step, idx) => (
+              <li key={idx} className="flex gap-3 text-sm">
+                <span className="bg-primary/10 text-primary flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
+                  {idx + 1}
+                </span>
+                <span className="pt-0.5">{step}</span>
+              </li>
+            ))}
+          </ol>
+        </CardContent>
+      </Card>
 
-          {/* Token info */}
-          {status.hasToken && !newToken && (
+      {/* Legacy token — show only if user still has one (transition period) */}
+      {status.hasToken && (
+        <Card className="border-dashed shadow-none">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between gap-4">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
+                Legacy Token (deprecated)
+              </CardTitle>
+              <Badge variant="secondary">Will be removed</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-muted-foreground text-xs">
+              You have an old extension token. The extension now uses your GoAds
+              account directly — this token is no longer needed.
+            </p>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div>
                 <span className="text-muted-foreground">Created</span>
@@ -156,54 +117,29 @@ export function ExtensionTokenCard({ initial }: { initial: TokenStatus }) {
                 <span className="text-muted-foreground">Expires</span>
                 <p className="font-medium">{formatDate(status.expiresAt)}</p>
               </div>
-              <div className="col-span-2">
-                <span className="text-muted-foreground">Last used</span>
-                <p className="font-medium">{formatDate(status.lastUsedAt)}</p>
-              </div>
             </div>
-          )}
-
-          {/* Actions */}
-          <div className="flex flex-wrap gap-2">
             <Button
               size="sm"
-              className="gap-2"
-              onClick={handleGenerate}
+              variant="outline"
+              className="gap-2 text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-950/30"
+              onClick={() => setShowRevoke(true)}
               disabled={isPending}
             >
-              {isPending ? (
-                <Loader2Icon className="size-4 animate-spin" />
-              ) : status.hasToken ? (
-                <RefreshCwIcon className="size-4" />
-              ) : (
-                <KeyIcon className="size-4" />
-              )}
-              {status.hasToken ? 'Regenerate Token' : 'Generate Token'}
+              <Trash2Icon className="size-4" />
+              Revoke Legacy Token
             </Button>
-            {status.hasToken && (
-              <Button
-                size="sm"
-                variant="outline"
-                className="gap-2 text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-950/30"
-                onClick={() => setShowRevoke(true)}
-                disabled={isPending}
-              >
-                <Trash2Icon className="size-4" />
-                Revoke
-              </Button>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Revoke confirmation dialog */}
       <Dialog open={showRevoke} onOpenChange={setShowRevoke}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Revoke Extension Token?</DialogTitle>
+            <DialogTitle>Revoke Legacy Token?</DialogTitle>
             <DialogDescription>
-              The extension will be disconnected immediately and you&apos;ll need
-              to generate a new token to use it again.
+              This will revoke your old extension token. The new sign-in method
+              is not affected.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -219,8 +155,10 @@ export function ExtensionTokenCard({ initial }: { initial: TokenStatus }) {
               onClick={handleRevoke}
               disabled={isPending}
             >
-              {isPending && <Loader2Icon className="mr-2 size-4 animate-spin" />}
-              Revoke Token
+              {isPending && (
+                <Loader2Icon className="mr-2 size-4 animate-spin" />
+              )}
+              Revoke
             </Button>
           </DialogFooter>
         </DialogContent>

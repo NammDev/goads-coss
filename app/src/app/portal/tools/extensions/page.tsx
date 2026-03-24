@@ -15,6 +15,7 @@ const INSTALL_STEPS = [
 ]
 
 export default async function PortalExtensionsPage() {
+  // Check for legacy tokens (transition period — will be removed)
   const tokenRes = await getExtensionTokenStatus()
   const tokenStatus = tokenRes.success
     ? {
@@ -52,13 +53,15 @@ export default async function PortalExtensionsPage() {
           </div>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-3">
-          <Button size="sm" className="gap-2">
-            <DownloadIcon className="size-4" />
-            Download Extension
+          <Button size="sm" className="gap-2" asChild>
+            <a href="/downloads/goads-bm-invite-v2.zip" download>
+              <DownloadIcon className="size-4" />
+              Download Extension v2.0
+            </a>
           </Button>
           <Button variant="outline" size="sm" className="gap-2" asChild>
             <a
-              href="https://goads.vn/tools/bm-invite"
+              href="/docs/meta/extensions/bm-invite"
               target="_blank"
               rel="noopener noreferrer"
             >
