@@ -19,7 +19,7 @@ export function CommunitySortTabs() {
     const params = new URLSearchParams(searchParams.toString())
     params.set("sort", sort)
     params.delete("page")
-    router.push(`/portal/community?${params.toString()}`)
+    router.push(`/community?${params.toString()}`)
   }
 
   return (

@@ -22,7 +22,7 @@ interface CommunityPostCardProps {
 export function CommunityPostCard({ post }: CommunityPostCardProps) {
   return (
     <Link
-      href={`/portal/community/${post.slug}`}
+      href={`/community/${post.slug}`}
       className="group -mx-2 flex flex-col gap-2 rounded-lg px-4 py-4 transition-colors duration-200 hover:bg-muted/50"
     >
       {/* Top row: category + status + pinned */}
@@ -56,7 +56,7 @@ export function CommunityPostCard({ post }: CommunityPostCardProps) {
             className="font-medium hover:text-primary hover:underline"
             onClick={(e) => {
               e.preventDefault()
-              window.location.href = `/portal/community/user/${post.authorUsername}`
+              window.location.href = `/community/user/${post.authorUsername}`
             }}
           >
             {post.authorName}

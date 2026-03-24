@@ -21,7 +21,7 @@ export function CommunityPostList({ posts, total, page, limit, baseUrl }: Commun
       <div className="flex flex-col items-center gap-3 py-16 text-center">
         <p className="text-muted-foreground">No posts found.</p>
         <Button asChild size="sm">
-          <Link href="/portal/community/create">Create the first post</Link>
+          <Link href="/community/create">Create the first post</Link>
         </Button>
       </div>
     )
@@ -31,7 +31,7 @@ export function CommunityPostList({ posts, total, page, limit, baseUrl }: Commun
   function pageHref(p: number) {
     const url = new URL(baseUrl, "http://localhost")
     url.searchParams.set("page", String(p))
-    return `/portal/community?${url.searchParams.toString()}`
+    return `/community?${url.searchParams.toString()}`
   }
 
   return (

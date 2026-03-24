@@ -61,9 +61,9 @@ export function CommunityPostDetail({ post }: CommunityPostDetailProps) {
     <div className="flex flex-col gap-4">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
-        <Link href="/portal/community" className="hover:text-foreground">Community</Link>
+        <Link href="/community" className="hover:text-foreground">Community</Link>
         <span>/</span>
-        <Link href={`/portal/community?category=${post.categorySlug}`} className="hover:text-foreground">
+        <Link href={`/community?category=${post.categorySlug}`} className="hover:text-foreground">
           {post.categoryName}
         </Link>
       </nav>
