@@ -1,6 +1,6 @@
 # GoAds Development Roadmap
 
-> 12 phases: MVP ✅ → Auth ✅ → Security ✅ → Analytics ✅ → Extension ✅ → Community V1 ✅ → Bugs 🔄 → Extension V2 → Community V2 → CMS → Deploy → UI
+> 12 phases: MVP ✅ → Auth ✅ → Security ✅ → Analytics ✅ → Extension ✅ → Community V1 ✅ → Bugs ✅ → Extension V2 → Community V2 → CMS → Deploy → UI
 
 ---
 
@@ -207,17 +207,17 @@ Goal: Community discussion board + customer segmentation + Cal.com embed.
 
 ---
 
-## Phase 7 — Bug Fixes & Quick Wins 🔄
+## Phase 7 — Bug Fixes & Quick Wins ✅
 
 Goal: Fix bugs từ manual testing, polish trước khi tiếp tục.
 
-**Status: In Progress** | **Timeline: Mar 21–22**
+**Status: DONE** | **Completed: Mar 22–24**
 
 | # | Task | Priority | Status | Notes |
 |---|------|----------|--------|-------|
-| 1 | Export CSV: fix Forbidden (403) | Medium | ⏳ | `window.open()` → đổi sang `fetch()` + blob download |
-| 2 | Cmd+K duplicate dialog (admin/portal) | Medium | ⏳ | Bỏ `SearchDialog` hoặc disable `CommandMenu` theo route |
-| 3 | `/keystatic` auth guard | High | ⏳ | Restrict admin/staff only |
+| 1 | Export CSV: fix Forbidden (403) | Medium | ✅ | `window.open()` → `fetch()` + blob download + loading state + toast |
+| 2 | Cmd+K duplicate dialog (admin/portal) | Medium | ✅ | Disable `CommandMenu` on `/admin` + `/portal` routes via `usePathname()` |
+| 3 | `/keystatic` auth guard | High | ✅ | Middleware restricts `/keystatic(.*)` to `super_admin` / `staff` roles |
 | 4 | Cal.com CSP fix | Medium | ✅ | Thêm `app.cal.com` vào script-src + connect-src |
 | 5 | Floating chat button che nút | Low | ✅ | `pointer-events-none` on container |
 
@@ -310,6 +310,113 @@ Goal: Implement Trang's new UI designs.
 
 ---
 
+## Manual UI Testing Guide
+
+> Test at 4 breakpoints: **375px** (mobile), **768px** (tablet), **1024px** (laptop), **1440px** (desktop).
+> Toggle **dark mode** on every page. Check `Cmd+K` search on marketing vs dashboard.
+
+### A. Marketing Pages (Public — No Login)
+
+| # | Route | What to Check |
+|---|-------|---------------|
+| 1 | `/` (Home) | Hero, product cards, CTA buttons, footer links |
+| 2 | `/agency-ad-account` | Product detail, pricing table, Add to Cart |
+| 3 | `/bm` | Same as above — BM product page |
+| 4 | `/google-agency` | Google product page |
+| 5 | `/tiktok-agency` | TikTok product page |
+| 6 | `/tiktok-accounts` | TikTok accounts page |
+| 7 | `/blue-verification` | Blue tick product page |
+| 8 | `/unban` | Unban service page |
+| 9 | `/profiles` | Profiles product page |
+| 10 | `/pricing` | Pricing overview |
+| 11 | `/payment` | Bank + crypto payment flow |
+| 12 | `/blog` | Blog listing, category sidebar, pagination |
+| 13 | `/blog/[slug]` | Blog detail, TOC sidebar, prose rendering |
+| 14 | `/docs` | Knowledge base, Fumadocs/Markdoc rendering |
+| 15 | `/tools` | 19 free tools listing |
+| 16 | `/tools/2fa` | Sample tool — check each tool loads |
+| 17 | `/about` | About page, milestones |
+| 18 | `/milestones` | Timeline |
+| 19 | `/reviews` | Customer reviews |
+| 20 | `/partners` | Partner logos |
+| 21 | `/help` | Help/FAQ |
+| 22 | `/talk-to-sales` | Cal.com embed loads in iframe |
+| 23 | `/pages` | Pages directory |
+| 24 | `/terms-of-service` | Legal page |
+| 25 | `/privacy-policy` | Legal page |
+| 26 | `/refund-policy` | Legal page |
+| 27 | `Cmd+K` | Search opens, results navigate correctly |
+| 28 | Cart | Add items → cart icon → `/payment` |
+| 29 | Floating chat | Telegram + WhatsApp buttons, not blocking content |
+
+### B. Auth Pages
+
+| # | Route | What to Check |
+|---|-------|---------------|
+| 1 | `/sign-in` | Clerk SignIn loads, email/password + social |
+| 2 | `/sign-up` | Clerk SignUp loads |
+| 3 | `/unauthorized` | Shows for wrong-role access |
+| 4 | `/keystatic` | Redirects non-admin to `/` (middleware guard) |
+
+### C. Admin Panel (Login as `super_admin` or `staff`)
+
+| # | Route | What to Check |
+|---|-------|---------------|
+| 1 | `/admin` | Dashboard stats, date range filter (7d/30d/90d), charts |
+| 2 | `/admin/customers` | Table loads, search, Create Customer dialog |
+| 3 | `/admin/customers/[id]` | Balance card, Topup dialog, order history |
+| 4 | `/admin/orders` | Table loads, search, filters, Export CSV button |
+| 5 | `/admin/orders/new` | Create order form — customer select, line items, balance check |
+| 6 | `/admin/orders/[id]` | Order detail, Deliver dialog, share link generation |
+| 7 | `/admin/products` | Product type tabs |
+| 8 | `/admin/products/[type]` | Products table for specific type |
+| 9 | `/admin/products/new` | Create product form |
+| 10 | `/admin/finance` | Revenue by type, top customers, charts, Export CSV |
+| 11 | `/admin/staff` | Staff list |
+| 12 | `/admin/community` | Moderation — pin/hide/status, report queue |
+| 13 | `/admin/settings` | Settings page (deferred) |
+| 14 | Sidebar | All nav items active-state highlight correctly |
+| 15 | `Cmd+K` (admin) | SearchDialog opens (NOT CommandMenu duplicate) |
+| 16 | Notification bell | Shows unread, mark-as-read |
+| 17 | Export CSV | Click → file downloads (no 403), loading spinner, toast |
+| 18 | Warranty claims | Create claim on delivered item → admin approve/reject |
+
+### D. Customer Portal (Login as `customer`)
+
+| # | Route | What to Check |
+|---|-------|---------------|
+| 1 | `/portal` | Dashboard stats, recent orders |
+| 2 | `/portal/orders` | Orders table, empty state if no orders |
+| 3 | `/portal/orders/[id]` | Order detail, delivered items with credentials |
+| 4 | `/portal/products` | Shop catalog, category pills, search, Buy Now → cart |
+| 5 | `/portal/products/[type]` | Products by type table |
+| 6 | `/portal/products/[type]/[id]` | Single product view |
+| 7 | `/portal/wallet` | Transaction history, empty state |
+| 8 | `/portal/profile` | Clerk UserProfile (avatar, name, email, MFA) |
+| 9 | `/portal/tools` | 20 tools, categorized sidebar |
+| 10 | `/portal/tools/extensions` | Generate/copy/revoke extension token |
+| 11 | `/portal/community` | Discussion board, create post |
+| 12 | `/portal/community/create` | New post form |
+| 13 | `/portal/community/[slug]` | Post detail, replies, upvotes |
+| 14 | `/portal/community/user/[username]` | Public user profile |
+| 15 | Cart (portal) | Buy Now adds to cart, cart icon in header |
+| 16 | `Cmd+K` (portal) | SearchDialog — orders, products, wallet search |
+| 17 | Notification bell | Shows portal-specific notifications |
+
+### E. Cross-Cutting Checks
+
+| # | Check | Details |
+|---|-------|---------|
+| 1 | Dark mode toggle | Every page — colors, borders, text contrast |
+| 2 | Mobile responsive | 375px — sidebar collapses, tables scroll horizontal, no overflow |
+| 3 | Loading states | Navigate between pages — skeletons show briefly |
+| 4 | Error boundary | Go to `/admin/nonexistent` — error page shows |
+| 5 | Share link | `/share/[token]` — marketing layout + conversion CTAs |
+| 6 | SEO | Check `<title>`, OG meta on marketing pages |
+| 7 | Grid frame lines | Vertical borders at container edges on marketing pages |
+
+---
+
 ## Backlog (2027+)
 
 | Feature | Reason |
@@ -335,7 +442,7 @@ Phase 3   ✅  Security headers, error boundaries, mock cleanup
 Phase 4   ✅  Analytics, warranty, CSV export, Flexsearch, Keystatic CMS
 Phase 5   ✅  Chrome extension for BM invite management
 Phase 6   ✅  Community V1, moderation, user profiles, segmentation
-Phase 7   🔄  Bug fixes & quick wins (3 remaining)
+Phase 7   ✅  Bug fixes & quick wins (CSV export, Cmd+K, Keystatic guard)
 Phase 8   ⏳  Extension V2 — Clerk auth + distribution
 Phase 9   ⏳  Community V2 — public + SEO (Vercel model)
 Phase 10  ⏳  CMS & content workflow for Thành
