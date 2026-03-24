@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { Circle } from "lucide-react"
 
 import {
@@ -40,9 +40,14 @@ export function CommandMenu() {
   const [results, setResults] = useState<SearchItem[]>([])
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const router = useRouter()
+  const pathname = usePathname()
 
-  // Cmd+K shortcut
+  // Disable on admin/portal routes where SearchDialog handles Cmd+K
+  const isDashboard = pathname.startsWith("/admin") || pathname.startsWith("/portal")
+
+  // Cmd+K shortcut (only on marketing pages)
   useEffect(() => {
+    if (isDashboard) return
     const down = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault()
@@ -51,7 +56,7 @@ export function CommandMenu() {
     }
     document.addEventListener("keydown", down)
     return () => document.removeEventListener("keydown", down)
-  }, [])
+  }, [isDashboard])
 
   // Reset state when dialog closes
   useEffect(() => {
