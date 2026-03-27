@@ -1,13 +1,9 @@
 import { eq } from "drizzle-orm";
-import { createClerkClient } from "@clerk/nextjs/server";
+import { verifyToken } from "@clerk/nextjs/server";
 
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { handleOptions, jsonResponse } from "../cors";
-
-const clerk = createClerkClient({
-  secretKey: process.env.CLERK_SECRET_KEY!,
-});
 
 export const OPTIONS = handleOptions;
 
@@ -22,7 +18,9 @@ export async function POST(req: Request) {
     }
 
     // Verify Clerk session JWT
-    const payload = await clerk.verifyToken(token);
+    const payload = await verifyToken(token, {
+      secretKey: process.env.CLERK_SECRET_KEY!,
+    });
 
     if (!payload?.sub) {
       return jsonResponse({ valid: false, error: "Invalid session" }, 401);
