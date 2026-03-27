@@ -185,16 +185,11 @@ Goal: Chrome extension for BM invite link management on Facebook.
 
 ---
 
-## Phase 6 — Community ✅ (V1 — cần rebuild)
+## Phase 6 — Community V1 ✅
 
 Goal: Community discussion board + customer segmentation + Cal.com embed.
 
-**Status: V1 DONE** | **Completed: Mar 20** | **Branch: `feature/community` → merged**
-
-> ⚠️ **V1 cần rebuild thành public community (Vercel Community model).**
-> Hiện tại community đóng trong `/portal/` → không SEO, không kéo traffic.
-> Mục tiêu: cộng đồng mở, ai cũng xem được, SEO-driven content, kéo organic traffic.
-> Nghiên cứu kỹ Vercel Community trước khi rebuild. Xem report: `plans/reports/researcher-260321-0102-featurebase-research.md`
+**Status: DONE** | **Completed: Mar 20** | **Superseded by Phase 9 (Community V2 — public + SEO)**
 
 | # | Task | Status | Highlights |
 |---|------|--------|------------|
@@ -227,7 +222,7 @@ Goal: Fix bugs từ manual testing, polish trước khi tiếp tục.
 
 Goal: Chuyển extension từ token auth sang Clerk session, hoàn thiện distribution.
 
-**Status: DONE** | **Completed: Mar 24** | **Branch: `feature/extension-v2`**
+**Status: DONE** | **Completed: Mar 24** | **Branch: `feature/extension-v2` → merged to main**
 
 | # | Task | Status | Highlights |
 |---|------|--------|------------|
@@ -245,23 +240,7 @@ Goal: Chuyển extension từ token auth sang Clerk session, hoàn thiện distr
 - Manifest v2.0.0, thêm permission `alarms`
 - Legacy v1 token API giữ lại cho backward compat
 
-### Manual UI Testing
-
-**Prerequisite:** Load extension vào Chrome (`chrome://extensions` → Load unpacked → chọn `extension/`)
-
-| # | Test | Steps | Expected |
-|---|------|-------|----------|
-| 1 | Extension chỉ chạy trên Facebook | Click icon trên google.com | Không có gì xảy ra (chỉ inject trên `business/www/adsmanager/m.facebook.com`) |
-| 2 | Auth screen hiển thị khi chưa login | Mở `business.facebook.com` → click extension icon | Hiện overlay → Auth screen với nút "Sign in with GoAds" |
-| 3 | Sign in flow | Click "Sign in with GoAds" | Mở tab mới → `localhost:3000/sign-in` (dev) hoặc `goads.shop/sign-in` (prod) |
-| 4 | Auto-connect sau sign in | Sign in ở tab GoAds → quay lại tab Facebook | Extension tự detect session cookie → hiện connected state (tên + role) |
-| 5 | Connected state UI | Sau khi auth thành công | Hiện tên user, GoAds pill badge, nút Disconnect |
-| 6 | Disconnect | Click "Disconnect" | Clear cached user, quay về Auth screen |
-| 7 | Offline fallback | Tắt mạng → click extension icon (đã login trước đó) | Hiện cached user với `offline: true` |
-| 8 | Session expired | Xóa cookie `__session` từ goads.shop → click icon | Quay về Auth screen, cached user bị xóa |
-| 9 | Portal extensions page | Mở `/portal/tools/extensions` | Hiện hướng dẫn 4 bước sign-in flow (không còn token input) |
-| 10 | Download zip | Chạy `./extension/build-zip.sh` | File `app/public/downloads/goads-bm-invite-v2.zip` được tạo |
-| 11 | Prod build zip | Chạy `./extension/build-zip.sh --prod` | Zip chứa `config.js` với `API_URL: "https://goads.shop/api/extension"` |
+> Manual UI tests: see **Section E** in Manual UI Testing Guide below.
 
 ---
 
@@ -269,7 +248,7 @@ Goal: Chuyển extension từ token auth sang Clerk session, hoàn thiện distr
 
 Goal: Rebuild community thành public-first, SEO-driven (Vercel Community model).
 
-**Status: DONE** | **Completed: Mar 24** | **Branch: `feature/community-v2`**
+**Status: DONE** | **Completed: Mar 24** | **Branch: `feature/community-v2` → merged to main**
 
 > Community chuyển từ `/portal/community` (auth-gated) → `/community` (public marketing layout).
 > Mọi người đều xem được posts + replies. Login chỉ cần để post/reply/vote.
@@ -289,33 +268,7 @@ Goal: Rebuild community thành public-first, SEO-driven (Vercel Community model)
 
 **Key files:** `app/src/app/(marketing)/community/` (7 pages), 7 modified components, `community-queries.ts` (9 queries), `sitemap.ts`
 
-### 9A — Manual UI Test Checklist
-
-| # | Test Case | Route | Expected | Status |
-|---|-----------|-------|----------|--------|
-| 1 | Community listing loads (logged out) | `/community` | Posts visible, no auth required | ⏳ |
-| 2 | Search posts | `/community?q=keyword` | Filtered results, 300ms debounce | ⏳ |
-| 3 | Sort: recent / top / trending | `/community?sort=top` | Order changes correctly | ⏳ |
-| 4 | Pagination | `/community?page=2` | Next/prev buttons, 20/page | ⏳ |
-| 5 | Category filter | `/community/c/q-and-a` | Category-specific posts + breadcrumbs | ⏳ |
-| 6 | Mobile categories | `/community` (< 1024px) | Horizontal category buttons visible | ⏳ |
-| 7 | Post detail (logged out) | `/community/[slug]` | Full post + replies visible, no auth needed | ⏳ |
-| 8 | Post detail SEO | `/community/[slug]` | OG meta + JSON-LD DiscussionForumPosting in source | ⏳ |
-| 9 | Upvote requires login | `/community/[slug]` | Click upvote → redirect to sign-in | ⏳ |
-| 10 | Reply requires login | `/community/[slug]` | Reply form shows sign-in prompt | ⏳ |
-| 11 | Create post (logged in) | `/community/create` | Form renders, category select, submit works | ⏳ |
-| 12 | Create post (logged out) | `/community/create` | Redirect to sign-in | ⏳ |
-| 13 | Subscribe/Unsubscribe | `/community/[slug]` | Toggle works, toast notification | ⏳ |
-| 14 | Report content | `/community/[slug]` | Report dialog opens, submit works | ⏳ |
-| 15 | User profile (public) | `/community/user/[username]` | Stats + post history visible without login | ⏳ |
-| 16 | Portal redirect → `/community` | `/portal/community` | 302 redirect to `/community` | ⏳ |
-| 17 | Portal redirect → post detail | `/portal/community/[slug]` | 302 redirect to `/community/[slug]` | ⏳ |
-| 18 | Portal redirect → create | `/portal/community/create` | 302 redirect to `/community/create` | ⏳ |
-| 19 | Portal redirect → user profile | `/portal/community/user/[username]` | 302 redirect to `/community/user/[username]` | ⏳ |
-| 20 | Sitemap includes community | `/sitemap.xml` | `/community`, `/community/[slug]`, `/community/c/[cat]` entries | ⏳ |
-| 21 | Sidebar: categories + leaderboard | `/community` (desktop) | Sticky sidebar, active category highlight, top 5 contributors | ⏳ |
-| 22 | Dark mode | All `/community/*` | No broken colors, proper contrast | ⏳ |
-| 23 | Mobile responsive (375px) | All `/community/*` | No overflow, sidebar hidden, mobile categories visible | ⏳ |
+> Manual UI tests: see **Section F** in Manual UI Testing Guide below.
 
 ---
 
@@ -406,9 +359,14 @@ Goal: Implement Trang's new UI designs.
 | 24 | `/terms-of-service` | Legal page |
 | 25 | `/privacy-policy` | Legal page |
 | 26 | `/refund-policy` | Legal page |
-| 27 | `Cmd+K` | Search opens, results navigate correctly |
-| 28 | Cart | Add items → cart icon → `/payment` |
-| 29 | Floating chat | Telegram + WhatsApp buttons, not blocking content |
+| 27 | `/community` | Post listing, search, sort, category sidebar (no login) |
+| 28 | `/community/[slug]` | Post detail + replies visible without login, OG meta + JSON-LD |
+| 29 | `/community/c/[category]` | Category-filtered posts + breadcrumbs |
+| 30 | `/community/create` | Redirect to sign-in if logged out |
+| 31 | `/community/user/[username]` | Public user profile, post history |
+| 32 | `Cmd+K` | Search opens, results navigate correctly |
+| 33 | Cart | Add items → cart icon → `/payment` |
+| 34 | Floating chat | Telegram + WhatsApp buttons, not blocking content |
 
 ### B. Auth Pages
 
@@ -455,16 +413,60 @@ Goal: Implement Trang's new UI designs.
 | 7 | `/portal/wallet` | Transaction history, empty state |
 | 8 | `/portal/profile` | Clerk UserProfile (avatar, name, email, MFA) |
 | 9 | `/portal/tools` | 20 tools, categorized sidebar |
-| 10 | `/portal/tools/extensions` | Generate/copy/revoke extension token |
-| 11 | `/portal/community` | Discussion board, create post |
-| 12 | `/portal/community/create` | New post form |
-| 13 | `/portal/community/[slug]` | Post detail, replies, upvotes |
-| 14 | `/portal/community/user/[username]` | Public user profile |
+| 10 | `/portal/tools/extensions` | V2 UI: "Sign in with GoAds" flow guide (no token input) |
+| 11 | `/portal/community` | 302 redirect → `/community` |
+| 12 | `/portal/community/create` | 302 redirect → `/community/create` |
+| 13 | `/portal/community/[slug]` | 302 redirect → `/community/[slug]` |
+| 14 | `/portal/community/user/[username]` | 302 redirect → `/community/user/[username]` |
 | 15 | Cart (portal) | Buy Now adds to cart, cart icon in header |
 | 16 | `Cmd+K` (portal) | SearchDialog — orders, products, wallet search |
 | 17 | Notification bell | Shows portal-specific notifications |
 
-### E. Cross-Cutting Checks
+### E. Extension V2 (Chrome — load unpacked `extension/`)
+
+| # | Test | Steps | Expected |
+|---|------|-------|----------|
+| 1 | Only runs on Facebook | Click icon on google.com | Nothing happens (inject only on `business/www/adsmanager/m.facebook.com`) |
+| 2 | Auth screen (not logged in) | Open `business.facebook.com` → click icon | Overlay → "Sign in with GoAds" button |
+| 3 | Sign in flow | Click "Sign in with GoAds" | Opens new tab → `/sign-in` |
+| 4 | Auto-connect after sign in | Sign in on GoAds tab → return to Facebook | Extension detects session cookie → shows connected state |
+| 5 | Connected state | After auth success | User name, GoAds badge, Disconnect button |
+| 6 | Disconnect | Click "Disconnect" | Clears cache, returns to Auth screen |
+| 7 | Offline fallback | Disable network → click icon (was logged in) | Shows cached user with `offline: true` |
+| 8 | Session expired | Delete `__session` cookie → click icon | Returns to Auth screen |
+| 9 | Portal page | `/portal/tools/extensions` | 4-step sign-in flow guide (no token input) |
+| 10 | Build zip (dev) | Run `./extension/build-zip.sh` | Creates `app/public/downloads/goads-bm-invite-v2.zip` |
+| 11 | Build zip (prod) | Run `./extension/build-zip.sh --prod` | Zip uses `API_URL: "https://goads.shop/api/extension"` |
+
+### F. Community V2 (Public — `/community`)
+
+| # | Test | Route | Expected |
+|---|------|-------|----------|
+| 1 | Listing (logged out) | `/community` | Posts visible, no auth required |
+| 2 | Search posts | `/community?q=keyword` | Filtered results, 300ms debounce |
+| 3 | Sort: recent / top / trending | `/community?sort=top` | Order changes correctly |
+| 4 | Pagination | `/community?page=2` | Next/prev buttons, 20/page |
+| 5 | Category filter | `/community/c/q-and-a` | Category-specific posts + breadcrumbs |
+| 6 | Mobile categories | `/community` (< 1024px) | Horizontal category buttons |
+| 7 | Post detail (logged out) | `/community/[slug]` | Full post + replies, no auth needed |
+| 8 | Post SEO | `/community/[slug]` | OG meta + JSON-LD `DiscussionForumPosting` in page source |
+| 9 | Upvote requires login | `/community/[slug]` | Click upvote → redirect to sign-in |
+| 10 | Reply requires login | `/community/[slug]` | Reply form shows sign-in prompt |
+| 11 | Create post (logged in) | `/community/create` | Form renders, category select, submit |
+| 12 | Create post (logged out) | `/community/create` | Redirect to sign-in |
+| 13 | Subscribe/Unsubscribe | `/community/[slug]` | Toggle works, toast notification |
+| 14 | Report content | `/community/[slug]` | Report dialog, submit works |
+| 15 | User profile (public) | `/community/user/[username]` | Stats + post history, no login |
+| 16 | Portal redirect | `/portal/community` | 302 → `/community` |
+| 17 | Portal redirect (post) | `/portal/community/[slug]` | 302 → `/community/[slug]` |
+| 18 | Portal redirect (create) | `/portal/community/create` | 302 → `/community/create` |
+| 19 | Portal redirect (user) | `/portal/community/user/[username]` | 302 → `/community/user/[username]` |
+| 20 | Sitemap | `/sitemap.xml` | Includes `/community`, posts, categories |
+| 21 | Sidebar (desktop) | `/community` | Sticky sidebar, categories + leaderboard |
+| 22 | Dark mode | All `/community/*` | Proper contrast, no broken colors |
+| 23 | Mobile (375px) | All `/community/*` | No overflow, sidebar hidden |
+
+### G. Cross-Cutting Checks
 
 | # | Check | Details |
 |---|-------|---------|
@@ -473,7 +475,7 @@ Goal: Implement Trang's new UI designs.
 | 3 | Loading states | Navigate between pages — skeletons show briefly |
 | 4 | Error boundary | Go to `/admin/nonexistent` — error page shows |
 | 5 | Share link | `/share/[token]` — marketing layout + conversion CTAs |
-| 6 | SEO | Check `<title>`, OG meta on marketing pages |
+| 6 | SEO | Check `<title>`, OG meta on marketing + community pages |
 | 7 | Grid frame lines | Vertical borders at container edges on marketing pages |
 
 ---
@@ -513,7 +515,7 @@ Backlog   📋  Payments, email, AI, Telegram Bot (2027+)
 ```
 
 ```
-Phase 7 (Bugs) → 8 (Extension V2) → 10 (CMS) → 11 (Deploy) → 12 (UI)
+Phase 10 (CMS) → 11 (Deploy) → 12 (UI Redesign)
 ```
 
 ## DB Schema (17 tables)
