@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { Webhook } from "svix";
+import { clerkClient } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -60,11 +61,17 @@ export async function POST(req: Request) {
 
   try {
     if (type === "user.created") {
+      // Insert user into DB with default customer role
       await db.insert(users).values({
         id: data.id,
         name: getFullName(data),
         email: getPrimaryEmail(data),
         role: "customer",
+      });
+      // Set Clerk publicMetadata so requireRole() picks up the role
+      const clerk = await clerkClient();
+      await clerk.users.updateUserMetadata(data.id, {
+        publicMetadata: { role: "customer" },
       });
     } else if (type === "user.updated") {
       await db
