@@ -70,15 +70,13 @@ __pycache__
 prompt.md
 ck.md
 
-# Agent memory (project scope)
-.claude/agent-memory/
+# Claude Code & OpenCode (local config)
+.claude/
+.opencode/
 
-# Hook diagnostics logs
-.claude/hooks/.logs/
-
-# Gemini CLI settings (symlink to .claude/.mcp.json)
+# Gemini CLI settings
 .gemini/settings.json
-.claude/settings.bak.json
+
 # External repos for study/reference
 external/
 
