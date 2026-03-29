@@ -290,16 +290,25 @@ Goal: Hoàn thiện CMS workflow cho Thành quản lý blog/docs content.
 
 Goal: Deploy to production sau khi hoàn thiện tất cả features.
 
-**Status: Blocked** | **Timeline: Sau Phase 10**
+**Status: In Progress** | **Timeline: Mar 27, 2026**
 
 | # | Task | Priority | Status | Notes |
 |---|------|----------|--------|-------|
-| 1 | Vercel deploy + Clerk Production | Critical | ⏳ | Custom domain → Clerk Prod → env vars |
+| 1 | Vercel deploy + Clerk Production | Critical | ✅ Done | goadsagency.com live, Clerk Prod, Google OAuth, GoDaddy DNS |
 | 2 | Rate limiting server actions | High | ⏳ | Prevent abuse on cart/order/wallet actions |
 | 3 | Cross-role E2E testing | Medium | ⏳ | Needs production deploy |
 | 4 | Logging/monitoring (Sentry) | Medium | ⏳ | Production error tracking |
 
-**Already completed:**
+**Task 1 completed (2026-03-27):**
+- ✅ Vercel deploy with custom domain `goadsagency.com`
+- ✅ Clerk Production instance + `pk_live_` / `sk_live_` keys
+- ✅ Clerk webhook (production) + auto-assign `role=customer` on signup
+- ✅ Google OAuth (custom credentials via Google Cloud Console)
+- ✅ GoDaddy DNS: 7 records (Vercel A + CNAME, Clerk 5x CNAME)
+- ✅ CSP updated for `clerk.goadsagency.com`
+- ✅ `verifyToken` fix for Clerk SDK compatibility
+
+**Previously completed:**
 - ✅ Clerk webhook, username/password login, error boundaries
 - ✅ Mock data cleanup, CSP + security headers, robots noindex
 
@@ -307,11 +316,12 @@ Goal: Deploy to production sau khi hoàn thiện tất cả features.
 
 ## Phase 12 — UI Redesign from Figma ⏳
 
-Goal: Implement Trang's new UI designs.
+Goal: Implement new UI designs based on branding kit + foreplay references.
 
-**Status: Not started** | **Timeline: After deploy + Trang delivers Figma**
+**Status: Planning** | **Timeline: After Phase 11 deploy**
 
-> Trang (intern designer) redesigning full UI on Figma — delivers end of March.
+> Workflow: Nam + Claude Code → pixel-perfect components → Figma MCP push → Trang fine-tunes visuals.
+> See `docs/phase-12-design-workflow.md` and `docs/goads-business-context.md` for context.
 
 | # | Task | Priority | Notes |
 |---|------|----------|-------|
