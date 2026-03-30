@@ -12,6 +12,10 @@ export default function ForeplayHomePage() {
       <div className="rounded-t-3xl bg-background">
         <HeroPrecisionSection />
       </div>
+
+      <section className="flex min-h-[400px] items-center justify-center">
+        <p className="text-sm text-white/20">Hero section</p>
+      </section>
     </main>
   )
 }
