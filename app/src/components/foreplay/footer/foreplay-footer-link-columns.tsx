@@ -33,7 +33,8 @@ export function ForeplayFooterLinkColumns() {
           <div className="text-foreground">
             <div className={fpText.overline}>Ad Count</div>
             <div className="h-1" />
-            <div className="font-display text-[1.75rem] font-semibold leading-[2.25rem] tracking-[-0.00714em] [font-optical-sizing:auto]">181,659,436</div>
+            {/* .text-display-h5: 1.5rem/2rem, font-weight 600, Inter Display */}
+            <div className="font-display text-[1.5rem] font-semibold leading-8 tracking-[-0.00667em] [font-optical-sizing:auto]">181,659,436</div>
           </div>
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 212 41" width="100%" height="100%"><path stroke="#fff" strokeLinecap="round" strokeOpacity=".36" strokeWidth="2" d="M1 40V29m7 11V18m7 22V1m7 39V12m7 28V22m7 18V8m7 32V17m7 23V12m7 28V21m7 19V10m7 30V16m7 24V12m7 28V9m7 31V15m7 25V19m7 21V6m7 34V13m7 27V16m7 24V19m7 21V22m7 18V12m7 28V16m7 24V12m7 28V8m7 32V3m7 37V6m7 34V15m7 25V11m7 29V15m7 25V18" /><path stroke="#fff" strokeLinecap="round" strokeWidth="2" d="M211 40V14" /></svg>
