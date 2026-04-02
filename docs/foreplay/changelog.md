@@ -20,6 +20,7 @@
 | `foreplay-section-white-block.tsx` | `.section-white-block` | — | Winning, Collab |
 | `foreplay-dot-bg.tsx` | `.dot-bg` | — | Hero |
 | `foreplay-winning-card.tsx` | `.home-winning-card` | light/dark (isDark) | Before/After |
+| `foreplay-carousel-arrows.tsx` | `.slide-arrows` + `.carousel-arrow` | canPrev/canNext, 36px/44px | Carousel |
 | `foreplay-footer.tsx` | `footer.u-footer` | — | Layout |
 
 ## Organisms
@@ -63,6 +64,50 @@ Section 3: Features grid (dark) — 3 cards
 Final CTA: "Ready to ship more winning ads?" + banner image
 Footer (in layout)
 ```
+
+## Product Page Atoms (Phase 3)
+
+| Component | Foreplay Class | Description |
+|-----------|---------------|-------------|
+| `foreplay-product-hero.tsx` | `.product-hero` | Icon + overline + title + CTA + monitor preview w/ video |
+| `foreplay-product-page-solution-before-after.tsx` | `.product-page-solution` | White block Before/After cards in 2-col grid |
+| `foreplay-product-use-case-carousel.tsx` | `.product-carousel` | Horizontal slide cards + prev/next arrow nav |
+| `foreplay-product-page-feature-tabs.tsx` | `.product-page-tabs` | 3-col tab grid + full-width screenshot below |
+| `foreplay-product-page-feature-grid-cards.tsx` | `.product-page-feature-grid-new` | 3-col (2col tablet, 1col mobile) feature card grid |
+| `foreplay-product-page-testimonial.tsx` | `.home-testimonial-wrapper` | Centered blockquote + logo + avatar + laurel decorations |
+| `foreplay-product-page-cta-card.tsx` | `.cta-block` | Gradient bg card, CTA left + video/icon right |
+| `foreplay-product-page-faq-accordion.tsx` | `.faq` | Expandable Q&A accordion with chevron animation |
+
+## Product Page Data
+
+| File | Content |
+|------|---------|
+| `data/foreplay-swipe-file-page-data.ts` | All text, images, FAQ items for /swipe-file |
+| `app/foreplay/swipe-file/tab-icons.tsx` | Save/Tag/Share SVG icons for feature tabs |
+
+## Product Page Composition (`foreplay/swipe-file/page.tsx`)
+
+```
+Section 1: Product Hero (dark + dot grid + icon + monitor mockup w/ video)
+Section 2: Before/After Solution (white block)
+Section 3: Use Cases Carousel (horizontal cards + arrows)
+Section 4: Core Features Tabs (3 tabs + screenshot) + Chrome Extension banner
+Section 5: All Features Grid 1 (6 cards, 3x2)
+Section 6: Testimonial 1 (Matthew Williams)
+Section 7: Feature Grid 2 (6 cards, 3x2)
+Section 8: Testimonial 2 (Tim Keen)
+Section 9: Product CTA Card (gradient + video + icon)
+Section 10: FAQ Accordion (11 items)
+Section 11: Final CTA (reuse ForeplayHomeCta)
+Footer (in layout)
+```
+
+## Source Files (Phase 3)
+
+| File | Purpose |
+|------|---------|
+| `docs/foreplay/html/swipe-file.html` | Full swipe-file page HTML |
+| `docs/foreplay/phase-3-product-pages.md` | Build plan for all product pages |
 
 ## Remaining TODO
 
