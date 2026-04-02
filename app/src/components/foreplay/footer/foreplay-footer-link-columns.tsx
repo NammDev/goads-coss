@@ -54,11 +54,11 @@ export function ForeplayFooterLinkColumns() {
         </div>
       </div>
 
-      {/* .ask-ai-wrapper — Ask AI buttons (grid item inside .footer-links) */}
-      <div className="flex items-center">
+      {/* .ask-ai-wrapper — spans all 5 grid columns, flex items-center */}
+      <div className="flex items-center [grid-area:span_1/span_5/span_1/span_5]">
         {/* .div-block-352 */}
         <div>
-          <div className="text-foreground"><div className={fpText.labelM}>Ask AI about GoAds</div></div>
+          <div className="text-foreground"><div className={fpText.labelM}>Ask AI about Foreplay.co</div></div>
         </div>
         {/* .ask-ai-buttons-wrapper: flex, gap-2 */}
         <div className="flex gap-2">
