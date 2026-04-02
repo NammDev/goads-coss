@@ -24,7 +24,7 @@
 
 ### Layout Components
 - [x] `ForeplayHeader` — sticky, z-100, blur(24px), bg #020308eb
-- [x] `ForeplayFooter` — 5-col link grid
+- [x] `ForeplayFooter` — full footer: products + company + links + ad count + AI + social
 
 ## Phase 2: Home Page Clone (DONE ✅)
 
@@ -47,24 +47,48 @@
 - [x] CTA banner image
 - [x] Sharing: tablet mockup image
 
-## Phase 3: Product Routes (NEXT 🔜)
+## Phase 3: Product Routes (IN PROGRESS 🔨)
 
-Clone 4 product pages from Foreplay. Each reuses existing atoms + adds ~3-4 new sections.
+### Swipe File `/swipe-file` — DONE ✅
+- [x] Product Hero (icon video + monitor mockup video)
+- [x] Before/After Solution (white block)
+- [x] Use Case Carousel (horizontal cards + arrows)
+- [x] Core Features Tabs (3 tabs + screenshot)
+- [x] Chrome Extension banner (reuse)
+- [x] Feature Grid x2 (6 cards each, bento1 + bento2 images)
+- [x] Testimonial x2 (laurel decorations, local SVGs)
+- [x] Product CTA Card (gradient bg + video)
+- [x] FAQ Accordion (11 items, smooth height animation)
+- [x] Final CTA (reuse ForeplayHomeCta)
+- [x] All local images wired up
 
-| Route | Foreplay URL | Est. New Sections |
-|-------|-------------|-------------------|
-| `/swipe-file` | foreplay.co/swipe-file | 3-4 |
-| `/discovery` | foreplay.co/discovery | 3-4 |
-| `/spyder` | foreplay.co/spyder-ad-spy | 3-4 |
-| `/lens` | foreplay.co/lens-creative-analytics | 3-4 |
+### New Reusable Components (8)
+- `foreplay-product-hero.tsx` — icon + overline + title + CTA + monitor preview
+- `foreplay-product-page-solution-before-after.tsx` — white block Before/After cards
+- `foreplay-product-use-case-carousel.tsx` — horizontal slide cards + arrows
+- `foreplay-product-page-feature-tabs.tsx` — 3-col tab grid + screenshot
+- `foreplay-product-page-feature-grid-cards.tsx` — 3-col feature card grid
+- `foreplay-product-page-testimonial.tsx` — centered quote + laurel decorations
+- `foreplay-product-page-cta-card.tsx` — gradient card with CTA + video
+- `foreplay-product-page-faq-accordion.tsx` — expandable Q&A accordion
+- `foreplay-carousel-arrows.tsx` — reusable prev/next navigation
 
-**Approach:**
-1. Download each product page HTML: `curl -sL foreplay.co/swipe-file > docs/foreplay/html/swipe-file.html`
-2. Identify reusable sections vs new sections
-3. Build new atoms/organisms as needed
-4. Compose page.tsx for each route
+### Footer — DONE ✅
+- [x] Product nav (5 badges with local icons)
+- [x] Company + reviews (logo SVG + Chrome/G2 badges)
+- [x] Link columns (5-col grid: Product, Resources, Solutions, Company+Community)
+- [x] Ad Count stats (bar chart SVG + Live/Historical)
+- [x] Ask AI buttons (5 providers with exact SVGs + hover colors)
+- [x] Social links (6 icons) + Copyright
 
-**Expected reuse:** ForeplaySectionHead, ForeplayCtaButton, ForeplaySectionContainer, ForeplaySectionWhiteBlock, ForeplayProductShowcase, fpText, all color tokens.
+### Remaining Product Pages
+| Route | Foreplay URL | Status |
+|-------|-------------|--------|
+| `/discovery` | foreplay.co/discovery | TODO |
+| `/spyder` | foreplay.co/spyder-ad-spy | TODO |
+| `/lens` | foreplay.co/lens-creative-analytics | TODO |
+
+**Note:** All 8 new components are reusable — other pages just need different props/data.
 
 ## Phase 4: Section Mixing & Content Swap
 
