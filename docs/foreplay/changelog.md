@@ -1,88 +1,73 @@
 # Foreplay Redesign — Changelog
 
-> Ghi lại tất cả thay đổi đã làm. Dùng khi merge sang production để không thiếu sót.
+## Foundation
 
-## Files Changed
+| File | Change |
+|------|--------|
+| `fonts/index.ts` | Inter with `axes: ["opsz"]` — enables optical size for Inter Display |
+| `globals.css` | `.foreplay` scope: full neutral + solid palettes, `--font-display`, `--fp-alpha-*`, `--fp-solid-*` |
+| `(foreplay)/layout.tsx` | Body wrapper, font-optical-sizing:none (global), header + footer |
 
-### New Files Created
-- `docs/foreplay/design-reference.md` — Design spec (colors, fonts, layout, components)
-- `docs/foreplay/phase-1-build-new-website.md` — Phase 1 overview + 10 code quality rules
-- `docs/foreplay/phase-2-merge-go-live.md` — Phase 2 merge plan + rollback
-- `docs/foreplay/changelog.md` — File này
-- `~/.claude/skills/clone-foreplay/SKILL.md` — Skill clone UI từ screenshot
-- `~/.claude/projects/.../memory/foreplay-redesign-rules.md` — Memory rules
-- `~/.claude/projects/.../memory/feedback-no-messy-clone-code.md` — Memory feedback
+## Reusable Atoms
 
-### Modified Files
-| File | What Changed |
-|------|-------------|
-| `app/src/fonts/index.ts` | Added `fontInter` export (Inter via next/font/google) |
-| `app/src/app/globals.css` | Added `.foreplay` CSS scope with dark theme tokens; Added `--font-display` to `@theme inline` |
-| `app/src/app/(foreplay)/layout.tsx` | Updated: apply `.foreplay` class + `fontInter.variable` + `bg-background text-foreground` |
-| `app/next.config.ts` | Fixed Turbopack panic: `turbopack.root` → `import.meta.dirname` |
+| Component | Foreplay Class | Variants | Used In |
+|-----------|---------------|----------|---------|
+| `foreplay-cta-button.tsx` | `.button-dark`, `.button-light` | nav, hero, secondary, ghost, light-primary | Header, Hero, Product, CTA, Sharing |
+| `foreplay-nav-link.tsx` | `.navlink` | — | Header |
+| `foreplay-hero-content.tsx` | `.home-hero-content` | — | Hero |
+| `foreplay-section-head.tsx` | `.section-head` | dark/light variant, h2/h3 titleSize, m/l descSize, subtitle | Winning, Product x5, Collab, Features, CTA |
+| `foreplay-section-container.tsx` | `.container.section-container` | section/footer/navbar | Every section |
+| `foreplay-section-white-block.tsx` | `.section-white-block` | — | Winning, Collab |
+| `foreplay-dot-bg.tsx` | `.dot-bg` | — | Hero |
+| `foreplay-winning-card.tsx` | `.home-winning-card` | light/dark (isDark) | Before/After |
+| `foreplay-footer.tsx` | `footer.u-footer` | — | Layout |
 
-### Route Changes
-| Before | After | Why |
-|--------|-------|-----|
-| `app/src/app/foreplay/` | `app/src/app/(foreplay)/` | Changed to route group — no `/foreplay` URL prefix |
+## Organisms
 
-### Plan Files Created
+| Component | Foreplay Class | Description |
+|-----------|---------------|-------------|
+| `foreplay-header.tsx` | `.navigation` | Sticky, z-100, blur(24px), bg #020308eb |
+| `foreplay-home-hero.tsx` | `.home-hero` | Scroll animation + sticky + video |
+| `foreplay-home-hero-bottom.tsx` | `.home-hero-bottom` | Overline + 14 logo grid |
+| `foreplay-home-hero-video.tsx` | `.home-hero-middle` | Video + gradient overlays |
+| `foreplay-home-winning.tsx` | `.home-winning` | Section head + Before/After cards |
+| `foreplay-home-product-showcase.tsx` | `.home-product` | **REUSABLE** — sidebar + tabs + figure. Used 5x |
+| `foreplay-home-chrome-extension.tsx` | `.home-extension` | Chrome logo + stats + CTA |
+| `foreplay-home-collab.tsx` | `.home-collab` | Section head + enrichment placeholder + sharing |
+| `foreplay-home-sharing.tsx` | `.home-sharing` | Tabs + CTA cards + image pane |
+| `foreplay-home-features-grid.tsx` | `.lens-security` | 3-col card grid with images + CTAs |
+| `foreplay-home-cta.tsx` | `.home-cta` | Final CTA + banner image |
+
+## Data Files
+
+| File | Content |
+|------|---------|
+| `data/foreplay-hero-logos.tsx` | 14 SVG client logos |
+| `data/foreplay-product-tabs.tsx` | Tab data: swipeFile, spyder, discovery, lens, briefs |
+
+## Source Files
+
+| File | Purpose |
+|------|---------|
+| `docs/foreplay/html/foreplay-homepage-latest.html` | Full homepage HTML (338KB, latest) |
+| `docs/foreplay/foreplay-source.css` | Full CSS (483KB) |
+| `docs/foreplay/extract-css.sh` | Extract CSS by class name |
+
+## Page Composition (`(foreplay)/home/page.tsx`)
+
 ```
-plans/260329-1810-foreplay-ui-redesign/
-├── plan.md
-├── phase-01-foundation.md
-├── phase-02-home-page.md
-├── phase-03-core-pages.md
-├── phase-04-content-pages.md
-├── phase-05-legal-utility-pages.md
-└── phase-06-migration.md
+Section 0: Hero (dark + dot grid + scroll animation + video)
+Section 1: Winning (white) + Swipe File + Spyder + Discovery + Chrome Extension
+Section 2: Collab (white) + enrichment + sharing tabs
+Section 3: Features grid (dark) — 3 cards
+Final CTA: "Ready to ship more winning ads?" + banner image
+Footer (in layout)
 ```
 
-## CSS Token Mapping (.foreplay scope)
+## Remaining TODO
 
-Foreplay overrides these shadcn tokens inside `.foreplay` wrapper:
-
-| Token | GoAds Current | Foreplay Override |
-|-------|--------------|-------------------|
-| `--background` | `#ffffff` | `#000000` |
-| `--foreground` | `#0f1419` | `#ffffff` |
-| `--primary` | `#1e9df1` | `#ffffff` |
-| `--primary-foreground` | `#ffffff` | `#000000` |
-| `--secondary` | `#0f1419` | `#27272a` |
-| `--secondary-foreground` | `#ffffff` | `#ffffff` |
-| `--muted` | `#E5E5E6` | `#18181b` |
-| `--muted-foreground` | `#536471` | `#a1a1aa` |
-| `--accent` | `#E3ECF6` | `#27272a` |
-| `--accent-foreground` | `#1e9df1` | `#ffffff` |
-| `--card` | `#f7f8f8` | `#18181b` |
-| `--border` | `#cfd9de` | `#3f3f46` |
-| `--input` | `#cfd9de` | `#3f3f46` |
-| `--ring` | `#1da1f2` | `#ffffff` |
-| `--font-sans` | Geist | Inter |
-| `--font-display` | (none) | Inter |
-
-## Font Changes
-
-| Before | After |
-|--------|-------|
-| Geist Sans (headings + body) | Inter (headings + body) |
-| JetBrains Mono (code) | JetBrains Mono (code) — unchanged |
-
-Font loaded via `next/font/google` in `fonts/index.ts`, applied via CSS variable `--font-inter` in foreplay layout.
-
-## Merge Checklist (Phase 2)
-
-When ready to merge, these steps MUST be done:
-
-- [ ] Rename `(foreplay)` → `(marketing)`
-- [ ] Rename `(marketing)` → `(marketing-legacy)` (backup)
-- [ ] Promote `.foreplay` CSS tokens to `:root` in globals.css
-- [ ] Remove `.foreplay` scope wrapper
-- [ ] Update root `layout.tsx` to use Inter instead of Geist for marketing
-- [ ] Keep Geist for admin/portal routes
-- [ ] Verify all marketing URLs still work
-- [ ] Verify Clerk auth still works
-- [ ] Verify admin/portal pages unaffected
-- [ ] Delete `(marketing-legacy)` after 1 sprint
-- [ ] Update docs: design-guidelines.md, component-catalog.md, color-system.md
-- [ ] Clean up unused old marketing components from `components/shadcn-studio/blocks/`
+- [ ] Lens + Briefs product showcase images/videos
+- [ ] Enrichment illustration (Venn diagram SVG)
+- [ ] Convert content from Foreplay to GoAds
+- [ ] Responsive breakpoints
+- [ ] Convert .foreplay hex tokens to oklch

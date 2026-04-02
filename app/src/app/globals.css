@@ -120,30 +120,66 @@
 
 /* ── Foreplay redesign: dark theme scoped to .foreplay wrapper ── */
 .foreplay {
-  --background: #000000;
+  --background: #020308; /* --_lens---background: near-black with blue tint */
   --foreground: #ffffff;
-  --card: #18181b;
+  --card: #ffffff1a;            /* neutral-700: white 10% */
   --card-foreground: #ffffff;
-  --popover: #18181b;
+  --popover: #ffffff1a;
   --popover-foreground: #ffffff;
   --primary: #ffffff;
-  --primary-foreground: #000000;
-  --secondary: #27272a;
+  --primary-foreground: #090a0e; /* solid-900: dark blue-black */
+  --secondary: #ffffff1a;        /* neutral-700: white 10% */
   --secondary-foreground: #ffffff;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --accent: #27272a;
+  --muted: #ffffff0f;            /* neutral-800: white 6% */
+  --muted-foreground: #ffffffd6; /* neutral-50: white 84% */
+  --accent: #ffffff1a;           /* neutral-700: white 10% */
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #3f3f46;
-  --input: #3f3f46;
+  --border: #ffffff29;           /* neutral-600: white 16% */
+  --input: #ffffff29;            /* neutral-600: white 16% */
   --ring: #ffffff;
 
   --font-sans: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter), 'Inter Display', ui-sans-serif, system-ui, sans-serif;
+
+  /* ── Foreplay neutral palette (white at various opacities — for dark bg) ── */
+  --fp-alpha-0: #ffffff;      /* neutral-0: white 100% */
+  --fp-alpha-25: #ffffffeb;   /* neutral-25: white 92% */
+  --fp-alpha-50: #ffffffd6;   /* neutral-50: white 84% */
+  --fp-alpha-100: #ffffffad;  /* neutral-100: white 68% */
+  --fp-alpha-200: #ffffff70;  /* neutral-200: white 44% */
+  --fp-alpha-300: #ffffff5c;  /* neutral-300: white 36% */
+  --fp-alpha-400: #ffffff52;  /* neutral-400: white 32% */
+  --fp-alpha-500: #fff3;      /* neutral-500: white 20% */
+  --fp-alpha-600: #ffffff29;  /* neutral-600: white 16% */
+  --fp-alpha-700: #ffffff1a;  /* neutral-700: white 10% */
+  --fp-alpha-800: #ffffff0f;  /* neutral-800: white 6% */
+  --fp-alpha-900: #ffffff08;  /* neutral-900: white 3% */
+
+  /* ── Foreplay solid palette (for white/light bg sections) ── */
+  --fp-solid-0: #ffffff;
+  --fp-solid-25: #f9f9fa;
+  --fp-solid-50: #e9eaef;
+  --fp-solid-100: #dddee5;
+  --fp-solid-200: #c3c5d2;
+  --fp-solid-300: #b2b4c5;
+  --fp-solid-400: #4c505f;
+  --fp-solid-500: #343642;
+  --fp-solid-600: #24262e;
+  --fp-solid-700: #171920;
+  --fp-solid-800: #0f1116;
+  --fp-solid-900: #090a0e;
+
+  /* Navigation header */
+  --fp-nav-bg: #020308eb; /* background at ~92% opacity */
 
   --radius: 1rem;
+}
+
+/* Force html/body black when .foreplay wrapper is present */
+html:has(.foreplay) {
+  background-color: #020308;
 }
 
 @theme inline {

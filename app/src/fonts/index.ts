@@ -5,9 +5,11 @@ import { Inter } from "next/font/google";
 export const fontSans = GeistSans;
 export const fontMono = GeistMono;
 
-// Foreplay redesign: Inter for both headings (display optical size) and body
+// Foreplay redesign: Inter with optical size axis for display headings
+// opsz axis enables "Inter Display" look at large sizes (tighter, condensed)
 export const fontInter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+  axes: ["opsz"],
 });
