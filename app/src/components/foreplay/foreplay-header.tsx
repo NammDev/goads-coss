@@ -1,9 +1,6 @@
 // Foreplay header — pixel-perfect from foreplay-source.css + foreplay-source.html
 // Structure: .container.navbar-container > .nav-stack > .nav-brand | nav > .nav-menu-inner > .navmenu-links | .navmenu-cta
 
-"use client"
-
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ForeplayNavLink } from "@/components/foreplay/foreplay-nav-link"
@@ -21,14 +18,6 @@ const plainLinks = [
 ]
 
 export function ForeplayHeader() {
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  useEffect(() => {
-    const handler = () => setIsScrolled(window.scrollY > 20)
-    window.addEventListener("scroll", handler, { passive: true })
-    return () => window.removeEventListener("scroll", handler)
-  }, [])
-
   return (
     <header
       className={cn(
@@ -85,7 +74,6 @@ function NavDropdownToggle({ label }: { label: string }) {
   return (
     <button
       type="button"
-      aria-expanded={false}
       className="flex items-center gap-1 rounded-[10px] py-1.5 pl-2.5 pr-1.5 font-sans text-[0.9375rem] leading-[1.25rem] text-foreground/50 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] hover:text-muted-foreground focus-visible:shadow-[0_0_0_3px] focus-visible:shadow-secondary focus-visible:outline-none"
     >
       {label}

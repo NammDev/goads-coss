@@ -15,10 +15,10 @@ export function ForeplayFooterSocialAndLegal() {
         <p className={`${fpText.bodyS} text-[#ffffff68]`}>
           &copy; 2025 Foreplay, Inc. All rights reserved.
         </p>
-        <Link href="/privacy" className="py-1 text-[var(--fp-neutral-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
+        <Link href="/privacy" className="py-1 text-[var(--fp-alpha-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
           <div className={fpText.bodyS}>Privacy Policy</div>
         </Link>
-        <Link href="/terms" className="py-1 text-[var(--fp-neutral-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
+        <Link href="/terms" className="py-1 text-[var(--fp-alpha-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
           <div className={fpText.bodyS}>Terms &amp; Conditions</div>
         </Link>
       </div>

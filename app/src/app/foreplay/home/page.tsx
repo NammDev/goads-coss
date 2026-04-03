@@ -120,9 +120,9 @@ export default function ForeplayHomePage() {
       {/* Section 3: Features — "Miles beyond the status quo" */}
       <section className="section">
         {/* Uses .container (1440px) not .section-container (1216px) */}
-        <div className="mx-auto w-full max-w-[1440px] px-10">
+        <ForeplaySectionContainer variant="wide">
           <ForeplayHomeFeaturesGrid />
-        </div>
+        </ForeplaySectionContainer>
       </section>
       {/* Final CTA — "Ready to ship more winning ads?" */}
       <div className="overflow-hidden">

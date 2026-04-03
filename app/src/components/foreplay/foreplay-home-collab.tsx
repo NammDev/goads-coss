@@ -26,20 +26,10 @@ export function ForeplayHomeCollab() {
         </ForeplaySectionContainer>
       </div>
 
-      {/* .lens-enrichment.home-enrichment — illustration placeholder */}
-      <div className="mb-20 flex flex-col gap-32 overflow-x-clip">
-        <figure className="relative -mx-20 grid auto-cols-fr grid-cols-1 gap-4 [aspect-ratio:1440/520]">
-          {/* Placeholder for Venn diagram SVG illustration — user replaces */}
-          <div className="flex items-center justify-center">
-            <div className="text-[var(--fp-solid-400)]">Enrichment illustration placeholder</div>
-          </div>
-        </figure>
-      </div>
-
       {/* .container > .home-sharing */}
-      <div className="mx-auto w-full max-w-[1440px] px-10 overflow-hidden">
+      <ForeplaySectionContainer variant="wide" className="overflow-hidden">
         <ForeplayHomeSharing />
-      </div>
+      </ForeplaySectionContainer>
     </>
   )
 }

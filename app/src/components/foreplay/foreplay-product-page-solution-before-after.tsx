@@ -6,6 +6,7 @@
 // .solution-after: bg-background, no shadow
 
 import { ForeplaySectionHead } from "@/components/foreplay/foreplay-section-head"
+import { fpText } from "@/components/foreplay/foreplay-typography"
 
 interface SolutionCard {
   label: string
@@ -45,7 +46,7 @@ export function ForeplayProductPageSolution({
             {/* .home-winning-card-text > .flex-col-gap-1.align-start */}
             <div className="flex flex-col items-start gap-1">
               <div className="text-[var(--fp-solid-900)]">
-                <div className="font-sans text-[1.125rem] font-medium leading-6 tracking-[-0.0144em]">
+                <div className={fpText.labelL}>
                   {before.label}
                 </div>
               </div>
@@ -74,7 +75,7 @@ export function ForeplayProductPageSolution({
           <div className="px-5 pt-5">
             <div className="flex flex-col items-start gap-1">
               <div className="text-foreground">
-                <div className="font-sans text-[1.125rem] font-medium leading-6 tracking-[-0.0144em]">
+                <div className={fpText.labelL}>
                   {after.label}
                 </div>
               </div>

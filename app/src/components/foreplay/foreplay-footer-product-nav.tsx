@@ -12,18 +12,21 @@ import { fpText } from "@/components/foreplay/foreplay-typography"
 import { cn } from "@/lib/utils"
 
 interface FooterProduct {
-  iconSrc: string
+  /** background-image URL — rendered as div with bg sprite (matches Foreplay source) */
+  iconBg: string
+  /** sprite background-size, e.g. "2376px 100%" — each icon has different sprite width */
+  bgSize: string
   subtitle: string
   label: string
   href: string
 }
 
 const defaultProducts: FooterProduct[] = [
-  { iconSrc: "/foreplay/footer_1.webp", subtitle: "Organize Ad Inspo", label: "SwipeFile", href: "/swipe-file" },
-  { iconSrc: "/foreplay/footer_2.webp", subtitle: "Browse +100M Ads", label: "Discovery", href: "/discovery" },
-  { iconSrc: "/foreplay/footer_3.webp", subtitle: "Track Competitors", label: "Spyder", href: "/spyder" },
-  { iconSrc: "/foreplay/footer_4.webp", subtitle: "Creative Analytics", label: "Lens", href: "/lens" },
-  { iconSrc: "/foreplay/footer_5.webp", subtitle: "Write briefs with AI", label: "Briefs", href: "/briefs" },
+  { iconBg: "/foreplay/footer_2.webp", bgSize: "2376px 100%", subtitle: "Organize Ad Inspo", label: "SwipeFile", href: "/swipe-file" },
+  { iconBg: "/foreplay/footer_1.webp", bgSize: "2728px 100%", subtitle: "Browse +100M Ads", label: "Discovery", href: "/discovery" },
+  { iconBg: "/foreplay/footer_3.webp", bgSize: "1364px 100%", subtitle: "Track Competitors", label: "Spyder", href: "/spyder" },
+  { iconBg: "/foreplay/footer_4.webp", bgSize: "924px 100%", subtitle: "Creative Analytics", label: "Lens", href: "/lens" },
+  { iconBg: "/foreplay/footer_5.webp", bgSize: "2420px 100%", subtitle: "Write briefs with AI", label: "Briefs", href: "/briefs" },
 ]
 
 interface ForeplayFooterProductNavProps {
@@ -56,15 +59,17 @@ export function ForeplayFooterProductNav({
                 currentHref === product.href && "text-foreground",
               )}
             >
-              {/* .footer-product-icon: 44x44 */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={product.iconSrc}
-                alt={product.label}
-                width={44}
-                height={44}
-                className="size-11"
-                loading="lazy"
+              {/* .footer-product-icon.sprite-image: 44x44, bg-cover bg-center (HQ individual images) */}
+              {/* Foreplay uses div + background-image (not <img>) */}
+              <div
+                role="img"
+                aria-label={product.label}
+                className="size-11 shrink-0 bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${product.iconBg})`,
+                  backgroundSize: product.bgSize,
+                  backgroundPosition: "0px 0px",
+                }}
               />
 
               {/* .u-footer-product-text: text-decoration none */}

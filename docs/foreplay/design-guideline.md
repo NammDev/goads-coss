@@ -26,9 +26,12 @@ Always semi-transparent + blur. No transparent-to-blur scroll toggle.
 
 | Class | Max-width | Padding | Usage |
 |-------|-----------|---------|-------|
-| `.container` | 1440px | px-10 (40px) | Header, Features grid |
-| `.container.section-container` | 1216px | px-10 | Most sections |
-| `.container.footer-container` | 1216px | px-10 | Footer |
+| `.container` | 1440px | px-10 (40px) | Header, Hero, FAQ, Final CTA — `variant="wide"` |
+| `.container.section-container` | 1216px | px-10 | Feature grids, Core features — `variant="section"` (default) |
+| `.container.footer-container` | 1216px | px-10 | Footer — `variant="footer"` |
+| `.container.w-container` | 940px (overridden by .container → 1440px) | px-10 | Testimonials inside section-container |
+
+**CRITICAL:** `.w-container { max-width: 940px }` is **overridden** by `.container { max-width: 1440px }` (higher specificity). Testimonials inside `.container.section-container` inherit parent width (1136px content at typical viewport). Use `px-10` wrapper inside section-container, NOT a separate wide container.
 
 ## Typography
 
@@ -126,6 +129,35 @@ footer.u-footer: mt-10, pt-10, pb-10
 .ai-button: 35x35, border 1.5px #ffffff29, rounded-[9px]
 ```
 
+## Product Hero (`.product-hero`)
+
+```
+.product-hero: flex col, center, pt-[10px] pb-0 (desktop), pt-16 (tablet), pt-6 pb-6 (mobile)
+.product-hero-animation-trigger: absolute, h-screen, inset -72px 0 auto (scroll trigger)
+.product-hero-sticky: sticky top-[100px], scroll-animated (opacity/scale/translateY same as home hero)
+.product-hero-icon: 256x256, mt-[-40px] mb-[-24px] (desktop), p-8 (tablet), p-6 (mobile)
+  - icon-image: 128x128 (tablet), 108x108 (mobile), hidden on desktop when video plays
+  - icon-video: fills 256x256 parent
+.product-hero-content: flex col, gap-7 (28px desktop), gap-6 + pb-6 (tablet)
+  - hero-text: flex col, gap-4, max-w-[900px], items-center. Tablet: gap-3
+  - hero-title: gradient radial-gradient(circle at 50% -100%, #fff, #ffffffe0), text-wrap balance
+    Responsive: 3.75rem → 3.25rem (tablet) → 2.375rem (mobile)
+.product-hero-preview: aspect-16/10, perspective-1000, transform-origin 50%, mt-52px mb-[-48px], overflow-clip
+  - product-hero-video: absolute, z-1, top 6.6%, left 11%, w 77.8%, rotateX(7deg), bg background
+  - preview-image: z-2, relative, aspect 16/10, w-full, pointer-events-none
+  - preview-underlay: hidden on desktop (gradient on tablet/mobile)
+```
+
+## Footer Product Icons (sprite system)
+
+```
+.footer-product-icon: 44x44
+  - Uses div + background-image (NOT <img>)
+  - Each icon has unique backgroundSize (sprite sheet width varies per product)
+  - backgroundPosition: 0px 0px (first frame)
+  - bg-no-repeat
+```
+
 ## Solution/Industry Pages
 
 ```
@@ -167,7 +199,7 @@ margin-top: 0; margin-bottom: 0; text-decoration: none;
 | Class | Expected | **Actual** |
 |-------|----------|-----------|
 | `.text-white` | `color: #fff` | `color: #fff; **flex: 1;**` |
-| `.text-alpha-100` | `color: #ffffffad` | `color: #ffffffad` (no extra) |
+| `.text-alpha-100` | `color: #ffffffad` | `color: #ffffffad; **flex: 1;**` |
 | `.flex-1` | `flex: 1` | `flex: 1` (as expected) |
 
 **Lesson:** `.text-white { flex: 1 }` caused numbers in footer ad count to split equal space with text labels. Without extracting CSS, this is invisible.

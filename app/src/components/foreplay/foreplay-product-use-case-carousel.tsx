@@ -16,6 +16,7 @@
 import { useState, useCallback } from "react"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplayCarouselArrows } from "@/components/foreplay/foreplay-carousel-arrows"
+import { ForeplaySectionContainer } from "@/components/foreplay/foreplay-section-container"
 
 interface UseCase {
   imageSrc: string
@@ -46,7 +47,7 @@ export function ForeplayProductUseCaseCarousel({
   return (
     <div className="relative">
       {/* .container.section-container */}
-      <div className="mx-auto w-full max-w-[1216px] px-10">
+      <ForeplaySectionContainer>
         {/* .product-carousel-viewport */}
         <div className="flex flex-col gap-12 pt-16">
           {/* .product-carousel-track */}
@@ -70,7 +71,7 @@ export function ForeplayProductUseCaseCarousel({
                   {/* .product-page-carousel-content */}
                   <div className="flex-1 p-6 max-sm:px-4 max-sm:py-4">
                     {/* .product-page-carousel-text-content */}
-                    <div className="relative z-[1] flex flex-col gap-[7px] text-[var(--fp-neutral-0)]">
+                    <div className="relative z-[1] flex flex-col gap-[7px] text-foreground">
                       <h3 className={fpText.labelM}>{card.title}</h3>
                       <div className="text-[var(--fp-alpha-100)]">
                         <p className={fpText.bodyM}>{card.description}</p>
@@ -90,7 +91,7 @@ export function ForeplayProductUseCaseCarousel({
             canNext={canNext}
           />
         </div>
-      </div>
+      </ForeplaySectionContainer>
     </div>
   )
 }

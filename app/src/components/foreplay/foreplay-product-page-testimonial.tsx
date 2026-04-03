@@ -2,7 +2,7 @@
 // DOM: .section > .container.w-container > .home-testimonial-wrapper > .testemonial-contents
 // .home-testimonial-wrapper: py-[120px] (desktop), py-[108px] (tablet), py-20 (mobile), relative
 // .testemonial-contents: flex col, gap-6, text-center, items-center, max-w-[80%] (desktop) / max-w-[640px] (mobile), mx-auto
-// .testimonial-logo-image: object-contain, w-[120px] max-h-12 (desktop), w-24 max-h-10 (mobile)
+// .testimonial-logo-image: object-contain, w-24 (96px) max-h-10 (40px) — last CSS definition wins
 // .text-quote: color body, 1.5em/150% (desktop), 1.2em (tablet), 1em (mobile)
 // .testimonial-bio: flex, gap-4, items-center
 // .testimonial-author-image: rounded-[5px], 48x48 (desktop), 40x40 (mobile)
@@ -30,8 +30,8 @@ export function ForeplayProductPageTestimonial({
   authorName,
   authorRole,
   authorImageSrc,
-  decorationLeftSrc = "https://cdn.prod.website-files.com/62a4ed18ddad95dde8b8bfa4/642db6082db5f7803a7a121e_award-left.svg",
-  decorationRightSrc = "https://cdn.prod.website-files.com/62a4ed18ddad95dde8b8bfa4/642db608b19bd600e001723a_awward-right.svg",
+  decorationLeftSrc = "/foreplay/test_left.svg",
+  decorationRightSrc = "/foreplay/test_right.svg",
 }: ForeplayProductPageTestimonialProps) {
   return (
     <div className="relative py-[120px] max-md:py-[108px] max-sm:py-20">
@@ -43,15 +43,15 @@ export function ForeplayProductPageTestimonial({
           <img
             src={logoSrc}
             alt={logoAlt}
-            width={120}
-            height={48}
-            className="max-h-12 w-[120px] object-contain max-sm:max-h-10 max-sm:w-24"
+            width={96}
+            height={40}
+            className="max-h-10 w-24 object-contain"
             loading="lazy"
           />
         )}
 
         {/* .text-quote */}
-        <div className="text-[color:var(--body)] text-[1.5em] leading-[150%] max-md:text-[1.2em] max-sm:text-[1em]">
+        <div className="text-[var(--fp-alpha-100)] text-[1.5em] leading-[150%] max-md:text-[1.2em] max-sm:text-[1em]">
           &quot;{quote}&quot;
         </div>
 

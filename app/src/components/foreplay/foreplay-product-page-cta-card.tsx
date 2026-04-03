@@ -8,18 +8,18 @@
 //   .cta-block-animation: hidden. .cta-block-icon: flex col center. .cta-block-icon-image: 300x300 block
 // MOBILE: .cta: py-[5em]. .cta-block: pt-8 px-8 pb-0. .cta-block-icon-image: 256x256 mb-[-64px]
 
+import type { ReactNode } from "react"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 
 interface ForeplayProductPageCtaCardProps {
   title: string
-  description: string
+  description: ReactNode
   ctaLabel?: string
   ctaHref?: string
   videoSrc?: string
   iconSrc?: string
   iconAlt?: string
-  variant?: "default" | "brief" | "discovery"
 }
 
 export function ForeplayProductPageCtaCard({
@@ -30,7 +30,6 @@ export function ForeplayProductPageCtaCard({
   videoSrc,
   iconSrc,
   iconAlt = "",
-  variant = "default",
 }: ForeplayProductPageCtaCardProps) {
   return (
     // .cta — desktop: py-20 (80px)
@@ -41,14 +40,14 @@ export function ForeplayProductPageCtaCard({
         <div className="relative z-[1] flex max-w-[66%] flex-col gap-8 max-md:max-w-none">
           {/* .flex-col-gap-2.align-start.text-balance */}
           <div className="flex flex-col items-start gap-2 [text-wrap:balance]">
-            {/* .text-white > h2.text-display-h3 */}
-            <div className="text-foreground">
-              <h2 className={fpText.displayH3}>{title}</h2>
+            {/* .text-white: color #fff + flex:1 > h2.text-display-h3.mobile-landscape-text-display-h4 */}
+            <div className="flex-1 text-foreground">
+              <h2 className={`${fpText.displayH3} max-sm:text-[1.75rem] max-sm:leading-[2.25rem]`}>{title}</h2>
             </div>
-            {/* .text-alpha-100 > .text-balance > p.text-body-l */}
-            <div className="text-[var(--fp-alpha-100)]">
+            {/* .text-alpha-100: color + flex:1 > .text-balance > p.text-body-l.mobile-landscape-text-body-n */}
+            <div className="flex-1 text-[var(--fp-alpha-100)]">
               <div className="[text-wrap:balance]">
-                <p className={fpText.bodyL}>{description}</p>
+                <p className={`${fpText.bodyL} max-sm:text-base max-sm:leading-6 whitespace-pre-line`}>{description}</p>
               </div>
             </div>
           </div>
@@ -59,8 +58,8 @@ export function ForeplayProductPageCtaCard({
               {ctaLabel}
             </ForeplayCtaButton>
 
-            {/* .no-cc-required > .flex-gap-2 — gap-2, items-center */}
-            <div className="flex items-center gap-2">
+            {/* .no-cc-required: display:none > .flex-gap-2 — gap-2, items-center */}
+            <div className="hidden items-center gap-2">
               {/* .icon-20 — 20x20 */}
               <div className="size-5">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20" height="20" viewBox="0 0 20 20">
@@ -85,7 +84,7 @@ export function ForeplayProductPageCtaCard({
         {/* .cta-block-animation — desktop: absolute, z-0, 880x880, mix-blend-lighten */}
         {/* tablet+mobile: hidden (display:none via media override) */}
         {videoSrc && (
-          <div className="absolute inset-y-[-50%] right-[-25%] left-auto z-0 size-[880px] mix-blend-lighten max-md:hidden">
+          <div className="absolute top-[-50%] right-[-25%] bottom-0 left-auto z-0 size-[880px] mix-blend-lighten max-md:hidden">
             <video autoPlay loop muted playsInline className="size-full" style={{ margin: 0, padding: 0 }}>
               <source src={videoSrc} type="video/mp4" />
             </video>

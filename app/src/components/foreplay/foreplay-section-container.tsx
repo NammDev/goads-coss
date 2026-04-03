@@ -10,9 +10,17 @@ import { cn } from "@/lib/utils"
 
 interface ForeplaySectionContainerProps {
   children: ReactNode
-  variant?: "section" | "footer" | "navbar"
+  /** "section" = .container.section-container (1216px), "wide" = .container (1440px), "navbar" = navbar (1440px px-2) */
+  variant?: "section" | "wide" | "footer" | "navbar"
   as?: "div" | "section" | "footer"
   className?: string
+}
+
+const variantClasses: Record<string, string> = {
+  navbar: "max-w-[1440px] px-2 relative z-[5]",    // .container.navbar-container
+  wide: "max-w-[1440px] px-10",                     // .container (base, no section-container override)
+  section: "max-w-[1216px] px-10",                   // .container.section-container
+  footer: "max-w-[1216px] px-10",                    // .container.footer-container
 }
 
 export function ForeplaySectionContainer({
@@ -24,11 +32,8 @@ export function ForeplaySectionContainer({
   return (
     <Tag
       className={cn(
-        // .container base
         "mx-auto w-full",
-        variant === "navbar"
-          ? "max-w-[1440px] px-2 relative z-[5]"   // .container.navbar-container
-          : "max-w-[1216px] px-10",                  // .container.section-container / .container.footer-container
+        variantClasses[variant],
         className,
       )}
     >

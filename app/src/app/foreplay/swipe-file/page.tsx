@@ -45,7 +45,7 @@ export default function SwipeFilePage() {
       {/* Section 1: Product Hero (dark bg + dot grid) */}
       <section id="product-hero-section" className="section relative">
         <ForeplayDotBg />
-        <ForeplaySectionContainer variant="section">
+        <ForeplaySectionContainer variant="wide">
           <ForeplayProductHero {...swipeFileHero} />
         </ForeplaySectionContainer>
       </section>
@@ -110,10 +110,11 @@ export default function SwipeFilePage() {
         </div>
       </div>
 
-      {/* Section 5: All Features Grid 1 */}
+      {/* Section 5-8: All in ONE .container.section-container (1216px) per Foreplay source */}
       <div className="section">
         <div className="flex flex-col py-[108px] max-md:py-24 max-sm:py-20">
           <ForeplaySectionContainer>
+            {/* .section-head */}
             <ForeplaySectionHead
               subtitle={swipeFileFeatureGrid1.subtitle}
               title={swipeFileFeatureGrid1.title}
@@ -122,31 +123,30 @@ export default function SwipeFilePage() {
               descSize="l"
               variant="light"
             />
+            {/* .section-content-main */}
             <div className="block pt-12 max-md:pt-10">
               <ForeplayProductPageFeatureGridCards cards={swipeFileFeatureGrid1.cards} />
             </div>
-          </ForeplaySectionContainer>
 
-          {/* Section 6: Testimonial 1 (inside same .section per source) */}
-          <div className="section">
-            <div className="mx-auto w-full max-w-[960px]">
-              <ForeplayProductPageTestimonial {...swipeFileTestimonial1} />
+            {/* Section 6: Testimonial 1 — .section > .container.w-container (px-10) > .home-testimonial-wrapper */}
+            <div className="section">
+              <div className="mx-auto w-full px-10">
+                <ForeplayProductPageTestimonial {...swipeFileTestimonial1} />
+              </div>
             </div>
-          </div>
 
-          {/* Section 7: Feature Grid 2 (continues in same .section per source) */}
-          <div className="block pt-12 max-md:pt-10">
-            <ForeplaySectionContainer>
+            {/* Section 7: Feature Grid 2 — .section-content-main */}
+            <div className="block pt-12 max-md:pt-10">
               <ForeplayProductPageFeatureGridCards cards={swipeFileFeatureGrid2.cards} />
-            </ForeplaySectionContainer>
-          </div>
-
-          {/* Section 8: Testimonial 2 */}
-          <div className="section">
-            <div className="mx-auto w-full max-w-[960px]">
-              <ForeplayProductPageTestimonial {...swipeFileTestimonial2} />
             </div>
-          </div>
+
+            {/* Section 8: Testimonial 2 — .section > .container.w-container (px-10) */}
+            <div className="section">
+              <div className="mx-auto w-full px-10">
+                <ForeplayProductPageTestimonial {...swipeFileTestimonial2} />
+              </div>
+            </div>
+          </ForeplaySectionContainer>
         </div>
         {/* .negative-spacing-bottom */}
         <div className="mb-[-80px] h-0" />
@@ -159,16 +159,16 @@ export default function SwipeFilePage() {
         </ForeplaySectionContainer>
       </div>
 
-      {/* Section 10: FAQ Accordion */}
+      {/* Section 10: FAQ Accordion — .container uses max-w-[1440px] per Foreplay source */}
       <div className="section">
-        <ForeplaySectionContainer variant="section">
+        <ForeplaySectionContainer variant="wide">
           <ForeplayProductPageFaqAccordion {...swipeFileFaq} />
         </ForeplaySectionContainer>
       </div>
 
-      {/* Section 11: Final CTA — reuse home CTA */}
+      {/* Section 11: Final CTA — .container (1440px) */}
       <div className="section overflow-hidden">
-        <ForeplaySectionContainer>
+        <ForeplaySectionContainer variant="wide">
           <ForeplayHomeCta />
         </ForeplaySectionContainer>
       </div>

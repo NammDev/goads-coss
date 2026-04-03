@@ -57,7 +57,7 @@ export function ForeplayFooterLinkColumns() {
           </div>
           {/* .footer-text-ad-row */}
           <div className="flex items-center gap-2">
-            <div className="size-2 rounded-sm bg-[var(--fp-neutral-500,#71717a)]" />
+            <div className="size-2 rounded-sm bg-[var(--fp-alpha-300,#71717a)]" />
             <div className="flex-1">
               <div className="text-[var(--fp-alpha-100)]">
                 <div className={fpText.bodyS}>Historical</div>

@@ -43,10 +43,11 @@ export function ForeplayProductPageFaqAccordion({
         {items.map((item, i) => (
           <FaqBlock key={i} item={item} isExpanded={expandedIndex === i} onToggle={() => toggle(i)} />
         ))}
+      </div>
 
-        {/* .faq-buttons: flex, gap-3, center, py-3. Mobile: flex-col, items-stretch */}
-        <div className="flex items-center justify-center gap-3 py-3 max-sm:flex-col max-sm:items-stretch">
-          <a href="#" className="flex items-center gap-[5px] rounded-[10px] bg-background p-2 text-foreground no-underline transition-all duration-200 hover:bg-[var(--fp-neutral-700)] focus:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus:outline-none">
+      {/* .faq-buttons: flex, gap-3, center, py-3 — sibling of .faq-block-container */}
+      <div className="flex items-center justify-center gap-3 py-3 max-sm:flex-col max-sm:items-stretch">
+          <a href="#" className="flex items-center gap-[5px] rounded-[10px] bg-background p-2 text-foreground no-underline transition-all duration-200 hover:bg-[var(--fp-alpha-700)] focus:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus:outline-none">
             {/* .button-icon-block.icon-left */}
             <span className="relative z-[2] -mr-1 flex items-center justify-center opacity-[0.68]">
               <span className="flex size-6 items-center justify-center">
@@ -59,7 +60,7 @@ export function ForeplayProductPageFaqAccordion({
             </span>
             <span className="relative z-[2] px-1.5 font-sans text-base font-[550] leading-6 tracking-[-0.01125em]">Contact support</span>
           </a>
-          <a href="#" target="_blank" className="flex items-center gap-[5px] rounded-[10px] bg-background p-2 text-foreground no-underline transition-all duration-200 hover:bg-[var(--fp-neutral-700)] focus:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus:outline-none">
+          <a href="#" target="_blank" className="flex items-center gap-[5px] rounded-[10px] bg-background p-2 text-foreground no-underline transition-all duration-200 hover:bg-[var(--fp-alpha-700)] focus:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus:outline-none">
             <span className="relative z-[2] -mr-1 flex items-center justify-center opacity-[0.68]">
               <span className="flex size-6 items-center justify-center">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +73,6 @@ export function ForeplayProductPageFaqAccordion({
             <span className="relative z-[2] px-1.5 font-sans text-base font-[550] leading-6 tracking-[-0.01125em]">Knowledge Base</span>
           </a>
         </div>
-      </div>
     </div>
   )
 }
@@ -94,19 +94,18 @@ function FaqBlock({ item, isExpanded, onToggle }: { item: FaqItem; isExpanded: b
   }, [measureHeight])
 
   return (
-    <div
-      role="button"
+    <button
+      type="button"
       tabIndex={0}
       data-expanded={isExpanded}
       aria-expanded={isExpanded}
       onClick={onToggle}
-      onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onToggle() } }}
       className={cn(
         // .faq-block: flex row, gap-[44px], border-b 1px neutral-700 (#ffffff1a)
         "flex cursor-pointer flex-row items-start gap-[44px]",
         "border-b border-[#ffffff1a]",
         "pt-5 pb-3",
-        "text-[var(--fp-neutral-100)]",
+        "text-[var(--fp-alpha-100)]",
         "transition-all duration-[900ms] [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]",
         "hover:text-foreground",
       )}
@@ -155,6 +154,6 @@ function FaqBlock({ item, isExpanded, onToggle }: { item: FaqItem; isExpanded: b
           </svg>
         </div>
       </div>
-    </div>
+    </button>
   )
 }

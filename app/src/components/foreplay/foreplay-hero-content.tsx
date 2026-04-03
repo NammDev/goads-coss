@@ -8,6 +8,7 @@
 
 import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
+import { FP_HERO_GRADIENT } from "@/components/foreplay/foreplay-typography"
 
 interface ForeplayHeroContentProps {
   title: ReactNode
@@ -39,8 +40,7 @@ export function ForeplayHeroContent({
             "[font-optical-sizing:auto]",
             // .hero-title: gradient text fill + text-wrap balance
             "[text-wrap:balance]",
-            "[background-image:radial-gradient(circle_at_50%_-100%,#fff,#ffffffe0)]",
-            "bg-clip-text [-webkit-text-fill-color:transparent]",
+            FP_HERO_GRADIENT,
           )}
         >
           {title}

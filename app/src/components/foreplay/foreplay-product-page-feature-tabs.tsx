@@ -36,10 +36,11 @@ export function ForeplayProductPageFeatureTabs({
         {tabs.map((tab, i) => (
           <button
             key={i}
+            type="button"
             onClick={() => setActiveIndex(i)}
             className={cn(
               // .product-page-tab
-              "flex cursor-pointer flex-row items-center justify-center gap-2 rounded-lg bg-transparent px-5 py-2.5 text-[var(--alpha-0)] transition-all duration-200 max-md:flex-col max-md:px-3 max-md:py-2",
+              "flex cursor-pointer flex-row items-center justify-center gap-2 rounded-lg bg-transparent px-5 py-2.5 text-[var(--fp-alpha-0)] transition-all duration-200 max-md:flex-col max-md:px-3 max-md:py-2",
               i === activeIndex
                 ? "opacity-100"
                 : "opacity-[0.44] hover:opacity-75",

@@ -2,6 +2,8 @@
 // Centralizes all text style classes to eliminate duplication across components
 // Usage: import { fpText } from "@/components/foreplay/foreplay-typography"
 
+export const FP_HERO_GRADIENT = "[background-image:radial-gradient(circle_at_50%_-100%,#fff,#ffffffe0)] bg-clip-text [-webkit-text-fill-color:transparent]"
+
 export const fpText = {
   // Display headings — Inter Display + font-optical-sizing:auto
   displayH1: "font-display text-[3.75rem] font-semibold leading-[4.25rem] tracking-[-0.0075em] [font-optical-sizing:auto]",

@@ -97,11 +97,12 @@ export const swipeFileFeatureGrid1 = {
 
 // --- Testimonial 1 ---
 export const swipeFileTestimonial1 = {
-  logoSrc: "/foreplay/test_logo.jpg",
+  logoSrc: "/foreplay/testimonial1_logo.webp",
+  logoAlt: "Affiliate World logo",
   quote: "Foreplay is now my homepage. There is literally no better tool around to swipe ads and build boards of creative inspiration to share with my team. It easily saves us 1-2 hours per day.",
   authorName: "Matthew Williams",
   authorRole: "CMO @ iStack / Affiliate World",
-  authorImageSrc: "/foreplay/test_logo.jpg",
+  authorImageSrc: "/foreplay/testimonial1_founder.webp",
   decorationLeftSrc: "/foreplay/test_left.svg",
   decorationRightSrc: "/foreplay/test_right.svg",
 }
