@@ -26,11 +26,8 @@ export function ForeplayFooterSocialAndLegal() {
       {/* .footer-social-links-list */}
       <ul className="flex list-none gap-1.5 pl-0">
         {socialLinks.map(s => (
-          {/* li.footer-social-links-item: 28x28, opacity 0.68 */}
           <li key={s.label} className="size-7 opacity-[0.68] transition-all duration-200 hover:opacity-100">
-            {/* a.footer-social-link.w-inline-block: inline-block, max-w-full */}
             <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="inline-block max-w-full">
-              {/* div.icon-28: 28x28 */}
               <div className="size-7">{s.icon}</div>
             </a>
           </li>
