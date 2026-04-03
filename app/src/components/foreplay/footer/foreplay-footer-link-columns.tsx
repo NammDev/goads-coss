@@ -50,7 +50,8 @@ export function ForeplayFooterLinkColumns() {
                 <div className={fpText.bodyS}>Live</div>
               </div>
             </div>
-            <div className="text-foreground">
+            {/* .text-white has flex:1 in Webflow! */}
+            <div className="flex-1 text-foreground">
               <div>7,301,801</div>
             </div>
           </div>
@@ -62,7 +63,8 @@ export function ForeplayFooterLinkColumns() {
                 <div className={fpText.bodyS}>Historical</div>
               </div>
             </div>
-            <div className="text-foreground">
+            {/* .text-white has flex:1 */}
+            <div className="flex-1 text-foreground">
               <div>174,494,696</div>
             </div>
           </div>
