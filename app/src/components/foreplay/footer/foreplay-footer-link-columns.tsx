@@ -50,7 +50,7 @@ export function ForeplayFooterLinkColumns() {
                 <div className={fpText.bodyS}>Live</div>
               </div>
             </div>
-            <div className="text-right text-foreground tabular-nums">
+            <div className="text-foreground">
               <div>7,301,801</div>
             </div>
           </div>
@@ -62,7 +62,7 @@ export function ForeplayFooterLinkColumns() {
                 <div className={fpText.bodyS}>Historical</div>
               </div>
             </div>
-            <div className="text-right text-foreground tabular-nums">
+            <div className="text-foreground">
               <div>174,494,696</div>
             </div>
           </div>
