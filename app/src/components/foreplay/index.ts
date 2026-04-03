@@ -40,4 +40,10 @@ export { ForeplayProductPageFeatureGridCards } from "./foreplay-product-page-fea
 export { ForeplayProductPageTestimonial } from "./foreplay-product-page-testimonial"
 export { ForeplayProductPageCtaCard } from "./foreplay-product-page-cta-card"
 export { ForeplayProductPageFaqAccordion } from "./foreplay-product-page-faq-accordion"
+
+// ── Solution Page Organisms ──
+export { ForeplaySolutionHero } from "./foreplay-solution-hero"
+export { ForeplaySolutionLogoCarousel } from "./foreplay-solution-logo-carousel"
+export { ForeplaySolutionTestimonialCard } from "./foreplay-solution-testimonial-card"
+export { ForeplaySolutionExamplesGrid } from "./foreplay-solution-examples-grid"
 export { ForeplayFooterProductNav } from "./foreplay-footer-product-nav"
