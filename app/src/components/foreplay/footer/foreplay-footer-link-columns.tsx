@@ -34,23 +34,37 @@ export function ForeplayFooterLinkColumns() {
             <div className={fpText.overline}>Ad Count</div>
             <div className="h-1" />
             {/* .text-display-h5: 1.5rem/2rem, font-weight 600, Inter Display */}
-            <div className="font-display text-[1.5rem] font-semibold leading-8 tracking-[-0.00667em] [font-optical-sizing:auto]">181,659,436</div>
+            <div className="m-0 font-display text-[1.5rem] font-semibold leading-8 tracking-[-0.00667em] [font-optical-sizing:auto]">181,796,497</div>
           </div>
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 212 41" width="100%" height="100%"><path stroke="#fff" strokeLinecap="round" strokeOpacity=".36" strokeWidth="2" d="M1 40V29m7 11V18m7 22V1m7 39V12m7 28V22m7 18V8m7 32V17m7 23V12m7 28V21m7 19V10m7 30V16m7 24V12m7 28V9m7 31V15m7 25V19m7 21V6m7 34V13m7 27V16m7 24V19m7 21V22m7 18V12m7 28V16m7 24V12m7 28V8m7 32V3m7 37V6m7 34V15m7 25V11m7 29V15m7 25V18" /><path stroke="#fff" strokeLinecap="round" strokeWidth="2" d="M211 40V14" /></svg>
           </div>
         </div>
-        {/* .footer-text-ad-rows */}
+        {/* .footer-text-ad-rows — exact source nesting: .footer-text-ad-row > .ad-dot + div.flex-1 > div.text-alpha-100 > div.text-body-s + div.text-white > div */}
         <div>
+          {/* .footer-text-ad-row */}
           <div className="flex items-center gap-2">
             <div className="size-2 rounded-sm bg-[var(--fp-teal,#10b981)]" />
-            <div className="flex-1 text-[var(--fp-alpha-100)]"><div className={fpText.bodyS}>Live</div></div>
-            <div className="text-foreground">7,232,217</div>
+            <div className="flex-1">
+              <div className="text-[var(--fp-alpha-100)]">
+                <div className={fpText.bodyS}>Live</div>
+              </div>
+            </div>
+            <div className="text-foreground">
+              <div>7,301,801</div>
+            </div>
           </div>
+          {/* .footer-text-ad-row */}
           <div className="flex items-center gap-2">
             <div className="size-2 rounded-sm bg-[var(--fp-neutral-500,#71717a)]" />
-            <div className="flex-1 text-[var(--fp-alpha-100)]"><div className={fpText.bodyS}>Historical</div></div>
-            <div className="text-foreground">174,427,219</div>
+            <div className="flex-1">
+              <div className="text-[var(--fp-alpha-100)]">
+                <div className={fpText.bodyS}>Historical</div>
+              </div>
+            </div>
+            <div className="text-foreground">
+              <div>174,494,696</div>
+            </div>
           </div>
         </div>
       </div>

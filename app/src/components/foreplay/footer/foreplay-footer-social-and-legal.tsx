@@ -13,7 +13,7 @@ export function ForeplayFooterSocialAndLegal() {
       {/* .footer-foot-1 */}
       <div className="flex flex-1 items-center gap-4 max-md:flex-col max-md:gap-3">
         <p className={`${fpText.bodyS} text-[#ffffff68]`}>
-          &copy; 2025 GoAds, Inc. All rights reserved.
+          &copy; 2025 Foreplay, Inc. All rights reserved.
         </p>
         <Link href="/privacy" className="py-1 text-[var(--fp-neutral-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
           <div className={fpText.bodyS}>Privacy Policy</div>
