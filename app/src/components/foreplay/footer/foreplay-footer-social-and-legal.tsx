@@ -24,7 +24,7 @@ export function ForeplayFooterSocialAndLegal() {
       </div>
 
       {/* .footer-social-links-list */}
-      <ul className="flex list-none gap-1.5 pl-0">
+      <ul className="mb-2.5 flex list-none gap-1.5 pl-0">
         {socialLinks.map(s => (
           <li key={s.label} className="size-7 opacity-[0.68] transition-all duration-200 hover:opacity-100">
             <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="inline-block max-w-full">

@@ -153,6 +153,12 @@ Footer (in layout)
 |------|---------|
 | `docs/foreplay/html/industries-ecommerce.html` | Full ecommerce page HTML (194KB) |
 
+## Webflow Global Defaults (discovered)
+
+- `ul { margin-bottom: 10px }` — Webflow adds mb-2.5 to ALL `<ul>` elements by default
+- `.w-list-unstyled { padding-left: 0; list-style: none }` — reset for nav/footer lists
+- `.w-inline-block { display: inline-block; max-width: 100% }` — wrapper for `<a>` tags
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos

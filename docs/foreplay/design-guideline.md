@@ -146,6 +146,19 @@ footer.u-footer: mt-10, pt-10, pb-10
 .comparison-product-icon: w-10 (mobile: w-[30px])
 ```
 
+## Webflow Global Defaults
+
+Foreplay uses Webflow — these global defaults apply to ALL elements:
+
+```
+ul { margin-top: 0; margin-bottom: 10px; padding-left: 40px; }
+```
+
+When cloning `<ul>`, always add:
+- `mb-2.5` (margin-bottom: 10px) — Webflow default
+- `pl-0` — override padding-left when `.w-list-unstyled` is present
+- `list-none` — override list-style when `.w-list-unstyled` is present
+
 ## Pixel-Perfect Rules
 
 1. HTML nesting first — check DOM structure before CSS
