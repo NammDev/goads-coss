@@ -67,12 +67,13 @@ export function ForeplayFooterProductNav({
                 loading="lazy"
               />
 
-              {/* .u-footer-product-text */}
+              {/* .u-footer-product-text: text-decoration none */}
               <div className="no-underline">
                 <div>
                   <div className={fpText.bodyS}>{product.subtitle}</div>
                 </div>
-                <div className="text-foreground">
+                {/* .text-white = color #fff + flex:1 */}
+                <div className="flex-1 text-foreground">
                   <div className={fpText.labelM}>{product.label}</div>
                 </div>
               </div>
