@@ -39,7 +39,7 @@ export function ForeplayHomeCta() {
           alt="Two people looking at laptop with dashboard"
           width={1440}
           height={924}
-          className="w-full"
+          className="h-auto w-full max-w-none"
           loading="lazy"
         />
       </div>
