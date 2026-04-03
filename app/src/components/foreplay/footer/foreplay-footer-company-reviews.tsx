@@ -19,24 +19,30 @@ export function ForeplayFooterCompanyReviews() {
       {/* .footer-company-reviews */}
       <div className="flex items-center gap-7 max-md:flex-col max-md:items-start max-md:gap-5">
         {/* Chrome Web Store */}
-        <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 transition-all duration-200 hover:opacity-80">
-          <div className="size-5">
-            <ChromeIcon />
-          </div>
-          <div className="flex items-center gap-2 text-[#ffffffad]">
-            <div className="text-foreground"><div className={fpText.labelM}>4.9/5</div></div>
-            <div className={fpText.labelM}>228 Reviews</div>
+        {/* .u-footer-company-review-block.w-inline-block */}
+        <a href="#" target="_blank" rel="noopener noreferrer" className="inline-block max-w-full no-underline">
+          <div className="flex items-center gap-3 transition-all duration-200 hover:opacity-80">
+            <div className="size-5">
+              <ChromeIcon />
+            </div>
+            {/* .u-footer-company-review-text: flex gap-2 items-center color #ffffffad */}
+            <div className="flex items-center gap-2 text-[#ffffffad]">
+              <div className="text-foreground"><div className={`${fpText.labelM} m-0 no-underline`}>4.9/5</div></div>
+              <div className={`${fpText.labelM} m-0 no-underline`}>228 Reviews</div>
+            </div>
           </div>
         </a>
 
         {/* G2 */}
-        <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 transition-all duration-200 hover:opacity-80">
-          <div className="size-5">
-            <G2Icon />
-          </div>
-          <div className="flex items-center gap-2 text-[#ffffffad]">
-            <div className="text-foreground"><div className={fpText.labelM}>4.8/5</div></div>
-            <div className={fpText.labelM}>118 Reviews</div>
+        <a href="#" target="_blank" rel="noopener noreferrer" className="inline-block max-w-full no-underline">
+          <div className="flex items-center gap-3 transition-all duration-200 hover:opacity-80">
+            <div className="size-5">
+              <G2Icon />
+            </div>
+            <div className="flex items-center gap-2 text-[#ffffffad]">
+              <div className="text-foreground"><div className={`${fpText.labelM} m-0 no-underline`}>4.8/5</div></div>
+              <div className={`${fpText.labelM} m-0 no-underline`}>118 Reviews</div>
+            </div>
           </div>
         </a>
       </div>

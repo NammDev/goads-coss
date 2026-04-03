@@ -154,6 +154,12 @@ Foreplay uses Webflow — these global defaults apply to ALL elements:
 ul { margin-top: 0; margin-bottom: 10px; padding-left: 40px; }
 ```
 
+All `.text-*` classes in Webflow include:
+```
+margin-top: 0; margin-bottom: 0; text-decoration: none;
+```
+→ Always add `m-0 no-underline` to fpText constants. Without this, text inside `<a>` tags gets browser-default underline and margins that break spacing.
+
 When cloning `<ul>`, always add:
 - `mb-2.5` (margin-bottom: 10px) — Webflow default
 - `pl-0` — override padding-left when `.w-list-unstyled` is present

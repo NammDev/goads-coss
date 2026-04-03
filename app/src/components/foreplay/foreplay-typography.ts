@@ -13,9 +13,9 @@ export const fpText = {
   headingM: "font-sans text-base font-[550] leading-6 tracking-[-0.01125em]",
 
   // Labels — Inter
-  labelM: "font-sans text-base font-medium leading-6 tracking-[-0.01125em]",
-  labelS: "font-sans text-[0.875rem] font-medium leading-5 tracking-[-0.00643em]",
-  labelL: "font-sans text-[1.125rem] font-medium leading-6 tracking-[-0.0144em]",
+  labelM: "m-0 font-sans text-base font-medium leading-6 tracking-[-0.01125em] no-underline",
+  labelS: "m-0 font-sans text-[0.875rem] font-medium leading-5 tracking-[-0.00643em] no-underline",
+  labelL: "m-0 font-sans text-[1.125rem] font-medium leading-6 tracking-[-0.0144em] no-underline",
 
   // Body — Inter
   bodyM: "font-sans text-base font-normal leading-6 tracking-[-0.01125em]",
