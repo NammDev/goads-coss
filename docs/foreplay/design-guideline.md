@@ -160,6 +160,20 @@ margin-top: 0; margin-bottom: 0; text-decoration: none;
 ```
 → Always add `m-0 no-underline` to fpText constants. Without this, text inside `<a>` tags gets browser-default underline and margins that break spacing.
 
+### Webflow Utility Classes with Hidden Properties
+
+**CRITICAL:** Webflow utility classes often contain extra CSS beyond what their name suggests. Always extract CSS, never assume.
+
+| Class | Expected | **Actual** |
+|-------|----------|-----------|
+| `.text-white` | `color: #fff` | `color: #fff; **flex: 1;**` |
+| `.text-alpha-100` | `color: #ffffffad` | `color: #ffffffad` (no extra) |
+| `.flex-1` | `flex: 1` | `flex: 1` (as expected) |
+
+**Lesson:** `.text-white { flex: 1 }` caused numbers in footer ad count to split equal space with text labels. Without extracting CSS, this is invisible.
+
+**Rule:** Before using ANY Webflow utility class, run `extract-css.sh` to check for hidden properties.
+
 When cloning `<ul>`, always add:
 - `mb-2.5` (margin-bottom: 10px) — Webflow default
 - `pl-0` — override padding-left when `.w-list-unstyled` is present
