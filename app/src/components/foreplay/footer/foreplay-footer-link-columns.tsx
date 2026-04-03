@@ -27,8 +27,8 @@ export function ForeplayFooterLinkColumns() {
         {communityCat && <LinkCategory title={communityCat.title} links={communityCat.links} />}
       </div>
 
-      {/* .footer-text-ad — Ad Count stats (grid item inside .footer-links, max-w-256 on mobile only) */}
-      <div className="flex flex-col gap-5">
+      {/* .footer-text-ad — max-w-[256px] from source CSS */}
+      <div className="flex max-w-64 flex-col gap-5">
         <div className="flex flex-col gap-3">
           <div className="text-foreground">
             <div className={fpText.overline}>Ad Count</div>
