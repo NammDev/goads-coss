@@ -109,6 +109,50 @@ Footer (in layout)
 | `docs/foreplay/html/swipe-file.html` | Full swipe-file page HTML |
 | `docs/foreplay/phase-3-product-pages.md` | Build plan for all product pages |
 
+## Footer (Phase 3 — Rewrite)
+
+| Component | Foreplay Class | Description |
+|-----------|---------------|-------------|
+| `foreplay-footer.tsx` | `footer.u-footer` | Main footer: products + company + links + ad count + AI + social |
+| `footer/foreplay-footer-company-reviews.tsx` | `.footer-company` | Logo SVG + Chrome/G2 review badges |
+| `footer/foreplay-footer-link-columns.tsx` | `.footer-links` | 5-col grid + ad count + ask AI buttons |
+| `footer/foreplay-footer-social-and-legal.tsx` | `.footer-foot` | Copyright + Privacy/Terms + 6 social SVGs |
+| `footer/foreplay-logo-svg.tsx` | `#sprite-foreplay-logo` | Exact logo from source sprite (icon + text gradient) |
+| `foreplay-footer-product-nav.tsx` | `.footer-products` | 5 product badges with local icons |
+| `foreplay-carousel-arrows.tsx` | `.slide-arrows` | Reusable prev/next carousel navigation |
+
+## Solutions Page Atoms (Phase 3b)
+
+| Component | Foreplay Class | Description |
+|-----------|---------------|-------------|
+| `foreplay-solution-hero.tsx` | `.industries-icon` + `.section-head` | Icon + section head + CTA buttons |
+| `foreplay-solution-logo-carousel.tsx` | `.industries-carousel-container` | Infinite scroll brand logos with fade overlay |
+| `foreplay-solution-testimonial-card.tsx` | `.industries-testimonial` | Large quote card with bg image (different from product testimonial) |
+| `foreplay-solution-examples-grid.tsx` | `.industries-examples-grid` | 3-col case study cards |
+
+## Solutions Page Data
+
+| File | Content |
+|------|---------|
+| `data/foreplay-ecommerce-solution-page-data.ts` | All text for /industries/ecommerce |
+
+## Solutions Page Composition (`foreplay/industries/ecommerce/page.tsx`)
+
+```
+Section 1: Solution Hero (icon + CTA) + Logo Carousel (infinite scroll)
+Section 2: Testimonials (3 large cards with bg images)
+Section 3: Product Tabs (5 products — TODO: adapt HomeProductShowcase)
+Section 4: Examples Grid (3 case study cards)
+Section 5: Final CTA (reuse ForeplayHomeCta)
+Footer (in layout)
+```
+
+## Source Files (Phase 3b)
+
+| File | Purpose |
+|------|---------|
+| `docs/foreplay/html/industries-ecommerce.html` | Full ecommerce page HTML (194KB) |
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos

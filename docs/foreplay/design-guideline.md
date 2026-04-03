@@ -112,6 +112,40 @@ Rules:
 - Every named class → component or commented div
 - Reuse components across sections (ForeplaySectionHead used 6x)
 
+## Footer
+
+```
+footer.u-footer: mt-10, pt-10, pb-10
+.u-footer-block: flex col, gap-11 (44px), pb-[60px]
+.footer-divider: bg #ffffff29, h-px, w-full
+.footer-products: flex, justify-between, gap-4
+.footer-company: flex, gap-[60px], items-center (mobile: flex-col, gap-6)
+.footer-links: grid 5col, gap-4 (tablet: 3col, mobile: 2col)
+.footer-foot: flex, gap-4, items-center (mobile: flex-col)
+.footer-social-links-item: opacity 0.68, 28x28, hover opacity 1
+.ai-button: 35x35, border 1.5px #ffffff29, rounded-[9px]
+```
+
+## Solution/Industry Pages
+
+```
+.industries-icon: border 1px #ffffff29, rounded-[15px], 60x60, my-5
+.industries-carousel-container: flex, justify-between, pt-16 pb-6, relative, overflow-hidden
+.industries-carousel-fade: absolute inset-0, linear-gradient(90deg, bg→transparent→transparent→bg)
+.industry-carousel-image: border 1px #ffffff29, rounded-[20px], 100x100 (tablet 65, mobile 50)
+.industries-testimonial: border 1px #ffffff1a, rounded-[20px], flex col, p-12, relative, overflow-hidden
+.industries-testimonial-content: z-1, flex col, gap-[74px], relative
+.industries-testimonial-copy: max-w-[60%] (mobile: max-w-none)
+.industires-testimonial-headshot: rounded-[10px], 64x64
+.industry-testimonial-image-holder: absolute inset-y-0 right-0 (mobile: static)
+.industry-testimonial-image-fade: absolute inset-0, gradient left fade (mobile: none)
+.industries-examples-grid: grid 3col, gap-4 (tablet: 2col, mobile: flex-col)
+.industries-examples-card: bg neutral-700, rounded-2xl
+.comparison-tabs-menu: grid 5col, gap-4, p-1
+.comparison-product-tab: border 1px neutral-500, opacity 0.44, rounded-[15px], p-2.5, current: opacity 1
+.comparison-product-icon: w-10 (mobile: w-[30px])
+```
+
 ## Pixel-Perfect Rules
 
 1. HTML nesting first — check DOM structure before CSS
