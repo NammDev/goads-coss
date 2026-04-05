@@ -211,6 +211,82 @@ When cloning `<ul>`, always add:
 - `pl-0` — override padding-left when `.w-list-unstyled` is present
 - `list-none` — override list-style when `.w-list-unstyled` is present
 
+## CSS Token Standards (for 10+ future routes)
+
+### Goal: Zero `[]` arbitrary values in new code
+
+**Step 1:** Register Foreplay tokens in `globals.css` under `.foreplay`:
+```css
+.foreplay {
+  /* Container */
+  --fp-w-wide: 1440px;
+  --fp-w-section: 1216px;
+  --fp-px: 40px;    /* container padding = px-10 */
+
+  /* Border radius (project --radius: 1rem breaks rounded-lg/xl) */
+  --fp-r-sm: 8px;   /* tab links, badges */
+  --fp-r-md: 12px;  /* tab menu, tooltip */
+  --fp-r-lg: 16px;  /* comparison grid */
+  --fp-r-xl: 20px;  /* pricing cards, footer */
+  --fp-r-2xl: 36px; /* section-white-block */
+
+  /* Borders — use box-shadow for 1px rings */
+  --fp-ring-subtle: 0 0 0 1px #ffffff29;   /* neutral-600 */
+  --fp-ring-card: 0 0 0 1px #ffffff1a;     /* neutral-700 */
+  --fp-ring-highlight: 0 0 0 1px #ffffffad; /* neutral-100 */
+}
+```
+
+**Step 2:** Use CSS variables via Tailwind:
+```
+max-w-(--fp-w-wide)     instead of  max-w-[1440px]
+rounded-(--fp-r-md)     instead of  rounded-[12px]
+shadow-(--fp-ring-subtle) instead of shadow-[0_0_0_1px_#ffffff29]
+```
+
+### Color Rules
+| Context | Use | NOT |
+|---------|-----|-----|
+| Dark bg (`.foreplay` scope) | `var(--fp-alpha-*)` or `var(--fp-solid-*)` | Raw hex |
+| Light bg (white block) | `var(--fp-solid-*)` | Raw hex |
+| Radix Portal (outside scope) | Inline hex + `font-sans antialiased` | CSS vars (won't resolve) |
+
+### Radix Portal Rule
+Radix Portals render OUTSIDE `.foreplay` scope. Always add to portal content:
+```
+font-sans antialiased [font-optical-sizing:none]
+```
+And use raw hex for colors (e.g. `bg-[#343642]` not `bg-[var(--fp-solid-500)]`).
+
+### Responsive Strategy
+Source CSS has 3 breakpoints — extract from `foreplay-source.css`:
+- Desktop: default (no prefix)
+- Tablet: `max-md:` (≤991px in source)
+- Mobile: `max-sm:` (≤767px in source)
+
+**Current state:** Desktop-only. Mobile will be done AFTER all routes cloned.
+**Rule:** When cloning, note responsive CSS values in comments but DON'T implement yet:
+```tsx
+// .pricing: pt-72px (desktop), pt-40px (tablet), pt-24px (mobile)
+<div className="pt-[72px]">
+```
+
+### Reuse Checklist (before creating new component)
+1. Check `ForeplaySectionHead` — most section headers use this
+2. Check `ForeplayCtaButton` — all CTA buttons (5 variants)
+3. Check `ForeplaySectionContainer` — all containers (4 variants)
+4. Check `ForeplaySectionWhiteBlock` — all white sections
+5. Check `ForeplayFaqAccordion` — all FAQ sections (pass different items)
+6. Check `ForeplayHomeCta` — all final CTA sections (same component)
+7. Check `fpText.*` constants — all typography (13 styles)
+
+### File Size Rules
+- Atoms: < 100 lines
+- Organisms: < 150 lines
+- Data: separate file in `data/foreplay-*.ts`
+- Icons: shared SVG components, not inline duplicates
+- If component > 150 lines → split (data out, icons out, sub-components out)
+
 ## Pixel-Perfect Rules
 
 1. HTML nesting first — check DOM structure before CSS
