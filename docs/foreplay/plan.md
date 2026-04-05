@@ -81,14 +81,33 @@
 - [x] Ask AI buttons (5 providers with exact SVGs + hover colors)
 - [x] Social links (6 icons) + Copyright
 
+### Pricing `/pricing` — DONE ✅
+- [x] Pricing tabs (monthly/annual toggle)
+- [x] Pricing cards (6 tiers with crown badges)
+- [x] Pricing footer (enterprise section + extra features)
+- [x] Comparison table (sticky header, accordion categories, product rows)
+- [x] Comparison tooltips (Radix UI info icons)
+- [x] FAQ Accordion (6 pricing items)
+- [x] Final CTA (reuse)
+- [x] All data wired up
+
+### New Pricing Components (6)
+- `foreplay-pricing-tabs.tsx` — monthly/annual toggle with grid panes
+- `foreplay-pricing-card.tsx` — fully styled pricing tier card
+- `foreplay-pricing-footer.tsx` — enterprise section + extra features
+- `foreplay-pricing-comparison.tsx` — white block wrapper
+- `foreplay-pricing-comparison-table.tsx` — comparison grid with accordion
+- `foreplay-comparison-tooltip-badge.tsx` — crown badge + tooltip
+
 ### Remaining Product Pages
 | Route | Foreplay URL | Status |
 |-------|-------------|--------|
 | `/discovery` | foreplay.co/discovery | TODO |
 | `/spyder` | foreplay.co/spyder-ad-spy | TODO |
 | `/lens` | foreplay.co/lens-creative-analytics | TODO |
+| `/briefs` | foreplay.co/briefs | TODO |
 
-**Note:** All 8 new components are reusable — other pages just need different props/data.
+**Note:** All 8 original + 6 pricing components are reusable — other pages just need different props/data.
 
 ## Phase 4: Section Mixing & Content Swap
 

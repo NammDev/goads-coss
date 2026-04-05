@@ -6,7 +6,7 @@
 
 1. **Home** — `/` ✅ 🔗
 2. **Product Pages** — `/swipe-file` ✅, `/discovery`, `/spyder-ad-spy`, `/lens-creative-analytics`, `/briefs` → GoAds: 🔗 `/agency-ad-account`, `/bm`, `/google-agency`, `/tiktok-agency`, `/tiktok-accounts`, `/blue-verification`
-3. **Pricing** — `/pricing` → GoAds: 🔗 `/pricing`
+3. **Pricing** — `/pricing` ✅ → GoAds: 🔗 `/pricing`
 4. **Reviews / Wall of Love** — `/reviews` → GoAds: 🔗 `/reviews`
 5. **Book a Demo / Talk to Sales** — `/book-demo` → GoAds: 🔗 `/talk-to-sales`
 6. **Blog** — `/blog` ✅, `/post/[slug]` ✅ → GoAds: 🔗 `/blog`, `/blog/[slug]`

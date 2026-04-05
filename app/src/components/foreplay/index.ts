@@ -41,6 +41,12 @@ export { ForeplayProductPageTestimonial } from "./foreplay-product-page-testimon
 export { ForeplayProductPageCtaCard } from "./foreplay-product-page-cta-card"
 export { ForeplayProductPageFaqAccordion } from "./foreplay-product-page-faq-accordion"
 
+// ── Pricing Page Organisms ──
+export { ForeplayPricingTabs } from "./foreplay-pricing-tabs"
+export { ForeplayPricingCard } from "./foreplay-pricing-card"
+export { ForeplayPricingFooter } from "./foreplay-pricing-footer"
+export { ForeplayPricingComparison } from "./foreplay-pricing-comparison"
+
 // ── Solution Page Organisms ──
 export { ForeplaySolutionHero } from "./foreplay-solution-hero"
 export { ForeplaySolutionLogoCarousel } from "./foreplay-solution-logo-carousel"

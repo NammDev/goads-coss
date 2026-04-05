@@ -10,6 +10,8 @@ export const fpText = {
   displayH2: "font-display text-[2.75rem] font-semibold leading-[3.36rem] tracking-[-0.0075em] [font-optical-sizing:auto]",
   displayH3: "font-display text-[2.25rem] font-semibold leading-[2.75rem] tracking-[-0.00722em] [font-optical-sizing:auto]",
   displayH4: "font-display text-[1.75rem] font-semibold leading-[2.25rem] tracking-[-0.00714em] [font-optical-sizing:auto]",
+  // .text-display-h5: Inter Display, 1.5rem/2rem, 600, tracking -0.00667em
+  displayH5: "m-0 font-display text-[1.5rem] font-semibold leading-8 tracking-[-0.00667em] [font-optical-sizing:auto]",
 
   // Headings — Inter
   headingM: "font-sans text-base font-[550] leading-6 tracking-[-0.01125em]",

@@ -190,6 +190,73 @@ Footer (in layout)
 | Carousel arrows | Fixed to 36px fixed (removed `md:size-11`), SVG explicit 18x18 |
 | Final CTA | `variant="wide"` container |
 
+## Pricing Page (Phase 3c — DONE ✅)
+
+### Core Components Built
+
+| Component | Foreplay Class | Description |
+|-----------|---------------|-------------|
+| `foreplay-pricing-tabs.tsx` | `.pricing-tabs` + `.pricing-tabs-menu` | Monthly/Annual toggle, renders PricingCards dynamically |
+| `foreplay-pricing-card.tsx` | `.pricing-card-container` + `.pricing-card` | Fully styled pricing card with crown badge, monthly/annual prices, features list, CTA |
+| `foreplay-pricing-footer.tsx` | `.pricing-footer` | Enterprise section with vertical divider + extra features list + custom CTA |
+| `foreplay-pricing-comparison.tsx` | `.comparison` | White block wrapper for comparison table section |
+| `foreplay-pricing-comparison-table.tsx` | `.comparison-table` | Full comparison grid: sticky header, collapsible accordion categories, product rows with sprite icons, "Need custom?" footer |
+| `foreplay-comparison-tooltip-badge.tsx` | `.comparison-tooltip-badge` | Crown badge with Radix tooltip info icon + dynamic content |
+
+### Pricing Page Data
+
+| File | Content |
+|------|---------|
+| `data/foreplay-pricing-page-data.ts` | Monthly/annual pricing cards (6 tiers), FAQ items (6), comparison table features, custom features list |
+
+### Pricing Page Features
+
+- **Monthly/Annual toggle** — Tab switching with smooth transitions
+- **Pricing cards** — Crown badges on top tier, responsive layout, CTA buttons
+- **Comparison table** — Sticky header, accordion collapsing by category, product feature rows, sprite icon icons (16x16)
+- **Tooltips** — Radix UI tooltip for info icons with custom styling
+- **Accordion integration** — FAQ reuses ForeplayFaqAccordion with pricing items
+- **CTA reuse** — Final CTA reuses ForeplayHomeCta
+
+### Dependencies Added
+
+- `@radix-ui/react-tooltip` — for comparison table info icons
+
+### Pricing Page Composition (`foreplay/pricing/page.tsx`)
+
+```
+Section 1: Pricing Hero (section-container 1216px)
+  ├── ForeplaySectionHead (h1, titleSize "display-h5")
+  ├── PricingTabs (monthly/annual toggle + 3 cards per pane)
+  └── PricingFooter (enterprise section + extra features)
+
+Section 2: Comparison Table (white block → container 1440px)
+  ├── ForeplaySectionHead (comparison title)
+  └── PricingComparisonTable (sticky header, 7 categories, 12 product rows)
+
+Section 3: FAQ (wide container 1440px)
+  ├── ForeplaySectionHead (FAQ title)
+  └── ForeplayFaqAccordion (6 pricing items + smooth height animation)
+
+Section 4: Final CTA (section-container 1216px)
+  └── ForeplayHomeCta (reuse)
+
+Footer (in layout)
+```
+
+### Components Updated
+
+| Component | Changes |
+|-----------|---------|
+| `foreplay-section-head.tsx` | Added h1 `titleTag` option, `titleSize` visual size control (display-h5), removed section div wrapper, fixed dark variant paragraph color |
+| `foreplay-typography.ts` | Added `displayH5` typography constant for pricing title |
+
+### Source Files (Phase 3c)
+
+| File | Purpose |
+|------|---------|
+| `docs/foreplay/html/pricing.html` | Full pricing page HTML (296KB) |
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos
