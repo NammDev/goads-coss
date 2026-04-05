@@ -1,4 +1,5 @@
-// GoAds BM Invite — Content Script (overlay injected into FB page)
+// GoAds BM Invite Client — Content Script (overlay injected into FB page)
+// No GoAds authentication required — goes straight to Facebook cookie detection
 (() => {
   // Prevent double injection
   if (document.getElementById("goads-bm-overlay")) {
@@ -10,7 +11,6 @@
   let eaag = null;
   let bmId = null;
   let userName = null;
-  let goadsUser = null; // GoAds authenticated user
 
   // Listen for toggle message from background
   chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
@@ -52,24 +52,10 @@
       <div class="goads-header">
         <div class="goads-header-title">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          BM INVITE TOOL
+          UPROAS BM INVITE
         </div>
-        <div class="goads-header-sub">goads.shop | Invite users to Business Manager via email</div>
+        <div class="goads-header-sub">Invite users to Business Manager via email</div>
         <button class="goads-close" id="goads-btnClose">✕</button>
-      </div>
-
-      <!-- Auth Screen -->
-      <div id="goads-authSection" class="goads-hidden">
-        <div class="goads-auth-screen">
-          <div class="goads-auth-icon">🔐</div>
-          <div class="goads-auth-title">Sign in to GoAds</div>
-          <div class="goads-auth-desc">Sign in with your GoAds account to use this tool. A new tab will open for you to log in.</div>
-          <div class="goads-auth-form">
-            <button class="goads-btn goads-btn-primary" id="goads-btnSignIn" style="width:100%">Sign in with GoAds</button>
-          </div>
-          <div id="goads-authError" class="goads-alert goads-alert-error"></div>
-          <div class="goads-auth-hint" style="text-align:center;font-size:12px;color:#888;margin-top:8px">After signing in, come back to this tab — it will connect automatically.</div>
-        </div>
       </div>
 
       <!-- Loading -->
@@ -124,12 +110,6 @@
           </div>
           <div class="goads-sidebar-col">
             <div class="goads-sidebar-card">
-              <div class="goads-sidebar-card-title">👤 GoAds Account</div>
-              <div class="goads-pill goads-pill-green" id="goads-pillGoads">Connected</div>
-              <div class="goads-auth-user-name" id="goads-userName"></div>
-              <button class="goads-btn-disconnect" id="goads-btnDisconnect">Disconnect</button>
-            </div>
-            <div class="goads-sidebar-card">
               <div class="goads-sidebar-card-title">📊 Status</div>
               <div class="goads-pill goads-pill-green" id="goads-pillToken">Token: Valid</div>
               <div class="goads-pill goads-pill-green" id="goads-pillBM">BM: —</div>
@@ -148,10 +128,7 @@
 
       <!-- Footer -->
       <div class="goads-footer">
-        <span>GoAds BM Invite v1.0 · <a href="https://goads.shop" target="_blank">goads.shop</a></span>
-        <div class="goads-footer-right">
-          <a href="https://t.me/goads_official" target="_blank">Telegram</a>
-        </div>
+        <span>2026 Uproas · Made with care by GoAds</span>
       </div>
     `;
     document.body.appendChild(overlay);
@@ -168,72 +145,13 @@
     $("goads-btnGenEmail").addEventListener("click", generateEmail);
     $("goads-btnOpenMail").addEventListener("click", openMailbox);
 
-    // Auth screen buttons
-    $("goads-btnSignIn").addEventListener("click", handleSignIn);
-    $("goads-btnDisconnect").addEventListener("click", handleDisconnect);
-
     // Close on Escape
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") hideOverlay();
     });
 
-    // Start auth check
-    checkAuth();
-  }
-
-  // ══════════════════════════════════════
-  // ── GoAds Auth Flow (v2 — Clerk session) ──
-  // ══════════════════════════════════════
-
-  async function checkAuth() {
-    const res = await msg("checkGoAdsAuth");
-    if (res.ok && res.user) {
-      goadsUser = res.user;
-      showConnectedState();
-      init(); // proceed to FB init
-    } else {
-      showScreen("auth");
-    }
-  }
-
-  /** Open goads.shop sign-in in a new tab */
-  async function handleSignIn() {
-    const btn = $("goads-btnSignIn");
-    const errEl = $("goads-authError");
-    errEl.style.display = "none";
-    btn.disabled = true;
-    btn.innerHTML = '<span class="goads-spinner"></span> Opening sign-in...';
-
-    await msg("openSignIn");
-
-    btn.disabled = false;
-    btn.textContent = "Sign in with GoAds";
-  }
-
-  async function handleDisconnect() {
-    await msg("clearAuth");
-    goadsUser = null;
-    $("goads-authError").style.display = "none";
-    showScreen("auth");
-  }
-
-  // Auto re-check auth when user returns to this tab (after signing in)
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && !goadsUser) {
-      checkAuth();
-    }
-  });
-
-  function showConnectedState() {
-    const nameEl = $("goads-userName");
-    const pillEl = $("goads-pillGoads");
-    if (nameEl && goadsUser) {
-      nameEl.textContent = goadsUser.name || goadsUser.email || "User";
-    }
-    if (pillEl) {
-      pillEl.textContent = "Connected";
-      pillEl.className = "goads-pill goads-pill-green";
-    }
+    // Start init flow directly — no auth check needed
+    init();
   }
 
   // ══════════════════════════════════════
@@ -241,8 +159,8 @@
   // ══════════════════════════════════════
 
   function toggleVisibility() {
-    const overlay = $("goads-bm-overlay");
-    const backdrop = $("goads-bm-backdrop");
+    const overlay = document.getElementById("goads-bm-overlay");
+    const backdrop = document.getElementById("goads-bm-backdrop");
     if (!overlay) return;
     if (overlay.style.display === "none") {
       overlay.style.display = "";
@@ -254,8 +172,8 @@
   }
 
   function hideOverlay() {
-    const overlay = $("goads-bm-overlay");
-    const backdrop = $("goads-bm-backdrop");
+    const overlay = document.getElementById("goads-bm-overlay");
+    const backdrop = document.getElementById("goads-bm-backdrop");
     if (overlay) overlay.style.display = "none";
     if (backdrop) backdrop.style.display = "none";
   }
@@ -265,7 +183,7 @@
   // ══════════════════════════════════════
 
   function showScreen(name) {
-    ["goads-authSection", "goads-loadingSection", "goads-errorSection", "goads-mainSection"].forEach((id) => {
+    ["goads-loadingSection", "goads-errorSection", "goads-mainSection"].forEach((id) => {
       $(id).classList.add("goads-hidden");
     });
     $("goads-" + name + "Section").classList.remove("goads-hidden");
