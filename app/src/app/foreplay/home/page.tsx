@@ -42,7 +42,7 @@ export default function ForeplayHomePage() {
           tabs={swipeFileTabs}
           sidebarVideoSrc="/video/cta-swipe-file.mov"
           tabImages={[
-            "/foreplay/swipe_tab1.webp",
+            "/foreplay/Group429.png",
             "/foreplay/swipe_tab2.webp",
             "/foreplay/swipe_tab3.webp",
           ]}

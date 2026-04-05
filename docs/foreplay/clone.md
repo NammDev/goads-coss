@@ -5,9 +5,9 @@
 ```
 /ck-plan --fast
 
-Audit trang foreplay.co/{route-name} trước khi clone.
+Audit trang https://www.foreplay.co/reviews trước khi clone.
 
-1. Download HTML: curl -sL foreplay.co/{route-name} > docs/foreplay/html/{route-name}.html
+1. Download HTML: curl -sL https://www.foreplay.co/reviews > docs/foreplay/html/{route-name}.html
 2. Phân tích HTML → list TẤT CẢ sections (class names + mô tả visual)
 3. Với MỖI section, đánh giá:
    - shadcn/ui component nào match? (Table, Tabs, Accordion, Card, Dialog, Tooltip, Collapsible, etc.)
@@ -24,7 +24,7 @@ Audit trang foreplay.co/{route-name} trước khi clone.
 ```
 /clone-foreplay
 
-Clone trang foreplay.co/{route-name} theo plan đã audit.
+Clone trang https://www.foreplay.co/reviews theo plan đã audit.
 
 ## Source Files
 - HTML: docs/foreplay/html/{route-name}.html
@@ -60,17 +60,17 @@ Lần 2: Tôi sẽ paste HTML từng section cho bạn fill detail
 
 ## shadcn/ui Components thường match với Foreplay
 
-| Foreplay Pattern | shadcn/ui Component | Notes |
-|-----------------|---------------------|-------|
-| Tab toggle (Monthly/Annual) | `Tabs` | Custom trigger styling |
-| FAQ accordion | `Accordion` | Smooth height animation |
-| Comparison table | `Table` + `Collapsible` | Sticky header + accordion rows |
-| Tooltip (info icon) | `Tooltip` | Radix-based, needs Portal font fix |
-| Pricing cards | `Card` | Structure reuse, custom content |
-| Modal/popup | `Dialog` | Exit-intent popup |
-| Dropdown nav | `NavigationMenu` | Header mega menu |
-| Toggle group | `ToggleGroup` | Filter tabs |
-| Carousel | `Carousel` | Use case horizontal scroll |
+| Foreplay Pattern            | shadcn/ui Component     | Notes                              |
+| --------------------------- | ----------------------- | ---------------------------------- |
+| Tab toggle (Monthly/Annual) | `Tabs`                  | Custom trigger styling             |
+| FAQ accordion               | `Accordion`             | Smooth height animation            |
+| Comparison table            | `Table` + `Collapsible` | Sticky header + accordion rows     |
+| Tooltip (info icon)         | `Tooltip`               | Radix-based, needs Portal font fix |
+| Pricing cards               | `Card`                  | Structure reuse, custom content    |
+| Modal/popup                 | `Dialog`                | Exit-intent popup                  |
+| Dropdown nav                | `NavigationMenu`        | Header mega menu                   |
+| Toggle group                | `ToggleGroup`           | Filter tabs                        |
+| Carousel                    | `Carousel`              | Use case horizontal scroll         |
 
 ## Reuse Checklist (check TRƯỚC khi tạo mới)
 
