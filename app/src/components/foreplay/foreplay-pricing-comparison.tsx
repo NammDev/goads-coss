@@ -19,13 +19,38 @@ import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplayComparisonTooltipBadge } from "@/components/foreplay/foreplay-comparison-tooltip-badge"
 import { ForeplayPricingComparisonTable } from "@/components/foreplay/foreplay-pricing-comparison-table"
+import type { ComparisonCategory, ComparisonHeaderColumn } from "@/components/foreplay/foreplay-pricing-comparison-table"
 
 interface ForeplayPricingComparisonProps {
   className?: string
+  /** Override heading */
+  title?: string
+  /** Override description */
+  description?: string
+  /** Hide tooltip badge */
+  hideTooltipBadge?: boolean
+  /** Pass-through to table */
+  categories?: ComparisonCategory[]
+  headerColumns?: ComparisonHeaderColumn[]
+  defaultExpanded?: number[]
+  footerTitle?: string
+  footerCtaLabel?: string
+  footerCtaHref?: string
+  columns?: 3 | 5
 }
 
 export function ForeplayPricingComparison({
   className,
+  title = "Compare Plans",
+  description = "Enjoy the most feature-rich ad creative workflow platform under one roof.",
+  hideTooltipBadge = false,
+  categories,
+  headerColumns,
+  defaultExpanded,
+  footerTitle,
+  footerCtaLabel,
+  footerCtaHref,
+  columns,
 }: ForeplayPricingComparisonProps) {
   return (
     // .comparison: flex col, gap-10, text-center, items-stretch, pt-16 pb-16
@@ -41,22 +66,28 @@ export function ForeplayPricingComparison({
           {/* .flex-col-gap-2: flex col, gap-2, items-center */}
           <div className="flex flex-col items-center gap-2">
             <div className="text-[var(--fp-solid-900)]">
-              <h2 className={fpText.displayH3}>Compare Plans</h2>
+              <h2 className={fpText.displayH3}>{title}</h2>
             </div>
             <div className="text-[var(--fp-solid-500)] [text-wrap:pretty]">
-              <p className={fpText.bodyM}>
-                Enjoy the most feature-rich ad creative workflow platform under one roof.
-              </p>
+              <p className={fpText.bodyM}>{description}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* .comparison-tooltip */}
-      <ForeplayComparisonTooltipBadge />
+      {!hideTooltipBadge && <ForeplayComparisonTooltipBadge />}
 
       {/* .comparison-grid-scroll > .comparison-grid — full table with accordion */}
-      <ForeplayPricingComparisonTable />
+      <ForeplayPricingComparisonTable
+        categories={categories}
+        headerColumns={headerColumns}
+        defaultExpanded={defaultExpanded}
+        footerTitle={footerTitle}
+        footerCtaLabel={footerCtaLabel}
+        footerCtaHref={footerCtaHref}
+        columns={columns}
+      />
     </div>
   )
 }

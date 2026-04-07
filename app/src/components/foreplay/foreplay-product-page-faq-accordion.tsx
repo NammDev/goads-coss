@@ -102,7 +102,7 @@ function FaqBlock({ item, isExpanded, onToggle }: { item: FaqItem; isExpanded: b
       onClick={onToggle}
       className={cn(
         // .faq-block: flex row, gap-[44px], border-b 1px neutral-700 (#ffffff1a)
-        "flex cursor-pointer flex-row items-start gap-[44px]",
+        "flex w-full cursor-pointer flex-row items-start gap-[44px]",
         "border-b border-[#ffffff1a]",
         "pt-5 pb-3",
         "text-[var(--fp-alpha-100)]",

@@ -14,6 +14,7 @@ export const fpText = {
   displayH5: "m-0 font-display text-[1.5rem] font-semibold leading-8 tracking-[-0.00667em] [font-optical-sizing:auto]",
 
   // Headings — Inter
+  headingL: "font-sans text-[1.125rem] font-[550] leading-6 tracking-[-0.0144em]",
   headingM: "font-sans text-base font-[550] leading-6 tracking-[-0.01125em]",
 
   // Labels — Inter

@@ -16,8 +16,9 @@ import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
 
-// Grid column classes shared across header, rows, footer
-const gridCols = "grid grid-cols-[1.75fr_1fr_1fr_1fr_1fr]"
+// Grid column classes — default 5 cols (Foreplay pricing), overridable via prop
+const GRID_5COL = "grid grid-cols-[1.75fr_1fr_1fr_1fr_1fr]"
+const GRID_3COL = "grid grid-cols-[3.75fr_1fr_1fr]"
 
 // Check icon (solid-700 on white bg)
 function CheckIcon() {
@@ -109,15 +110,31 @@ function CrownBadge() {
   )
 }
 
+// Action values that render as ghost pill buttons
+const ACTION_VALUES = new Set(["Add to Cart", "Contact"])
+
 // Cell value renderer — check=solid-700, dash=solid-300, text=bodyM solid-700
+// Action values (Add to Cart, Contact) render as ghost pill: invisible border → visible on hover
 function CellValue({ value }: { value: string | boolean }) {
   if (value === true) return <div className="text-[var(--fp-solid-700)]"><CheckIcon /></div>
   if (value === false) return <div className="text-[var(--fp-solid-300)]">—</div>
+  if (typeof value === "string" && ACTION_VALUES.has(value)) {
+    return (
+      <ForeplayCtaButton
+        href="/talk-to-sales"
+        variant="light-primary"
+        className="justify-center"
+        showIcon={false}
+      >
+        {value === "Add to Cart" ? "Buy Now" : value}
+      </ForeplayCtaButton>
+    )
+  }
   return <div className={cn(fpText.bodyM, "text-[var(--fp-solid-700)]")}>{value}</div>
 }
 
 // ── Types ──
-interface ComparisonFeature {
+export interface ComparisonFeature {
   name: string
   /** true = ✓, false = —, string = text value */
   basic: string | boolean
@@ -140,9 +157,16 @@ interface ComparisonFeature {
   subtitle?: string
 }
 
-interface ComparisonCategory {
+export interface ComparisonCategory {
   name: string
   features: ComparisonFeature[]
+}
+
+export interface ComparisonHeaderColumn {
+  name: string
+  cta: string
+  href: string
+  variant?: "light-primary"
 }
 
 // ── Sample Data (1 category) ──
@@ -162,8 +186,43 @@ const sampleCategories: ComparisonCategory[] = [
   },
 ]
 
-export function ForeplayPricingComparisonTable() {
-  const [expanded, setExpanded] = useState<Record<number, boolean>>({ 0: true })
+interface ForeplayPricingComparisonTableProps {
+  /** Override categories data (default: Foreplay pricing sample) */
+  categories?: ComparisonCategory[]
+  /** Override header columns (default: Basic/Workflow/Agency/Enterprise) */
+  headerColumns?: ComparisonHeaderColumn[]
+  /** Which category indexes to expand by default (default: [0]) */
+  defaultExpanded?: number[]
+  /** Footer title (default: "Need something custom?") */
+  footerTitle?: string
+  /** Footer CTA label (default: "Book a Demo") */
+  footerCtaLabel?: string
+  /** Footer CTA href (default: "/book-demo") */
+  footerCtaHref?: string
+  /** Number of columns: 3 or 5 (default 5) */
+  columns?: 3 | 5
+}
+
+export function ForeplayPricingComparisonTable({
+  categories,
+  headerColumns,
+  defaultExpanded = [0],
+  footerTitle = "Need something custom?",
+  footerCtaLabel = "Book a Demo",
+  footerCtaHref = "/book-demo",
+  columns = 5,
+}: ForeplayPricingComparisonTableProps = {}) {
+  const gridCols = columns === 3 ? GRID_3COL : GRID_5COL
+  const cats = categories ?? sampleCategories
+  const headers = headerColumns ?? [
+    { name: "Basic", cta: "Start Trial", href: "/sign-up", variant: "light-primary" as const },
+    { name: "Workflow", cta: "Start Trial", href: "/sign-up", variant: "light-primary" as const },
+    { name: "Agency", cta: "Start Trial", href: "/sign-up", variant: "light-primary" as const },
+    { name: "Enterprise", cta: "Book Demo", href: "/book-demo", variant: "light-primary" as const },
+  ]
+  const [expanded, setExpanded] = useState<Record<number, boolean>>(
+    () => Object.fromEntries(defaultExpanded.map(i => [i, true]))
+  )
 
   const toggle = (i: number) => setExpanded(prev => ({ ...prev, [i]: !prev[i] }))
 
@@ -180,23 +239,20 @@ export function ForeplayPricingComparisonTable() {
           {/* Empty label column */}
           <div className="p-4" />
           {/* Plan columns */}
-          {[
-            { name: "Basic", cta: "Start Trial", href: "/sign-up", variant: "light-primary" as const },
-            { name: "Workflow", cta: "Start Trial", href: "/sign-up", variant: "light-primary" as const },
-            { name: "Agency", cta: "Start Trial", href: "/sign-up", variant: "light-primary" as const },
-            { name: "Enterprise", cta: "Book Demo", href: "/book-demo", variant: "light-primary" as const },
-          ].map((plan) => (
-            <div key={plan.name} className="flex flex-col items-center justify-center gap-3 border-l border-[var(--fp-solid-50)] p-4">
-              <div className={cn(fpText.headingM, "text-[var(--fp-solid-700)]")}>{plan.name}</div>
-              <ForeplayCtaButton href={plan.href} variant={plan.variant} className="justify-center">
-                {plan.cta}
-              </ForeplayCtaButton>
+          {headers.map((plan, i) => (
+            <div key={plan.name || i} className="flex flex-col items-center justify-center gap-3 border-l border-[var(--fp-solid-50)] p-4">
+              {plan.name && <div className={cn(fpText.headingM, "text-[var(--fp-solid-700)]")}>{plan.name}</div>}
+              {plan.cta && plan.href && (
+                <ForeplayCtaButton href={plan.href} variant={plan.variant ?? "light-primary"} className="justify-center">
+                  {plan.cta}
+                </ForeplayCtaButton>
+              )}
             </div>
           ))}
         </div>
 
         {/* ── Categories (collapsible) ── */}
-        {sampleCategories.map((cat, i) => (
+        {cats.map((cat, i) => (
           <div key={cat.name}>
             {/* .comparison-category-head: clickable, bg solid-25, flex between */}
             <button
@@ -204,7 +260,7 @@ export function ForeplayPricingComparisonTable() {
               onClick={() => toggle(i)}
               className="z-[2] flex w-full cursor-pointer items-center border-b border-[var(--fp-solid-50)] bg-[var(--fp-solid-25)] p-4 text-left text-[var(--fp-solid-700)] outline-none"
             >
-              <div className={fpText.headingM}>{cat.name}</div>
+              <div className={fpText.headingL}>{cat.name}</div>
               <ChevronIcon expanded={!!expanded[i]} />
             </button>
 
@@ -251,20 +307,23 @@ export function ForeplayPricingComparisonTable() {
                       </>
                     )}
                   </div>
-                  {/* .comparison-tr-cell × 4 */}
-                  {/* .comparison-tr-cell × 4 — border-l solid-50, flex center, p-4 */}
+                  {/* .comparison-tr-cell — border-l solid-50, flex center, p-4 */}
                   <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
                     <CellValue value={feat.basic} />
                   </div>
                   <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
                     <CellValue value={feat.workflow} />
                   </div>
-                  <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
-                    <CellValue value={feat.agency} />
-                  </div>
-                  <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
-                    <CellValue value={feat.enterprise} />
-                  </div>
+                  {columns >= 5 && (
+                    <>
+                      <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
+                        <CellValue value={feat.agency} />
+                      </div>
+                      <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
+                        <CellValue value={feat.enterprise} />
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -275,16 +334,16 @@ export function ForeplayPricingComparisonTable() {
         <div className="flex flex-col items-center gap-5 py-10">
           {/* .text-solid-900 > h3.text-display-h4 */}
           <div className="text-[var(--fp-solid-900)]">
-            <h3 className={fpText.displayH4}>Need something custom?</h3>
+            <h3 className={fpText.displayH4}>{footerTitle}</h3>
           </div>
           {/* .comparison-footer-button: w-[227px] */}
           <div className="w-[227px]">
             {/* .new-button.new-button-secondary: white bg, border inset, dark text */}
             <a
-              href="/book-demo"
+              href={footerCtaHref}
               className="flex w-full items-center justify-center rounded-[10px] bg-white p-2 text-[#13151a] no-underline shadow-[inset_0_0_0_1px_#ebebeb] transition-all duration-200 hover:bg-[#f2f2f2] hover:shadow-[inset_0_0_0_1px_transparent]"
             >
-              <span className={cn("relative z-[2] px-1.5", fpText.headingM)}>Book a Demo</span>
+              <span className={cn("relative z-[2] px-1.5", fpText.headingM)}>{footerCtaLabel}</span>
             </a>
           </div>
         </div>
