@@ -9,7 +9,8 @@ import {
   ForeplaySectionWhiteBlock,
   ForeplayHomeCta,
 } from "@/components/foreplay"
-import { ForeplayReviewsWidget } from "@/components/foreplay/foreplay-reviews-widget"
+import { SenjaReviewMasonryGrid } from "@/components/foreplay/senja-review-masonry-grid"
+import { goadsReviews } from "@/data/goads-reviews-data"
 
 export default function ForeplayReviewsPage() {
   return (
@@ -25,7 +26,7 @@ export default function ForeplayReviewsPage() {
               title="What customers have to say"
               titleTag="h2"
               titleSize="h2"
-              description="Don't just take our word for it, read through over 500 customer reviews of Foreplay."
+              description="Don't just take our word for it. See what advertisers say about GoAds."
               descSize="l"
               variant="light"
             />
@@ -38,7 +39,7 @@ export default function ForeplayReviewsPage() {
       <ForeplaySectionWhiteBlock>
         <ForeplaySectionContainer variant="wide">
           <div className="py-16">
-            <ForeplayReviewsWidget />
+            <SenjaReviewMasonryGrid reviews={goadsReviews} initialCount={10} loadMoreCount={10} />
           </div>
         </ForeplaySectionContainer>
       </ForeplaySectionWhiteBlock>
