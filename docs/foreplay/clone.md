@@ -5,9 +5,9 @@
 ```
 /ck-plan --fast
 
-Audit trang https://www.foreplay.co/reviews trước khi clone.
+Audit trang https://www.foreplay.co/{route} trước khi clone.
 
-1. Download HTML: curl -sL https://www.foreplay.co/reviews > docs/foreplay/html/{route-name}.html
+1. Download HTML: curl -sL https://www.foreplay.co/{route} > docs/foreplay/html/{route-name}.html
 2. Phân tích HTML → list TẤT CẢ sections (class names + mô tả visual)
 3. Với MỖI section, đánh giá:
    - shadcn/ui component nào match? (Table, Tabs, Accordion, Card, Dialog, Tooltip, Collapsible, etc.)
@@ -24,7 +24,7 @@ Audit trang https://www.foreplay.co/reviews trước khi clone.
 ```
 /clone-foreplay
 
-Clone trang https://www.foreplay.co/reviews theo plan đã audit.
+Clone trang https://www.foreplay.co/{route} theo plan đã audit.
 
 ## Source Files
 - HTML: docs/foreplay/html/{route-name}.html
@@ -58,6 +58,19 @@ Lần 2: Tôi sẽ paste HTML từng section cho bạn fill detail
 
 ---
 
+## Clone Progress
+
+| Route | Status | Page File | Plan |
+|-------|--------|-----------|------|
+| `/home` | ✅ Done + GoAds content | `app/src/app/foreplay/home/page.tsx` | — |
+| `/reviews` | ✅ Done + native review cards | `app/src/app/foreplay/reviews/page.tsx` | — |
+| `/book-demo` | ✅ Done + Cal.com embed | `app/src/app/foreplay/book-demo/page.tsx` | `plans/260407-1543-clone-book-demo/` |
+| `/pricing` | ✅ Done (earlier) | `app/src/app/foreplay/pricing/page.tsx` | — |
+| `/blog` | 🔜 Next | — | — |
+| `/blog/[slug]` | 🔜 Next | — | — |
+
+---
+
 ## shadcn/ui Components thường match với Foreplay
 
 | Foreplay Pattern            | shadcn/ui Component     | Notes                              |
@@ -71,6 +84,7 @@ Lần 2: Tôi sẽ paste HTML từng section cho bạn fill detail
 | Dropdown nav                | `NavigationMenu`        | Header mega menu                   |
 | Toggle group                | `ToggleGroup`           | Filter tabs                        |
 | Carousel                    | `Carousel`              | Use case horizontal scroll         |
+| Masonry review grid         | — (CSS columns)         | `SenjaReviewMasonryGrid` + Load More |
 
 ## Reuse Checklist (check TRƯỚC khi tạo mới)
 
@@ -84,3 +98,17 @@ Lần 2: Tôi sẽ paste HTML từng section cho bạn fill detail
 8. `ForeplayDotBg` — dot grid background
 9. `ForeplayCarouselArrows` — prev/next navigation
 10. `ForeplayProductHero` — product page hero with scroll animation
+11. `ForeplayHomeHeroBottom` — logo grid (trust badges)
+12. `SenjaReviewCard` — review card (avatar, stars, content, date, platform icon)
+13. `SenjaReviewMasonryGrid` — masonry grid with Load More (initialCount, loadMoreCount)
+14. `ForeplayDemoHero` — demo/booking hero with Cal.com embed
+15. `ForeplayDemoSocialProof` — social proof badges (G2, Chrome, Capterra)
+16. `ForeplayCalEmbed` — Cal.com inline embed component
+
+## Notes for /blog clone
+
+- Foreplay `/blog` has: BlogHero + category sidebar + post listing grid
+- GoAds already has blog components: `BlogHero`, `BlogListing`, `BlogDetailHeader`, `BlogDetailContent`
+- Data: `src/data/blog-posts.ts` (5 posts)
+- Route: `app/src/app/blog/` already exists — check if Foreplay layout version is needed at `/foreplay/blog/`
+- Key difference: Foreplay blog uses dark theme header + white content blocks

@@ -279,6 +279,12 @@ Source CSS has 3 breakpoints — extract from `foreplay-source.css`:
 5. Check `ForeplayFaqAccordion` — all FAQ sections (pass different items)
 6. Check `ForeplayHomeCta` — all final CTA sections (same component)
 7. Check `fpText.*` constants — all typography (13 styles)
+8. Check `ForeplayHomeHeroBottom` — logo grid (trust badges)
+9. Check `SenjaReviewCard` — review card (avatar, stars, content, date, platform icon)
+10. Check `SenjaReviewMasonryGrid` — masonry grid with Load More (initialCount, loadMoreCount)
+11. Check `ForeplayDemoHero` — demo/booking hero with Cal.com embed
+12. Check `ForeplayDemoSocialProof` — social proof badges (G2, Chrome, Capterra)
+13. Check `ForeplayCalEmbed` — Cal.com inline embed (dark theme, month_view)
 
 ### File Size Rules
 - Atoms: < 100 lines

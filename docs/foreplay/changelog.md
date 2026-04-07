@@ -257,10 +257,82 @@ Footer (in layout)
 |------|---------|
 | `docs/foreplay/html/pricing.html` | Full pricing page HTML (296KB) |
 
+## Reviews Page (Phase 4a — DONE ✅)
+
+| Component | Description |
+|-----------|-------------|
+| `senja-review-card.tsx` | Senja-style review card: avatar(42px) + name + platform icon + stars(5x20px) + content(line-clamp-10) + date |
+| `senja-review-masonry-grid.tsx` | CSS columns masonry (4 cols), Load More pagination (initialCount, loadMoreCount) |
+
+### Reviews Data
+
+| File | Content |
+|------|---------|
+| `data/goads-reviews-data.ts` | 20 reviews (10 original Chrome Web Store + 10 mixed: Google, Telegram, Facebook) |
+
+### Reviews Page Composition (`foreplay/reviews/page.tsx`)
+
+```
+Section 1: Hero Header (section-container, dark)
+Section 2: Review Cards (white block, masonry grid, 10 initial + Load More)
+Section 3: Final CTA (reuse ForeplayHomeCta)
+```
+
+## Book Demo Page (Phase 4b — DONE ✅)
+
+| Component | Description |
+|-----------|-------------|
+| `foreplay-demo-hero.tsx` | Hero: overline + h2 title (Inter Display 2.75rem) + description + Cal.com embed + logo grid |
+| `foreplay-cal-embed.tsx` | Cal.com inline embed (`@calcom/embed-react`), dark theme, month_view layout |
+| `foreplay-demo-social-proof.tsx` | 2-col grid: section-head left + 3 rating badges right (G2, Chrome, Capterra) |
+
+### Book Demo Composition (`foreplay/book-demo/page.tsx`)
+
+```
+Section 1: Demo Hero (dark bg + dot grid)
+  ├── Overline "Book a Demo" + h2 + description
+  ├── Cal.com inline embed (nam-khanh-nguyen-dhpuv7/30min)
+  └── Logo grid (reuse ForeplayHomeHeroBottom)
+Section 2: Social Proof + Reviews (white block)
+  ├── 2-col: section-head left + G2/Chrome/Capterra badges right
+  └── Review cards masonry (8 initial + Load More)
+```
+
+### Dependencies Added
+
+- `@calcom/embed-react` — Cal.com inline booking embed
+
+## GoAds Content Swap (Phase 4c — DONE ✅)
+
+### Home Page Text Replacements
+
+| Component | Old (Foreplay) | New (GoAds) |
+|-----------|---------------|-------------|
+| Hero title | "The Complete Winning Ad Workflow" | "Unlimited Scaling\nWinning Ad Infrastructure" |
+| Hero CTA | "Start Free Trial" → `/sign-up` | "Contact Us" → `/talk-to-sales` |
+| Trust badge | "Powering +10,000 Social Ad Teams" | "TRUSTED BY 1000+ ADVERTISERS WORLDWIDE" |
+| Winning | "Your new secret weapon for ads" | "Built to last, made to scale" |
+| Chrome ext | "Save ads from Meta, TikTok & LinkedIn" | "Bypass BM invites. Login by cookie." |
+| Chrome stats | 30,000 Users / 4.8/5 Stars | 2,000+ Users / 5/5 Stars |
+| Collab → Promise | "Collaboration" + sharing tabs | "OUR PROMISE" + 3 promise tabs |
+| Features → Community | "Miles beyond the status quo" | "Stay connected, stay ahead" |
+| CTA | "Ready to ship more winning ads?" | "Your next winning campaign starts here" |
+
+### Product Showcase Tab Labels
+
+| Showcase | Old Tabs | New Tabs |
+|----------|----------|----------|
+| Assets | Save & Organize, Automate Transcription, Share & Collaborate | Meta Assets, TikTok Assets |
+| Solutions | 24/7 Ad Library Scraper, Analyze Creative Tests | Unban & Recovery, Verified Services |
+| Agency Accounts | Smart Search, AI Creative Analysis | Facebook, TikTok, Google |
+| Technology | Creative Test Analysis, Build & Share Reports, Compare Themes | GoAds Extensions, All Tools |
+| Service | Storyboard & Script | 24/7 support, Quick replacements |
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos
 - [ ] Enrichment illustration (Venn diagram SVG)
-- [ ] Convert content from Foreplay to GoAds
 - [ ] Responsive breakpoints
 - [ ] Convert .foreplay hex tokens to oklch
+- [ ] Clone /blog page
+- [ ] Clone /blog/[slug] page
