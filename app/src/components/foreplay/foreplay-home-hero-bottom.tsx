@@ -28,7 +28,7 @@ export function ForeplayHomeHeroBottom({ className }: ForeplayHomeHeroBottomProp
       {/* .text-alpha-100 > .text-overline */}
       <div className="flex-1 text-[var(--fp-alpha-100)]">
         <p className={fpText.overline}>
-          Powering +10,000 Social Ad Teams &amp; Agencies
+          TRUSTED BY 1000+ ADVERTISERS WORLDWIDE
         </p>
       </div>
 

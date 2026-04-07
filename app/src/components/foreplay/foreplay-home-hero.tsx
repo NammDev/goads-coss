@@ -35,14 +35,14 @@ export function ForeplayHomeHero() {
         {/* .home-hero-top */}
         <div className="flex flex-col items-center gap-10 pt-3 pb-20 -mt-3">
           <ForeplayHeroContent
-            title="The Complete Winning Ad Workflow"
-            description="Everything you need to predictably make ads that convert, from the first spark of inspiration saving ads from facebook ad library to the final performance report."
+            title={"Unlimited Scaling\nWinning Ad Infrastructure"}
+            description="Premium advertising assets designed to reduce risk, avoid disruptions, and keep your campaigns running. Made to last, made to scale."
           />
 
           {/* .home-hero-cta */}
           <div className="flex items-center gap-3">
-            <ForeplayCtaButton href="/sign-up" variant="hero">
-              Start Free Trial
+            <ForeplayCtaButton href="/talk-to-sales" variant="hero">
+              Contact Us
             </ForeplayCtaButton>
           </div>
         </div>

@@ -23,10 +23,10 @@ const cards = [
         <path d="M11.167 18.667l1.407-4.927a1 1 0 0 1 .96-.907h5.342a1 1 0 0 1 .96 1.335l-1.16 4.06a1 1 0 0 1-.962.44H11.167Zm0 0H7.833" stroke="currentColor" strokeWidth="1.667" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    title: "Expert Swipe Files",
-    description: "Unlock the private swipe files behind the world's best ad creative specialists.",
-    ctaLabel: "Browse Experts",
-    ctaHref: "/experts",
+    title: "Direct access anytime",
+    description: "Reach us on Telegram, WhatsApp or Discord. Real answers from real people, 24/7.",
+    ctaLabel: "Contact Us",
+    ctaHref: "/talk-to-sales",
     image: "/foreplay/feature_1.webp",
   },
   {
@@ -35,10 +35,10 @@ const cards = [
         <path d="M10.333 17.833h3.334M8.667 20.333h6.666C16.254 20.333 17 19.587 17 18.667V5.333C17 4.413 16.254 3.667 15.333 3.667H8.667C7.746 3.667 7 4.413 7 5.333v13.334c0 .92.746 1.666 1.667 1.666Z" stroke="currentColor" strokeWidth="1.667" strokeLinecap="round" />
       </svg>
     ),
-    title: "Mobile App",
-    description: "Take your creative workflow on the go and save ads from anywhere.",
-    ctaLabel: "Download App",
-    ctaHref: "/mobile-app",
+    title: "Built to save you time",
+    description: "Extensions and tools we built to fix what Meta breaks. Free for all users.",
+    ctaLabel: "View Tools",
+    ctaHref: "/tools",
     isMiddle: true,
     image: "/foreplay/feature_2.webp",
   },
@@ -49,10 +49,10 @@ const cards = [
         <path d="M12 5v2m0 10v2m-7-7h2m10 0h2m-2.95-4.95-1.41 1.41m-5.66 5.66-1.42 1.42m0-8.49 1.42 1.42m5.66 5.66 1.41 1.41" stroke="currentColor" strokeWidth="1.667" strokeLinecap="round" />
       </svg>
     ),
-    title: "API",
-    description: "Enriched competitor advertising data in an agent agnostic API.",
+    title: "Stay in the loop",
+    description: "Platform changes, new products, insider tips. Fresh updates straight from us.",
     ctaLabel: "Learn More",
-    ctaHref: "/api",
+    ctaHref: "/blog",
     image: "/foreplay/feature_3.webp",
   },
 ]
@@ -63,10 +63,10 @@ export function ForeplayHomeFeaturesGrid() {
       <div className="mx-auto flex max-w-[1152px] flex-col gap-12">
         {/* .section-head (REUSE) */}
         <ForeplaySectionHead
-          subtitle="Features"
-          title="Miles beyond the status quo"
+          subtitle="COMMUNITY & RESOURCES"
+          title="Stay connected, stay ahead"
           titleTag="h2" titleSize="h2"
-          description="Say goodbye to juggling half-baked tools. Foreplay offers enterprise grade functionality with beginner friendly ease of use."
+          description="Tools, updates, and direct access to our team. Everything to keep you moving."
           descSize="l"
           variant="light"
         />

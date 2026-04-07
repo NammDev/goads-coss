@@ -32,13 +32,13 @@ export default function ForeplayHomePage() {
         </ForeplaySectionWhiteBlock>
 
         <ForeplayHomeProductShowcase
-          subtitle="Research & Inspiration"
-          title="Spark creative genius and crush competitors."
-          description={<>Ad creative research is your shortcut to success. <br />Reverse engineer ads that are already crushing and identify trends.</>}
-          sidebarOverline="Swipe File"
-          sidebarTitle="Save ads from anywhere, forever"
-          ctaHref="/sign-up"
-          learnMoreHref="/swipe-file"
+          subtitle="PRODUCTS & SOLUTIONS"
+          title="Infrastructure designed for your success"
+          description="Verified assets, instant delivery, real support. Everything you need to keep your ads live."
+          sidebarOverline="Assets"
+          sidebarTitle="Premium assets, ready to scale"
+          ctaHref="/agency-ad-account"
+          learnMoreHref="/agency-ad-account"
           tabs={swipeFileTabs}
           sidebarVideoSrc="/video/cta-swipe-file.mov"
           tabImages={[
@@ -51,10 +51,10 @@ export default function ForeplayHomePage() {
         {/* Spyder — no section head (shares with Swipe File) */}
         <ForeplayHomeProductShowcase
           subtitle="" title="" description=""
-          sidebarOverline="Spyder"
-          sidebarTitle="Automatically track competitors"
-          ctaHref="/sign-up"
-          learnMoreHref="/spyder"
+          sidebarOverline="Solutions"
+          sidebarTitle="Fix issues, stay scaling"
+          ctaHref="/unban"
+          learnMoreHref="/unban"
           tabs={spyderTabs}
           sidebarVideoSrc="/video/cta-spyder.mov"
           tabImages={[
@@ -67,10 +67,10 @@ export default function ForeplayHomePage() {
         {/* Discovery — no section head */}
         <ForeplayHomeProductShowcase
           subtitle="" title="" description=""
-          sidebarOverline="Discovery"
-          sidebarTitle="The smartest ad search engine"
-          ctaHref="/sign-up"
-          learnMoreHref="/discovery"
+          sidebarOverline="Agency Ad Accounts"
+          sidebarTitle="Grow without limits"
+          ctaHref="/agency-ad-account"
+          learnMoreHref="/agency-ad-account"
           tabs={discoveryTabs}
           sidebarVideoSrc="/video/cta-discovery.mov"
           tabImages={[
@@ -89,22 +89,22 @@ export default function ForeplayHomePage() {
       {/* Section: "Identify winning patterns" — Lens + Briefs */}
       <section className="section">
         <ForeplayHomeProductShowcase
-          subtitle="Creative Analytics &amp; Production"
-          title="Identify winning patterns and replicate success."
-          description="Instantly turn insights into action. Uncover what's working across your ads and translate those learnings into crystal clear creative direction."
-          sidebarOverline="Lens"
-          sidebarTitle="Know what's working and why"
-          ctaHref="/sign-up"
-          learnMoreHref="/lens"
+          subtitle="TOOLS & SERVICES"
+          title="Powerful tools built from real experience"
+          description="Extensions, tools and services designed to solve real problems. So you can focus on scaling."
+          sidebarOverline="Technology"
+          sidebarTitle="Optimize Your Workflow"
+          ctaHref="/tools"
+          learnMoreHref="/tools"
           tabs={lensTabs}
         />
 
         <ForeplayHomeProductShowcase
           subtitle="" title="" description=""
-          sidebarOverline="Briefs"
-          sidebarTitle="Go from concept to launched, faster"
-          ctaHref="/sign-up"
-          learnMoreHref="/briefs"
+          sidebarOverline="Service"
+          sidebarTitle="Always On, Always Reliable"
+          ctaHref="/talk-to-sales"
+          learnMoreHref="/talk-to-sales"
           tabs={briefsTabs}
           showSectionHead={false}
         />

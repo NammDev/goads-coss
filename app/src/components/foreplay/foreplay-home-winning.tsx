@@ -11,8 +11,8 @@ export function ForeplayHomeWinning() {
     <div className="flex flex-col items-center gap-[72px] py-20">
       {/* .section-head (reusable) */}
       <ForeplaySectionHead
-        title="Your new secret weapon for ads"
-        description="Stop launching ads that don't work. Trade guesswork for the creative process used by the world's fastest growing brands and marketing agencies."
+        title="Built to last, made to scale"
+        description="Stop rebuilding from scratch. Every ban means starting over. New BM, new profile, new warmup, lost momentum. We built GoAds so you never have to do that again."
         variant="dark"
       />
 

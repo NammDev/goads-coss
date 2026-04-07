@@ -13,9 +13,9 @@ export function ForeplayHomeCta() {
     <div className="flex flex-col items-center gap-9 pt-[108px]">
       {/* .section-head.is-large */}
       <ForeplaySectionHead
-        title="Ready to ship more winning ads?"
+        title="Your next winning campaign starts here"
         titleTag="h2" titleSize="h2"
-        description="Unlock the power of Foreplay with an unrestricted 7 day free trial."
+        description="Join 500+ advertisers who trust GoAds. Stable assets, real support, instant replacement."
         descSize="l"
         variant="light"
         size="large"
@@ -23,8 +23,8 @@ export function ForeplayHomeCta() {
 
       {/* .main-cta-buttons */}
       <div className="flex items-center gap-3">
-        <ForeplayCtaButton href="/sign-up" variant="hero">
-          Start free trial
+        <ForeplayCtaButton href="/talk-to-sales" variant="hero">
+          Get Started
         </ForeplayCtaButton>
         <ForeplayCtaButton href="/pricing" variant="secondary" showIcon={false}>
           View Pricing

@@ -12,20 +12,6 @@ import { ForeplayHomeSharing } from "@/components/foreplay/foreplay-home-sharing
 export function ForeplayHomeCollab() {
   return (
     <>
-      {/* .home-collab */}
-      <div className="flex flex-col items-center gap-10 py-20">
-        <ForeplaySectionContainer>
-          <ForeplaySectionHead
-            subtitle="Collaboration"
-            title="Bringing performance & creative teams together."
-            titleTag="h2" titleSize="h2"
-            description="Magic happens when strategy, creative, and data speak the same language. Foreplay bridges the gap between media buyers, creatives, and agencies."
-            descSize="l"
-            variant="dark"
-          />
-        </ForeplaySectionContainer>
-      </div>
-
       {/* .container > .home-sharing */}
       <ForeplaySectionContainer variant="wide" className="overflow-hidden">
         <ForeplayHomeSharing />

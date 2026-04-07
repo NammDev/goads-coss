@@ -26,13 +26,13 @@ export function ForeplayHomeChromeExtension() {
           <div className="flex max-w-[480px] flex-col gap-2">
             <div className="text-[var(--fp-alpha-50)]">
               <div className={fpText.overline}>
-                Free Chrome Extension
+                FREE CHROME EXTENSION
               </div>
             </div>
             <div className="text-foreground">
               <div className="[text-wrap:balance]">
                 <h3 className={fpText.displayH4}>
-                  Save ads from Meta, TikTok &amp; LinkedIn Ad Libraries.
+                  Bypass Business Manager invites.<br />Login by cookie.
                 </h3>
               </div>
             </div>
@@ -49,7 +49,7 @@ export function ForeplayHomeChromeExtension() {
                 </div>
               </div>
               <div className="text-[var(--fp-alpha-50)]">
-                <div className={fpText.labelM}>30,000 Users</div>
+                <div className={fpText.labelM}>2,000+ Users</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -61,7 +61,7 @@ export function ForeplayHomeChromeExtension() {
                 </div>
               </div>
               <div className="text-[var(--fp-alpha-50)]">
-                <div className={fpText.labelM}>4.8/5 Stars</div>
+                <div className={fpText.labelM}>5/5 Stars</div>
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@ export function ForeplayHomeChromeExtension() {
 function ChromeLogo() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 128 128">
-      <path fill="currentColor" d="M64 99.6a35.61 35.61 0 1 0 0-71.21 35.61 35.61 0 0 0 0 71.22Z" />
+      <path fill="#020308" d="M64 99.6a35.61 35.61 0 1 0 0-71.21 35.61 35.61 0 0 0 0 71.22Z" />
       <path fill="url(#p0)" d="M17.95 46.5c-2.66-4.6-5.78-9.43-9.37-14.49a63.98 63.98 0 0 0 55.43 96c5.89-8.27 9.89-14.23 12-17.88 4.04-7.01 9.28-17.06 15.7-30.12V80a32 32 0 0 1-55.42 0 1448.85 1448.85 0 0 0-18.34-33.5Z" />
       <path fill="url(#p1)" d="M64 128a63.98 63.98 0 0 0 55.42-96c-12.13-1.2-21.07-1.8-26.84-1.8-6.55 0-16.07.6-28.58 1.8A32 32 0 0 1 91.7 80l-27.7 48Z" />
       <path fill="#fff" d="M64 89.34a25.33 25.33 0 1 0 0-50.67 25.33 25.33 0 0 0 0 50.67Z" />
