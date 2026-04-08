@@ -3,6 +3,7 @@ import { BlogHero } from "@/components/blog-hero"
 import { BlogListing } from "@/components/blog-listing"
 import { SectionDivider } from "@/components/section-divider"
 import { reader } from "@/lib/keystatic-reader"
+import type { BlogPost } from "@/data/blog-posts"
 
 export const metadata: Metadata = {
   title: "Blog | GoAds Advertising Tips & Insights",
@@ -12,16 +13,23 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const slugs = await reader.collections.blog.list()
-  const posts = await Promise.all(
+  const posts: BlogPost[] = await Promise.all(
     slugs.map(async (slug) => {
       const post = await reader.collections.blog.read(slug)
       return {
         slug,
         category: post?.category ?? "",
+        categorySlug: (post?.category ?? "").toLowerCase().replace(/\s+/g, "-"),
         title: post?.title ?? "",
         description: post?.description ?? "",
-        author: post?.author ?? "GoAds Team",
+        author: {
+          name: post?.author ?? "GoAds Team",
+          avatar: "/avatars/goads-team.webp",
+        },
         date: post?.date ?? "",
+        readTime: "5 min read",
+        coverImage: "",
+        sections: [],
       }
     })
   )

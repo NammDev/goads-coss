@@ -13,11 +13,11 @@ import { BlogPopularSidebar } from "@/components/foreplay/blog/blog-popular-side
 import type { BlogPost } from "@/data/blog-posts"
 
 interface BlogHeroProps {
-  featuredPost: BlogPost
-  popularPosts: BlogPost[]
+  featuredPost?: BlogPost
+  popularPosts?: BlogPost[]
 }
 
-export function BlogHero({ featuredPost, popularPosts }: BlogHeroProps) {
+export function BlogHero({ featuredPost, popularPosts }: BlogHeroProps = {}) {
   return (
     <section className="relative">
       {/* .fireside-hero: flex col, center, pt-20 pb-20 */}
@@ -48,18 +48,20 @@ export function BlogHero({ featuredPost, popularPosts }: BlogHeroProps) {
 
           {/* .section-content-main > .blog-header-grid */}
           {/* grid 6-col desktop, flex-col mobile; gap-[50px] */}
-          <div className="mt-16">
-            <div className="grid grid-cols-1 gap-[50px] lg:grid-cols-[3fr_2fr]">
-              {/* Left: featured post (col 1-4) */}
-              <BlogFeaturedCard post={featuredPost} />
+          {featuredPost && popularPosts && (
+            <div className="mt-16">
+              <div className="grid grid-cols-1 gap-[50px] lg:grid-cols-[3fr_2fr]">
+                {/* Left: featured post (col 1-4) */}
+                <BlogFeaturedCard post={featuredPost} />
 
-              {/* Right: popular blogs (col 5-6) */}
-              <BlogPopularSidebar
-                posts={popularPosts}
-                className="border-t border-[#7a7b7f40] pt-[25px] lg:border-t-0 lg:pt-0"
-              />
+                {/* Right: popular blogs (col 5-6) */}
+                <BlogPopularSidebar
+                  posts={popularPosts}
+                  className="border-t border-[#7a7b7f40] pt-[25px] lg:border-t-0 lg:pt-0"
+                />
+              </div>
             </div>
-          </div>
+          )}
         </ForeplaySectionContainer>
       </div>
     </section>
