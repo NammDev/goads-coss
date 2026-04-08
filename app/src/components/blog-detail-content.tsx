@@ -1,80 +1,27 @@
+// Blog detail content — section > .container.section-container
+// .blog-main-wrapper: grid 3-col [1fr minmax(752px,1fr) 1fr], gap-9, items-start
+// .blog-toc-wrapper: sticky top-[120px] (LEFT)
+//   .blog-toc-list: border-left 1px #ffffff1f, flex col
+//   .blog-toc-h2: color neutral-100, border-left 1px transparent, p-3, transition
+//   .blog-toc-h2.is-active: color neutral-0, border-left 1px #fff
+// .blog-body: pb-10 (RIGHT)
+//   .blog-rtb: rich text
+// .blog-line: bg neutral-700, h-px
+
 "use client"
 
 import { type ReactNode, useState, useEffect } from "react"
-import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
-import type { TocHeading } from "@/lib/markdoc-renderer"
-
-function TableOfContents({
-  headings,
-  activeId,
-}: {
-  headings: TocHeading[]
-  activeId: string
-}) {
-  return (
-    <div className="sticky top-24 hidden h-fit lg:block">
-      <span className="text-lg font-medium">Content</span>
-      <nav className="mt-4">
-        <ul className="space-y-1 border-l border-border">
-          {headings.map((h) => (
-            <li key={h.id}>
-              <a
-                href={`#${h.id}`}
-                className={`-ml-px block border-l-2 py-1.5 pl-4 text-sm transition-all duration-200 ${
-                  activeId === h.id
-                    ? "border-foreground font-medium text-foreground"
-                    : "border-transparent text-muted-foreground hover:border-border hover:text-foreground"
-                }`}
-              >
-                {h.title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
-  )
-}
-
-function CtaSidebar() {
-  return (
-    <div className="sticky top-24 hidden h-fit rounded-lg border p-6 lg:block">
-      <h5 className="text-xl font-semibold">Scale Your Ads with GoAds</h5>
-      <ul className="my-6 space-y-2 text-sm text-muted-foreground">
-        <li className="flex items-start gap-2">
-          <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
-          7-day warranty on all accounts
-        </li>
-        <li className="flex items-start gap-2">
-          <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
-          Under 2-hour support response
-        </li>
-        <li className="flex items-start gap-2">
-          <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
-          500+ satisfied clients worldwide
-        </li>
-      </ul>
-      <div className="flex flex-col gap-2">
-        <Button asChild>
-          <Link href="/pricing">Get started</Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link href="/about">Learn more</Link>
-        </Button>
-      </div>
-    </div>
-  )
-}
-
-type Props = {
-  description: string
-  headings: TocHeading[]
+import { cn } from "@/lib/utils"
+import { ForeplaySectionContainer } from "@/components/foreplay/foreplay-section-container"
+import { fpText } from "@/components/foreplay/foreplay-typography"
+interface BlogDetailContentProps {
+  headings: { id: string; title: string }[]
+  description?: string
   children: ReactNode
 }
 
-export function BlogDetailContent({ description, headings, children }: Props) {
+export function BlogDetailContent({ headings, children }: BlogDetailContentProps) {
   const [activeId, setActiveId] = useState(headings[0]?.id ?? "")
 
   useEffect(() => {
@@ -84,7 +31,7 @@ export function BlogDetailContent({ description, headings, children }: Props) {
           if (entry.isIntersecting) setActiveId(entry.target.id)
         }
       },
-      { rootMargin: "-20% 0px -60% 0px" }
+      { rootMargin: "-20% 0px -60% 0px" },
     )
 
     for (const h of headings) {
@@ -96,28 +43,52 @@ export function BlogDetailContent({ description, headings, children }: Props) {
   }, [headings])
 
   return (
-    <section className="py-8 sm:py-16 lg:py-24">
-      <div className="container">
-        <div className="grid gap-12 lg:grid-cols-4 lg:gap-20">
-          <TableOfContents headings={headings} activeId={activeId} />
-
-          <div className="lg:col-span-2">
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold">{headings[0]?.title}</h2>
-              <p className="mt-3 max-w-prose text-lg leading-relaxed text-muted-foreground">
-                {description}
-              </p>
-              <div className="my-8 aspect-video w-full rounded-md bg-muted" />
-            </div>
-
-            <div className="prose max-w-none scroll-mt-24 overflow-x-auto dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground prose-li:marker:text-muted-foreground prose-pre:overflow-x-auto">
-              {children}
-            </div>
+    <section>
+      <ForeplaySectionContainer>
+        {/* .blog-main-wrapper: grid 3-col, gap-9, items-start */}
+        <div className="grid grid-cols-1 items-start gap-9 lg:grid-cols-[200px_minmax(0,1fr)_200px]">
+          {/* .blog-toc-wrapper: sticky top-[120px] — LEFT */}
+          <div className="sticky top-[120px] hidden lg:block">
+            {/* .blog-toc > .blog-toc-list: border-left, flex col */}
+            <nav>
+              <ul className="flex flex-col border-l border-[#ffffff1f] pl-0">
+                {headings.map((h) => (
+                  <li key={h.id} className="list-none">
+                    <a
+                      href={`#${h.id}`}
+                      className={cn(
+                        // .blog-toc-h2: p-3, border-left 1px transparent, transition
+                        fpText.bodyS,
+                        "block border-l p-3 transition-all duration-150",
+                        activeId === h.id
+                          ? // .blog-toc-h2.is-active: color neutral-0, border white
+                            "border-foreground text-foreground"
+                          : // default: color neutral-100, border transparent
+                            "border-transparent text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground",
+                      )}
+                    >
+                      {h.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
 
-          <CtaSidebar />
+          {/* .blog-body: pb-10 — CENTER */}
+          <div className="pb-10">
+            {/* .blog-rtb: rich text */}
+            <div className="prose max-w-none scroll-mt-24 dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-[3px] prose-blockquote:border-foreground prose-blockquote:text-[var(--fp-alpha-100,#ffffffad)] prose-li:marker:text-muted-foreground">
+              {children}
+            </div>
+            {/* .blog-line: bg neutral-700, h-px */}
+            <div className="mt-10 h-px bg-[#ffffff1a]" />
+          </div>
+
+          {/* RIGHT spacer for symmetry (empty on desktop) */}
+          <div className="hidden lg:block" />
         </div>
-      </div>
+      </ForeplaySectionContainer>
     </section>
   )
 }

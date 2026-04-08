@@ -1,12 +1,22 @@
+export type BlogAuthor = {
+  name: string
+  avatar: string
+  title?: string
+  socials?: { linkedin?: string; twitter?: string }
+}
+
 export type BlogPost = {
   slug: string
   category: string
+  categorySlug: string
   title: string
   description: string
-  author: string
-  authorAvatar: string
+  author: BlogAuthor
   date: string
   readTime: string
+  coverImage: string
+  featured?: boolean
+  popular?: boolean
   sections: {
     id: string
     title: string
@@ -14,17 +24,38 @@ export type BlogPost = {
   }[]
 }
 
+const goadsTeam: BlogAuthor = {
+  name: "GoAds Team",
+  avatar: "/avatars/goads-team.webp",
+  title: "Marketing Team",
+  socials: { linkedin: "https://linkedin.com/company/goads" },
+}
+
+export const blogCategories = [
+  "All",
+  "Meta Ads",
+  "Google Ads",
+  "TikTok Ads",
+  "Account Tips",
+  "Scaling Strategy",
+] as const
+
+export type BlogCategory = (typeof blogCategories)[number]
+
 export const blogPosts: BlogPost[] = [
   {
     slug: "how-to-scale-facebook-ads-with-agency-accounts",
-    category: "Facebook Ads",
+    category: "Meta Ads",
+    categorySlug: "meta-ads",
     title: "How to Scale Facebook Ads with Agency Accounts",
     description:
       "Learn how agency ad accounts can help you scale your Facebook campaigns without the risk of bans. Discover best practices for account structure, budget allocation, and creative testing.",
-    author: "GoAds Team",
-    authorAvatar: "/avatars/goads-team.webp",
+    author: goadsTeam,
     date: "March 5, 2026",
-    readTime: "8 min. read",
+    readTime: "8 min read",
+    coverImage: "/images/blog/scale-facebook-ads.webp",
+    featured: true,
+    popular: true,
     sections: [
       {
         id: "why-agency-accounts",
@@ -61,15 +92,17 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "understanding-meta-business-manager-limits",
-    category: "Agency Accounts",
+    category: "Account Tips",
+    categorySlug: "account-tips",
     title:
       "Understanding Meta Business Manager Limits and How to Work Around Them",
     description:
       "A comprehensive guide to Meta Business Manager restrictions, spending limits, and how verified agency accounts provide higher thresholds for serious advertisers.",
-    author: "GoAds Team",
-    authorAvatar: "/avatars/goads-team.webp",
+    author: goadsTeam,
     date: "February 28, 2026",
-    readTime: "12 min. read",
+    readTime: "12 min read",
+    coverImage: "/images/blog/meta-bm-limits.webp",
+    popular: true,
     sections: [
       {
         id: "bm-limits-overview",
@@ -100,14 +133,16 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "google-whitelisted-accounts-explained",
     category: "Google Ads",
+    categorySlug: "google-ads",
     title:
       "Google Whitelisted Accounts Explained: What They Are and Why You Need One",
     description:
       "Explore the benefits of Google whitelisted ad accounts, including higher trust scores, fewer suspensions, and better ad delivery for competitive niches.",
-    author: "GoAds Team",
-    authorAvatar: "/avatars/goads-team.webp",
+    author: goadsTeam,
     date: "February 20, 2026",
-    readTime: "10 min. read",
+    readTime: "10 min read",
+    coverImage: "/images/blog/google-whitelisted.webp",
+    popular: true,
     sections: [
       {
         id: "what-is-whitelisted",
@@ -137,13 +172,15 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "tiktok-ads-verified-accounts-guide",
     category: "TikTok Ads",
+    categorySlug: "tiktok-ads",
     title: "Getting Started with TikTok Verified Ad Accounts",
     description:
       "Everything you need to know about TikTok verified agency accounts — from setup to scaling. Learn how to leverage TikTok's algorithm for maximum ROAS.",
-    author: "GoAds Team",
-    authorAvatar: "/avatars/goads-team.webp",
+    author: goadsTeam,
     date: "February 15, 2026",
-    readTime: "9 min. read",
+    readTime: "9 min read",
+    coverImage: "/images/blog/tiktok-verified.webp",
+    popular: true,
     sections: [
       {
         id: "tiktok-opportunity",
@@ -173,14 +210,15 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "avoid-facebook-ad-account-bans",
-    category: "Facebook Ads",
+    category: "Meta Ads",
+    categorySlug: "meta-ads",
     title: "7 Proven Strategies to Avoid Facebook Ad Account Bans",
     description:
       "Stop losing ad accounts. Learn the most common reasons for bans and actionable strategies to keep your accounts healthy and running.",
-    author: "GoAds Team",
-    authorAvatar: "/avatars/goads-team.webp",
+    author: goadsTeam,
     date: "February 8, 2026",
-    readTime: "11 min. read",
+    readTime: "11 min read",
+    coverImage: "/images/blog/avoid-bans.webp",
     sections: [
       {
         id: "common-ban-reasons",
@@ -221,4 +259,16 @@ export const blogPosts: BlogPost[] = [
 
 export function getBlogPost(slug: string): BlogPost | undefined {
   return blogPosts.find((p) => p.slug === slug)
+}
+
+export function getBlogPostsByCategory(categorySlug: string): BlogPost[] {
+  return blogPosts.filter((p) => p.categorySlug === categorySlug)
+}
+
+export function getFeaturedPost(): BlogPost | undefined {
+  return blogPosts.find((p) => p.featured)
+}
+
+export function getPopularPosts(limit = 4): BlogPost[] {
+  return blogPosts.filter((p) => p.popular).slice(0, limit)
 }

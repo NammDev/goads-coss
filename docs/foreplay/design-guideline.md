@@ -293,6 +293,45 @@ Source CSS has 3 breakpoints — extract from `foreplay-source.css`:
 - Icons: shared SVG components, not inline duplicates
 - If component > 150 lines → split (data out, icons out, sub-components out)
 
+## Blog Page Patterns
+
+### Blog Card (`.blog-list-card`)
+```
+bg: background, shadow ring neutral-700, rounded-[20px], transition
+hover: bg neutral-900, ring neutral-500
+cover: aspect-[465/264], gradient placeholder bg
+content: flex col, gap-4, p-[32px_24px_24px] desktop → p-[20px_20px_16px] mobile
+author: 28px avatar circle + text-label-m name
+title: text-label-l line-clamp-2 (NOT display-h5 as initially guessed)
+excerpt: text-body-m inside text-alpha-100 inside line-clamp-2
+```
+
+### Blog Category Bar (`.blog-categories`)
+```
+border-y: 1px neutral-700, py-9, flex gap-[15px]
+.blog-tag: shadow ring neutral-700, rounded-[10px], py-1.5 px-3, text neutral-25
+.blog-tag:hover: bg neutral-800
+active: bg foreground, text background (invert)
+```
+
+### Blog Detail Layout (`.blog-main-wrapper`)
+```
+grid 3-col: [1fr minmax(752px,1fr) 1fr] → [200px 1fr 200px] adapted
+TOC: sticky top-[120px], border-left #ffffff1f
+TOC active: border-left white, color neutral-0
+body: prose styling, pb-10
+blog-line: h-px, bg neutral-700
+```
+
+### Blog Author (`.blog-author`)
+```
+flex, gap-4, items-center, py-10
+avatar: 48px circle + border overlay (neutral-600)
+name: text-label-m
+title: text-body-s text-alpha-100
+social links: p-1, color white, hover #fffc
+```
+
 ## Pixel-Perfect Rules
 
 1. HTML nesting first — check DOM structure before CSS

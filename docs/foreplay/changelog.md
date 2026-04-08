@@ -328,11 +328,67 @@ Section 2: Social Proof + Reviews (white block)
 | Technology | Creative Test Analysis, Build & Share Reports, Compare Themes | GoAds Extensions, All Tools |
 | Service | Storyboard & Script | 24/7 support, Quick replacements |
 
+## Blog Pages (Phase 5 — DONE ✅)
+
+### Shared Blog Components
+
+| Component | Foreplay Class | Description |
+|-----------|---------------|-------------|
+| `blog/blog-card.tsx` | `.blog-list-card` + `.blog-carousel-card-*` | Shared card: cover image + author (28px avatar) + title (`text-label-l`) + excerpt (`text-body-m`) |
+| `blog/blog-category-bar.tsx` | `.blog-categories` + `.blog-tag` | Horizontal pills: ring neutral-700, rounded-[10px], active invert |
+| `blog/blog-pagination.tsx` | `.blog-pagination` + `.page-count` | Page count "1 / N" + prev/next chevron buttons |
+| `blog/blog-featured-card.tsx` | `.featured-blog-wrapper` + `.featured-blog-link` | Large hero card: cover (rounded-[20px], border grey-stroke) + `text-display-h3` title + excerpt + author |
+| `blog/blog-popular-sidebar.tsx` | `.blog-feed-wrapper` + `.blog-feed-link` | Text-only list: title (`text-label-m`) + excerpt (`text-body-s line-clamp-2`) + author/read time |
+| `blog/blog-inline-cta.tsx` | `.blog-cta` | GoAds adaptation: bg neutral-700, rounded-xl, CTA with pricing + sales links |
+| `blog/blog-related-carousel.tsx` | `.blog-related` + `.blog-related-list` | Horizontal scroll carousel, snap-x, BlogCard reuse, ForeplayCarouselArrows |
+
+### Rebuilt Components
+
+| Component | Changes |
+|-----------|---------|
+| `blog-hero.tsx` | Rebuilt: overline "Blog" + gradient h1 + 2-col grid (featured 3fr + popular 2fr) |
+| `blog-listing.tsx` | Rebuilt: BlogCategoryBar + 3-col BlogCard grid + BlogPagination, client-side filtering |
+| `blog-detail-header.tsx` | Rebuilt: breadcrumb + h1 + author (48px avatar + name + title + social) + cover image. Accepts both string and object author format |
+| `blog-detail-content.tsx` | Rebuilt: 3-col grid (TOC left sticky + prose center + spacer right), removed CtaSidebar |
+
+### Blog Data
+
+| File | Content |
+|------|---------|
+| `data/blog-posts.ts` | Extended type: `BlogAuthor` object, `categorySlug`, `coverImage`, `featured`, `popular`. 5 posts, 5 categories. Helper functions: `getFeaturedPost`, `getPopularPosts`, `getBlogPostsByCategory` |
+
+### Blog Page Compositions
+
+**`/foreplay/blog/page.tsx`** (listing):
+```
+BlogHero (overline + gradient title + featured card + popular sidebar)
+BlogListing (category bar + 3-col card grid + pagination)
+ForeplayHomeCta (reuse)
+```
+
+**`/foreplay/blog/[slug]/page.tsx`** (detail):
+```
+BlogDetailHeader (breadcrumb + title + author + cover)
+BlogDetailContent (TOC sidebar + prose body)
+BlogInlineCta (GoAds CTA)
+BlogRelatedCarousel (horizontal scroll + carousel arrows)
+ForeplayHomeCta (reuse)
+```
+
+### Source Files (Phase 5)
+
+| File | Purpose |
+|------|---------|
+| `docs/foreplay/html/blog.html` | Full blog listing HTML |
+| `docs/foreplay/html/blog-post-detail.html` | Full blog post detail HTML |
+| `docs/foreplay/nested.md` | Complete DOM nesting reference for both pages |
+| `docs/foreplay/clone.md` | Blog clone reference with section audit + typography mapping |
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos
 - [ ] Enrichment illustration (Venn diagram SVG)
 - [ ] Responsive breakpoints
 - [ ] Convert .foreplay hex tokens to oklch
-- [ ] Clone /blog page
-- [ ] Clone /blog/[slug] page
+- [x] Clone /blog page ✅
+- [x] Clone /blog/[slug] page ✅
