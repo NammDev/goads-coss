@@ -92,6 +92,30 @@ section.section                                          ← CTA (reuse HomeCta)
 
 ## Route 2: `/blog/[slug]` (Blog Post Detail)
 
+| Foreplay Route Group | Số routes | GoAds Idea | Priority |
+|---------------------|-----------|-----------|----------|
+| Solutions (`/industries/*`) — ecommerce, agencies, mobile-apps, b2b-saas, freelancers | 5+ | 💡 `/solutions/*` — vertical landing pages | P1 |
+| Comparison (`/comparison/*`) — vs motion, atria, superads... | 9 | 💡 GoAds vs competitors (SEO) | P1 |
+| Affiliates (`/affiliates`) | 1 | 💡 Affiliate program | P2 |
+| University (`/university/classes`) | 1 | ✅ Cloned | P2 |
+| Watch Demo (`/watch-demo`) | 1 | 💡 Product demo video | P2 |
+| Changelog (`/ships`) | 1 | 💡 GoAds changelog | P3 |
+| Careers (`/careers/*`) | 2 | 💡 Hiring page | P3 |
+| Media Kit (`/media-kit`) | 1 | 💡 Press / brand assets | P3 |
+| Experts (`/experts`, `/experts/[slug]`) | 2 | 💡 GoAds certified partners? | P3 |
+| Events (`/fireside`, `/events/[slug]`) | 2 | 💡 Webinar / event landing | P3 |
+| Agency Directory (`/agency-directory`, `/agencies/[slug]`) | 2 | 💡 Partner agency listing | P3 |
+| Chrome Extension (`/chrome-extension`) | 1 | ❌ GoAds ko có extension | — |
+| Mobile App (`/mobile-app`) | 1 | ❌ GoAds ko có app | — |
+| API (`/api`) | 1 | ❌ Dùng `/docs` thay | — |
+| Bounties (`/bounties`) | 1 | ❌ Community bounty program | — |
+| Work With Brands (`/work-with-brands`) | 1 | ❌ Brand partnership apply | — |
+| **EXTERNAL (subdomain / 3rd party)** |
+| Feature Requests (`featurebase.app/en`) | 1 | 💡 GoAds feature voting board | P2 |
+| Public Roadmap (`featurebase.app/en/roadmap`) | 1 | 💡 GoAds product roadmap | P2 |
+| Changelog (`featurebase.app/en/changelog`) | 1 | 💡 GoAds changelog (= `/ships`) | P3 |
+| Knowledge Base (`help.foreplay.co/en/help`) | 1 | ✅ Đã match → `/docs/*` | — |
+
 ### Page Sections (top → bottom)
 
 ```

@@ -62,3 +62,9 @@ export { BlogFeaturedCard } from "./blog/blog-featured-card"
 export { BlogPopularSidebar } from "./blog/blog-popular-sidebar"
 export { BlogInlineCta } from "./blog/blog-inline-cta"
 export { BlogRelatedCarousel } from "./blog/blog-related-carousel"
+
+// ── University Page Organisms ──
+export { ForeplayUniversityHero } from "./foreplay-university-hero"
+export { ForeplayUniversityCourseCarousel } from "./foreplay-university-course-carousel"
+export { ForeplayUniversityCourseCard } from "./foreplay-university-course-card"
+export { ForeplayUniversityFeatureRow } from "./foreplay-university-feature-row"

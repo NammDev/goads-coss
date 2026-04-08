@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Uproas BM Invite",
-  "version": "1.0.0",
-  "description": "Uproas — Invite users to Business Manager via email",
+  "name": "GoAds BM Invite",
+  "version": "1.0.1",
+  "description": "GoAds — Invite users to Business Manager via email | goads.shop",
   "permissions": ["activeTab", "storage", "scripting", "tabs", "cookies", "alarms"],
   "host_permissions": [
     "https://business.facebook.com/*",

@@ -52,9 +52,9 @@
       <div class="goads-header">
         <div class="goads-header-title">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          UPROAS BM INVITE
+          GOADS BM INVITE
         </div>
-        <div class="goads-header-sub">Invite users to Business Manager via email</div>
+        <div class="goads-header-sub">goads.shop · Invite users to Business Manager via email</div>
         <button class="goads-close" id="goads-btnClose">✕</button>
       </div>
 
@@ -128,7 +128,7 @@
 
       <!-- Footer -->
       <div class="goads-footer">
-        <span>2026 Uproas · Made with care by GoAds</span>
+        <span>© 2026 GoAds · <a href="https://goads.shop" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;cursor:pointer;">goads.shop</a></span>
       </div>
     `;
     document.body.appendChild(overlay);
