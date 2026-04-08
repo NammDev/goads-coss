@@ -97,6 +97,12 @@ export default function ForeplayHomePage() {
           ctaHref="/tools"
           learnMoreHref="/tools"
           tabs={lensTabs}
+          sidebarVideoSrc="/video/lens_video.mp4"
+          tabImages={[
+            "/foreplay/lens_tab1.webp",
+            "/foreplay/lens_tab2.webp",
+            "/foreplay/lens_tab3.webp",
+          ]}
         />
 
         <ForeplayHomeProductShowcase
@@ -107,6 +113,11 @@ export default function ForeplayHomePage() {
           learnMoreHref="/talk-to-sales"
           tabs={briefsTabs}
           showSectionHead={false}
+          sidebarVideoSrc="/video/brief_video.webm"
+          tabImages={[
+            "/foreplay/brief_tab1.webp",
+            "/foreplay/brief_tab2.webp",
+          ]}
         />
       </section>
 

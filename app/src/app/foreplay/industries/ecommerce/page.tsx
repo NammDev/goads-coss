@@ -6,6 +6,7 @@ import {
   ForeplaySectionHead,
   ForeplayHomeCta,
 } from "@/components/foreplay"
+import { ForeplaySolutionProductTabs } from "@/components/foreplay/foreplay-solution-product-tabs"
 import { ForeplaySolutionHero } from "@/components/foreplay/foreplay-solution-hero"
 import { ForeplaySolutionLogoCarousel } from "@/components/foreplay/foreplay-solution-logo-carousel"
 import { ForeplaySolutionTestimonialCard } from "@/components/foreplay/foreplay-solution-testimonial-card"
@@ -61,28 +62,14 @@ export default function EcommerceSolutionPage() {
         </div>
       </div>
 
-      {/* Section 3: Product Tabs (5 Apps in One) */}
-      <div className="section">
-        <div className="flex flex-col py-[108px] max-md:py-24 max-sm:py-20">
-          <ForeplaySectionContainer>
-            <ForeplaySectionHead
-              subtitle={ecommerceProductTabsSection.subtitle}
-              title={ecommerceProductTabsSection.title}
-              titleSize="h2"
-              description={ecommerceProductTabsSection.description}
-              descSize="l"
-              variant="light"
-            />
-            {/* Product tabs placeholder — will reuse/adapt HomeProductShowcase */}
-            <div className="block pt-12 max-md:pt-10">
-              <div className="text-center text-muted-foreground">
-                {/* TODO: comparison-tabs-menu with 5 product icons + tab content */}
-                <p>Product tabs — Lens, Spyder, Swipe File, Discovery, Briefs</p>
-              </div>
-            </div>
-          </ForeplaySectionContainer>
-        </div>
-      </div>
+      {/* Section 3: Product Tabs (5 Apps in One) — tabbed showcase, 1 visible at a time */}
+      <section className="section">
+        <ForeplaySolutionProductTabs
+          subtitle={ecommerceProductTabsSection.subtitle}
+          title={ecommerceProductTabsSection.title}
+          description={ecommerceProductTabsSection.description}
+        />
+      </section>
 
       {/* Section 4: Examples Grid */}
       <div className="section">
