@@ -285,6 +285,9 @@ Source CSS has 3 breakpoints — extract from `foreplay-source.css`:
 11. Check `ForeplayDemoHero` — demo/booking hero with Cal.com embed
 12. Check `ForeplayDemoSocialProof` — social proof badges (G2, Chrome, Capterra)
 13. Check `ForeplayCalEmbed` — Cal.com inline embed (dark theme, month_view)
+14. Check `ForeplayUniversityHero` — university hero with logo + bg image + carousel slot
+15. Check `ForeplayUniversityCourseCarousel` — horizontal course cards with opacity variants
+16. Check `ForeplayUniversityFeatureRow` — alternating image+text rows with optional CTA
 
 ### File Size Rules
 - Atoms: < 100 lines

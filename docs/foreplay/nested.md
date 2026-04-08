@@ -51,7 +51,7 @@
 | Solutions (`/industries/*`) — ecommerce, agencies, mobile-apps, b2b-saas, freelancers | 5+ | 💡 `/solutions/*` — vertical landing pages | P1 |
 | Comparison (`/comparison/*`) — vs motion, atria, superads... | 9 | 💡 GoAds vs competitors (SEO) | P1 |
 | Affiliates (`/affiliates`) | 1 | 💡 Affiliate program | P2 |
-| University (`/university/[slug]`) | 1 | 💡 Knowledge base | P2 |
+| University (`/university/classes`) | 1 | ✅ Cloned | P2 |
 | Watch Demo (`/watch-demo`) | 1 | 💡 Product demo video | P2 |
 | Changelog (`/ships`) | 1 | 💡 GoAds changelog | P3 |
 | Careers (`/careers/*`) | 2 | 💡 Hiring page | P3 |

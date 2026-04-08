@@ -328,6 +328,52 @@ Section 2: Social Proof + Reviews (white block)
 | Technology | Creative Test Analysis, Build & Share Reports, Compare Themes | GoAds Extensions, All Tools |
 | Service | Storyboard & Script | 24/7 support, Quick replacements |
 
+## University Page (Phase 5 — DONE ✅)
+
+| Component | Foreplay Class | Description |
+|-----------|---------------|-------------|
+| `foreplay-university-hero.tsx` | `.fireside-hero` | FU logo + title + bg image overlay + carousel slot |
+| `foreplay-university-course-card.tsx` | `.course-card` | Active (bg image + wordmark + "Watch Now" hover) / Coming Soon variants |
+| `foreplay-university-course-carousel.tsx` | `.university-classes-carousel` | Horizontal card layout with opacity variants (_2=50%, _3=25%) |
+| `foreplay-university-feature-row.tsx` | `.left-right-section` | Alternating image+text rows with optional CTA |
+
+### University Data
+
+| File | Content |
+|------|---------|
+| `data/foreplay-university-classes-page-data.ts` | Hero, 5 course cards, 2 feature rows |
+
+### University Page Composition (`foreplay/university/classes/page.tsx`)
+
+```
+Section 1: University Hero (logo + title + bg)
+  └── Course Cards Carousel (5 cards: 1 active, 4 coming-soon)
+Section 2: Left-Right Feature Rows (2 rows, alternating)
+  ├── Row 1: FU icon + "Welcome to Your Campus" + campus photo
+  └── Row 2: "Become a Professor" + professor graphic + "Apply Now" CTA
+Section 3: Final CTA (reuse ForeplayHomeCta)
+Footer (in layout)
+```
+
+### CSS Notes (from extract-css.sh)
+
+| Class | Key CSS |
+|-------|---------|
+| `.fireside-hero` | flex col, center, pt-80px pb-80px (desktop), pt/pb-40px (tablet/mobile) |
+| `.course-card` | 250x375, bg-cover, rounded-10px, shadow `0 0 0 1px #ffffff26` |
+| `.course-card.coming-soon` | bg `#ffffff1f`, dimmed avatar bg |
+| `.fu-card-shine` | 125x125 circle, blur(70px), opacity 0.31 (active), 0.09 hidden (coming-soon) |
+| `.cards-wrapper-new._2` | opacity 0.5 |
+| `.cards-wrapper-new._3` | opacity 0.25 |
+| `.left-right-section-wrapper` | flex col, gap-80px |
+| `.left-right-section` | flex, gap-24px, items-center |
+| `.left-right-section-image` | rounded-20px |
+| `.foreplay-university-hero-brackground` | absolute, top-0, inset-x-0, h-50vh, z--1, opacity 0.56, bg cover |
+
+### Note
+
+`/university` and `/university/classes` serve identical HTML on foreplay.co. Page cloned at `/foreplay/university/classes`.
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos

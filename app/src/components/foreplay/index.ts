@@ -53,3 +53,9 @@ export { ForeplaySolutionLogoCarousel } from "./foreplay-solution-logo-carousel"
 export { ForeplaySolutionTestimonialCard } from "./foreplay-solution-testimonial-card"
 export { ForeplaySolutionExamplesGrid } from "./foreplay-solution-examples-grid"
 export { ForeplayFooterProductNav } from "./foreplay-footer-product-nav"
+
+// ── University Page Organisms ──
+export { ForeplayUniversityHero } from "./foreplay-university-hero"
+export { ForeplayUniversityCourseCarousel } from "./foreplay-university-course-carousel"
+export { ForeplayUniversityCourseCard } from "./foreplay-university-course-card"
+export { ForeplayUniversityFeatureRow } from "./foreplay-university-feature-row"
