@@ -430,11 +430,49 @@ Footer (in layout)
 
 `/university` and `/university/classes` serve identical HTML on foreplay.co. Page cloned at `/foreplay/university/classes`.
 
+## Profiles Page (Phase 4d — DONE ✅)
+
+| Component | Description |
+|-----------|-------------|
+| `goads-product-catalog-table.tsx` | Multi-category product catalog table with expandable rows, pricing, and order links |
+
+### Profiles Data
+
+| File | Content |
+|------|---------|
+| `data/goads-profiles-page-data.ts` | Hero, FAQ, feature grids, testimonials |
+| `data/goads-product-catalog-table-data.ts` | Product catalog categories + columns |
+
+### Additional Components
+
+| Component | Description |
+|-----------|-------------|
+| `foreplay-reviews-widget.tsx` | Senja reviews embed wrapper (script-based) |
+| `foreplay-solution-product-tabs.tsx` | Solution page product showcase tabs (5 products with comparison) |
+
+## All Foreplay Routes (Current)
+
+| Route | Status | Phase |
+|-------|--------|-------|
+| `/foreplay/home` | ✅ Done | 1-2 |
+| `/foreplay/swipe-file` | ✅ Done | 3 |
+| `/foreplay/pricing` | ✅ Done | 3c |
+| `/foreplay/reviews` | ✅ Done | 4a |
+| `/foreplay/book-demo` | ✅ Done | 4b |
+| `/foreplay/profiles` | ✅ Done | 4d |
+| `/foreplay/industries/ecommerce` | ✅ Done | 3b |
+| `/foreplay/blog` | ✅ Done | 5 |
+| `/foreplay/blog/[slug]` | ✅ Done | 5 |
+| `/foreplay/university/classes` | ✅ Done | 5 |
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos
 - [ ] Enrichment illustration (Venn diagram SVG)
-- [ ] Responsive breakpoints
+- [ ] Responsive breakpoints (3 breakpoints: desktop/tablet/mobile)
 - [ ] Convert .foreplay hex tokens to oklch
+- [ ] Solution pages: `/industries/agencies`, `/industries/mobile-apps`, etc.
+- [ ] Comparison pages: `/comparison/*`
 - [x] Clone /blog page ✅
 - [x] Clone /blog/[slug] page ✅
+- [x] Clone /university/classes page ✅

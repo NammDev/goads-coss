@@ -288,6 +288,11 @@ Source CSS has 3 breakpoints — extract from `foreplay-source.css`:
 14. Check `ForeplayUniversityHero` — university hero with logo + bg image + carousel slot
 15. Check `ForeplayUniversityCourseCarousel` — horizontal course cards with opacity variants
 16. Check `ForeplayUniversityFeatureRow` — alternating image+text rows with optional CTA
+17. Check `BlogCard` — shared blog card (listing grid + related carousel)
+18. Check `BlogFeaturedCard` — large hero featured post card
+19. Check `BlogRelatedCarousel` — horizontal scroll blog carousel with arrows
+20. Check `BlogCategoryBar` — horizontal category filter pills
+21. Check `GoadsProductCatalogTable` — multi-category product catalog with expandable rows
 
 ### File Size Rules
 - Atoms: < 100 lines
@@ -333,6 +338,34 @@ avatar: 48px circle + border overlay (neutral-600)
 name: text-label-m
 title: text-body-s text-alpha-100
 social links: p-1, color white, hover #fffc
+```
+
+## University Page Patterns
+
+### University Hero (`.fireside-hero`)
+```
+flex col, center, pt-80px pb-80px (desktop), pt/pb-40px (tablet/mobile)
+bg image overlay: absolute, top-0, inset-x-0, h-50vh, z--1, opacity 0.56
+FU logo: text-display-h2, Inter Display
+Carousel slot: children rendered below title
+```
+
+### Course Card (`.course-card`)
+```
+250x375, bg-cover, rounded-10px, overflow-hidden
+shadow: 0 0 0 1px #ffffff26
+.coming-soon: bg #ffffff1f, dimmed avatar bg
+.fu-card-shine: 125x125 circle, blur(70px), opacity 0.31 (active) / 0.09 (coming-soon)
+Opacity variants: ._2 = 50%, ._3 = 25%
+```
+
+### Left-Right Feature Row (`.left-right-section`)
+```
+flex, gap-24px, items-center
+Wrapper: flex col, gap-80px
+Image: rounded-20px
+Alternating: even rows reverse order
+Optional CTA button
 ```
 
 ## Pixel-Perfect Rules
