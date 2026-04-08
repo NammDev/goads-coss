@@ -105,10 +105,111 @@ Lần 2: Tôi sẽ paste HTML từng section cho bạn fill detail
 15. `ForeplayDemoSocialProof` — social proof badges (G2, Chrome, Capterra)
 16. `ForeplayCalEmbed` — Cal.com inline embed component
 
-## Notes for /blog clone
+## Blog Clone Reference (`/blog` + `/blog/[slug]`)
 
-- Foreplay `/blog` has: BlogHero + category sidebar + post listing grid
-- GoAds already has blog components: `BlogHero`, `BlogListing`, `BlogDetailHeader`, `BlogDetailContent`
-- Data: `src/data/blog-posts.ts` (5 posts)
-- Route: `app/src/app/blog/` already exists — check if Foreplay layout version is needed at `/foreplay/blog/`
-- Key difference: Foreplay blog uses dark theme header + white content blocks
+### Source HTML
+- Listing: `docs/foreplay/html/blog.html`
+- Detail: `docs/foreplay/html/blog-post-detail.html`
+- DOM nesting: `docs/foreplay/nested.md` (full tree)
+
+### Existing GoAds blog components (CẦN RESTYLE)
+- `BlogHero` (41 lines) — cần rebuild theo Foreplay layout
+- `BlogListing` (115 lines) — cần rebuild theo Foreplay 2-col card grid
+- `BlogDetailHeader` (106 lines) — cần rebuild với breadcrumb + author + featured image
+- `BlogDetailContent` (123 lines) — cần rebuild với TOC sidebar
+- `BlogMarkdocContent` — giữ nguyên (rich text renderer)
+- `src/data/blog-posts.ts` (224 lines, 5 posts) — extend thêm fields
+
+### `/blog` — Page Sections
+
+| # | Section | Foreplay Class | Component | Strategy |
+|---|---------|---------------|-----------|----------|
+| 1 | Hero (title + subtitle) | `fireside-hero > product-hero-content > hero-text` | **Rebuild BlogHero** | Custom — dark bg + canvas gradient |
+| 2 | Featured Post (left 60%) | `featured-blog-wrapper > featured-blog-link` | **BlogFeaturedCard** (new) | Clone — large image + excerpt + author |
+| 3 | Popular Blogs (right 40%) | `blog-related-head + blog-feed-wrapper` | **BlogPopularSidebar** (new) | Clone — vertical list 4 text-only links |
+| 4 | Category Bar | `blog-categories > a.blog-tag` | **BlogCategoryBar** (new) | Clone — horizontal scroll pills |
+| 5 | Post Card Grid | `blog-list.w-dyn-items > blog-list-card` | **BlogCard** (new, shared) | Clone — 2-col grid, image + author + title + excerpt |
+| 6 | Pagination | `blog-pagination > page-count + Next` | **BlogPagination** (new) | Clone — "1 / 8" + Next link |
+| 7 | Bottom CTA | `home-cta` | **Reuse ForeplayHomeCta** | ✅ Already cloned |
+
+### `/blog/[slug]` — Page Sections
+
+| # | Section | Foreplay Class | Component | Strategy |
+|---|---------|---------------|-----------|----------|
+| 1 | Breadcrumb | `blog-breadcrumb > blog-breadcrumb-link` | **BlogBreadcrumb** (new) | Clone — Blog > Category > Title |
+| 2 | Post Header | `blog-head > h1 + blog-author + blog-cover` | **Rebuild BlogDetailHeader** | Clone — title + author (48px avatar + name + title + social) + featured image |
+| 3 | TOC Sidebar (sticky left) | `blog-toc-wrapper > blog-toc > blog-toc-list` | **BlogTOC** (new) | Clone — auto-gen from h2s, IntersectionObserver scroll-sync, `.is-active` |
+| 4 | Article Body (right) | `blog-body > blog-rtb.w-richtext` | **Rebuild BlogDetailContent** | Clone — prose styling, h2/p/blockquote/figure/embed |
+| 5 | Inline CTA | `blog-cta > blog-cta-content` | **BlogInlineCTA** (new) | Adapt — "30 Second Summary" → GoAds CTA |
+| 6 | Related Carousel | `blog-related > blog-carousel-card` | **BlogRelatedCarousel** (new) | Clone — horizontal scroll, reuse BlogCard |
+| 7 | Bottom CTA | `home-cta` | **Reuse ForeplayHomeCta** | ✅ Already cloned |
+
+### Shared Blog Card Component
+
+Dùng chung cho listing grid + related carousel + popular sidebar (featured variant riêng).
+
+```
+a.blog-carousel-card
+  div.blog-carousel-card-cover
+    img.blog-carousel-card-image               ← thumbnail (rounded-xl, aspect-video)
+  div.blog-carousel-card-content
+    div.blog-carousel-card-author
+      img.blog-carousel-card-author-avatar     ← 32px circle
+      div.blog-carousel-card-text
+        div.text-label-xs                      ← author name
+        div.text-body-xs.text-alpha-68         ← read time
+    h3.text-display-h5.line-clamp-2            ← title
+    p.text-body-s.line-clamp-3                 ← excerpt
+```
+
+### Data Extension Cần Thiết
+
+```ts
+// Extend BlogPost type in src/data/blog-posts.ts
+interface BlogPost {
+  // existing fields...
+  category: string         // "Meta Ads", "Google Ads", etc.
+  categorySlug: string     // "meta-ads", "google-ads"
+  author: {
+    name: string
+    avatar: string         // image URL
+    title?: string         // "Head of Marketing"
+    socials?: { linkedin?: string; twitter?: string }
+  }
+  readTime: string         // "10 min read"
+  featured?: boolean       // pin to hero featured slot
+  popular?: boolean        // show in "Popular Blogs" sidebar
+}
+```
+
+### GoAds Blog Categories (thay Foreplay categories)
+Meta Ads, Google Ads, TikTok Ads, Account Tips, Scaling Strategy, Case Studies, Industry News, Tutorials
+
+### Typography Mapping
+
+| Foreplay Class | GoAds Token | Usage |
+|---------------|-------------|-------|
+| `text-overline` | `text-xs font-semibold uppercase tracking-widest` | "Blog" label |
+| `text-display-h1 hero-title` | `text-4xl/tight font-semibold lg:text-5xl/tight` | hero subtitle |
+| `text-display-h3` | `text-2xl font-semibold lg:text-3xl` | featured post title |
+| `text-display-h5` | `text-lg font-semibold` | card title, "Popular Blogs" |
+| `text-body-m` | `text-base text-muted-foreground` | featured excerpt |
+| `text-body-s` | `text-sm text-muted-foreground` | card excerpt |
+| `text-body-xs` | `text-xs` | read time |
+| `text-label-m` | `text-sm font-medium` | author name (detail) |
+| `text-label-xs` | `text-xs font-medium` | author name (card) |
+| `text-alpha-68` | `opacity-68` or `text-muted-foreground` | muted text |
+
+### Build Order
+
+1. **BlogCard** — shared card component (dùng ở 3 chỗ)
+2. **BlogCategoryBar** — category filter pills
+3. **BlogHero** — hero + featured post + popular sidebar (depends on BlogCard variant + BlogFeedItem)
+4. **BlogPagination** — simple pagination
+5. **Blog listing page** — compose BlogHero + BlogCategoryBar + BlogCard grid + BlogPagination + HomeCta
+6. **BlogBreadcrumb** — simple breadcrumb
+7. **BlogAuthor** — author block with social links
+8. **BlogTOC** — sticky sidebar TOC with scroll-sync
+9. **BlogContent** — rich text prose styling
+10. **BlogRelatedCarousel** — horizontal carousel (reuse BlogCard)
+11. **Blog detail page** — compose all detail components + HomeCta

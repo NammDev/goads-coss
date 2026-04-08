@@ -1,115 +1,76 @@
+// Blog listing — section > .container.section-container
+// .blog-categories: category filter bar
+// .blog-list: grid 3-col (desktop) → 2-col → 1-col, gap-6
+// .blog-pagination: page count + next/prev
+
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
+import { useState, useMemo } from "react"
 
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import { ForeplaySectionContainer } from "@/components/foreplay/foreplay-section-container"
+import { BlogCard } from "@/components/foreplay/blog/blog-card"
+import { BlogCategoryBar } from "@/components/foreplay/blog/blog-category-bar"
+import { BlogPagination } from "@/components/foreplay/blog/blog-pagination"
+import { blogCategories, type BlogPost } from "@/data/blog-posts"
 
-export type BlogListingPost = {
-  slug: string
-  category: string
-  title: string
-  description: string
-  author: string
-  date: string
+const POSTS_PER_PAGE = 6
+
+interface BlogListingProps {
+  posts: BlogPost[]
 }
 
-const categories = [
-  "All Articles",
-  "Facebook Ads",
-  "Google Ads",
-  "TikTok Ads",
-  "Agency Accounts",
-] as const
+export function BlogListing({ posts }: BlogListingProps) {
+  const [activeCategory, setActiveCategory] = useState<string>("All")
+  const [currentPage, setCurrentPage] = useState(1)
 
-type Category = (typeof categories)[number]
+  const filtered = useMemo((): BlogPost[] => {
+    if (activeCategory === "All") return posts
+    return posts.filter((p) => p.category === activeCategory)
+  }, [posts, activeCategory])
 
-export function BlogListing({ posts }: { posts: BlogListingPost[] }) {
-  const [active, setActive] = useState<Category>("All Articles")
+  const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE)
+  const paged = filtered.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE,
+  )
 
-  const filtered =
-    active === "All Articles"
-      ? posts
-      : posts.filter((p) => p.category === active)
+  function handleCategoryChange(cat: string) {
+    setActiveCategory(cat)
+    setCurrentPage(1)
+  }
 
   return (
-    <section className="py-8 sm:py-16 lg:py-24">
-      <div className="container">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-20">
-          {/* Sidebar — sticky on desktop */}
-          <nav
-            className="sticky top-24 hidden h-fit flex-col gap-1 lg:flex"
-            aria-label="Blog categories"
-          >
-            {categories.map((cat) => (
-              <Button
-                key={cat}
-                variant="ghost"
-                size="default"
-                onClick={() => setActive(cat)}
-                className={`justify-start text-left transition-colors duration-200 ${
-                  active === cat
-                    ? "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                    : ""
-                }`}
-              >
-                {cat}
-              </Button>
-            ))}
-          </nav>
+    <section>
+      <ForeplaySectionContainer>
+        {/* .blog-categories */}
+        <BlogCategoryBar
+          categories={blogCategories}
+          active={activeCategory}
+          onSelect={handleCategoryChange}
+        />
 
-          {/* Mobile category selector */}
-          <div className="flex flex-wrap gap-2 lg:hidden">
-            {categories.map((cat) => (
-              <Button
-                key={cat}
-                variant={active === cat ? "secondary" : "ghost"}
-                size="sm"
-                onClick={() => setActive(cat)}
-                className="transition-colors duration-200"
-              >
-                {cat}
-              </Button>
-            ))}
-          </div>
-
-          {/* Post list */}
-          <div className="lg:col-span-3">
-            {filtered.map((post, i) => (
-              <div key={post.slug}>
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="group -mx-4 flex cursor-pointer flex-col gap-3 rounded-lg px-4 py-5 transition-colors duration-200 hover:bg-muted/50"
-                >
-                  <p className="text-sm font-semibold text-muted-foreground">
-                    {post.category}
-                  </p>
-                  <h3 className="text-2xl font-semibold text-balance text-foreground transition-colors duration-200 group-hover:text-primary lg:text-3xl">
-                    {post.title}
-                  </h3>
-                  <p className="max-w-prose text-muted-foreground">
-                    {post.description}
-                  </p>
-                  <div className="mt-3 flex items-center gap-2 text-sm">
-                    <span className="font-medium">{post.author}</span>
-                    <span className="text-muted-foreground">
-                      on {post.date}
-                    </span>
-                  </div>
-                </Link>
-                {i < filtered.length - 1 && <Separator className="my-4" />}
-              </div>
-            ))}
-
-            {filtered.length === 0 && (
-              <p className="py-12 text-center text-muted-foreground">
-                No articles found in this category yet.
-              </p>
-            )}
-          </div>
+        {/* .blog-list: grid, gap-6 */}
+        {/* 3-col desktop (source), 2-col tablet, 1-col mobile */}
+        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {paged.map((post) => (
+            <BlogCard key={post.slug} post={post} />
+          ))}
         </div>
-      </div>
+
+        {paged.length === 0 && (
+          <p className="py-16 text-center text-[var(--fp-alpha-100,#ffffffad)]">
+            No articles found in this category yet.
+          </p>
+        )}
+
+        {/* .blog-pagination */}
+        <BlogPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          className="mt-4"
+        />
+      </ForeplaySectionContainer>
     </section>
   )
 }
