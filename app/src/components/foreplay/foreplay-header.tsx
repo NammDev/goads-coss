@@ -14,7 +14,6 @@ const dropdownLinks = [
 
 const plainLinks = [
   { label: "Pricing", href: "/pricing" },
-  { label: "Blog", href: "/blog" },
   { label: "Book a Demo", href: "/book-demo" },
 ]
 

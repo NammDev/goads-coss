@@ -1,156 +1,92 @@
-# GoAds Website Redesign — Master Plan
+# Foreplay Clone — Post-Clone Production Plan
 
-> Clone Foreplay.co design system → Build GoAds landing pages → Replace content → Go live.
+> Các bước cần làm SAU KHI đã clone đầy đủ routes + Thành thêm content + Trang thêm ảnh để hoàn thiện đẩy lên production.
 
-## Phase 1: Design System Clone (DONE ✅)
+## Priority Order
 
-### Foundation
-- [x] Inter + Inter Display fonts (opsz axis)
-- [x] `.foreplay` CSS scope: full neutral + solid palettes
-- [x] `fpText` typography constants (13 text styles)
-- [x] `--fp-alpha-*` + `--fp-solid-*` CSS variables
-- [x] `font-optical-sizing: none` global, `auto` on display headings
+### P0 — Must-have trước khi launch
 
-### Reusable Atoms (9 components)
-- [x] `ForeplayCtaButton` — 5 variants (nav, hero, secondary, ghost, light-primary)
-- [x] `ForeplaySectionHead` — subtitle, title (h2/h3 size decoupled from tag), description
-- [x] `ForeplaySectionContainer` — section/footer/navbar container variants
-- [x] `ForeplaySectionWhiteBlock` — white rounded block wrapper
-- [x] `ForeplayNavLink` — header nav links
-- [x] `ForeplayDotBg` — dot grid background overlay
-- [x] `ForeplayWinningCard` — light/dark card with children slot
-- [x] `ForeplayHeroContent` — hero title + subtitle with gradient text
-- [x] Barrel file `index.ts` — clean grouped exports
+1. **Responsive** — tablet + mobile breakpoints (hiện desktop-only)
+   - 3 breakpoints từ foreplay source CSS: desktop / `max-md` (≤991px) / `max-sm` (≤767px)
+   - Test trên Chrome DevTools device emulation + real device
+2. **Refactor tokens** — convert hardcoded hex → oklch CSS vars
+   - Xóa `[]` arbitrary Tailwind values
+   - Register tokens trong `globals.css` theo `docs/foreplay/design-guideline.md` section "CSS Token Standards"
+3. **SEO** — meta tags, Open Graph, Twitter cards, JSON-LD, sitemap.xml, robots.txt, canonical URLs per route
+   - Next.js `generateMetadata()` cho từng route
+   - `next-sitemap` hoặc manual `sitemap.ts`
+4. **Performance** — `next/image` optimization, lazy load, Lighthouse ≥ 90, Core Web Vitals (LCP/CLS/INP)
+   - Convert `<img>` → `<Image>` toàn bộ
+   - Preload critical fonts, defer non-critical JS
+5. **Internal links audit** — check tất cả CTA/nav không broken, đúng anchor
+   - Script scan: grep `href="/...` và verify route tồn tại
 
-### Layout Components
-- [x] `ForeplayHeader` — sticky, z-100, blur(24px), bg #020308eb
-- [x] `ForeplayFooter` — full footer: products + company + links + ad count + AI + social
+### P1 — Should-have trước khi launch
 
-## Phase 2: Home Page Clone (DONE ✅)
+6. **Accessibility (a11y)** — alt text, ARIA labels, keyboard nav, color contrast AA
+   - axe-core hoặc Pa11y scan
+7. **Error pages** — custom 404, 500, error boundaries
+   - Next.js `app/not-found.tsx`, `app/error.tsx`
+8. **Forms** — validation + captcha cho `/talk-to-sales`, `/unban`, etc.
+   - Cloudflare Turnstile hoặc hCaptcha
+9. **Analytics** — GA4 / Vercel Analytics / Plausible (chọn 1)
+   - Event tracking cho conversion CTAs
+10. **Security headers** — CSP, HSTS, X-Frame-Options
+    - `next.config.ts` headers() hoặc middleware
 
-### Sections Built
-- [x] Hero — scroll animation + video + logo bar (14 SVGs)
-- [x] Before/After — winning cards + loader video
-- [x] Product Showcase x5 — Swipe File, Spyder, Discovery, Lens, Briefs
-- [x] Chrome Extension banner
-- [x] Collaboration — section head + enrichment placeholder + sharing tabs
-- [x] Features grid — 3-col cards
-- [x] Final CTA — banner image
-- [x] Dot grid background
+### P2 — Nice-to-have, có thể làm sau launch
 
-### Assets Integrated
-- [x] Hero video, After card video
-- [x] Swipe File: sidebar video + 3 tab images
-- [x] Spyder: sidebar video + tab image
-- [x] Discovery: sidebar video + tab image
-- [x] Features: 3 card images
-- [x] CTA banner image
-- [x] Sharing: tablet mockup image
+11. **Monitoring** — Sentry error tracking, uptime monitor (Better Stack / UptimeRobot)
+12. **Cookie consent** — GDPR banner nếu có EU traffic
+13. **Content review** — proofread, fix typo, consistency tone
+14. **Cross-browser test** — Chrome, Safari, Firefox, Edge + iOS Safari
+15. **Final QA** — E2E test critical paths via Playwright (signup, checkout, contact form)
 
-## Phase 3: Product Routes (IN PROGRESS 🔨)
+---
 
-### Swipe File `/swipe-file` — DONE ✅
-- [x] Product Hero (icon video + monitor mockup video)
-- [x] Before/After Solution (white block)
-- [x] Use Case Carousel (horizontal cards + arrows)
-- [x] Core Features Tabs (3 tabs + screenshot)
-- [x] Chrome Extension banner (reuse)
-- [x] Feature Grid x2 (6 cards each, bento1 + bento2 images)
-- [x] Testimonial x2 (laurel decorations, local SVGs)
-- [x] Product CTA Card (gradient bg + video)
-- [x] FAQ Accordion (11 items, smooth height animation)
-- [x] Final CTA (reuse ForeplayHomeCta)
-- [x] All local images wired up
+## Checklist
 
-### New Reusable Components (8)
-- `foreplay-product-hero.tsx` — icon + overline + title + CTA + monitor preview
-- `foreplay-product-page-solution-before-after.tsx` — white block Before/After cards
-- `foreplay-product-use-case-carousel.tsx` — horizontal slide cards + arrows
-- `foreplay-product-page-feature-tabs.tsx` — 3-col tab grid + screenshot
-- `foreplay-product-page-feature-grid-cards.tsx` — 3-col feature card grid
-- `foreplay-product-page-testimonial.tsx` — centered quote + laurel decorations
-- `foreplay-product-page-cta-card.tsx` — gradient card with CTA + video
-- `foreplay-product-page-faq-accordion.tsx` — expandable Q&A accordion
-- `foreplay-carousel-arrows.tsx` — reusable prev/next navigation
+### Prerequisites (điều kiện tiên quyết)
 
-### Footer — DONE ✅
-- [x] Product nav (5 badges with local icons)
-- [x] Company + reviews (logo SVG + Chrome/G2 badges)
-- [x] Link columns (5-col grid: Product, Resources, Solutions, Company+Community)
-- [x] Ad Count stats (bar chart SVG + Live/Historical)
-- [x] Ask AI buttons (5 providers with exact SVGs + hover colors)
-- [x] Social links (6 icons) + Copyright
+- [ ] Tất cả routes trong bảng 2 `nested.md` đã ở status ✅ Done
+- [ ] Thành đã thêm đầy đủ content (text, copy, CTA labels)
+- [ ] Trang đã thêm đầy đủ ảnh (hero, product showcase, testimonials, etc.)
 
-### Pricing `/pricing` — DONE ✅
-- [x] Pricing tabs (monthly/annual toggle)
-- [x] Pricing cards (6 tiers with crown badges)
-- [x] Pricing footer (enterprise section + extra features)
-- [x] Comparison table (sticky header, accordion categories, product rows)
-- [x] Comparison tooltips (Radix UI info icons)
-- [x] FAQ Accordion (6 pricing items)
-- [x] Final CTA (reuse)
-- [x] All data wired up
+### P0 — Must-have
 
-### New Pricing Components (6)
-- `foreplay-pricing-tabs.tsx` — monthly/annual toggle with grid panes
-- `foreplay-pricing-card.tsx` — fully styled pricing tier card
-- `foreplay-pricing-footer.tsx` — enterprise section + extra features
-- `foreplay-pricing-comparison.tsx` — white block wrapper
-- `foreplay-pricing-comparison-table.tsx` — comparison grid with accordion
-- `foreplay-comparison-tooltip-badge.tsx` — crown badge + tooltip
+- [ ] **Responsive**: 3 breakpoints cho tất cả routes
+- [ ] **Tokens**: zero hardcoded hex + zero `[]` arbitrary values
+- [ ] **SEO**: metadata per route + sitemap + robots.txt + JSON-LD
+- [ ] **Performance**: Lighthouse ≥ 90 desktop + ≥ 85 mobile
+- [ ] **Internal links**: zero broken links
 
-### Remaining Product Pages
-| Route | Foreplay URL | Status |
-|-------|-------------|--------|
-| `/discovery` | foreplay.co/discovery | TODO |
-| `/spyder` | foreplay.co/spyder-ad-spy | TODO |
-| `/lens` | foreplay.co/lens-creative-analytics | TODO |
-| `/briefs` | foreplay.co/briefs | TODO |
+### P1 — Should-have
 
-**Note:** All 8 original + 6 pricing components are reusable — other pages just need different props/data.
+- [ ] **a11y**: axe-core zero critical issues
+- [ ] **Error pages**: 404 + 500 custom pages
+- [ ] **Forms**: validation + captcha live
+- [ ] **Analytics**: tracking script + conversion events
+- [ ] **Security**: headers configured
 
-## Phase 4: Section Mixing & Content Swap
+### P2 — Nice-to-have
 
-Once all unique sections are built:
+- [ ] **Monitoring**: Sentry + uptime monitor active
+- [ ] **Cookie consent**: banner deployed (if needed)
+- [ ] **Content**: proofread pass done
+- [ ] **Cross-browser**: manual test 5 browsers
+- [ ] **E2E tests**: Playwright suite passing
 
-1. **Map GoAds pages** — which Foreplay sections map to which GoAds pages
-2. **Mix & match sections** — compose GoAds pages from the section library
-3. **Trang designs** — designer creates illustrations, screenshots, icons for GoAds
-4. **Content swap** — replace all Foreplay text with GoAds copy
-5. **Replace assets** — swap placeholder images/videos with GoAds assets
+---
 
-### GoAds Pages to Build
-- [ ] Home (goads.vn)
-- [ ] Products/Services
-- [ ] Pricing
-- [ ] About
-- [ ] Blog (already exists)
-- [ ] Contact/Book Demo
+## Related Docs
 
-## Phase 5: Migration & Cleanup
+- [Routes tracker](./nested.md) — Marketing + Foreplay route tracker
+- [Design guideline](./design-guideline.md) — Token standards, typography, components
+- [Changelog](./changelog.md) — Component inventory + phase progress
+- [Clone reference](./clone.md) — Page-by-page clone notes
 
-1. **Remove `foreplay` prefix** — rename folder, components, CSS scope
-   - Folder: `components/foreplay/` → `components/landing/`
-   - Components: `Foreplay*` → remove prefix or use `Landing*`
-   - CSS: `.foreplay` → `.landing` or remove scope
-   - Tokens: `--fp-*` → `--ga-*` or keep
-2. **Move routes** — `(foreplay)/home` → main `/(marketing)/` routes
-3. **Delete source files** — `docs/foreplay/html/`, `foreplay-source.css`
-4. **Update layout** — merge foreplay layout into main layout or keep separate
-5. **Responsive** — add mobile breakpoints (all current code is desktop-only)
-6. **Convert tokens** — hex → oklch for consistency with existing GoAds theme
-7. **SEO** — meta tags, OpenGraph, structured data
-8. **Performance** — lazy loading, image optimization, Core Web Vitals
+## Notes
 
-## Key Principles (from session learnings)
-
-1. **Foreplay CSS class = component name** — 1:1 mapping
-2. **Never interpret CSS** — copy exact values, trust source
-3. **Inter Display ≠ Inter** — opsz axis, font-optical-sizing:auto
-4. **titleTag ≠ titleSize** — visual size decoupled from HTML semantics
-5. **grid-row-gap on flex WORKS** — browser aliases to row-gap
-6. **`.container` (1440px) vs `.section-container` (1216px)** — check parent
-7. **text-white-68 = --fp-alpha-300 (#ffffff5c)** — not fp-alpha-100
-8. **Assets = placeholder** — respect container structure, user replaces later
-9. **fpText constants** — centralized typography, zero inline duplication
-10. **Barrel imports** — `@/components/foreplay` for clean page composition
+- Ưu tiên làm tuần tự từ P0 → P1 → P2
+- P0 block launch, P1 block marketing ads push, P2 có thể rollout từng phần sau launch
+- Mỗi mục lớn nên có sub-plan riêng khi bắt đầu thực hiện (ví dụ: `plans/{date}-responsive-breakpoints/`)

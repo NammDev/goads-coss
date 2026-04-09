@@ -223,6 +223,11 @@ When cloning `<ul>`, always add:
   --fp-w-section: 1216px;
   --fp-px: 40px;    /* container padding = px-10 */
 
+  /* Section vertical padding (responsive) */
+  --fp-py-section: 108px;   /* desktop — foreplay section standard py */
+  --fp-py-section-md: 96px;  /* tablet (≤991px) */
+  --fp-py-section-sm: 80px;  /* mobile (≤767px) */
+
   /* Border radius (project --radius: 1rem breaks rounded-lg/xl) */
   --fp-r-sm: 8px;   /* tab links, badges */
   --fp-r-md: 12px;  /* tab menu, tooltip */
@@ -235,6 +240,15 @@ When cloning `<ul>`, always add:
   --fp-ring-card: 0 0 0 1px #ffffff1a;     /* neutral-700 */
   --fp-ring-highlight: 0 0 0 1px #ffffffad; /* neutral-100 */
 }
+```
+
+**Usage example (responsive section padding):**
+```tsx
+// ❌ BAD — hardcoded arbitrary values (19+ occurrences across codebase)
+<div className="py-[108px] max-md:py-24 max-sm:py-20">
+
+// ✅ GOOD — use registered tokens
+<div className="py-(--fp-py-section) max-md:py-(--fp-py-section-md) max-sm:py-(--fp-py-section-sm)">
 ```
 
 **Step 2:** Use CSS variables via Tailwind:
@@ -344,10 +358,20 @@ social links: p-1, color white, hover #fffc
 
 ### University Hero (`.fireside-hero`)
 ```
-flex col, center, pt-80px pb-80px (desktop), pt/pb-40px (tablet/mobile)
-bg image overlay: absolute, top-0, inset-x-0, h-50vh, z--1, opacity 0.56
-FU logo: text-display-h2, Inter Display
-Carousel slot: children rendered below title
+Parent section MUST have `isolate` (isolation:isolate) to create stacking context for bg z-index:-1
+DOM nesting (EXACT):
+  section.section.relative.isolate
+    div.container (max-w-1440)
+      div.fireside-hero (flex col center pt-20 pb-20)
+        div.fireside-hero-logo-wrapper (pb-10)
+          img.fu-logo (191x51px EXACT)
+        div.university-hero-content (flex col center gap-7)
+          div.hero-text (flex col items-center justify-start gap-4 max-w-900px)
+            div.text-white
+              h2.text-display-h2
+        div.container.section-container (max-w-1216) ← SIBLING of university-hero-content
+          div.university-classes-carousel
+    div.foreplay-university-hero-brackground (absolute -z-[1] h-50vh opacity-.56)
 ```
 
 ### Course Card (`.course-card`)
@@ -357,15 +381,33 @@ shadow: 0 0 0 1px #ffffff26
 .coming-soon: bg #ffffff1f, dimmed avatar bg
 .fu-card-shine: 125x125 circle, blur(70px), opacity 0.31 (active) / 0.09 (coming-soon)
 Opacity variants: ._2 = 50%, ._3 = 25%
+.text-block-95 (Coming Soon text): opacity:.2 ONLY (inherits font-size/color from body)
 ```
 
 ### Left-Right Feature Row (`.left-right-section`)
 ```
-flex, gap-24px, items-center
-Wrapper: flex col, gap-80px
-Image: rounded-20px
-Alternating: even rows reverse order
-Optional CTA button
+Source CSS is DISPLAY:FLEX (not grid despite grid-template-columns defined)
+.left-right-section-wrapper: flex col, gap-80px
+.left-right-section: flex, gap-24px, items-center
+.left-right-section-content: flex col, gap-32px, items-start, justify-center
+  ⚠️ NO flex:1 on content → natural content width
+.left-right-section-image-wrapper: flex:1, w-full, px-16px
+  ⚠️ YES flex:1 on image → fills remaining space
+.left-right-section-image: border-radius 20px
+  ⚠️ img has width="560" attribute → use max-w-[560px] w-full to match
+
+Inner structure (EXACT DOM):
+  .section-head.is-align-left (flex col gap-12 items-start max-w-720 text-left)
+    .left-right-product-icon-wrapper (row 1 only, h-50 mb-10)
+    .text-alpha-300 (empty overline placeholder)
+    .section-head_title (text-foreground text-wrap:balance)
+      .text-white (flex:1 hidden prop!)
+        h2.text-display-h3
+    .section-head_paragraph (max-w-512 text-wrap:pretty)
+      .text-alpha-100 (flex:1 hidden prop!)
+        p.text-body-l
+  (div wrapper for CTA button, row 2 only)
+    a.button-dark.button-secondary
 ```
 
 ## Pixel-Perfect Rules

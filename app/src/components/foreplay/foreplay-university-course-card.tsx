@@ -54,7 +54,8 @@ export function ForeplayUniversityCourseCard({
           : "bg-gradient-to-b from-transparent via-transparent to-black",
       )}>
         {isComingSoon ? (
-          <div className="text-sm font-medium text-[var(--fp-alpha-300)]">Coming Soon</div>
+          // .text-block-95: opacity .2 only (inherits font-size/color from body)
+          <div className="opacity-20">Coming Soon</div>
         ) : wordmarkSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={wordmarkSrc} alt="course wordmark" className="mx-auto" loading="lazy" />

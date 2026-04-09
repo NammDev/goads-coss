@@ -74,24 +74,24 @@ export const ecommerceExamplesSection = {
 
 export const ecommerceExamples = [
   {
-    avatarSrc: "/images/placeholder.webp",
-    brandName: "Brand 1",
+    avatarSrc: "/foreplay/solutions_ads1_logo.png",
+    brandName: "AG1",
     date: "Active",
     isActive: true,
-    imageSrc: "/images/placeholder.webp",
+    imageSrc: "/foreplay/solutions_ads1_images.png",
   },
   {
-    avatarSrc: "/images/placeholder.webp",
-    brandName: "Brand 2",
+    avatarSrc: "/foreplay/solutions_ads2_logo.png",
+    brandName: "Spacegoods",
     date: "Active",
     isActive: true,
-    imageSrc: "/images/placeholder.webp",
+    imageSrc: "/foreplay/solutions_ads2_images.jpg",
   },
   {
-    avatarSrc: "/images/placeholder.webp",
-    brandName: "Brand 3",
+    avatarSrc: "/foreplay/solutions_ads3_logo.png",
+    brandName: "hims",
     date: "Active",
     isActive: true,
-    imageSrc: "/images/placeholder.webp",
+    imageSrc: "/foreplay/solutions_ads3_images.png",
   },
 ]

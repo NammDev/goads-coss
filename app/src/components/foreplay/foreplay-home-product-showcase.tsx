@@ -33,6 +33,8 @@ interface ForeplayHomeProductShowcaseProps {
   sidebarVideoSrc?: string // .home-product-animation video
   tabImages?: string[] // .home-product-figure tab pane images (one per tab)
   showSectionHead?: boolean // false to skip section-head (when multiple products share one head)
+  /** true = output only .home-product-grid (for use inside .tabs-video-wrapper on solution pages) */
+  gridOnly?: boolean
   className?: string
 }
 
@@ -50,29 +52,14 @@ export function ForeplayHomeProductShowcase({
   sidebarVideoSrc,
   tabImages,
   showSectionHead = true,
+  gridOnly = false,
   className,
 }: ForeplayHomeProductShowcaseProps) {
   const [activeTab, setActiveTab] = useState(0)
 
-  return (
-    <div className={cn("overflow-hidden", className)}>
-      <ForeplaySectionContainer>
-        {/* .home-product */}
-        <div className="flex flex-col gap-20 pt-32 pb-10">
-          {/* .section-head (centered, dark bg) — optional, shared across products */}
-          {showSectionHead && (
-            <ForeplaySectionHead
-              subtitle={subtitle}
-              title={title}
-              titleTag="h2" titleSize="h2"
-              description={description}
-              descSize="l"
-              variant="light"
-            />
-          )}
-
-          {/* .home-product-grid: flex, gap-4, min-h-[640px] */}
-          <div className="flex min-h-[640px] gap-4">
+  const gridContent = (
+    /* .home-product-grid: flex, gap-4, min-h-[640px] */
+    <div className="flex min-h-[640px] gap-4">
             {/* .home-product-content: sidebar card */}
             <div className="relative flex flex-[3_1_0] flex-col gap-8 overflow-hidden rounded-3xl p-8 shadow-[0_0_0_1px_var(--card)]">
               {/* .home-research-sidebar-head */}
@@ -158,7 +145,31 @@ export function ForeplayHomeProductShowcase({
               ))}
               {!tabImages && <span className="text-muted-foreground">Tab preview</span>}
             </div>
-          </div>
+    </div>
+  )
+
+  // gridOnly mode: output only .home-product-grid (for use inside .tabs-video-wrapper)
+  if (gridOnly) {
+    return gridContent
+  }
+
+  return (
+    <div className={cn("overflow-hidden", className)}>
+      <ForeplaySectionContainer>
+        {/* .home-product */}
+        <div className="flex flex-col gap-20 pt-32 pb-10">
+          {/* .section-head (centered, dark bg) — optional, shared across products */}
+          {showSectionHead && (
+            <ForeplaySectionHead
+              subtitle={subtitle}
+              title={title}
+              titleTag="h2" titleSize="h2"
+              description={description}
+              descSize="l"
+              variant="light"
+            />
+          )}
+          {gridContent}
         </div>
       </ForeplaySectionContainer>
     </div>

@@ -24,16 +24,25 @@ interface ForeplayProductPageFaqAccordionProps {
   title: string
   description?: string
   items: FaqItem[]
+  /** Override wrapper classes (e.g. custom padding) */
+  className?: string
 }
 
 export function ForeplayProductPageFaqAccordion({
-  subtitle = "FAQ", title, description, items,
+  subtitle = "FAQ", title, description, items, className,
 }: ForeplayProductPageFaqAccordionProps) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
-  const toggle = (i: number) => setExpandedIndex(prev => (prev === i ? null : i))
+  // Foreplay allows MULTIPLE items open simultaneously — use Set, not single index
+  const [expandedSet, setExpandedSet] = useState<Set<number>>(new Set())
+  const toggle = (i: number) =>
+    setExpandedSet(prev => {
+      const next = new Set(prev)
+      if (next.has(i)) next.delete(i)
+      else next.add(i)
+      return next
+    })
 
   return (
-    <div className="flex flex-col gap-12 py-[140px] max-md:gap-10 max-md:py-20 max-sm:py-16">
+    <div className={cn("flex flex-col gap-12 py-[140px] max-md:gap-10 max-md:py-20 max-sm:py-16", className)}>
       <ForeplaySectionHead
         subtitle={subtitle} title={title} titleTag="h3" titleSize="h2"
         description={description} descSize="l" variant="light"
@@ -41,7 +50,7 @@ export function ForeplayProductPageFaqAccordion({
       {/* .faq-block-container: w-full, max-w-[752px], mx-auto */}
       <div className="mx-auto w-full max-w-[752px]">
         {items.map((item, i) => (
-          <FaqBlock key={i} item={item} isExpanded={expandedIndex === i} onToggle={() => toggle(i)} />
+          <FaqBlock key={i} item={item} isExpanded={expandedSet.has(i)} onToggle={() => toggle(i)} />
         ))}
       </div>
 
@@ -105,7 +114,7 @@ function FaqBlock({ item, isExpanded, onToggle }: { item: FaqItem; isExpanded: b
         "flex w-full cursor-pointer flex-row items-start gap-[44px]",
         "border-b border-[#ffffff1a]",
         "pt-5 pb-3",
-        "text-[var(--fp-alpha-100)]",
+        "text-left text-[var(--fp-alpha-100)]",
         "transition-all duration-[900ms] [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]",
         "hover:text-foreground",
       )}
@@ -129,10 +138,20 @@ function FaqBlock({ item, isExpanded, onToggle }: { item: FaqItem; isExpanded: b
           className="overflow-hidden transition-[height] duration-[900ms] [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]"
           style={{ height: isExpanded ? `${height}px` : "0px" }}
         >
-          {/* .faq-block_answer > .faq-rtb > .text-alpha-100 > .text-body-s */}
+          {/* .faq-block_answer: py-8px, overflow-hidden, opacity-1, transition .9s
+              .faq-rtb: text-base (16px), leading-6 (24px), tracking-[-0.18px], color neutral-50
+              .text-alpha-100: color alpha-100 (overrides .faq-rtb color, has flex:1 hidden)
+              .text-body-s.w-richtext: 14px / 20px / tracking -.00643em (overrides .faq-rtb font-size) */}
           <div className="overflow-hidden py-2">
-            <div className="text-[var(--fp-alpha-100)]">
-              <p className={fpText.bodyS}>{item.answer}</p>
+            {/* .faq-rtb */}
+            <div className="text-base leading-6 tracking-[-0.18px] text-[var(--fp-alpha-50)]">
+              {/* .text-alpha-100 */}
+              <div className="flex-1 text-[var(--fp-alpha-100)]">
+                {/* .text-body-s.w-richtext */}
+                <div className={fpText.bodyS}>
+                  <p className="m-0">{item.answer}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

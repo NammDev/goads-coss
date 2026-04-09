@@ -114,20 +114,24 @@ export function ForeplaySolutionProductTabs({ subtitle, title, description }: Fo
             </button>
           ))}
         </div>
-      </ForeplaySectionContainer>
 
-      {/* Active product showcase — only 1 visible at a time */}
-      <ForeplayHomeProductShowcase
-        subtitle="" title="" description=""
-        sidebarOverline={product.overline}
-        sidebarTitle={product.title}
-        ctaHref={product.ctaHref}
-        learnMoreHref={product.learnMoreHref}
-        tabs={product.tabs}
-        sidebarVideoSrc={product.sidebarVideoSrc}
-        tabImages={product.tabImages}
-        showSectionHead={false}
-      />
+        {/* .product-page-tabs-content > .w-tab-pane > .tabs-video-wrapper
+            Source CSS: flex col, gap-20px, py-20px */}
+        <div className="flex flex-col gap-5 py-5">
+          {/* Active product showcase — only .home-product-grid (no .home-product wrapper) */}
+          <ForeplayHomeProductShowcase
+            subtitle="" title="" description=""
+            sidebarOverline={product.overline}
+            sidebarTitle={product.title}
+            ctaHref={product.ctaHref}
+            learnMoreHref={product.learnMoreHref}
+            tabs={product.tabs}
+            sidebarVideoSrc={product.sidebarVideoSrc}
+            tabImages={product.tabImages}
+            gridOnly
+          />
+        </div>
+      </ForeplaySectionContainer>
     </div>
   )
 }

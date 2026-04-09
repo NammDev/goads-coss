@@ -430,6 +430,29 @@ Footer (in layout)
 
 `/university` and `/university/classes` serve identical HTML on foreplay.co. Page cloned at `/foreplay/university/classes`.
 
+### Session 2026-04-09 — Pixel-Perfect Audit Fixes
+
+Full DOM + CSS audit vs source. Fixes applied:
+
+| Area | Issue | Fix |
+|------|-------|-----|
+| Hero DOM | Carousel nested inside `.university-hero-content` | Moved as sibling inside `.fireside-hero` |
+| Hero DOM | Missing `.text-white` wrapper around h2 | Added `div.hero-text > div.text-white > h2` nesting |
+| Hero CSS | `.hero-text` missing classes | Added `flex flex-col items-center justify-start gap-4 max-w-[900px]` |
+| Hero bg | `-z-1` not valid Tailwind class | Changed to `-z-[1]` arbitrary |
+| Hero bg | `z-index: -1` invisible (no stacking context) | Added `isolate` to parent section |
+| Hero logo | Wrong size (h-10 = 40px) | Set exact `w-[191px] h-[51px]` from source `.fu-logo` |
+| Card "Coming Soon" | Wrong text styles | Source = `opacity: .2` only, removed text-sm/font-medium/color |
+| Feature row | `.section-head.is-align-left` missing max-w | Added `max-w-[720px]` |
+| Feature row | Missing `.section-head_title` wrapper | Added outer `div.section-head_title > div.text-white > h2` |
+| Feature row | Missing `.section-head_paragraph` wrapper | Added outer `div.section-head_paragraph > div.text-alpha-100 > p` |
+| Feature row | `.text-white` + `.text-alpha-100` missing hidden `flex:1` | Added `flex-1` (Webflow hidden prop) |
+| Feature row | Missing `.text-alpha-300` overline placeholder | Added empty `<div />` |
+| Feature row | CTA `<a>` not wrapped in `<div>` | Added wrapper div |
+| Feature row | `.left-right-section-content` had extra `flex-1` | Removed — source doesn't have it (natural width) |
+| Feature row | Image stretching beyond 560px | Added `max-w-[560px]` to match `width="560" + max-width:100%` |
+| Feature row | `.left-right-section-image-wrapper` missing w-full | Added `w-full` |
+
 ## Profiles Page (Phase 4d — DONE ✅)
 
 | Component | Description |
