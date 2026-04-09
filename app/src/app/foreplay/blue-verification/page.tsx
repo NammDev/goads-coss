@@ -100,7 +100,8 @@ export default function ForeplayBlueVerificationPage() {
               variant="light"
             />
             <div className="block pt-12 max-md:pt-10">
-              <ForeplaySolutionExamplesGrid cards={ecommerceExamples} />
+              {/* Duplicate 3 cards → 6 cards (2x3 grid) for this route only */}
+              <ForeplaySolutionExamplesGrid cards={[...ecommerceExamples, ...ecommerceExamples]} />
             </div>
           </ForeplaySectionContainer>
         </div>

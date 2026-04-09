@@ -5,9 +5,10 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ForeplayNavLink } from "@/components/foreplay/foreplay-nav-link"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
+import { ForeplayHeaderProductMenu } from "@/components/foreplay/foreplay-header-product-menu"
 
-const dropdownLinks = [
-  { label: "Product", href: "#" },
+// Solutions + Resources still use placeholder dropdown toggle (Prompt 3)
+const placeholderDropdowns = [
   { label: "Solutions", href: "#" },
   { label: "Resources", href: "#" },
 ]
@@ -26,10 +27,10 @@ export function ForeplayHeader() {
         "bg-[var(--fp-nav-bg)] backdrop-blur-[24px]",
       )}
     >
-      {/* .container.navbar-container: max-w-1440, mx-auto, px-10 */}
-      <div className="relative z-[5] mx-auto flex max-w-[1440px] items-center justify-between px-10">
-        {/* .nav-stack: h-[72px], py-3, px-4, gap-9, flex between */}
-        <div className="flex h-[72px] w-full items-center justify-between gap-9 p-4">
+      {/* .container.navbar-container: max-w-1440, mx-auto, px-2 (8px), relative, z-5 */}
+      <div className="relative z-[5] mx-auto flex max-w-[1440px] items-center justify-between px-2">
+        {/* .nav-stack: gap-9 (36px), items-center, w-full, p-4 (16px), flex, relative, justify-between */}
+        <div className="relative flex w-full items-center justify-between gap-9 p-4">
           {/* .nav-brand: p-1, rounded-[10px], z-[5] */}
           <Link
             href="/home"
@@ -44,7 +45,10 @@ export function ForeplayHeader() {
             <div className="flex items-center justify-between gap-10">
               {/* .navmenu-links: flex, gap-3, items-center */}
               <div className="flex items-center gap-3">
-                {dropdownLinks.map((link) => (
+                {/* Product mega-menu (Prompt 2 — done) */}
+                <ForeplayHeaderProductMenu />
+                {/* Solutions + Resources placeholder dropdowns (Prompt 3) */}
+                {placeholderDropdowns.map((link) => (
                   <NavDropdownToggle key={link.label} label={link.label} />
                 ))}
                 {plainLinks.map((link) => (

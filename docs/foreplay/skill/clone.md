@@ -1,6 +1,161 @@
-# Foreplay Clone Workflow — 2 Prompts
+# Foreplay Clone Workflow
 
-## Prompt 1: Audit (chạy trước, review output, rồi mới clone)
+## Header Clone — 4 Prompts (recommended)
+
+Header phức tạp với mega-menu dropdowns → tách 4 prompts để tránh context bloat và miss detail.
+
+### Preparation (cào dữ liệu trước)
+
+**Cần cào 3 thứ:**
+
+```bash
+# 1. HTML (nếu chưa có) — header giống nhau trên mọi page, pick 1
+curl -sL https://www.foreplay.co/ > docs/foreplay/html/foreplay-homepage-latest.html
+
+# 2. Screenshot mega-menu expanded states (không tự chụp được qua curl)
+#    → Dùng browser DevTools: mở menu "Product", "Solutions", "Resources"
+#    → Screenshot từng state, lưu vào docs/foreplay/screenshots/
+#    → Paste vào prompt khi cần
+
+# 3. Icon images cho mega-menu (nếu chưa có)
+#    Đã có sẵn trong app/public/foreplay/: footer_1-5.webp (Swipe File, Discovery, Spyder, Lens, Briefs)
+#    Còn thiếu: chrome-extension icon, mobile-app icon, API icon, "What is Foreplay?" video thumbnail
+#    → Inspect DOM trên foreplay.co → copy URL → curl về
+```
+
+**CSS đã có sẵn**: `docs/foreplay/html/foreplay-source.css` — dùng `extract-css.sh` để pull class CSS.
+
+---
+
+### Prompt 1: Audit + Skeleton Nav Bar (no dropdowns)
+
+```
+/ck-plan --fast
+
+Audit header foreplay.co và clone skeleton nav bar (KHÔNG dropdown):
+
+1. Đọc docs/foreplay/html/foreplay-homepage-latest.html
+2. Tìm DOM của .navigation, .nav-dropdown, .nav-inner, .nav-cta
+3. Extract CSS:
+   docs/foreplay/html/extract-css.sh "navigation" "nav-inner" "nav-dropdown" "navlink" "new-button" "new-button-navbar"
+4. List tất cả nav items + mega-menu triggers (Product, Solutions, Resources, Pricing, Book a Demo)
+5. Clone SKELETON vào app/src/components/foreplay/foreplay-header.tsx:
+   - .navigation: sticky, z-100, backdrop-blur-24, bg #020308eb
+   - Logo foreplay bên trái
+   - 5 nav items GIỮA: Product (chevron), Solutions (chevron), Resources (chevron), Pricing, Book a Demo
+   - Sign in + "Start free trial" CTA bên phải
+   - TEXT-ONLY — không dropdown, không hover state mega-menu yet
+6. Verify compile, test sticky + blur
+
+Output: skeleton nav bar + list CSS classes/components cần cho Prompt 2-4
+```
+
+---
+
+### Prompt 2: Product Mega-Menu (biggest — 80% effort)
+
+```
+/clone-foreplay
+
+Clone "Product" mega-menu dropdown ở header.
+
+## Input cần thiết
+- HTML: paste đoạn DOM của Product dropdown từ docs/foreplay/html/foreplay-homepage-latest.html
+- Screenshot: ảnh mega-menu Product expanded (tôi sẽ paste)
+- Icons: /foreplay/footer_1-5.webp (Swipe File, Discovery, Spyder, Lens, Briefs)
+
+## DOM structure (expected)
+div.nav-dropdown (relative, group, hover trigger)
+  button.navlink.chevron "Product"
+  div.dropdown-menu (absolute top-full, backdrop-blur, border, rounded, show on hover/focus)
+    div.dropdown-inner (grid layout)
+      section RESEARCH (label + 3 items: Swipe File, Discovery, Spyder)
+        .nav-item: icon 40px + title + description
+      section "ANALYTICS & PRODUCTION" (label + 2 items: Lens, Briefs)
+      section EXTEND (label + 3 items: Chrome Extension, Mobile App, API — smaller icons)
+    div.dropdown-right ("What is Foreplay?" video card with play button)
+
+## Quy trình
+1. Extract CSS: dropdown-menu, dropdown-inner, nav-section-label, nav-item, nav-item-icon, nav-item-title, nav-item-desc, dropdown-video-card
+2. Clone với Radix NavigationMenu HOẶC custom hover-to-open (useState + onMouseEnter/Leave + delay)
+3. Reuse /foreplay/footer_*.webp cho 5 product icons
+4. Dùng CSS vars --fp-*, không [] arbitrary
+5. Transition: show/hide smooth 200ms
+
+## Rules
+- DOM 100% match source
+- Hover trigger: show dropdown khi hover vào button HOẶC dropdown-menu (không flicker)
+- Click outside: close
+- Keyboard: ESC close, Tab navigate
+- Desktop-only, note mobile values trong comment
+```
+
+---
+
+### Prompt 3: Solutions + Resources Dropdowns
+
+```
+/clone-foreplay
+
+Clone 2 dropdowns còn lại ở header: Solutions, Resources.
+
+## Input
+- HTML: paste DOM của Solutions + Resources dropdowns
+- Screenshot: 2 ảnh mega-menu expanded
+
+## Scope
+- Solutions dropdown: layout khác Product (ít items hơn, có thể chỉ 1 col)
+- Resources dropdown: blog + guides + community links
+- Pricing: static link, no dropdown
+- Book a Demo: static link, no dropdown
+
+## Reuse từ Prompt 2
+- Dùng lại cấu trúc nav-dropdown, dropdown-menu, nav-item
+- Chỉ khác data (content) và layout minor (columns, sizing)
+
+## Rules
+- Extract CSS cho bất kỳ class mới (solution-specific, resource-specific)
+- Nếu layout giống Product mega-menu → tách generic NavDropdown atom, reuse
+- Commit prompt 2 trước khi bắt đầu prompt 3
+```
+
+---
+
+### Prompt 4: Mobile Hamburger + Drawer + Responsive
+
+```
+/clone-foreplay
+
+Clone mobile variant header: hamburger + slide-in drawer menu.
+
+## Input
+- HTML: paste DOM mobile header state (xem foreplay.co viewport 375px)
+- Screenshot: ảnh mobile menu opened
+- Breakpoints: max-md (≤991px), max-sm (≤767px)
+
+## Scope
+- Hamburger icon (show khi ≤991px, hide desktop nav)
+- Slide-in drawer từ phải HOẶC full-screen overlay
+- Nested accordion cho mega-menu items (Product → collapse Research/Analytics/Extend)
+- Close button + backdrop click to close
+- Scroll lock khi mở
+- Logo + Start free trial CTA visible trong drawer header
+
+## Rules
+- Dùng Radix Dialog hoặc shadcn Sheet cho drawer
+- State management: useState open/close + body scroll lock
+- Animation: slide-in 300ms
+- DOM match source mobile variant
+- Close on route change (Next.js pathname change → auto close)
+```
+
+---
+
+## Generic Page Clone Workflow — 2 Prompts
+
+Cho page thường (không phải header/footer), dùng 2 prompts.
+
+### Prompt 1: Audit
 
 ```
 /ck-plan --fast
@@ -17,9 +172,7 @@ Audit trang https://www.foreplay.co/{route} trước khi clone.
 5. Lên plan clone với strategy "shadcn-first, reuse-second, clone-last"
 ```
 
----
-
-## Prompt 2: Clone (sau khi review audit)
+### Prompt 2: Clone
 
 ```
 /clone-foreplay
@@ -28,8 +181,8 @@ Clone trang https://www.foreplay.co/{route} theo plan đã audit.
 
 ## Source Files
 - HTML: docs/foreplay/html/{route-name}.html
-- CSS: docs/foreplay/foreplay-source.css
-- Extract: docs/foreplay/extract-css.sh
+- CSS: docs/foreplay/html/foreplay-source.css
+- Extract: docs/foreplay/html/extract-css.sh
 - Audit plan: plans/{plan-dir}/plan.md
 
 ## Quy trình
