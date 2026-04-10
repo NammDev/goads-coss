@@ -1,35 +1,77 @@
-// Foreplay header — Product mega-menu dropdown
-// Source DOM (from foreplay.co/):
-//   div.nav-dropdown
-//     div.nav-dropdown-toggle (button: "Product" + chevron)
-//     nav.nav-dropdown-menu (absolute, hidden by default)
-//       div.nav-dropdown-menu-inner (bg, border, rounded-28)
-//         div.nav-product-menu (flex)
-//           div.nav-product-menu-links (10-col grid)
-//             div.nav-product-menu-links-research (col-span 6) — Swipe File, Discovery, Spyder
-//             div.nav-product-menu-links-analytics (col-span 4) — Lens, Briefs
-//             div.nav-product-menu-links-sub (col-span 10) — Chrome Extension, Mobile App, API
-//           div.nav-product-menu-banner (384px) — "What is Foreplay?" video card
+// Foreplay header — Product mega-menu dropdown (100% nested DOM clone)
 //
-// Hover behavior: show on hover button OR menu (no flicker), close on outside click + ESC
+// Source DOM:
+//   nav.nav-dropdown-menu.w-dropdown-list
+//     div.nav-dropdown-menu-inner
+//       div.nav-product-menu                         ← flex justify-between
+//         div.nav-product-menu-links                 ← grid flex-1 grid-cols-10 grid-rows-[auto_auto]
+//           div.nav-product-menu-links-research     ← col-span-6 row-1, flex-col items-start p-[16_16_0]
+//             div.nav-overline-title > div.text-overline "Research"
+//             ul.nav-badge-list.w-list-unstyled    ← flex gap-3 flex-1 items-stretch list-none
+//               li.nav-badge (×3)
+//                 a.nav-badge-link                  ← flex-col flex-1 items-center pt-2 px-2 relative
+//                   div.nav-badge-text              ← flex-col flex-1 items-center
+//                     div.text-white                ← color:#fff + flex:1
+//                       div.text-label-s            ← title
+//                     div.nav-text-link-description ← flex:1 color:alpha-100
+//                       div.text-body-s             ← description
+//                   div.nav-badge-icon              ← z-2 w-88 h-88 mt-4 mb-[-20] relative
+//                     (source uses CSS sprite — we use <img> instead)
+//                   div.nav-badge-gradient          ← absolute glow, variants .discovery/.spyder/.lens/.briefs
+//           div.nav-product-menu-links-analytics   ← col-span-4 row-1, border-l, flex-col p-[16_16_0]
+//             (same structure, 2 badges)
+//           div.nav-product-menu-links-sub         ← col-span-10 row-2, border-t, p-4
+//             div.nav-overline-title > div.text-overline "Extend"
+//             ul.u-nav-product-menu-links-sub-list ← flex gap-3 items-center list-none
+//               li.u-nav-product-menu-links-sub-list-item (×3)
+//                 a.u-nav-sub-link                  ← flex gap-3 p-2
+//                   div.u-nav-icon-box              ← 44x44 bg alpha-700 rounded-12 center
+//                     div.icon-24 > div.svg.w-embed > svg
+//                   div.u-nav-content               ← flex-col justify-center items-start
+//                     div.text-white > div.text-label-s
+//                     div.nav-text-link-description.u-nav-text-secondary (desktop: visible) > div.text-body-s
+//         div.nav-product-menu-banner              ← HIDDEN ≤1279px, display:flex ≥1280px
+//                                                    w-[384px] max-w-[364px] flex-col flex-none
+//           div.nav-product-banner-video           ← contains ONLY title (not video!)
+//             div.nav-banner-content
+//               div.text-white
+//                 div.u-nav-banner-title
+//                   div.icon-20 > div.svg.w-embed > svg (play-in-circle)
+//                   div.text-label-s "What is Foreplay?"
+//           a.nav-lightbox.w-lightbox              ← SIBLING of .nav-product-banner-video, contains video
+//             div.hero-video-thumb                 ← relative z-3 h-150 (≥1280)
+//               video (autoplay loop muted playsInline)
+//               div.div-block-356                  ← play button overlay 50px circle
+//                 div.icon-20.w-embed > svg
+//
+// CRITICAL: .nav-product-menu-banner { display:none } on DESKTOP base, only { display:flex } at min-width:1280px
+//           → Tailwind: `hidden xl:flex` (xl = 1280px default)
+//           This is WHY the Product dropdown broke on narrow viewport — banner was showing when it shouldn't.
+//
+// Shell (dropdown wrapper + toggle button + nav animation) is DELEGATED to ForeplayHeaderDropdownBase
+// for DRY consistency with Solutions + Resources dropdowns.
 
-"use client"
-
-import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
+import { ForeplayHeaderDropdownBase } from "@/components/foreplay/foreplay-header-dropdown-base"
 
 // ── Product data (matches source order + content) ──
+// Sprite mapping verified via frame-count matching source CSS:
+//   Source: swipe-file=54f (bg 4752px), discovery=62f (5456px), spyder=31f (2728px),
+//           lens=21f (1848px), briefs=55f (4840px). Each frame = 88px wide.
+//   Our sprites (W×160): footer_1=9920 (62f=Discovery), footer_2=8640 (54f=Swipe File),
+//                        footer_3=4960 (31f=Spyder), footer_4=3360 (21f=Lens), footer_5=8800 (55f=Briefs)
+//   Note: footer_1 and footer_2 SWAPPED from previous (wrong) mapping.
 const research = [
-  { label: "Swipe File", desc: "Save & share creative inspiration.", href: "/swipe-file", icon: "/foreplay/footer_1.webp", gradient: "" },
-  { label: "Discovery", desc: "Ad search engine with over 100M ads.", href: "/discovery", icon: "/foreplay/footer_2.webp", gradient: "discovery" },
-  { label: "Spyder", desc: "Track and analyze competitor advertising 24/7", href: "/spyder", icon: "/foreplay/footer_3.webp", gradient: "spyder" },
+  { label: "Swipe File", desc: "Save & share creative inspiration.", href: "/swipe-file", icon: "/foreplay/footer_2.webp", frames: 54, gradient: "" },
+  { label: "Discovery", desc: "Ad search engine with over 100M ads.", href: "/discovery", icon: "/foreplay/footer_1.webp", frames: 62, gradient: "discovery" },
+  { label: "Spyder", desc: "Track and analyze competitor advertising 24/7", href: "/spyder", icon: "/foreplay/footer_3.webp", frames: 31, gradient: "spyder" },
 ]
 
 const analytics = [
-  { label: "Lens", desc: "Advertising analytics for creative teams.", href: "/lens", icon: "/foreplay/footer_4.webp", gradient: "lens" },
-  { label: "Briefs", desc: "Turn inspiration into actionable briefs.", href: "/briefs", icon: "/foreplay/footer_5.webp", gradient: "briefs" },
+  { label: "Lens", desc: "Advertising analytics for creative teams.", href: "/lens", icon: "/foreplay/footer_4.webp", frames: 21, gradient: "lens" },
+  { label: "Briefs", desc: "Turn inspiration into actionable briefs.", href: "/briefs", icon: "/foreplay/footer_5.webp", frames: 55, gradient: "briefs" },
 ]
 
 const extend = [
@@ -47,140 +89,78 @@ const gradientMap: Record<string, string> = {
   briefs: "linear-gradient(#00a87900, #00a879 70%)",
 }
 
-interface ForeplayHeaderProductMenuProps {
-  /** Render trigger button (controlled by parent for keyboard/aria) */
-  triggerLabel?: string
-}
-
-export function ForeplayHeaderProductMenu({ triggerLabel = "Product" }: ForeplayHeaderProductMenuProps) {
-  const [open, setOpen] = useState(false)
-  const wrapperRef = useRef<HTMLDivElement>(null)
-  const closeTimer = useRef<NodeJS.Timeout | null>(null)
-
-  // Open/close with delay to prevent flicker between button and menu
-  const openMenu = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-    setOpen(true)
-  }
-  const closeMenu = () => {
-    closeTimer.current = setTimeout(() => setOpen(false), 100)
-  }
-
-  // ESC key + outside click
-  useEffect(() => {
-    if (!open) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false)
-    }
-    const onClick = (e: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-        setOpen(false)
-      }
-    }
-    document.addEventListener("keydown", onKey)
-    document.addEventListener("mousedown", onClick)
-    return () => {
-      document.removeEventListener("keydown", onKey)
-      document.removeEventListener("mousedown", onClick)
-    }
-  }, [open])
-
+export function ForeplayHeaderProductMenu() {
   return (
-    // .nav-dropdown — relative wrapper
-    <div
-      ref={wrapperRef}
-      className="relative"
-      onMouseEnter={openMenu}
-      onMouseLeave={closeMenu}
-    >
-      {/* .nav-dropdown-toggle */}
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-haspopup="true"
-        onFocus={openMenu}
-        className={cn(
-          "flex items-center gap-1 rounded-[10px] py-1.5 pl-2.5 pr-1.5",
-          "font-sans text-[0.9375rem] leading-[1.25rem] text-foreground/50",
-          "transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]",
-          "hover:text-foreground focus-visible:outline-none focus-visible:shadow-[0_0_0_3px] focus-visible:shadow-secondary",
-          open && "text-foreground",
-        )}
-      >
-        {triggerLabel}
-        <span className={cn("flex size-5 items-center justify-center transition-transform duration-300", open && "rotate-180")}>
-          <svg viewBox="0 0 20 20" width="20" height="20" fill="none">
-            <path d="M7 8.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
-      </button>
-
-      {/* .nav-dropdown-menu — absolute, top-full, anim opacity + translate + scale */}
-      <nav
-        className={cn(
-          "absolute left-0 right-0 top-full mt-[-5px]",
-          "transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]",
-          open
-            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-            : "pointer-events-none -translate-y-2 scale-[0.96] opacity-0",
-        )}
-        aria-hidden={!open}
-      >
-        {/* .nav-dropdown-menu-inner: bg background, border 1px #2a2b30, rounded-28, overflow-hidden */}
-        <div className="overflow-hidden rounded-[28px] border border-[#2a2b30] bg-background">
-          {/* .nav-product-menu: flex */}
-          <div className="flex">
-            {/* .nav-product-menu-links: 10-col grid, flex-1 */}
-            <div className="grid flex-1 grid-cols-10">
-              {/* RESEARCH — col-span 6, p-4, no padding-bottom */}
-              <ProductSection className="col-span-6 overflow-hidden" title="Research">
-                <ul className="m-0 flex flex-1 list-none gap-3 p-0">
+    <ForeplayHeaderDropdownBase label="Product">
+      {/* .nav-dropdown-menu-inner — source: background, border 1px, rounded-28, width:100% (stretch to nav-stack), overflow-hidden */}
+      <div className="w-full overflow-hidden rounded-[28px] border border-[var(--fp-border-nav)] bg-background">
+          {/* .nav-product-menu — flex justify-between (banner hidden below xl, so on narrow viewport only links shown) */}
+          <div className="flex justify-between">
+            {/* .nav-product-menu-links — source: display:grid, flex:1, grid-cols-10, grid-rows-[auto_auto] */}
+            <div className="grid flex-1 grid-cols-10 grid-rows-[auto_auto]">
+              {/* .nav-product-menu-links-research — col-span-6 row-1, flex-col items-start p-[16px_16px_0] overflow-hidden */}
+              <ProductSection className="col-span-6 row-start-1 overflow-hidden" title="Research">
+                {/* ul.nav-badge-list.w-list-unstyled — flex gap-3 flex-1 items-stretch list-none */}
+                <ul className="m-0 flex flex-1 list-none items-stretch gap-3 p-0">
                   {research.map((item) => (
                     <ProductBadge key={item.label} {...item} />
                   ))}
                 </ul>
               </ProductSection>
 
-              {/* ANALYTICS & PRODUCTION — col-span 4, border-l, p-4, no padding-bottom */}
+              {/* .nav-product-menu-links-analytics — col-span-4 row-1, border-l, flex-col items-start p-[16px_16px_0] overflow-hidden */}
               <ProductSection
-                className="col-span-4 overflow-hidden border-l border-[#2a2b30]"
+                className="col-span-4 row-start-1 overflow-hidden border-l border-[var(--fp-border-nav)]"
                 title="Analytics & Production"
               >
-                <ul className="m-0 flex flex-1 list-none gap-3 p-0">
+                {/* ul.nav-badge-list */}
+                <ul className="m-0 flex flex-1 list-none items-stretch gap-3 p-0">
                   {analytics.map((item) => (
                     <ProductBadge key={item.label} {...item} />
                   ))}
                 </ul>
               </ProductSection>
 
-              {/* EXTEND — col-span 10 (full row), border-t, p-4 */}
-              <div className="col-span-10 flex flex-col items-start border-t border-[#2a2b30] p-4">
+              {/* .nav-product-menu-links-sub — col-span-10 row-2, border-t, flex-col items-start p-4 */}
+              <div className="col-span-10 row-start-2 flex flex-col items-start border-t border-[var(--fp-border-nav)] p-4">
                 <SectionLabel>Extend</SectionLabel>
+                {/* ul.u-nav-product-menu-links-sub-list.w-list-unstyled — flex gap-3 items-center list-none */}
                 <ul className="m-0 flex list-none items-center gap-3 p-0">
                   {extend.map((item) => {
                     const Icon = item.icon
                     return (
-                      <li key={item.label}>
-                        {/* .u-nav-sub-link: flex gap-3, p-2 */}
+                      // li.u-nav-product-menu-links-sub-list-item
+                      <li key={item.label} className="list-none">
+                        {/* a.u-nav-sub-link.w-inline-block — flex gap-3 p-2 transition-opacity */}
                         <Link
                           href={item.href}
                           className="flex gap-3 p-2 no-underline transition-opacity hover:opacity-80"
                           target={item.href.startsWith("http") ? "_blank" : undefined}
                         >
-                          {/* .u-nav-icon-box: 44x44, bg #ffffff1a, rounded-12, p-2.5, center */}
+                          {/* .u-nav-icon-box — 44x44 bg alpha-700 rounded-12 p-2.5 center */}
                           <div className="flex size-11 shrink-0 items-center justify-center rounded-[12px] bg-[var(--fp-alpha-700)] p-2.5">
+                            {/* .icon-24 */}
                             <div className="flex size-6 items-center justify-center">
+                              {/* .svg.w-embed (Webflow wrapper — just renders child SVG) */}
                               <Icon />
                             </div>
                           </div>
-                          {/* .u-nav-content */}
+                          {/* .u-nav-content — flex-col justify-center items-start color:alpha-100 */}
                           <div className="flex flex-col items-start justify-center text-[var(--fp-alpha-100)]">
+                            {/* .text-white — color:#fff (source has flex:1 but we OMIT it here because
+                                in flex-col parent with icon-box 44px tall, flex:1 on BOTH children spreads
+                                the text — causing ~4px extra vertical gap between label and description.
+                                User requested: line-height=20px only, no extra spread. */}
                             <div className="text-foreground">
-                              <div className={fpText.labelS}>{item.label}</div>
+                              {/* .text-label-s — leading-5 (20px) from fpText.labelS */}
+                              <div className={cn(fpText.labelS, "leading-5")}>{item.label}</div>
                             </div>
-                            {/* .nav-text-link-description.u-nav-text-secondary — display:none in source */}
-                            <div className="hidden flex-1 text-[var(--fp-alpha-100)]">
-                              <div className={fpText.bodyS}>{item.desc}</div>
+                            {/* .nav-text-link-description.u-nav-text-secondary
+                                Source: display:none ONLY in @media ≤991px. Desktop shows it.
+                                flex:1 also omitted — same reason as .text-white above. */}
+                            <div className="text-[var(--fp-alpha-100)]">
+                              {/* .text-body-s — leading-5 (20px) from fpText.bodyS */}
+                              <div className={cn(fpText.bodyS, "leading-5")}>{item.desc}</div>
                             </div>
                           </div>
                         </Link>
@@ -191,44 +171,84 @@ export function ForeplayHeaderProductMenu({ triggerLabel = "Product" }: Foreplay
               </div>
             </div>
 
-            {/* .nav-product-menu-banner: 384px (max 364px), flex col, "What is Foreplay?" video */}
-            <div className="flex w-96 max-w-[364px] flex-none flex-col">
-              {/* .nav-product-banner-video: flex col, end, p-6, gap-5, min-h-[204px] */}
-              <div className="flex flex-1 flex-col items-center justify-end gap-5 px-6 pt-6 pb-0 min-h-[204px]">
-                {/* .nav-banner-content */}
-                <div className="relative z-[2] flex max-w-[200px] flex-col items-center gap-1 text-center text-[var(--fp-alpha-100)]">
-                  <div className="text-foreground">
-                    {/* .u-nav-banner-title */}
-                    <div className="flex items-center gap-[5px] whitespace-nowrap">
-                      <span className="flex size-5 items-center justify-center">
-                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none">
-                          <path d="M9 12.06V7.94c0-.3.33-.47.57-.3l3.02 2.05c.21.15.21.46 0 .61l-3.02 2.06c-.24.16-.57-.01-.57-.3Z" fill="currentColor" />
-                          <path fillRule="evenodd" clipRule="evenodd" d="M10.5 4.13a5.87 5.87 0 1 0 0 11.74 5.87 5.87 0 0 0 0-11.74ZM3.17 10a7.33 7.33 0 1 1 14.67 0 7.33 7.33 0 0 1-14.67 0Z" fill="currentColor" />
-                        </svg>
-                      </span>
+            {/* .nav-product-menu-banner — source CSS (desktop base, ≥1280px):
+                width:384px; max-width:364px; flex-flow:column; flex:none;
+                display:none (base) → display:flex (@media min-width:1280px)
+                → Tailwind: `hidden xl:flex` */}
+            <div className="hidden w-[384px] max-w-[364px] flex-none flex-col xl:flex">
+              {/* .nav-product-banner-video — CONTAINER for BOTH .nav-banner-content + a.nav-lightbox
+                  Source CSS (base desktop): flex flex-col flex:1 gap:20px min-h-[204px] px-6
+                  Source CSS (≥1280px merged): border-l justify-start items-center pt-20
+                  → Verified DOM: .nav-product-banner-video has TWO children: .nav-banner-content AND a.nav-lightbox */}
+              <div className="flex min-h-[204px] flex-1 flex-col items-center justify-start gap-5 border-l border-[var(--fp-border-nav)] px-6 pt-20">
+                {/* .nav-banner-content — source: z-index:2 gap:4px color:#ffffffad text-align:center
+                    flex-col justify-content:flex-start align-items:center max-width:200px
+                    display:flex position:relative */}
+                <div className="relative z-[2] flex max-w-[200px] flex-col items-center justify-start gap-1 text-center text-[var(--fp-alpha-100)]">
+                  {/* .text-white — source: color:#fff, flex:1 (Webflow hidden CSS) */}
+                  <div className="flex-1 text-foreground">
+                    {/* .u-nav-banner-title — source: gap:5px, white-space:nowrap, align-items:center,
+                        justify-content:flex-start, display:flex */}
+                    <div className="flex items-center justify-start gap-[5px] whitespace-nowrap">
+                      {/* .icon-20 — source: width:20px, height:20px */}
+                      <div className="size-5">
+                        {/* .svg.w-embed — Webflow SVG wrapper */}
+                        <div className="w-embed">
+                          <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.99609 12.0563V7.94385C8.99609 7.64927 9.32595 7.47495 9.56934 7.64091L12.5851 9.69713C12.7986 9.84269 12.7986 10.1574 12.5851 10.303L9.56934 12.3592C9.32595 12.5252 8.99609 12.3508 8.99609 12.0563Z" fill="white" />
+                            <path fillRule="evenodd" clipRule="evenodd" d="M10.5002 4.13301C7.26013 4.13301 4.63354 6.7596 4.63354 9.99968C4.63354 13.2398 7.26013 15.8663 10.5002 15.8663C13.7403 15.8663 16.3669 13.2398 16.3669 9.99968C16.3669 6.7596 13.7403 4.13301 10.5002 4.13301ZM3.16687 9.99968C3.16687 5.94959 6.45011 2.66634 10.5002 2.66634C14.5503 2.66634 17.8335 5.94959 17.8335 9.99968C17.8335 14.0497 14.5503 17.333 10.5002 17.333C6.45011 17.333 3.16687 14.0497 3.16687 9.99968Z" fill="white" />
+                          </svg>
+                        </div>
+                      </div>
+                      {/* .text-label-s */}
                       <div className={fpText.labelS}>What is Foreplay?</div>
                     </div>
                   </div>
                 </div>
-                {/* .nav-lightbox — placeholder for video thumbnail (240px max) */}
-                <div className="relative w-full max-w-[240px]">
-                  <div className="relative aspect-video w-full overflow-hidden rounded-[20px] bg-[var(--fp-alpha-700)]">
-                    {/* Play button overlay — .div-block-356: 50x50 backdrop-blur, rounded-full, bg white/50 */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="flex size-[50px] items-center justify-center rounded-full bg-white/50 backdrop-blur-[10px]">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                          <path d="M15.18 8.72 6.79 3.54c-1-.62-2.29.1-2.29 1.27v10.37c0 1.18 1.29 1.9 2.29 1.28l8.4-5.18c.95-.59.95-1.97 0-2.56Z" fill="white" />
+                {/* a.nav-lightbox.w-inline-block.w-lightbox — CHILD of .nav-product-banner-video
+                    (verified via closing-div count in source HTML — 4 closes before <a>: text-label-s,
+                    u-nav-banner-title, text-white, nav-banner-content → remaining stack has banner-video)
+                    Source CSS: width:100%, max-width:240px, position:relative
+                    ≥1280px: border-radius:10px, overflow:hidden */}
+                <a
+                  href="#"
+                  aria-label="open lightbox"
+                  aria-haspopup="dialog"
+                  className="relative w-full max-w-[240px] overflow-hidden rounded-[10px]"
+                >
+                  {/* .hero-video-thumb.w-background-video.w-background-video-atom
+                      ≥1280px: z-index:3 height:150px position:relative flex center */}
+                  <div className="relative z-[3] flex h-[150px] w-full items-center justify-center">
+                    {/* <video> — autoplay loop muted playsinline (Webflow .w-background-video spec) */}
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="auto"
+                      className="absolute inset-0 z-[-100] size-full object-cover"
+                    >
+                      <source
+                        src="/video/62a4ed18ddad95dde8b8bfa4_69612b690e2aeb02841afc4f_FOREPLAY_V6_mp4.mp4"
+                        type="video/mp4"
+                      />
+                    </video>
+                    {/* .div-block-356 — backdrop-blur:10 bg:#ffffff80 rounded-100 50×50 flex center */}
+                    <div className="flex size-[50px] items-center justify-center rounded-full bg-white/50 backdrop-blur-[10px]">
+                      {/* .icon-20.w-embed — combined class (20×20 + Webflow SVG wrapper) */}
+                      <div className="size-5 w-embed">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M15.1838 8.72416L6.78824 3.53868C5.78891 2.92144 4.5 3.64029 4.5 4.81488V15.1859C4.5 16.3604 5.7889 17.0792 6.78823 16.4621L15.1838 11.2766C16.1328 10.6904 16.1328 9.31028 15.1838 8.72416Z" fill="white" />
                         </svg>
                       </div>
                     </div>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
           </div>
         </div>
-      </nav>
-    </div>
+    </ForeplayHeaderDropdownBase>
   )
 }
 
@@ -236,7 +256,7 @@ export function ForeplayHeaderProductMenu({ triggerLabel = "Product" }: Foreplay
 
 function ProductSection({ className, title, children }: { className?: string; title: string; children: React.ReactNode }) {
   return (
-    // .nav-product-menu-links-research / -analytics: flex col, items-start, p-4 (no bottom)
+    // .nav-product-menu-links-research / -analytics — flex-col items-start p-[16px_16px_0] (no bottom)
     <div className={cn("flex flex-col items-start px-4 pt-4", className)}>
       <SectionLabel>{title}</SectionLabel>
       {children}
@@ -246,8 +266,9 @@ function ProductSection({ className, title, children }: { className?: string; ti
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    // .nav-overline-title: rounded-6, p-2, mb-2, w-full, color neutral-50
+    // .nav-overline-title — rounded-[6px] p-2 mb-2 w-full color:alpha-50 flex items-center
     <div className="mb-2 flex w-full items-center rounded-[6px] p-2 text-[var(--fp-alpha-50)]">
+      {/* .text-overline */}
       <div className={fpText.overline}>{children}</div>
     </div>
   )
@@ -258,38 +279,57 @@ function ProductBadge({
   desc,
   href,
   icon,
+  frames,
   gradient,
 }: {
   label: string
   desc: string
   href: string
   icon: string
+  frames: number
   gradient: string
 }) {
+  // Sprite sheet: N frames × 88px wide, scaled to container height (100% = 88px)
+  // Source CSS: background-size: (frames×88)px 100%; background-position: 0px 0px; background-repeat: no-repeat
+  // Example for Swipe File (54 frames): 4752px × 100%
+  const spriteWidth = frames * 88
   return (
-    // .nav-badge: flex col, items-center, flex-1
+    // li.nav-badge — flex flex-1 flex-col items-center list-none
     <li className="flex flex-1 list-none flex-col items-center">
-      {/* .nav-badge-link: flex col, items-center, pt-2 px-2, transition group */}
+      {/* a.nav-badge-link.w-inline-block — flex-col flex-1 items-center pt-2 px-2 text-center transition
+          Source color: #000000ad (overridden by .text-white child to #fff) */}
       <Link
         href={href}
         className="group relative flex flex-1 flex-col items-center px-2 pt-2 text-center no-underline transition-all duration-200"
       >
-        {/* .nav-badge-text */}
+        {/* .nav-badge-text — flex-col flex-1 items-center */}
         <div className="flex flex-1 flex-col items-center">
-          <div className="text-foreground">
+          {/* .text-white — color:#fff + flex:1 (Webflow hidden CSS) */}
+          <div className="flex-1 text-foreground">
+            {/* .text-label-s */}
             <div className={fpText.labelS}>{label}</div>
           </div>
-          {/* .nav-text-link-description: color alpha-100, flex:1 */}
+          {/* .nav-text-link-description — color:alpha-100 + flex:1 */}
           <div className="flex-1 text-[var(--fp-alpha-100)]">
+            {/* .text-body-s */}
             <div className={fpText.bodyS}>{desc}</div>
           </div>
         </div>
-        {/* .nav-badge-icon: 88x88, mt-4, mb-[-20px], z-2 */}
-        <div className="relative z-[2] mt-4 mb-[-20px] size-[88px]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={icon} alt={label} className="size-full object-contain" loading="lazy" />
-        </div>
-        {/* .nav-badge-gradient: glow on hover, blur(28), 116x116, bottom-[-40%] */}
+        {/* .nav-badge-icon.sprite-image.sprite-{name} — 88×88, z-2, mt-4 mb-[-20px], relative
+            Source uses CSS background sprite (N frames, animated via JS on hover).
+            Static render: show frame 0 via background-position: 0px 0px.
+            background-size: (frames×88)px 100% scales sprite so each frame = 88×88 in container. */}
+        <div
+          className="relative z-[2] mt-4 mb-[-20px] size-[88px] bg-no-repeat"
+          style={{
+            backgroundImage: `url(${icon})`,
+            backgroundSize: `${spriteWidth}px 100%`,
+            backgroundPosition: "0px 0px",
+          }}
+        />
+        {/* .nav-badge-gradient (+ variant class .discovery/.spyder/.lens/.briefs)
+            absolute bottom-[-40%] w-[116px] h-[116px] aspect-square rounded-[16%] blur-[28px]
+            opacity-0 transition-all .8s ease, group-hover:opacity-60 */}
         <div
           className="pointer-events-none absolute bottom-[-40%] aspect-square h-[116px] w-[116px] translate-y-1/2 rounded-[16%] opacity-0 blur-[28px] transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:opacity-60"
           style={{ backgroundImage: gradientMap[gradient] || gradientMap[""] }}

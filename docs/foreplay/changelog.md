@@ -488,6 +488,104 @@ Full DOM + CSS audit vs source. Fixes applied:
 | `/foreplay/blog/[slug]` | ✅ Done | 5 |
 | `/foreplay/university/classes` | ✅ Done | 5 |
 
+## Header Dropdown Fixes (2026-04-10)
+
+| File | Change |
+|------|--------|
+| `globals.css` | Registered `--fp-border-nav: #2a2b30` token in `.foreplay` scope |
+| `foreplay-header-resources-menu.tsx` | 100% nested DOM rewrite matching source HTML. Fixed: Earn list `grid-cols-5` (was 3), added `whitespace-nowrap` on `.u-nav-banner-title`, added `flex-1` on `.text-white` wrapper (hidden Webflow CSS), added `justify-center` on `.u-nav-link-content`, video `preload="auto"`, merch description `text-left` per `.u-nav-merch-link-description` |
+| `foreplay-header-product-menu.tsx` | Replaced `#2a2b30` → `var(--fp-border-nav)` |
+| `foreplay-header-solutions-menu.tsx` | Replaced `#2a2b30` → `var(--fp-border-nav)` |
+| `foreplay-header-mobile-menu.tsx` | Replaced all `#2a2b30` → `var(--fp-border-nav)` |
+
+## Header Full Refactor — 100% Nested DOM (2026-04-10) ✅
+
+Complete header rewrite to achieve pixel-perfect parity with foreplay.co source. Root cause analysis of width/positioning bugs + consolidated dropdown shell.
+
+### Critical architecture fixes
+
+| File | Change |
+|------|--------|
+| `foreplay-header.tsx` | Corrected `.container.navbar-container` — `max-w-[1440px]` + `px-10` (was wrong `max-w-[1340px]` + `px-2` which are mobile-only). Corrected `.nav-stack` → `p-4` (was wrong `py-3 px-4 h-[72px]` which are mobile-only). Removed `relative z-[5]` from navbar-container (mobile-only). Added `static flex-1` to `nav.nav-menu` for source match. Added explicit `h-8 transition` wrapper for `.u-nav-brand-logo`. Removed `gap-10 items-center` from `.nav-menu-inner` (flex justify-between only per source). |
+| `foreplay-header-dropdown-base.tsx` | Shared shell for all 3 dropdowns. `.nav-dropdown` wrapper changed from `relative` → `static` (Foreplay override of Webflow's `.w-dropdown` default relative) — enables nav positioning context escape to `.nav-stack`. Added source-exact CSS: `top-full right-0 left-0 mt-[-5px] block min-w-full bg-transparent`. Open state: `z-[5] opacity-100 transform-none`. Button content wrapped in `.text-navlink` + `.icon-20` nested divs. |
+| `foreplay-nav-link.tsx` | Text children wrapped in `<div class="text-navlink">` to match source DOM. |
+| `foreplay-header-product-menu.tsx` | Consolidated to use `ForeplayHeaderDropdownBase` (removed 40+ lines duplicate state/effect/button code). Full DOM refactor per 100% source nesting. |
+
+### Root cause findings
+
+1. **CSS cascade — media query context matters.** Initial extraction was naive about media queries. For `.container.navbar-container`:
+   - Desktop: `.container { max-width:1440px; padding:0 40px }` wins (comes after `.navbar-container { max-width:1340px }` in source)
+   - Mobile (`@media ≤991px`): `.container.navbar-container { padding:0 8px }` applies
+   - Box model at 1800px viewport: `1440 − 80 = 1360px` content width ✓ (matches DevTools)
+
+2. **Positioning context escape mechanism.** Foreplay overrides `.nav-dropdown { position: static }` (Webflow default is `position: relative`). This makes the absolute `nav.nav-dropdown-menu` anchor to `.nav-stack` (nearest positioned ancestor) instead of the narrow button wrapper. Result: dropdown appears below ENTIRE header row, spans full nav-stack width, not just under the button.
+
+3. **Banner visibility breakpoint.** `.nav-product-menu-banner { display: none }` on desktop base, only `display: flex` at `@media min-width: 1280px`. → Tailwind `hidden xl:flex`. This fixed the layout collapse bug on narrow viewports where banner was incorrectly shown, squeezing research items to single-character width.
+
+### Token registration
+
+| CSS var | Value | Usage |
+|---|---|---|
+| `--fp-border-nav` | `#2a2b30` | Nav dropdown border, section separators in all 3 menus |
+
+### Product dropdown DOM (100% nested match)
+
+```
+.nav-product-menu-banner                hidden w-[384px] max-w-[364px] flex-none flex-col xl:flex
+└─ .nav-product-banner-video            flex-col flex-1 items-center justify-start gap-5 min-h-[204px]
+                                         px-6 pt-20 border-l
+   ├─ .nav-banner-content                relative z-[2] flex-col items-center max-w-[200px] text-center
+   │  └─ .text-white (flex:1)            flex-1 text-foreground
+   │     └─ .u-nav-banner-title          flex items-center gap-[5px] whitespace-nowrap
+   │        ├─ .icon-20 > .svg.w-embed   size-5 > w-embed > svg
+   │        └─ .text-label-s
+   └─ a.nav-lightbox.w-inline-block      relative w-full max-w-[240px] overflow-hidden rounded-[10px]
+      └─ .hero-video-thumb               relative z-[3] flex h-[150px] w-full items-center justify-center
+         ├─ <video>                       autoplay loop muted playsInline absolute inset-0 z-[-100]
+         │                                object-cover (source: /video/...FOREPLAY_V6_mp4.mp4)
+         └─ .div-block-356                size-[50px] rounded-full bg-white/50 backdrop-blur-[10px]
+            └─ .icon-20.w-embed > svg
+```
+
+### Sprite CSS for nav-badges (Research + Analytics)
+
+Converted `<img>` tag → CSS background sprite to match source. Each sprite sheet is N frames × 160×160, container is 88×88, applied `background-size: (N×88)px 100%` for uniform scaling.
+
+| Badge | File | Frames | Source bg-size |
+|---|---|---|---|
+| Swipe File | `/foreplay/footer_2.webp` (8640×160) | 54 | `4752px 100%` |
+| Discovery | `/foreplay/footer_1.webp` (9920×160) | 62 | `5456px 100%` |
+| Spyder | `/foreplay/footer_3.webp` (4960×160) | 31 | `2728px 100%` |
+| Lens | `/foreplay/footer_4.webp` (3360×160) | 21 | `1848px 100%` |
+| Briefs | `/foreplay/footer_5.webp` (8800×160) | 55 | `4840px 100%` |
+
+**Note:** `footer_1` and `footer_2` mapping swapped from previous (wrong) assignment — verified by frame count matching source CSS.
+
+### Misc fixes
+
+- **Extend descriptions visible on desktop.** `.nav-text-link-description.u-nav-text-secondary { display: none }` is mobile-only (`@media ≤991px`). Removed `hidden` from EXTEND descriptions ("Save ads from anywhere." etc.)
+- **`.nav-badge-gradient` blue glow mechanism.** Blue glow on hover is `.nav-badge-gradient` div (blurred gradient, opacity 0 → group-hover:60). Source triggers via JS (data-frames attr), our clone uses pure CSS `group-hover:opacity-60`.
+- **Line-height 20px for `.u-nav-sub-link` text.** Removed `flex-1` from `.text-white` and `.nav-text-link-description` wrappers inside `.u-nav-content` (source has flex:1 but it spreads text vertically inside 44px icon-box container — deviation intentional for visual tightness).
+- **Video element.** Replaced placeholder with actual video file `/video/62a4...FOREPLAY_V6_mp4.mp4`. Video: `autoplay loop muted playsInline preload="auto" absolute inset-0 z-[-100] size-full object-cover`.
+
+### DRY consolidation
+
+All 3 dropdowns (Product/Solutions/Resources) now share `ForeplayHeaderDropdownBase`:
+- Removed duplicate state/effect/button code from Product menu (used to have its own copy)
+- Shared: positioning context escape, button with `.text-navlink + .icon-20`, nav animation, ESC/outside-click handling
+- Each menu only provides its own `.nav-dropdown-menu-inner` content
+
+### Verified DOM nesting for `.nav-product-menu-banner`
+
+```
+.nav-product-menu-banner
+└─ .nav-product-banner-video (container for both children)
+   ├─ .nav-banner-content (title "What is Foreplay?")
+   └─ a.nav-lightbox (video)
+```
+
+**NOT** the incorrect sibling arrangement tried earlier. Verified via HTML closing-tag count: 4 closes after `"What is Foreplay?</div>"` → closes `[text-label-s, u-nav-banner-title, text-white, nav-banner-content]`, leaving stack `[banner, video]` → `<a>` opens as child of `video`.
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos

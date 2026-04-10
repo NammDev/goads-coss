@@ -173,6 +173,7 @@
 
   /* Navigation header */
   --fp-nav-bg: #020308eb; /* background at ~92% opacity */
+  --fp-border-nav: #2a2b30; /* source: border color on .nav-dropdown-menu-inner / .u-nav-resources-banner (border-left) */
 
   /* ── Foreplay section vertical padding scale ── */
   /* Source: foreplay.co uses 108px desktop / 96px tablet / 80px mobile for section py */

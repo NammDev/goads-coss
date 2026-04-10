@@ -22,6 +22,55 @@ color: var(--neutral-100) = #ffffffad
 
 Always semi-transparent + blur. No transparent-to-blur scroll toggle.
 
+### Header DOM hierarchy (100% source-matched)
+
+```
+header.navigation                     sticky top-0 z-[100] bg-[var(--fp-nav-bg)] backdrop-blur-[24px]
+└─ div.container.navbar-container     max-w-[1440px] mx-auto flex items-center justify-between px-10
+   └─ div.nav-stack                   relative flex w-full items-center justify-between gap-9 p-4
+      │                                (positioning context for dropdown navs — see below)
+      ├─ a.nav-brand                  z-[5] rounded-[10px] p-1 → .u-nav-brand-logo (h-8)
+      ├─ ForeplayHeaderMobileMenu     max-md:flex lg:hidden (hamburger, ≤991px)
+      └─ nav.nav-menu                 static flex-1 (hidden max-md lg:block)
+         └─ div.nav-menu-inner        flex justify-between
+            ├─ div.navmenu-links      flex items-center gap-3 justify-start
+            │  ├─ ForeplayHeaderProductMenu     (Product dropdown — .nav-dropdown.w-dropdown)
+            │  ├─ ForeplayHeaderSolutionsMenu   (Solutions dropdown)
+            │  ├─ ForeplayHeaderResourcesMenu   (Resources dropdown)
+            │  ├─ ForeplayNavLink href=/pricing
+            │  └─ ForeplayNavLink href=/book-demo
+            └─ div.navmenu-cta        flex items-center gap-2 justify-end
+               ├─ ForeplayNavLink href=/sign-in (Sign in)
+               └─ ForeplayCtaButton href=/sign-up (Start free trial, new-button-navbar)
+```
+
+### ⭐ Dropdown positioning context escape
+
+**Critical mechanism:** `.nav-dropdown` is `position: static` (Foreplay override of Webflow's `.w-dropdown` default relative). The absolute `nav.nav-dropdown-menu { top:100% left:0% right:0% min-w-full }` therefore anchors to `.nav-stack` (nearest positioned ancestor), NOT the button wrapper.
+
+Result: dropdown appears below the ENTIRE header row and spans full nav-stack width (1360px on 1440 container), not just under the small button.
+
+**Clone implementation:** `ForeplayHeaderDropdownBase` wrapper uses `className="static p-0"` on `.nav-dropdown` (never `relative`). `.nav-stack` in `foreplay-header.tsx` uses `className="relative ..."` as the positioning context.
+
+### Dropdown shell (ForeplayHeaderDropdownBase)
+
+All 3 dropdowns (Product/Solutions/Resources) share this base for DRY. It owns:
+- State: `open` / `setOpen`, outside-click + ESC handling
+- DOM: `.nav-dropdown.w-dropdown > button.nav-dropdown-toggle + nav.nav-dropdown-menu`
+- Animations: transform-none/scale-[0.96] + opacity, transition 500ms cubic-bezier(.19,1,.22,1)
+
+Each dropdown component only provides its own `.nav-dropdown-menu-inner` content (Product grid, Solutions grid, Resources grid).
+
+### Responsive breakpoints in dropdowns
+
+| Breakpoint | Behavior |
+|---|---|
+| `< 992px` | Navbar-container padding 8px (tight), nav-stack padding 12px 16px + h-72, dropdowns hidden (mobile menu) |
+| `992-1279px` | Desktop layout, but `.nav-product-menu-banner { display: none }` (Product video banner hidden) |
+| `≥ 1280px` (Tailwind `xl:`) | Full desktop — banner visible (`display: flex`), border-l + pt-20 + h-[150px] video thumb |
+
+**Bug preventer:** Product dropdown content needs ≥1040px min-width. When banner is correctly hidden `<1280px`, links fit in ~818px nav-stack width. Previously showed banner at all widths → layout collapsed.
+
 ## Container System
 
 | Class | Max-width | Padding | Usage |
@@ -201,6 +250,8 @@ margin-top: 0; margin-bottom: 0; text-decoration: none;
 | `.text-white` | `color: #fff` | `color: #fff; **flex: 1;**` |
 | `.text-alpha-100` | `color: #ffffffad` | `color: #ffffffad; **flex: 1;**` |
 | `.flex-1` | `flex: 1` | `flex: 1` (as expected) |
+| `.w-inline-block` | `display: inline-block` | `display: inline-block; max-width: 100%` |
+| `.nav-dropdown` (Foreplay override of `.w-dropdown`) | relative (Webflow default) | **`position: static`** (escapes positioning context — see Header section) |
 
 **Lesson:** `.text-white { flex: 1 }` caused numbers in footer ad count to split equal space with text labels. Without extracting CSS, this is invisible.
 
@@ -210,6 +261,40 @@ When cloning `<ul>`, always add:
 - `mb-2.5` (margin-bottom: 10px) — Webflow default
 - `pl-0` — override padding-left when `.w-list-unstyled` is present
 - `list-none` — override list-style when `.w-list-unstyled` is present
+
+### ⭐ CSS Cascade with Media Queries (critical for extraction)
+
+**Lesson learned during header refactor:** naive CSS extraction without media query context causes WRONG desktop values.
+
+**Example — `.navbar-container` max-width:**
+```
+.navbar-container       { max-width: 1340px }  [DESKTOP, pos 59341]
+.container              { max-width: 1440px }  [DESKTOP, pos 183560]  ← LAST wins
+.container.navbar-container { padding: 0 8px }  [@media ≤991px MOBILE ONLY]
+```
+
+On desktop: `.container` (1440) wins over `.navbar-container` (1340) because both have same specificity (0,1,0) and `.container` comes AFTER in source order. The combined-selector `.container.navbar-container` rule is inside `@media ≤991px` — mobile only. **Do NOT apply to desktop clone.**
+
+**Rule:** When extracting CSS, always track the media query context of each rule:
+```python
+# Walk backward through braces to find containing @media
+def find_context(css, pos):
+    depth = 0
+    i = pos
+    while i > 0:
+        i -= 1
+        if css[i] == '}': depth += 1
+        elif css[i] == '{':
+            if depth == 0:
+                start = css.rfind('@media', 0, i)
+                if start > 0 and start > css.rfind('}', 0, i):
+                    return css[start:css.find('{', start)].strip()
+                return 'DESKTOP'
+            depth -= 1
+    return 'DESKTOP'
+```
+
+**Lesson applied:** Header refactor originally used `max-w-[1340px] + px-2 + py-3 px-4 h-[72px]` (all mobile-only values). Correct desktop: `max-w-[1440px] + px-10 + p-4` (no explicit height).
 
 ## CSS Token Standards (for 10+ future routes)
 

@@ -1,66 +1,109 @@
-// Foreplay header — pixel-perfect from foreplay-source.css + foreplay-source.html
-// Structure: .container.navbar-container > .nav-stack > .nav-brand | nav > .nav-menu-inner > .navmenu-links | .navmenu-cta
+// Foreplay header — 100% nested DOM clone from foreplay-source.html + source.css
+//
+// Source DOM chain (desktop):
+//   header.navigation                         ← sticky top-0 z-100 backdrop-blur bg-[#020308eb]
+//     div.container.navbar-container          ← max-w-1440 mx-auto flex items-center justify-between px-10 (40px)
+//       div.nav-stack                         ← flex gap-9 items-center justify-between w-full p-4 relative
+//         a.nav-brand.w-nav-brand             ← z-5 p-1 rounded-10
+//           div.u-nav-brand-logo              ← h-8 transition
+//             div.svg.w-embed > svg (logo)
+//           div.sr-only "Foreplay"
+//         nav.nav-menu.w-nav-menu             ← flex-1 position:static (hidden on mobile)
+//           div.nav-menu-inner                ← flex justify-between
+//             div.navmenu-links               ← flex items-center gap-3 justify-start
+//               div.nav-dropdown.w-dropdown (Product)    ← padding-0 position:static
+//               div.nav-dropdown.w-dropdown (Solutions)
+//               div.nav-dropdown.w-dropdown (Resources)
+//               a.navlink (Pricing) > div.text-navlink
+//               a.navlink (Book a Demo) > div.text-navlink
+//             div.navmenu-cta                 ← flex items-center gap-2 justify-end
+//               a.navlink.u-navlink-signin (Sign in)
+//               a.new-button.new-button-navbar (Start free trial)
+//
+// DESKTOP CSS cascade (verified via media-query-aware extraction):
+//   .container           { max-width:1440px; padding: 0 40px }  ← wins over .navbar-container{max-width:1340px}
+//   .container.navbar-container { padding: 0 8px }              ← MOBILE ONLY (@media ≤991px), NOT desktop
+//   .nav-stack           { padding: 16px; position:relative }   ← p-4 (desktop)
+//   .nav-stack           { padding-top/bottom:12px; height:72px } ← MOBILE ONLY, NOT desktop
+//   .navbar-container    { position:relative }                  ← MOBILE ONLY
+//
+// Box model at 1800px viewport:
+//   .container.navbar-container content = 1440 - 80 = 1360px (matches DevTools 1360×72)
+//   .nav-stack padding-box  = 1360px → dropdown nav absolute left:0 right:0 width = 1360px
 
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ForeplayNavLink } from "@/components/foreplay/foreplay-nav-link"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
 import { ForeplayHeaderProductMenu } from "@/components/foreplay/foreplay-header-product-menu"
-
-// Solutions + Resources still use placeholder dropdown toggle (Prompt 3)
-const placeholderDropdowns = [
-  { label: "Solutions", href: "#" },
-  { label: "Resources", href: "#" },
-]
-
-const plainLinks = [
-  { label: "Pricing", href: "/pricing" },
-  { label: "Book a Demo", href: "/book-demo" },
-]
+import { ForeplayHeaderSolutionsMenu } from "@/components/foreplay/foreplay-header-solutions-menu"
+import { ForeplayHeaderResourcesMenu } from "@/components/foreplay/foreplay-header-resources-menu"
+import { ForeplayHeaderMobileMenu } from "@/components/foreplay/foreplay-header-mobile-menu"
 
 export function ForeplayHeader() {
   return (
+    // .navigation — source: sticky top-0 z-100 backdrop-blur-24 bg-[#020308eb] color:alpha-100
     <header
       className={cn(
         "sticky top-0 z-[100] text-[var(--fp-alpha-100)]",
-        // .navigation: always blur + semi-transparent bg, z-100
         "bg-[var(--fp-nav-bg)] backdrop-blur-[24px]",
       )}
     >
-      {/* .container.navbar-container: max-w-1440, mx-auto, px-2 (8px), relative, z-5 */}
-      <div className="relative z-[5] mx-auto flex max-w-[1440px] items-center justify-between px-2">
-        {/* .nav-stack: gap-9 (36px), items-center, w-full, p-4 (16px), flex, relative, justify-between */}
+      {/* .container.navbar-container — DESKTOP computed:
+          .container wins for max-width:1440px + padding:0 40px (comes later in CSS than .navbar-container)
+          .navbar-container adds: display:flex, justify-content:space-between, align-items:center
+          position:relative + px-2 (8px) + z-5 are MOBILE ONLY (.container.navbar-container inside @media ≤991px) */}
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-10">
+        {/* .nav-stack — DESKTOP: flex gap-9 items-center justify-between w-full p-4 relative
+            (py-3 and h-[72px] are MOBILE ONLY overrides)
+            CRITICAL: position:relative here is the positioning context for child nav.nav-dropdown-menu
+            which uses position:absolute top:100% left:0% right:0% — escaping through .nav-dropdown (static). */}
         <div className="relative flex w-full items-center justify-between gap-9 p-4">
-          {/* .nav-brand: p-1, rounded-[10px], z-[5] */}
+          {/* .nav-brand.w-nav-brand — source: z-5 rounded-10 p-1 (custom .nav-brand adds rounded-10 + p-1) */}
           <Link
             href="/home"
             aria-label="GoAds home"
             className="z-[5] rounded-[10px] p-1 focus-visible:shadow-[0_0_0_3px] focus-visible:shadow-secondary focus-visible:outline-none"
           >
-            <GoAdsLogo />
+            {/* .u-nav-brand-logo — source: h-8 transition hover:opacity-80 */}
+            <div className="h-8 transition-all duration-200 hover:opacity-80">
+              {/* .svg.w-embed — Webflow SVG wrapper (no styles) */}
+              <div className="flex h-full items-center">
+                <GoAdsLogo />
+              </div>
+            </div>
+            <span className="sr-only">Foreplay</span>
           </Link>
 
-          {/* nav > .nav-menu-inner: flex between, gap-10 */}
-          <nav className="hidden flex-1 lg:block">
-            <div className="flex items-center justify-between gap-10">
-              {/* .navmenu-links: flex, gap-3, items-center */}
-              <div className="flex items-center gap-3">
-                {/* Product mega-menu (Prompt 2 — done) */}
+          {/* Mobile hamburger — sibling of .nav-brand in our React implementation (shown only ≤991px) */}
+          <ForeplayHeaderMobileMenu />
+
+          {/* nav.nav-menu.w-nav-menu — source: flex-1 position:static (desktop only) */}
+          <nav
+            role="navigation"
+            className="static hidden flex-1 max-md:hidden lg:block"
+          >
+            {/* .nav-menu-inner — source: flex justify-between (NO gap, NO items-center) */}
+            <div className="flex justify-between">
+              {/* .navmenu-links — source: flex items-center gap-3 justify-start */}
+              <div className="flex items-center justify-start gap-3">
+                {/* .nav-dropdown.w-dropdown (Product) */}
                 <ForeplayHeaderProductMenu />
-                {/* Solutions + Resources placeholder dropdowns (Prompt 3) */}
-                {placeholderDropdowns.map((link) => (
-                  <NavDropdownToggle key={link.label} label={link.label} />
-                ))}
-                {plainLinks.map((link) => (
-                  <ForeplayNavLink key={link.label} href={link.href}>
-                    {link.label}
-                  </ForeplayNavLink>
-                ))}
+                {/* .nav-dropdown.w-dropdown (Solutions) */}
+                <ForeplayHeaderSolutionsMenu />
+                {/* .nav-dropdown.w-dropdown (Resources) */}
+                <ForeplayHeaderResourcesMenu />
+                {/* a.navlink (Pricing) */}
+                <ForeplayNavLink href="/pricing">Pricing</ForeplayNavLink>
+                {/* a.navlink (Book a Demo) */}
+                <ForeplayNavLink href="/book-demo">Book a Demo</ForeplayNavLink>
               </div>
 
-              {/* .navmenu-cta: flex, gap-2, items-center, justify-end */}
+              {/* .navmenu-cta — source: flex items-center gap-2 justify-end */}
               <div className="flex items-center justify-end gap-2">
+                {/* a.navlink.u-navlink-signin */}
                 <ForeplayNavLink href="/sign-in">Sign in</ForeplayNavLink>
+                {/* a.new-button.new-button-navbar */}
                 <ForeplayCtaButton href="/sign-up">Start free trial</ForeplayCtaButton>
               </div>
             </div>
@@ -68,25 +111,6 @@ export function ForeplayHeader() {
         </div>
       </div>
     </header>
-  )
-}
-
-// .nav-dropdown-toggle: flex items-center, gap-1, color #ffffff85
-// padding: 6px 6px 6px 10px → py-1.5 pr-1.5 pl-2.5
-// .icon-20: size-5
-function NavDropdownToggle({ label }: { label: string }) {
-  return (
-    <button
-      type="button"
-      className="flex items-center gap-1 rounded-[10px] py-1.5 pl-2.5 pr-1.5 font-sans text-[0.9375rem] leading-[1.25rem] text-foreground/50 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] hover:text-muted-foreground focus-visible:shadow-[0_0_0_3px] focus-visible:shadow-secondary focus-visible:outline-none"
-    >
-      {label}
-      <span className="flex size-5 items-center justify-center">
-        <svg viewBox="0 0 20 20" width="20" height="20" fill="none">
-          <path d="M7 8.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </span>
-    </button>
   )
 }
 
