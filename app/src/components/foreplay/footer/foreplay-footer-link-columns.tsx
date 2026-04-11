@@ -10,10 +10,10 @@ import { fpText } from "@/components/foreplay/foreplay-typography"
 import { footerLinkCategories } from "@/data/foreplay-footer-links-data"
 
 export function ForeplayFooterLinkColumns() {
-  // Company + Community go in a combined column (footer-double-category)
-  const mainCols = footerLinkCategories.filter(c => c.title !== "Company" && c.title !== "Community")
+  // Company + Legal go in a combined column (footer-double-category)
+  const mainCols = footerLinkCategories.filter(c => c.title !== "Company" && c.title !== "Legal")
   const companyCat = footerLinkCategories.find(c => c.title === "Company")
-  const communityCat = footerLinkCategories.find(c => c.title === "Community")
+  const legalCat = footerLinkCategories.find(c => c.title === "Legal")
 
   return (
     <div className="grid auto-cols-fr grid-cols-5 gap-4 max-md:grid-cols-3 max-md:gap-y-8 max-sm:grid-cols-2">
@@ -21,10 +21,10 @@ export function ForeplayFooterLinkColumns() {
         <LinkCategory key={cat.title} title={cat.title} links={cat.links} />
       ))}
 
-      {/* .footer-double-category — Company + Community stacked */}
+      {/* .footer-double-category — Company + Legal stacked */}
       <div className="flex flex-col gap-5">
         {companyCat && <LinkCategory title={companyCat.title} links={companyCat.links} />}
-        {communityCat && <LinkCategory title={communityCat.title} links={communityCat.links} />}
+        {legalCat && <LinkCategory title={legalCat.title} links={legalCat.links} />}
       </div>
 
       {/* .footer-text-ad — max-w-[256px], justify-self-start to prevent grid stretch */}
@@ -75,7 +75,7 @@ export function ForeplayFooterLinkColumns() {
       <div className="flex items-center justify-between [grid-area:span_1/span_5/span_1/span_5]">
         {/* .div-block-352 */}
         <div>
-          <div className="text-foreground"><div className={fpText.labelM}>Ask AI about Foreplay.co</div></div>
+          <div className="text-foreground"><div className={fpText.labelM}>Ask AI about GoAds</div></div>
         </div>
         {/* .ask-ai-buttons-wrapper: flex, gap-2 */}
         <div className="flex gap-2">

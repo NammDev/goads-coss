@@ -13,12 +13,12 @@ export function ForeplayFooterSocialAndLegal() {
       {/* .footer-foot-1 */}
       <div className="flex flex-1 items-center gap-4 max-md:flex-col max-md:gap-3">
         <p className={`${fpText.bodyS} text-[#ffffff68]`}>
-          &copy; 2025 Foreplay, Inc. All rights reserved.
+          &copy; 2026 GoAds, Inc. All rights reserved.
         </p>
-        <Link href="/privacy" className="py-1 text-[var(--fp-alpha-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
+        <Link href="/foreplay/page/privacy-policy" className="py-1 text-[var(--fp-alpha-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
           <div className={fpText.bodyS}>Privacy Policy</div>
         </Link>
-        <Link href="/terms" className="py-1 text-[var(--fp-alpha-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
+        <Link href="/foreplay/page/terms-of-service" className="py-1 text-[var(--fp-alpha-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
           <div className={fpText.bodyS}>Terms &amp; Conditions</div>
         </Link>
       </div>

@@ -53,7 +53,7 @@
 
 "use client"
 
-import { useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
@@ -293,14 +293,60 @@ function ProductBadge({
   frames: number
   gradient: string
 }) {
-  const [hovered, setHovered] = useState(false)
   // Sprite sheet: N frames × 88px wide, scaled to container height (100% = 88px)
-  // Source CSS: background-size: (frames×88)px 100%; background-position: 0px 0px; background-repeat: no-repeat
-  // Example for Swipe File (54 frames): 4752px × 100%
+  // background-size: (frames×88)px 100%; each frame = 88px wide.
   const spriteWidth = frames * 88
-  // Hover state: background-position jumps from 0px (frame 0) to -(frames-1)*88 px (last frame)
-  // Example for Swipe File: 0px → -4664px (frame 53)
-  const hoverX = -(frames - 1) * 88
+  const lastFrame = frames - 1
+  const DURATION_MS = 1000 // full play duration
+
+  // rAF-driven frame index (0..lastFrame). Using rAF (not CSS transition)
+  // so that rapid hover-in/out doesn't cause `steps()` interruption jitter —
+  // we always interpolate from the CURRENT frame proportionally.
+  const [frame, setFrame] = useState(0)
+  const frameRef = useRef(0)
+  const rafRef = useRef<number | null>(null)
+  const hoveredRef = useRef(false)
+
+  const animate = useCallback(
+    (target: number) => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+      const start = frameRef.current
+      if (start === target) return
+      // Proportional duration: moving 10/54 frames → only 10/54 of DURATION_MS.
+      // Prevents speed scaling artifacts on rapid reverse.
+      const distance = Math.abs(target - start)
+      const duration = (distance / lastFrame) * DURATION_MS
+      const t0 = performance.now()
+      const tick = (now: number) => {
+        const progress = Math.min((now - t0) / duration, 1)
+        const next = Math.round(start + (target - start) * progress)
+        frameRef.current = next
+        setFrame(next)
+        if (progress < 1) {
+          rafRef.current = requestAnimationFrame(tick)
+        } else {
+          rafRef.current = null
+        }
+      }
+      rafRef.current = requestAnimationFrame(tick)
+    },
+    [lastFrame],
+  )
+
+  const onEnter = () => {
+    hoveredRef.current = true
+    animate(lastFrame)
+  }
+  const onLeave = () => {
+    hoveredRef.current = false
+    animate(0)
+  }
+
+  // Cleanup rAF on unmount
+  useEffect(() => () => {
+    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+  }, [])
+
   return (
     // li.nav-badge — flex flex-1 flex-col items-center list-none
     <li className="flex flex-1 list-none flex-col items-center">
@@ -309,8 +355,8 @@ function ProductBadge({
           onMouseEnter/Leave trigger sprite frame animation via React state. */}
       <Link
         href={href}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseEnter={onEnter}
+        onMouseLeave={onLeave}
         className="group relative flex flex-1 flex-col items-center px-2 pt-2 text-center no-underline transition-all duration-200"
       >
         {/* .nav-badge-text — flex-col flex-1 items-center */}
@@ -328,17 +374,17 @@ function ProductBadge({
         </div>
         {/* .nav-badge-icon.sprite-image.sprite-{name} — 88×88, z-2, mt-4 mb-[-20px], relative
             Source: CSS background sprite with JS-driven frame animation on hover.
-            Our clone: React state + CSS transition with steps(frames-1) timing function.
-            - Base: background-position: 0px 0px (frame 0)
-            - Hover: background-position: -(frames-1)*88px 0px (last frame)
-            - Transition: 1s with steps(frames-1) → jumps frame-by-frame evenly */}
+            Our clone: requestAnimationFrame loop manually driving frame index (0..lastFrame).
+            - Not hovered: frame 0 (bg-pos 0)
+            - Hovered: animates to lastFrame over 1s
+            - Interruption: rAF cancels and interpolates from current frame proportionally,
+              so rapid hover-in/out no longer causes `steps()` jitter. */}
         <div
           className="relative z-[2] mt-4 mb-[-20px] size-[88px] bg-no-repeat"
           style={{
             backgroundImage: `url(${icon})`,
             backgroundSize: `${spriteWidth}px 100%`,
-            backgroundPosition: hovered ? `${hoverX}px 0px` : "0px 0px",
-            transition: `background-position 1s steps(${frames - 1})`,
+            backgroundPosition: `${-frame * 88}px 0px`,
           }}
         />
         {/* .nav-badge-gradient (+ variant class .discovery/.spyder/.lens/.briefs)

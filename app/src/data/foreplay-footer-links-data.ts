@@ -1,5 +1,6 @@
-// Footer link categories for Foreplay footer
-// 5 columns: Product, Resources, Solutions, Company, Community
+// Footer link categories for GoAds footer (Foreplay 5-column layout preserved)
+// Columns: Product, Resources, Tools, Company, Legal
+// Source structure uses .footer-double-category to stack the 5th column (Company + Legal)
 
 export interface FooterLinkCategory {
   title: string
@@ -10,57 +11,58 @@ export const footerLinkCategories: FooterLinkCategory[] = [
   {
     title: "Product",
     links: [
-      { label: "Swipe File", href: "/swipe-file" },
-      { label: "Discovery", href: "/discovery" },
-      { label: "Spyder", href: "/spyder" },
-      { label: "Lens", href: "/lens" },
-      { label: "Briefs", href: "/briefs" },
-      { label: "Chrome Extension", href: "#", external: true },
-      { label: "Mobile App", href: "/mobile-app" },
-      { label: "API", href: "/api" },
+      { label: "Business Managers", href: "/foreplay/bm" },
+      { label: "Facebook Assets", href: "/foreplay/profiles" },
+      { label: "TikTok Assets", href: "/foreplay/tiktok-accounts" },
+      { label: "Unban Service", href: "/foreplay/unban" },
+      { label: "Blue Verification", href: "/foreplay/blue-verification" },
+      { label: "Facebook Agency", href: "/foreplay/agency-ad-account" },
+      { label: "Google Agency", href: "/foreplay/google-agency" },
+      { label: "TikTok Agency", href: "/foreplay/tiktok-agency" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "University", href: "/university" },
-      { label: "Knowledge Base", href: "#", external: true },
-      { label: "API Docs", href: "#", external: true },
-      { label: "Blog", href: "/blog" },
-      { label: "Bounties", href: "/bounties" },
-      { label: "Events & Webinars", href: "/fireside" },
-      { label: "Agency Directory", href: "/agency-directory" },
-      { label: "Experts", href: "/experts" },
+      { label: "Blog", href: "/foreplay/blog" },
+      { label: "Docs", href: "/foreplay/docs" },
+      { label: "Help Center", href: "/foreplay/help" },
+      { label: "Community", href: "/foreplay/community" },
+      { label: "Reviews", href: "/foreplay/reviews" },
+      { label: "University", href: "/foreplay/university" },
+      { label: "Toolbox", href: "/foreplay/tools" },
     ],
   },
   {
-    title: "Solutions",
+    title: "Tools",
     links: [
-      { label: "E-Commerce & Retail", href: "/industries/ecommerce" },
-      { label: "Agencies", href: "/industries/agencies" },
-      { label: "Mobile Apps & Gaming", href: "/industries/mobile-apps" },
-      { label: "B2B & SaaS", href: "/industries/b2b-saas" },
-      { label: "Info, Education & Community", href: "/industries/info-education-community" },
-      { label: "Freelancers & Creators", href: "/industries/freelancers-creators" },
+      { label: "2FA Generator", href: "/foreplay/tools/2fa" },
+      { label: "Cookie Converter", href: "/foreplay/tools/cookie" },
+      { label: "Account Filter", href: "/foreplay/tools/filter" },
+      { label: "Split Data", href: "/foreplay/tools/split-data" },
+      { label: "Filter & Merge", href: "/foreplay/tools/merge" },
+      { label: "Online Notepad", href: "/foreplay/tools/notepad" },
+      { label: "IP Checker", href: "/foreplay/tools/check-ip" },
+      { label: "Remove Duplicates", href: "/foreplay/tools/remove-duplicates" },
     ],
   },
+  // ── Double-category slot: Company stacked on top of Legal ──
   {
     title: "Company",
     links: [
-      { label: "Pricing", href: "/pricing" },
-      { label: "Book a Demo", href: "/book-demo" },
-      { label: "Careers", href: "/careers" },
-      { label: "Public Library", href: "/adlibrary" },
+      { label: "About Us", href: "/foreplay/about" },
+      { label: "Milestones", href: "/foreplay/milestones" },
+      { label: "Partners", href: "/foreplay/partners" },
+      { label: "Pricing", href: "/foreplay/pricing" },
+      { label: "Book a Demo", href: "/foreplay/book-demo" },
     ],
   },
   {
-    title: "Community",
+    title: "Legal",
     links: [
-      { label: "Affiliate Program", href: "/affiliates" },
-      { label: "Wall of Love", href: "/reviews" },
-      { label: "Feature Requests", href: "#", external: true },
-      { label: "Public Road Map", href: "#", external: true },
-      { label: "Merch Store", href: "#", external: true },
+      { label: "Privacy Policy", href: "/foreplay/page/privacy-policy" },
+      { label: "Terms of Service", href: "/foreplay/page/terms-of-service" },
+      { label: "Refund Policy", href: "/foreplay/page/refund-policy" },
     ],
   },
 ]

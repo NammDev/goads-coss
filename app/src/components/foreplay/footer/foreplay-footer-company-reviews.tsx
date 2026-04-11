@@ -12,7 +12,7 @@ export function ForeplayFooterCompanyReviews() {
   return (
     <div className="flex items-center gap-[60px] max-md:flex-col max-md:items-start max-md:gap-6">
       {/* Logo — exact Foreplay logo SVG from source sprite */}
-      <Link href="/" aria-label="logo link">
+      <Link href="/foreplay/home" aria-label="GoAds home">
         <ForeplayLogoSvg />
       </Link>
 

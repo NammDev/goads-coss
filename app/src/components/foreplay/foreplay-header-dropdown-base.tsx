@@ -43,6 +43,7 @@
 "use client"
 
 import { useEffect, useRef, useState, type ReactNode } from "react"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 interface ForeplayHeaderDropdownBaseProps {
@@ -53,9 +54,16 @@ interface ForeplayHeaderDropdownBaseProps {
 export function ForeplayHeaderDropdownBase({ label, children }: ForeplayHeaderDropdownBaseProps) {
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
 
   // Click-to-toggle (matches foreplay.co behavior)
   const toggleMenu = () => setOpen((prev) => !prev)
+
+  // Auto-close on route change — fixes bug where dropdown stays open after
+  // clicking an internal link (Next.js client-nav preserves component state).
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   // ESC key + outside click
   useEffect(() => {

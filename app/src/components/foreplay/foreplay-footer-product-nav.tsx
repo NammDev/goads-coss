@@ -21,12 +21,13 @@ interface FooterProduct {
   href: string
 }
 
+// GoAds content — text + hrefs swapped, sprite icons kept 1:1
 const defaultProducts: FooterProduct[] = [
-  { iconBg: "/foreplay/footer_2.webp", bgSize: "2376px 100%", subtitle: "Organize Ad Inspo", label: "SwipeFile", href: "/swipe-file" },
-  { iconBg: "/foreplay/footer_1.webp", bgSize: "2728px 100%", subtitle: "Browse +100M Ads", label: "Discovery", href: "/discovery" },
-  { iconBg: "/foreplay/footer_3.webp", bgSize: "1364px 100%", subtitle: "Track Competitors", label: "Spyder", href: "/spyder" },
-  { iconBg: "/foreplay/footer_4.webp", bgSize: "924px 100%", subtitle: "Creative Analytics", label: "Lens", href: "/lens" },
-  { iconBg: "/foreplay/footer_5.webp", bgSize: "2420px 100%", subtitle: "Write briefs with AI", label: "Briefs", href: "/briefs" },
+  { iconBg: "/foreplay/footer_2.webp", bgSize: "2376px 100%", subtitle: "BM1–BM10, verified", label: "Business Managers", href: "/foreplay/bm" },
+  { iconBg: "/foreplay/footer_1.webp", bgSize: "2728px 100%", subtitle: "Profiles & Pages", label: "Facebook Assets", href: "/foreplay/profiles" },
+  { iconBg: "/foreplay/footer_3.webp", bgSize: "1364px 100%", subtitle: "Shop & Business Center", label: "TikTok Assets", href: "/foreplay/tiktok-accounts" },
+  { iconBg: "/foreplay/footer_4.webp", bgSize: "924px 100%", subtitle: "Recover disabled assets", label: "Unban Service", href: "/foreplay/unban" },
+  { iconBg: "/foreplay/footer_5.webp", bgSize: "2420px 100%", subtitle: "Verified badge", label: "Blue Verification", href: "/foreplay/blue-verification" },
 ]
 
 interface ForeplayFooterProductNavProps {
