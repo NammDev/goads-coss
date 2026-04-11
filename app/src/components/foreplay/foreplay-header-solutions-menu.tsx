@@ -12,14 +12,14 @@ import Link from "next/link"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplayHeaderDropdownBase } from "@/components/foreplay/foreplay-header-dropdown-base"
 
-// 6 solutions from source (ordered)
+// 6 solutions — GoAds target industries (labels kept same, hrefs → /foreplay/industries/*)
 const solutions = [
-  { label: "E-Commerce & Retail", href: "/industries/ecommerce", icon: EcommerceIcon },
-  { label: "Agencies", href: "/industries/agencies", icon: AgencyIcon },
-  { label: "Mobile Apps & Gaming", href: "/industries/mobile-apps", icon: MobileIcon },
-  { label: "B2B & SaaS", href: "/industries/b2b-saas", icon: B2bIcon },
-  { label: "Info, Education & Community", href: "/industries/info-education-community", icon: EducationIcon },
-  { label: "Freelancers & Creators", href: "/industries/freelancers-creators", icon: CreatorIcon },
+  { label: "E-Commerce & Retail", href: "/foreplay/industries/ecommerce", icon: EcommerceIcon },
+  { label: "Agencies", href: "/foreplay/industries/agencies", icon: AgencyIcon },
+  { label: "Mobile Apps & Gaming", href: "/foreplay/industries/mobile-apps", icon: MobileIcon },
+  { label: "B2B & SaaS", href: "/foreplay/industries/b2b-saas", icon: B2bIcon },
+  { label: "Info, Education & Community", href: "/foreplay/industries/info-education-community", icon: EducationIcon },
+  { label: "Freelancers & Creators", href: "/foreplay/industries/freelancers-creators", icon: CreatorIcon },
 ]
 
 export function ForeplayHeaderSolutionsMenu() {
@@ -33,7 +33,7 @@ export function ForeplayHeaderSolutionsMenu() {
           <div className="flex flex-col items-start gap-4 px-4 pt-4 pb-5">
             {/* .nav-overline-title */}
             <div className="flex w-full items-center rounded-[6px] p-2 text-[var(--fp-alpha-50)]">
-              <div className={fpText.overline}>Foreplay is For;</div>
+              <div className={fpText.overline}>GoAds is For;</div>
             </div>
             {/* .u-nav-solitions-list: grid 4 cols, gap-3 (actually source uses 4 cols but we have 6 items → use 3 cols) */}
             <ul className="m-0 grid w-full grid-cols-3 gap-3 p-0">

@@ -18,8 +18,8 @@
 
 import type { Metadata } from "next"
 import { ForeplaySectionContainer } from "@/components/foreplay/foreplay-section-container"
+import { ForeplaySectionHead } from "@/components/foreplay/foreplay-section-head"
 import { ForeplaySectionWhiteBlock } from "@/components/foreplay/foreplay-section-white-block"
-import { fpText } from "@/components/foreplay/foreplay-typography"
 import { foreplayPrivacyPolicyContent } from "@/data/foreplay-privacy-policy-content"
 
 export const metadata: Metadata = {
@@ -37,14 +37,15 @@ export default function ForeplayPrivacyPolicyPage() {
         <ForeplaySectionContainer variant="section">
           {/* .pages-title — flex-col, py-[75px] */}
           <div className="flex flex-col py-[75px]">
-            {/* .section-head — max-w-[720px] mx-auto text-center flex-col gap-3 items-center */}
-            <div className="mx-auto flex w-full max-w-[720px] flex-col items-center gap-3 text-center">
-              {/* .section-head_title */}
-              <div>
-                {/* h1.text-display-h2 */}
-                <h1 className={fpText.displayH2}>{foreplayPrivacyPolicyContent.title}</h1>
-              </div>
-            </div>
+            {/* .section-head — reuse ForeplaySectionHead atom
+                variant="light" → text-foreground (white) matches source .section-head_title { color: neutral-0 = white }
+                titleTag="h1" (semantic) + titleSize="h2" (visual .text-display-h2 size) */}
+            <ForeplaySectionHead
+              title={foreplayPrivacyPolicyContent.title}
+              titleTag="h1"
+              titleSize="h2"
+              variant="light"
+            />
           </div>
         </ForeplaySectionContainer>
       </section>
@@ -55,15 +56,20 @@ export default function ForeplayPrivacyPolicyPage() {
         <ForeplaySectionContainer variant="wide">
           {/* .v-padding-50 — empty spacer (padding: 25px 0) */}
           <div className="py-[25px]" />
-          {/* .blog-rtb — rich text block wrapper, constrained to 832px for readability */}
-          <div className="mx-auto max-w-[832px]">
-            {/* .text-solid-700 (already inherited from ForeplaySectionWhiteBlock parent) */}
-            {/* .w-richtext — prose styling via @tailwindcss/typography
-                Override: font-sans, solid-700 color (inherited), Foreplay-like spacing */}
-            <div
-              className="prose prose-neutral max-w-none font-sans [&_h3]:mt-10 [&_h3]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_p]:my-4 [&_p]:text-base [&_p]:leading-7 [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:my-1"
-              dangerouslySetInnerHTML={{ __html: foreplayPrivacyPolicyContent.html }}
-            />
+          {/* .blog-rtb — source CSS: font-size:16px, line-height:24px, letter-spacing:-0.18px,
+              color:var(--_lens---neutral-50). NO width constraint, NO margin — full container width. */}
+          <div className="text-base leading-6 tracking-[-0.18px] text-[var(--fp-alpha-50)]">
+            {/* .text-solid-700 — overrides parent .blog-rtb color back to dark for readability on white bg */}
+            <div className="text-[var(--fp-solid-700)]">
+              {/* .w-richtext — prose styling via @tailwindcss/typography
+                  h3 source: font-size:24px, line-height:32px, margin:16px 0 12px
+                    → [&_h3]:text-2xl [&_h3]:leading-8 [&_h3]:mt-4 [&_h3]:mb-3
+                  p/ol/ul: match .blog-rtb body typography (16px/24px from parent) */}
+              <div
+                className="prose prose-neutral max-w-none font-sans [&_h3]:mt-4 [&_h3]:mb-3 [&_h3]:text-2xl [&_h3]:leading-8 [&_p]:my-4 [&_p]:text-base [&_p]:leading-6 [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:my-1"
+                dangerouslySetInnerHTML={{ __html: foreplayPrivacyPolicyContent.html }}
+              />
+            </div>
           </div>
           {/* .v-padding-50 — empty spacer (padding: 25px 0) */}
           <div className="py-[25px]" />

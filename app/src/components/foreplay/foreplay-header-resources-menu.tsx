@@ -38,18 +38,19 @@ interface ResourceItem {
   icon: () => ReactElement
 }
 
+// GoAds content — text + hrefs swapped, icons (SVG) kept unchanged
 const learnItems: ResourceItem[] = [
-  { label: "University", desc: "Ad masterclasses", href: "/university", icon: UniversityIcon },
-  { label: "Events & Webinars", desc: "Live workshops + Q&A", href: "/fireside", icon: EventsIcon },
-  { label: "Knowledge Base", desc: "Guides and tutorials", href: "https://help.foreplay.co/", icon: BookIcon },
-  { label: "Experts", desc: "Free Swipe Files", href: "/experts", icon: ExpertIcon },
-  { label: "Blog", desc: "Marketing news & tips", href: "/blog", icon: BlogIcon },
+  { label: "Blog", desc: "Tips & guides for media buyers", href: "/foreplay/blog", icon: UniversityIcon },
+  { label: "Docs", desc: "Setup docs & API references", href: "/foreplay/docs", icon: EventsIcon },
+  { label: "Community", desc: "Join discussions", href: "/foreplay/community", icon: BookIcon },
+  { label: "Help Center", desc: "FAQs & support guides", href: "/foreplay/help", icon: ExpertIcon },
+  { label: "Reviews", desc: "What clients say", href: "/foreplay/reviews", icon: BlogIcon },
 ]
 
 const earnItems: ResourceItem[] = [
-  { label: "Affiliate Program", desc: "Make over $10k/mo reffering Foreplay", href: "/affiliates", icon: AffiliateIcon },
-  { label: "Work with Brands", desc: "Get world-class creative services.", href: "/work-with-brands", icon: BrandIcon },
-  { label: "Agency Directory", desc: "Discover the worlds best agencies.", href: "/agency-directory", icon: DirectoryIcon },
+  { label: "About Us", desc: "5+ yrs in ad infrastructure", href: "/foreplay/about", icon: AffiliateIcon },
+  { label: "Milestones", desc: "Our journey & achievements", href: "/foreplay/milestones", icon: BrandIcon },
+  { label: "Partners", desc: "Exclusive deals from our partners", href: "/foreplay/partners", icon: DirectoryIcon },
 ]
 
 export function ForeplayHeaderResourcesMenu() {
@@ -68,9 +69,7 @@ export function ForeplayHeaderResourcesMenu() {
           {/* .u-nav-resources-banner — row-span 2, col-span 3, justify-self-end
               border-l, rounded-[18px], max-w-[275px], m-[10px], pt-[25px] pb-9, relative, overflow-hidden */}
           <a
-            href="https://shop.foreplay.co/"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/foreplay/book-demo"
             className="col-span-3 row-span-2 row-start-1 relative m-2.5 flex w-full max-w-[275px] items-start justify-center justify-self-end overflow-hidden rounded-[18px] border-l border-[var(--fp-border-nav)] pt-[25px] pb-9 no-underline transition-all duration-200 hover:opacity-80"
           >
             {/* .nav-banner-content — z-2, flex-col gap-1, items-center, max-w-[200px], text-center */}
@@ -84,13 +83,13 @@ export function ForeplayHeaderResourcesMenu() {
                     <MerchIcon />
                   </div>
                   {/* .text-label-s */}
-                  <div className={fpText.labelS}>Merch</div>
+                  <div className={fpText.labelS}>Book a Demo</div>
                 </div>
               </div>
               {/* .u-nav-merch-link-description — color: var(--fp-solid-900), flex:1, text-left */}
               <div className="flex-1 text-left text-[var(--fp-solid-900)]">
                 {/* .text-body-s */}
-                <div className={fpText.bodyS}>Shop workwear for marketers</div>
+                <div className={fpText.bodyS}>Book 1-on-1 with our team</div>
               </div>
             </div>
             {/* .merch-video — absolute, 112%×115%, inset:-1% 0% 0% -7% (z-0, behind content) */}
@@ -113,7 +112,7 @@ export function ForeplayHeaderResourcesMenu() {
 
           {/* .u-nav-resources-earn — col-span 9 row 2, border-t, flex-col gap-4, p-[16px_16px_20px] */}
           <div className="col-span-9 row-start-2 flex flex-col items-start gap-4 border-t border-[var(--fp-border-nav)] px-4 pt-4 pb-5">
-            <NavOverlineTitle>Earn</NavOverlineTitle>
+            <NavOverlineTitle>Company</NavOverlineTitle>
             <ResourcesList items={earnItems} />
           </div>
         </div>

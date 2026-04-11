@@ -66,21 +66,22 @@ import { ForeplayHeaderDropdownBase } from "@/components/foreplay/foreplay-heade
 //   Our sprites (W×160): footer_1=9920 (62f=Discovery), footer_2=8640 (54f=Swipe File),
 //                        footer_3=4960 (31f=Spyder), footer_4=3360 (21f=Lens), footer_5=8800 (55f=Briefs)
 //   Note: footer_1 and footer_2 SWAPPED from previous (wrong) mapping.
+// GoAds content — text + hrefs swapped, visual assets (sprites + icons) kept
 const research = [
-  { label: "Swipe File", desc: "Save & share creative inspiration.", href: "/swipe-file", icon: "/foreplay/footer_2.webp", frames: 54, gradient: "" },
-  { label: "Discovery", desc: "Ad search engine with over 100M ads.", href: "/discovery", icon: "/foreplay/footer_1.webp", frames: 62, gradient: "discovery" },
-  { label: "Spyder", desc: "Track and analyze competitor advertising 24/7", href: "/spyder", icon: "/foreplay/footer_3.webp", frames: 31, gradient: "spyder" },
+  { label: "Business Managers", desc: "BM1–BM10, verified & standard.", href: "/foreplay/bm", icon: "/foreplay/footer_2.webp", frames: 54, gradient: "" },
+  { label: "Facebook Assets", desc: "Profiles & Pages — aged, verified.", href: "/foreplay/profiles", icon: "/foreplay/footer_1.webp", frames: 62, gradient: "discovery" },
+  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/foreplay/tiktok-accounts", icon: "/foreplay/footer_3.webp", frames: 31, gradient: "spyder" },
 ]
 
 const analytics = [
-  { label: "Lens", desc: "Advertising analytics for creative teams.", href: "/lens", icon: "/foreplay/footer_4.webp", frames: 21, gradient: "lens" },
-  { label: "Briefs", desc: "Turn inspiration into actionable briefs.", href: "/briefs", icon: "/foreplay/footer_5.webp", frames: 55, gradient: "briefs" },
+  { label: "Unban Meta Assets", desc: "Recover disabled BMs, profiles & pages.", href: "/foreplay/unban", icon: "/foreplay/footer_4.webp", frames: 21, gradient: "lens" },
+  { label: "Blue Verification", desc: "Verified badge for Pages & Instagram.", href: "/foreplay/blue-verification", icon: "/foreplay/footer_5.webp", frames: 55, gradient: "briefs" },
 ]
 
 const extend = [
-  { label: "Chrome Extension", desc: "Save ads from anywhere.", href: "https://chromewebstore.google.com/", icon: ChromeIcon },
-  { label: "Mobile App", desc: "Save ads from your phone.", href: "/mobile-app", icon: MobileIcon },
-  { label: "API", desc: "Leverage Foreplay data.", href: "/api", icon: ApiIcon },
+  { label: "Facebook Agency", desc: "Verified FB ad accounts.", href: "/foreplay/agency-ad-account", icon: ChromeIcon },
+  { label: "Google Agency", desc: "Whitelisted Google Ads billing.", href: "/foreplay/google-agency", icon: MobileIcon },
+  { label: "TikTok Agency", desc: "Verified TikTok ads accounts.", href: "/foreplay/tiktok-agency", icon: ApiIcon },
 ]
 
 // Map gradient name to source colors (linear-gradient bottom-up)
@@ -204,7 +205,7 @@ export function ForeplayHeaderProductMenu() {
                         </div>
                       </div>
                       {/* .text-label-s */}
-                      <div className={fpText.labelS}>What is Foreplay?</div>
+                      <div className={fpText.labelS}>What is GoAds?</div>
                     </div>
                   </div>
                 </div>

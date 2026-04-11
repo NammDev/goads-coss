@@ -93,10 +93,12 @@ export function ForeplayHeader() {
                 <ForeplayHeaderSolutionsMenu />
                 {/* .nav-dropdown.w-dropdown (Resources) */}
                 <ForeplayHeaderResourcesMenu />
+                {/* a.navlink (Tools) — plain link to /foreplay/tools hub */}
+                <ForeplayNavLink href="/foreplay/tools">Tools</ForeplayNavLink>
                 {/* a.navlink (Pricing) */}
-                <ForeplayNavLink href="/pricing">Pricing</ForeplayNavLink>
+                <ForeplayNavLink href="/foreplay/pricing">Pricing</ForeplayNavLink>
                 {/* a.navlink (Book a Demo) */}
-                <ForeplayNavLink href="/book-demo">Book a Demo</ForeplayNavLink>
+                <ForeplayNavLink href="/foreplay/book-demo">Book a Demo</ForeplayNavLink>
               </div>
 
               {/* .navmenu-cta — source: flex items-center gap-2 justify-end */}
