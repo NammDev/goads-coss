@@ -38,6 +38,7 @@ import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
 import { ForeplayHeaderProductMenu } from "@/components/foreplay/foreplay-header-product-menu"
 import { ForeplayHeaderSolutionsMenu } from "@/components/foreplay/foreplay-header-solutions-menu"
 import { ForeplayHeaderResourcesMenu } from "@/components/foreplay/foreplay-header-resources-menu"
+import { ForeplayHeaderToolsMenu } from "@/components/foreplay/foreplay-header-tools-menu"
 import { ForeplayHeaderMobileMenu } from "@/components/foreplay/foreplay-header-mobile-menu"
 
 export function ForeplayHeader() {
@@ -93,8 +94,8 @@ export function ForeplayHeader() {
                 <ForeplayHeaderSolutionsMenu />
                 {/* .nav-dropdown.w-dropdown (Resources) */}
                 <ForeplayHeaderResourcesMenu />
-                {/* a.navlink (Tools) — plain link to /foreplay/tools hub */}
-                <ForeplayNavLink href="/foreplay/tools">Tools</ForeplayNavLink>
+                {/* .nav-dropdown.w-dropdown (Tools) — GoAds Toolbox mega-menu */}
+                <ForeplayHeaderToolsMenu />
                 {/* a.navlink (Pricing) */}
                 <ForeplayNavLink href="/foreplay/pricing">Pricing</ForeplayNavLink>
                 {/* a.navlink (Book a Demo) */}
