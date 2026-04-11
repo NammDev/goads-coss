@@ -51,6 +51,9 @@
 // Shell (dropdown wrapper + toggle button + nav animation) is DELEGATED to ForeplayHeaderDropdownBase
 // for DRY consistency with Solutions + Resources dropdowns.
 
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
@@ -108,7 +111,7 @@ export function ForeplayHeaderProductMenu() {
                 </ul>
               </ProductSection>
 
-              {/* .nav-product-menu-links-analytics — col-span-4 row-1, border-l, flex-col items-start p-[16px_16px_0] overflow-hidden */}
+              {/* .nav-product-menu-links-analytics — col-span-4 row-1, border-l, p-[16px_16px_0] overflow-hidden */}
               <ProductSection
                 className="col-span-4 row-start-1 overflow-hidden border-l border-[var(--fp-border-nav)]"
                 title="Analytics & Production"
@@ -289,17 +292,24 @@ function ProductBadge({
   frames: number
   gradient: string
 }) {
+  const [hovered, setHovered] = useState(false)
   // Sprite sheet: N frames × 88px wide, scaled to container height (100% = 88px)
   // Source CSS: background-size: (frames×88)px 100%; background-position: 0px 0px; background-repeat: no-repeat
   // Example for Swipe File (54 frames): 4752px × 100%
   const spriteWidth = frames * 88
+  // Hover state: background-position jumps from 0px (frame 0) to -(frames-1)*88 px (last frame)
+  // Example for Swipe File: 0px → -4664px (frame 53)
+  const hoverX = -(frames - 1) * 88
   return (
     // li.nav-badge — flex flex-1 flex-col items-center list-none
     <li className="flex flex-1 list-none flex-col items-center">
       {/* a.nav-badge-link.w-inline-block — flex-col flex-1 items-center pt-2 px-2 text-center transition
-          Source color: #000000ad (overridden by .text-white child to #fff) */}
+          Source color: #000000ad (overridden by .text-white child to #fff)
+          onMouseEnter/Leave trigger sprite frame animation via React state. */}
       <Link
         href={href}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         className="group relative flex flex-1 flex-col items-center px-2 pt-2 text-center no-underline transition-all duration-200"
       >
         {/* .nav-badge-text — flex-col flex-1 items-center */}
@@ -316,22 +326,34 @@ function ProductBadge({
           </div>
         </div>
         {/* .nav-badge-icon.sprite-image.sprite-{name} — 88×88, z-2, mt-4 mb-[-20px], relative
-            Source uses CSS background sprite (N frames, animated via JS on hover).
-            Static render: show frame 0 via background-position: 0px 0px.
-            background-size: (frames×88)px 100% scales sprite so each frame = 88×88 in container. */}
+            Source: CSS background sprite with JS-driven frame animation on hover.
+            Our clone: React state + CSS transition with steps(frames-1) timing function.
+            - Base: background-position: 0px 0px (frame 0)
+            - Hover: background-position: -(frames-1)*88px 0px (last frame)
+            - Transition: 1s with steps(frames-1) → jumps frame-by-frame evenly */}
         <div
           className="relative z-[2] mt-4 mb-[-20px] size-[88px] bg-no-repeat"
           style={{
             backgroundImage: `url(${icon})`,
             backgroundSize: `${spriteWidth}px 100%`,
-            backgroundPosition: "0px 0px",
+            backgroundPosition: hovered ? `${hoverX}px 0px` : "0px 0px",
+            transition: `background-position 1s steps(${frames - 1})`,
           }}
         />
         {/* .nav-badge-gradient (+ variant class .discovery/.spyder/.lens/.briefs)
-            absolute bottom-[-40%] w-[116px] h-[116px] aspect-square rounded-[16%] blur-[28px]
-            opacity-0 transition-all .8s ease, group-hover:opacity-60 */}
+            Source CSS:
+              Base: opacity:0; transform:translateY(50%); filter:blur(28px); aspect-ratio:1;
+                    width:116px; height:116px; border-radius:16%; bottom:-40%; position:absolute;
+                    transition: all .8s cubic-bezier(.19,1,.22,1);
+              Hover (@media ≥992px): .nav-badge-link:hover .nav-badge-gradient {
+                    opacity:1; transform:translateY(0%);
+              }
+            Effect: base pushed down+invisible (translateY:50% + opacity:0), on hover moves UP
+                    (translateY:0 → bottom:-40% position) and fades in (opacity:1), overlaying
+                    the bottom half of the icon with blurred color glow.
+            Tailwind: group-hover:translate-y-0 group-hover:opacity-100 */}
         <div
-          className="pointer-events-none absolute bottom-[-40%] aspect-square h-[116px] w-[116px] translate-y-1/2 rounded-[16%] opacity-0 blur-[28px] transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:opacity-60"
+          className="pointer-events-none absolute bottom-[-40%] aspect-square h-[116px] w-[116px] translate-y-1/2 rounded-[16%] opacity-0 blur-[28px] transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-y-0 group-hover:opacity-100"
           style={{ backgroundImage: gradientMap[gradient] || gradientMap[""] }}
         />
       </Link>

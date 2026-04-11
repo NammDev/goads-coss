@@ -1,153 +1,180 @@
 # Foreplay Clone Workflow
 
-## Header Clone — 4 Prompts (recommended)
+## Case Study: Header Clone ✅ DONE (2026-04-10/11)
 
-Header phức tạp với mega-menu dropdowns → tách 4 prompts để tránh context bloat và miss detail.
+Header mega-menu đã clone hoàn chỉnh với 3 dropdowns (Product/Solutions/Resources) + mobile menu. **Không cần clone lại** — nhưng đây là case study phức tạp nhất, reference cho khi clone các components có state + positioning context + responsive breakpoints.
 
-### Preparation (cào dữ liệu trước)
+### Học từ header clone — key architectural lessons
 
-**Cần cào 3 thứ:**
+**1. Positioning context escape (Webflow `.w-dropdown` override)**
+- Source override `.nav-dropdown { position: static }` (Webflow default: relative)
+- Absolute child `nav.nav-dropdown-menu` → escape lên ancestor gần nhất có position:relative (= `.nav-stack`)
+- Kết quả: dropdown xuất hiện dưới cả header row, full nav-stack width thay vì chỉ dưới button
+- Apply cho clone: wrapper dùng `className="static"`, KHÔNG `relative`
+
+**2. CSS cascade with media query context — CRITICAL**
+- Naive extraction tool dumps tất cả rules không phân biệt `@media` → áp dụng nhầm mobile values cho desktop
+- **Bug thực tế:** `.navbar-container { max-width: 1340px }` (desktop) bị override bởi `.container { max-width: 1440px }` (desktop, declared SAU trong CSS) → final desktop = 1440
+- `.container.navbar-container { padding: 0 8px }` nằm trong `@media ≤991px` → MOBILE ONLY, không apply desktop
+- `.nav-stack { padding-top: 12px; height: 72px }` cũng mobile only, desktop là `padding: 16px` + content-driven height
+- **Fix pattern:** brace-walk Python script để xác định media query context của từng rule. Xem `docs/foreplay/design-guideline.md` → "CSS Cascade with Media Queries"
+
+**3. DOM nesting verification — count closing tags carefully**
+- Trong source HTML không có indent: `...?</div></div></div></div><a class="...">` — số `</div>` quyết định parent của next element
+- **Bug thực tế:** tôi placed `a.nav-lightbox` làm sibling của `.nav-product-banner-video` thay vì child — vì đếm nhầm `</div>`
+- **Fix pattern:** đếm từng `</div>`, trace stack `[banner, video, content, text-white, title]`, pop lần lượt khi gặp close tag, xác định chính xác parent của element mới
+
+**4. Hidden Webflow utility classes**
+- `.text-white` không chỉ `color: #fff` — còn có `flex: 1` → ảnh hưởng flex layout
+- `.w-inline-block` = `display: inline-block; max-width: 100%`
+- **Rule:** TRƯỚC KHI dùng Webflow utility class, run `extract-css.sh` để check hidden properties
+
+**5. Responsive breakpoint discipline**
+- `.nav-product-menu-banner { display: none }` on desktop base, `display: flex` chỉ trong `@media (min-width: 1280px)`
+- → Tailwind `hidden xl:flex` (xl = 1280px default)
+- **Bug thực tế:** render banner ở mọi viewport → grid collapse dưới 1280px vì content quá dense cho 818px nav-stack
+
+**6. Sprite animation — CSS `steps()` timing function**
+- Source sprite sheets: N frames × 88px wide (scaled to container 88×88)
+- `background-size: (N×88)px 100%; background-position: 0px 0px` (frame 0)
+- Hover: `background-position: -(N-1)×88px 0px` (last frame)
+- Transition: `background-position 1s steps(N-1)` → frame-by-frame jump animation
+- **Ours:** React state `hovered` + inline style (Tailwind không support dynamic arbitrary values)
+
+**7. Hover effects — translate + opacity combo**
+- `.nav-badge-gradient` base: `opacity:0; transform:translateY(50%)` (pushed down, invisible)
+- Hover: `opacity:1; transform:translateY(0%)` → slides UP + fades IN → overlays icon
+- Duration 800ms, cubic-bezier(.19,1,.22,1)
+- **Ours:** `group-hover:translate-y-0 group-hover:opacity-100`
+
+### Files from header clone (reference patterns)
+
+| File | Pattern |
+|---|---|
+| `app/src/components/foreplay/foreplay-header.tsx` | Static header với container + nav-stack positioning context |
+| `app/src/components/foreplay/foreplay-header-dropdown-base.tsx` | Shared dropdown shell: state, animation, positioning escape |
+| `app/src/components/foreplay/foreplay-header-product-menu.tsx` | Complex mega-menu: grid 10-col, sprite animation, banner xl-only |
+| `app/src/components/foreplay/foreplay-header-resources-menu.tsx` | Simpler mega-menu: 12-col grid with Merch video banner |
+| `app/src/components/foreplay/foreplay-header-solutions-menu.tsx` | Simplest mega-menu: single 3-col grid |
+| `app/src/components/foreplay/foreplay-header-mobile-menu.tsx` | Mobile hamburger + accordion drawer (Radix Sheet) |
+| `app/src/components/foreplay/foreplay-nav-link.tsx` | Atom: `.navlink > .text-navlink` wrapper |
+
+Full refactor analysis + root cause findings: `docs/foreplay/changelog.md` → "Header Full Refactor — 100% Nested DOM (2026-04-10) ✅"
+
+Architectural guidelines + DOM hierarchy + CSS cascade rules: `docs/foreplay/design-guideline.md` → "Header (.navigation)" section
+
+---
+
+## Privacy Policy Clone — 2 Prompts
+
+Static legal pages (privacy, terms, cookies) rất đơn giản: hero title + rich text body. Chỉ cần 2 prompts.
+
+### Preparation
 
 ```bash
-# 1. HTML (nếu chưa có) — header giống nhau trên mọi page, pick 1
-curl -sL https://www.foreplay.co/ > docs/foreplay/html/foreplay-homepage-latest.html
-
-# 2. Screenshot mega-menu expanded states (không tự chụp được qua curl)
-#    → Dùng browser DevTools: mở menu "Product", "Solutions", "Resources"
-#    → Screenshot từng state, lưu vào docs/foreplay/screenshots/
-#    → Paste vào prompt khi cần
-
-# 3. Icon images cho mega-menu (nếu chưa có)
-#    Đã có sẵn trong app/public/foreplay/: footer_1-5.webp (Swipe File, Discovery, Spyder, Lens, Briefs)
-#    Còn thiếu: chrome-extension icon, mobile-app icon, API icon, "What is Foreplay?" video thumbnail
-#    → Inspect DOM trên foreplay.co → copy URL → curl về
+# Download HTML source
+curl -sL https://www.foreplay.co/page/privacy-policy > docs/foreplay/html/privacy-policy.html
 ```
 
-**CSS đã có sẵn**: `docs/foreplay/html/foreplay-source.css` — dùng `extract-css.sh` để pull class CSS.
-
----
-
-### Prompt 1: Audit + Skeleton Nav Bar (no dropdowns)
-
-```
-/ck-plan --fast
-
-Audit header foreplay.co và clone skeleton nav bar (KHÔNG dropdown):
-
-1. Đọc docs/foreplay/html/foreplay-homepage-latest.html
-2. Tìm DOM của .navigation, .nav-dropdown, .nav-inner, .nav-cta
-3. Extract CSS:
-   docs/foreplay/html/extract-css.sh "navigation" "nav-inner" "nav-dropdown" "navlink" "new-button" "new-button-navbar"
-4. List tất cả nav items + mega-menu triggers (Product, Solutions, Resources, Pricing, Book a Demo)
-5. Clone SKELETON vào app/src/components/foreplay/foreplay-header.tsx:
-   - .navigation: sticky, z-100, backdrop-blur-24, bg #020308eb
-   - Logo foreplay bên trái
-   - 5 nav items GIỮA: Product (chevron), Solutions (chevron), Resources (chevron), Pricing, Book a Demo
-   - Sign in + "Start free trial" CTA bên phải
-   - TEXT-ONLY — không dropdown, không hover state mega-menu yet
-6. Verify compile, test sticky + blur
-
-Output: skeleton nav bar + list CSS classes/components cần cho Prompt 2-4
-```
-
----
-
-### Prompt 2: Product Mega-Menu (biggest — 80% effort)
+### Prompt 1: Extract Content + Audit Layout
 
 ```
 /clone-foreplay
 
-Clone "Product" mega-menu dropdown ở header.
+Clone layout wrapper cho https://www.foreplay.co/page/privacy-policy (static legal page).
 
-## Input cần thiết
-- HTML: paste đoạn DOM của Product dropdown từ docs/foreplay/html/foreplay-homepage-latest.html
-- Screenshot: ảnh mega-menu Product expanded (tôi sẽ paste)
-- Icons: /foreplay/footer_1-5.webp (Swipe File, Discovery, Spyder, Lens, Briefs)
+## Input
+- HTML: docs/foreplay/html/privacy-policy.html
+- CSS: docs/foreplay/html/foreplay-source.css
+- Extract: docs/foreplay/html/extract-css.sh
 
-## DOM structure (expected)
-div.nav-dropdown (relative, group, hover trigger)
-  button.navlink.chevron "Product"
-  div.dropdown-menu (absolute top-full, backdrop-blur, border, rounded, show on hover/focus)
-    div.dropdown-inner (grid layout)
-      section RESEARCH (label + 3 items: Swipe File, Discovery, Spyder)
-        .nav-item: icon 40px + title + description
-      section "ANALYTICS & PRODUCTION" (label + 2 items: Lens, Briefs)
-      section EXTEND (label + 3 items: Chrome Extension, Mobile App, API — smaller icons)
-    div.dropdown-right ("What is Foreplay?" video card with play button)
+## Scope
+Privacy page = simple layout, KHÔNG cần clone 100% DOM như mega-menu:
+1. Hero section (title "Privacy Policy" + last updated date)
+2. Rich text content (h2/h3/p/ul/ol/a/blockquote)
+3. Footer CTA (reuse ForeplayHomeCta nếu có)
 
 ## Quy trình
-1. Extract CSS: dropdown-menu, dropdown-inner, nav-section-label, nav-item, nav-item-icon, nav-item-title, nav-item-desc, dropdown-video-card
-2. Clone với Radix NavigationMenu HOẶC custom hover-to-open (useState + onMouseEnter/Leave + delay)
-3. Reuse /foreplay/footer_*.webp cho 5 product icons
-4. Dùng CSS vars --fp-*, không [] arbitrary
-5. Transition: show/hide smooth 200ms
+1. Đọc HTML, extract:
+   - Hero class (.legal-hero / .page-hero / .hero-section)
+   - Content class (.rich-text / .legal-content / .w-richtext)
+   - Last updated date
+2. Extract CSS của wrapper classes (hero padding, content max-width, prose styling)
+3. Clone SKELETON wrapper vào app/src/app/foreplay/page/privacy-policy/page.tsx:
+   - <ForeplayHeader /> (already in layout)
+   - <section> Hero: title + date + subtitle (optional)
+   - <section> Content: prose container (max-w 768-832px, @tailwindcss/typography)
+   - <ForeplayHomeCta /> (reuse)
+   - <ForeplayFooter /> (already in layout)
+4. Content body: extract raw HTML từ .w-richtext → lưu vào src/data/foreplay-privacy-policy-content.ts as HTML string OR convert to MDX
+5. Render content với `dangerouslySetInnerHTML` HOẶC MDX component
 
 ## Rules
-- DOM 100% match source
-- Hover trigger: show dropdown khi hover vào button HOẶC dropdown-menu (không flicker)
-- Click outside: close
-- Keyboard: ESC close, Tab navigate
-- Desktop-only, note mobile values trong comment
+- Tái sử dụng ForeplaySectionContainer (variant="section" = max-w-1216 px-10) cho wrapper
+- Hero dùng fpText.displayH1 + fpText.bodyL
+- Content container max-w-[832px] (theo blog-container)
+- Apply `prose prose-invert` từ @tailwindcss/typography cho body text
+- Typography override: match fpText.bodyM cho p, fpText.headingM cho h2/h3
+- Zero hex arbitrary — dùng var(--fp-alpha-*) cho text colors
+- Route: app/src/app/foreplay/page/privacy-policy/page.tsx (theo Foreplay URL pattern /page/*)
 ```
 
----
-
-### Prompt 3: Solutions + Resources Dropdowns
+### Prompt 2: Populate Content + Verify
 
 ```
 /clone-foreplay
 
-Clone 2 dropdowns còn lại ở header: Solutions, Resources.
+Fill content và verify privacy policy page.
 
 ## Input
-- HTML: paste DOM của Solutions + Resources dropdowns
-- Screenshot: 2 ảnh mega-menu expanded
+- Page file: app/src/app/foreplay/page/privacy-policy/page.tsx (skeleton từ Prompt 1)
+- Content source: docs/foreplay/html/privacy-policy.html → .w-richtext section
 
-## Scope
-- Solutions dropdown: layout khác Product (ít items hơn, có thể chỉ 1 col)
-- Resources dropdown: blog + guides + community links
-- Pricing: static link, no dropdown
-- Book a Demo: static link, no dropdown
-
-## Reuse từ Prompt 2
-- Dùng lại cấu trúc nav-dropdown, dropdown-menu, nav-item
-- Chỉ khác data (content) và layout minor (columns, sizing)
-
-## Rules
-- Extract CSS cho bất kỳ class mới (solution-specific, resource-specific)
-- Nếu layout giống Product mega-menu → tách generic NavDropdown atom, reuse
-- Commit prompt 2 trước khi bắt đầu prompt 3
-```
-
----
-
-### Prompt 4: Mobile Hamburger + Drawer + Responsive
-
-```
-/clone-foreplay
-
-Clone mobile variant header: hamburger + slide-in drawer menu.
-
-## Input
-- HTML: paste DOM mobile header state (xem foreplay.co viewport 375px)
-- Screenshot: ảnh mobile menu opened
-- Breakpoints: max-md (≤991px), max-sm (≤767px)
-
-## Scope
-- Hamburger icon (show khi ≤991px, hide desktop nav)
-- Slide-in drawer từ phải HOẶC full-screen overlay
-- Nested accordion cho mega-menu items (Product → collapse Research/Analytics/Extend)
-- Close button + backdrop click to close
-- Scroll lock khi mở
-- Logo + Start free trial CTA visible trong drawer header
+## Quy trình
+1. Paste raw HTML của .w-richtext vào src/data/foreplay-privacy-policy-content.ts
+   export const privacyPolicyContent = {
+     title: "Privacy Policy",
+     lastUpdated: "Last updated: [date from source]",
+     html: `<h2>...</h2><p>...</p>...`,
+   }
+2. Import + render trong page.tsx:
+   - Hero: {title} + {lastUpdated}
+   - Body: <div className="prose prose-invert ..." dangerouslySetInnerHTML={{ __html: html }} />
+3. Verify prose styling khớp Foreplay:
+   - h2: fpText.headingM size, mt-12 mb-4
+   - h3: fpText.labelL size, mt-8 mb-3
+   - p: fpText.bodyM, mb-4, color alpha-100
+   - a: underline, color primary, hover opacity
+   - ul/ol: pl-6, list-disc/list-decimal
+4. Build → verify compile, check live render
 
 ## Rules
-- Dùng Radix Dialog hoặc shadcn Sheet cho drawer
-- State management: useState open/close + body scroll lock
-- Animation: slide-in 300ms
-- DOM match source mobile variant
-- Close on route change (Next.js pathname change → auto close)
+- Content must match source text 1:1 (don't paraphrase)
+- Replace "Foreplay" brand references with "GoAds" if applicable
+- Test responsive: desktop ≥1280px, tablet 768-991px, mobile ≤767px
+- Links (email, URLs) phải clickable và mở đúng target
+- Commit với message: "feat(foreplay): clone privacy policy page"
 ```
+
+### Reusable pattern cho các legal pages khác
+
+Sau khi clone xong `/page/privacy-policy`, các trang `/page/terms-of-service`, `/page/cookies`, `/page/gdpr` dùng **cùng component structure**, chỉ thay content data file:
+
+```
+app/src/app/foreplay/page/
+├── privacy-policy/page.tsx    → import privacyPolicyContent
+├── terms-of-service/page.tsx  → import termsOfServiceContent
+├── cookies/page.tsx            → import cookiesContent
+└── gdpr/page.tsx               → import gdprContent
+
+src/data/
+├── foreplay-privacy-policy-content.ts
+├── foreplay-terms-of-service-content.ts
+├── foreplay-cookies-content.ts
+└── foreplay-gdpr-content.ts
+```
+
+Hoặc tách 1 component `ForeplayLegalPage` nhận props `{title, lastUpdated, html}` → tất cả 4 pages dùng chung → thêm page mới chỉ cần 1 data file + 5 dòng page.tsx.
 
 ---
 
