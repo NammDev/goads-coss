@@ -4,11 +4,23 @@
 // .course-title-wrapper: gradient overlay bottom, flex, items-end, w-full h-full, p-25px
 // .fu-card-shine: absolute white blur circle (hover glow)
 // .image-155: mix-blend-overlay, w-20px, absolute top-15px right-15px
+//
+// 3D Tilt Effect (active cards only):
+//   Source uses `transform-style: preserve-3d` + `rotateX/rotateY` driven by mouse
+//   position. We track mouse via onMouseMove and mutate the element's transform
+//   directly via ref (no React state → 60fps, no re-renders).
+//   Parent `.cards-wrapper-new` provides `perspective: 1000px` context.
 
+"use client"
+
+import { useRef } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import type { CourseCardData } from "@/data/foreplay-university-classes-page-data"
 import { fuLogoIcon } from "@/data/foreplay-university-classes-page-data"
+
+// Max tilt in degrees at card edges
+const TILT_MAX_DEG = 12
 
 export function ForeplayUniversityCourseCard({
   href,
@@ -16,32 +28,64 @@ export function ForeplayUniversityCourseCard({
   wordmarkSrc,
   isComingSoon,
 }: CourseCardData) {
+  const cardRef = useRef<HTMLAnchorElement | null>(null)
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const el = cardRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    // Normalised mouse position relative to card center (-1..1)
+    const dx = (e.clientX - rect.left) / rect.width - 0.5
+    const dy = (e.clientY - rect.top) / rect.height - 0.5
+    // Invert Y so moving cursor UP tilts card TOWARDS viewer (standard tilt)
+    const rotateY = dx * 2 * TILT_MAX_DEG
+    const rotateX = -dy * 2 * TILT_MAX_DEG
+    el.style.transform = `translate3d(0,0,0) scale3d(1,1,1) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`
+  }
+
+  const handleMouseLeave = () => {
+    const el = cardRef.current
+    if (!el) return
+    el.style.transform =
+      "translate3d(0,0,0) scale3d(1,1,1) rotateX(0deg) rotateY(0deg)"
+  }
+
   const cardClassName = cn(
     "group relative flex size-full flex-col items-center justify-center",
     "overflow-hidden rounded-[10px]",
     "h-[375px] w-[250px]",
     "bg-cover bg-center",
     "shadow-[0_0_0_1px_#ffffff26]",
+    // 3D tilt layer — transform-style preserves 3D for children, will-change hints GPU
+    !isComingSoon && "[transform-style:preserve-3d] [will-change:transform] transition-transform duration-200 ease-out",
     isComingSoon && "bg-[#ffffff1f]",
   )
   const cardStyle = { backgroundImage: `url(${bgImage})` }
 
   const content = (
     <>
-      {/* "Watch Now" hover overlay (active cards only) */}
+      {/* .video-coming-soon-button-copy — "Watch Now" pill (active cards only)
+          Source CSS:
+            display:flex; gap:10px; padding:10px 15px; border-radius:100px;
+            background-color:#000c; backdrop-filter:blur(5px); color:var(--body);
+            position:absolute; overflow:hidden;
+          Source inline `style="opacity:0"` — hidden by default, animated to 1
+          on card hover. We use group-hover on the parent .course-card. */}
       {!isComingSoon && (
         <div className={cn(
-          "absolute z-10 flex items-center gap-2.5 rounded-full",
+          "absolute z-10 flex items-center gap-2.5 overflow-hidden rounded-full",
           "bg-[#000000cc] px-[15px] py-2.5 backdrop-blur-[5px]",
+          "text-foreground",
           "opacity-0 transition-opacity duration-300 group-hover:opacity-100",
         )}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://cdn.prod.website-files.com/62a4ed18ddad95dde8b8bfa4/6716b43bc943259847c9212a_play-icon-blue.svg"
+            src="/foreplay/university_watchnow.svg"
             alt="play icon"
             className="size-5"
+            loading="lazy"
           />
-          <div className="text-sm font-medium text-foreground">Watch Now</div>
+          <div className="font-sans text-base">Watch Now</div>
         </div>
       )}
 
@@ -88,7 +132,14 @@ export function ForeplayUniversityCourseCard({
   }
 
   return (
-    <Link href={href} className={cardClassName} style={cardStyle}>
+    <Link
+      ref={cardRef}
+      href={href}
+      className={cardClassName}
+      style={cardStyle}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       {content}
     </Link>
   )

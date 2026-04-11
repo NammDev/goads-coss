@@ -29,7 +29,7 @@ export const footerLinkCategories: FooterLinkCategory[] = [
       { label: "Help Center", href: "/foreplay/help" },
       { label: "Community", href: "/foreplay/community" },
       { label: "Reviews", href: "/foreplay/reviews" },
-      { label: "University", href: "/foreplay/university" },
+      { label: "Payment Methods", href: "/foreplay/payment" },
       { label: "Toolbox", href: "/foreplay/tools" },
     ],
   },

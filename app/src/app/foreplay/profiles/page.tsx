@@ -23,8 +23,8 @@ import {
   profilesFeatureGrid1Testimonial,
   profilesFeatureGrid2,
   profilesFeatureGrid2Testimonial,
+  profilesProductCta,
 } from "@/data/goads-profiles-page-data"
-import { swipeFileProductCta } from "@/data/foreplay-swipe-file-page-data"
 
 export default function ProfilesPage() {
   return (
@@ -97,7 +97,7 @@ export default function ProfilesPage() {
 
       <div className="section">
         <ForeplaySectionContainer>
-          <ForeplayProductPageCtaCard {...swipeFileProductCta} />
+          <ForeplayProductPageCtaCard {...profilesProductCta} />
         </ForeplaySectionContainer>
       </div>
 

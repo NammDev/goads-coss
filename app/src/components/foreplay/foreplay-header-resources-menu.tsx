@@ -44,7 +44,7 @@ const learnItems: ResourceItem[] = [
   { label: "Docs", desc: "Setup docs & API references", href: "/foreplay/docs", icon: EventsIcon },
   { label: "Community", desc: "Join discussions", href: "/foreplay/community", icon: BookIcon },
   { label: "Help Center", desc: "FAQs & support guides", href: "/foreplay/help", icon: ExpertIcon },
-  { label: "Reviews", desc: "What clients say", href: "/foreplay/reviews", icon: BlogIcon },
+  { label: "Payment Methods", desc: "Accepted payment options", href: "/foreplay/payment", icon: BlogIcon },
 ]
 
 const earnItems: ResourceItem[] = [
@@ -69,7 +69,7 @@ export function ForeplayHeaderResourcesMenu() {
           {/* .u-nav-resources-banner — row-span 2, col-span 3, justify-self-end
               border-l, rounded-[18px], max-w-[275px], m-[10px], pt-[25px] pb-9, relative, overflow-hidden */}
           <a
-            href="/foreplay/book-demo"
+            href="/foreplay/reviews"
             className="col-span-3 row-span-2 row-start-1 relative m-2.5 flex w-full max-w-[275px] items-start justify-center justify-self-end overflow-hidden rounded-[18px] border-l border-[var(--fp-border-nav)] pt-[25px] pb-9 no-underline transition-all duration-200 hover:opacity-80"
           >
             {/* .nav-banner-content — z-2, flex-col gap-1, items-center, max-w-[200px], text-center */}
@@ -83,13 +83,13 @@ export function ForeplayHeaderResourcesMenu() {
                     <MerchIcon />
                   </div>
                   {/* .text-label-s */}
-                  <div className={fpText.labelS}>Book a Demo</div>
+                  <div className={fpText.labelS}>Wall of Love</div>
                 </div>
               </div>
               {/* .u-nav-merch-link-description — color: var(--fp-solid-900), flex:1, text-left */}
               <div className="flex-1 text-left text-[var(--fp-solid-900)]">
                 {/* .text-body-s */}
-                <div className={fpText.bodyS}>Book 1-on-1 with our team</div>
+                <div className={fpText.bodyS}>500+ media buyers trust GoAds</div>
               </div>
             </div>
             {/* .merch-video — absolute, 112%×115%, inset:-1% 0% 0% -7% (z-0, behind content) */}

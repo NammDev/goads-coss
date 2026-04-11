@@ -1,5 +1,14 @@
 // GoAds /profiles page data — hero, products grid, testimonials, resources, FAQ
 
+// Product CTA Card (same video/icon, only title + description differ)
+export const profilesProductCta = {
+  title: "Start scaling with stable profiles today",
+  description: "Every Facebook profile ships ID-verified, pre-warmed and backed by a 7-day warranty.\n\nSkip the disable loop — run ads without interruption.",
+  videoSrc: "/video/cta-swipe-file.mov",
+  iconSrc: "/foreplay/hero2_icon.webp",
+  iconAlt: "isometric facebook profile icon",
+}
+
 // Section 1: Hero (reuses swipe-file icon/video/preview assets, only text changes)
 export const profilesHero = {
   iconSrc: "/foreplay/hero2_icon.webp",
