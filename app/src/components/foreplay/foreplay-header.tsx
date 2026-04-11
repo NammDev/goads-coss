@@ -36,7 +36,6 @@ import { cn } from "@/lib/utils"
 import { ForeplayNavLink } from "@/components/foreplay/foreplay-nav-link"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
 import { ForeplayHeaderProductMenu } from "@/components/foreplay/foreplay-header-product-menu"
-import { ForeplayHeaderSolutionsMenu } from "@/components/foreplay/foreplay-header-solutions-menu"
 import { ForeplayHeaderResourcesMenu } from "@/components/foreplay/foreplay-header-resources-menu"
 import { ForeplayHeaderToolsMenu } from "@/components/foreplay/foreplay-header-tools-menu"
 import { ForeplayHeaderMobileMenu } from "@/components/foreplay/foreplay-header-mobile-menu"
@@ -90,12 +89,10 @@ export function ForeplayHeader() {
               <div className="flex items-center justify-start gap-3">
                 {/* .nav-dropdown.w-dropdown (Product) */}
                 <ForeplayHeaderProductMenu />
-                {/* .nav-dropdown.w-dropdown (Solutions) */}
-                <ForeplayHeaderSolutionsMenu />
-                {/* .nav-dropdown.w-dropdown (Resources) */}
-                <ForeplayHeaderResourcesMenu />
                 {/* .nav-dropdown.w-dropdown (Tools) — GoAds Toolbox mega-menu */}
                 <ForeplayHeaderToolsMenu />
+                {/* .nav-dropdown.w-dropdown (Resources) */}
+                <ForeplayHeaderResourcesMenu />
                 {/* a.navlink (Pricing) */}
                 <ForeplayNavLink href="/foreplay/pricing">Pricing</ForeplayNavLink>
                 {/* a.navlink (Book a Demo) */}
