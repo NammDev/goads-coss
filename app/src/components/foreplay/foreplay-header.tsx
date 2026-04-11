@@ -61,7 +61,7 @@ export function ForeplayHeader() {
         <div className="relative flex w-full items-center justify-between gap-9 p-4">
           {/* .nav-brand.w-nav-brand — source: z-5 rounded-10 p-1 (custom .nav-brand adds rounded-10 + p-1) */}
           <Link
-            href="/home"
+            href="/foreplay/home"
             aria-label="GoAds home"
             className="z-[5] rounded-[10px] p-1 focus-visible:shadow-[0_0_0_3px] focus-visible:shadow-secondary focus-visible:outline-none"
           >
