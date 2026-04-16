@@ -29,12 +29,12 @@ export const profilesFeatureGrid1 = {
   title: "Everything You Need to Scale",
   description: "From stable assets to recovery services. Built for advertisers who need reliability.",
   cards: [
-    { imageSrc: "/foreplay/bento1_1.webp", title: "Business Manager", description: "Verified BM1 to BM5. The foundation for serious ad operations." },
-    { imageSrc: "/foreplay/bento1_2.webp", title: "Facebook Pages", description: "Aged pages with followers. Ready to run ads and build trust." },
-    { imageSrc: "/foreplay/bento1_3.webp", title: "Unban Service", description: "Profile, Page, Ad Account, BM. We bring them back to life." },
-    { imageSrc: "/foreplay/bento1_4.webp", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost." },
-    { imageSrc: "/foreplay/bento1_5.webp", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Scale on the fastest-growing platform." },
-    { imageSrc: "/foreplay/bento1_6.webp", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator and more. Built to save you time." },
+    { imageSrc: "/foreplay/assets/1.svg", title: "Business Manager", description: "Verified BM1 to BM5. The foundation for serious ad operations." },
+    { imageSrc: "/foreplay/assets/2.png", title: "Facebook Pages", description: "Aged pages with followers. Ready to run ads and build trust." },
+    { imageSrc: "/foreplay/assets/3.png", title: "Unban Service", description: "Profile, Page, Ad Account, BM. We bring them back to life." },
+    { imageSrc: "/foreplay/assets/4.png", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost." },
+    { imageSrc: "/foreplay/assets/5.png", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Scale on the fastest-growing platform." },
+    { imageSrc: "/foreplay/assets/6.png", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator and more. Built to save you time." },
   ],
 }
 

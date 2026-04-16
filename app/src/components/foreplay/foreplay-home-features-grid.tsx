@@ -27,7 +27,7 @@ const cards = [
     description: "Reach us on Telegram, WhatsApp or Discord. Real answers from real people, 24/7.",
     ctaLabel: "Contact Us",
     ctaHref: "/talk-to-sales",
-    image: "/foreplay/feature_1.webp",
+    image: "/foreplay/assets/7.png",
   },
   {
     icon: (
@@ -53,7 +53,7 @@ const cards = [
     description: "Platform changes, new products, insider tips. Fresh updates straight from us.",
     ctaLabel: "Learn More",
     ctaHref: "/blog",
-    image: "/foreplay/feature_3.webp",
+    image: "/foreplay/assets/8.png",
   },
 ]
 

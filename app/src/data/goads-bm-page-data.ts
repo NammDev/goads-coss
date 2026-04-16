@@ -31,12 +31,12 @@ export const bmFeatureGrid1 = {
   title: "Everything You Need to Scale",
   description: "From verified BMs to recovery services. Built for advertisers who refuse to babysit disabled accounts.",
   cards: [
-    { imageSrc: "/foreplay/bento1_1.webp", title: "Business Manager", description: "BM1, BM3, BM5, BM10 — all Meta-verified. Pick the DSL that fits your spend." },
-    { imageSrc: "/foreplay/bento1_2.webp", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your BM. Clean history, ready to run." },
-    { imageSrc: "/foreplay/bento1_3.webp", title: "Unban Service", description: "BM banned? Ad account disabled? We recover the asset so you keep the pixel." },
-    { imageSrc: "/foreplay/bento1_4.webp", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on your BM assets." },
-    { imageSrc: "/foreplay/bento1_5.webp", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Diversify beyond Meta without the disable risk." },
-    { imageSrc: "/foreplay/bento1_6.webp", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator. Free utilities for media buyers." },
+    { imageSrc: "/foreplay/assets/1.svg", title: "Business Manager", description: "BM1, BM3, BM5, BM10 — all Meta-verified. Pick the DSL that fits your spend." },
+    { imageSrc: "/foreplay/assets/2.png", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your BM. Clean history, ready to run." },
+    { imageSrc: "/foreplay/assets/3.png", title: "Unban Service", description: "BM banned? Ad account disabled? We recover the asset so you keep the pixel." },
+    { imageSrc: "/foreplay/assets/4.png", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on your BM assets." },
+    { imageSrc: "/foreplay/assets/5.png", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Diversify beyond Meta without the disable risk." },
+    { imageSrc: "/foreplay/assets/6.png", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator. Free utilities for media buyers." },
   ],
 }
 

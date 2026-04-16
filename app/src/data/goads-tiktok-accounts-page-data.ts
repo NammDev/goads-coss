@@ -31,12 +31,12 @@ export const tiktokFeatureGrid1 = {
   title: "Everything You Need to Scale on TikTok",
   description: "Channels, Shops, Business Centers. Built for media buyers who want TikTok reach without the verification headaches.",
   cards: [
-    { imageSrc: "/foreplay/bento1_1.webp", title: "TikTok Assets", description: "Channels, Shops, Business Centers. Jumio-verified, ready to publish on day one." },
-    { imageSrc: "/foreplay/bento1_2.webp", title: "Business Manager", description: "Verified Meta BMs to pair with TikTok campaigns — cross-platform scaling." },
-    { imageSrc: "/foreplay/bento1_3.webp", title: "Unban Service", description: "TikTok account suspended? We recover the asset so you keep the GMV history." },
-    { imageSrc: "/foreplay/bento1_4.webp", title: "Facebook Pages", description: "Aged pages with followers, ready to mirror your TikTok creative strategy." },
-    { imageSrc: "/foreplay/bento1_5.webp", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility across your ad stack." },
-    { imageSrc: "/foreplay/bento1_6.webp", title: "Free Tools", description: "2FA Generator, Cookie Login and more. Free utilities for TikTok media buyers." },
+    { imageSrc: "/foreplay/assets/5.png", title: "TikTok Assets", description: "Channels, Shops, Business Centers. Jumio-verified, ready to publish on day one." },
+    { imageSrc: "/foreplay/assets/1.svg", title: "Business Manager", description: "Verified Meta BMs to pair with TikTok campaigns — cross-platform scaling." },
+    { imageSrc: "/foreplay/assets/3.png", title: "Unban Service", description: "TikTok account suspended? We recover the asset so you keep the GMV history." },
+    { imageSrc: "/foreplay/assets/2.png", title: "Facebook Pages", description: "Aged pages with followers, ready to mirror your TikTok creative strategy." },
+    { imageSrc: "/foreplay/assets/4.png", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility across your ad stack." },
+    { imageSrc: "/foreplay/assets/6.png", title: "Free Tools", description: "2FA Generator, Cookie Login and more. Free utilities for TikTok media buyers." },
   ],
 }
 
