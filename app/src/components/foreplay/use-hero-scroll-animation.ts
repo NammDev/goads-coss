@@ -21,7 +21,12 @@ export function useHeroScrollAnimation(): HeroScrollAnimationRefs {
     const observer = new IntersectionObserver(
       (entries) => {
         const ratio = entries[0].intersectionRatio
-        const opacity = ratio
+        // Quadratic ease-in on opacity: ratio=0.5 → opacity=0.25 (was 0.5),
+        // ratio=0.3 → opacity=0.09 (was 0.3). Drops content to invisible
+        // much earlier in the scroll, preventing the "ghost heading" artefact
+        // where a partially-faded multi-line title peeks out while the
+        // preview image is scrolling up to cover it.
+        const opacity = ratio * ratio
         const scale = 0.75 + ratio * 0.25
         const translateY = -33 + ratio * 33
         sticky.style.opacity = String(opacity)

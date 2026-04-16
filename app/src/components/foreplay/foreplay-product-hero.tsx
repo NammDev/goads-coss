@@ -113,9 +113,16 @@ export function ForeplayProductHero({
         </div>
       </div>
 
-      {/* .product-hero-overlay: gradient + box-shadow overlay between sticky and preview */}
+      {/* .product-hero-overlay: top fade gradient only.
+          FIX (2nd pass): also removed `box-shadow: inset 0 0 48px 32px bg`.
+          The inset box-shadow was casting an ~80px dark vignette on ALL
+          sides of the 640px overlay. The BOTTOM vignette band overlapped
+          the sticky heading at scroll 40-150px — darkening the 2nd line
+          of multi-line titles to the background colour, producing the
+          "ghost" effect. Top fade gradient alone is enough to blend into
+          the page background. */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[640px] bg-[linear-gradient(180deg,var(--background),transparent_16%,transparent_84%,var(--background))] [box-shadow:inset_0_0_48px_32px_var(--background)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[640px] bg-[linear-gradient(180deg,var(--background),transparent_16%)]"
         aria-hidden="true"
       />
 
