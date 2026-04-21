@@ -42,9 +42,9 @@ export default function ForeplayHomePage() {
           tabs={swipeFileTabs}
           sidebarVideoSrc="/video/cta-swipe-file.mov"
           tabImages={[
-            "/foreplay/Group429.png",
-            "/foreplay/swipe_tab2.webp",
-            "/foreplay/swipe_tab3.webp",
+            "/foreplay/landingpage/assets/Rectangle%20652.svg",
+            "/foreplay/landingpage/assets/Rectangle%20653.svg",
+            "/foreplay/landingpage/assets/Rectangle%20652.svg",
           ]}
         />
 
@@ -58,8 +58,8 @@ export default function ForeplayHomePage() {
           tabs={spyderTabs}
           sidebarVideoSrc="/video/cta-spyder.mov"
           tabImages={[
-            "/foreplay/6810ff44da8facf8efaa1529_Spyder-1.webp",
-            "/foreplay/6810ff44da8facf8efaa1529_Spyder-1.webp",
+            "/foreplay/landingpage/solutions/Mask%20group.svg",
+            "/foreplay/landingpage/solutions/Mask%20group%20(1).svg",
           ]}
           showSectionHead={false}
         />
@@ -99,9 +99,9 @@ export default function ForeplayHomePage() {
           tabs={lensTabs}
           sidebarVideoSrc="/video/lens_video.mp4"
           tabImages={[
-            "/foreplay/lens_tab1.webp",
-            "/foreplay/lens_tab2.webp",
-            "/foreplay/lens_tab3.webp",
+            "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
+            "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
+            "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
           ]}
         />
 
@@ -115,8 +115,8 @@ export default function ForeplayHomePage() {
           showSectionHead={false}
           sidebarVideoSrc="/video/brief_video.webm"
           tabImages={[
-            "/foreplay/brief_tab1.webp",
-            "/foreplay/brief_tab2.webp",
+            "/foreplay/landingpage/service/Mask%20group.svg",
+            "/foreplay/landingpage/service/Mask%20group%20(1).svg",
           ]}
         />
       </section>

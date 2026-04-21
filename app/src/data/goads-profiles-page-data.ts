@@ -29,12 +29,13 @@ export const profilesFeatureGrid1 = {
   title: "Everything You Need to Scale",
   description: "From stable assets to recovery services. Built for advertisers who need reliability.",
   cards: [
-    { imageSrc: "/foreplay/assets/1.svg", title: "Business Manager", description: "Verified BM1 to BM5. The foundation for serious ad operations." },
-    { imageSrc: "/foreplay/assets/2.png", title: "Facebook Pages", description: "Aged pages with followers. Ready to run ads and build trust." },
-    { imageSrc: "/foreplay/assets/3.png", title: "Unban Service", description: "Profile, Page, Ad Account, BM. We bring them back to life." },
-    { imageSrc: "/foreplay/assets/4.png", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost." },
-    { imageSrc: "/foreplay/assets/5.png", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Scale on the fastest-growing platform." },
-    { imageSrc: "/foreplay/assets/6.png", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator and more. Built to save you time." },
+
+    { imageSrc: "/foreplay/profiles/Group%201016.svg", title: "Business Manager", description: "Verified BM1 to BM5. The foundation for serious ad operations." },
+    { imageSrc: "/foreplay/profiles/Group%201013.svg", title: "Facebook Pages", description: "Aged pages with followers. Ready to run ads and build trust." },
+    { imageSrc: "/foreplay/profiles/Group%201015.svg", title: "Unban Service", description: "Profile, Page, Ad Account, BM. We bring them back to life." },
+    { imageSrc: "/foreplay/profiles/Group%201017.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost." },
+    { imageSrc: "/foreplay/profiles/Group%201019.svg", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Scale on the fastest-growing platform." },
+    { imageSrc: "/foreplay/profiles/Group%201021.svg", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator and more. Built to save you time." },
   ],
 }
 
@@ -53,12 +54,12 @@ export const profilesFeatureGrid1Testimonial = {
 // Section 5 (feature grid 2): Resources — uses bento2 images
 export const profilesFeatureGrid2 = {
   cards: [
-    { imageSrc: "/foreplay/bento2_1.png", title: "How to Warm Up Facebook Profiles", description: "Step-by-step guide to prepare your profile before running ads. Avoid checkpoints from day one." },
-    { imageSrc: "/foreplay/bento2_2.webp", title: "BM1 vs BM5: Which One Do You Need?", description: "Breaking down the differences. Find the right Business Manager for your ad spend level." },
-    { imageSrc: "/foreplay/bento2_3.webp", title: "Why Your Ad Account Keeps Getting Banned", description: "Common mistakes that trigger Meta's algorithm. And how to avoid them." },
-    { imageSrc: "/foreplay/bento2_4.webp", title: "Aged Profiles vs Fresh Accounts", description: "Why aged profiles survive longer. The science behind account trust scores." },
-    { imageSrc: "/foreplay/bento2_5.webp", title: "How to Bypass Facebook Verification", description: "Stuck on selfie or ID verification? Here's what actually works." },
-    { imageSrc: "/foreplay/bento2_6.webp", title: "Facebook Ads in 2026: What's Changed", description: "Platform updates, policy shifts, and what it means for advertisers this year." },
+    { imageSrc: "/foreplay/profiles/Group%20896.svg", title: "How to Warm Up Facebook Profiles", description: "Step-by-step guide to prepare your profile before running ads. Avoid checkpoints from day one." },
+    { imageSrc: "/foreplay/profiles/Group%20950.svg", title: "BM1 vs BM5: Which One Do You Need?", description: "Breaking down the differences. Find the right Business Manager for your ad spend level." },
+    { imageSrc: "/foreplay/profiles/Group%20957.svg", title: "Why Your Ad Account Keeps Getting Banned", description: "Common mistakes that trigger Meta's algorithm. And how to avoid them." },
+    { imageSrc: "/foreplay/profiles/Group%20958.svg", title: "Aged Profiles vs Fresh Accounts", description: "Why aged profiles survive longer. The science behind account trust scores." },
+    { imageSrc: "/foreplay/profiles/Group%20960.svg", title: "How to Bypass Facebook Verification", description: "Stuck on selfie or ID verification? Here's what actually works." },
+    { imageSrc: "/foreplay/profiles/Group%20964.svg", title: "Facebook Ads in 2026: What's Changed", description: "Platform updates, policy shifts, and what it means for advertisers this year." },
   ],
 }
 

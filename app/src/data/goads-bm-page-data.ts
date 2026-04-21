@@ -55,12 +55,12 @@ export const bmFeatureGrid1Testimonial = {
 // Section 5 (feature grid 2): Resources — uses bento2 images
 export const bmFeatureGrid2 = {
   cards: [
-    { imageSrc: "/foreplay/bento2_1.png", title: "BM1 vs BM3 vs BM5: Which Do You Need?", description: "Match the ad account count to your spend. A clear breakdown of who buys which tier." },
-    { imageSrc: "/foreplay/bento2_2.webp", title: "Unlimited DSL vs $250 DSL: Real-World Cost", description: "Break-even math for scaling campaigns. When the premium tier actually pays off." },
-    { imageSrc: "/foreplay/bento2_3.webp", title: "Why Verified BMs Survive 10× Longer", description: "The trust-score mechanics behind Meta's verification and why it matters for disables." },
-    { imageSrc: "/foreplay/bento2_4.webp", title: "How to Add Ad Accounts to a Verified BM", description: "Step-by-step workflow to add, share and assign accounts without tripping policy flags." },
-    { imageSrc: "/foreplay/bento2_5.webp", title: "BM10, BM50, BM100: Enterprise Scaling Guide", description: "When to graduate from BM5 to multi-account enterprise structures. Agency playbook." },
-    { imageSrc: "/foreplay/bento2_6.webp", title: "WhatsApp Business API Setup on a Verified BM", description: "Connect WABA, pick your messaging tier, and start conversational ads — in under an hour." },
+    { imageSrc: "/foreplay/bm/Group%20996.svg", title: "BM1 vs BM3 vs BM5: Which Do You Need?", description: "Match the ad account count to your spend. A clear breakdown of who buys which tier." },
+    { imageSrc: "/foreplay/bm/Group%20997.svg", title: "Unlimited DSL vs $250 DSL: Real-World Cost", description: "Break-even math for scaling campaigns. When the premium tier actually pays off." },
+    { imageSrc: "/foreplay/bm/Group%20998.svg", title: "Why Verified BMs Survive 10× Longer", description: "The trust-score mechanics behind Meta's verification and why it matters for disables." },
+    { imageSrc: "/foreplay/bm/Group%201000.svg", title: "How to Add Ad Accounts to a Verified BM", description: "Step-by-step workflow to add, share and assign accounts without tripping policy flags." },
+    { imageSrc: "/foreplay/bm/Group%201002.svg", title: "BM10, BM50, BM100: Enterprise Scaling Guide", description: "When to graduate from BM5 to multi-account enterprise structures. Agency playbook." },
+    { imageSrc: "/foreplay/bm/Group%201004.svg", title: "WhatsApp Business API Setup on a Verified BM", description: "Connect WABA, pick your messaging tier, and start conversational ads — in under an hour." },
   ],
 }
 
