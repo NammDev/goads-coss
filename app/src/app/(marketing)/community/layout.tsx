@@ -3,6 +3,10 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { getCategories, getMostHelpful } from "@/lib/db/queries/community-queries"
 import { CommunitySidebar } from "@/components/community/community-sidebar"
 
+// Community is user-generated content + auth-gated — skip static prerender
+// so the DB is only hit at request time, not during `next build`.
+export const dynamic = "force-dynamic"
+
 export default async function CommunityLayout({
   children,
 }: {
