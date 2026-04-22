@@ -5,6 +5,10 @@ import { getAllPostSlugs, getCategories } from "@/lib/db/queries/community-queri
 
 const BASE_URL = "https://www.goads.shop"
 
+// Sitemap pulls dynamic community URLs from DB — generate at request time,
+// not at build time, so a momentary DB outage doesn't break the build.
+export const dynamic = "force-dynamic"
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const marketingRoutes = [
     "",
@@ -35,10 +39,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const toolRoutes = TOOLS.map((t) => `/tools/${t.slug}`)
   const blogRoutes = blogPosts.map((p) => `/blog/${p.slug}`)
 
-  /* Community: dynamic post + category URLs from DB */
+  /* Community: dynamic post + category URLs from DB.
+     Fallback to empty arrays if DB is unreachable — sitemap still serves
+     static routes rather than 500ing. */
   const [communityPosts, categories] = await Promise.all([
-    getAllPostSlugs(),
-    getCategories(),
+    getAllPostSlugs().catch(() => []),
+    getCategories().catch(() => []),
   ])
 
   const communityPostRoutes: MetadataRoute.Sitemap = communityPosts.map(
