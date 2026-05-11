@@ -17,6 +17,7 @@ interface ForeplaySolutionHeroProps {
   ctaHref?: string
   secondaryLabel?: string
   secondaryHref?: string
+  hideButtons?: boolean   // suppress the dual-CTA row for pages that don't need it
 }
 
 export function ForeplaySolutionHero({
@@ -28,6 +29,7 @@ export function ForeplaySolutionHero({
   ctaHref = "/sign-up",
   secondaryLabel = "Book a Demo",
   secondaryHref = "/book-demo",
+  hideButtons = false,
 }: ForeplaySolutionHeroProps) {
   return (
     <>
@@ -48,16 +50,18 @@ export function ForeplaySolutionHero({
       />
 
       {/* .industru-buttons-padding > .main-cta-buttons */}
-      <div className="pt-5">
-        <div className="relative z-[2] flex items-center justify-center gap-3">
-          <ForeplayCtaButton href={ctaHref} variant="hero">
-            {ctaLabel}
-          </ForeplayCtaButton>
-          <ForeplayCtaButton href={secondaryHref} variant="secondary" showIcon={false}>
-            {secondaryLabel}
-          </ForeplayCtaButton>
+      {!hideButtons && (
+        <div className="pt-5">
+          <div className="relative z-[2] flex items-center justify-center gap-3">
+            <ForeplayCtaButton href={ctaHref} variant="hero">
+              {ctaLabel}
+            </ForeplayCtaButton>
+            <ForeplayCtaButton href={secondaryHref} variant="secondary" showIcon={false}>
+              {secondaryLabel}
+            </ForeplayCtaButton>
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }

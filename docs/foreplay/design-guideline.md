@@ -112,15 +112,44 @@ Implementation: `next/font/google` Inter with `axes: ["opsz"]`, layout has `font
 
 ## Buttons (`ForeplayCtaButton`)
 
-| Variant | Class | BG | Text | Hover | Context |
-|---------|-------|-----|------|-------|---------|
-| nav | `.new-button.new-button-navbar` | white | solid-900 | primary/90 | Header |
-| hero | `.button-dark.button-primary` | white | solid-900 | #ffffffd6 | Hero, CTA |
-| secondary | `.button-dark.button-secondary` | neutral-700 | white | border | Product sidebar |
-| ghost | `.button-dark.button-ghost` | background | white | neutral-700 | Product sidebar |
-| light-primary | `.button-light.button-primary` | background | white | solid-600 | White section CTAs |
+### Variant Matrix (exact CSS from `foreplay-source.css`)
 
-All: p-2, rounded-[10px], z-5, `.text-heading-m` (except nav uses `.text-navlink`)
+| Variant | Class | BG | Text | Hover | Active | Context |
+|---------|-------|-----|------|-------|--------|---------|
+| nav | `.new-button.new-button-navbar` | white | solid-900 | primary/90 | — | Header |
+| hero | `.button-dark.button-primary` | neutral-0 (white) | solid-900 | #0000 (transparent) | neutral-200 | Hero, CTA (dark bg) |
+| secondary | `.button-dark.button-secondary` | neutral-700 (#ffffff1a) | solid-0 (white) | neutral-600 | — | Product sidebar (dark bg) |
+| ghost | `.button-dark.button-ghost` | background | white | neutral-700 | — | Product sidebar (dark bg) |
+| light-primary | `.button-light.button-primary` | background (#020308) | solid-0 (white) | solid-600 | solid-400 | **White block** primary |
+| light-secondary | `.button-light.button-secondary` | solid-25 (#f9f9fa) | solid-900 (#13151a) | solid-50 (#e9eaef) | solid-100 | **White block** secondary |
+| new-secondary | `.new-button.new-button-secondary` | white | solid-900 | #f2f2f2 + ring removes | — | Standalone footer CTA, nav |
+
+### Universal Structure (ALL buttons)
+
+```html
+<a class=".button-light .button-primary">   ← outer:  z-5 p-2 rounded-[10px] flex relative transition-all 0.15s
+  <span class=".button-text-block">Label</span>  ← inner: z-2 px-1.5 font-[550] text-heading-m
+  <span class=".button-icon-block .icon-right">  ← inner: z-2 opacity-0.68 -ml-1 flex
+    <svg/>
+  </span>
+</a>
+```
+
+**Critical detail:** the outer `p-2` (8px) + inner `.button-text-block` `px-1.5` (6px) → effective ~14px horizontal padding. Single-padding (no inner span) looks cramped — that's the #1 styling mistake.
+
+### White-block button rules (light theme)
+
+- **Primary** = dark bg on white (high contrast). Use for the ONE primary action per block.
+- **Secondary** = `solid-25 → solid-50` fill. **No border ring** (rings belong to nav `.new-button-secondary` only).
+- **Destructive** = no Foreplay-native style. Use secondary shell with red tint or `bg-white + inset 1px red-200 ring` if it sits on a `solid-25` card.
+
+### Focus-visible (a11y)
+
+| Context | `box-shadow` |
+|---------|-------------|
+| Dark variants (button-dark.*) | `0 0 0 2px #020308, 0 0 0 3px #fff` |
+| Light variants (button-light.*) | `0 0 0 2px #fff, 0 0 0 3px solid-900` |
+| new-button-secondary | `0 0 0 2px #fff, 0 0 0 3px #ebebeb, inset 0 0 0 1px #13151a` |
 
 ## Color Palettes
 
@@ -399,6 +428,287 @@ Source CSS has 3 breakpoints — extract from `foreplay-source.css`:
 - Data: separate file in `data/foreplay-*.ts`
 - Icons: shared SVG components, not inline duplicates
 - If component > 150 lines → split (data out, icons out, sub-components out)
+
+## Pricing Comparison Table (White Block) — Complete Spec
+
+> Source-extracted from `foreplay-source.css`. Reference impl: `app/src/components/foreplay/foreplay-pricing-comparison-table.tsx` + `foreplay-pricing-comparison.tsx`. Reference page: `/foreplay/pricing`. **Use this section verbatim when building any white-block comparison table.**
+
+### Outer wrapper (white block context)
+
+```
+.section-padding         padding: 8px                                  → wrap the white block
+.section-white-block     bg: neutral-0 (#fff), color: solid-700,
+                          rounded-[36px], z-2, relative, overflow:hidden  (mobile: rounded-[16px])
+.section-white-block.overflow-visible  ← override for tooltips that overflow card
+```
+
+### Section header above the table
+
+```tsx
+<div className="flex flex-col items-center gap-10 pb-4">      ← .comparison-head: gap-10 (40px), pb-4 (16px)
+  <div className="max-w-[640px]">
+    <div className="flex flex-col items-center gap-2">         ← gap-2 between title + desc
+      <div className="text-[var(--fp-solid-900)]">
+        <h2 className={fpText.displayH3}>{title}</h2>           ← display-h3, 2.25rem
+      </div>
+      <div className="text-[var(--fp-solid-500)] [text-wrap:pretty]">
+        <p className={fpText.bodyM}>{description}</p>           ← body-m
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+Tablet/mobile: `gap-10 → gap-8` (32px).
+
+### "Only with Foreplay" tooltip badge (above the grid)
+
+```
+.comparison-tooltip       z-100, color: solid-400, self-center, relative
+.comparison-tooltip-trigger   color: solid-400, cursor-pointer, flex center, m-0 p-0
+                                hover: color: solid-700
+```
+Crown icon button — sits above the table, anchor for the `solid-25` card containing the badge.
+
+### Grid wrapper (table container)
+
+```
+.comparison-grid-scroll   pl-6 (desktop)
+                          mobile: mr-[-48px] pl-10 pr-6 left-[-24px] overflow:auto
+.comparison-grid          border: 1px solid var(--fp-solid-50)  (#e9eaef)
+                          rounded-[16px]
+                          mobile: rounded-bl-0 rounded-br-0, width: 600px, position: relative
+```
+
+**Critical:** the table border is a **single 1px outline** around the entire grid. Inner row borders use `border-b border-[var(--fp-solid-50)]` and inner column borders use `border-l border-[var(--fp-solid-50)]`. NEVER add per-row/per-cell outline borders — they double up.
+
+### Header row (sticky, plan names + CTAs)
+
+```
+.comparison-th    z-50, grid 5col (1.75fr 1fr 1fr 1fr 1fr) or 3col (3.75fr 1fr 1fr)
+                  bg: neutral-0 (white), rounded-t-[16px]
+                  border-bottom: 1px solid solid-50
+                  position: sticky, top: 72px (page nav offset)
+
+Each plan cell:   flex-col items-center justify-center gap-3 (12px)
+                  border-l: 1px solid solid-50
+                  padding: 16px (p-4)
+                  Plan label:  text-heading-m text-[var(--fp-solid-700)]
+                  CTA button:  ForeplayCtaButton variant="light-primary" (dark on white)
+```
+
+Tablet column ratio: `1.25fr 1fr 1fr 1fr 1fr`. Mobile: `1fr 1fr 1fr 1fr 1fr`.
+
+### Category accordion header (collapsible section divider)
+
+```
+.comparison-category-head   z-2, bg: solid-25 (#f9f9fa), color: solid-700
+                            border-bottom: 1px solid solid-50
+                            text-left, flex items-center, p-4
+                            cursor-pointer, outline-none
+                            mobile: p-2
+Title:                       text-heading-l (1.125rem / 24px / 550)
+Chevron:                     ml-auto, transition transform 600ms cubic-bezier(0.19,1,0.22,1)
+                             [data-expanded] → rotate-180
+```
+
+### Collapsible content wrapper
+
+```
+.comparison-category-rows   margin: 0 -48px (clips overflow + crown badges)
+                            padding: 0 48px  (restores content inset)
+                            overflow: clip visible  (hide x, show y)
+                            transition: height 600ms cubic-bezier(0.19,1,0.22,1)
+                            mobile: -mx-10 px-10
+```
+
+`-mx-12 px-12` in Tailwind ≈ `-mx-[48px] px-[48px]`. Use exact arbitrary values for pixel fidelity.
+
+### Data row (feature comparison)
+
+```
+.comparison-tr             grid 5col (same as .comparison-th)
+                           border-bottom: 1px solid solid-50
+                           position: relative
+.comparison-tr.is-product  bg: solid-25 (#f9f9fa)  ← highlight for product feature rows (Lens, Spyder)
+```
+
+### Title cell (left column — feature label)
+
+```
+.comparison-tr-title       grid-column-gap: 12px (gap-x-3), grid-row-gap: 4px (gap-y-1)
+                           text-left, flex-wrap, items-center
+                           padding: 16px (p-4)
+                           mobile: padding 10px → 8px (gap-x-4 → gap-x-1)
+                           position: relative
+
+Label text:                text-label-s text-[var(--fp-solid-700)]
+Info ⓘ icon next to label: .comparison-tr-icon — size-5 (20x20), flex center
+```
+
+### Value cell (right columns — Basic/Workflow/Agency/Enterprise)
+
+```
+.comparison-tr-cell        border-left: 1px solid solid-50
+                           flex center, padding: 16px
+                           mobile: padding 12px → 8px → 4px
+.comparison-tr-cell.start-trial-cell   flex-col + gap-3 — if cell has CTA below value
+```
+
+Cell value renderers (`CellValue` helper):
+- `true` → ✓ icon, color `solid-700`
+- `false` → `—` em-dash, color `solid-300`
+- `string` → `text-body-m text-[var(--fp-solid-700)]`
+- Action strings (`"Add to Cart"`, `"Contact"`) → render as `ForeplayCtaButton variant="light-primary"` inline
+
+### Crown badge (exclusive feature marker — "Only with Foreplay" rows)
+
+```
+.comparison-tr-badge       absolute, inset: -1px 100% -1px auto  (left-anchored, full row height + 1px border overlap)
+                           width: 40px (desktop), 44px (tablet), 28px (mobile)
+                           border: 1px solid solid-50 on top/left/bottom (not right)
+                           rounded-tl-[10px] rounded-bl-[10px]
+                           flex center
+Icon:                       crown SVG, 18x18, stroke currentColor
+```
+
+### Product link pill (feature label for product rows)
+
+```
+.pricing-prodcut-link      bg: solid-25, color: solid-900
+[note: spelling                 rounded-[6px]
+ typo is from source CSS]       padding: 5px 10px 5px 5px  (py-[5px] pr-2.5 pl-[5px])
+                           flex-wrap items-center, gap-x-3 gap-y-1
+                           transition: all 0.2s
+                           hover bg: solid-50
+.pricing-prodcut-link.version-2   padding-left: 10px (uniform)
+
+Inner:
+.pricing-icon              28x28 (desktop), 24x24 (mobile)
+                           background-image: sprite URL, bg-no-repeat, bg-[size:auto_100%], bg-[position:0px_0px]
+Label text:                text-label-s
+```
+
+### Info tooltip (Radix Portal — renders OUTSIDE `.foreplay` scope)
+
+```
+.comparison-tooltip-body   bg: solid-500 (#343642), color: solid-0 (#fff)
+                           rounded-[12px], p-3 (12px)
+                           min-width: 240px, max-width: 280px
+                           flex-col items-center gap-1 (4px)
+                           transform-origin: 50% 100%
+                           transition: all 0.6s cubic-bezier(0.19,1,0.22,1)
+.comparison-tooltip-button  (Learn more link inside body)
+                            color: solid-0, rounded-[6px]
+                            padding: 4px 4px 4px 12px
+                            transition: all 0.2s
+                            hover bg: solid-500
+```
+
+**Radix Portal rule:** content renders outside `.foreplay` scope → CSS vars don't resolve. Use **raw hex** + `font-sans antialiased [font-optical-sizing:none]`:
+
+```tsx
+className="z-[100] ... rounded-[12px] bg-[#343642] p-[12px] font-sans text-white antialiased [font-optical-sizing:none] ..."
+```
+
+### Footer block under the table
+
+```
+.comparison-grid-footer    flex-col items-center
+                           gap: 20px (gap-5), tablet: 16px (gap-4)
+                           padding: 40px top + 40px bottom
+                           mobile: display: none (use .comparison-grid-cta-mobile instead, same gap/padding)
+
+Title:                     h3.text-display-h4 (1.75rem / 28px / 600), color: solid-900
+Button wrapper:            w-[227px] (.comparison-footer-button)
+Button:                    .new-button.new-button-secondary
+                           bg: #fff, color: #13151a, rounded-[10px], p-2
+                           shadow: inset 0 0 0 1px #ebebeb (RING)
+                           hover: bg #f2f2f2, shadow removed
+                           inner span: px-1.5 z-2 text-heading-m
+```
+
+### Token quick-reference (white block context)
+
+| Use | Token | Value |
+|-----|-------|-------|
+| Card bg, category-head bg, product-link bg | `var(--fp-solid-25)` | `#f9f9fa` |
+| Border (grid outline, row, column dividers) | `var(--fp-solid-50)` | `#e9eaef` |
+| Em-dash (—) for false/empty cells | `var(--fp-solid-300)` | — |
+| Sub-text on white (description, info hover idle) | `var(--fp-solid-400)` | `#4c505f` |
+| Body text on white (paragraph) | `var(--fp-solid-500)` | `#343642` |
+| Description over title | `var(--fp-solid-600)` | `#24262e` |
+| Title text on white, check icons | `var(--fp-solid-700)` | `#171920` |
+| Heading 1 / footer title | `var(--fp-solid-900)` | `#13151a` |
+| Tooltip portal bg | `#343642` (hex, outside `.foreplay` scope) | — |
+
+### Radius scale (white block)
+
+| Element | Class |
+|---------|-------|
+| Section wrapper | `rounded-[36px]` (mobile: `rounded-[16px]`) |
+| Comparison grid outline | `rounded-[16px]` |
+| Buttons (all variants) | `rounded-[10px]` |
+| Crown badge (left side only) | `rounded-l-[10px]` |
+| Product link pill, tooltip "Learn more" button | `rounded-[6px]` |
+| Tooltip body | `rounded-[12px]` |
+
+### Border / divider scale
+
+| Element | Spec |
+|---------|------|
+| Grid outline | `border border-[var(--fp-solid-50)]` (1px) |
+| Row separator | `border-b border-[var(--fp-solid-50)]` |
+| Column separator | `border-l border-[var(--fp-solid-50)]` |
+| Category divider | `border-b border-[var(--fp-solid-50)]` |
+| Ring (focus, new-button-secondary) | `shadow-[inset_0_0_0_1px_#ebebeb]` |
+
+### Animation timing (use everywhere for Foreplay feel)
+
+| Where | CSS |
+|-------|-----|
+| Chevron rotate, category collapse, tooltip enter/exit | `transition-all duration-[600ms] [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]` |
+| Buttons (hover, active) | `transition-all duration-150` |
+| Product link, tooltip "Learn more", tooltip trigger color | `transition-all duration-200` |
+
+### Padding scale on white-block elements
+
+| Element | Padding |
+|---------|---------|
+| Section header above grid (`.comparison-head`) | `pb-4` + internal `gap-10` |
+| Header row plan cell | `p-4` |
+| Category accordion head | `p-4` (mobile: `p-2`) |
+| Data row title cell | `p-4` (mobile: 10px → 8px) |
+| Data row value cell | `p-4` (mobile: 12 → 8 → 4) |
+| Footer block | `py-10` + `gap-5` |
+| Button outer | `p-2` |
+| Button inner text span | `px-1.5` |
+
+### Grid templates
+
+| Layout | `grid-template-columns` |
+|--------|------------------------|
+| 5-col (Basic/Workflow/Agency/Enterprise + label) | `1.75fr 1fr 1fr 1fr 1fr` |
+| 3-col (Free/Pro + label) | `3.75fr 1fr 1fr` |
+| Tablet 5-col | `1.25fr 1fr 1fr 1fr 1fr` |
+| Mobile 5-col | `1fr 1fr 1fr 1fr 1fr` |
+
+### Component reuse path (build a new comparison)
+
+```
+ForeplaySectionWhiteBlock           ← wraps everything
+  └─ ForeplaySectionContainer variant="wide"
+     └─ ForeplayPricingComparison   ← owns header + tooltip badge + table
+        └─ ForeplayPricingComparisonTable  ← owns sticky header + categories + footer
+           ├─ CellValue helper            ← renders ✓, —, text, or inline CTA button
+           ├─ CrownBadge                  ← absolute left-anchored crown
+           ├─ InfoTooltip (Radix Portal)  ← uses raw hex (outside .foreplay)
+           └─ ForeplayCtaButton variant="light-primary"  ← plan CTAs in header row
+```
+
+**Do not recreate** any of these — pass `categories`, `headerColumns`, `defaultExpanded`, `footerTitle`, `footerCtaLabel`, `footerCtaHref`, `columns` (3 or 5) props.
+
+---
 
 ## Blog Page Patterns
 

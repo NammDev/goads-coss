@@ -54,6 +54,9 @@ export { ForeplaySolutionTestimonialCard } from "./foreplay-solution-testimonial
 export { ForeplaySolutionExamplesGrid } from "./foreplay-solution-examples-grid"
 export { ForeplayFooterProductNav } from "./foreplay-footer-product-nav"
 
+// ── Tempmail Page Organisms ──
+export { ForeplayTempmailViewer } from "./foreplay-tempmail-viewer"
+
 // ── Blog Page Components ──
 export { BlogCard } from "./blog/blog-card"
 export { BlogCategoryBar } from "./blog/blog-category-bar"

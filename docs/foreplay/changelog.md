@@ -586,6 +586,29 @@ All 3 dropdowns (Product/Solutions/Resources) now share `ForeplayHeaderDropdownB
 
 **NOT** the incorrect sibling arrangement tried earlier. Verified via HTML closing-tag count: 4 closes after `"What is Foreplay?</div>"` → closes `[text-label-s, u-nav-banner-title, text-white, nav-banner-content]`, leaving stack `[banner, video]` → `<a>` opens as child of `video`.
 
+## Tempmail Page (Phase 6 — UI-only) ✅
+
+### Route
+- `app/src/app/foreplay/tempmail/page.tsx` — 4 sections (Hero / Mail Viewer white block / FAQ / CTA)
+
+### New Atom
+- `foreplay-tempmail-viewer.tsx` — light-theme mail viewer for white block
+  - Header: `ForeplaySectionHead variant="dark"` — title `var(--fp-solid-700)`, description `var(--fp-solid-600)`
+  - Input row: naked layout, no wrapper card
+  - Buttons: `rounded-[10px] p-2 fpText.headingM` (NOT pills)
+    - Load = `bg-background text-foreground` (`.button-light.button-primary` pattern)
+    - Random/Copy = white bg + `shadow-[0_0_0_1px_var(--fp-solid-50)]` ring
+    - "Xóa tất cả" = red outline (`text-red-500` + ring `currentColor`)
+  - Body grid 4/8: MailBox aside + Content section
+    - `bg-[var(--fp-solid-25)] rounded-[20px]` (pricing-card radius)
+    - `shadow-[0_0_0_1px_var(--fp-solid-50)]` ring border
+    - Aside internal divider: `border-b border-[var(--fp-solid-50)]`
+  - Reuses: `fpText.headingM/bodyM/bodyS/labelS`, `ForeplaySectionHead`
+  - Standards refs: `docs/foreplay/design-guideline.md` (Buttons table, Color Palettes, CSS Token Standards) + `/foreplay/pricing` page
+
+### Data
+- `app/src/data/foreplay-tempmail-page-data.ts` — `tempmailHero` / `tempmailViewer` / `tempmailFaq` (7 items)
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos
