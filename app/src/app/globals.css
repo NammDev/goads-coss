@@ -189,6 +189,117 @@ html:has(.foreplay) {
   background-color: #020308;
 }
 
+/* ── Foreplay .blog-rtb: rich-text body for blog detail pages ──
+   Unlayered styles — highest cascade priority over Tailwind layers.
+   Selectors chained (.blog-rtb.blog-rtb) for extra specificity vs preflight. */
+.blog-rtb.blog-rtb {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.18px;
+  color: #ffffffd6;
+}
+.blog-rtb.blog-rtb > *:first-child { margin-top: 0; }
+.blog-rtb.blog-rtb p {
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffffd6;
+}
+.blog-rtb.blog-rtb :is(h2, h3, h4, h5, h6) {
+  font-family: "Inter Display", "Inter", system-ui, sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  color: #ffffff;
+}
+.blog-rtb.blog-rtb h2 { font-size: 28px; line-height: 36px; margin: 24px 0 16px; }
+.blog-rtb.blog-rtb h3 { font-size: 24px; line-height: 32px; margin: 16px 0 12px; }
+.blog-rtb.blog-rtb h4 { font-size: 20px; line-height: 32px; margin: 12px 0 8px; }
+.blog-rtb.blog-rtb h5 { font-size: 18px; line-height: 24px; margin: 8px 0 4px; }
+.blog-rtb.blog-rtb h6 { font-size: 16px; line-height: 24px; margin: 4px 0 0; }
+
+.blog-rtb.blog-rtb :is(ul, ol) {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-block: 16px;
+  padding-left: 24px;
+}
+.blog-rtb.blog-rtb ul { list-style: disc; }
+.blog-rtb.blog-rtb ol { list-style: decimal; }
+.blog-rtb.blog-rtb li {
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffffd6;
+}
+.blog-rtb.blog-rtb li::marker { color: #ffffff70; }
+
+.blog-rtb.blog-rtb blockquote {
+  margin-block: 16px;
+  color: #cacace;
+  border-left: none;
+  padding-left: 20px;
+  position: relative;
+}
+.blog-rtb.blog-rtb blockquote::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 3px;
+  background: #ffffff;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.blog-rtb.blog-rtb hr {
+  border-top: 1px solid #ffffff1a;
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+  margin: 48px 0;
+}
+
+.blog-rtb.blog-rtb a {
+  font-weight: 500;
+  color: #ffffff;
+  text-decoration: none;
+}
+.blog-rtb.blog-rtb a:hover { text-decoration: underline; }
+
+.blog-rtb.blog-rtb img {
+  border-radius: 20px;
+  margin: 32px 0;
+  box-shadow: 0 0 0 1px #ffffff29;
+  max-width: 100%;
+  height: auto;
+}
+
+.blog-rtb.blog-rtb :is(strong, b) {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.blog-rtb.blog-rtb code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: #ffffff0f;
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: #ffffff;
+}
+.blog-rtb.blog-rtb pre {
+  background: #ffffff0f;
+  padding: 16px;
+  border-radius: 10px;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+.blog-rtb.blog-rtb pre code {
+  background: transparent;
+  padding: 0;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

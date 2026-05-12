@@ -2,7 +2,15 @@ export type BlogAuthor = {
   name: string
   avatar: string
   title?: string
-  socials?: { linkedin?: string; twitter?: string }
+  socials?: {
+    website?: string
+    linkedin?: string
+    twitter?: string
+    instagram?: string
+    youtube?: string
+    facebook?: string
+    tiktok?: string
+  }
 }
 
 export type BlogPost = {
@@ -26,9 +34,13 @@ export type BlogPost = {
 
 const goadsTeam: BlogAuthor = {
   name: "GoAds Team",
-  avatar: "/avatars/goads-team.webp",
+  avatar: "/avatars/goads-team.png",
   title: "Marketing Team",
-  socials: { linkedin: "https://linkedin.com/company/goads" },
+  socials: {
+    website: "https://goads.com",
+    linkedin: "https://linkedin.com/company/goads",
+    instagram: "https://instagram.com/goads",
+  },
 }
 
 export const blogCategories = [
@@ -53,7 +65,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "March 5, 2026",
     readTime: "8 min read",
-    coverImage: "/images/blog/scale-facebook-ads.webp",
+    coverImage: "/foreplay/blog/blog_1.png",
     featured: true,
     popular: true,
     sections: [
@@ -101,7 +113,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 28, 2026",
     readTime: "12 min read",
-    coverImage: "/images/blog/meta-bm-limits.webp",
+    coverImage: "/foreplay/6952d2ca7adeb06040a5df45_discovery.png",
     popular: true,
     sections: [
       {
@@ -141,7 +153,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 20, 2026",
     readTime: "10 min read",
-    coverImage: "/images/blog/google-whitelisted.webp",
+    coverImage: "/foreplay/69419aba40b173a35f30c9ca_a.png",
     popular: true,
     sections: [
       {
@@ -179,7 +191,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 15, 2026",
     readTime: "9 min read",
-    coverImage: "/images/blog/tiktok-verified.webp",
+    coverImage: "/foreplay/693c5f30484a0cd5f501cabf_das.png",
     popular: true,
     sections: [
       {
@@ -218,7 +230,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 8, 2026",
     readTime: "11 min read",
-    coverImage: "/images/blog/avoid-bans.webp",
+    coverImage: "/foreplay/69456cf1f1ab892ffc171ea0_lens.png",
     sections: [
       {
         id: "common-ban-reasons",
@@ -252,6 +264,235 @@ export const blogPosts: BlogPost[] = [
         content: `<p>If despite your best efforts an account gets banned, here's what to do:</p>
 <p>First, don't panic. Submit an appeal through Meta's standard process. If the ban was a false positive, it's often resolved within 24-48 hours.</p>
 <p>If the appeal fails, consider starting fresh with a new agency account from a trusted provider like GoAds. Our accounts come with a 7-day warranty specifically for situations like these.</p>`,
+      },
+    ],
+  },
+  // ─── Filler posts for pagination demo ─────────────────────────────────────
+  {
+    slug: "google-ads-quality-score-deep-dive",
+    category: "Google Ads",
+    categorySlug: "google-ads",
+    title: "Google Ads Quality Score: A Deep Dive for 2026",
+    description:
+      "Quality Score quietly decides your CPCs. Here's how the three components actually weigh against each other and what to optimize first.",
+    author: goadsTeam,
+    date: "February 18, 2026",
+    readTime: "9 min read",
+    coverImage: "/foreplay/699c79256759e8e5e5d30ffa_Blog.png",
+    sections: [
+      {
+        id: "the-three-pillars",
+        title: "The Three Pillars",
+        content: `<p>Expected CTR, ad relevance, and landing page experience. Each one is graded against your competitors in the same auction — not against an absolute scale.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "tiktok-spark-ads-vs-non-spark",
+    category: "TikTok Ads",
+    categorySlug: "tiktok-ads",
+    title: "Spark Ads vs Non-Spark: Which Wins in 2026?",
+    description:
+      "Spark Ads borrow social proof from organic posts. We tested both at $30K/mo spend — here's what actually moved the needle.",
+    author: goadsTeam,
+    date: "February 12, 2026",
+    readTime: "7 min read",
+    coverImage: "/foreplay/blog/blog_2.webp",
+    sections: [
+      {
+        id: "test-results",
+        title: "Test Results",
+        content: `<p>Spark Ads delivered 23% lower CPM but only when paired with a creator who already had organic traction. Cold creators showed no measurable lift.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "creative-fatigue-detection",
+    category: "Scaling Strategy",
+    categorySlug: "scaling-strategy",
+    title: "Detecting Creative Fatigue Before It Tanks Your ROAS",
+    description:
+      "Frequency alone is a lagging indicator. These five signals catch fatigue 5-7 days earlier so you can rotate creatives before CPA spikes.",
+    author: goadsTeam,
+    date: "February 5, 2026",
+    readTime: "6 min read",
+    coverImage: "/foreplay/blog/blog_1.png",
+    sections: [
+      {
+        id: "leading-indicators",
+        title: "Leading Indicators",
+        content: `<p>Watch for: declining 3s view rate, rising outbound CPC, falling thumbstop ratio, dropping ATC rate, and growing CPM variance across ad sets.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "ugc-vs-studio-creative",
+    category: "Meta Ads",
+    categorySlug: "meta-ads",
+    title: "UGC vs Studio Creative: The 2026 Performance Data",
+    description:
+      "100 brands, 12 months of data. We compared raw UGC against high-production studio ads across cold and warm audiences.",
+    author: goadsTeam,
+    date: "January 28, 2026",
+    readTime: "10 min read",
+    coverImage: "/foreplay/blog/blog_2.webp",
+    sections: [
+      {
+        id: "cold-vs-warm",
+        title: "Cold vs Warm",
+        content: `<p>UGC won 68% of cold prospecting tests. Studio creative won 71% of warm retargeting tests. The pattern was remarkably consistent across verticals.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "pixel-stacking-explained",
+    category: "Account Tips",
+    categorySlug: "account-tips",
+    title: "Pixel Stacking: The Redundancy Strategy That Saves Accounts",
+    description:
+      "Running multiple pixels across redundant accounts gives you tracking continuity even when one account gets disabled. Here's how to set it up cleanly.",
+    author: goadsTeam,
+    date: "January 22, 2026",
+    readTime: "8 min read",
+    coverImage: "/foreplay/blog/blog_1.png",
+    sections: [
+      {
+        id: "setup",
+        title: "Setup",
+        content: `<p>Deploy two pixels via GTM, configure both as standard events, and use server-side CAPI as a third layer. Disabled accounts can't take down what they don't fully own.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "advantage-plus-shopping-campaigns",
+    category: "Meta Ads",
+    categorySlug: "meta-ads",
+    title: "Advantage+ Shopping Campaigns: When to Use Them (And When Not To)",
+    description:
+      "ASC works phenomenally for some accounts and terribly for others. The deciding factor is rarely the one Meta tells you about.",
+    author: goadsTeam,
+    date: "January 15, 2026",
+    readTime: "11 min read",
+    coverImage: "/foreplay/blog/blog_2.webp",
+    sections: [
+      {
+        id: "when-asc-wins",
+        title: "When ASC Wins",
+        content: `<p>Catalog size > 100 SKUs, AOV between $40-$200, broad demographic appeal, and at least 50 purchases/week of historical data. Missing any of these makes ASC a coin flip.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "google-pmax-asset-groups",
+    category: "Google Ads",
+    categorySlug: "google-ads",
+    title: "Structuring Performance Max Asset Groups for Maximum ROAS",
+    description:
+      "PMax rewards intentional structure. Lumping everything into one asset group leaves performance — and budget — on the table.",
+    author: goadsTeam,
+    date: "January 8, 2026",
+    readTime: "9 min read",
+    coverImage: "/foreplay/blog/blog_1.png",
+    sections: [
+      {
+        id: "thematic-grouping",
+        title: "Thematic Grouping",
+        content: `<p>Split asset groups by product theme, not SKU. PMax's algorithm needs enough signal per group to optimize — narrow themes starve the model.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "tiktok-spark-code-management",
+    category: "TikTok Ads",
+    categorySlug: "tiktok-ads",
+    title: "Managing TikTok Spark Codes at Scale",
+    description:
+      "Once you're running 20+ Spark Ads across multiple creators, manual code management becomes a bottleneck. Here's the system we use.",
+    author: goadsTeam,
+    date: "January 2, 2026",
+    readTime: "7 min read",
+    coverImage: "/foreplay/blog/blog_2.webp",
+    sections: [
+      {
+        id: "the-system",
+        title: "The System",
+        content: `<p>Centralize codes in a shared sheet with creator, post URL, expiry, ad account, and ad ID. Automate renewal reminders 7 days before expiry.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "budget-pacing-strategies",
+    category: "Scaling Strategy",
+    categorySlug: "scaling-strategy",
+    title: "Budget Pacing Strategies That Actually Hold Up at Scale",
+    description:
+      "Daily vs lifetime budgets. CBO vs ABO. Manual scaling vs algorithm. Here's what survives past $5K/day spend.",
+    author: goadsTeam,
+    date: "December 20, 2025",
+    readTime: "12 min read",
+    coverImage: "/foreplay/blog/blog_1.png",
+    sections: [
+      {
+        id: "scaling-thresholds",
+        title: "Scaling Thresholds",
+        content: `<p>Below $1K/day: CBO with daily budgets works fine. $1K-$5K/day: switch to ABO for control. Above $5K/day: split into campaign clusters with manual pacing.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "ban-recovery-playbook",
+    category: "Account Tips",
+    categorySlug: "account-tips",
+    title: "The Ban Recovery Playbook: What to Do in the First 48 Hours",
+    description:
+      "Getting banned is stressful but not always terminal. Here's the exact sequence we follow to maximize appeal success rates.",
+    author: goadsTeam,
+    date: "December 14, 2025",
+    readTime: "8 min read",
+    coverImage: "/foreplay/blog/blog_2.webp",
+    sections: [
+      {
+        id: "first-48",
+        title: "First 48 Hours",
+        content: `<p>File the appeal immediately. Document everything. Don't create a new account from the same browser/IP. Wait for a response before any further action.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "retargeting-windows-deep-dive",
+    category: "Meta Ads",
+    categorySlug: "meta-ads",
+    title: "Retargeting Window Sizes: Beyond the 7/14/30 Defaults",
+    description:
+      "Most advertisers default to 30-day retargeting windows. But your buying cycle, AOV, and audience size should drive the choice — not Meta's templates.",
+    author: goadsTeam,
+    date: "December 6, 2025",
+    readTime: "6 min read",
+    coverImage: "/foreplay/blog/blog_1.png",
+    sections: [
+      {
+        id: "matching-the-cycle",
+        title: "Matching the Cycle",
+        content: `<p>Short cycle SKUs (under $50, impulse): 3-7 day windows. Mid-cycle ($50-$200, considered): 14-30 days. High AOV ($200+, researched): 60-90 day windows minimum.</p>`,
+      },
+    ],
+  },
+  {
+    slug: "google-ads-search-terms-audit",
+    category: "Google Ads",
+    categorySlug: "google-ads",
+    title: "The Monthly Search Terms Audit That Cuts CPA by 18%",
+    description:
+      "Search terms reports get ignored after launch. Spending 30 minutes a month here is the highest-ROI optimization in Google Ads.",
+    author: goadsTeam,
+    date: "November 28, 2025",
+    readTime: "5 min read",
+    coverImage: "/foreplay/blog/blog_2.webp",
+    sections: [
+      {
+        id: "the-process",
+        title: "The Process",
+        content: `<p>Filter for queries with 10+ clicks and 0 conversions. Add as negative. Filter for queries with high conversion rate but low impressions. Promote to exact match.</p>`,
       },
     ],
   },

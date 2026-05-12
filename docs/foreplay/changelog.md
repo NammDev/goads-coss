@@ -336,26 +336,34 @@ Section 2: Social Proof + Reviews (white block)
 |-----------|---------------|-------------|
 | `blog/blog-card.tsx` | `.blog-list-card` + `.blog-carousel-card-*` | Shared card: cover image + author (28px avatar) + title (`text-label-l`) + excerpt (`text-body-m`) |
 | `blog/blog-category-bar.tsx` | `.blog-categories` + `.blog-tag` | Horizontal pills: ring neutral-700, rounded-[10px], active invert |
-| `blog/blog-pagination.tsx` | `.blog-pagination` + `.page-count` | Page count "1 / N" + prev/next chevron buttons |
+| `blog/blog-pagination.tsx` | `.w-pagination-wrapper.blog-pagination` + `.div-block-344` + `.page-count` + `.w-pagination-next/previous` | Webflow-style pagination: `1 / N` count + `Previous`/`Next` buttons using `.button-dark.button-secondary` styling + 12×12 chevron SVG; conditionally renders prev/next based on currentPage |
 | `blog/blog-featured-card.tsx` | `.featured-blog-wrapper` + `.featured-blog-link` | Large hero card: cover (rounded-[20px], border grey-stroke) + `text-display-h3` title + excerpt + author |
 | `blog/blog-popular-sidebar.tsx` | `.blog-feed-wrapper` + `.blog-feed-link` | Text-only list: title (`text-label-m`) + excerpt (`text-body-s line-clamp-2`) + author/read time |
 | `blog/blog-inline-cta.tsx` | `.blog-cta` | GoAds adaptation: bg neutral-700, rounded-xl, CTA with pricing + sales links |
-| `blog/blog-related-carousel.tsx` | `.blog-related` + `.blog-related-list` | Horizontal scroll carousel, snap-x, BlogCard reuse, ForeplayCarouselArrows |
+| `blog/blog-related-carousel.tsx` (REBUILT) | Mirrors `/foreplay/agency-ad-account` "Use Cases" section pattern: `ForeplaySectionHead variant="light"` + carousel cards rounded-28 / w-[39vw] max-w-[576px] / shadow ring `#1b1c21`, translateX slide 800ms cubic-bezier, cards wrapped in Link to blog detail |
+| `blog/blog-related-head.tsx` | `.blog-related-head` | "Explore More Blogs" intro: `text-heading-l` title + `text-body-m` description (alpha-100), flex col gap-2 |
+| `blog/blog-detail-cta-sidebar.tsx` | `.blog-cta` + `.blog-cta-content` | Sticky right-rail CTA card on detail pages: `bg-[#ffffff1a]` rounded-12, optional image + title (`labelL`) + description (`bodyS` alpha-100) + `ForeplayCtaButton` |
+| `blog/blog-detail-author.tsx` | `.blog-author` | Author block inside `.blog-head`: 48px avatar w/ border ring + flex-1(name in alpha-25 / title in alpha-200) + `.blog-author-links` (social icons + "More Articles" ghost button) |
+| `blog/blog-author-social-icon.tsx` | `.blog-author-social-link > .icon-24` | Exact 24×24 SVG paths from Foreplay source for: website (globe), linkedin, twitter, instagram, youtube, facebook, tiktok |
 
 ### Rebuilt Components
 
 | Component | Changes |
 |-----------|---------|
-| `blog-hero.tsx` | Rebuilt: overline "Blog" + gradient h1 + 2-col grid (featured 3fr + popular 2fr) |
-| `blog-listing.tsx` | Rebuilt: BlogCategoryBar + 3-col BlogCard grid + BlogPagination, client-side filtering |
-| `blog-detail-header.tsx` | Rebuilt: breadcrumb + h1 + author (48px avatar + name + title + social) + cover image. Accepts both string and object author format |
-| `blog-detail-content.tsx` | Rebuilt: 3-col grid (TOC left sticky + prose center + spacer right), removed CtaSidebar |
+| `blog-hero.tsx` | Rebuilt: overline "Blog" + gradient h1 + `.blog-header-grid` exact replica — desktop 6×1fr grid w/ 50px col-gap, featured col-span-4, sidebar col-span-2; mobile flex-col w/ sidebar `mt-25 + border-t + pt-25` |
+| `blog/blog-popular-sidebar.tsx` (FIX) | Replaced `divide-y` with `.collection-list-5` 40px gap (no dividers); fixed `.blog-feed-author` spacing using inline 7px margins (matches Foreplay's `.text-seperator mx-7` + `.thumbnail-author-avatar mr-7`) |
+| `blog/blog-featured-card.tsx` (FIX) | Avatar 24→25px (per `.thumbnail-author-avatar`); `mr-[7px]` instead of parent gap; nested author link wraps avatar+name |
+| `blog-listing.tsx` | Wrapped in `.blog-feed` (flex col gap-9 pb-[120px]); prepended `BlogRelatedHead` ("Explore More Blogs" + subtitle); category bar now includes "Topics & Categories:" prefix via `BlogCategoryBar.titleLabel` |
+| `blog/blog-category-bar.tsx` (UPDATE) | Added `.categories-title` label prefix ("Topics & Categories:" via `titleLabel` prop); now wraps tags in `.collection-list-6` flex-wrap container; mobile flex-col, desktop flex-row |
+| `blog-detail-header.tsx` | Narrow hero (`.blog-container` max-w-[832px]): breadcrumb + h1 (`text-display-h4` 28px) + description + `.blog-line` separator. Author block + cover image MOVED into content. |
+| `blog-detail-content.tsx` | Full-width 3-col grid `[1fr minmax(0,752px) 1fr]` gap-9: TOC (sticky, with "Table of contents" header) + main column (author + inline cover image + `.blog-rtb` prose) + sticky CTA sidebar on right. |
+| `globals.css` (ADD) | New `.blog-rtb` scope — Foreplay-exact rich-text styling: 16px/24px body @ `#ffffffd6`, Inter Display headings (h2 28px → h6 16px) with exact margins, flex-col lists w/ 12px gap, blockquote with ::before 3px white bar (no border-l), `hr` 48px margin, `img` rounded-20 + 1px white ring, `a` weight-500 white w/ hover underline, code/pre styling. Replaces the prose plugin on detail pages. |
 
 ### Blog Data
 
 | File | Content |
 |------|---------|
-| `data/blog-posts.ts` | Extended type: `BlogAuthor` object, `categorySlug`, `coverImage`, `featured`, `popular`. 5 posts, 5 categories. Helper functions: `getFeaturedPost`, `getPopularPosts`, `getBlogPostsByCategory` |
+| `data/blog-posts.ts` | Extended type: `BlogAuthor` object, `categorySlug`, `coverImage`, `featured`, `popular`. **17 posts** (5 detailed + 12 filler for pagination demo), 5 categories. Helper functions: `getFeaturedPost`, `getPopularPosts`, `getBlogPostsByCategory` |
 
 ### Blog Page Compositions
 

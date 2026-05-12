@@ -151,6 +151,11 @@ Rules:
 4. `font-sans` on text elements (Inter via .foreplay scope)
 5. Comment: description + EXACT CSS spec + usage
 6. < 100 lines per atom
+7. **ALWAYS `cursor-pointer` on any interactive `<button>` / clickable element.**
+   Tailwind's preflight resets `button { cursor: default }`. Foreplay's `.button-dark`
+   and similar interactive elements set `cursor: pointer`. Forgetting this leaves
+   buttons feeling non-clickable. Apply to: `<button>`, clickable `<div>`, tab
+   triggers, carousel arrows, pagination buttons, category pills, etc.
 
 ## Step 6: Update Changelog
 

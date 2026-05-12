@@ -1,18 +1,26 @@
-// Blog detail header — section > .container.section-container
-// .blog-breadcrumb: flex, gap-1, items-center, py-10
-// .blog-head: flex col, gap-2, text-balance
-// .blog-author: flex, gap-4, items-center, py-10
-//   avatar 48px + name + title + social links
-// .blog-cover: aspect-[1.71], rounded-[20px], relative, overflow-hidden
-//   .blog-image: object-cover, aspect-[1.71], w-full
-//   .blog-image-border: border 1px neutral-600, rounded-[20px], absolute inset-0
+// Blog detail header — breadcrumb + narrow hero
+//
+// Foreplay DOM:
+// <section><.container.blog-container max-w-[832px]>
+//   .blog-breadcrumb (flex gap-1 items-center -mx-2 py-10)
+// <section><.container.blog-container max-w-[832px]>
+//   .blog-top (flex col gap-6 pb-10)
+//     .blog-head (flex col gap-2 text-balance)
+//       .text-white > h1.text-display-h4
+//     .blog-body (pb-10)
+//       .text-alpha-100 > p.text-body-m
+//     .blog-line (h-px bg-neutral-700)
+//
+// CSS:
+// .blog-container:    max-w-[832px]  (NARROW — not full section container)
+// .blog-head:         flex col gap-2 text-balance
+// .blog-top:          flex col gap-6 pb-10
+// .blog-breadcrumb:   flex items-center gap-1 -mx-2 py-10
+// .blog-line:         h-px bg-[#ffffff1a]
 
-import Image from "next/image"
 import Link from "next/link"
-import { Linkedin, Twitter } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { ForeplaySectionContainer } from "@/components/foreplay/foreplay-section-container"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import type { BlogPost } from "@/data/blog-posts"
 
@@ -28,123 +36,81 @@ type BlogDetailPost = BlogPost | {
   readTime: string
 }
 
-/** Normalize author from either string or object format */
-function normalizeAuthor(post: BlogDetailPost) {
-  if (typeof post.author === "object") return post.author
-  return {
-    name: post.author,
-    avatar: (post as { authorAvatar?: string }).authorAvatar ?? "/avatars/goads-team.webp",
-  }
-}
-
 interface BlogDetailHeaderProps {
   post: BlogDetailPost
 }
 
 export function BlogDetailHeader({ post }: BlogDetailHeaderProps) {
-  const author = normalizeAuthor(post)
-  const catSlug = "categorySlug" in post && post.categorySlug ? post.categorySlug : post.category.toLowerCase().replace(/\s+/g, "-")
+  const catSlug =
+    "categorySlug" in post && post.categorySlug
+      ? post.categorySlug
+      : post.category.toLowerCase().replace(/\s+/g, "-")
 
   return (
-    <section className="relative">
-      <ForeplaySectionContainer>
-        {/* .blog-breadcrumb: flex, gap-1, items-center, py-10, -mx-2 */}
-        <nav className="-mx-2 flex items-center gap-1 pb-10 pt-10">
-          <Link
-            href="/blog"
-            className="flex shrink-0 items-center gap-[5px] px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground"
-          >
-            <span className={fpText.bodyS}>Blog</span>
-          </Link>
-          {/* .blog-breadcrumb-separator */}
-          <span className="text-[var(--fp-alpha-100,#ffffffad)]">/</span>
-          <Link
-            href={`/blog?category=${catSlug}`}
-            className="flex shrink-0 items-center px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground"
-          >
-            <span className={fpText.bodyS}>{post.category}</span>
-          </Link>
-          <span className="text-[var(--fp-alpha-100,#ffffffad)]">/</span>
-          <span className="truncate px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)]">
-            <span className={fpText.bodyS}>{post.title}</span>
-          </span>
-        </nav>
-
-        {/* .blog-head: flex col, gap-2, text-balance */}
-        <div className="flex w-full flex-col gap-2 text-balance">
-          <h1 className={cn(fpText.displayH1, "text-foreground")}>
-            {post.title}
-          </h1>
-
-          {/* .blog-author: flex, gap-4, items-center, py-10 */}
-          <div className="flex items-center gap-4 py-10">
-            {/* .blog-author-avatar: rounded-full, relative, overflow-hidden */}
-            <div className="relative shrink-0 overflow-hidden rounded-full">
-              {/* .blog-author-avatar-image: 48px circle */}
-              <Image
-                src={author.avatar}
-                alt={author.name}
-                width={48}
-                height={48}
-                className="size-12 rounded-full"
-              />
-              {/* .blog-author-avatar-border: border 1px neutral-600, absolute inset-0 */}
-              <div className="pointer-events-none absolute inset-0 rounded-full border border-[#ffffff29]" />
-            </div>
-            <div>
-              {/* .text-label-m: author name */}
-              <div className={cn(fpText.labelM, "text-foreground")}>
-                {author.name}
-              </div>
-              {/* .text-body-s: author title */}
-              {author.title && (
-                <div className={cn(fpText.bodyS, "text-[var(--fp-alpha-100,#ffffffad)]")}>
-                  {author.title}
-                </div>
+    <>
+      {/* .blog-container: max-w-[832px], px from section-container */}
+      <section className="relative">
+        <div className="mx-auto w-full max-w-[832px] px-6 md:px-8 lg:px-10">
+          {/* .blog-breadcrumb: flex gap-1 items-center -mx-2 py-10 */}
+          <nav className="-mx-2 flex items-center gap-1 py-10">
+            <Link
+              href="/foreplay/blog"
+              className={cn(
+                fpText.bodyS,
+                "shrink-0 px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground",
               )}
-            </div>
-            {/* .blog-author-links: flex, gap-1, items-center */}
-            {author.socials && (
-              <div className="flex items-center gap-1">
-                {author.socials.linkedin && (
-                  <a
-                    href={author.socials.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-1 text-foreground hover:text-[#fffc]"
-                  >
-                    <Linkedin className="size-4" />
-                  </a>
-                )}
-                {author.socials.twitter && (
-                  <a
-                    href={author.socials.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-1 text-foreground hover:text-[#fffc]"
-                  >
-                    <Twitter className="size-4" />
-                  </a>
-                )}
+            >
+              Blog
+            </Link>
+            <span className={cn(fpText.bodyS, "text-[var(--fp-alpha-100,#ffffffad)]")}>
+              /
+            </span>
+            <Link
+              href={`/foreplay/blog?category=${catSlug}`}
+              className={cn(
+                fpText.bodyS,
+                "shrink-0 px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground",
+              )}
+            >
+              {post.category}
+            </Link>
+            <span className={cn(fpText.bodyS, "text-[var(--fp-alpha-100,#ffffffad)]")}>
+              /
+            </span>
+            <span
+              className={cn(
+                fpText.bodyS,
+                "truncate px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)]",
+              )}
+            >
+              {post.title}
+            </span>
+          </nav>
+        </div>
+      </section>
+
+      <section className="relative">
+        <div className="mx-auto w-full max-w-[832px] px-6 md:px-8 lg:px-10">
+          {/* .blog-top: flex col gap-6 pb-10 */}
+          <div className="flex flex-col gap-6 pb-10">
+            {/* .blog-head: flex col gap-2 text-balance */}
+            <div className="flex w-full flex-col gap-2 text-balance">
+              {/* .text-white > h1.text-display-h4 */}
+              <div className="text-foreground">
+                <h1 className={fpText.displayH4}>{post.title}</h1>
               </div>
-            )}
+            </div>
+            {/* .blog-body > .text-alpha-100 > p.text-body-m */}
+            <div className="pb-10">
+              <div className="text-[var(--fp-alpha-100,#ffffffad)]">
+                <p className={fpText.bodyM}>{post.description}</p>
+              </div>
+            </div>
+            {/* .blog-line: h-px bg-neutral-700 */}
+            <div className="h-px bg-[#ffffff1a]" />
           </div>
         </div>
-
-        {/* .blog-cover: aspect-[1.71], rounded-[20px], relative, overflow-hidden */}
-        {"coverImage" in post && post.coverImage && (
-          <div className="relative aspect-[1.71] w-full overflow-hidden rounded-[20px]">
-            <Image
-              src={post.coverImage}
-              alt={post.title}
-              fill
-              className="object-cover"
-            />
-            {/* .blog-image-border: border neutral-600, absolute inset-0 */}
-            <div className="pointer-events-none absolute inset-0 rounded-[20px] border border-[#ffffff29]" />
-          </div>
-        )}
-      </ForeplaySectionContainer>
-    </section>
+      </section>
+    </>
   )
 }

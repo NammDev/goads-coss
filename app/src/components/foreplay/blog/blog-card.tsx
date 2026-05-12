@@ -16,13 +16,15 @@ import type { BlogPost } from "@/data/blog-posts"
 
 interface BlogCardProps {
   post: BlogPost
+  /** Base path for post links — defaults to "/foreplay/blog" */
+  basePath?: string
   className?: string
 }
 
-export function BlogCard({ post, className }: BlogCardProps) {
+export function BlogCard({ post, basePath = "/foreplay/blog", className }: BlogCardProps) {
   return (
     <Link
-      href={`/blog/${post.slug}`}
+      href={`${basePath}/${post.slug}`}
       className={cn(
         // .blog-list-card
         "group block overflow-hidden rounded-[20px] bg-background shadow-[0_0_0_1px_var(--fp-ring-color,#ffffff1a)]",

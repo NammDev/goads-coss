@@ -53,8 +53,8 @@ export default async function BlogPostPage({ params }: Props) {
       <BlogDetailHeader post={headerPost} />
       <SectionDivider />
       <BlogDetailContent
-        description={post.description}
         headings={headings}
+        author={{ name: post.author, avatar: post.authorAvatar }}
       >
         <BlogMarkdocContent content={contentTree} />
       </BlogDetailContent>

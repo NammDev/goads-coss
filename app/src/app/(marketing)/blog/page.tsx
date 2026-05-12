@@ -24,7 +24,7 @@ export default async function BlogPage() {
         description: post?.description ?? "",
         author: {
           name: post?.author ?? "GoAds Team",
-          avatar: "/avatars/goads-team.webp",
+          avatar: "/avatars/goads-team.png",
         },
         date: post?.date ?? "",
         readTime: "5 min read",
@@ -36,9 +36,9 @@ export default async function BlogPage() {
 
   return (
     <main className="flex-1">
-      <BlogHero />
+      <BlogHero basePath="/blog" />
       <SectionDivider />
-      <BlogListing posts={posts} />
+      <BlogListing posts={posts} basePath="/blog" />
     </main>
   )
 }

@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 
 import { BlogDetailHeader } from "@/components/blog-detail-header"
 import { BlogDetailContent } from "@/components/blog-detail-content"
-import { BlogInlineCta } from "@/components/foreplay/blog/blog-inline-cta"
 import { BlogRelatedCarousel } from "@/components/foreplay/blog/blog-related-carousel"
 import { ForeplayHomeCta } from "@/components/foreplay/foreplay-home-cta"
 import { blogPosts, getBlogPost } from "@/data/blog-posts"
@@ -52,10 +51,14 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <BlogDetailHeader post={post} />
-      <BlogDetailContent headings={headings}>
+      <BlogDetailContent
+        headings={headings}
+        author={post.author}
+        coverImage={post.coverImage}
+        coverAlt={post.title}
+      >
         <BlogSectionsContent sections={post.sections} />
       </BlogDetailContent>
-      <BlogInlineCta />
       <BlogRelatedCarousel posts={blogPosts} currentSlug={slug} />
       <ForeplayHomeCta />
     </>

@@ -15,19 +15,23 @@ import type { BlogPost } from "@/data/blog-posts"
 interface BlogHeroProps {
   featuredPost?: BlogPost
   popularPosts?: BlogPost[]
+  /** Base path for post links — defaults to "/foreplay/blog" */
+  basePath?: string
 }
 
-export function BlogHero({ featuredPost, popularPosts }: BlogHeroProps = {}) {
+export function BlogHero({ featuredPost, popularPosts, basePath = "/foreplay/blog" }: BlogHeroProps = {}) {
   return (
     <section className="relative">
-      {/* .fireside-hero: flex col, center, pt-20 pb-20 */}
+      {/* .fireside-hero: flex col, center, pt-20 pb-20 (desktop) */}
       <div className="flex flex-col items-center justify-start pb-20 pt-20 text-center">
         <ForeplaySectionContainer>
-          {/* .product-hero-content */}
-          <div>
-            {/* .hero-text: flex col, gap-4, items-center */}
-            <div className="flex flex-col items-center gap-4">
-              {/* h1.text-overline.text-white-68 — "Blog" */}
+          {/* .product-hero-content: flex col, gap-7 (28px) */}
+          <div className="flex flex-col items-center gap-7">
+            {/* .hero-text: flex col, gap-4, items-center, max-w-[900px] */}
+            <div className="flex max-w-[900px] flex-col items-center gap-4">
+              {/* h1.text-overline.text-white-68 — Foreplay's .text-overline has NO color.
+                  .text-white-68 class doesn't exist in CSS — vestigial. Inherits body color
+                  var(--_lens---neutral-300) = #ffffff5c (36% white) */}
               <div>
                 <h1 className={cn(fpText.overline, "text-[var(--fp-alpha-300,#ffffff5c)]")}>
                   Blog
@@ -38,7 +42,7 @@ export function BlogHero({ featuredPost, popularPosts }: BlogHeroProps = {}) {
                 className={cn(
                   fpText.displayH1,
                   FP_HERO_GRADIENT,
-                  "max-w-[900px] text-balance",
+                  "text-balance",
                 )}
               >
                 Free insights and guides for better ad accounts
@@ -46,18 +50,22 @@ export function BlogHero({ featuredPost, popularPosts }: BlogHeroProps = {}) {
             </div>
           </div>
 
-          {/* .section-content-main > .blog-header-grid */}
-          {/* grid 6-col desktop, flex-col mobile; gap-[50px] */}
+          {/* .section-content-main: padding-top:48px desktop, 40px mobile */}
+          {/* .w-layout-grid.blog-header-grid:
+              desktop ≥992px → grid 6×1fr, col-gap 50px, row-gap 0
+              mobile <992px  → flex-col (gap inherited from .w-layout-grid row-gap 16px, but sidebar handles its own mt/border) */}
           {featuredPost && popularPosts && (
-            <div className="mt-16">
-              <div className="grid grid-cols-1 gap-[50px] lg:grid-cols-[3fr_2fr]">
-                {/* Left: featured post (col 1-4) */}
-                <BlogFeaturedCard post={featuredPost} />
+            <div className="pt-10 lg:pt-12">
+              <div className="flex flex-col lg:grid lg:grid-cols-6 lg:gap-x-[50px]">
+                {/* .featured-blog-wrapper: grid-area span 1/span 4 → col-span-4 desktop */}
+                <BlogFeaturedCard post={featuredPost} basePath={basePath} className="lg:col-span-4" />
 
-                {/* Right: popular blogs (col 5-6) */}
+                {/* .blog-feed-wrapper: grid-area span 1/span 2 → col-span-2 desktop
+                    Mobile: mt-25 + border-top + pt-25 (per responsive override) */}
                 <BlogPopularSidebar
                   posts={popularPosts}
-                  className="border-t border-[#7a7b7f40] pt-[25px] lg:border-t-0 lg:pt-0"
+                  basePath={basePath}
+                  className="mt-[25px] border-t border-[#7a7b7f40] pt-[25px] lg:col-span-2 lg:mt-0 lg:border-t-0 lg:pt-0"
                 />
               </div>
             </div>
