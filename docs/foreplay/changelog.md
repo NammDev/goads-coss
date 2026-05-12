@@ -594,6 +594,44 @@ All 3 dropdowns (Product/Solutions/Resources) now share `ForeplayHeaderDropdownB
 
 **NOT** the incorrect sibling arrangement tried earlier. Verified via HTML closing-tag count: 4 closes after `"What is Foreplay?</div>"` → closes `[text-label-s, u-nav-banner-title, text-white, nav-banner-content]`, leaving stack `[banner, video]` → `<a>` opens as child of `video`.
 
+## Tempmail Page (Phase 6 — UI-only) ✅
+
+### Route
+- `app/src/app/foreplay/tempmail/page.tsx` — 4 sections (Hero / Mail Viewer white block / FAQ / CTA)
+
+### New Atom
+- `foreplay-tempmail-viewer.tsx` — light-theme mail viewer for white block
+  - Header: `ForeplaySectionHead variant="dark"` — title `var(--fp-solid-700)`, description `var(--fp-solid-600)`
+  - Input row: naked layout, no wrapper card
+  - Buttons: `rounded-[10px] p-2 fpText.headingM` (NOT pills)
+    - Load = `bg-background text-foreground` (`.button-light.button-primary` pattern)
+    - Random/Copy = white bg + `shadow-[0_0_0_1px_var(--fp-solid-50)]` ring
+    - "Xóa tất cả" = red outline (`text-red-500` + ring `currentColor`)
+  - Body grid 4/8: MailBox aside + Content section
+    - `bg-[var(--fp-solid-25)] rounded-[20px]` (pricing-card radius)
+    - `shadow-[0_0_0_1px_var(--fp-solid-50)]` ring border
+    - Aside internal divider: `border-b border-[var(--fp-solid-50)]`
+  - Reuses: `fpText.headingM/bodyM/bodyS/labelS`, `ForeplaySectionHead`
+  - Standards refs: `docs/foreplay/design-guideline.md` (Buttons table, Color Palettes, CSS Token Standards) + `/foreplay/pricing` page
+
+### Data
+- `app/src/data/foreplay-tempmail-page-data.ts` — `tempmailHero` / `tempmailViewer` / `tempmailFaq` (7 items)
+
+## Hero Refactor — KPI-Only Strip (no logos, no video)
+
+Goal: replace original Foreplay hero's partner-logo grid + product demo video with a focused 6-stat KPI strip. Hero now ends after the KPI strip — no `.home-hero-middle` visual below.
+
+### Modified
+- `foreplay-home-hero-bottom.tsx` — `.home-hero-bottom` wrapper kept (relative + flex col + gap-10 + text-center + balance). Removed overline header entirely. Grid swapped 7-col × 2-row logo grid → **6-stat KPI grid** responsive `grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4`. Each cell: `fpText.displayH4` value (`text-foreground`) + `fpText.bodyS` label (`text-[var(--fp-alpha-50)]`), padding p-3 mirrors `.home-hero-logo-wrapper`. KPIs: `$50M+ Ad spend powered` · `99.8% Account uptime` · `<2hr Account delivery` · `1000+ Active agencies` · `24/7 Live support` · `47 Countries served`.
+- `foreplay-home-hero.tsx` — removed `<ForeplayHomeHeroVideo />` from organism. Removed import. Parent class `pt-16 pb-0` → `pt-16 pb-20` (restored Foreplay rule0 80px bottom padding since video bleed gone). Updated header comment.
+
+### Deleted
+- `foreplay-home-hero-video.tsx` — `.home-hero-middle` wrapper no longer needed (no video, no bleed-down visual).
+- `foreplay-account-dashboard-mockup.tsx` — short-lived dashboard mockup (rejected — too busy visually).
+
+### Index
+- Removed `ForeplayHomeHeroVideo` and `ForeplayAccountDashboardMockup` exports from `components/foreplay/index.ts`.
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos

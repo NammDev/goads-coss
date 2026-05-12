@@ -16,8 +16,12 @@ interface ForeplayCtaButtonProps {
   children: ReactNode
   variant?: ButtonVariant
   showIcon?: boolean
+  /** Optional leading icon rendered before the text */
+  leadingIcon?: ReactNode
   className?: string
 }
+
+const isExternalUrl = (href: string) => /^https?:\/\//.test(href) || href.startsWith("mailto:") || href.startsWith("tel:")
 
 const variantStyles: Record<ButtonVariant, string> = {
   nav: "bg-primary text-primary-foreground transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] hover:bg-primary/90",
@@ -32,26 +36,33 @@ export function ForeplayCtaButton({
   children,
   variant = "nav",
   showIcon = true,
+  leadingIcon,
   className,
 }: ForeplayCtaButtonProps) {
   const isNav = variant === "nav"
   const iconOpacity = variant === "hero" ? 1 : 0.68
+  const external = isExternalUrl(href)
 
-  return (
-    <Link
-      href={href}
-      className={cn(
-        // shared base
-        "relative z-[5] flex items-center rounded-[10px] p-2 no-underline",
-        // variant-specific colors + transitions
-        variantStyles[variant],
-        // focus-visible: dark buttons use bg+white ring, light buttons use white+solid-900 ring
-        variant === "light-primary"
-          ? "focus-visible:shadow-[0_0_0_2px_white,0_0_0_3px_var(--fp-solid-900)] focus-visible:outline-none"
-          : "focus-visible:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus-visible:outline-none",
-        className,
+  const sharedClass = cn(
+    // shared base
+    "relative z-[5] flex items-center rounded-[10px] p-2 no-underline",
+    // variant-specific colors + transitions
+    variantStyles[variant],
+    // focus-visible: dark buttons use bg+white ring, light buttons use white+solid-900 ring
+    variant === "light-primary"
+      ? "focus-visible:shadow-[0_0_0_2px_white,0_0_0_3px_var(--fp-solid-900)] focus-visible:outline-none"
+      : "focus-visible:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus-visible:outline-none",
+    className,
+  )
+
+  const body = (
+    <>
+      {leadingIcon && (
+        // .button-icon-block: -mr-1, flex center, z-[2]
+        <span className="relative z-[2] -mr-1 flex items-center justify-center">
+          <span className="flex size-6 items-center justify-center">{leadingIcon}</span>
+        </span>
       )}
-    >
       {/* .button-text-block: px-1.5, z-[2] */}
       <span
         className={cn(
@@ -64,6 +75,17 @@ export function ForeplayCtaButton({
         {children}
       </span>
       {showIcon && <ForeplayChevronIcon opacity={iconOpacity} />}
+    </>
+  )
+
+  // External links use <a target="_blank">; internal use Next.js <Link>
+  return external ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={sharedClass}>
+      {body}
+    </a>
+  ) : (
+    <Link href={href} className={sharedClass}>
+      {body}
     </Link>
   )
 }

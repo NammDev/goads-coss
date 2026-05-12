@@ -1,7 +1,8 @@
 // Foreplay home hero video section — .home-hero-middle + .home-hero-overlay
 // DOM: .home-hero-overlay (gradient) + .home-hero-middle > .home-hero-mockup > .homepage-video > video + .home-video-overlay
 // .home-hero-overlay: absolute, gradient 0deg from background 10% to transparent, inset 33% 0 -10%
-// .home-hero-middle: z-1, relative, mb-[-120px] (bleeds into next section)
+// .home-hero-middle: z-1, relative — bleed mb-[-120px] removed (white founder block no longer exists)
+// → next section's .home-product pt-32 (128px) now provides clean Foreplay-standard gap
 // .home-hero-mockup: flex col, items-center, relative, overflow hidden
 // .homepage-video: aspect-ratio 1400/730, w-full, h-auto, overflow hidden
 // .home-video-overlay: absolute, gradient from background to transparent, inset 50% 0 0
@@ -28,7 +29,7 @@ export function ForeplayHomeHeroVideo({ className }: ForeplayHomeHeroVideoProps)
       {/* .home-hero-middle: video container, bleeds below */}
       <div
         className={cn(
-          "relative z-[1] mb-[-120px]",
+          "relative z-[1]",
           className,
         )}
       >

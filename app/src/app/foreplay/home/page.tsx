@@ -3,7 +3,6 @@ import {
   ForeplayDotBg,
   ForeplaySectionWhiteBlock,
   ForeplayHomeHero,
-  ForeplayHomeWinning,
   ForeplayHomeProductShowcase,
   ForeplayHomeChromeExtension,
   ForeplayHomeCollab,
@@ -23,14 +22,8 @@ export default function ForeplayHomePage() {
         </ForeplaySectionContainer>
       </section>
 
-      {/* Section 1: Before/After + Product Showcases */}
+      {/* Section 1: Product Showcases (white founder block removed — was empty placeholder) */}
       <section className="section">
-        <ForeplaySectionWhiteBlock>
-          <ForeplaySectionContainer>
-            <ForeplayHomeWinning />
-          </ForeplaySectionContainer>
-        </ForeplaySectionWhiteBlock>
-
         <ForeplayHomeProductShowcase
           subtitle="PRODUCTS & SOLUTIONS"
           title="Infrastructure designed for your success"
@@ -40,11 +33,9 @@ export default function ForeplayHomePage() {
           ctaHref="/agency-ad-account"
           learnMoreHref="/agency-ad-account"
           tabs={swipeFileTabs}
-          sidebarVideoSrc="/video/cta-swipe-file.mov"
           tabImages={[
-            "/foreplay/landingpage/assets/Rectangle%20652.svg",
-            "/foreplay/landingpage/assets/Rectangle%20653.svg",
-            "/foreplay/landingpage/assets/Rectangle%20652.svg",
+            "/foreplay/meta%20assets.svg",
+            "/foreplay/tiktok%20asset.svg",
           ]}
         />
 
@@ -56,7 +47,6 @@ export default function ForeplayHomePage() {
           ctaHref="/unban"
           learnMoreHref="/unban"
           tabs={spyderTabs}
-          sidebarVideoSrc="/video/cta-spyder.mov"
           tabImages={[
             "/foreplay/landingpage/solutions/Mask%20group.svg",
             "/foreplay/landingpage/solutions/Mask%20group%20(1).svg",
@@ -72,7 +62,6 @@ export default function ForeplayHomePage() {
           ctaHref="/agency-ad-account"
           learnMoreHref="/agency-ad-account"
           tabs={discoveryTabs}
-          sidebarVideoSrc="/video/cta-discovery.mov"
           tabImages={[
             "/foreplay/discovery.webp",
             "/foreplay/discovery.webp",
@@ -97,7 +86,6 @@ export default function ForeplayHomePage() {
           ctaHref="/tools"
           learnMoreHref="/tools"
           tabs={lensTabs}
-          sidebarVideoSrc="/video/lens_video.mp4"
           tabImages={[
             "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
             "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
@@ -113,7 +101,6 @@ export default function ForeplayHomePage() {
           learnMoreHref="/talk-to-sales"
           tabs={briefsTabs}
           showSectionHead={false}
-          sidebarVideoSrc="/video/brief_video.webm"
           tabImages={[
             "/foreplay/landingpage/service/Mask%20group.svg",
             "/foreplay/landingpage/service/Mask%20group%20(1).svg",
