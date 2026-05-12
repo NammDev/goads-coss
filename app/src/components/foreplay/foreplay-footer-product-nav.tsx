@@ -21,13 +21,13 @@ interface FooterProduct {
   href: string
 }
 
-// GoAds content — text + hrefs swapped, sprite icons kept 1:1
+// GoAds product nav — 5 core products (sprite icons kept 1:1, hrefs verified)
 const defaultProducts: FooterProduct[] = [
-  { iconBg: "/foreplay/footer_2.webp", bgSize: "2376px 100%", subtitle: "BM1–BM10, verified", label: "Business Managers", href: "/foreplay/bm" },
-  { iconBg: "/foreplay/footer_1.webp", bgSize: "2728px 100%", subtitle: "Profiles & Pages", label: "Facebook Assets", href: "/foreplay/profiles" },
-  { iconBg: "/foreplay/footer_3.webp", bgSize: "1364px 100%", subtitle: "Shop & Business Center", label: "TikTok Assets", href: "/foreplay/tiktok-accounts" },
-  { iconBg: "/foreplay/footer_4.webp", bgSize: "924px 100%", subtitle: "Recover disabled assets", label: "Unban Service", href: "/foreplay/unban" },
-  { iconBg: "/foreplay/footer_5.webp", bgSize: "2420px 100%", subtitle: "Verified badge", label: "Blue Verification", href: "/foreplay/blue-verification" },
+  { iconBg: "/foreplay/footer_2.webp", bgSize: "2376px 100%", subtitle: "BM1–BM10, verified", label: "Business Manager", href: "/foreplay/bm" },
+  { iconBg: "/foreplay/footer_1.webp", bgSize: "2728px 100%", subtitle: "Aged, verified accounts", label: "Facebook Profile", href: "/foreplay/profiles" },
+  { iconBg: "/foreplay/footer_5.webp", bgSize: "2420px 100%", subtitle: "Niche, verified pages", label: "Facebook Fanpage", href: "/foreplay/pages" },
+  { iconBg: "/foreplay/footer_4.webp", bgSize: "924px 100%", subtitle: "Unlimited daily spend", label: "Agency Ad Account", href: "/foreplay/agency-ad-account" },
+  { iconBg: "/foreplay/footer_3.webp", bgSize: "1364px 100%", subtitle: "Shop & Business Center", label: "TikTok Asset", href: "/foreplay/tiktok-accounts" },
 ]
 
 interface ForeplayFooterProductNavProps {

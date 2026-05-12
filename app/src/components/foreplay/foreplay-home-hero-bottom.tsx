@@ -1,53 +1,84 @@
 // Foreplay home hero bottom — .home-hero-bottom
 // Sibling of .home-hero-top inside .home-hero-sticky
-// DOM: .home-hero-bottom > (.text-alpha-100 > .text-overline) + .home-hero-logo-grid > .home-hero-logo-wrapper[]
+// DOM: .home-hero-bottom > [platform strip] + [KPI grid]
 // .home-hero-bottom: flex col, gap-10 (40px), text-center, text-wrap balance, relative
-// .text-overline: 0.75rem/1rem, font-[550], tracking-[0.166667em], uppercase, Inter
-// .text-alpha-100: color var(--fp-alpha-100) = #ffffffad
-// .home-hero-logo-grid: grid, 7 cols (desktop), gap-4, 2 rows
-// .home-hero-logo-wrapper: flex col center, p-3, color muted-foreground, hover fp-alpha-100, transition 200ms
-// .home-hero-logo-image: flex center, h-7 (28px)
+//
+// Platform strip — follows Foreplay's overline+row pattern (replaces original logo-grid)
+//   .text-alpha-100 > .text-overline label + horizontal row of 3 colored brand SVGs
+//   Logos sized h-9 (36px), gap-10 horizontal spacing
+//
+// KPI grid: 6 KPIs total — 2 cols mobile / 3 cols tablet / 6 cols desktop single row
+//   gap-4 (16px) matches Foreplay's original logo grid gap exactly
+//   KPI value: displayH4 (Inter Display, 1.75rem/2.25rem, 600)
+//   KPI label: bodyS (Inter, 0.875rem/1.25rem) in alpha-50
 
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
-import { HeroLogo, HERO_LOGO_COUNT } from "@/data/foreplay-hero-logos"
+import { MetaLogo, GoogleLogo, TikTokLogo } from "@/components/foreplay/foreplay-platform-logos"
 
 interface ForeplayHomeHeroBottomProps {
   className?: string
 }
 
+interface Kpi {
+  value: string
+  label: string
+}
+
+const HERO_KPIS: readonly Kpi[] = [
+  { value: "$50M+", label: "Ad spend powered" },
+  { value: "99.8%", label: "Account uptime" },
+  { value: "<2hr", label: "Account delivery" },
+  { value: "1000+", label: "Active agencies" },
+  { value: "24/7", label: "Live support" },
+  { value: "47", label: "Countries served" },
+] as const
+
 export function ForeplayHomeHeroBottom({ className }: ForeplayHomeHeroBottomProps) {
   return (
     <div
       className={cn(
-        // .home-hero-bottom
-        "relative flex flex-col gap-10 text-center [text-wrap:balance]",
+        // .home-hero-bottom — gap reduced from Foreplay's 40px → 24px to tighten logo↔KPI ratio
+        "relative flex flex-col gap-6 text-center [text-wrap:balance]",
         className,
       )}
     >
-      {/* .text-alpha-100 > .text-overline */}
-      <div className="flex-1 text-[var(--fp-alpha-100)]">
-        <p className={fpText.overline}>
-          TRUSTED BY 1000+ ADVERTISERS WORLDWIDE
-        </p>
-      </div>
-
-      {/* .home-hero-logo-grid: 7 cols desktop, gap-4, 2 rows */}
-      <div className="grid auto-cols-fr grid-cols-7 grid-rows-[auto_auto] gap-4">
-        {Array.from({ length: HERO_LOGO_COUNT }, (_, i) => (
+      {/* Platform logos — Foreplay .home-hero-logo-grid spec + medium logos:
+          - grid gap-4 (16px) between cells, 3 equal 1fr columns, max-w 560px centered
+          - wrapper: p-3 + flex col center + transition all 200ms (matches .home-hero-logo-wrapper)
+          - image: h-10 (40px) — scaled up from Foreplay's h-7 base, balanced prominence */}
+      <div className="mx-auto grid w-full max-w-[560px] grid-cols-3 gap-4">
+        {[MetaLogo, GoogleLogo, TikTokLogo].map((Logo, i) => (
           <div
             key={i}
+            className="flex flex-col items-center justify-center p-3 transition-all duration-200"
+          >
+            <div className="flex h-10 items-center justify-center">
+              <Logo className="h-full w-auto" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* KPI grid: 2 cols mobile → 3 cols tablet → 6 cols desktop. Gap-4 matches Foreplay logo grid */}
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+        {HERO_KPIS.map((kpi) => (
+          <div
+            key={kpi.label}
             className={cn(
-              // .home-hero-logo-wrapper
-              "flex flex-col items-center justify-center p-3",
-              "text-muted-foreground transition-all duration-200",
-              "hover:text-[var(--fp-alpha-100)]",
+              // mirrors .home-hero-logo-wrapper: flex col center, p-3
+              "flex flex-col items-center justify-center gap-0.5 p-3",
+              "transition-all duration-200",
             )}
           >
-            {/* .home-hero-logo-image: h-7 (28px), flex center */}
-            <div className="flex h-7 items-center justify-center">
-              <HeroLogo index={i} />
-            </div>
+            {/* KPI value — Foreplay display-h5 (1.5rem/2rem, 600) for refined SaaS feel */}
+            <span className={cn(fpText.displayH5, "text-foreground")}>
+              {kpi.value}
+            </span>
+            {/* Label — refined small caption: 0.8125rem (13px), alpha-50 muted */}
+            <span className="font-sans text-[0.8125rem] font-normal leading-5 tracking-[-0.005em] text-[var(--fp-alpha-50)]">
+              {kpi.label}
+            </span>
           </div>
         ))}
       </div>
