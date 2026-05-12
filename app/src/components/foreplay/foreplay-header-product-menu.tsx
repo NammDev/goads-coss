@@ -53,7 +53,6 @@
 
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
@@ -67,21 +66,20 @@ import { ForeplayHeaderDropdownBase } from "@/components/foreplay/foreplay-heade
 //                        footer_3=4960 (31f=Spyder), footer_4=3360 (21f=Lens), footer_5=8800 (55f=Briefs)
 //   Note: footer_1 and footer_2 SWAPPED from previous (wrong) mapping.
 // GoAds content — text + hrefs swapped, visual assets (sprites + icons) kept
-const research = [
-  { label: "Business Managers", desc: "BM1–BM10, verified & standard.", href: "/foreplay/bm", icon: "/foreplay/footer_2.webp", frames: 54, gradient: "" },
-  { label: "Facebook Assets", desc: "Profiles & Pages — aged, verified.", href: "/foreplay/profiles", icon: "/foreplay/footer_1.webp", frames: 62, gradient: "discovery" },
-  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/foreplay/tiktok-accounts", icon: "/foreplay/footer_3.webp", frames: 31, gradient: "spyder" },
+// PRODUCTS — all core assets & ad-account channels in one row (5 items)
+// Static SVG icons replace the sprite-based animations (frames/gradient props no longer used).
+const products = [
+  { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/foreplay/bm", icon: "/foreplay/BM.svg", gradient: "" },
+  { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/foreplay/profiles", icon: "/foreplay/PROFILES.svg", gradient: "discovery" },
+  { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/foreplay/pages", icon: "/foreplay/PAGES.svg", gradient: "spyder" },
+  { label: "Agency Ad Account", desc: "Verified Meta accounts with higher daily caps.", href: "/foreplay/agency-ad-account", icon: "/foreplay/META.svg", gradient: "lens" },
+  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/foreplay/tiktok-accounts", icon: "/foreplay/TIKTOK.svg", gradient: "briefs" },
 ]
 
-const analytics = [
-  { label: "Unban Meta Assets", desc: "Recover disabled BMs, profiles & pages.", href: "/foreplay/unban", icon: "/foreplay/footer_4.webp", frames: 21, gradient: "lens" },
-  { label: "Blue Verification", desc: "Verified badge for Pages & Instagram.", href: "/foreplay/blue-verification", icon: "/foreplay/footer_5.webp", frames: 55, gradient: "briefs" },
-]
-
+// SERVICES — value-added recovery & verification offerings
 const extend = [
-  { label: "Facebook Agency", desc: "Verified FB ad accounts.", href: "/foreplay/agency-ad-account", icon: ChromeIcon },
-  { label: "Google Agency", desc: "Whitelisted Google Ads billing.", href: "/foreplay/google-agency", icon: MobileIcon },
-  { label: "TikTok Agency", desc: "Verified TikTok ads accounts.", href: "/foreplay/tiktok-agency", icon: ApiIcon },
+  { label: "Unban Service", desc: "Recover disabled BMs, profiles & pages.", href: "/foreplay/unban", icon: ChromeIcon },
+  { label: "Blue Verification", desc: "Verified badge for Pages & Instagram.", href: "/foreplay/blue-verification", icon: MobileIcon },
 ]
 
 // Map gradient name to source colors (linear-gradient bottom-up)
@@ -102,24 +100,11 @@ export function ForeplayHeaderProductMenu() {
           <div className="flex justify-between">
             {/* .nav-product-menu-links — source: display:grid, flex:1, grid-cols-10, grid-rows-[auto_auto] */}
             <div className="grid flex-1 grid-cols-10 grid-rows-[auto_auto]">
-              {/* .nav-product-menu-links-research — col-span-6 row-1, flex-col items-start p-[16px_16px_0] overflow-hidden */}
-              <ProductSection className="col-span-6 row-start-1 overflow-hidden" title="Research">
+              {/* Single full-width product section (5 items combined — no divider) */}
+              <ProductSection className="col-span-10 row-start-1 overflow-hidden" title="Products">
                 {/* ul.nav-badge-list.w-list-unstyled — flex gap-3 flex-1 items-stretch list-none */}
                 <ul className="m-0 flex flex-1 list-none items-stretch gap-3 p-0">
-                  {research.map((item) => (
-                    <ProductBadge key={item.label} {...item} />
-                  ))}
-                </ul>
-              </ProductSection>
-
-              {/* .nav-product-menu-links-analytics — col-span-4 row-1, border-l, p-[16px_16px_0] overflow-hidden */}
-              <ProductSection
-                className="col-span-4 row-start-1 overflow-hidden border-l border-[var(--fp-border-nav)]"
-                title="Analytics & Production"
-              >
-                {/* ul.nav-badge-list */}
-                <ul className="m-0 flex flex-1 list-none items-stretch gap-3 p-0">
-                  {analytics.map((item) => (
+                  {products.map((item) => (
                     <ProductBadge key={item.label} {...item} />
                   ))}
                 </ul>
@@ -127,7 +112,7 @@ export function ForeplayHeaderProductMenu() {
 
               {/* .nav-product-menu-links-sub — col-span-10 row-2, border-t, flex-col items-start p-4 */}
               <div className="col-span-10 row-start-2 flex flex-col items-start border-t border-[var(--fp-border-nav)] p-4">
-                <SectionLabel>Extend</SectionLabel>
+                <SectionLabel>Services</SectionLabel>
                 {/* ul.u-nav-product-menu-links-sub-list.w-list-unstyled — flex gap-3 items-center list-none */}
                 <ul className="m-0 flex list-none items-center gap-3 p-0">
                   {extend.map((item) => {
@@ -283,122 +268,39 @@ function ProductBadge({
   desc,
   href,
   icon,
-  frames,
   gradient,
 }: {
   label: string
   desc: string
   href: string
   icon: string
-  frames: number
   gradient: string
 }) {
-  // Sprite sheet: N frames × 88px wide, scaled to container height (100% = 88px)
-  // background-size: (frames×88)px 100%; each frame = 88px wide.
-  const spriteWidth = frames * 88
-  const lastFrame = frames - 1
-  const DURATION_MS = 1000 // full play duration
-
-  // rAF-driven frame index (0..lastFrame). Using rAF (not CSS transition)
-  // so that rapid hover-in/out doesn't cause `steps()` interruption jitter —
-  // we always interpolate from the CURRENT frame proportionally.
-  const [frame, setFrame] = useState(0)
-  const frameRef = useRef(0)
-  const rafRef = useRef<number | null>(null)
-  const hoveredRef = useRef(false)
-
-  const animate = useCallback(
-    (target: number) => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
-      const start = frameRef.current
-      if (start === target) return
-      // Proportional duration: moving 10/54 frames → only 10/54 of DURATION_MS.
-      // Prevents speed scaling artifacts on rapid reverse.
-      const distance = Math.abs(target - start)
-      const duration = (distance / lastFrame) * DURATION_MS
-      const t0 = performance.now()
-      const tick = (now: number) => {
-        const progress = Math.min((now - t0) / duration, 1)
-        const next = Math.round(start + (target - start) * progress)
-        frameRef.current = next
-        setFrame(next)
-        if (progress < 1) {
-          rafRef.current = requestAnimationFrame(tick)
-        } else {
-          rafRef.current = null
-        }
-      }
-      rafRef.current = requestAnimationFrame(tick)
-    },
-    [lastFrame],
-  )
-
-  const onEnter = () => {
-    hoveredRef.current = true
-    animate(lastFrame)
-  }
-  const onLeave = () => {
-    hoveredRef.current = false
-    animate(0)
-  }
-
-  // Cleanup rAF on unmount
-  useEffect(() => () => {
-    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
-  }, [])
-
   return (
     // li.nav-badge — flex flex-1 flex-col items-center list-none
     <li className="flex flex-1 list-none flex-col items-center">
-      {/* a.nav-badge-link.w-inline-block — flex-col flex-1 items-center pt-2 px-2 text-center transition
-          Source color: #000000ad (overridden by .text-white child to #fff)
-          onMouseEnter/Leave trigger sprite frame animation via React state. */}
       <Link
         href={href}
-        onMouseEnter={onEnter}
-        onMouseLeave={onLeave}
         className="group relative flex flex-1 flex-col items-center px-2 pt-2 text-center no-underline transition-all duration-200"
       >
         {/* .nav-badge-text — flex-col flex-1 items-center */}
         <div className="flex flex-1 flex-col items-center">
-          {/* .text-white — color:#fff + flex:1 (Webflow hidden CSS) */}
           <div className="flex-1 text-foreground">
-            {/* .text-label-s */}
             <div className={fpText.labelS}>{label}</div>
           </div>
-          {/* .nav-text-link-description — color:alpha-100 + flex:1 */}
           <div className="flex-1 text-[var(--fp-alpha-100)]">
-            {/* .text-body-s */}
             <div className={fpText.bodyS}>{desc}</div>
           </div>
         </div>
-        {/* .nav-badge-icon.sprite-image.sprite-{name} — 88×88, z-2, mt-4 mb-[-20px], relative
-            Source: CSS background sprite with JS-driven frame animation on hover.
-            Our clone: requestAnimationFrame loop manually driving frame index (0..lastFrame).
-            - Not hovered: frame 0 (bg-pos 0)
-            - Hovered: animates to lastFrame over 1s
-            - Interruption: rAF cancels and interpolates from current frame proportionally,
-              so rapid hover-in/out no longer causes `steps()` jitter. */}
-        <div
-          className="relative z-[2] mt-4 mb-[-20px] size-[88px] bg-no-repeat"
-          style={{
-            backgroundImage: `url(${icon})`,
-            backgroundSize: `${spriteWidth}px 100%`,
-            backgroundPosition: `${-frame * 88}px 0px`,
-          }}
+        {/* Static SVG icon — 88×88, z-2, mt-4 mb-[-20px], relative */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={icon}
+          alt={label}
+          className="relative z-[2] mt-4 mb-[-20px] size-[88px] object-contain"
+          loading="lazy"
         />
-        {/* .nav-badge-gradient (+ variant class .discovery/.spyder/.lens/.briefs)
-            Source CSS:
-              Base: opacity:0; transform:translateY(50%); filter:blur(28px); aspect-ratio:1;
-                    width:116px; height:116px; border-radius:16%; bottom:-40%; position:absolute;
-                    transition: all .8s cubic-bezier(.19,1,.22,1);
-              Hover (@media ≥992px): .nav-badge-link:hover .nav-badge-gradient {
-                    opacity:1; transform:translateY(0%);
-              }
-            Effect: base pushed down+invisible (translateY:50% + opacity:0), on hover moves UP
-                    (translateY:0 → bottom:-40% position) and fades in (opacity:1), overlaying
-                    the bottom half of the icon with blurred color glow.
-            Tailwind: group-hover:translate-y-0 group-hover:opacity-100 */}
+        {/* .nav-badge-gradient — blurred glow that rises on hover (visual flourish kept). */}
         <div
           className="pointer-events-none absolute bottom-[-40%] aspect-square h-[116px] w-[116px] translate-y-1/2 rounded-[16%] opacity-0 blur-[28px] transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-y-0 group-hover:opacity-100"
           style={{ backgroundImage: gradientMap[gradient] || gradientMap[""] }}
