@@ -11,6 +11,7 @@ import {
   ImagePlus,
   LayoutGrid,
   ListFilter,
+  Mail,
   Merge,
   ScanFace,
   Scissors,
@@ -96,6 +97,14 @@ export const TOOLS: ToolItem[] = [
   },
 
   // Utilities
+  {
+    slug: "tempmail",
+    title: "Temp Mail",
+    description: "Generate disposable email addresses and receive temporary inbox messages",
+    icon: Mail,
+    category: "utility",
+    featured: true,
+  },
   {
     slug: "notepad",
     title: "Online Notepad",
