@@ -14,6 +14,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 
+const clerkProxyUrl = process.env.NEXT_PUBLIC_CLERK_PROXY_URL;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.goads.shop"),
   title: "Agency Ad Accounts | 7-Day Warranty + 24/7 Support | GoAds",
@@ -54,7 +56,12 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ClerkProvider appearance={{ theme: shadcn }}>
+        <ClerkProvider
+          appearance={{ theme: shadcn }}
+          proxyUrl={clerkProxyUrl}
+          signInForceRedirectUrl="/portal"
+          signUpForceRedirectUrl="/portal"
+        >
           <ThemeProvider>
             <CartProvider>
               <TooltipProvider>
