@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" fill="none" role="img" aria-label="GoAds verified Business Manager">
+  <defs>
+    <radialGradient id="pandaBody" cx="35%" cy="28%" r="80%">
+      <stop offset="0%" stop-color="#2a2f3a"/>
+      <stop offset="55%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+
+    <radialGradient id="gLetter" cx="38%" cy="25%" r="85%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#eef2f8"/>
+      <stop offset="100%" stop-color="#bcc7d4"/>
+    </radialGradient>
+
+    <radialGradient id="badgeBlue" cx="32%" cy="28%" r="80%">
+      <stop offset="0%" stop-color="#6BB1FF"/>
+      <stop offset="45%" stop-color="#1877F2"/>
+      <stop offset="100%" stop-color="#0A4FB0"/>
+    </radialGradient>
+
+    <linearGradient id="badgeShine" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.7"/>
+      <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <radialGradient id="pandaHighlight" cx="30%" cy="20%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+
+    <filter id="blueGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="34" result="blur"/>
+      <feColorMatrix in="blur" values="0 0 0 0 0.094  0 0 0 0 0.467  0 0 0 0 0.949  0 0 0 0.6 0"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient blue glow behind badge -->
+  <g filter="url(#blueGlow)" opacity="0.85">
+    <circle cx="430" cy="430" r="115" fill="#1877F2"/>
+  </g>
+
+  <!-- GoAds G + panda mark (geometry from wordmark SVG, scaled & re-stylized) -->
+  <g transform="translate(-50, -50) scale(2.4)" filter="url(#softShadow)">
+    <path fill="url(#gLetter)" d="M160.57,116.22c0-.22.17-.39.39-.39l20.09-.09,20.36.09c.22,0,.39.18.39.39v67.73c0,.13-.06.26-.17.33-19.07,13.59-45.14,20.85-69.1,20.85-52.54,0-90.95-35.58-90.95-85.77s38.41-85.77,91.89-85.77c30.71,0,52.07,13.97,68.33,33.34,0,0-10.89,10.09-11.05,10.23l-14.58,13.19c-.16.14-.41.13-.55-.03-11.25-12.29-24.13-18.09-39.79-18.09-29.29,0-48.47,19.98-47.05,50.25,1.16,24.75,21.81,44.01,46.59,44,8.63,0,16.8-1.62,24.96-5.31.14-.06.23-.21.23-.36v-44.59Z"/>
+
+    <circle cx="132.08" cy="117.68" r="51.45" fill="url(#pandaBody)"/>
+    <circle cx="132.08" cy="117.68" r="51.45" fill="url(#pandaHighlight)"/>
+
+    <path fill="url(#pandaBody)" d="M94.19,139.84c.01.19-.12.37-.3.41-10.77,2.57-17.76-8.85-16.71-17.08.89-6.97,5.9-13.53,14.37-15.24.23-.05.45.13.47.36l2.17,31.54Z"/>
+    <path fill="url(#pandaBody)" d="M113.91,77.99c-.2.03-.39-.09-.44-.28-2.26-8.41,7.59-14.88,14.74-14.69,6.07.16,11.81,3.64,13.41,10.27.05.22-.1.44-.33.48l-27.38,4.22Z"/>
+
+    <ellipse fill="#ffffff" cx="134.78" cy="115.01" rx="7.07" ry="3.47" transform="translate(-38.17 153.51) rotate(-53.03)"/>
+    <ellipse fill="#ffffff" cx="113.13" cy="121.16" rx="13.67" ry="10.11" transform="translate(-51.81 137.67) rotate(-52.68)"/>
+    <ellipse fill="#ffffff" cx="134.03" cy="93.75" rx="13.67" ry="10.11" transform="translate(-21.79 143.5) rotate(-52.68)"/>
+    <path fill="#ffffff" d="M111.12,109.97l4.11-2.31c2.73-1.53,4.77-4.04,5.71-7.03l1.55-4.9c.08-.25.38-.35.59-.21l13.01,8.86c.21.14.23.44.05.61l-2.39,2.21c-3.12,2.88-5.66,6.33-7.47,10.18l-2.97,6.3c-.12.26-.46.3-.65.09l-11.64-13.21c-.17-.19-.12-.48.1-.6Z"/>
+
+    <path fill="#000000" d="M132.18,88.76l1.51,2.48c.29.48.95.55,1.33.15l.46-.48c.44-.46,1.22-.29,1.41.32l.99,3.01c.29.89-.87,1.52-1.46.79h0c-.32-.4-.92-.42-1.27-.05l-.75.79c-.35.37-.94.34-1.26-.05l-3.72-4.53c-.27-.33-.25-.81.04-1.12l1.39-1.46c.38-.4,1.04-.33,1.33.15Z"/>
+
+    <path fill="url(#pandaBody)" d="M159.82,137.07c4.71-.18,10.65,3.47,11.41,8.54.57,3.78-.74,7.65-3.38,10.4-2.11,2.2-6.32,4.76-9.33,5.95-.25.1-.53-.07-.54-.34-.14-3.25-.88-20.25-1.05-24.05-.01-.26.22-.45.47-.4.65.14,1.74.04,2.01.04.08,0,.32-.15.4-.15Z"/>
+  </g>
+
+  <!-- Meta-style verified badge: 12-bump scallop + main disc + checkmark -->
+  <g transform="translate(330, 330)" filter="url(#softShadow)">
+    <g fill="url(#badgeBlue)">
+      <circle cx="178" cy="90" r="18"/>
+      <circle cx="166.22" cy="134" r="18"/>
+      <circle cx="134" cy="166.22" r="18"/>
+      <circle cx="90" cy="178" r="18"/>
+      <circle cx="46" cy="166.22" r="18"/>
+      <circle cx="13.78" cy="134" r="18"/>
+      <circle cx="2" cy="90" r="18"/>
+      <circle cx="13.78" cy="46" r="18"/>
+      <circle cx="46" cy="13.78" r="18"/>
+      <circle cx="90" cy="2" r="18"/>
+      <circle cx="134" cy="13.78" r="18"/>
+      <circle cx="166.22" cy="46" r="18"/>
+    </g>
+
+    <circle cx="90" cy="90" r="82" fill="url(#badgeBlue)"/>
+
+    <ellipse cx="90" cy="52" rx="58" ry="34" fill="url(#badgeShine)" opacity="0.6"/>
+
+    <circle cx="90" cy="90" r="82" fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1.5"/>
+
+    <path fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"
+          d="M55,93 L80,118 L128,68"/>
+  </g>
+</svg>

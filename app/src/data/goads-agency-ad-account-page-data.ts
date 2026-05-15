@@ -3,34 +3,32 @@
 // Only TEXT differs — no images, videos, CSS, HTML or component changes.
 
 // --- Product Hero ---
+// Text-only variant (laptop preview removed). ForeplayProductHero auto-pads
+// with --fp-py-section (108/96/80) when previewImageSrc is omitted.
 export const agencyAdAccountHero = {
-  iconSrc: "/foreplay/hero2_icon.webp",
-  iconVideoSrc: "/foreplay/hero2_video.webm",
+  iconSrc: "/foreplay/META.svg",
   overline: "Facebook Agency Ad Accounts",
   title: "Scale Meta ads with unlimited spend and zero disable risk",
   description:
     "Run high-spend Meta campaigns on whitelisted agency ad accounts. Unlimited daily caps, priority policy review and a direct rep — no more burned BMs.",
-  previewImageSrc: "/foreplay/hero2_laptop.webp",
-  previewVideoSrc:
-    "/video/62a4ed18ddad95dde8b8bfa4_6833876c700d2cc61b273644_home-video-transcode.mp4",
   ctaLabel: "Talk to Sales",
   ctaHref: "/talk-to-sales",
 }
 
 // --- Before/After Solution ---
+// Trailing visuals (`visual` ReactNode) are injected from page.tsx; the legacy
+// imageSrc slot is left empty so the data file stays pure-text.
 export const agencyAdAccountSolution = {
   title: "Why do you need an Agency Ad Account?",
   description:
     "Running high-spend Meta campaigns on personal or standard BMs is a losing game — bans, DSL caps, manual appeals. Agency ad accounts ship whitelisted through an official Meta partnership, so you stop babysitting accounts and start scaling.",
   before: {
     label: "Before ...",
-    description: "Disabled BMs, manual appeals and wasted ad spend.",
-    imageSrc: "",
+    description: "Restricted accounts, soaring CPM, lost orders.",
   },
   after: {
     label: "After GoAds",
-    description: "Whitelisted agency accounts, unlimited spend, direct Meta rep.",
-    imageSrc: "/foreplay/products_section2.webp",
+    description: "Whitelisted accounts, lower CPM, more orders.",
   },
 }
 
@@ -150,9 +148,8 @@ export const agencyAdAccountProductCta = {
   title: "Start scaling on an agency account today",
   description:
     "Whitelisted Meta ad accounts, unlimited daily spend, direct partner rep and a compliance team on your side.\n\nLaunch in under 48 hours.",
-  videoSrc: "/video/cta-swipe-file.mov",
-  iconSrc: "/foreplay/hero2_icon.webp",
-  iconAlt: "isometric agency ad account icon",
+  iconSrc: "/foreplay/cta/goads-verified-panda.svg",
+  iconAlt: "GoAds panda mascot with verified badge",
 }
 
 // --- FAQ ---

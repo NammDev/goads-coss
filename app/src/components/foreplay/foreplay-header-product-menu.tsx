@@ -68,12 +68,14 @@ import { ForeplayHeaderDropdownBase } from "@/components/foreplay/foreplay-heade
 // GoAds content — text + hrefs swapped, visual assets (sprites + icons) kept
 // PRODUCTS — all core assets & ad-account channels in one row (5 items)
 // Static SVG icons replace the sprite-based animations (frames/gradient props no longer used).
+// Gradient key matches the icon's brand color (sampled from each SVG's primary stop-color)
+// so the hover glow reads as "this product's accent" rather than the original Foreplay sprites.
 const products = [
-  { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/foreplay/bm", icon: "/foreplay/BM.svg", gradient: "" },
-  { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/foreplay/profiles", icon: "/foreplay/PROFILES.svg", gradient: "discovery" },
-  { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/foreplay/pages", icon: "/foreplay/PAGES.svg", gradient: "spyder" },
-  { label: "Agency Ad Account", desc: "Verified Meta accounts with higher daily caps.", href: "/foreplay/agency-ad-account", icon: "/foreplay/META.svg", gradient: "lens" },
-  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/foreplay/tiktok-accounts", icon: "/foreplay/TIKTOK.svg", gradient: "briefs" },
+  { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/foreplay/bm", icon: "/foreplay/BM.svg", gradient: "blue" },
+  { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/foreplay/profiles", icon: "/foreplay/PROFILES.svg", gradient: "green" },
+  { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/foreplay/pages", icon: "/foreplay/PAGES.svg", gradient: "red" },
+  { label: "Agency Ad Account", desc: "Verified Meta accounts with higher daily caps.", href: "/foreplay/agency-ad-account", icon: "/foreplay/META.svg", gradient: "meta" },
+  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/foreplay/tiktok-accounts", icon: "/foreplay/TIKTOK.svg", gradient: "tiktok" },
 ]
 
 // SERVICES — value-added recovery & verification offerings
@@ -82,13 +84,19 @@ const extend = [
   { label: "Blue Verification", desc: "Verified badge for Pages & Instagram.", href: "/foreplay/blue-verification", icon: MobileIcon },
 ]
 
-// Map gradient name to source colors (linear-gradient bottom-up)
+// Glow gradients (linear-gradient bottom-up). Each color sampled from the matching icon SVG:
+// - blue:  BM briefcase (#5B9CFF → bright Foreplay blue)
+// - green: Profiles person (#00924B → Foreplay's brand green)
+// - red:   Pages document (#CC282B → spyder-tinted red for warmth)
+// - meta:  Agency Ad Account (#0050E4 — actual Meta blue, distinct from BM's lighter blue)
+// - tiktok: TikTok signature gradient (cyan #25F4EE → pink #FE2C55) — TikTok icon is gray
+//           so the glow uses brand color recognition instead of icon-color match.
 const gradientMap: Record<string, string> = {
-  "": "linear-gradient(#1f69ff00, #1f69ff 70%)",
-  discovery: "linear-gradient(#7540b700, #7540b7 70%)",
-  spyder: "linear-gradient(#ed615a00, #ed615a 70%)",
-  lens: "linear-gradient(#e77e6e00, #e77e6e4d 12%, #e9d46899 31%, #73d3c3bf 52%, #5d78e4 70%)",
-  briefs: "linear-gradient(#00a87900, #00a879 70%)",
+  blue: "linear-gradient(#1f69ff00, #1f69ff 70%)",
+  green: "linear-gradient(#00a87900, #00a879 70%)",
+  red: "linear-gradient(#ed615a00, #ed615a 70%)",
+  meta: "linear-gradient(#0050e400, #0050e4 70%)",
+  tiktok: "linear-gradient(#25f4ee00, #25f4ee4d 30%, #fe2c5599 60%, #fe2c55 80%)",
 }
 
 export function ForeplayHeaderProductMenu() {
@@ -303,7 +311,7 @@ function ProductBadge({
         {/* .nav-badge-gradient — blurred glow that rises on hover (visual flourish kept). */}
         <div
           className="pointer-events-none absolute bottom-[-40%] aspect-square h-[116px] w-[116px] translate-y-1/2 rounded-[16%] opacity-0 blur-[28px] transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-y-0 group-hover:opacity-100"
-          style={{ backgroundImage: gradientMap[gradient] || gradientMap[""] }}
+          style={{ backgroundImage: gradientMap[gradient] || gradientMap.blue }}
         />
       </Link>
     </li>

@@ -6,22 +6,18 @@
 export const tiktokProductCta = {
   title: "Start scaling on TikTok today",
   description: "Every TikTok asset ships Jumio-verified, policy-clean and backed by a 7-day warranty.\n\nChannels, Shops and Business Centers — live on day one.",
-  videoSrc: "/video/cta-swipe-file.mov",
-  iconSrc: "/foreplay/hero2_icon.webp",
-  iconAlt: "isometric tiktok asset icon",
+  iconSrc: "/foreplay/cta/goads-verified-panda.svg",
+  iconAlt: "GoAds panda mascot with verified badge",
 }
 
-// Section 1: Hero (reuses swipe-file icon/video/preview assets, only text changes)
+// Section 1: Hero — text-only variant (laptop preview + CTA removed).
+// Bottom padding switches to --fp-py-section scale (108/96/80) in ForeplayProductHero.
 export const tiktokHero = {
-  iconSrc: "/foreplay/hero2_icon.webp",
-  iconVideoSrc: "/foreplay/hero2_video.webm",
+  iconSrc: "/foreplay/TIKTOK.svg",
   overline: "TikTok Assets",
   title: "Buy Verified TikTok Accounts & Shops",
   description: "TikTok Channels, Shops and Business Centers — Jumio-verified and ready to scale. The fastest-growing ad platform, without the account suspension loop.",
-  previewImageSrc: "/foreplay/hero2_laptop.webp",
-  previewVideoSrc: "/video/62a4ed18ddad95dde8b8bfa4_6833876c700d2cc61b273644_home-video-transcode.mp4",
-  ctaLabel: "Get Started",
-  ctaHref: "/talk-to-sales",
+  hideCta: true,
 }
 
 // Section 3 (feature grid 1): All Products — uses bento1 images

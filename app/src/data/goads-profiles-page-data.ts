@@ -4,22 +4,18 @@
 export const profilesProductCta = {
   title: "Start scaling with stable profiles today",
   description: "Every Facebook profile ships ID-verified, pre-warmed and backed by a 7-day warranty.\n\nSkip the disable loop — run ads without interruption.",
-  videoSrc: "/video/cta-swipe-file.mov",
-  iconSrc: "/foreplay/hero2_icon.webp",
-  iconAlt: "isometric facebook profile icon",
+  iconSrc: "/foreplay/cta/goads-verified-panda.svg",
+  iconAlt: "GoAds panda mascot with verified badge",
 }
 
-// Section 1: Hero (reuses swipe-file icon/video/preview assets, only text changes)
+// Section 1: Hero — text-only variant (laptop preview + CTA removed).
+// Bottom padding switches to --fp-py-section scale (108/96/80) in ForeplayProductHero.
 export const profilesHero = {
-  iconSrc: "/foreplay/hero2_icon.webp",
-  iconVideoSrc: "/foreplay/hero2_video.webm",
+  iconSrc: "/foreplay/PROFILES.svg",
   overline: "Facebook Profiles",
   title: "Buy Aged Facebook Profiles",
   description: "Run ads without interruptions. Pre-tested, ID-verified, and backed by warranty. The foundation every serious advertiser needs.",
-  previewImageSrc: "/foreplay/hero2_laptop.webp",
-  previewVideoSrc: "/video/62a4ed18ddad95dde8b8bfa4_6833876c700d2cc61b273644_home-video-transcode.mp4",
-  ctaLabel: "Get Started",
-  ctaHref: "/talk-to-sales",
+  hideCta: true,
 }
 
 // Section 5-8: Feature Grids + Testimonials (keep all images/logos, only text changes)

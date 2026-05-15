@@ -22,7 +22,10 @@ interface ForeplayProductHeroProps {
   description: string
   ctaLabel?: string
   ctaHref?: string
-  previewImageSrc: string
+  /** Hide the CTA button entirely. Use for text-only heroes that should not show a primary action. */
+  hideCta?: boolean
+  /** Laptop preview frame. Omit to render a text-only hero (no preview block). */
+  previewImageSrc?: string
   /** .product-hero-video.w-embed — inline webm/mp4 video inside monitor */
   previewVideoSrc?: string
   /** .product-hero-video.w-background-video — background video with poster, inside monitor */
@@ -38,6 +41,7 @@ export function ForeplayProductHero({
   description,
   ctaLabel = "Start free trial",
   ctaHref = "/sign-up",
+  hideCta = false,
   previewImageSrc,
   previewVideoSrc,
   previewBgVideoSrc,
@@ -46,8 +50,16 @@ export function ForeplayProductHero({
   const { triggerRef, stickyRef } = useHeroScrollAnimation()
 
   return (
-    // .product-hero: flex col, center, pt-[10px] pb-0
-    <div className="flex flex-col items-center pt-[10px] pb-0 text-center max-md:pt-16 max-sm:pt-6 max-sm:pb-6">
+    // .product-hero: flex col, center.
+    // Default (with preview): pt-[10px] pb-0 — preview's 16:10 box + mb-[-48px] gives breathing room.
+    // Text-only (no preview): substitute Foreplay's --fp-py-section scale (108/96/80) for the missing preview height.
+    <div
+      className={
+        previewImageSrc
+          ? "flex flex-col items-center pt-[10px] pb-0 text-center max-md:pt-16 max-sm:pt-6 max-sm:pb-6"
+          : "flex flex-col items-center pt-[10px] pb-[108px] text-center max-md:pt-16 max-md:pb-24 max-sm:pt-6 max-sm:pb-20"
+      }
+    >
       {/* .product-hero-animation-trigger: invisible scroll trigger zone */}
       <div
         ref={triggerRef}
@@ -61,8 +73,10 @@ export function ForeplayProductHero({
         className="sticky top-[100px] flex flex-col items-center [transform-style:preserve-3d] [will-change:opacity,transform] max-md:relative max-md:top-0"
         style={{ opacity: 0, transform: "translate3d(0, -33%, 0) scale3d(0.75, 0.75, 1)" }}
       >
-        {/* .product-hero-icon — 256x256, mt-[-40px] mb-[-24px] (desktop), p-8 (tablet), p-6 (mobile) */}
-        <div className="relative size-64 -mt-10 -mb-6 max-md:size-auto max-md:p-8 max-sm:p-6">
+        {/* .product-hero-icon — 256x256 slot, mt-[-40px] mb-[-24px] (desktop), p-8 (tablet), p-6 (mobile).
+            Flex-center so the static SVG variant (no video) sits at its natural ~200px size centered
+            inside the 256px box, matching Foreplay's original video-icon proportions. */}
+        <div className="relative flex size-64 items-center justify-center -mt-10 -mb-6 max-md:size-auto max-md:p-8 max-sm:p-6">
           {/* .product-hero-icon-video — animated icon, fills parent */}
           {iconVideoSrc && (
             <div className="absolute inset-0 z-[1]">
@@ -71,14 +85,21 @@ export function ForeplayProductHero({
               </video>
             </div>
           )}
-          {/* .product-hero-icon-image — 128x128 (tablet), 108x108 (mobile), hidden on desktop when video plays */}
+          {/* .product-hero-icon-image
+              With iconVideoSrc: image is desktop-hidden + invisible (video plays in absolute layer).
+              Without iconVideoSrc: image fills the 256×256 desktop slot (size-full), then shrinks
+              to 128×128 / 108×108 on tablet/mobile to match original responsive icon scale. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={iconSrc}
             alt={`${overline} icon`}
             width={128}
             height={128}
-            className={`hidden max-md:block max-md:size-32 max-sm:size-[108px] ${iconVideoSrc ? "invisible" : ""}`}
+            className={
+              iconVideoSrc
+                ? "invisible hidden max-md:block max-md:size-32 max-sm:size-[108px]"
+                : "size-32 object-contain max-sm:size-[108px]"
+            }
             loading="eager"
           />
         </div>
@@ -106,10 +127,12 @@ export function ForeplayProductHero({
             </div>
           </div>
 
-          {/* a.button-dark.button-primary */}
-          <ForeplayCtaButton href={ctaHref} variant="hero">
-            {ctaLabel}
-          </ForeplayCtaButton>
+          {/* a.button-dark.button-primary — skipped when hideCta is set */}
+          {!hideCta && (
+            <ForeplayCtaButton href={ctaHref} variant="hero">
+              {ctaLabel}
+            </ForeplayCtaButton>
+          )}
         </div>
       </div>
 
@@ -126,7 +149,9 @@ export function ForeplayProductHero({
         aria-hidden="true"
       />
 
-      {/* .product-hero-preview: aspect-[16/10], perspective-1000, mt-52px mb-[-48px], overflow-clip, self-stretch */}
+      {/* .product-hero-preview: aspect-[16/10], perspective-1000, mt-52px mb-[-48px], overflow-clip, self-stretch.
+          Skipped entirely when previewImageSrc is omitted — text-only hero variant. */}
+      {previewImageSrc && (
       <div className="relative mt-[52px] mb-[-48px] flex aspect-[16/10] flex-col items-center self-stretch overflow-clip [perspective:1000px] [transform-origin:50%] max-md:mt-10 max-sm:[transform-origin:50%_100%]">
         {/* .product-hero-video.w-embed — inline webm video inside monitor */}
         {previewVideoSrc && (
@@ -170,6 +195,7 @@ export function ForeplayProductHero({
           </div>
         )}
       </div>
+      )}
     </div>
   )
 }

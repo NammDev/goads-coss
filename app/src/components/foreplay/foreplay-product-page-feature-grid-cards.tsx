@@ -9,7 +9,8 @@
 import { fpText } from "@/components/foreplay/foreplay-typography"
 
 interface FeatureCard {
-  imageSrc: string
+  /** Image at top of card. Omit (or pass empty string) to render a "coming soon" placeholder block. */
+  imageSrc?: string
   imageAlt?: string
   title: string
   description: string
@@ -29,14 +30,24 @@ export function ForeplayProductPageFeatureGridCards({
           key={i}
           className="relative z-[1] flex flex-col items-stretch justify-start overflow-hidden rounded-[20px] border border-[var(--fp-solid-700)] p-0 transition-colors duration-200 hover:bg-[var(--fp-solid-900)]"
         >
-          {/* .product-page-feature-image */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={card.imageSrc}
-            alt={card.imageAlt ?? card.title}
-            className="h-auto w-full self-center"
-            loading="lazy"
-          />
+          {/* .product-page-feature-image — real image OR 2:1 "coming soon" placeholder
+              when card.imageSrc is empty (e.g. /pages page while final illustrations are pending). */}
+          {card.imageSrc ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={card.imageSrc}
+              alt={card.imageAlt ?? card.title}
+              className="h-auto w-full self-center"
+              loading="lazy"
+            />
+          ) : (
+            <div
+              aria-hidden="true"
+              className="flex aspect-[2/1] w-full items-center justify-center self-center border-b border-dashed border-[var(--fp-solid-700)] bg-[var(--fp-alpha-700)] text-[var(--fp-alpha-100)]"
+            >
+              <span className={fpText.overline}>Illustration coming soon</span>
+            </div>
+          )}
           {/* .product-page-feature-content */}
           <div className="flex flex-1 items-end justify-start p-6">
             <div className="text-foreground">

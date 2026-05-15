@@ -3,16 +3,46 @@ import {
   Globe,
   CreditCard,
   Music,
+  FileText,
   type LucideIcon,
 } from "lucide-react"
 
 // Using a simple SVG component for Meta icon since lucide doesn't have one
-export { Rocket, Globe, CreditCard, Music }
+export { Rocket, Globe, CreditCard, Music, FileText }
 
 export type DocsNavItem = {
   title: string
   slug: string
+  /** Optional custom icon image src (16×16). When omitted, the default
+   *  Foreplay F-block placeholder SVG renders inside the article list. */
+  iconSrc?: string
+  /** Optional Lucide icon for the sidebar article row (defaults to FileText). */
+  icon?: LucideIcon
   items?: DocsNavItem[]
+}
+
+/** Flatten nested DocsNavItem[] into a single list of leaf articles with
+ *  full hrefs — used by the sidebar to render a 1-level collapsible
+ *  (section → flat article list, matching Foreplay's docs sidebar pattern). */
+export type FlatLeaf = {
+  title: string
+  href: string
+  icon?: LucideIcon
+}
+export function flattenLeafItems(
+  items: DocsNavItem[],
+  basePath: string,
+): FlatLeaf[] {
+  const out: FlatLeaf[] = []
+  for (const item of items) {
+    const fullPath = `${basePath}/${item.slug}`
+    if (item.items && item.items.length > 0) {
+      out.push(...flattenLeafItems(item.items, fullPath))
+    } else {
+      out.push({ title: item.title, href: fullPath, icon: item.icon })
+    }
+  }
+  return out
 }
 
 export type DocsTab = {
@@ -28,9 +58,12 @@ export const docsTabs: DocsTab[] = [
     slug: "getting-started",
     icon: Rocket,
     items: [
-      { title: "What is an Agency Account?", slug: "what-is-agency-account" },
-      { title: "How GoAds Works", slug: "how-goads-works" },
-      { title: "First Purchase Guide", slug: "first-purchase-guide" },
+      { title: "WTF is Foreplay??", slug: "what-is-agency-account" },
+      {
+        title: "Chrome Extension",
+        slug: "how-goads-works",
+        iconSrc: "/foreplay/sample-chrome-icon.png",
+      },
     ],
   },
   {

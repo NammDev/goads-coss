@@ -91,6 +91,20 @@ export function ForeplayProductPageCtaCard({
           </div>
         )}
 
+        {/* Desktop static-icon variant — only when no videoSrc. Anchored right, vertically centered,
+            sized to roughly match the visual weight the 880px video had in the right column. */}
+        {!videoSrc && iconSrc && (
+          <div className="pointer-events-none absolute inset-y-0 right-[84px] z-0 hidden items-center justify-center max-md:hidden md:flex">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={iconSrc}
+              alt={iconAlt}
+              className="size-[280px] object-contain"
+              loading="lazy"
+            />
+          </div>
+        )}
+
         {/* .cta-block-icon — tablet/mobile only (desktop: icon-image is display:none) */}
         {iconSrc && (
           <div className="hidden flex-col items-center justify-center max-md:flex max-md:mt-6 max-sm:mt-6">

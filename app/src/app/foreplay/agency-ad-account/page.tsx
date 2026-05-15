@@ -19,6 +19,10 @@ import { ForeplayProductPageTestimonial } from "@/components/foreplay/foreplay-p
 import { ForeplayProductPageCtaCard } from "@/components/foreplay/foreplay-product-page-cta-card"
 import { ForeplayProductPageFaqAccordion } from "@/components/foreplay/foreplay-product-page-faq-accordion"
 import {
+  AgencyDisabledAccountMockup,
+  AgencyWhitelistedAccountMockup,
+} from "@/components/foreplay/agency-ad-account-solution-mockups"
+import {
   agencyAdAccountHero,
   agencyAdAccountSolution,
   agencyAdAccountUseCases,
@@ -50,11 +54,18 @@ export default function AgencyAdAccountPage() {
         </ForeplaySectionContainer>
       </section>
 
-      {/* Section 2: Before/After Solution (white block) */}
+      {/* Section 2: Before/After Solution (white block).
+          Override each card's trailing visual with an inline status-widget mockup
+          so the section visualizes "disabled account / $0 spend" vs "whitelisted /
+          unlimited spend" instead of the generic Foreplay swipe-file image. */}
       <section className="section">
         <ForeplaySectionWhiteBlock>
           <ForeplaySectionContainer>
-            <ForeplayProductPageSolution {...agencyAdAccountSolution} />
+            <ForeplayProductPageSolution
+              {...agencyAdAccountSolution}
+              before={{ ...agencyAdAccountSolution.before, visual: <AgencyDisabledAccountMockup /> }}
+              after={{ ...agencyAdAccountSolution.after, visual: <AgencyWhitelistedAccountMockup /> }}
+            />
           </ForeplaySectionContainer>
         </ForeplaySectionWhiteBlock>
       </section>

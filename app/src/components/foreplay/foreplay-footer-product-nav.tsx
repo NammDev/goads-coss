@@ -12,22 +12,21 @@ import { fpText } from "@/components/foreplay/foreplay-typography"
 import { cn } from "@/lib/utils"
 
 interface FooterProduct {
-  /** background-image URL — rendered as div with bg sprite (matches Foreplay source) */
-  iconBg: string
-  /** sprite background-size, e.g. "2376px 100%" — each icon has different sprite width */
-  bgSize: string
+  /** Icon SVG path — rendered as <img> at 44x44 with object-contain. */
+  iconSrc: string
   subtitle: string
   label: string
   href: string
 }
 
-// GoAds product nav — 5 core products (sprite icons kept 1:1, hrefs verified)
+// GoAds product nav — 5 core products. Icons swapped from Foreplay's sprite WebPs
+// (footer_1-5.webp) to GoAds brand SVGs that match the header nav + product hero icons.
 const defaultProducts: FooterProduct[] = [
-  { iconBg: "/foreplay/footer_2.webp", bgSize: "2376px 100%", subtitle: "BM1–BM10, verified", label: "Business Manager", href: "/foreplay/bm" },
-  { iconBg: "/foreplay/footer_1.webp", bgSize: "2728px 100%", subtitle: "Aged, verified accounts", label: "Facebook Profile", href: "/foreplay/profiles" },
-  { iconBg: "/foreplay/footer_5.webp", bgSize: "2420px 100%", subtitle: "Niche, verified pages", label: "Facebook Fanpage", href: "/foreplay/pages" },
-  { iconBg: "/foreplay/footer_4.webp", bgSize: "924px 100%", subtitle: "Unlimited daily spend", label: "Agency Ad Account", href: "/foreplay/agency-ad-account" },
-  { iconBg: "/foreplay/footer_3.webp", bgSize: "1364px 100%", subtitle: "Shop & Business Center", label: "TikTok Asset", href: "/foreplay/tiktok-accounts" },
+  { iconSrc: "/foreplay/BM.svg",       subtitle: "BM1–BM10, verified",     label: "Business Manager",  href: "/foreplay/bm" },
+  { iconSrc: "/foreplay/PROFILES.svg", subtitle: "Aged, verified accounts", label: "Facebook Profile",  href: "/foreplay/profiles" },
+  { iconSrc: "/foreplay/PAGES.svg",    subtitle: "Niche, verified pages",   label: "Facebook Fanpage",  href: "/foreplay/pages" },
+  { iconSrc: "/foreplay/META.svg",     subtitle: "Unlimited daily spend",   label: "Agency Ad Account", href: "/foreplay/agency-ad-account" },
+  { iconSrc: "/foreplay/TIKTOK.svg",   subtitle: "Shop & Business Center",  label: "TikTok Asset",      href: "/foreplay/tiktok-accounts" },
 ]
 
 interface ForeplayFooterProductNavProps {
@@ -60,17 +59,15 @@ export function ForeplayFooterProductNav({
                 currentHref === product.href && "text-foreground",
               )}
             >
-              {/* .footer-product-icon.sprite-image: 44x44, bg-cover bg-center (HQ individual images) */}
-              {/* Foreplay uses div + background-image (not <img>) */}
-              <div
-                role="img"
-                aria-label={product.label}
-                className="size-11 shrink-0 bg-no-repeat"
-                style={{
-                  backgroundImage: `url(${product.iconBg})`,
-                  backgroundSize: product.bgSize,
-                  backgroundPosition: "0px 0px",
-                }}
+              {/* .footer-product-icon — 44x44 GoAds brand SVG (was Foreplay sprite WebP) */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={product.iconSrc}
+                alt={product.label}
+                width={44}
+                height={44}
+                className="size-11 shrink-0 object-contain"
+                loading="lazy"
               />
 
               {/* .u-footer-product-text: text-decoration none */}

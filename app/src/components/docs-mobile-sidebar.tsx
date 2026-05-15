@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { Menu } from "lucide-react"
+import { FileText, Menu, type LucideIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -12,65 +12,43 @@ import {
 } from "@/components/ui/sheet"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Link from "next/link"
-import { ChevronRight } from "lucide-react"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { docsTabs, type DocsNavItem } from "@/data/docs-navigation"
+import { docsTabs, flattenLeafItems } from "@/data/docs-navigation"
 import { useState } from "react"
 
-function MobileNavItem({
-  item,
-  basePath,
-  pathname,
+/** Mobile article row — same 1-level flat pattern as the desktop sidebar
+ *  (see SidebarArticleLink). Icon-prefixed, grid layout, active state on
+ *  exact pathname match. */
+function MobileArticleLink({
+  href,
+  title,
+  icon: Icon = FileText,
+  isActive,
   onNavigate,
 }: {
-  item: DocsNavItem
-  basePath: string
-  pathname: string
+  href: string
+  title: string
+  icon?: LucideIcon
+  isActive: boolean
   onNavigate: () => void
 }) {
-  const fullPath = `${basePath}/${item.slug}`
-  const isActive = pathname === fullPath
-  const isParentActive = pathname.startsWith(fullPath + "/")
-
-  if (item.items) {
-    return (
-      <Collapsible defaultOpen={isParentActive || isActive}>
-        <CollapsibleTrigger className="group flex w-full items-center gap-1 rounded-md px-2 py-1.5 text-sm font-medium text-foreground">
-          <ChevronRight className="size-3.5 shrink-0 transition-transform group-data-[state=open]:rotate-90" />
-          {item.title}
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div className="ml-3 border-l border-border pl-2">
-            {item.items.map((child) => (
-              <MobileNavItem
-                key={child.slug}
-                item={child}
-                basePath={fullPath}
-                pathname={pathname}
-                onNavigate={onNavigate}
-              />
-            ))}
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
-    )
-  }
-
   return (
     <Link
-      href={fullPath}
+      href={href}
       onClick={onNavigate}
-      className={`block rounded-md px-2 py-1.5 text-sm transition-colors ${
-        isActive
-          ? "bg-primary/10 font-medium text-primary"
-          : "text-muted-foreground hover:text-foreground"
+      className={`flex h-8 items-center rounded-lg px-2 py-1.5 transition-colors ${
+        isActive ? "bg-accent/10 hover:bg-accent/[15%]" : "hover:bg-secondary/60"
       }`}
     >
-      {item.title}
+      <div
+        className={`grid size-full grid-cols-[20px_1fr] items-center gap-x-1.5 truncate text-[13px] font-medium ${
+          isActive ? "text-accent-foreground" : "text-foreground/80"
+        }`}
+      >
+        <div className="grid size-full place-items-center opacity-60">
+          <Icon className="size-4 shrink-0" />
+        </div>
+        <span className="truncate">{title}</span>
+      </div>
     </Link>
   )
 }
@@ -78,9 +56,12 @@ function MobileNavItem({
 export function DocsMobileSidebar() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
-  const activeTab = docsTabs.find((t) =>
-    pathname.startsWith(`/docs/${t.slug}`)
-  ) ?? docsTabs[0]
+  const activeTab =
+    docsTabs.find((t) => pathname.startsWith(`/docs/${t.slug}`)) ?? docsTabs[0]
+  const articles = flattenLeafItems(
+    activeTab.items,
+    `/docs/${activeTab.slug}`,
+  )
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -92,16 +73,17 @@ export function DocsMobileSidebar() {
       </SheetTrigger>
       <SheetContent side="left" className="w-[280px] p-0">
         <SheetHeader className="border-b px-4 py-3">
-          <SheetTitle className="text-sm">Documentation</SheetTitle>
+          <SheetTitle className="text-sm">{activeTab.title}</SheetTitle>
         </SheetHeader>
         <ScrollArea className="h-[calc(100svh-theme(spacing.14))]">
           <nav className="space-y-1 p-4">
-            {activeTab.items.map((item) => (
-              <MobileNavItem
-                key={item.slug}
-                item={item}
-                basePath={`/docs/${activeTab.slug}`}
-                pathname={pathname}
+            {articles.map((leaf) => (
+              <MobileArticleLink
+                key={leaf.href}
+                href={leaf.href}
+                title={leaf.title}
+                icon={leaf.icon}
+                isActive={pathname === leaf.href}
                 onNavigate={() => setOpen(false)}
               />
             ))}

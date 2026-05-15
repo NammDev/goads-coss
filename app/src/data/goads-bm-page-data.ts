@@ -2,26 +2,24 @@
 // Identical shape to goads-profiles-page-data.ts; only TEXT differs.
 // All asset paths (images, videos, SVG decorations) are kept 1:1.
 
-// Product CTA Card (same video/icon, only title + description differ)
+// Product CTA Card — BM page uses GoAds-branded panda + Meta-verified badge
+// in place of the generic folder video, to reinforce the "verified BM" message.
 export const bmProductCta = {
   title: "Start scaling with a verified BM today",
   description: "Every Business Manager ships Meta-verified, configured and backed by a 7-day warranty.\n\nFrom BM1 to BM2500 — pick the DSL that fits your spend.",
-  videoSrc: "/video/cta-swipe-file.mov",
-  iconSrc: "/foreplay/hero2_icon.webp",
-  iconAlt: "isometric business manager icon",
+  iconSrc: "/foreplay/cta/goads-verified-panda.svg",
+  iconAlt: "GoAds panda mascot with verified badge",
 }
 
-// Section 1: Hero (reuses swipe-file icon/video/preview assets, only text changes)
+// Section 1: Hero — text-only variant (laptop preview + CTA removed per /bm spec).
+// Spacing follows Foreplay's --fp-py-section scale (108/96/80) for bottom padding
+// to replace the breathing room the preview block normally provides.
 export const bmHero = {
-  iconSrc: "/foreplay/hero2_icon.webp",
-  iconVideoSrc: "/foreplay/hero2_video.webm",
+  iconSrc: "/foreplay/BM.svg",
   overline: "Business Managers",
   title: "Buy Verified Meta Business Managers",
   description: "BM1 to BM2500, verified by Meta, ready to run high-budget ads. Skip the disabled-account loop — start with a BM your auction actually trusts.",
-  previewImageSrc: "/foreplay/hero2_laptop.webp",
-  previewVideoSrc: "/video/62a4ed18ddad95dde8b8bfa4_6833876c700d2cc61b273644_home-video-transcode.mp4",
-  ctaLabel: "Get Started",
-  ctaHref: "/talk-to-sales",
+  hideCta: true,
 }
 
 // Section 3 (feature grid 1): All Products — uses bento1 images

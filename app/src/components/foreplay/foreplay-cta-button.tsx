@@ -44,8 +44,11 @@ export function ForeplayCtaButton({
   const external = isExternalUrl(href)
 
   const sharedClass = cn(
-    // shared base
-    "relative z-[5] flex items-center rounded-[10px] p-2 no-underline",
+    // shared base — nav variant uses Foreplay's `.new-button-small` (6px padding / 8px radius)
+    // so the navbar CTA reads at parity with surrounding text links instead of overpowering them.
+    // Hero / secondary / ghost / light-primary keep the default `.new-button` rhythm.
+    "relative z-[5] flex items-center no-underline",
+    isNav ? "rounded-[8px] p-1.5" : "rounded-[10px] p-2",
     // variant-specific colors + transitions
     variantStyles[variant],
     // focus-visible: dark buttons use bg+white ring, light buttons use white+solid-900 ring

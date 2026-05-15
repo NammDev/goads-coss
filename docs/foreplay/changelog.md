@@ -632,6 +632,138 @@ Goal: replace original Foreplay hero's partner-logo grid + product demo video wi
 ### Index
 - Removed `ForeplayHomeHeroVideo` and `ForeplayAccountDashboardMockup` exports from `components/foreplay/index.ts`.
 
+## Docs Breadcrumb — Pixel-Perfect Pass (260514)
+
+| File | Change |
+|------|--------|
+| `components/docs-breadcrumb.tsx` | SVG gets `className="secondary-svg"` (chevron now uses muted icon color, not inherited muted-foreground). Link className reordered to match Foreplay source verbatim + adds `dark:decoration-foreground/30`. **`<ol>` gets `sm:py-2`** to replicate Foreplay's global `@media (min-width: 640px) { ol { padding: .5rem 0 } }` (8px top/bottom on sm+). Local instead of global to avoid affecting markdoc `<ol>` in articles. |
+| `app/globals.css` | New `.foreplay .secondary-svg` rule: `height/width: 1rem; color: hsl(var(--background-accent))`. Parent's `[&>svg]:size-3.5` overrides size → chevrons stay 14×14; color cascades to chevron `fill="currentColor"`. |
+
+Verbatim spec (from user-provided Foreplay HTML, route `/docs/.../what-is-agency-account`):
+```html
+<div class="pb-6 md:pb-3">
+  <nav class="!list-none !p-0" aria-label="breadcrumb">
+    <ol class="flex truncate items-center !px-0 !list-none gap-1 break-words text-sm text-muted-foreground sm:gap-x-2">
+      <a class="transition-colors hover:decoration-foreground/30 dark:decoration-foreground/30 decoration-foreground/30 !text-foreground/80 font-normal hover:text-foreground truncate max-w-20 md:max-w-none" href="/">Home</a>
+      <li role="presentation" aria-hidden="true" class="[&>svg]:size-3.5 !m-0"><svg class="secondary-svg">…</svg></li>
+      ...
+      <li class="inline-flex !text-[13px] items-center gap-1.5 !m-0 truncate">
+        <span role="link" aria-disabled="true" aria-current="page" class="!font-medium text-foreground truncate max-w-20 md:max-w-none">{title}</span>
+      </li>
+    </ol>
+  </nav>
+</div>
+```
+
+Component is used in 2 locations and propagates automatically:
+- `app/docs/[[...slug]]/page.tsx:107` — tab index page (wrapper `pb-5`)
+- `app/docs/[[...slug]]/page.tsx:253` — article page (wrapper `pb-6 md:pb-3`)
+
+## Docs Article Body — `w-full installation-content` Wrap (260514)
+
+| File | Change |
+|------|--------|
+| `app/docs/[[...slug]]/page.tsx:305` | Markdoc body wrapper class order swapped to `w-full installation-content` (matches Foreplay source verbatim). |
+| `app/content/docs/what-is-agency-account/index.mdoc` | Heading hierarchy realigned: section names ("1. Research Products" etc.) promoted h3→h2; product names promoted from `**bold**` to `### h3`. Intro 3-item list changed from `-` (ul) to `1./2./3.` (ol) with **bold** keywords ("Research", "Analysis", "Production"). |
+| `app/globals.css` | Missing `.installation-content` rules added to match Foreplay verbatim: |
+
+Missing rules now present:
+```css
+/* p body text — relaxed line-height (was 1.5rem, now 1.625 unitless) */
+.installation-content p { line-height: 1.625; }
+
+/* Ordered list container */
+.installation-content ol {
+  padding-left: 2rem;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0 !important;
+  list-style-type: decimal;
+}
+
+/* Ordered list items — white text in dark mode (goads is dark-only) */
+.installation-content ol li {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: hsl(var(--foreground));
+}
+```
+
+Already in place (verified):
+- `.installation-content > * { margin: 32px auto; }`
+- `.installation-content > p + ol/ul { margin-top: -20px !important; }`
+- `.installation-content h1..h6 { scroll-margin-top: 3rem !important; font-weight: 600; }`
+- `.installation-content h2 { margin-top: 4rem; }`
+
+Known gap (not addressed): Foreplay applies inline `color: rgb(8, 145, 178)` (cyan-600) to the bold keywords inside the intro `<ol>` via inline `<span>` styles. Markdown can't express inline color natively; would require a Markdoc tag or HTML passthrough. Structural bold via `**Research**` is present so editorial weight already shows.
+
+## Docs Article — Critical Markdoc `<article>` Unwrap (260514)
+
+**Root cause of broken Foreplay spacing:** Markdoc's default `document` node renders as `<article>` (see `@markdoc/markdoc/dist/index.js:7879` → `document = { render: "article" }`). This silently wrapped all content in an `<article>` element:
+
+```html
+<!-- Before fix — broken: -->
+<div class="w-full installation-content">
+  <article>                ← unwanted wrapper
+    <h2>TLDR</h2>
+    <p>Foreplay is...</p>  ← grandchild, not direct child!
+    <ol>...</ol>
+  </article>
+</div>
+```
+
+Because `<p>`, `<ol>`, `<h2>`, etc. were grandchildren (not direct children) of `.installation-content`, the `.installation-content > * { margin: 32px auto }` selector only matched the `<article>` element — leaving every paragraph, list, and heading collapsed against its siblings with **zero block spacing**. DevTools confirmed: the `> *` rule was absent from `<p>` rule-cascade panels.
+
+| File | Change |
+|------|--------|
+| `lib/markdoc-renderer.tsx` | `MarkdocRenderer` now detects the `<article>` wrapper returned by `Markdoc.renderers.react()` and unwraps it via `tree.props.children`. Resulting DOM matches Foreplay's verbatim: `.installation-content > p` direct child. |
+
+```html
+<!-- After fix — matches Foreplay: -->
+<div class="w-full installation-content">
+  <h2>TLDR</h2>
+  <p>Foreplay is...</p>  ← direct child, 32px margin applies ✓
+  <ol>...</ol>
+</div>
+```
+
+This single 8-line renderer change unblocks every `.installation-content > *` rule (32px block spacing, heading→p tightening, p→ol pull-up, first/last-child margin reset) — they all now have something to match.
+
+Foreplay's article body structure (verbatim from `/docs/getting-started/what-is-agency-account`):
+```html
+<div class="w-full installation-content">
+  <h2 class="heading-with-copy">TLDR</h2>
+  <p>...</p>
+  <ol><li><p>...</p></li>...</ol>
+  <h2>Foreplay's Apps & Products Overview</h2>
+  <h2>1. Research Products</h2>
+  <h3>Swipe File - Save ads from anywhere</h3>
+  ...
+</div>
+```
+
+## /foreplay/tools — Logo Carousel Animation Fix (260514)
+
+**Bug:** The infinite logo marquee in `/foreplay/tools` hero stopped scrolling silently.
+
+**Root cause:** `globals.css` keyframes used `var(--marquee-gap)` with no fallback:
+```css
+@keyframes marquee-horizontal {
+  to { transform: translateX(calc(-100% - var(--marquee-gap))); }
+}
+```
+When `--marquee-gap` is undefined (as in our carousel), `var(--marquee-gap)` resolves to an empty string → `calc(-100% - )` is **invalid CSS** → the entire `transform` declaration is dropped → animation has no end state → carousel doesn't move.
+
+| File | Change |
+|------|--------|
+| `app/globals.css` | Both `marquee-horizontal` and `marquee-vertical` keyframes now use `var(--marquee-gap, 0px)` fallback. No more silent calc failure when gap is undefined. |
+| `components/foreplay/foreplay-solution-logo-carousel.tsx` | Sets `--marquee-gap: 0px` + `--marquee-duration: ${props}s` via inline style so the values are guaranteed defined at the element. `aria-hidden="true"` on the duplicated logo row so screen readers don't announce each brand twice. `motion-safe:` prefix on animation so `prefers-reduced-motion: reduce` users get a static row. Empty `alt=""` on the duplicate row's images. |
+
+Verbatim Foreplay carousel spec (verified from `foreplay-source.css`):
+- `.industries-carousel-container`: `flex justify-between overflow-hidden pt-16 pb-6 relative`
+- `.industries-carousel-logos`: `flex justify-around items-stretch min-w-full`
+- `.industry-carousel-image`: `100×100`, `border 1px #ffffff29`, `rounded-[20px]` (desktop); scales to 65px tablet, 50px mobile
+- `.industries-carousel-fade`: `linear-gradient(90deg, bg, transparent 15%, transparent 85%, bg)` overlay
+
 ## Remaining TODO
 
 - [ ] Lens + Briefs product showcase images/videos
