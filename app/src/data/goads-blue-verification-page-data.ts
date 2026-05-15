@@ -27,7 +27,7 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
     imageAlt: "Multi-platform blue verification",
     reversed: true,
     ctaLabel: "Contact us now",
-    ctaHref: "/talk-to-sales",
+    ctaHref: "/book-demo",
   },
 ]
 

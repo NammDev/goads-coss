@@ -109,7 +109,7 @@ export default function HeroClone() {
               </Link>
             </CraftButton>
             <Button asChild variant='outline' className='btn-mirror-sweep btn-tertiary text-base' size='lg'>
-              <Link href='/talk-to-sales'>
+              <Link href='/book-demo'>
                 Talk to Sales
               </Link>
             </Button>

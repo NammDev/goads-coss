@@ -45,7 +45,7 @@ export function ForeplayHomeProductShowcase({
   sidebarOverline,
   sidebarTitle,
   ctaLabel = "Get Started",
-  ctaHref = "/talk-to-sales",
+  ctaHref = "/book-demo",
   learnMoreLabel = "Learn More",
   learnMoreHref = "#",
   tabs,

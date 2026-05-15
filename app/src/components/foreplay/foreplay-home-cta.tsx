@@ -23,7 +23,7 @@ export function ForeplayHomeCta() {
 
       {/* .main-cta-buttons */}
       <div className="flex items-center gap-3">
-        <ForeplayCtaButton href="/talk-to-sales" variant="hero">
+        <ForeplayCtaButton href="/book-demo" variant="hero">
           Get Started
         </ForeplayCtaButton>
         <ForeplayCtaButton href="/pricing" variant="secondary" showIcon={false}>

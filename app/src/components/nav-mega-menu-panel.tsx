@@ -70,7 +70,7 @@ export function AgencyPanel() {
         primaryLabel="Explore Setups"
         primaryHref="/pricing"
         secondaryLabel="Talk to Sales"
-        secondaryHref="/talk-to-sales"
+        secondaryHref="/book-demo"
       />
       <CtaCard
         title="Need agency accounts?"
@@ -78,7 +78,7 @@ export function AgencyPanel() {
         primaryLabel="View Pricing"
         primaryHref="/pricing"
         secondaryLabel="Talk to Sales"
-        secondaryHref="/talk-to-sales"
+        secondaryHref="/book-demo"
       />
     </div>
   )
@@ -97,7 +97,7 @@ export function ProductsPanel() {
         primaryLabel="Explore Setups"
         primaryHref="/pricing"
         secondaryLabel="Talk to Sales"
-        secondaryHref="/talk-to-sales"
+        secondaryHref="/book-demo"
       />
     </div>
   )

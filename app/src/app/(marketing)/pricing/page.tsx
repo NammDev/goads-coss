@@ -1,48 +1,106 @@
-import type { Metadata } from "next"
-import Pricing from '@/components/shadcn-studio/blocks/pricing-component-09/pricing-component-09'
-import { ProductCatalogGrid } from '@/components/product-catalog-grid'
-import { pricingCategories } from '@/data/pricing-catalog-data'
-import FAQ from '@/components/shadcn-studio/blocks/faq-component-08/faq-component-08'
-import { SectionDivider } from '@/components/section-divider'
-import { PageHero } from '@/components/page-hero'
-import { WavyUnderline } from '@/components/section-header'
-import { faqTabsData } from '@/data/landing-faq'
-import { pricingPlans } from '@/data/pricing-plans-data'
+// Foreplay pricing page — exact DOM clone
+// SOURCE DOM: .section > .container.section-container > .pricing > .section-head | .pricing-content
+// .pricing: flex col, pt-[72px] pb-[108px] (desktop), pt-[40px] pb-[80px] (mobile)
+// .pricing-content: flex col (contains .pricing-tabs then .pricing-footer)
 
-/* ---------- page ---------- */
+import {
+  ForeplaySectionContainer,
+  ForeplaySectionHead,
+  ForeplaySectionWhiteBlock,
+  ForeplayProductPageFaqAccordion,
+  ForeplayHomeCta,
+} from "@/components/foreplay"
+import { ForeplayPricingCard } from "@/components/foreplay/foreplay-pricing-card"
+import { ForeplayPricingFooter } from "@/components/foreplay/foreplay-pricing-footer"
+import { ForeplayPricingComparison } from "@/components/foreplay/foreplay-pricing-comparison"
+import { FP_HERO_GRADIENT } from "@/components/foreplay/foreplay-typography"
+import { goadsSetupCards, goadsPricingFaqItems } from "@/data/goads-pricing-setups-data"
+import { catalogCategories, catalogHeaderColumns } from "@/data/goads-product-catalog-table-data"
 
-export const metadata: Metadata = {
-  title: "Pricing | GoAds Ad Account Plans & Packages",
-  description: "View GoAds pricing for agency ad accounts, Business Managers, profiles, and more. Transparent pricing with 7-day warranty.",
+// GOADS setup tiers — 3 one-time pricing cards (replaces Foreplay subscription tiers)
+// place-items-center matches Foreplay .pricing-grid: middle card's extra py-4 padding extends
+// it taller than side cards (visually highlighted middle tier)
+function PricingCardsGrid() {
+  return (
+    <div className="grid grid-cols-3 place-items-center gap-0 max-md:grid-cols-1">
+      <ForeplayPricingCard variant="first" data={goadsSetupCards[0]} />
+      <ForeplayPricingCard variant="middle" data={goadsSetupCards[1]} />
+      <ForeplayPricingCard variant="last" data={goadsSetupCards[2]} />
+    </div>
+  )
 }
 
-export default function PricingPage() {
+export default function ForeplayPricingPage() {
   return (
-    <main className="flex-1">
-      <PageHero
-        label="Pricing"
-        heading={
-          <>
-            Simple, Transparent{' '}
-            <span className="relative inline-block">
-              Pricing
-              <WavyUnderline className="-bottom-1.5 left-[8%] h-2 w-5/6" />
-            </span>
-          </>
-        }
-      />
-      <SectionDivider />
-      <Pricing plans={pricingPlans} />
-      <SectionDivider />
+    <>
+      {/* ═══ Section 1: .section > .container.section-container > .pricing ═══ */}
+      <section>
+        <ForeplaySectionContainer variant="section">
+          {/* .pricing */}
+          {/* .pricing: flex col, pt-[72px] pb-[108px] — gap-16 (was gap-9) gives more breathing room between section-head and cards */}
+          <div className="flex flex-col gap-16 pt-[72px] pb-[108px] max-md:gap-12 max-sm:gap-10 max-sm:pt-10 max-sm:pb-20">
 
-      <ProductCatalogGrid
-        heading="All Products & Services"
-        categories={pricingCategories}
-        enterpriseCard={{}}
-      />
-      <SectionDivider />
+            {/* .section-head */}
+            <ForeplaySectionHead
+              subtitle="Pricing"
+              title={
+                <span className={FP_HERO_GRADIENT}>
+                  All Products &amp; Pricing
+                </span>
+              }
+              titleTag="h1"
+              titleSize="h1"
+              description="Transparent pricing. No hidden fees. Pick what you need."
+              descSize="l"
+              variant="light"
+              size="large"
+            />
 
-      <FAQ tabsData={faqTabsData} />
-    </main>
+            {/* .pricing-content: cards (no tabs) + footer */}
+            <div className="flex flex-col gap-9">
+              <PricingCardsGrid />
+              <ForeplayPricingFooter />
+            </div>
+
+          </div>
+        </ForeplaySectionContainer>
+      </section>
+
+      {/* ═══ Section 2: All Products & Pricing — /bm catalog table on white block ═══ */}
+      <ForeplaySectionWhiteBlock className="overflow-visible">
+        <ForeplaySectionContainer variant="wide">
+          <ForeplayPricingComparison
+            title=""
+            description=""
+            hideTooltipBadge
+            categories={catalogCategories}
+            headerColumns={catalogHeaderColumns}
+            defaultExpanded={[0]}
+            footerTitle="Need a custom order?"
+            footerCtaLabel="Talk to Sales"
+            footerCtaHref="/book-demo"
+            columns={3}
+          />
+        </ForeplaySectionContainer>
+      </ForeplaySectionWhiteBlock>
+
+      {/* ═══ Section 3: FAQ ═══ */}
+      <section>
+        <ForeplaySectionContainer variant="wide">
+          <ForeplayProductPageFaqAccordion
+            title="Questions? We have answers."
+            description="Common questions about GOADS warranty, delivery, and pricing. Always confirm with support for the latest details."
+            items={goadsPricingFaqItems}
+          />
+        </ForeplaySectionContainer>
+      </section>
+
+      {/* ═══ Section 4: Final CTA ═══ */}
+      <section className="overflow-hidden">
+        <ForeplaySectionContainer variant="section">
+          <ForeplayHomeCta />
+        </ForeplaySectionContainer>
+      </section>
+    </>
   )
 }

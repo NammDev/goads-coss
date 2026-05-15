@@ -34,7 +34,7 @@ export const unbanCourseCards: CourseCardData[] = [
   },
   {
     title: "Unban Success Stories",
-    href: "/foreplay/unban",
+    href: "/unban",
     bgImage: activeBg,
     wordmarkSrc: "/foreplay/university_psychology.svg",
     isComingSoon: false,
@@ -73,7 +73,7 @@ export const unbanFeatureRows: FeatureRowData[] = [
     imageAlt: "GoAds enterprise unban service",
     reversed: true,
     ctaLabel: "Contact us now",
-    ctaHref: "/talk-to-sales",
+    ctaHref: "/book-demo",
   },
 ]
 

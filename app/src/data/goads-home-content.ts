@@ -7,7 +7,7 @@ export const goadsHome = {
     headline: "Unlimited Scaling\nWinning Ad Infrastructure",
     subheadline: "Premium advertising assets designed to reduce risk, avoid disruptions, and keep your campaigns running.",
     ctaLabel: "Contact Us",
-    ctaHref: "/talk-to-sales",
+    ctaHref: "/book-demo",
     trustBadge: "TRUSTED BY 1000+ ADVERTISERS WORLDWIDE",
   },
 
@@ -67,8 +67,8 @@ export const goadsHome = {
       {
         overline: "Service",
         title: "Always On, Always Reliable",
-        ctaHref: "/talk-to-sales",
-        learnMoreHref: "/talk-to-sales",
+        ctaHref: "/book-demo",
+        learnMoreHref: "/book-demo",
       },
     ],
   },
@@ -79,7 +79,7 @@ export const goadsHome = {
     title: "What we commit to every client",
     description: "We built our reputation on these standards. And we protect it with every single delivery. This is the promise behind every order.",
     ctaLabel: "Get Started",
-    ctaHref: "/talk-to-sales",
+    ctaHref: "/book-demo",
   },
 
   // Section 7: Community & Resources (replaces Features Grid)
@@ -108,7 +108,7 @@ export const goadsHome = {
     title: "Your next winning campaign starts here",
     description: "Join 500+ advertisers who trust GoAds. Stable assets, real support, instant replacement.",
     primaryLabel: "Get Started",
-    primaryHref: "/talk-to-sales",
+    primaryHref: "/book-demo",
     secondaryLabel: "View Pricing",
     secondaryHref: "/pricing",
   },

@@ -45,7 +45,7 @@ export const resourceLinks: ResourceLink[] = [
     title: 'Talk to Sales',
     description: 'Book a 1-on-1 consultation for bulk orders or custom enterprise deals.',
     label: 'Talk to Sales',
-    href: '/talk-to-sales',
+    href: '/book-demo',
     external: false,
   },
   {

@@ -43,7 +43,7 @@ export function ForeplayHomeHero() {
 
           {/* .home-hero-cta */}
           <div className="flex items-center gap-3">
-            <ForeplayCtaButton href="/talk-to-sales" variant="hero">
+            <ForeplayCtaButton href="/book-demo" variant="hero">
               Contact Us
             </ForeplayCtaButton>
           </div>

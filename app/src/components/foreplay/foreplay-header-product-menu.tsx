@@ -71,17 +71,17 @@ import { ForeplayHeaderDropdownBase } from "@/components/foreplay/foreplay-heade
 // Gradient key matches the icon's brand color (sampled from each SVG's primary stop-color)
 // so the hover glow reads as "this product's accent" rather than the original Foreplay sprites.
 const products = [
-  { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/foreplay/bm", icon: "/foreplay/BM.svg", gradient: "blue" },
-  { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/foreplay/profiles", icon: "/foreplay/PROFILES.svg", gradient: "green" },
-  { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/foreplay/pages", icon: "/foreplay/PAGES.svg", gradient: "red" },
-  { label: "Agency Ad Account", desc: "Verified Meta accounts with higher daily caps.", href: "/foreplay/agency-ad-account", icon: "/foreplay/META.svg", gradient: "meta" },
-  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/foreplay/tiktok-accounts", icon: "/foreplay/TIKTOK.svg", gradient: "tiktok" },
+  { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/bm", icon: "/foreplay/BM.svg", gradient: "blue" },
+  { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/profiles", icon: "/foreplay/PROFILES.svg", gradient: "green" },
+  { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/pages", icon: "/foreplay/PAGES.svg", gradient: "red" },
+  { label: "Agency Ad Account", desc: "Verified Meta accounts with higher daily caps.", href: "/agency-ad-account", icon: "/foreplay/META.svg", gradient: "meta" },
+  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/tiktok-accounts", icon: "/foreplay/TIKTOK.svg", gradient: "tiktok" },
 ]
 
 // SERVICES — value-added recovery & verification offerings
 const extend = [
-  { label: "Unban Service", desc: "Recover disabled BMs, profiles & pages.", href: "/foreplay/unban", icon: ChromeIcon },
-  { label: "Blue Verification", desc: "Verified badge for Pages & Instagram.", href: "/foreplay/blue-verification", icon: MobileIcon },
+  { label: "Unban Service", desc: "Recover disabled BMs, profiles & pages.", href: "/unban", icon: ChromeIcon },
+  { label: "Blue Verification", desc: "Verified badge for Pages & Instagram.", href: "/blue-verification", icon: MobileIcon },
 ]
 
 // Glow gradients (linear-gradient bottom-up). Each color sampled from the matching icon SVG:
@@ -104,147 +104,147 @@ export function ForeplayHeaderProductMenu() {
     <ForeplayHeaderDropdownBase label="Product">
       {/* .nav-dropdown-menu-inner — source: background, border 1px, rounded-28, width:100% (stretch to nav-stack), overflow-hidden */}
       <div className="w-full overflow-hidden rounded-[28px] border border-[var(--fp-border-nav)] bg-background">
-          {/* .nav-product-menu — flex justify-between (banner hidden below xl, so on narrow viewport only links shown) */}
-          <div className="flex justify-between">
-            {/* .nav-product-menu-links — source: display:grid, flex:1, grid-cols-10, grid-rows-[auto_auto] */}
-            <div className="grid flex-1 grid-cols-10 grid-rows-[auto_auto]">
-              {/* Single full-width product section (5 items combined — no divider) */}
-              <ProductSection className="col-span-10 row-start-1 overflow-hidden" title="Products">
-                {/* ul.nav-badge-list.w-list-unstyled — flex gap-3 flex-1 items-stretch list-none */}
-                <ul className="m-0 flex flex-1 list-none items-stretch gap-3 p-0">
-                  {products.map((item) => (
-                    <ProductBadge key={item.label} {...item} />
-                  ))}
-                </ul>
-              </ProductSection>
+        {/* .nav-product-menu — flex justify-between (banner hidden below xl, so on narrow viewport only links shown) */}
+        <div className="flex justify-between">
+          {/* .nav-product-menu-links — source: display:grid, flex:1, grid-cols-10, grid-rows-[auto_auto] */}
+          <div className="grid flex-1 grid-cols-10 grid-rows-[auto_auto]">
+            {/* Single full-width product section (5 items combined — no divider) */}
+            <ProductSection className="col-span-10 row-start-1 overflow-hidden" title="Products">
+              {/* ul.nav-badge-list.w-list-unstyled — flex gap-3 flex-1 items-stretch list-none */}
+              <ul className="m-0 flex flex-1 list-none items-stretch gap-3 p-0">
+                {products.map((item) => (
+                  <ProductBadge key={item.label} {...item} />
+                ))}
+              </ul>
+            </ProductSection>
 
-              {/* .nav-product-menu-links-sub — col-span-10 row-2, border-t, flex-col items-start p-4 */}
-              <div className="col-span-10 row-start-2 flex flex-col items-start border-t border-[var(--fp-border-nav)] p-4">
-                <SectionLabel>Services</SectionLabel>
-                {/* ul.u-nav-product-menu-links-sub-list.w-list-unstyled — flex gap-3 items-center list-none */}
-                <ul className="m-0 flex list-none items-center gap-3 p-0">
-                  {extend.map((item) => {
-                    const Icon = item.icon
-                    return (
-                      // li.u-nav-product-menu-links-sub-list-item
-                      <li key={item.label} className="list-none">
-                        {/* a.u-nav-sub-link.w-inline-block — flex gap-3 p-2 transition-opacity */}
-                        <Link
-                          href={item.href}
-                          className="flex gap-3 p-2 no-underline transition-opacity hover:opacity-80"
-                          target={item.href.startsWith("http") ? "_blank" : undefined}
-                        >
-                          {/* .u-nav-icon-box — 44x44 bg alpha-700 rounded-12 p-2.5 center */}
-                          <div className="flex size-11 shrink-0 items-center justify-center rounded-[12px] bg-[var(--fp-alpha-700)] p-2.5">
-                            {/* .icon-24 */}
-                            <div className="flex size-6 items-center justify-center">
-                              {/* .svg.w-embed (Webflow wrapper — just renders child SVG) */}
-                              <Icon />
-                            </div>
+            {/* .nav-product-menu-links-sub — col-span-10 row-2, border-t, flex-col items-start p-4 */}
+            <div className="col-span-10 row-start-2 flex flex-col items-start border-t border-[var(--fp-border-nav)] p-4">
+              <SectionLabel>Services</SectionLabel>
+              {/* ul.u-nav-product-menu-links-sub-list.w-list-unstyled — flex gap-3 items-center list-none */}
+              <ul className="m-0 flex list-none items-center gap-3 p-0">
+                {extend.map((item) => {
+                  const Icon = item.icon
+                  return (
+                    // li.u-nav-product-menu-links-sub-list-item
+                    <li key={item.label} className="list-none">
+                      {/* a.u-nav-sub-link.w-inline-block — flex gap-3 p-2 transition-opacity */}
+                      <Link
+                        href={item.href}
+                        className="flex gap-3 p-2 no-underline transition-opacity hover:opacity-80"
+                        target={item.href.startsWith("http") ? "_blank" : undefined}
+                      >
+                        {/* .u-nav-icon-box — 44x44 bg alpha-700 rounded-12 p-2.5 center */}
+                        <div className="flex size-11 shrink-0 items-center justify-center rounded-[12px] bg-[var(--fp-alpha-700)] p-2.5">
+                          {/* .icon-24 */}
+                          <div className="flex size-6 items-center justify-center">
+                            {/* .svg.w-embed (Webflow wrapper — just renders child SVG) */}
+                            <Icon />
                           </div>
-                          {/* .u-nav-content — flex-col justify-center items-start color:alpha-100 */}
-                          <div className="flex flex-col items-start justify-center text-[var(--fp-alpha-100)]">
-                            {/* .text-white — color:#fff (source has flex:1 but we OMIT it here because
+                        </div>
+                        {/* .u-nav-content — flex-col justify-center items-start color:alpha-100 */}
+                        <div className="flex flex-col items-start justify-center text-[var(--fp-alpha-100)]">
+                          {/* .text-white — color:#fff (source has flex:1 but we OMIT it here because
                                 in flex-col parent with icon-box 44px tall, flex:1 on BOTH children spreads
                                 the text — causing ~4px extra vertical gap between label and description.
                                 User requested: line-height=20px only, no extra spread. */}
-                            <div className="text-foreground">
-                              {/* .text-label-s — leading-5 (20px) from fpText.labelS */}
-                              <div className={cn(fpText.labelS, "leading-5")}>{item.label}</div>
-                            </div>
-                            {/* .nav-text-link-description.u-nav-text-secondary
+                          <div className="text-foreground">
+                            {/* .text-label-s — leading-5 (20px) from fpText.labelS */}
+                            <div className={cn(fpText.labelS, "leading-5")}>{item.label}</div>
+                          </div>
+                          {/* .nav-text-link-description.u-nav-text-secondary
                                 Source: display:none ONLY in @media ≤991px. Desktop shows it.
                                 flex:1 also omitted — same reason as .text-white above. */}
-                            <div className="text-[var(--fp-alpha-100)]">
-                              {/* .text-body-s — leading-5 (20px) from fpText.bodyS */}
-                              <div className={cn(fpText.bodyS, "leading-5")}>{item.desc}</div>
-                            </div>
+                          <div className="text-[var(--fp-alpha-100)]">
+                            {/* .text-body-s — leading-5 (20px) from fpText.bodyS */}
+                            <div className={cn(fpText.bodyS, "leading-5")}>{item.desc}</div>
                           </div>
-                        </Link>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
+                        </div>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
             </div>
+          </div>
 
-            {/* .nav-product-menu-banner — source CSS (desktop base, ≥1280px):
+          {/* .nav-product-menu-banner — source CSS (desktop base, ≥1280px):
                 width:384px; max-width:364px; flex-flow:column; flex:none;
                 display:none (base) → display:flex (@media min-width:1280px)
                 → Tailwind: `hidden xl:flex` */}
-            <div className="hidden w-[384px] max-w-[364px] flex-none flex-col xl:flex">
-              {/* .nav-product-banner-video — CONTAINER for BOTH .nav-banner-content + a.nav-lightbox
+          <div className="hidden w-[384px] max-w-[364px] flex-none flex-col xl:flex">
+            {/* .nav-product-banner-video — CONTAINER for BOTH .nav-banner-content + a.nav-lightbox
                   Source CSS (base desktop): flex flex-col flex:1 gap:20px min-h-[204px] px-6
                   Source CSS (≥1280px merged): border-l justify-start items-center pt-20
                   → Verified DOM: .nav-product-banner-video has TWO children: .nav-banner-content AND a.nav-lightbox */}
-              <div className="flex min-h-[204px] flex-1 flex-col items-center justify-start gap-5 border-l border-[var(--fp-border-nav)] px-6 pt-20">
-                {/* .nav-banner-content — source: z-index:2 gap:4px color:#ffffffad text-align:center
+            <div className="flex min-h-[204px] flex-1 flex-col items-center justify-start gap-5 border-l border-[var(--fp-border-nav)] px-6 pt-20">
+              {/* .nav-banner-content — source: z-index:2 gap:4px color:#ffffffad text-align:center
                     flex-col justify-content:flex-start align-items:center max-width:200px
                     display:flex position:relative */}
-                <div className="relative z-[2] flex max-w-[200px] flex-col items-center justify-start gap-1 text-center text-[var(--fp-alpha-100)]">
-                  {/* .text-white — source: color:#fff, flex:1 (Webflow hidden CSS) */}
-                  <div className="flex-1 text-foreground">
-                    {/* .u-nav-banner-title — source: gap:5px, white-space:nowrap, align-items:center,
+              <div className="relative z-[2] flex max-w-[200px] flex-col items-center justify-start gap-1 text-center text-[var(--fp-alpha-100)]">
+                {/* .text-white — source: color:#fff, flex:1 (Webflow hidden CSS) */}
+                <div className="flex-1 text-foreground">
+                  {/* .u-nav-banner-title — source: gap:5px, white-space:nowrap, align-items:center,
                         justify-content:flex-start, display:flex */}
-                    <div className="flex items-center justify-start gap-[5px] whitespace-nowrap">
-                      {/* .icon-20 — source: width:20px, height:20px */}
-                      <div className="size-5">
-                        {/* .svg.w-embed — Webflow SVG wrapper */}
-                        <div className="w-embed">
-                          <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8.99609 12.0563V7.94385C8.99609 7.64927 9.32595 7.47495 9.56934 7.64091L12.5851 9.69713C12.7986 9.84269 12.7986 10.1574 12.5851 10.303L9.56934 12.3592C9.32595 12.5252 8.99609 12.3508 8.99609 12.0563Z" fill="white" />
-                            <path fillRule="evenodd" clipRule="evenodd" d="M10.5002 4.13301C7.26013 4.13301 4.63354 6.7596 4.63354 9.99968C4.63354 13.2398 7.26013 15.8663 10.5002 15.8663C13.7403 15.8663 16.3669 13.2398 16.3669 9.99968C16.3669 6.7596 13.7403 4.13301 10.5002 4.13301ZM3.16687 9.99968C3.16687 5.94959 6.45011 2.66634 10.5002 2.66634C14.5503 2.66634 17.8335 5.94959 17.8335 9.99968C17.8335 14.0497 14.5503 17.333 10.5002 17.333C6.45011 17.333 3.16687 14.0497 3.16687 9.99968Z" fill="white" />
-                          </svg>
-                        </div>
+                  <div className="flex items-center justify-start gap-[5px] whitespace-nowrap">
+                    {/* .icon-20 — source: width:20px, height:20px */}
+                    <div className="size-5">
+                      {/* .svg.w-embed — Webflow SVG wrapper */}
+                      <div className="w-embed">
+                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8.99609 12.0563V7.94385C8.99609 7.64927 9.32595 7.47495 9.56934 7.64091L12.5851 9.69713C12.7986 9.84269 12.7986 10.1574 12.5851 10.303L9.56934 12.3592C9.32595 12.5252 8.99609 12.3508 8.99609 12.0563Z" fill="white" />
+                          <path fillRule="evenodd" clipRule="evenodd" d="M10.5002 4.13301C7.26013 4.13301 4.63354 6.7596 4.63354 9.99968C4.63354 13.2398 7.26013 15.8663 10.5002 15.8663C13.7403 15.8663 16.3669 13.2398 16.3669 9.99968C16.3669 6.7596 13.7403 4.13301 10.5002 4.13301ZM3.16687 9.99968C3.16687 5.94959 6.45011 2.66634 10.5002 2.66634C14.5503 2.66634 17.8335 5.94959 17.8335 9.99968C17.8335 14.0497 14.5503 17.333 10.5002 17.333C6.45011 17.333 3.16687 14.0497 3.16687 9.99968Z" fill="white" />
+                        </svg>
                       </div>
-                      {/* .text-label-s */}
-                      <div className={fpText.labelS}>What is GoAds?</div>
                     </div>
+                    {/* .text-label-s */}
+                    <div className={fpText.labelS}>What is GoAds?</div>
                   </div>
                 </div>
-                {/* a.nav-lightbox.w-inline-block.w-lightbox — CHILD of .nav-product-banner-video
+              </div>
+              {/* a.nav-lightbox.w-inline-block.w-lightbox — CHILD of .nav-product-banner-video
                     (verified via closing-div count in source HTML — 4 closes before <a>: text-label-s,
                     u-nav-banner-title, text-white, nav-banner-content → remaining stack has banner-video)
                     Source CSS: width:100%, max-width:240px, position:relative
                     ≥1280px: border-radius:10px, overflow:hidden */}
-                <a
-                  href="#"
-                  aria-label="open lightbox"
-                  aria-haspopup="dialog"
-                  className="relative w-full max-w-[240px] overflow-hidden rounded-[10px]"
-                >
-                  {/* .hero-video-thumb.w-background-video.w-background-video-atom
+              <a
+                href="#"
+                aria-label="open lightbox"
+                aria-haspopup="dialog"
+                className="relative w-full max-w-[240px] overflow-hidden rounded-[10px]"
+              >
+                {/* .hero-video-thumb.w-background-video.w-background-video-atom
                       ≥1280px: z-index:3 height:150px position:relative flex center */}
-                  <div className="relative z-[3] flex h-[150px] w-full items-center justify-center">
-                    {/* <video> — autoplay loop muted playsinline (Webflow .w-background-video spec) */}
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      preload="auto"
-                      className="absolute inset-0 z-[-100] size-full object-cover"
-                    >
-                      <source
-                        src="/video/62a4ed18ddad95dde8b8bfa4_69612b690e2aeb02841afc4f_FOREPLAY_V6_mp4.mp4"
-                        type="video/mp4"
-                      />
-                    </video>
-                    {/* .div-block-356 — backdrop-blur:10 bg:#ffffff80 rounded-100 50×50 flex center */}
-                    <div className="flex size-[50px] items-center justify-center rounded-full bg-white/50 backdrop-blur-[10px]">
-                      {/* .icon-20.w-embed — combined class (20×20 + Webflow SVG wrapper) */}
-                      <div className="size-5 w-embed">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M15.1838 8.72416L6.78824 3.53868C5.78891 2.92144 4.5 3.64029 4.5 4.81488V15.1859C4.5 16.3604 5.7889 17.0792 6.78823 16.4621L15.1838 11.2766C16.1328 10.6904 16.1328 9.31028 15.1838 8.72416Z" fill="white" />
-                        </svg>
-                      </div>
+                <div className="relative z-[3] flex h-[150px] w-full items-center justify-center">
+                  {/* <video> — autoplay loop muted playsinline (Webflow .w-background-video spec) */}
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    className="absolute inset-0 z-[-100] size-full object-cover"
+                  >
+                    <source
+                      src="/video/62a4ed18ddad95dde8b8bfa4_69612b690e2aeb02841afc4f_FOREPLAY_V6_mp4.mp4"
+                      type="video/mp4"
+                    />
+                  </video>
+                  {/* .div-block-356 — backdrop-blur:10 bg:#ffffff80 rounded-100 50×50 flex center */}
+                  <div className="flex size-[50px] items-center justify-center rounded-full bg-white/50 backdrop-blur-[10px]">
+                    {/* .icon-20.w-embed — combined class (20×20 + Webflow SVG wrapper) */}
+                    <div className="size-5 w-embed">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.1838 8.72416L6.78824 3.53868C5.78891 2.92144 4.5 3.64029 4.5 4.81488V15.1859C4.5 16.3604 5.7889 17.0792 6.78823 16.4621L15.1838 11.2766C16.1328 10.6904 16.1328 9.31028 15.1838 8.72416Z" fill="white" />
+                      </svg>
                     </div>
                   </div>
-                </a>
-              </div>
+                </div>
+              </a>
             </div>
           </div>
         </div>
+      </div>
     </ForeplayHeaderDropdownBase>
   )
 }

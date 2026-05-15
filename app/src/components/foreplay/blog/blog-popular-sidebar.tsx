@@ -37,7 +37,7 @@ import type { BlogPost } from "@/data/blog-posts"
 
 interface BlogPopularSidebarProps {
   posts: BlogPost[]
-  /** Base path for post links — defaults to "/foreplay/blog" */
+  /** Base path for post links — defaults to "/blog" */
   basePath?: string
   className?: string
 }
@@ -48,7 +48,7 @@ function splitReadTime(readTime: string): { num: string; label: string } {
   return match ? { num: match[1], label: match[2] } : { num: "", label: readTime }
 }
 
-export function BlogPopularSidebar({ posts, basePath = "/foreplay/blog", className }: BlogPopularSidebarProps) {
+export function BlogPopularSidebar({ posts, basePath = "/blog", className }: BlogPopularSidebarProps) {
   return (
     // .blog-feed-wrapper: flex col gap-5 (20px) items-start
     <div className={cn("flex flex-col items-start gap-5", className)}>

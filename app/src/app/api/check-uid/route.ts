@@ -1,4 +1,4 @@
-// Server-side UID liveness probe for /foreplay/tools/check-uid.
+// Server-side UID liveness probe for /tools/check-uid.
 // Why server-side: browser-direct Graph API calls hit CORS preflight + auth
 // requirements, and <img> hotlink probes are inconsistent for new-format UIDs.
 // From the server we can spoof a real user-agent, follow redirects, and inspect

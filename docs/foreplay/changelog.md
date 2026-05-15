@@ -775,3 +775,5 @@ Verbatim Foreplay carousel spec (verified from `foreplay-source.css`):
 - [x] Clone /blog page ✅
 - [x] Clone /blog/[slug] page ✅
 - [x] Clone /university/classes page ✅
+
+- [x] Clone 404 / not-found page ✅ (`app/src/app/not-found.tsx` — reuses ForeplaySectionHead + ForeplayCtaButton; gradient 404, skittles video, Return Home; renders for all unmatched routes)

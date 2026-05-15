@@ -1,11 +1,11 @@
-// Foreplay stub inheritance page — placeholder layout cloning /foreplay/page/privacy-policy
+// Foreplay stub inheritance page — placeholder layout cloning /privacy-policy
 // Used for marketing routes that haven't been refactored yet. Renders hero + white block
 // containing a short note about which existing Foreplay route this page will inherit UI from.
 //
 // Usage:
 //   <ForeplayStubInheritancePage
 //     title="Business Managers"
-//     inheritsFrom="/foreplay/profiles"   // or undefined if no match → "need to find UI"
+//     inheritsFrom="/profiles"   // or undefined if no match → "need to find UI"
 //     note="Optional extra note"
 //   />
 
@@ -15,7 +15,7 @@ import { ForeplaySectionWhiteBlock } from "@/components/foreplay/foreplay-sectio
 
 interface ForeplayStubInheritancePageProps {
   title: string
-  inheritsFrom?: string // Foreplay route path to inherit UI from (e.g. "/foreplay/profiles")
+  inheritsFrom?: string // Foreplay route path to inherit UI from (e.g. "/profiles")
   note?: string // Optional additional note
 }
 

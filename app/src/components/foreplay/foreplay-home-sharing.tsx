@@ -120,7 +120,7 @@ export function ForeplayHomeSharing() {
                 </div>
               </div>
               {/* button-light.button-primary: full width, center content */}
-              <ForeplayCtaButton href="/talk-to-sales" variant="light-primary" className="w-full justify-center">
+              <ForeplayCtaButton href="/book-demo" variant="light-primary" className="w-full justify-center">
                 Get Started
               </ForeplayCtaButton>
             </div>

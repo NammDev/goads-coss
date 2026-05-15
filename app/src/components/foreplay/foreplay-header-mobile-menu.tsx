@@ -34,15 +34,6 @@ const mobileProductItems = [
   ]},
 ]
 
-const mobileSolutionsItems = [
-  { label: "E-Commerce & Retail", href: "/industries/ecommerce" },
-  { label: "Agencies", href: "/industries/agencies" },
-  { label: "Mobile Apps & Gaming", href: "/industries/mobile-apps" },
-  { label: "B2B & SaaS", href: "/industries/b2b-saas" },
-  { label: "Info, Education & Community", href: "/industries/info-education-community" },
-  { label: "Freelancers & Creators", href: "/industries/freelancers-creators" },
-]
-
 const mobileResourcesItems = [
   { label: "University", desc: "Ad masterclasses", href: "/university" },
   { label: "Events & Webinars", desc: "Live workshops + Q&A", href: "/fireside" },
@@ -148,28 +139,6 @@ export function ForeplayHeaderMobileMenu() {
                   </div>
                 ))}
               </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          {/* Solutions accordion */}
-          <AccordionItem value="solutions" className="border-[var(--fp-border-nav)]">
-            <AccordionTrigger className="py-4 text-foreground hover:no-underline [&>svg]:text-[var(--fp-alpha-100)]">
-              <span className="font-sans text-[0.9375rem]">Solutions</span>
-            </AccordionTrigger>
-            <AccordionContent className="pb-4">
-              <ul className="m-0 flex flex-col gap-1 p-0">
-                {mobileSolutionsItems.map((item) => (
-                  <li key={item.label} className="list-none">
-                    <Link
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                      className="flex rounded-[10px] px-2 py-2 text-[var(--fp-alpha-100)] no-underline transition-colors hover:bg-[var(--fp-alpha-700)]"
-                    >
-                      <span className={cn(fpText.labelS, "text-foreground")}>{item.label}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             </AccordionContent>
           </AccordionItem>
 

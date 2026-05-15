@@ -13,7 +13,7 @@ export function ForeplayFooterCompanyReviews() {
     <div className="flex items-center gap-[60px] max-md:flex-col max-md:items-start max-md:gap-6">
       {/* GoAds horizontal logo. Wrapper color drives `currentColor` inside the SVG
           so the panda silhouette blends with the page bg (no opaque black box). */}
-      <Link href="/foreplay/home" aria-label="GoAds home" className="text-[var(--background)]">
+      <Link href="/" aria-label="GoAds home" className="text-[var(--background)]">
         <ForeplayLogoSvg />
       </Link>
 

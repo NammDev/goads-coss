@@ -2,7 +2,7 @@
 // DOM structure: nav.nav-dropdown-menu > .nav-dropdown-menu-inner > .nav-resources-menu (grid-cols-12)
 //   Row 1 "Data Processing" (col-span 9): 5 tools in grid-cols-5
 //   Row 2 "Utilities" (col-span 9, border-t): 4 tools in grid-cols-5 (1 empty slot)
-//   Banner (col-span 3, row-span 2): static gradient GoAds Toolbox CTA → /foreplay/tools
+//   Banner (col-span 3, row-span 2): static gradient GoAds Toolbox CTA → /tools
 
 import type { ReactElement } from "react"
 import Link from "next/link"
@@ -16,21 +16,18 @@ interface ToolItem {
   icon: () => ReactElement
 }
 
-// Row 1 — Data Processing (5 tools)
+// Row 1 — primary tools (canonical TOOLS registry, 5 across)
 const dataProcessingItems: ToolItem[] = [
-  { label: "2FA Generator", desc: "Generate TOTP codes", href: "/foreplay/tools/2fa", icon: ShieldIcon },
-  { label: "Cookie Converter", desc: "JSON to UID|Pass|Cookie", href: "/foreplay/tools/cookie", icon: CookieIcon },
-  { label: "Account Filter", desc: "Parse & reformat accounts", href: "/foreplay/tools/filter", icon: FilterIcon },
-  { label: "Split Data", desc: "Split text by delimiter", href: "/foreplay/tools/split-data", icon: ScissorsIcon },
-  { label: "Filter & Merge", desc: "Combine & merge by key", href: "/foreplay/tools/merge", icon: MergeIcon },
+  { label: "2FA Generator", desc: "Generate TOTP codes", href: "/tools/2fa", icon: ShieldIcon },
+  { label: "Check Live UID", desc: "Check Facebook UIDs live/dead", href: "/tools/check-uid", icon: CopyIcon },
+  { label: "Split Data Profile", desc: "Split text by delimiter", href: "/tools/split-data", icon: ScissorsIcon },
+  { label: "IP Checker", desc: "Public IP & location info", href: "/tools/check-ip", icon: GlobeIcon },
+  { label: "GOADS Extension", desc: "Free Chrome extension", href: "/tools/goads-extension", icon: CookieIcon },
 ]
 
-// Row 2 — Utilities (4 tools, 1 empty slot in grid-cols-5)
+// Row 2 — more (to be expanded later)
 const utilitiesItems: ToolItem[] = [
-  { label: "Online Notepad", desc: "Quick browser-saved notes", href: "/foreplay/tools/notepad", icon: NotepadIcon },
-  { label: "IP Checker", desc: "Public IP & location info", href: "/foreplay/tools/check-ip", icon: GlobeIcon },
-  { label: "Batch Watermark", desc: "Watermark multiple images", href: "/foreplay/tools/batch-watermark", icon: ImageIcon },
-  { label: "Remove Duplicates", desc: "Deduplicate text lines", href: "/foreplay/tools/remove-duplicates", icon: CopyIcon },
+  { label: "Temp Mail", desc: "Disposable inbox, instant", href: "/tempmail", icon: NotepadIcon },
 ]
 
 export function ForeplayHeaderToolsMenu() {
@@ -42,14 +39,14 @@ export function ForeplayHeaderToolsMenu() {
         <div className="grid grid-cols-12 grid-rows-[auto_auto]">
           {/* Row 1: Data Processing — col-span 9 row 1 */}
           <div className="col-span-9 row-start-1 flex flex-col items-start gap-4 px-4 pt-4 pb-5">
-            <NavOverlineTitle>Data Processing</NavOverlineTitle>
+            <NavOverlineTitle>Popular Tools</NavOverlineTitle>
             <ToolsList items={dataProcessingItems} />
           </div>
 
           {/* Toolbox banner — row-span 2, col-span 3, justify-self-end
               Static gradient card (no video). border-l, rounded-[18px], max-w-[275px], m-2.5, pt-[25px] pb-9 */}
           <a
-            href="/foreplay/tools"
+            href="/tools"
             className="col-span-3 row-span-2 row-start-1 relative m-2.5 flex w-full max-w-[275px] items-start justify-center justify-self-end overflow-hidden rounded-[18px] border-l border-[var(--fp-border-nav)] pt-[25px] pb-9 no-underline transition-all duration-200 hover:opacity-80"
           >
             {/* .nav-banner-content — z-2, flex-col gap-1, items-center, max-w-[200px], text-center */}
@@ -65,7 +62,7 @@ export function ForeplayHeaderToolsMenu() {
               </div>
               {/* Description */}
               <div className="flex-1 text-left text-[var(--fp-solid-900)]">
-                <div className={fpText.bodyS}>9 free tools for media buyers — data processing, security, utilities.</div>
+                <div className={fpText.bodyS}>5 free tools for media buyers — security, data &amp; utilities.</div>
               </div>
               {/* CTA link */}
               <div className="mt-2 text-[var(--fp-solid-900)]">
@@ -84,7 +81,7 @@ export function ForeplayHeaderToolsMenu() {
 
           {/* Row 2: Utilities — col-span 9 row 2, border-t */}
           <div className="col-span-9 row-start-2 flex flex-col items-start gap-4 border-t border-[var(--fp-border-nav)] px-4 pt-4 pb-5">
-            <NavOverlineTitle>Utilities</NavOverlineTitle>
+            <NavOverlineTitle>More</NavOverlineTitle>
             <ToolsList items={utilitiesItems} />
           </div>
         </div>
@@ -157,26 +154,12 @@ function CookieIcon() {
     </svg>
   )
 }
-function FilterIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M3.5 4h13l-5 6.5v5l-3 1.5v-6.5L3.5 4Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
 function ScissorsIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <circle cx="5.5" cy="5.5" r="2" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="5.5" cy="14.5" r="2" stroke="currentColor" strokeWidth="1.5" />
       <path d="m17 3-10 7.5M17 17 7 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-function MergeIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M5 3v4c0 2 1.5 4 4 4h2c2.5 0 4 2 4 4v2M5 17l4-3-4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -193,15 +176,6 @@ function GlobeIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5" />
       <path d="M2.5 10h15M10 2.5c2 2.3 3 5 3 7.5s-1 5.2-3 7.5c-2-2.3-3-5-3-7.5s1-5.2 3-7.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-function ImageIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <rect x="3" y="4" width="14" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="7.5" cy="8" r="1.25" stroke="currentColor" strokeWidth="1.5" />
-      <path d="m3 13 4-4 6 5 4-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }

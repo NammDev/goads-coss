@@ -121,7 +121,7 @@ function CellValue({ value }: { value: string | boolean }) {
   if (typeof value === "string" && ACTION_VALUES.has(value)) {
     return (
       <ForeplayCtaButton
-        href="/talk-to-sales"
+        href="/book-demo"
         variant="light-primary"
         className="justify-center"
         showIcon={false}

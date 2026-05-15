@@ -1,4 +1,4 @@
-import { ToolPageShell } from "@/app/tools/layout";
+import { ToolPageShell } from "@/app/_legacy-tools/layout";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function ToolPageSkeleton() {

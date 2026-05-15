@@ -1,4 +1,4 @@
-import { CookieContent } from '@/app/tools/cookie/cookie-content'
+import { CookieContent } from '@/app/_legacy-tools/cookie/cookie-content'
 
 export default function Page() {
   return <CookieContent />

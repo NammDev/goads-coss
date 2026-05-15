@@ -154,7 +154,7 @@ export function GoAdsProductCatalogTable({
                     {/* Action */}
                     <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
                       <ForeplayCtaButton
-                        href={product.price === "contact" ? "/talk-to-sales" : "/talk-to-sales"}
+                        href={product.price === "contact" ? "/book-demo" : "/book-demo"}
                         variant="light-primary"
                         className="text-xs"
                       >
@@ -173,7 +173,7 @@ export function GoAdsProductCatalogTable({
           <h3 className={cn(fpText.displayH4, "text-[var(--fp-solid-700)]")}>
             Need something custom?
           </h3>
-          <ForeplayCtaButton href="/talk-to-sales" variant="light-primary">
+          <ForeplayCtaButton href="/book-demo" variant="light-primary">
             Talk to Sales
           </ForeplayCtaButton>
         </div>

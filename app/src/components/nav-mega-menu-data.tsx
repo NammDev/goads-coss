@@ -163,7 +163,7 @@ export const RESOURCES_SUPPORT = [
     icon: Phone,
     title: 'Talk to Sales',
     description: 'Book a 1-on-1 consultation',
-    href: '/talk-to-sales',
+    href: '/book-demo',
   },
 ]
 
