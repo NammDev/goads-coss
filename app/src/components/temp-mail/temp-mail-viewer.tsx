@@ -21,7 +21,7 @@ export function TempMailViewer({ className }: { className?: string }) {
       <div className={cn("flex flex-col gap-4", className)}>
         {/* Email input row */}
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex min-h-10 flex-1 items-center overflow-hidden rounded-md border bg-background focus-within:ring-1 focus-within:ring-ring">
+          <div className="flex min-h-12 flex-1 items-center overflow-hidden rounded-[10px] border border-[var(--fp-solid-50)] bg-white dark:border-border dark:bg-background focus-within:border-[var(--fp-solid-400)] dark:focus-within:border-ring">
             <Input
               value={viewer.emailName}
               onChange={(e) => viewer.setEmailName(e.target.value)}
@@ -34,12 +34,12 @@ export function TempMailViewer({ className }: { className?: string }) {
               maxLength={viewer.maxAddressLen}
               placeholder="Enter email name"
               aria-label="Disposable email name"
-              className="h-10 border-0 font-mono shadow-none focus-visible:ring-0"
+              className="h-12 border-0 font-mono shadow-none focus-visible:ring-0 placeholder:text-[var(--fp-solid-300)] dark:placeholder:text-zinc-500"
             />
-            <span className="shrink-0 px-2 text-sm font-semibold text-muted-foreground">
+            <span className="shrink-0 px-2 text-sm font-semibold text-[var(--fp-solid-400)] dark:text-zinc-400">
               {viewer.emailName.length}/{viewer.maxAddressLen}
             </span>
-            <span className="shrink-0 px-1 text-sm font-semibold text-muted-foreground">@</span>
+            <span className="shrink-0 px-1 text-sm font-semibold text-[var(--fp-solid-400)] dark:text-zinc-400">@</span>
             <span className="shrink-0 pr-3 text-sm font-semibold">{viewer.displayDomain}</span>
           </div>
 
@@ -50,6 +50,7 @@ export function TempMailViewer({ className }: { className?: string }) {
                 onClick={() => void viewer.loadInbox()}
                 disabled={viewer.loadingInbox || !viewer.domainReady}
                 size="sm"
+                className="bg-background text-foreground hover:bg-[var(--fp-solid-600)] active:bg-[var(--fp-solid-400)] dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
               >
                 Load
               </Button>
@@ -65,6 +66,7 @@ export function TempMailViewer({ className }: { className?: string }) {
                 onClick={() => void viewer.randomAddress()}
                 disabled={viewer.loadingInbox}
                 size="sm"
+                className="border-0 bg-[var(--fp-solid-25)] text-[var(--fp-solid-900)] hover:bg-[var(--fp-solid-50)] active:bg-[var(--fp-solid-100)] dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700 dark:active:bg-zinc-600"
               >
                 Random
               </Button>
@@ -85,6 +87,7 @@ export function TempMailViewer({ className }: { className?: string }) {
                 }}
                 disabled={!viewer.email}
                 size="sm"
+                className="border-0 bg-[var(--fp-solid-25)] text-[var(--fp-solid-900)] hover:bg-[var(--fp-solid-50)] active:bg-[var(--fp-solid-100)] dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700 dark:active:bg-zinc-600"
               >
                 {copied ? <Check className="mr-1.5 size-3.5" /> : <Copy className="mr-1.5 size-3.5" />}
                 {copied ? "Copied" : "Copy"}
@@ -102,7 +105,7 @@ export function TempMailViewer({ className }: { className?: string }) {
               "rounded-md border px-4 py-2.5 text-sm",
               viewer.errorText
                 ? "border-destructive/30 bg-destructive/10 text-destructive"
-                : "border-border bg-muted text-muted-foreground",
+                : "border-[var(--fp-solid-50)] bg-[var(--fp-solid-25)] text-[var(--fp-solid-500)] dark:border-border dark:bg-muted dark:text-zinc-400",
             )}
           >
             {viewer.errorText || viewer.statusText}
@@ -112,11 +115,11 @@ export function TempMailViewer({ className }: { className?: string }) {
         {/* Main grid: inbox list + mail content */}
         <div data-testid="viewer-grid" className="grid grid-cols-12 gap-4">
           {/* Inbox sidebar */}
-          <aside className="col-span-12 overflow-hidden rounded-lg border md:col-span-4">
-            <div className="flex items-center justify-between gap-2 border-b bg-muted/40 px-4 py-2.5">
+          <aside className="col-span-12 overflow-hidden rounded-[16px] border border-[var(--fp-solid-50)] bg-white dark:border-border dark:bg-background md:col-span-4">
+            <div className="flex items-center justify-between gap-2 border-b border-[var(--fp-solid-50)] bg-[var(--fp-solid-25)] px-4 py-3 dark:border-border dark:bg-muted">
               <div>
                 <span className="text-sm font-semibold">Inbox</span>
-                <span className="ml-2 text-xs text-muted-foreground">{viewer.mails.length} mails</span>
+                <span className="ml-2 text-xs text-[var(--fp-solid-400)] dark:text-zinc-400">{viewer.mails.length} mails</span>
               </div>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -126,7 +129,7 @@ export function TempMailViewer({ className }: { className?: string }) {
                     size="sm"
                     onClick={() => void viewer.clearInbox()}
                     disabled={!viewer.mails.length}
-                    className="h-7 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                    className="h-7 bg-white text-red-500 shadow-[inset_0_0_0_1px_rgb(254_202_202)] hover:bg-red-50 hover:text-red-600 dark:bg-zinc-900 dark:text-red-400 dark:shadow-[inset_0_0_0_1px_rgb(153_27_27)] dark:hover:bg-red-900/30 dark:hover:text-red-300"
                   >
                     <Trash2 className="mr-1 size-3.5" />
                     Clear all
@@ -137,8 +140,8 @@ export function TempMailViewer({ className }: { className?: string }) {
             </div>
 
             {/* Polling status bar */}
-            <div className="flex flex-wrap items-center gap-1.5 border-b bg-muted/20 px-4 py-2 text-xs text-muted-foreground">
-              <span className={cn("size-1.5 rounded-full", viewer.hasSession ? "bg-emerald-500" : "bg-muted-foreground/40")} />
+            <div className="flex flex-wrap items-center gap-1.5 border-b border-[var(--fp-solid-50)] bg-white px-4 py-2 text-xs text-[var(--fp-solid-400)] dark:border-border dark:bg-background dark:text-zinc-400">
+              <span className={cn("size-1.5 rounded-full", viewer.hasSession ? "bg-emerald-500" : "bg-emerald-500")} />
               <span>{viewer.hasSession ? "Auto-reload on" : "Auto-reload off"}</span>
               <span>· Last checked {viewer.lastCheckedText}</span>
               {viewer.polling && <RefreshCw className="size-3 animate-spin" />}
@@ -153,7 +156,7 @@ export function TempMailViewer({ className }: { className?: string }) {
               <EmptyState>No mails yet. Waiting for incoming messages.</EmptyState>
             ) : (
               <ScrollArea className="max-h-[520px]">
-                <ul className="p-2">
+                <ul className="flex flex-col divide-y divide-[var(--fp-solid-50)] dark:divide-border">
                   {viewer.mails.map((mail) => (
                     <li key={String(mail.id)}>
                       <button
@@ -162,18 +165,30 @@ export function TempMailViewer({ className }: { className?: string }) {
                         aria-current={viewer.selectedMailId === mail.id ? "true" : undefined}
                         onClick={() => viewer.selectMail(mail)}
                         className={cn(
-                          "group flex w-full items-start justify-between gap-2 rounded-md border-l-2 px-3 py-2.5 text-left transition-colors",
+                          "group flex w-full items-start justify-between gap-2 border-l-[3px] px-4 py-3 text-left transition-colors",
                           viewer.selectedMailId === mail.id
-                            ? "border-l-foreground bg-muted"
-                            : "border-l-transparent hover:bg-muted/50",
-                          viewer.newMailIds.has(mail.id) && "ring-1 ring-emerald-400",
+                            ? "bg-[var(--fp-solid-25)] dark:bg-muted"
+                            : "bg-white hover:bg-[var(--fp-solid-25)] dark:bg-background dark:hover:bg-muted/50",
+                          viewer.newMailIds.has(mail.id)
+                            ? "border-emerald-500"
+                            : "border-transparent"
                         )}
                       >
                         <span className="min-w-0 flex-1">
-                          <strong className="block truncate text-sm font-medium">
+                          <strong className={cn(
+                            "block break-words text-sm",
+                            viewer.newMailIds.has(mail.id)
+                              ? "font-semibold text-[var(--fp-solid-900)] dark:text-zinc-50"
+                              : "font-medium text-[var(--fp-solid-500)] dark:text-zinc-400"
+                          )}>
                             {mail.subject || "No subject"}
                           </strong>
-                          <span className="mt-0.5 block text-xs text-muted-foreground">
+                          <span className={cn(
+                            "mt-0.5 block text-xs",
+                            viewer.newMailIds.has(mail.id)
+                              ? "text-[var(--fp-solid-500)] dark:text-zinc-300"
+                              : "text-[var(--fp-solid-400)] dark:text-zinc-500"
+                          )}>
                             {viewer.formatDate(mail.created_at)}
                           </span>
                         </span>
@@ -187,7 +202,7 @@ export function TempMailViewer({ className }: { className?: string }) {
                             e.preventDefault(); e.stopPropagation()
                             void viewer.deleteMail(mail.id)
                           }}
-                          className="rounded px-1.5 text-base leading-5 text-muted-foreground/50 opacity-0 transition hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
+                          className="rounded px-1.5 text-base leading-5 text-[var(--fp-solid-300)] opacity-0 transition hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100 dark:text-zinc-500"
                         >
                           ×
                         </span>
@@ -200,16 +215,16 @@ export function TempMailViewer({ className }: { className?: string }) {
           </aside>
 
           {/* Mail content panel */}
-          <section className="col-span-12 min-h-[480px] overflow-hidden rounded-lg border md:col-span-8">
+          <section className="col-span-12 min-h-[480px] overflow-hidden rounded-[16px] border border-[var(--fp-solid-50)] bg-white dark:border-border dark:bg-background md:col-span-8">
             {viewer.selectedMail ? (
               <article className="flex h-full flex-col">
-                <header className="border-b bg-muted/40 px-4 py-3">
+                <header className="border-b border-[var(--fp-solid-50)] bg-[var(--fp-solid-25)] px-4 py-3 dark:border-border dark:bg-muted">
                   <h2 className="text-sm font-semibold">{viewer.selectedMail.subject || "No subject"}</h2>
-                  <p className="mt-0.5 text-xs text-muted-foreground">{viewer.selectedMail.source}</p>
+                  <p className="mt-0.5 text-xs text-[var(--fp-solid-400)] dark:text-zinc-400">{viewer.selectedMail.source}</p>
                 </header>
                 {!viewer.loadingDetail || viewer.selectedMail.message || viewer.selectedMail.text ? (
                   <MailBodySandbox
-                    className="min-h-[420px] flex-1 border-0 bg-white"
+                    className="min-h-[420px] flex-1 border-0 bg-white dark:bg-background"
                     html={viewer.selectedMail.message || viewer.selectedMail.text || ""}
                   />
                 ) : (
@@ -228,7 +243,7 @@ export function TempMailViewer({ className }: { className?: string }) {
 
 function EmptyState({ children }: { children: ReactNode }) {
   return (
-    <div className="px-4 py-6 text-center text-sm text-muted-foreground">
+    <div className="px-4 py-6 text-center text-sm text-[var(--fp-solid-400)] dark:text-zinc-400">
       {children}
     </div>
   )
@@ -236,7 +251,7 @@ function EmptyState({ children }: { children: ReactNode }) {
 
 function PreviewEmpty({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-[260px] items-center justify-center p-6 text-sm text-muted-foreground">
+    <div className="flex min-h-[260px] items-center justify-center p-6 text-sm text-[var(--fp-solid-400)] dark:text-zinc-400">
       {children}
     </div>
   )

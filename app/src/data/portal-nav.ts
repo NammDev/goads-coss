@@ -61,7 +61,7 @@ export function buildToolsNavItems(): NavItem[] {
       alwaysOpen: true,
       children: popularTools.map((t): NavSubItem => ({
         label: t.title,
-        href: `/portal/tools/${t.slug}`,
+        href: t.href || `/portal/tools/${t.slug}`,
       })),
     },
     {
@@ -72,7 +72,7 @@ export function buildToolsNavItems(): NavItem[] {
         .filter((t) => !t.featured)
         .map((t): NavSubItem => ({
           label: t.title,
-          href: `/portal/tools/${t.slug}`,
+          href: t.href || `/portal/tools/${t.slug}`,
         })),
     },
   ]

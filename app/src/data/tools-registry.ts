@@ -27,6 +27,7 @@ export type ToolCategory = "security" | "data" | "utility";
 
 export type ToolItem = {
   slug: string;
+  href?: string;
   title: string;
   description: string;
   icon: LucideIcon;
@@ -78,6 +79,7 @@ export const TOOLS: ToolItem[] = [
   // Utilities
   {
     slug: "tempmail",
+    href: "/tempmail",
     title: "Temp Mail",
     description: "Generate disposable email addresses and receive temporary inbox messages",
     icon: Mail,

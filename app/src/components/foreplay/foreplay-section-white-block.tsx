@@ -21,7 +21,7 @@ export function ForeplaySectionWhiteBlock({
         className={cn(
           // .section-white-block
           "relative z-[2] overflow-hidden rounded-[36px]",
-          "bg-white text-[var(--fp-solid-700)]",
+          "bg-white text-[var(--fp-solid-700)] dark:bg-zinc-950 dark:text-zinc-50",
           className,
         )}
       >

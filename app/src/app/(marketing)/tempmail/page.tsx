@@ -8,13 +8,12 @@ import {
   ForeplayProductPageFaqAccordion,
   ForeplayHomeCta,
   ForeplaySolutionHero,
-  ForeplayTempmailViewer,
 } from "@/components/foreplay"
 import {
   tempmailHero,
-  tempmailViewer,
   tempmailFaq,
 } from "@/data/foreplay-tempmail-page-data"
+import { TempMailViewer } from "@/components/temp-mail/temp-mail-viewer"
 
 export default function TempmailPage() {
   return (
@@ -34,9 +33,11 @@ export default function TempmailPage() {
         </ForeplaySectionContainer>
       </div>
 
-      {/* Section 2: Mail Viewer (white block) — light-theme adaptation of screenshot */}
+      {/* Section 2: Mail Viewer (white block) — integrated real logic */}
       <ForeplaySectionWhiteBlock>
-        <ForeplayTempmailViewer {...tempmailViewer} />
+        <div className="px-10 py-[108px] max-md:px-6 max-md:py-24 max-sm:px-4 max-sm:py-20 max-w-[1136px] mx-auto">
+          <TempMailViewer />
+        </div>
       </ForeplaySectionWhiteBlock>
 
       {/* Section 3: FAQ */}
