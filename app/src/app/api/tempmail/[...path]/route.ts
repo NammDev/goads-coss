@@ -4,9 +4,10 @@ export const dynamic = "force-dynamic"
 export const runtime = "nodejs"
 
 const WORKER_ORIGIN =
-  process.env.TEMP_MAIL_WORKER_ORIGIN ?? "https://goadsagency.com"
+  process.env.TEMP_MAIL_WORKER_ORIGIN ?? "https://mail-api.goadsagency.com"
 
-const HOP_BY_HOP = new Set([
+const EXCLUDED_REQUEST_HEADERS = new Set([
+  "accept-encoding",
   "connection",
   "content-length",
   "keep-alive",
@@ -19,6 +20,11 @@ const HOP_BY_HOP = new Set([
   "host",
 ])
 
+const EXCLUDED_RESPONSE_HEADERS = new Set([
+  ...EXCLUDED_REQUEST_HEADERS,
+  "content-encoding",
+])
+
 async function proxy(request: NextRequest): Promise<NextResponse> {
   try {
     const url = new URL(request.url)
@@ -29,7 +35,7 @@ async function proxy(request: NextRequest): Promise<NextResponse> {
     // Build forward headers (drop hop-by-hop)
     const headers = new Headers()
     request.headers.forEach((value, key) => {
-      if (!HOP_BY_HOP.has(key.toLowerCase())) {
+      if (!EXCLUDED_REQUEST_HEADERS.has(key.toLowerCase())) {
         headers.set(key, value)
       }
     })
@@ -60,7 +66,7 @@ async function proxy(request: NextRequest): Promise<NextResponse> {
     // Build response headers (drop hop-by-hop)
     const responseHeaders = new Headers()
     response.headers.forEach((value, key) => {
-      if (!HOP_BY_HOP.has(key.toLowerCase())) {
+      if (!EXCLUDED_RESPONSE_HEADERS.has(key.toLowerCase())) {
         responseHeaders.set(key, value)
       }
     })
