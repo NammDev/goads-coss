@@ -4,9 +4,9 @@
 // CSS cascade: rule0 pt:60px pb:80px → rule1 pt:64px pb:48px → rule2 pb:0
 // .home-hero-animation-trigger: absolute, h-screen, inset -72px 0 auto, pointer-events-none (scroll trigger)
 // .home-hero-sticky: will-change opacity/transform, scroll-animated scale+opacity+translate
-// .home-hero-top: flex col, gap 40px, items-center, -mt-3 pt-3 pb-10
-// Note: Foreplay original used pb-20 (80px) — reduced to pb-10 (40px) to balance with
-// .home-hero-bottom gap-6 (24px). Total CTA→logos gap ≈ 52px ≈ logos→KPI 48px.
+// .home-hero-top: flex col, gap 40px, items-center, -mt-3 pt-3 pb-20
+// Desktop base CSS (not media-wrapped): grid-row-gap:40px; margin-top:-12px;
+// padding-top:12px; padding-bottom:80px. Mobile overrides: 80px @767, 48px @479.
 
 "use client"
 
@@ -35,10 +35,10 @@ export function ForeplayHomeHero() {
         style={{ opacity: 0, transform: "translate3d(0, -33%, 0) scale3d(0.75, 0.75, 1)" }}
       >
         {/* .home-hero-top */}
-        <div className="flex flex-col items-center gap-10 pt-3 pb-10 -mt-3">
+        <div className="flex flex-col items-center gap-10 pt-3 pb-20 -mt-3">
           <ForeplayHeroContent
-            title={"Unlimited Scaling\nWinning Ad Infrastructure"}
-            description="Premium advertising assets designed to reduce risk, avoid disruptions, and keep your campaigns running. Made to last, made to scale."
+            title={"Premium Meta Assets\nBuilt for Winning Campaigns"}
+            description="GOADS provides verified Business Managers, agency ad accounts, profiles, pages, and Meta infrastructure for teams scaling serious campaigns."
           />
 
           {/* .home-hero-cta */}

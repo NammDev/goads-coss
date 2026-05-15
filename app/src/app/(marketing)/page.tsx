@@ -63,8 +63,8 @@ export default function ForeplayHomePage() {
           learnMoreHref="/agency-ad-account"
           tabs={discoveryTabs}
           tabImages={[
-            "/foreplay/discovery.webp",
-            "/foreplay/discovery.webp",
+            "/foreplay/goads/goads-agency-ad-account.webp",
+            "/foreplay/goads/goads-agency-ad-account.webp",
           ]}
           showSectionHead={false}
         />
