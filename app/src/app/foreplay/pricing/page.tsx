@@ -10,30 +10,23 @@ import {
   ForeplayProductPageFaqAccordion,
   ForeplayHomeCta,
 } from "@/components/foreplay"
-import { ForeplayPricingTabs } from "@/components/foreplay/foreplay-pricing-tabs"
 import { ForeplayPricingCard } from "@/components/foreplay/foreplay-pricing-card"
 import { ForeplayPricingFooter } from "@/components/foreplay/foreplay-pricing-footer"
 import { ForeplayPricingComparison } from "@/components/foreplay/foreplay-pricing-comparison"
 import { FP_HERO_GRADIENT } from "@/components/foreplay/foreplay-typography"
-import { monthlyCards, annualCards, pricingFaqItems } from "@/data/foreplay-pricing-page-data"
+import { goadsSetupCards, goadsPricingFaqItems } from "@/data/goads-pricing-setups-data"
+import { catalogCategories, catalogHeaderColumns } from "@/data/goads-product-catalog-table-data"
 
-function MonthlyCardGrid() {
+// GOADS setup tiers — 3 one-time pricing cards (replaces Foreplay subscription tiers)
+// place-items-center matches Foreplay .pricing-grid: middle card's extra py-4 padding extends
+// it taller than side cards (visually highlighted middle tier)
+function PricingCardsGrid() {
   return (
-    <>
-      <ForeplayPricingCard variant="first" data={monthlyCards[0]} />
-      <ForeplayPricingCard variant="middle" data={monthlyCards[1]} />
-      <ForeplayPricingCard variant="last" data={monthlyCards[2]} />
-    </>
-  )
-}
-
-function AnnualCardGrid() {
-  return (
-    <>
-      <ForeplayPricingCard variant="first" data={annualCards[0]} />
-      <ForeplayPricingCard variant="middle" data={annualCards[1]} />
-      <ForeplayPricingCard variant="last" data={annualCards[2]} />
-    </>
+    <div className="grid grid-cols-3 place-items-center gap-0 max-md:grid-cols-1">
+      <ForeplayPricingCard variant="first" data={goadsSetupCards[0]} />
+      <ForeplayPricingCard variant="middle" data={goadsSetupCards[1]} />
+      <ForeplayPricingCard variant="last" data={goadsSetupCards[2]} />
+    </div>
   )
 }
 
@@ -44,33 +37,28 @@ export default function ForeplayPricingPage() {
       <section>
         <ForeplaySectionContainer variant="section">
           {/* .pricing */}
-          {/* .pricing: flex col, pt-[72px] pb-[108px] — gap-9 matches Foreplay visual spacing */}
-          <div className="flex flex-col gap-9 pt-[72px] pb-[108px] max-sm:pt-10 max-sm:pb-20">
+          {/* .pricing: flex col, pt-[72px] pb-[108px] — gap-16 (was gap-9) gives more breathing room between section-head and cards */}
+          <div className="flex flex-col gap-16 pt-[72px] pb-[108px] max-md:gap-12 max-sm:gap-10 max-sm:pt-10 max-sm:pb-20">
 
             {/* .section-head */}
             <ForeplaySectionHead
               subtitle="Pricing"
               title={
                 <span className={FP_HERO_GRADIENT}>
-                  Flexible, risk-free pricing
+                  All Products &amp; Pricing
                 </span>
               }
               titleTag="h1"
               titleSize="h1"
-              description="No contracts, no surprises. Unlimited usage and ad spend across all products so you can scale and ship more winning ads."
+              description="Transparent pricing. No hidden fees. Pick what you need."
               descSize="l"
               variant="light"
               size="large"
             />
 
-            {/* .pricing-content: flex col, gap-9 between tabs and footer */}
+            {/* .pricing-content: cards (no tabs) + footer */}
             <div className="flex flex-col gap-9">
-              {/* .code-style.w-embed — hidden style block from source (display:none, fixed) */}
-              <div className="fixed inset-[0%_auto_auto_0%] hidden" />
-              <ForeplayPricingTabs
-                monthlyContent={<MonthlyCardGrid />}
-                annualContent={<AnnualCardGrid />}
-              />
+              <PricingCardsGrid />
               <ForeplayPricingFooter />
             </div>
 
@@ -78,11 +66,21 @@ export default function ForeplayPricingPage() {
         </ForeplaySectionContainer>
       </section>
 
-      {/* ═══ Section 2: Comparison Table ═══ */}
-      {/* Source: .section-padding > .section-white-block > .section > .container > .comparison */}
+      {/* ═══ Section 2: All Products & Pricing — /bm catalog table on white block ═══ */}
       <ForeplaySectionWhiteBlock className="overflow-visible">
         <ForeplaySectionContainer variant="wide">
-          <ForeplayPricingComparison />
+          <ForeplayPricingComparison
+            title=""
+            description=""
+            hideTooltipBadge
+            categories={catalogCategories}
+            headerColumns={catalogHeaderColumns}
+            defaultExpanded={[0]}
+            footerTitle="Need a custom order?"
+            footerCtaLabel="Talk to Sales"
+            footerCtaHref="/talk-to-sales"
+            columns={3}
+          />
         </ForeplaySectionContainer>
       </ForeplaySectionWhiteBlock>
 
@@ -91,8 +89,8 @@ export default function ForeplayPricingPage() {
         <ForeplaySectionContainer variant="wide">
           <ForeplayProductPageFaqAccordion
             title="Questions? We have answers."
-            description="Still curious about Foreplay? Check out our FAQ below."
-            items={pricingFaqItems}
+            description="Common questions about GOADS warranty, delivery, and pricing. Always confirm with support for the latest details."
+            items={goadsPricingFaqItems}
           />
         </ForeplaySectionContainer>
       </section>

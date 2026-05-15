@@ -7,10 +7,8 @@ import type {
   FeatureRowData,
 } from "@/data/foreplay-university-classes-page-data"
 
-// ── Hero (same bgImage/logo, unban copy) ──
+// ── Hero (no badge, no cards — just title + bg image) ──
 export const unbanHero = {
-  logoSrc: "/foreplay/university_logo.svg",
-  logoAlt: "GoAds unban service logo",
   title: "Recover banned Facebook profiles, pages, ad accounts & BMs",
   bgImage: "/foreplay/university_bghero.png",
 }
@@ -60,8 +58,6 @@ export const unbanCourseCards: CourseCardData[] = [
 // ── Feature Rows (2 left-right sections — keep images, swap copy) ──
 export const unbanFeatureRows: FeatureRowData[] = [
   {
-    icon: "/foreplay/university_logo.svg",
-    iconAlt: "GoAds unban service logo",
     title: "Bring Your Assets Back to Life",
     description:
       "Disabled Business Manager? Banned profile? Page restricted? We recover Meta assets using official appeal channels — no shady workarounds, no short-term fixes.\n\nMost cases resolve within 48–72 hours. You keep your pixel, your audience history and your ad spend intact.\n\nPay only when the asset is fully recovered.",
@@ -72,11 +68,11 @@ export const unbanFeatureRows: FeatureRowData[] = [
   {
     title: "Enterprise Recovery for Agencies & High-Spenders",
     description:
-      "Running multiple BMs, 10+ ad accounts, or a blocked agency client? Our enterprise unban desk handles bulk recoveries, prioritized queues and dedicated case managers.",
+      "When ad operations run at scale, a single ban doesn't just take an asset down — it stalls campaigns, halts revenue and damages client trust. Standard unban routes don't move fast enough when multiple clients are at risk.\n\nRunning multiple BMs, 10+ ad accounts, or a blocked agency client? Our enterprise unban desk handles bulk recoveries, prioritized queues and dedicated case managers.",
     image: "/foreplay/university_images2.png",
     imageAlt: "GoAds enterprise unban service",
     reversed: true,
-    ctaLabel: "Talk to Sales",
+    ctaLabel: "Contact us now",
     ctaHref: "/talk-to-sales",
   },
 ]

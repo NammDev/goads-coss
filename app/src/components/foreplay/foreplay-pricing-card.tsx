@@ -80,7 +80,10 @@ const productIcons: Record<string, string> = {
 }
 
 export interface PricingFeature {
-  icon: "swipe-file" | "discovery" | "briefs" | "spyder" | "lens" | "api"
+  /** Brand icon (Swipe File/Discovery/etc). Omit for icon-less feature rows. */
+  icon?: "swipe-file" | "discovery" | "briefs" | "spyder" | "lens" | "api"
+  /** Custom image source (e.g. /foreplay/BM.svg) — overrides checkmark, shown as leading icon. */
+  iconSrc?: string
   label: string
   available: boolean
   /** e.g. "15 Brands", "Unlimited", "10,000 Credits" — shown instead of check/cross */
@@ -91,15 +94,17 @@ export interface PricingCardData {
   planName: string
   description: string
   price: string
-  period: string
-  /** e.g. "Save $120 annually" — only shown on annual tab */
+  /** e.g. "/month" — omit/empty for one-time pricing */
+  period?: string
+  /** e.g. "Save $120 annually" — only shown when provided */
   savingsText?: string
   ctaLabel: string
   ctaHref: string
-  /** "primary" for highlighted plan (Workflow), "secondary" for others */
+  /** "primary" for highlighted plan, "secondary" for others */
   ctaVariant: "primary" | "secondary"
-  usersIncluded: string
-  additionalUserCost: string
+  /** Subscription user info — omit/empty for one-time products */
+  usersIncluded?: string
+  additionalUserCost?: string
   features: PricingFeature[]
 }
 
@@ -160,9 +165,11 @@ export function ForeplayPricingCard({
               <div className="flex-1 text-white">
                 <div className={fpText.displayH5}>{data?.price ?? "$0"}</div>
               </div>
-              <div className="flex-1 text-[var(--fp-alpha-100)]">
-                <div className={fpText.bodyS}>{data?.period ?? "/month"}</div>
-              </div>
+              {data?.period && (
+                <div className="flex-1 text-[var(--fp-alpha-100)]">
+                  <div className={fpText.bodyS}>{data.period}</div>
+                </div>
+              )}
             </div>
             {/* .flex-gap-1 — savings badge (optional) */}
             {data?.savingsText && (
@@ -204,50 +211,68 @@ export function ForeplayPricingCard({
 
         {/* .pricing-card-details */}
         <div className="flex flex-col gap-4">
-          {/* .pricing-card-details-title */}
-          <div>
-            <div className="flex-1 text-white">
-              <div className={fpText.labelS}>{data?.usersIncluded ?? "1 user included"}</div>
+          {/* .pricing-card-details-title — hidden when no subscription user info */}
+          {(data?.usersIncluded || data?.additionalUserCost) && (
+            <div>
+              {data?.usersIncluded && (
+                <div className="flex-1 text-white">
+                  <div className={fpText.labelS}>{data.usersIncluded}</div>
+                </div>
+              )}
+              {data?.additionalUserCost && (
+                <div className="flex-1 text-[var(--fp-alpha-100)]">
+                  <div className={fpText.bodyS}>{data.additionalUserCost}</div>
+                </div>
+              )}
             </div>
-            <div className="flex-1 text-[var(--fp-alpha-100)]">
-              <div className={fpText.bodyS}>{data?.additionalUserCost ?? "$20 per additional user"}</div>
-            </div>
-          </div>
-          {/* .pricing-card-details-list */}
-          <ul className="m-0 flex list-none flex-col gap-3 p-0">
+          )}
+          {/* .pricing-card-details-list — gap-4 (was gap-3) for cleaner Foreplay-style breathing room */}
+          <ul className="m-0 flex list-none flex-col gap-4 p-0">
             {(data?.features ?? []).map((feature, i) => (
               <li key={i}>
                 <div className={cn(
                   // .pricing-card-details-item
-                  "flex items-center gap-2 text-foreground",
+                  "flex items-start gap-3 text-foreground",
                   !feature.available && "opacity-[0.44]",
                 )}>
+                  {/* Leading icon: custom image > checkmark > nothing (brand sprite handled separately below) */}
+                  {feature.iconSrc ? (
+                    <div className="size-7 shrink-0">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={feature.iconSrc} alt="" className="size-7 object-contain" loading="lazy" />
+                    </div>
+                  ) : !feature.icon ? (
+                    <div className="mt-0.5 shrink-0">
+                      {feature.available ? <CheckIcon /> : <CrossIcon />}
+                    </div>
+                  ) : null}
                   {/* .pricing-card-details-item-text */}
                   <div className="flex flex-1 items-center gap-3">
-                    {/* .pricing-icon: 28x28, sprite: bg-position 0 0, bg-size auto 100%, no-repeat */}
-                    {/* .is-unavailable .sprite-image: pointer-events-none, grayscale(100%) */}
+                    {/* .pricing-icon: only when icon provided (Foreplay product brands) */}
                     {feature.icon === "api" ? (
                       <div className="size-7">
                         <img src="/foreplay/api_settings.png" alt="API" className="size-7" />
                       </div>
-                    ) : (
+                    ) : feature.icon ? (
                       <div className={cn(
                         "size-7 bg-[position:0px_0px] bg-[size:auto_100%] bg-no-repeat",
                         productIcons[feature.icon],
                         !feature.available && "pointer-events-none grayscale",
                       )} />
-                    )}
-                    <div>{feature.label}</div>
+                    ) : null}
+                    <div className={cn(fpText.bodyS, "leading-[1.45]")}>{feature.label}</div>
                   </div>
-                  {/* check/cross/value */}
-                  {feature.value ? (
-                    <div className="flex-1 text-[var(--fp-alpha-100)]">
-                      <div className={fpText.bodyS}>{feature.value}</div>
-                    </div>
-                  ) : feature.available ? (
-                    <CheckIcon />
-                  ) : (
-                    <CrossIcon />
+                  {/* trailing check/cross/value — only when icon present (preserves original right-aligned indicator) */}
+                  {feature.icon && (
+                    feature.value ? (
+                      <div className="flex-1 text-[var(--fp-alpha-100)]">
+                        <div className={fpText.bodyS}>{feature.value}</div>
+                      </div>
+                    ) : feature.available ? (
+                      <CheckIcon />
+                    ) : (
+                      <CrossIcon />
+                    )
                   )}
                 </div>
               </li>

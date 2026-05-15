@@ -58,6 +58,24 @@ export { ForeplayFooterProductNav } from "./foreplay-footer-product-nav"
 // ── Tempmail Page Organisms ──
 export { ForeplayTempmailViewer } from "./foreplay-tempmail-viewer"
 
+// ── Tool Design Language (functional /foreplay/tools/* pages) ──
+// Spec: docs/foreplay/tool-design-language.md
+export { ForeplayToolShell } from "./foreplay-tool-shell"
+export { ForeplayToolHeader } from "./foreplay-tool-header"
+export { ForeplayToolBody } from "./foreplay-tool-body"
+export { ForeplayLightPrimaryButton } from "./foreplay-light-primary-button"
+export { ForeplayLightGhostAction } from "./foreplay-light-ghost-action"
+export { ForeplayCodeChip } from "./foreplay-code-chip"
+export {
+  ForeplayToolsSidebar,
+  ForeplayToolsSidebarMobile,
+} from "./foreplay-tools-sidebar"
+export { ForeplayTwoFaTool } from "./foreplay-two-fa-tool"
+export { ForeplayCheckIpTool } from "./foreplay-check-ip-tool"
+export { ForeplayCheckUidTool } from "./foreplay-check-uid-tool"
+export { ForeplaySplitDataTool } from "./foreplay-split-data-tool"
+export { ForeplayGoadsExtensionTool } from "./foreplay-goads-extension-tool"
+
 // ── Blog Page Components ──
 export { BlogCard } from "./blog/blog-card"
 export { BlogCategoryBar } from "./blog/blog-category-bar"

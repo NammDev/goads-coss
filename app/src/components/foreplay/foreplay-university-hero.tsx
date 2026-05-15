@@ -18,9 +18,15 @@ import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 
 interface ForeplayUniversityHeroProps {
-  logoSrc: string
-  logoAlt: string
-  title: string
+  /** Image logo source (used when badgeText/badgeIcon are not provided) */
+  logoSrc?: string
+  logoAlt?: string
+  /** Text badge alternative — replaces image logo with styled Foreplay text */
+  badgeText?: string
+  /** Custom JSX badge (e.g. <VerifiedBadge />) — highest priority over text/image */
+  badgeIcon?: ReactNode
+  /** Title — accepts string or JSX (e.g. for mixed-color/multi-line titles) */
+  title: ReactNode
   bgImage: string
   children?: ReactNode // carousel slot — rendered as sibling of .university-hero-content
 }
@@ -28,28 +34,40 @@ interface ForeplayUniversityHeroProps {
 export function ForeplayUniversityHero({
   logoSrc,
   logoAlt,
+  badgeText,
+  badgeIcon,
   title,
   bgImage,
   children,
 }: ForeplayUniversityHeroProps) {
   return (
-    <section className="section relative isolate">
+    <section className="section relative isolate overflow-hidden">
       {/* .container (wide 1440px) */}
       <div className="container mx-auto w-full max-w-[1440px] px-10">
         {/* .fireside-hero */}
         <div className="relative flex flex-col items-center pt-20 pb-20 text-center">
-          {/* .fireside-hero-logo-wrapper */}
+          {/* .fireside-hero-logo-wrapper — render badge icon (JSX) | text badge | image logo */}
           <div className="pb-10">
-            {/* .fu-logo — 191x51px exact */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={logoSrc}
-              alt={logoAlt}
-              width={191}
-              height={51}
-              className="h-[51px] w-[191px]"
-              loading="lazy"
-            />
+            {badgeIcon ? (
+              // Custom JSX badge (e.g. <VerifiedBadge />). Center, default size handled by caller via className
+              <div className="flex items-center justify-center">{badgeIcon}</div>
+            ) : badgeText ? (
+              // Foreplay-style text badge: Inter Display semibold, foreground color
+              <div className="font-display text-xl font-semibold leading-tight tracking-tight text-foreground [font-optical-sizing:auto]">
+                {badgeText}
+              </div>
+            ) : logoSrc ? (
+              // .fu-logo — 191x51px exact
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={logoSrc}
+                alt={logoAlt ?? ""}
+                width={191}
+                height={51}
+                className="h-[51px] w-[191px]"
+                loading="lazy"
+              />
+            ) : null}
           </div>
 
           {/* .university-hero-content */}
@@ -64,9 +82,12 @@ export function ForeplayUniversityHero({
           </div>
 
           {/* .container.section-container — SIBLING of .university-hero-content (1216px) */}
-          <div className="mx-auto w-full max-w-[1216px] px-10">
-            {children}
-          </div>
+          {/* Only render when children exist (avoid empty wrapper taking space) */}
+          {children && (
+            <div className="mx-auto w-full max-w-[1216px] px-10">
+              {children}
+            </div>
+          )}
         </div>
       </div>
 
