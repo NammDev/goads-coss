@@ -59,21 +59,25 @@ export function ForeplayPricingComparison({
       className,
     )}>
 
-      {/* .comparison-head: flex col, gap-10 (40px), items-center, pb-4 (16px) */}
-      <div className="flex flex-col items-center gap-10 pb-4">
-        {/* .max-w-2xl: max-width 640px */}
-        <div className="max-w-[640px]">
-          {/* .flex-col-gap-2: flex col, gap-2, items-center */}
-          <div className="flex flex-col items-center gap-2">
-            <div className="text-[var(--fp-solid-900)]">
-              <h2 className={fpText.displayH3}>{title}</h2>
-            </div>
-            <div className="text-[var(--fp-solid-500)] [text-wrap:pretty]">
-              <p className={fpText.bodyM}>{description}</p>
+      {/* .comparison-head: only rendered when title/description provided */}
+      {(title || description) && (
+        <div className="flex flex-col items-center gap-10 pb-4">
+          <div className="max-w-[640px]">
+            <div className="flex flex-col items-center gap-2">
+              {title && (
+                <div className="text-[var(--fp-solid-900)]">
+                  <h2 className={fpText.displayH3}>{title}</h2>
+                </div>
+              )}
+              {description && (
+                <div className="text-[var(--fp-solid-500)] [text-wrap:pretty]">
+                  <p className={fpText.bodyM}>{description}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* .comparison-tooltip */}
       {!hideTooltipBadge && <ForeplayComparisonTooltipBadge />}

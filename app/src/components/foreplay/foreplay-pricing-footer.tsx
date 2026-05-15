@@ -18,7 +18,6 @@
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
-import { HeroLogo } from "@/data/foreplay-hero-logos"
 
 // Check icon SVG (same as sprite-check)
 function CheckIcon() {
@@ -26,18 +25,6 @@ function CheckIcon() {
     <div className="size-5">
       <svg viewBox="0 0 20 20" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
         <path fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6.25 10.75 8.5 13l5.25-6" stroke="currentColor" />
-      </svg>
-    </div>
-  )
-}
-
-// Savings coin icon (gold stroke)
-function SavingsIcon() {
-  return (
-    <div className="size-5">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
-        <path stroke="#EBBE7A" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
-          d="M9.75 6.625v-.75m0 7.5v.75m1.624-6.375C11.05 7.302 10.444 7 9.75 7h-.208c-.92 0-1.667.597-1.667 1.333v.058c0 .526.372 1.008.96 1.243l1.83.732c.588.235.96.717.96 1.243 0 .768-.778 1.391-1.738 1.391H9.75c-.694 0-1.3-.302-1.624-.75M16.5 10A6.75 6.75 0 1 1 3 10a6.75 6.75 0 0 1 13.5 0Z" />
       </svg>
     </div>
   )
@@ -63,7 +50,7 @@ export function ForeplayPricingFooter({ className }: ForeplayPricingFooterProps)
           </div>
           {/* .text-alpha-100 > .text-body-s */}
           <div className="flex-1 text-[var(--fp-alpha-100)]">
-            <div className={fpText.bodyS}>For large agencies and scaling brand organizations.</div>
+            <div className={fpText.bodyS}>For large agencies and high-volume advertisers who need bulk pricing.</div>
           </div>
         </div>
 
@@ -75,13 +62,6 @@ export function ForeplayPricingFooter({ className }: ForeplayPricingFooterProps)
           {/* .text-white > h4.text-display-h5 */}
           <div className="flex-1 text-white">
             <h4 className={fpText.displayH5}>Custom Pricing</h4>
-          </div>
-          {/* .flex-gap-1 > icon + label */}
-          <div className="flex items-center gap-1">
-            <SavingsIcon />
-            <div className="flex-1 text-white">
-              <div className={fpText.labelS}>Save up-to 80%</div>
-            </div>
           </div>
         </div>
 
@@ -104,14 +84,14 @@ export function ForeplayPricingFooter({ className }: ForeplayPricingFooterProps)
         <div className="flex flex-col gap-3">
           {/* .text-alpha-100 > .text-label-s */}
           <div className="flex-1 text-[var(--fp-alpha-100)]">
-            <div className={fpText.labelS}>Let&apos;s discuss a tailored solution that covers unique needs.</div>
+            <div className={fpText.labelS}>Let&apos;s discuss bulk pricing that scales with your operations.</div>
           </div>
           {/* ul.pricing-footer-extra-list */}
           <ul className="m-0 flex list-none flex-col gap-3 p-0">
             {[
-              "Unlimited users & product usage",
-              "Priority in-app or Slack support",
-              "Early access to new features and integrations",
+              "Volume discounts on BMs, ad accounts, profiles & pages",
+              "Dedicated account manager & priority support",
+              "Flexible warranty across all products",
             ].map((text) => (
               // li.pricing-footer-extra-list-item
               <li key={text} className="flex items-center gap-2">
@@ -128,23 +108,11 @@ export function ForeplayPricingFooter({ className }: ForeplayPricingFooterProps)
           </ul>
         </div>
 
-        {/* .div-block-332: flex col, gap-4 (16px) */}
+        {/* .div-block-332: trust line (logos removed per design) */}
         <div className="flex flex-col gap-4">
           {/* .text-alpha-100 > .text-label-s */}
           <div className="flex-1 text-[var(--fp-alpha-100)]">
-            <div className={fpText.labelS}>Trusted by over 10,000 growth teams and agencies</div>
-          </div>
-          {/* .pricing-enterprise-logo-wrapper: flex wrap, gap-[15px], justify-between, items-center */}
-          <div className="flex flex-wrap items-center justify-between gap-[15px]">
-            {/* .pricing-grid-logo-wrapper > .home-hero-logo-image */}
-            {[0, 3, 4, 9, 1].map((i) => (
-              <div key={i} className="flex flex-col items-center justify-center p-2.5 text-[var(--fp-alpha-50)] transition-all duration-200 hover:text-[var(--fp-alpha-100)]">
-                {/* .home-hero-logo-image: h-7 (28px), flex center */}
-                <div className="flex h-7 items-center justify-center">
-                  <HeroLogo index={i} />
-                </div>
-              </div>
-            ))}
+            <div className={fpText.labelS}>Trusted by thousands of agencies and media buyers worldwide</div>
           </div>
         </div>
       </div>
