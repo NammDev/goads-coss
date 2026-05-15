@@ -1,7 +1,8 @@
 "use client"
 
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react"
-import { Copy, RefreshCw, Trash2 } from "lucide-react"
+import { forwardRef, useState, type ButtonHTMLAttributes, type ReactNode } from "react"
+import { Check, Copy, RefreshCw, Trash2 } from "lucide-react"
+import { toast } from "sonner"
 
 import { MailBodySandbox } from "@/features/temp-mail/mail-body-sandbox"
 import { useTempMailViewer } from "@/features/temp-mail/use-temp-mail-viewer"
@@ -13,6 +14,7 @@ import { cn } from "@/lib/utils"
 
 export function TempMailViewer({ className }: { className?: string }) {
   const viewer = useTempMailViewer()
+  const [copied, setCopied] = useState(false)
 
   return (
     <TooltipProvider delayDuration={200}>
@@ -75,12 +77,17 @@ export function TempMailViewer({ className }: { className?: string }) {
               <Button
                 data-testid="copy-mailbox"
                 variant="outline"
-                onClick={() => void viewer.copyAddress()}
+                onClick={() => {
+                  void viewer.copyAddress()
+                  toast.success("Copied")
+                  setCopied(true)
+                  setTimeout(() => setCopied(false), 2000)
+                }}
                 disabled={!viewer.email}
                 size="sm"
               >
-                <Copy className="mr-1.5 size-3.5" />
-                Copy
+                {copied ? <Check className="mr-1.5 size-3.5" /> : <Copy className="mr-1.5 size-3.5" />}
+                {copied ? "Copied" : "Copy"}
               </Button>
             </TooltipTrigger>
             <TooltipContent>Copy email address to clipboard</TooltipContent>

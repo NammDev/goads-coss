@@ -343,7 +343,6 @@ export function useTempMailViewer() {
     if (!email) return
     try {
       await navigator.clipboard.writeText(email)
-      setStatusText("Copied")
     } catch {
       setStatusText("Copy failed")
     }
