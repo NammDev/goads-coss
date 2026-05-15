@@ -1,4 +1,27 @@
-import { Chrome, Globe, ScanFace, Scissors, Shield, type LucideIcon } from "lucide-react";
+import {
+  Chrome,
+  Code,
+  Copy,
+  Cookie,
+  FileSearch,
+  FileText,
+  Filter,
+  Globe,
+  IdCard,
+  Image,
+  ImagePlus,
+  LayoutGrid,
+  ListFilter,
+  Mail,
+  Merge,
+  ScanFace,
+  Scissors,
+  Shield,
+  Smile,
+  StickyNote,
+  UserSearch,
+  type LucideIcon,
+} from "lucide-react";
 
 export type ToolCategory = "security" | "data" | "utility";
 
@@ -53,6 +76,21 @@ export const TOOLS: ToolItem[] = [
   },
 
   // Utilities
+  {
+    slug: "tempmail",
+    title: "Temp Mail",
+    description: "Generate disposable email addresses and receive temporary inbox messages",
+    icon: Mail,
+    category: "utility",
+    featured: true,
+  },
+  {
+    slug: "notepad",
+    title: "Online Notepad",
+    description: "Quick notes saved in your browser",
+    icon: StickyNote,
+    category: "utility",
+  },
   {
     slug: "check-ip",
     title: "IP Checker",
