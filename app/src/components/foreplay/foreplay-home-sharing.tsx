@@ -49,7 +49,8 @@ export function ForeplayHomeSharing() {
   const [activeTab, setActiveTab] = useState(0)
 
   return (
-    <div className="grid grid-cols-[1fr_1fr] items-stretch gap-10 py-20">
+    // .home-sharing: original Foreplay base = padding-top:96px, NO padding-bottom (bottom 0)
+    <div className="grid grid-cols-[1fr_1fr] items-stretch gap-10 pt-24">
       {/* .home-sharing-content (left side) */}
       <div className="flex flex-col gap-10">
         {/* .section-head.is-align-left */}
@@ -132,8 +133,8 @@ export function ForeplayHomeSharing() {
       <div className="-mr-[999px] mt-[-80px] w-[60vw] max-w-[720px] [aspect-ratio:720/680]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/foreplay/680c3ed43df5ea8859a6ac18_home-mockup-1.webp"
-          alt="Foreplay sharing dashboard on tablet"
+          src="/foreplay/goads/goads-portal-tablet-mockup.webp"
+          alt="GoAds account infrastructure dashboard on tablet"
           className="size-full object-contain object-left-top"
           loading="lazy"
         />

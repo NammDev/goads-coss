@@ -4,8 +4,8 @@
 export const goadsHome = {
   // Section 1: Hero
   hero: {
-    headline: "Unlimited Scaling\nWinning Ad Infrastructure",
-    subheadline: "Premium advertising assets designed to reduce risk, avoid disruptions, and keep your campaigns running.",
+    headline: "Premium Meta Assets\nBuilt for Winning Campaigns",
+    subheadline: "GOADS provides verified Business Managers, agency ad accounts, profiles, pages, and Meta infrastructure for teams scaling serious campaigns.",
     ctaLabel: "Contact Us",
     ctaHref: "/talk-to-sales",
     trustBadge: "TRUSTED BY 1000+ ADVERTISERS WORLDWIDE",

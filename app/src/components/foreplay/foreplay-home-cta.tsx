@@ -31,15 +31,16 @@ export function ForeplayHomeCta() {
         </ForeplayCtaButton>
       </div>
 
-      {/* .home-cta-image-wrapper: margin -8% -40px */}
+      {/* .home-cta-image-wrapper: margin -8% -40px (base). .home-cta-image: desktop
+          max-width:none (natural 1440, bleeds); width:100% only at <=991px */}
       <div className="-mx-10 -my-[8%]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/foreplay/banner.webp"
-          alt="Two people looking at laptop with dashboard"
+          src="/foreplay/goads/goads-cta-command-center.webp"
+          alt="GoAds account infrastructure command center"
           width={1440}
-          height={924}
-          className="h-auto max-w-none"
+          height={966}
+          className="h-auto max-w-none max-lg:w-full"
           loading="lazy"
         />
       </div>

@@ -14,7 +14,7 @@
 
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
-import { MetaLogo, GoogleLogo, TikTokLogo } from "@/components/foreplay/foreplay-platform-logos"
+import { MetaLogo, FacebookLogo, InstagramLogo } from "@/components/foreplay/foreplay-platform-logos"
 
 interface ForeplayHomeHeroBottomProps {
   className?: string
@@ -48,12 +48,19 @@ export function ForeplayHomeHeroBottom({ className }: ForeplayHomeHeroBottomProp
           - wrapper: p-3 + flex col center + transition all 200ms (matches .home-hero-logo-wrapper)
           - image: h-10 (40px) — scaled up from Foreplay's h-7 base, balanced prominence */}
       <div className="mx-auto grid w-full max-w-[560px] grid-cols-3 gap-4">
-        {[MetaLogo, GoogleLogo, TikTokLogo].map((Logo, i) => (
+        {[
+          { Logo: MetaLogo, glow: "rgba(0,130,251,0.45)" },
+          { Logo: FacebookLogo, glow: "rgba(24,119,242,0.45)" },
+          { Logo: InstagramLogo, glow: "rgba(214,41,118,0.5)" },
+        ].map(({ Logo, glow }, i) => (
           <div
             key={i}
-            className="flex flex-col items-center justify-center p-3 transition-all duration-200"
+            className="group flex flex-col items-center justify-center p-3 transition-all duration-300"
           >
-            <div className="flex h-10 items-center justify-center">
+            <div
+              className="flex h-10 items-center justify-center transition-transform duration-300 ease-out group-hover:scale-110"
+              style={{ filter: `drop-shadow(0 0 14px ${glow}) saturate(1.25)` }}
+            >
               <Logo className="h-full w-auto" />
             </div>
           </div>
