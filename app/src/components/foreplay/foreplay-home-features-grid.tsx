@@ -40,7 +40,7 @@ const cards = [
     ctaLabel: "View Tools",
     ctaHref: "/tools",
     isMiddle: true,
-    image: "/foreplay/feature_2.webp",
+    image: "/foreplay/goads/goads-extension-tool.webp",
   },
   {
     icon: (

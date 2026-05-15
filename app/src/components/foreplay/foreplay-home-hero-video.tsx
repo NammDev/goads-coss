@@ -11,7 +11,8 @@
 
 import { cn } from "@/lib/utils"
 
-const VIDEO_SRC = "/video/62a4ed18ddad95dde8b8bfa4_6833876c700d2cc61b273644_home-video-transcode.mp4"
+// Hero video replaced with a static GoAds product visual (FB-blue Foreplay-style)
+const HERO_IMAGE_SRC = "/foreplay/goads/goads-hero.webp"
 
 interface ForeplayHomeHeroVideoProps {
   className?: string
@@ -35,17 +36,17 @@ export function ForeplayHomeHeroVideo({ className }: ForeplayHomeHeroVideoProps)
       >
         {/* .home-hero-mockup */}
         <div className="relative flex flex-col items-center justify-start overflow-hidden">
-          {/* .homepage-video: aspect 1400/730, autoplay loop muted */}
-          <div className="w-full overflow-hidden [aspect-ratio:1400/730]">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
+          {/* .homepage-video slot: aspect 1400/730 — static hero image.
+              Source desktop has no radius; rounded-3xl (24px, Foreplay large-block
+              standard) added per request so the image corners are curved. */}
+          <div className="w-full overflow-hidden rounded-3xl [aspect-ratio:1400/730]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={HERO_IMAGE_SRC}
+              alt="GoAds verified Meta assets — Business Manager, Pages, Instagram, ad accounts, customer growth"
               className="size-full object-cover"
-            >
-              <source src={VIDEO_SRC} type="video/mp4" />
-            </video>
+              loading="eager"
+            />
           </div>
 
           {/* .home-video-overlay: gradient fade over bottom half of video */}

@@ -31,16 +31,19 @@ export function ForeplayHomeCta() {
         </ForeplayCtaButton>
       </div>
 
-      {/* .home-cta-image-wrapper: margin -8% -40px (base). .home-cta-image: desktop
-          max-width:none (natural 1440, bleeds); width:100% only at <=991px */}
-      <div className="-mx-10 -my-[8%]">
+      {/* Image: transparent cutout, max-w 1037 (~72% of 1440 / 10% below prior 1152), centered.
+          No negative margin — parent overflow-hidden would clip the fade.
+          Footer has no bg (inherits .foreplay #020308 = this section), so the bottom
+          mask-gradient (starts at 40% — laptop level — to hide lower body/belly) dissolves
+          the subject seamlessly into the footer. */}
+      <div className="flex justify-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/foreplay/goads/goads-cta-command-center.webp"
           alt="GoAds account infrastructure command center"
           width={1440}
           height={966}
-          className="h-auto max-w-none max-lg:w-full"
+          className="h-auto w-full max-w-[1037px] [mask-image:linear-gradient(to_bottom,black_62%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_62%,transparent_98%)]"
           loading="lazy"
         />
       </div>
