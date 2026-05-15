@@ -18,12 +18,12 @@ import type { BlogPost } from "@/data/blog-posts"
 
 interface BlogFeaturedCardProps {
   post: BlogPost
-  /** Base path for post links — defaults to "/foreplay/blog" */
+  /** Base path for post links — defaults to "/blog" */
   basePath?: string
   className?: string
 }
 
-export function BlogFeaturedCard({ post, basePath = "/foreplay/blog", className }: BlogFeaturedCardProps) {
+export function BlogFeaturedCard({ post, basePath = "/blog", className }: BlogFeaturedCardProps) {
   return (
     <div className={cn("featured-blog-wrapper", className)}>
       {/* .featured-blog-link: flex col, gap-6 */}

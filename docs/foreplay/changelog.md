@@ -1,5 +1,16 @@
 # Foreplay Redesign — Changelog
 
+## Fixes
+
+| Date | File | Change |
+|------|------|--------|
+| 2026-05-15 | `foreplay-home-hero.tsx` | Hero copy → "Premium Meta Assets" / "Built for Winning Campaigns" (2-line hard break). Restored `.home-hero-top` `pb-20` (80px) to match Foreplay desktop base (was deviated to `pb-10`). |
+| 2026-05-15 | `foreplay-hero-content.tsx` | `renderTitle()` — split string title on `\n` → `<br/>` so intentional line breaks survive HTML whitespace collapse. DOM/CSS unchanged. |
+| 2026-05-15 | `foreplay-platform-logos.tsx` | Hero logo strip: `GoogleLogo`→`FacebookLogo` (simple-icons glyph, #1877F2), `TikTokLogo`→`InstagramLogo` (simple-icons glyph, official IG gradient). `MetaLogo` unchanged. Updated `index.ts` + `foreplay-home-hero-bottom.tsx`. Note: separate `assets/svg/ad-platform-logos.tsx` set untouched. |
+| 2026-05-15 | `foreplay-home-cta.tsx` | Replaced Foreplay stock 2-people-laptop banner with custom GoAds cinematic image (`/foreplay/goads/goads-cta-command-center.webp`, AI-gen Nano Banana Pro, 3:2). Final: cute chibi GoAds panda mascot (lightning-bolt glasses) at Space Black MacBook, GoAds dashboard w/ KPIs. Color-graded black point to exactly `#020308` (`.foreplay` --background) so bleeding edges blend seamlessly — no seam. width/height 1440x966. |
+| 2026-05-15 | `foreplay-home-sharing.tsx` | Fixed vertical whitespace imbalance: `py-20` → `pt-24` (matches original Foreplay `.home-sharing` base: padding-top 96px, NO padding-bottom). Removes extra ~80px bottom gap. iPad/content untouched. |
+| 2026-05-15 | `foreplay-home-sharing.tsx` | Replaced Foreplay stock hands-iPad mockup with custom GoAds-branded floating tablet dashboard (`/foreplay/goads/goads-portal-tablet-mockup.webp`, AI-gen via Gemini Nano Banana Pro, 1:1). Re-rendered on PURE WHITE bg (no dark scene/bokeh) to blend into the `.section-white-block` Collab section like original asset. 59KB webp. Slot layout/aspect unchanged; same filename so no code edit on re-gen. `blog-detail-content.tsx` still uses old asset (intentional). |
+
 ## Foundation
 
 | File | Change |
@@ -775,3 +786,5 @@ Verbatim Foreplay carousel spec (verified from `foreplay-source.css`):
 - [x] Clone /blog page ✅
 - [x] Clone /blog/[slug] page ✅
 - [x] Clone /university/classes page ✅
+
+- [x] Clone 404 / not-found page ✅ (`app/src/app/not-found.tsx` — reuses ForeplaySectionHead + ForeplayCtaButton; gradient 404, skittles video, Return Home; renders for all unmatched routes)

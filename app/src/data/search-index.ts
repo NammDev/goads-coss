@@ -60,7 +60,7 @@ const PAGES: SearchItem[] = [
   { id: "p-tools", title: "Free Tools", description: "Essential toolkit for ads management", href: "/tools", category: "pages", icon: LayoutGrid, keywords: "tools free utilities" },
   { id: "p-blog", title: "Blog", description: "Guides and tutorials for advertisers", href: "/blog", category: "pages", icon: FileText, keywords: "blog articles guides" },
   { id: "p-docs", title: "Documentation", description: "Knowledge base and help center", href: "/docs", category: "pages", icon: BookOpen, keywords: "docs documentation help" },
-  { id: "p-sales", title: "Talk to Sales", description: "Contact our sales team", href: "/talk-to-sales", category: "pages", icon: MessageSquare, keywords: "contact sales support telegram" },
+  { id: "p-sales", title: "Talk to Sales", description: "Contact our sales team", href: "/book-demo", category: "pages", icon: MessageSquare, keywords: "contact sales support telegram" },
 ]
 
 // ---------------------------------------------------------------------------

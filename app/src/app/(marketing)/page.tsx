@@ -1,42 +1,133 @@
-import type { Metadata } from "next"
-import HeroClone from "@/components/shadcn-studio/blocks/hero-clone/hero-clone";
-import BentoGrid from "@/components/shadcn-studio/blocks/bento-grid-19/bento-grid-19";
-import BentoGrid10 from "@/components/shadcn-studio/blocks/bento-grid-10/bento-grid-10";
-import StatsSection from "@/components/shadcn-studio/blocks/stats-section/stats-section";
-import TestimonialsComponent from "@/components/shadcn-studio/blocks/testimonials-component-22/testimonials-component-22";
-import Pricing from "@/components/shadcn-studio/blocks/pricing-component-13/pricing-component-13";
-import FAQ from "@/components/shadcn-studio/blocks/faq-component-08/faq-component-08";
-import { SectionDivider } from "@/components/section-divider";
-import { reviews, pricingPlans } from "@/data/landing-reviews-pricing-faq";
-import { faqTabsData } from "@/data/landing-faq";
+import {
+  ForeplaySectionContainer,
+  ForeplayDotBg,
+  ForeplaySectionWhiteBlock,
+  ForeplayHomeHero,
+  ForeplayHomeProductShowcase,
+  ForeplayHomeChromeExtension,
+  ForeplayHomeCollab,
+  ForeplayHomeFeaturesGrid,
+  ForeplayHomeCta,
+} from "@/components/foreplay"
+import { swipeFileTabs, spyderTabs, discoveryTabs, lensTabs, briefsTabs } from "@/data/foreplay-product-tabs"
 
-export const metadata: Metadata = {
-  title: "GoAds - Stop Losing Accounts. Start Scaling.",
-  description: "Buy verified agency ad accounts, Business Managers & Meta assets. 7-day warranty, 24/7 support, 3,242+ BMs sold.",
-}
-
-export default function Page() {
+export default function ForeplayHomePage() {
   return (
-    <main className="flex-1">
-      <HeroClone />
-      <SectionDivider />
+    <>
+      {/* Section 0: Hero (dark bg + dot grid) */}
+      <section className="relative">
+        <ForeplayDotBg />
+        <ForeplaySectionContainer>
+          <ForeplayHomeHero />
+        </ForeplaySectionContainer>
+      </section>
 
-      <BentoGrid />
-      <SectionDivider />
+      {/* Section 1: Product Showcases (white founder block removed — was empty placeholder) */}
+      <section className="section">
+        <ForeplayHomeProductShowcase
+          subtitle="PRODUCTS & SOLUTIONS"
+          title="Infrastructure designed for your success"
+          description="Verified assets, instant delivery, real support. Everything you need to keep your ads live."
+          sidebarOverline="Assets"
+          sidebarTitle="Premium assets, ready to scale"
+          ctaHref="/agency-ad-account"
+          learnMoreHref="/agency-ad-account"
+          tabs={swipeFileTabs}
+          tabImages={[
+            "/foreplay/meta%20assets.svg",
+            "/foreplay/tiktok%20asset.svg",
+          ]}
+        />
 
-      <StatsSection />
-      <SectionDivider />
+        {/* Spyder — no section head (shares with Swipe File) */}
+        <ForeplayHomeProductShowcase
+          subtitle="" title="" description=""
+          sidebarOverline="Solutions"
+          sidebarTitle="Fix issues, stay scaling"
+          ctaHref="/unban"
+          learnMoreHref="/unban"
+          tabs={spyderTabs}
+          tabImages={[
+            "/foreplay/landingpage/solutions/Mask%20group.svg",
+            "/foreplay/landingpage/solutions/Mask%20group%20(1).svg",
+          ]}
+          showSectionHead={false}
+        />
 
-      <BentoGrid10 />
-      <SectionDivider />
+        {/* Discovery — no section head */}
+        <ForeplayHomeProductShowcase
+          subtitle="" title="" description=""
+          sidebarOverline="Agency Ad Accounts"
+          sidebarTitle="Grow without limits"
+          ctaHref="/agency-ad-account"
+          learnMoreHref="/agency-ad-account"
+          tabs={discoveryTabs}
+          tabImages={[
+            "/foreplay/goads/goads-agency-ad-account.webp",
+            "/foreplay/goads/goads-agency-ad-account.webp",
+          ]}
+          showSectionHead={false}
+        />
 
-      <Pricing plans={pricingPlans} />
-      <SectionDivider />
+        {/* Chrome Extension banner */}
+        <div className="py-20">
+          <ForeplayHomeChromeExtension />
+        </div>
+      </section>
 
-      <TestimonialsComponent reviews={reviews} />
-      <SectionDivider />
+      {/* Section: "Identify winning patterns" — Lens + Briefs */}
+      <section className="section">
+        <ForeplayHomeProductShowcase
+          subtitle="TOOLS & SERVICES"
+          title="Powerful tools built from real experience"
+          description="Extensions, tools and services designed to solve real problems. So you can focus on scaling."
+          sidebarOverline="Technology"
+          sidebarTitle="Optimize Your Workflow"
+          ctaHref="/tools"
+          learnMoreHref="/tools"
+          tabs={lensTabs}
+          tabImages={[
+            "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
+            "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
+            "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
+          ]}
+        />
 
-      <FAQ tabsData={faqTabsData} />
-    </main>
-  );
+        <ForeplayHomeProductShowcase
+          subtitle="" title="" description=""
+          sidebarOverline="Service"
+          sidebarTitle="Always On, Always Reliable"
+          ctaHref="/book-demo"
+          learnMoreHref="/book-demo"
+          tabs={briefsTabs}
+          showSectionHead={false}
+          tabImages={[
+            "/foreplay/landingpage/service/Mask%20group.svg",
+            "/foreplay/landingpage/service/Mask%20group%20(1).svg",
+          ]}
+        />
+      </section>
+
+      {/* Section 2: Collaboration — white block */}
+      <section className="section">
+        <ForeplaySectionWhiteBlock>
+          <ForeplayHomeCollab />
+        </ForeplaySectionWhiteBlock>
+      </section>
+
+      {/* Section 3: Features — "Miles beyond the status quo" */}
+      <section className="section">
+        {/* Uses .container (1440px) not .section-container (1216px) */}
+        <ForeplaySectionContainer variant="wide">
+          <ForeplayHomeFeaturesGrid />
+        </ForeplaySectionContainer>
+      </section>
+      {/* Final CTA — "Ready to ship more winning ads?" */}
+      <div className="overflow-hidden">
+        <ForeplaySectionContainer>
+          <ForeplayHomeCta />
+        </ForeplaySectionContainer>
+      </div>
+    </>
+  )
 }

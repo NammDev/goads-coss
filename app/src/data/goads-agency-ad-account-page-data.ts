@@ -12,7 +12,7 @@ export const agencyAdAccountHero = {
   description:
     "Run high-spend Meta campaigns on whitelisted agency ad accounts. Unlimited daily caps, priority policy review and a direct rep — no more burned BMs.",
   ctaLabel: "Talk to Sales",
-  ctaHref: "/talk-to-sales",
+  ctaHref: "/book-demo",
 }
 
 // --- Before/After Solution ---

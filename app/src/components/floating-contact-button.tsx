@@ -30,7 +30,7 @@ const CONTACT_ITEMS = [
   },
   {
     label: 'Sign up now',
-    href: '/talk-to-sales',
+    href: '/book-demo',
     icon: UserPlusIcon,
     iconClass: 'text-background',
     external: false,

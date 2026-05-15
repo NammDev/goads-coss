@@ -14,7 +14,7 @@ export const googleAgencyHero = {
   previewVideoSrc:
     "/video/62a4ed18ddad95dde8b8bfa4_6833876c700d2cc61b273644_home-video-transcode.mp4",
   ctaLabel: "Talk to Sales",
-  ctaHref: "/talk-to-sales",
+  ctaHref: "/book-demo",
 }
 
 // --- Before/After Solution ---

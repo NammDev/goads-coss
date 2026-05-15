@@ -16,12 +16,12 @@ import type { BlogPost } from "@/data/blog-posts"
 
 interface BlogCardProps {
   post: BlogPost
-  /** Base path for post links — defaults to "/foreplay/blog" */
+  /** Base path for post links — defaults to "/blog" */
   basePath?: string
   className?: string
 }
 
-export function BlogCard({ post, basePath = "/foreplay/blog", className }: BlogCardProps) {
+export function BlogCard({ post, basePath = "/blog", className }: BlogCardProps) {
   return (
     <Link
       href={`${basePath}/${post.slug}`}

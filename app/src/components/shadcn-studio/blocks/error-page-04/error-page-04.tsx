@@ -58,7 +58,7 @@ const ErrorPage04 = () => {
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="btn-tertiary rounded-lg" asChild>
-              <Link href="/talk-to-sales">
+              <Link href="/book-demo">
                 <MessageCircle className="size-4" />
                 Talk to Sales
               </Link>

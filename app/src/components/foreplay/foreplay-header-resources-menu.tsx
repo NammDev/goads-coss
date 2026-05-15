@@ -40,17 +40,17 @@ interface ResourceItem {
 
 // GoAds content — text + hrefs swapped, icons (SVG) kept unchanged
 const learnItems: ResourceItem[] = [
-  { label: "Blog", desc: "Tips & guides for media buyers", href: "/foreplay/blog", icon: UniversityIcon },
-  { label: "Docs", desc: "Setup docs & API references", href: "/foreplay/docs", icon: EventsIcon },
-  { label: "Community", desc: "Join discussions", href: "/foreplay/community", icon: BookIcon },
-  { label: "Help Center", desc: "FAQs & support guides", href: "/foreplay/help", icon: ExpertIcon },
-  { label: "Payment Methods", desc: "Accepted payment options", href: "/foreplay/payment", icon: BlogIcon },
+  { label: "Blog", desc: "Tips & guides for media buyers", href: "/blog", icon: UniversityIcon },
+  { label: "Docs", desc: "Setup docs & API references", href: "/docs", icon: EventsIcon },
+  { label: "Community", desc: "Join discussions", href: "/community", icon: BookIcon },
+  { label: "Help Center", desc: "FAQs & support guides", href: "/help", icon: ExpertIcon },
+  { label: "Payment Methods", desc: "Accepted payment options", href: "/payment", icon: BlogIcon },
 ]
 
 const earnItems: ResourceItem[] = [
-  { label: "About Us", desc: "5+ yrs in ad infrastructure", href: "/foreplay/about", icon: AffiliateIcon },
-  { label: "Milestones", desc: "Our journey & achievements", href: "/foreplay/milestones", icon: BrandIcon },
-  { label: "Partners", desc: "Exclusive deals from our partners", href: "/foreplay/partners", icon: DirectoryIcon },
+  { label: "About Us", desc: "5+ yrs in ad infrastructure", href: "/about", icon: AffiliateIcon },
+  { label: "Partners", desc: "Exclusive deals from our partners", href: "/partners", icon: DirectoryIcon },
+  { label: "Contact", desc: "Real people, fast answers, 24/7", href: "/contact", icon: ContactIcon },
 ]
 
 export function ForeplayHeaderResourcesMenu() {
@@ -69,7 +69,7 @@ export function ForeplayHeaderResourcesMenu() {
           {/* .u-nav-resources-banner — row-span 2, col-span 3, justify-self-end
               border-l, rounded-[18px], max-w-[275px], m-[10px], pt-[25px] pb-9, relative, overflow-hidden */}
           <a
-            href="/foreplay/reviews"
+            href="/reviews"
             className="col-span-3 row-span-2 row-start-1 relative m-2.5 flex w-full max-w-[275px] items-start justify-center justify-self-end overflow-hidden rounded-[18px] border-l border-[var(--fp-border-nav)] pt-[25px] pb-9 no-underline transition-all duration-200 hover:opacity-80"
           >
             {/* .nav-banner-content — z-2, flex-col gap-1, items-center, max-w-[200px], text-center */}
@@ -229,18 +229,18 @@ function AffiliateIcon() {
     </svg>
   )
 }
-function BrandIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M9.42 3.52a.77.77 0 0 1 1.16 0l1.02 1.17c.18.2.44.3.7.25l1.54-.24c.47-.07.89.28.9.75L14.76 7c0 .27.15.52.38.65l1.33.8c.4.24.5.79.2 1.15l-.98 1.2a.77.77 0 0 0-.13.75l.5 1.47a.77.77 0 0 1-.57 1l-1.53.3a.77.77 0 0 0-.57.48l-.56 1.45a.77.77 0 0 1-1.1.4l-1.35-.75a.77.77 0 0 0-.75 0l-1.36.75a.77.77 0 0 1-1.1-.4l-.55-1.45a.77.77 0 0 0-.58-.48l-1.52-.3a.77.77 0 0 1-.59-1l.5-1.47a.77.77 0 0 0-.12-.74l-.98-1.2c-.3-.37-.2-.92.2-1.16l1.34-.8A.77.77 0 0 0 5.24 7l.03-1.55c0-.47.43-.82.9-.75l1.52.24c.27.05.53-.05.7-.25l1.03-1.17Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="m8.13 10.38.85.85c.15.15.39.15.54 0l2.36-2.36" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
 function DirectoryIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path d="M16 10v4.5c0 .83-.67 1.5-1.5 1.5h-9A1.5 1.5 0 0 1 4 14.5V10m4.13-6h3.75M8.13 4 7.7 7.4a2.32 2.32 0 1 0 4.6 0L11.88 4M8.13 4H5.48a1.5 1.5 0 0 0-1.43 1.05l-.67 2.13a2.17 2.17 0 1 0 4.23.92L8.13 4Zm3.75 0h2.64c.66 0 1.24.43 1.43 1.05l.67 2.13a2.17 2.17 0 1 1-4.23.92L11.88 4Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+function ContactIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <rect x="3.25" y="5" width="13.5" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="m4 6 6 4.5L16 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }

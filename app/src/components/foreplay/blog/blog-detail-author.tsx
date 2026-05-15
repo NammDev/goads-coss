@@ -39,7 +39,7 @@ interface BlogDetailAuthorProps {
 
 export function BlogDetailAuthor({
   author,
-  moreArticlesHref = "/foreplay/blog",
+  moreArticlesHref = "/blog",
   className,
 }: BlogDetailAuthorProps) {
   const socials = author.socials ?? {}

@@ -1,44 +1,25 @@
 import type { Metadata } from "next"
+
 import { BlogHero } from "@/components/blog-hero"
 import { BlogListing } from "@/components/blog-listing"
-import { SectionDivider } from "@/components/section-divider"
-import { reader } from "@/lib/keystatic-reader"
-import type { BlogPost } from "@/data/blog-posts"
+import { ForeplayHomeCta } from "@/components/foreplay/foreplay-home-cta"
+import { blogPosts, getFeaturedPost, getPopularPosts } from "@/data/blog-posts"
 
 export const metadata: Metadata = {
-  title: "Blog | GoAds Advertising Tips & Insights",
+  title: "Blog — GoAds",
   description:
-    "Read GoAds blog for Facebook & TikTok advertising tips, account management guides, and industry insights.",
+    "Free insights and guides for scaling your ad accounts. Tips on Meta Ads, Google Ads, TikTok Ads, and more.",
 }
 
-export default async function BlogPage() {
-  const slugs = await reader.collections.blog.list()
-  const posts: BlogPost[] = await Promise.all(
-    slugs.map(async (slug) => {
-      const post = await reader.collections.blog.read(slug)
-      return {
-        slug,
-        category: post?.category ?? "",
-        categorySlug: (post?.category ?? "").toLowerCase().replace(/\s+/g, "-"),
-        title: post?.title ?? "",
-        description: post?.description ?? "",
-        author: {
-          name: post?.author ?? "GoAds Team",
-          avatar: "/avatars/goads-team.png",
-        },
-        date: post?.date ?? "",
-        readTime: "5 min read",
-        coverImage: "",
-        sections: [],
-      }
-    })
-  )
+export default function BlogPage() {
+  const featuredPost = getFeaturedPost() ?? blogPosts[0]
+  const popularPosts = getPopularPosts(4)
 
   return (
-    <main className="flex-1">
-      <BlogHero basePath="/blog" />
-      <SectionDivider />
-      <BlogListing posts={posts} basePath="/blog" />
-    </main>
+    <>
+      <BlogHero featuredPost={featuredPost} popularPosts={popularPosts} />
+      <BlogListing posts={blogPosts} />
+      <ForeplayHomeCta />
+    </>
   )
 }

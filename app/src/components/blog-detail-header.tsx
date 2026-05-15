@@ -54,7 +54,7 @@ export function BlogDetailHeader({ post }: BlogDetailHeaderProps) {
           {/* .blog-breadcrumb: flex gap-1 items-center -mx-2 py-10 */}
           <nav className="-mx-2 flex items-center gap-1 py-10">
             <Link
-              href="/foreplay/blog"
+              href="/blog"
               className={cn(
                 fpText.bodyS,
                 "shrink-0 px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground",
@@ -66,7 +66,7 @@ export function BlogDetailHeader({ post }: BlogDetailHeaderProps) {
               /
             </span>
             <Link
-              href={`/foreplay/blog?category=${catSlug}`}
+              href={`/blog?category=${catSlug}`}
               className={cn(
                 fpText.bodyS,
                 "shrink-0 px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground",

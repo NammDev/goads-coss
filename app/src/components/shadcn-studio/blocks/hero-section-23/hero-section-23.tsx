@@ -48,7 +48,7 @@ const HeroSection = ({
   heading = 'Buy Meta Business Manager',
   subheading,
   primaryCta = { label: 'Get Started', href: '/#pricing' },
-  secondaryCta = { label: 'Talk to Sales', href: '/talk-to-sales' },
+  secondaryCta = { label: 'Talk to Sales', href: '/book-demo' },
   card1,
   card2,
   card3,

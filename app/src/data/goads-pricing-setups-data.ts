@@ -49,7 +49,7 @@ export const goadsSetupCards: PricingCardData[] = [
     description: "Essential setup for advertisers getting started with agency infrastructure.",
     price: "$250",
     ctaLabel: "Get Started",
-    ctaHref: "/talk-to-sales",
+    ctaHref: "/book-demo",
     ctaVariant: "secondary",
     features: [
       { iconSrc: "/foreplay/BM.svg", label: "1x BM3 Verified: Business Manager with 3 ad account slots", available: true },
@@ -64,7 +64,7 @@ export const goadsSetupCards: PricingCardData[] = [
     description: "Bulletproof setup for serious advertisers scaling campaigns.",
     price: "$650",
     ctaLabel: "Scale Now",
-    ctaHref: "/talk-to-sales",
+    ctaHref: "/book-demo",
     ctaVariant: "primary",
     features: [
       { iconSrc: "/foreplay/BM.svg", label: "1x BM5 Verified: $250 spending limit", available: true },
@@ -79,7 +79,7 @@ export const goadsSetupCards: PricingCardData[] = [
     description: "Bulletproof setup for agencies and high-volume advertisers.",
     price: "$890",
     ctaLabel: "Go Elite",
-    ctaHref: "/talk-to-sales",
+    ctaHref: "/book-demo",
     ctaVariant: "secondary",
     features: [
       { iconSrc: "/foreplay/BM.svg", label: "2x BM5 Verified: $250 spending limit each", available: true },

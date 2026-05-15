@@ -1,6 +1,6 @@
 // Foreplay-themed tools sidebar — clones structure from app/src/components/tools-sidebar.tsx
 // but restyled with foreplay tokens (dark theme on .foreplay scope).
-// Links point at /foreplay/tools/{slug}.
+// Links point at /tools/{slug}.
 //
 // Tokens:
 //   active link:  bg-[var(--fp-alpha-700)] text-foreground (10% white pill + full white)
@@ -32,7 +32,7 @@ function ToolLink({ tool, isActive }: { tool: ToolItem; isActive: boolean }) {
   const Icon = tool.icon
   return (
     <Link
-      href={`/foreplay/tools/${tool.slug}`}
+      href={`/tools/${tool.slug}`}
       className={cn(
         fpText.labelS,
         "flex items-center gap-2.5 rounded-[10px] px-3 py-2 transition-colors",
@@ -69,7 +69,7 @@ function SidebarNav() {
                 <ToolLink
                   key={tool.slug}
                   tool={tool}
-                  isActive={pathname === `/foreplay/tools/${tool.slug}`}
+                  isActive={pathname === `/tools/${tool.slug}`}
                 />
               ))}
             </CollapsibleContent>

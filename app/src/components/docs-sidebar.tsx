@@ -28,6 +28,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { ForeplayLogoSvg } from "@/components/foreplay/footer/foreplay-logo-svg"
 import { docsTabs, flattenLeafItems } from "@/data/docs-navigation"
 
 /** Single article row inside a section. Mirrors Foreplay's verbatim spec:
@@ -139,56 +140,23 @@ export function DocsSidebar() {
           {/* Brand row — `flex justify-between items-center w-full` */}
           <div className="flex w-full items-center justify-between">
 
-            {/* Brand button — Foreplay original avatar + "Foreplay" text for
-                pixel-perfect comparison. Swap image/text to GoAds branding later. */}
+            {/* Brand — GoAds horizontal panda logo (same mark as the Foreplay
+                header). `color: var(--background)` makes the panda silhouette
+                blend (punch-through) while the white wordmark/G stay visible. */}
             <Link
               href="/"
-              aria-label="Foreplay — back to main site"
+              aria-label="GoAds — back to main site"
               className="inline-flex max-w-full min-w-0 items-center truncate"
             >
-              <div className="flex min-w-0 items-center gap-2.5">
-                <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border-secondary bg-secondary">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/foreplay/sample-foreplay-avatar.webp"
-                    alt="profile_pic"
-                    width={28}
-                    height={28}
-                    className="size-full rounded-full object-cover"
-                  />
-                </div>
-                <h2 className="w-full min-w-0 transform-gpu truncate text-sm font-semibold leading-none text-foreground sm:text-base">
-                  <span className="w-full truncate">Foreplay</span>
-                </h2>
-              </div>
+              <ForeplayLogoSvg
+                className="h-8 w-auto"
+                style={{ color: "var(--background)" }}
+              />
             </Link>
 
             {/* Right actions — `flex gap-2 items-center`.
                 Theme toggle visible xl+, mobile close visible below xl. */}
             <div className="flex items-center gap-2">
-
-              {/* Theme toggle — `hidden xl:flex justify-center items-center p-0 w-7 h-7 rounded-lg
-                  hover:bg-gray-100/70 dark:hover:bg-secondary main-transition`.
-                  Icon `w-5 h-5 secondary-svg` (secondary-svg ≈ muted icon color). */}
-              <button
-                type="button"
-                aria-label="Toggle theme"
-                className="hidden h-7 w-7 cursor-pointer items-center justify-center rounded-lg p-0 text-foreground/80 transition-colors duration-200 ease-in-out hover:bg-secondary/60 xl:flex"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  className="h-5 w-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
 
               {/* Mobile close button — `px-2 h-8 dashboard-secondary xl:hidden`.
                   dashboard-secondary ≈ rounded-lg border bg-secondary/50 + hover.
@@ -291,46 +259,44 @@ export function DocsSidebar() {
         </ScrollArea>
       </div>
 
-      {/* Footer — Foreplay spec: container `flex relative flex-col gap-1 p-2 pl-3
-          mt-auto border-t xl:bg-background/60 dashboard-border`.
-          Each link: h-8 px-3 py-1.5 rounded-lg cursor-pointer, hover:bg-secondary,
-          icon wrapped `<div opacity-60 mr-1.5><span size-4>emoji</span></div>`,
-          text-[13px] font-medium. */}
+      {/* Footer — Docs / Help / Contact Support. Active route lights up
+          (same active styling as sidebar article links). */}
       <div className="relative mt-auto flex flex-col gap-1 border-t border-border p-2 pl-3 xl:bg-background/60">
-        <a
-          href="mailto:support@goads.com?subject=Docs feedback"
-          className="mx-0 flex h-8 cursor-pointer select-none items-center rounded-lg px-3 py-1.5 transition-colors duration-200 ease-in-out hover:bg-secondary"
-        >
-          <span className="flex items-center truncate text-[13px] font-medium text-foreground/80">
-            <div className="mr-1.5 opacity-60">
+        {[
+          { label: "Docs", href: "/docs", emoji: "📄" },
+          { label: "Help", href: "/help", emoji: "❓" },
+          { label: "Contact Support", href: "/contact", emoji: "💬" },
+        ].map((item) => {
+          const isActive = pathname.startsWith(item.href)
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`mx-0 flex h-8 cursor-pointer select-none items-center rounded-lg px-3 py-1.5 transition-colors duration-200 ease-in-out ${
+                isActive
+                  ? "bg-accent/10 hover:bg-accent/[15%]"
+                  : "hover:bg-secondary"
+              }`}
+            >
               <span
-                role="img"
-                aria-label="Feedback icon"
-                className="flex h-4 w-4 shrink-0 items-center justify-center text-sm"
+                className={`flex items-center truncate text-[13px] font-medium ${
+                  isActive ? "text-accent-foreground" : "text-foreground/80"
+                }`}
               >
-                💬
+                <div className="mr-1.5 opacity-60">
+                  <span
+                    role="img"
+                    aria-label={`${item.label} icon`}
+                    className="flex h-4 w-4 shrink-0 items-center justify-center text-sm"
+                  >
+                    {item.emoji}
+                  </span>
+                </div>
+                <span className="truncate">{item.label}</span>
               </span>
-            </div>
-            <span className="truncate">Feedback</span>
-          </span>
-        </a>
-        <a
-          href="#"
-          className="mx-0 flex h-8 cursor-pointer select-none items-center rounded-lg px-3 py-1.5 transition-colors duration-200 ease-in-out hover:bg-secondary"
-        >
-          <span className="flex items-center truncate text-[13px] font-medium text-foreground/80">
-            <div className="mr-1.5 opacity-60">
-              <span
-                role="img"
-                aria-label="Roadmap icon"
-                className="flex h-4 w-4 shrink-0 items-center justify-center text-sm"
-              >
-                🗺️
-              </span>
-            </div>
-            <span className="truncate">Roadmap</span>
-          </span>
-        </a>
+            </Link>
+          )
+        })}
       </div>
     </aside>
   )

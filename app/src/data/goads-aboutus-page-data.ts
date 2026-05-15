@@ -1,6 +1,6 @@
 // GOADS /aboutus page data — hero + stats + testimonials section
-// Hero pattern mirrors /foreplay/unban. Testimonials reuse same ForeplaySolutionTestimonialCard
-// component as /foreplay/tools. Quotes adapted to GOADS context (ad infrastructure & service).
+// Hero pattern mirrors /unban. Testimonials reuse same ForeplaySolutionTestimonialCard
+// component as /tools. Quotes adapted to GOADS context (ad infrastructure & service).
 
 // ── Hero (title + bg image — same structure as unbanHero) ──
 export const aboutusHero = {

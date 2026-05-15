@@ -21,7 +21,7 @@ export { ForeplayFooter } from "./foreplay-footer"
 export { ForeplayHomeHero } from "./foreplay-home-hero"
 export { ForeplayHomeHeroBottom } from "./foreplay-home-hero-bottom"
 export { ForeplayHomeHeroVideo } from "./foreplay-home-hero-video"
-export { MetaLogo, GoogleLogo, TikTokLogo } from "./foreplay-platform-logos"
+export { MetaLogo, FacebookLogo, InstagramLogo } from "./foreplay-platform-logos"
 export { ForeplayHeroContent } from "./foreplay-hero-content"
 export { ForeplayHomeWinning } from "./foreplay-home-winning"
 export { ForeplayHomeProductShowcase } from "./foreplay-home-product-showcase"
@@ -55,10 +55,13 @@ export { ForeplaySolutionTestimonialCard } from "./foreplay-solution-testimonial
 export { ForeplaySolutionExamplesGrid } from "./foreplay-solution-examples-grid"
 export { ForeplayFooterProductNav } from "./foreplay-footer-product-nav"
 
+// ── Contact Page ──
+export { ForeplayContactChannels } from "./foreplay-contact-channels"
+
 // ── Tempmail Page Organisms ──
 export { ForeplayTempmailViewer } from "./foreplay-tempmail-viewer"
 
-// ── Tool Design Language (functional /foreplay/tools/* pages) ──
+// ── Tool Design Language (functional /tools/* pages) ──
 // Spec: docs/foreplay/tool-design-language.md
 export { ForeplayToolShell } from "./foreplay-tool-shell"
 export { ForeplayToolHeader } from "./foreplay-tool-header"

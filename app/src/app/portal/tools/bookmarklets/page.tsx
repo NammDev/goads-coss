@@ -1,4 +1,4 @@
-import { BookmarkletsContent } from '@/app/tools/bookmarklets/bookmarklets-content'
+import { BookmarkletsContent } from '@/app/_legacy-tools/bookmarklets/bookmarklets-content'
 
 export default function Page() {
   return <BookmarkletsContent />

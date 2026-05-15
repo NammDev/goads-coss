@@ -1,38 +1,81 @@
-import type { Metadata } from "next"
-import AboutUs from '@/components/shadcn-studio/blocks/about-us-page-03/about-us-page-03'
-import Team from '@/components/shadcn-studio/blocks/team-section-05/team-section-05'
-import { SectionDivider } from '@/components/section-divider'
-import { PageHero } from '@/components/page-hero'
-import { WavyUnderline } from '@/components/section-header'
-import { aboutUsData, teamMembers } from '@/data/about-page-data'
+// Foreplay /aboutus — hero (trust pill + 2-line title) + testimonials section
+// Section order:
+//   1. Hero — trust pill badge (stars + avatars + count) + 2-tone title + description + CTA
+//   2. Testimonials section (3 GOADS customer story cards)
+//   3. Final CTA banner
 
-/* ---------- page ---------- */
+import {
+  ForeplaySectionContainer,
+  ForeplaySectionHead,
+  ForeplayHomeCta,
+  ForeplayCtaButton,
+  fpText,
+} from "@/components/foreplay"
+import { ForeplayUniversityHero } from "@/components/foreplay/foreplay-university-hero"
+import { ForeplaySolutionTestimonialCard } from "@/components/foreplay/foreplay-solution-testimonial-card"
+import {
+  aboutusHero,
+  aboutusTestimonialsSection,
+  aboutusTestimonials,
+} from "@/data/goads-aboutus-page-data"
+import { cn } from "@/lib/utils"
 
-export const metadata: Metadata = {
-  title: "About GoAds | Our Story & Team",
-  description: "Learn about GoAds — 5+ years in ad infrastructure, 500+ clients served. Our mission is to help advertisers scale without bans.",
-}
-
-export default function AboutPage() {
+export default function ForeplayAboutusPage() {
   return (
-    <main className="flex-1">
-      <PageHero
-        label="About Us"
-        heading={
+    <>
+      {/* ═══ Section 1: Hero — 2-tone title + description + CTA (trust pill removed) ═══ */}
+      <ForeplayUniversityHero
+        {...aboutusHero}
+        title={
           <>
-            The Team Behind{' '}
-            <span className="relative inline-block">
-              GoAds
-              <WavyUnderline className="-bottom-1.5 left-[8%] h-2 w-5/6" />
-            </span>
+            <span className="text-foreground">Meet the Team Behind Your</span>
+            <br />
+            <span className="text-[var(--fp-alpha-100)]">Advertising Success</span>
           </>
         }
-        description="5+ years of helping advertisers scale with premium ad infrastructure, verified accounts, and dedicated support."
-      />
-      <SectionDivider />
-      <AboutUs aboutUsData={aboutUsData} />
-      <SectionDivider />
-      <Team teamMembers={teamMembers} />
-    </main>
+      >
+        <div className="flex flex-col items-center gap-8 pt-3 pb-10 max-md:gap-6 max-md:pb-6">
+          {/* Description */}
+          <p className="max-w-[820px] text-center font-sans text-[1.0625rem] font-normal leading-[1.6] tracking-[-0.0125em] text-[var(--fp-alpha-50)] [text-wrap:balance]">
+            We combine operational experience, platform knowledge, and dedicated support to help brands scale campaigns with confidence.
+          </p>
+
+          {/* Single CTA — Learn More */}
+          <ForeplayCtaButton href="#testimonials" variant="hero">
+            Learn More
+          </ForeplayCtaButton>
+        </div>
+      </ForeplayUniversityHero>
+
+      {/* ═══ Section 2: Testimonials (3 GOADS team intros) ═══ */}
+      <div id="testimonials" className="section">
+        {/* pt reduced from 108→64 to pull section title closer to hero */}
+        <div className="flex flex-col pt-16 pb-[108px] max-md:pt-12 max-md:pb-24 max-sm:pt-10 max-sm:pb-20">
+          <ForeplaySectionContainer>
+            <ForeplaySectionHead
+              subtitle={aboutusTestimonialsSection.subtitle}
+              title={aboutusTestimonialsSection.title}
+              titleSize="h2"
+              description={aboutusTestimonialsSection.description}
+              descSize="l"
+              variant="light"
+            />
+
+            <div className="flex flex-col gap-16 pt-12 max-md:pt-10">
+              {aboutusTestimonials.map((t, i) => (
+                <ForeplaySolutionTestimonialCard key={i} {...t} />
+              ))}
+            </div>
+          </ForeplaySectionContainer>
+        </div>
+      </div>
+
+      {/* ═══ Section 3: Final CTA Banner ═══ */}
+      <div className="section overflow-hidden">
+        <ForeplaySectionContainer variant="wide">
+          <ForeplayHomeCta />
+        </ForeplaySectionContainer>
+      </div>
+    </>
   )
 }

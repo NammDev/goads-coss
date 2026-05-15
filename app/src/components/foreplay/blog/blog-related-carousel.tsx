@@ -102,7 +102,7 @@ export function BlogRelatedCarousel({ posts, currentSlug }: BlogRelatedCarouselP
                     <div key={post.slug} className="flex-none">
                       {/* .blog-carousel-card: ring 1px neutral-700, rounded-20, w-[40vw] max-w-[480px], flex-none, overflow-hidden */}
                       <Link
-                        href={`/foreplay/blog/${post.slug}`}
+                        href={`/blog/${post.slug}`}
                         className={cn(
                           "group flex h-full w-[40vw] max-w-[480px] flex-none cursor-pointer flex-col overflow-hidden rounded-[20px]",
                           "shadow-[0_0_0_1px_#ffffff1a] transition-shadow duration-200",

@@ -22,11 +22,11 @@ interface FooterProduct {
 // GoAds product nav — 5 core products. Icons swapped from Foreplay's sprite WebPs
 // (footer_1-5.webp) to GoAds brand SVGs that match the header nav + product hero icons.
 const defaultProducts: FooterProduct[] = [
-  { iconSrc: "/foreplay/BM.svg",       subtitle: "BM1–BM10, verified",     label: "Business Manager",  href: "/foreplay/bm" },
-  { iconSrc: "/foreplay/PROFILES.svg", subtitle: "Aged, verified accounts", label: "Facebook Profile",  href: "/foreplay/profiles" },
-  { iconSrc: "/foreplay/PAGES.svg",    subtitle: "Niche, verified pages",   label: "Facebook Fanpage",  href: "/foreplay/pages" },
-  { iconSrc: "/foreplay/META.svg",     subtitle: "Unlimited daily spend",   label: "Agency Ad Account", href: "/foreplay/agency-ad-account" },
-  { iconSrc: "/foreplay/TIKTOK.svg",   subtitle: "Shop & Business Center",  label: "TikTok Asset",      href: "/foreplay/tiktok-accounts" },
+  { iconSrc: "/foreplay/BM.svg",       subtitle: "BM1–BM10, verified",     label: "Business Manager",  href: "/bm" },
+  { iconSrc: "/foreplay/PROFILES.svg", subtitle: "Aged, verified accounts", label: "Facebook Profile",  href: "/profiles" },
+  { iconSrc: "/foreplay/PAGES.svg",    subtitle: "Niche, verified pages",   label: "Facebook Fanpage",  href: "/profiles" },
+  { iconSrc: "/foreplay/META.svg",     subtitle: "Unlimited daily spend",   label: "Agency Ad Account", href: "/agency-ad-account" },
+  { iconSrc: "/foreplay/TIKTOK.svg",   subtitle: "Shop & Business Center",  label: "TikTok Asset",      href: "/tiktok-accounts" },
 ]
 
 interface ForeplayFooterProductNavProps {

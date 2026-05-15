@@ -26,7 +26,7 @@ const cards = [
     title: "Direct access anytime",
     description: "Reach us on Telegram, WhatsApp or Discord. Real answers from real people, 24/7.",
     ctaLabel: "Contact Us",
-    ctaHref: "/talk-to-sales",
+    ctaHref: "/book-demo",
     image: "/foreplay/assets/7.png",
   },
   {
@@ -40,7 +40,7 @@ const cards = [
     ctaLabel: "View Tools",
     ctaHref: "/tools",
     isMiddle: true,
-    image: "/foreplay/feature_2.webp",
+    image: "/foreplay/goads/goads-extension-tool.webp",
   },
   {
     icon: (

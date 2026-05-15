@@ -6,7 +6,7 @@
 // .text-body-l: Inter, 1.125rem/1.75rem, font-normal, tracking-[-0.0144444em]
 // .text-alpha-50: color var(--_lens---neutral-50) = #ffffffd6
 
-import type { ReactNode } from "react"
+import { Fragment, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import { FP_HERO_GRADIENT } from "@/components/foreplay/foreplay-typography"
 
@@ -14,6 +14,19 @@ interface ForeplayHeroContentProps {
   title: ReactNode
   description?: string
   className?: string
+}
+
+// String titles may carry "\n" for an intentional hard line break.
+// HTML collapses raw "\n" to a space, so split → <br/> to preserve the break.
+function renderTitle(title: ReactNode): ReactNode {
+  if (typeof title !== "string" || !title.includes("\n")) return title
+  const lines = title.split("\n")
+  return lines.map((line, i) => (
+    <Fragment key={i}>
+      {line}
+      {i < lines.length - 1 && <br />}
+    </Fragment>
+  ))
 }
 
 export function ForeplayHeroContent({
@@ -43,7 +56,7 @@ export function ForeplayHeroContent({
             FP_HERO_GRADIENT,
           )}
         >
-          {title}
+          {renderTitle(title)}
         </h1>
       </div>
 

@@ -15,11 +15,11 @@ import type { BlogPost } from "@/data/blog-posts"
 interface BlogHeroProps {
   featuredPost?: BlogPost
   popularPosts?: BlogPost[]
-  /** Base path for post links — defaults to "/foreplay/blog" */
+  /** Base path for post links — defaults to "/blog" */
   basePath?: string
 }
 
-export function BlogHero({ featuredPost, popularPosts, basePath = "/foreplay/blog" }: BlogHeroProps = {}) {
+export function BlogHero({ featuredPost, popularPosts, basePath = "/blog" }: BlogHeroProps = {}) {
   return (
     <section className="relative">
       {/* .fireside-hero: flex col, center, pt-20 pb-20 (desktop) */}

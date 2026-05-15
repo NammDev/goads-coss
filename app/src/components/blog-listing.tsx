@@ -26,11 +26,11 @@ const POSTS_PER_PAGE = 6
 
 interface BlogListingProps {
   posts: BlogPost[]
-  /** Base path for post links — defaults to "/foreplay/blog" */
+  /** Base path for post links — defaults to "/blog" */
   basePath?: string
 }
 
-export function BlogListing({ posts, basePath = "/foreplay/blog" }: BlogListingProps) {
+export function BlogListing({ posts, basePath = "/blog" }: BlogListingProps) {
   const [activeCategory, setActiveCategory] = useState<string>("All")
   const [currentPage, setCurrentPage] = useState(1)
 

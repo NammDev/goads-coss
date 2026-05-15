@@ -1,63 +1,66 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { BlogDetailContent } from "@/components/blog-detail-content"
 import { BlogDetailHeader } from "@/components/blog-detail-header"
-import { BlogMarkdocContent } from "@/components/blog-markdoc-content"
-import { SectionDivider } from "@/components/section-divider"
-import { reader } from "@/lib/keystatic-reader"
-import { transformMarkdoc, extractHeadingsFromNode } from "@/lib/markdoc-renderer"
+import { BlogDetailContent } from "@/components/blog-detail-content"
+import { BlogRelatedCarousel } from "@/components/foreplay/blog/blog-related-carousel"
+import { ForeplayHomeCta } from "@/components/foreplay/foreplay-home-cta"
+import { blogPosts, getBlogPost } from "@/data/blog-posts"
 
 type Props = {
   params: Promise<{ slug: string }>
 }
 
-export async function generateStaticParams() {
-  const slugs = await reader.collections.blog.list()
-  return slugs.map((slug) => ({ slug }))
+export function generateStaticParams() {
+  return blogPosts.map((p) => ({ slug: p.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const post = await reader.collections.blog.read(slug)
-  if (!post) return { title: "Post Not Found | GoAds" }
+  const post = getBlogPost(slug)
+  if (!post) return { title: "Post Not Found — GoAds" }
   return {
-    title: `${post.title} | GoAds Blog`,
+    title: `${post.title} — GoAds Blog`,
     description: post.description,
   }
 }
 
+/** Render blog post sections as HTML (static data, no Markdoc/Keystatic) */
+function BlogSectionsContent({ sections }: { sections: { id: string; title: string; content: string }[] }) {
+  return (
+    <>
+      {sections.map((section) => (
+        <div key={section.id}>
+          <h2 id={section.id} className="scroll-mt-[120px]">
+            {section.title}
+          </h2>
+          <div dangerouslySetInnerHTML={{ __html: section.content }} />
+        </div>
+      ))}
+    </>
+  )
+}
+
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
-  const post = await reader.collections.blog.read(slug)
+  const post = getBlogPost(slug)
+  if (!post) return notFound()
 
-  if (!post) notFound()
-
-  const { node } = await post.content()
-  const contentTree = transformMarkdoc(node)
-  const headings = extractHeadingsFromNode(node)
-
-  const headerPost = {
-    slug,
-    title: post.title,
-    category: post.category,
-    description: post.description,
-    author: post.author,
-    authorAvatar: post.authorAvatar,
-    date: post.date,
-    readTime: post.readTime,
-  }
+  const headings = post.sections.map((s: { id: string; title: string }) => ({ id: s.id, title: s.title }))
 
   return (
-    <main className="flex-1">
-      <BlogDetailHeader post={headerPost} />
-      <SectionDivider />
+    <>
+      <BlogDetailHeader post={post} />
       <BlogDetailContent
         headings={headings}
-        author={{ name: post.author, avatar: post.authorAvatar }}
+        author={post.author}
+        coverImage={post.coverImage}
+        coverAlt={post.title}
       >
-        <BlogMarkdocContent content={contentTree} />
+        <BlogSectionsContent sections={post.sections} />
       </BlogDetailContent>
-    </main>
+      <BlogRelatedCarousel posts={blogPosts} currentSlug={slug} />
+      <ForeplayHomeCta />
+    </>
   )
 }

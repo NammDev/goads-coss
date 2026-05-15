@@ -1,4 +1,4 @@
-// Foreplay tool page shell — page wrapper for /foreplay/tools/{slug}.
+// Foreplay tool page shell — page wrapper for /tools/{slug}.
 // Provides: section padding + wide container + sidebar (lg+) + content slot.
 // On mobile: mobile drawer trigger renders above content.
 // Spec: see docs/foreplay/tool-design-language.md → Layout pattern.

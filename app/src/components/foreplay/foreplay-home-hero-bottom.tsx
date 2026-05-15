@@ -1,11 +1,7 @@
 // Foreplay home hero bottom — .home-hero-bottom
 // Sibling of .home-hero-top inside .home-hero-sticky
-// DOM: .home-hero-bottom > [platform strip] + [KPI grid]
+// DOM: .home-hero-bottom > [KPI grid]  (platform logo strip removed per request)
 // .home-hero-bottom: flex col, gap-10 (40px), text-center, text-wrap balance, relative
-//
-// Platform strip — follows Foreplay's overline+row pattern (replaces original logo-grid)
-//   .text-alpha-100 > .text-overline label + horizontal row of 3 colored brand SVGs
-//   Logos sized h-9 (36px), gap-10 horizontal spacing
 //
 // KPI grid: 6 KPIs total — 2 cols mobile / 3 cols tablet / 6 cols desktop single row
 //   gap-4 (16px) matches Foreplay's original logo grid gap exactly
@@ -14,7 +10,6 @@
 
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
-import { MetaLogo, GoogleLogo, TikTokLogo } from "@/components/foreplay/foreplay-platform-logos"
 
 interface ForeplayHomeHeroBottomProps {
   className?: string
@@ -43,23 +38,6 @@ export function ForeplayHomeHeroBottom({ className }: ForeplayHomeHeroBottomProp
         className,
       )}
     >
-      {/* Platform logos — Foreplay .home-hero-logo-grid spec + medium logos:
-          - grid gap-4 (16px) between cells, 3 equal 1fr columns, max-w 560px centered
-          - wrapper: p-3 + flex col center + transition all 200ms (matches .home-hero-logo-wrapper)
-          - image: h-10 (40px) — scaled up from Foreplay's h-7 base, balanced prominence */}
-      <div className="mx-auto grid w-full max-w-[560px] grid-cols-3 gap-4">
-        {[MetaLogo, GoogleLogo, TikTokLogo].map((Logo, i) => (
-          <div
-            key={i}
-            className="flex flex-col items-center justify-center p-3 transition-all duration-200"
-          >
-            <div className="flex h-10 items-center justify-center">
-              <Logo className="h-full w-auto" />
-            </div>
-          </div>
-        ))}
-      </div>
-
       {/* KPI grid: 2 cols mobile → 3 cols tablet → 6 cols desktop. Gap-4 matches Foreplay logo grid */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
         {HERO_KPIS.map((kpi) => (
