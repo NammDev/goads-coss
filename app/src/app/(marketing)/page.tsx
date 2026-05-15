@@ -34,7 +34,8 @@ export default function ForeplayHomePage() {
           learnMoreHref="/agency-ad-account"
           tabs={swipeFileTabs}
           tabImages={[
-            "/foreplay/meta%20assets.svg",
+            // [0] Meta Assets → custom GoAds visual; [1] TikTok Assets → original (unchanged)
+            "/foreplay/goads/goads-meta-assets.webp",
             "/foreplay/tiktok%20asset.svg",
           ]}
         />
@@ -48,8 +49,9 @@ export default function ForeplayHomePage() {
           learnMoreHref="/unban"
           tabs={spyderTabs}
           tabImages={[
-            "/foreplay/landingpage/solutions/Mask%20group.svg",
-            "/foreplay/landingpage/solutions/Mask%20group%20(1).svg",
+            // [0] Unban & Recovery, [1] Verified Services — both custom GoAds visuals
+            "/foreplay/goads/goads-unban-extension.webp",
+            "/foreplay/goads/goads-verified-services.webp",
           ]}
           showSectionHead={false}
         />
@@ -87,9 +89,10 @@ export default function ForeplayHomePage() {
           learnMoreHref="/tools"
           tabs={lensTabs}
           tabImages={[
-            "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
-            "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
-            "/foreplay/landingpage/technology/Mask%20group%20(2).svg",
+            // [0] All Tools → tools library; [1] GoAds Extensions → launcher (both custom)
+            "/foreplay/goads/goads-all-tools.webp",
+            "/foreplay/goads/goads-extension-launcher.webp",
+            "/foreplay/goads/goads-extension-launcher.webp",
           ]}
         />
 
@@ -102,8 +105,9 @@ export default function ForeplayHomePage() {
           tabs={briefsTabs}
           showSectionHead={false}
           tabImages={[
-            "/foreplay/landingpage/service/Mask%20group.svg",
-            "/foreplay/landingpage/service/Mask%20group%20(1).svg",
+            // [0] 24/7 support, [1] Quick replacements — custom GoAds visuals
+            "/foreplay/goads/goads-service-support.webp",
+            "/foreplay/goads/goads-service-replacements.webp",
           ]}
         />
       </section>

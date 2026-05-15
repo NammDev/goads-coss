@@ -30,14 +30,13 @@ export const pagesFeatureGrid1 = {
   title: "Everything You Need to Scale",
   description:
     "From warmed-up Pages to recovery services. Built for advertisers who refuse to start every campaign from a fresh-Page disadvantage.",
-  // Illustrations pending — cards render "coming soon" placeholder until final artwork ships.
   cards: [
-    { title: "Facebook Pages", description: "Aged, 1K–10K follower, livestream-ready or monetized — pick the trust score that matches your spend." },
-    { title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your Page. Clean history, ready to run." },
-    { title: "Business Manager", description: "BM1 to BM2500, all Meta-verified. Add your Page, share assets, scale safely." },
-    { title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on the assets you already run." },
-    { title: "Unban Service", description: "Page restricted? Ads paused? We recover the asset so you keep the audience." },
-    { title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator. Free utilities for media buyers." },
+    { imageSrc: "/foreplay/goads/pages/card-facebook-pages.webp", title: "Facebook Pages", description: "Aged, 1K–10K follower, livestream-ready or monetized — pick the trust score that matches your spend." },
+    { imageSrc: "/foreplay/goads/pages/card-facebook-profiles.webp", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your Page. Clean history, ready to run." },
+    { imageSrc: "/foreplay/goads/pages/card-business-manager.webp", title: "Business Manager", description: "BM1 to BM2500, all Meta-verified. Add your Page, share assets, scale safely." },
+    { imageSrc: "/foreplay/goads/pages/card-verified-badge.webp", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on the assets you already run." },
+    { imageSrc: "/foreplay/goads/pages/card-unban-service.webp", title: "Unban Service", description: "Page restricted? Ads paused? We recover the asset so you keep the audience." },
+    { imageSrc: "/foreplay/goads/pages/card-free-tools.webp", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator. Free utilities for media buyers." },
   ],
 }
 
@@ -54,15 +53,15 @@ export const pagesFeatureGrid1Testimonial = {
   decorationRightSrc: "/foreplay/test_right.svg",
 }
 
-// Section 5 (feature grid 2): Resources — illustrations pending, "coming soon" placeholders for now.
+// Section 5 (feature grid 2): Resources
 export const pagesFeatureGrid2 = {
   cards: [
-    { title: "Aged vs 1K vs 10K Pages: Which Should You Buy?", description: "Match Page follower count to your campaign type. A clear breakdown of who buys which tier." },
-    { title: "Livestream Ads Ready Pages: When They Pay Off", description: "Break-even math for live shopping and video campaigns. When the livestream tier is worth it." },
-    { title: "Why Aged Pages Survive Policy Review 3× Better", description: "The trust-score mechanics behind Page history and why fresh Pages get flagged on day one." },
-    { title: "How to Assign a Purchased Page to Your BM", description: "Step-by-step workflow to add, share and run ads from a new Page without tripping policy flags." },
-    { title: "Monetized Pages: Unlock Reels & Stars Revenue", description: "What monetization actually requires, and how a pre-qualified 10K Page shortcuts the wait." },
-    { title: "Getting the Blue Tick on a 10K Follower Page", description: "Verification eligibility, documents you need, and timelines for the Meta verified badge." },
+    { imageSrc: "/foreplay/goads/pages/card-pages-tiers.webp", title: "Aged vs 1K vs 10K Pages: Which Should You Buy?", description: "Match Page follower count to your campaign type. A clear breakdown of who buys which tier." },
+    { imageSrc: "/foreplay/goads/pages/card-livestream-ads.webp", title: "Livestream Ads Ready Pages: When They Pay Off", description: "Break-even math for live shopping and video campaigns. When the livestream tier is worth it." },
+    { imageSrc: "/foreplay/goads/pages/card-aged-survive-review.webp", title: "Why Aged Pages Survive Policy Review 3× Better", description: "The trust-score mechanics behind Page history and why fresh Pages get flagged on day one." },
+    { imageSrc: "/foreplay/goads/pages/card-assign-page-to-bm.webp", title: "How to Assign a Purchased Page to Your BM", description: "Step-by-step workflow to add, share and run ads from a new Page without tripping policy flags." },
+    { imageSrc: "/foreplay/goads/pages/card-monetized-pages.webp", title: "Monetized Pages: Unlock Reels & Stars Revenue", description: "What monetization actually requires, and how a pre-qualified 10K Page shortcuts the wait." },
+    { imageSrc: "/foreplay/goads/pages/card-blue-tick-10k.webp", title: "Getting the Blue Tick on a 10K Follower Page", description: "Verification eligibility, documents you need, and timelines for the Meta verified badge." },
   ],
 }
 
