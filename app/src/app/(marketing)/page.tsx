@@ -30,8 +30,8 @@ export default function ForeplayHomePage() {
           description="Verified assets, instant delivery, real support. Everything you need to keep your ads live."
           sidebarOverline="Assets"
           sidebarTitle="Premium assets, ready to scale"
-          ctaHref="/agency-ad-account"
-          learnMoreHref="/agency-ad-account"
+          ctaHref="/pricing"
+          learnMoreHref="/docs"
           tabs={swipeFileTabs}
           tabImages={[
             // [0] Meta Assets → custom GoAds visual; [1] TikTok Assets → original (unchanged)
@@ -45,8 +45,8 @@ export default function ForeplayHomePage() {
           subtitle="" title="" description=""
           sidebarOverline="Solutions"
           sidebarTitle="Fix issues, stay scaling"
-          ctaHref="/unban"
-          learnMoreHref="/unban"
+          ctaHref="/pricing"
+          learnMoreHref="/docs"
           tabs={spyderTabs}
           tabImages={[
             // [0] Unban & Recovery, [1] Verified Services — both custom GoAds visuals
@@ -61,8 +61,8 @@ export default function ForeplayHomePage() {
           subtitle="" title="" description=""
           sidebarOverline="Agency Ad Accounts"
           sidebarTitle="Grow without limits"
-          ctaHref="/agency-ad-account"
-          learnMoreHref="/agency-ad-account"
+          ctaHref="/pricing"
+          learnMoreHref="/docs"
           tabs={discoveryTabs}
           tabImages={[
             "/foreplay/goads/goads-agency-ad-account.webp",
@@ -85,8 +85,8 @@ export default function ForeplayHomePage() {
           description="Extensions, tools and services designed to solve real problems. So you can focus on scaling."
           sidebarOverline="Technology"
           sidebarTitle="Optimize Your Workflow"
-          ctaHref="/tools"
-          learnMoreHref="/tools"
+          ctaHref="/tools/goads-extension"
+          learnMoreHref="/docs"
           tabs={lensTabs}
           tabImages={[
             // [0] All Tools → tools library; [1] GoAds Extensions → launcher (both custom)
@@ -100,8 +100,8 @@ export default function ForeplayHomePage() {
           subtitle="" title="" description=""
           sidebarOverline="Service"
           sidebarTitle="Always On, Always Reliable"
-          ctaHref="/book-demo"
-          learnMoreHref="/book-demo"
+          ctaHref="/pricing"
+          learnMoreHref="/docs"
           tabs={briefsTabs}
           showSectionHead={false}
           tabImages={[

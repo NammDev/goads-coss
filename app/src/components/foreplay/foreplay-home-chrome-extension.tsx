@@ -69,7 +69,7 @@ export function ForeplayHomeChromeExtension() {
 
         {/* .home-extension-cta */}
         <div className="flex items-end justify-end">
-          <ForeplayCtaButton href="#" variant="hero">
+          <ForeplayCtaButton href="/tools/goads-extension" variant="hero">
             Install Free
           </ForeplayCtaButton>
         </div>

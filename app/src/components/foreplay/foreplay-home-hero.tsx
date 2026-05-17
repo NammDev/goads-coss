@@ -15,6 +15,7 @@ import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
 import { ForeplayHomeHeroBottom } from "@/components/foreplay/foreplay-home-hero-bottom"
 import { ForeplayHomeHeroVideo } from "@/components/foreplay/foreplay-home-hero-video"
 import { useHeroScrollAnimation } from "@/components/foreplay/use-hero-scroll-animation"
+import { CONTACT } from "@/data/contact-info"
 
 export function ForeplayHomeHero() {
   const { triggerRef, stickyRef } = useHeroScrollAnimation()
@@ -43,7 +44,7 @@ export function ForeplayHomeHero() {
 
           {/* .home-hero-cta */}
           <div className="flex items-center gap-3">
-            <ForeplayCtaButton href="/book-demo" variant="hero">
+            <ForeplayCtaButton href={CONTACT.telegram.officialWithMessage} variant="hero">
               Contact Us
             </ForeplayCtaButton>
           </div>
