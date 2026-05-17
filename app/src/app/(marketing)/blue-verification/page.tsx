@@ -24,6 +24,7 @@ import {
   blueVerificationFaq,
 } from "@/data/goads-blue-verification-page-data"
 import { ecommerceExamples } from "@/data/foreplay-ecommerce-solution-page-data"
+import { CONTACT } from "@/data/contact-info"
 import { cn } from "@/lib/utils"
 import { VerifiedBadge } from "@/assets/svg/verified-badge"
 
@@ -54,7 +55,7 @@ export default function ForeplayBlueVerificationPage() {
           </p>
 
           {/* Primary CTA */}
-          <ForeplayCtaButton href="/book-demo" variant="hero">
+          <ForeplayCtaButton href={CONTACT.telegram.officialVerificationBadge} variant="hero">
             Start Verification
           </ForeplayCtaButton>
 

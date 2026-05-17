@@ -9,15 +9,16 @@ import { CONTACT } from "@/data/contact-info"
 const channels = [
   {
     name: "Telegram",
-    handle: "@GoAdsSupport",
+    handle: "@goads_official",
     description: "Fastest way to reach us. Live support, 24/7.",
-    href: CONTACT.telegram.support,
+    href: CONTACT.telegram.officialWithMessage,
     cta: "Message on Telegram",
     icon: <TelegramLogo className="size-7" />,
   },
   {
     name: "WhatsApp",
-    handle: "+84 865 717 497",
+    // Phone number intentionally hidden — button links directly to the line.
+    handle: "Direct line · 24/7",
     description: "Prefer WhatsApp? We answer there too.",
     href: CONTACT.whatsapp.withMessage,
     cta: "Chat on WhatsApp",

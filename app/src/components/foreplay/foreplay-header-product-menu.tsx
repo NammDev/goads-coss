@@ -58,6 +58,10 @@ import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplayHeaderDropdownBase } from "@/components/foreplay/foreplay-header-dropdown-base"
 
+// Depth layers for the "What is GoAds?" 3D-extruded spinning logo (banner).
+// More layers = smoother solid edge; 22 ≈ ~24px thickness at 1.15px step.
+const GOADS_EXTRUDE_LAYERS = 22
+
 // ── Product data (matches source order + content) ──
 // Sprite mapping verified via frame-count matching source CSS:
 //   Source: swipe-file=54f (bg 4752px), discovery=62f (5456px), spyder=31f (2728px),
@@ -207,40 +211,39 @@ export function ForeplayHeaderProductMenu() {
                     u-nav-banner-title, text-white, nav-banner-content → remaining stack has banner-video)
                     Source CSS: width:100%, max-width:240px, position:relative
                     ≥1280px: border-radius:10px, overflow:hidden */}
-              <a
-                href="#"
-                aria-label="open lightbox"
-                aria-haspopup="dialog"
-                className="relative w-full max-w-[240px] overflow-hidden rounded-[10px]"
-              >
-                {/* .hero-video-thumb.w-background-video.w-background-video-atom
-                      ≥1280px: z-index:3 height:150px position:relative flex center */}
-                <div className="relative z-[3] flex h-[150px] w-full items-center justify-center">
-                  {/* <video> — autoplay loop muted playsinline (Webflow .w-background-video spec) */}
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    className="absolute inset-0 z-[-100] size-full object-cover"
-                  >
-                    <source
-                      src="/video/62a4ed18ddad95dde8b8bfa4_69612b690e2aeb02841afc4f_FOREPLAY_V6_mp4.mp4"
-                      type="video/mp4"
-                    />
-                  </video>
-                  {/* .div-block-356 — backdrop-blur:10 bg:#ffffff80 rounded-100 50×50 flex center */}
-                  <div className="flex size-[50px] items-center justify-center rounded-full bg-white/50 backdrop-blur-[10px]">
-                    {/* .icon-20.w-embed — combined class (20×20 + Webflow SVG wrapper) */}
-                    <div className="size-5 w-embed">
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.1838 8.72416L6.78824 3.53868C5.78891 2.92144 4.5 3.64029 4.5 4.81488V15.1859C4.5 16.3604 5.7889 17.0792 6.78823 16.4621L15.1838 11.2766C16.1328 10.6904 16.1328 9.31028 15.1838 8.72416Z" fill="white" />
-                      </svg>
-                    </div>
+              {/* Container keeps Foreplay banner proportions (width:100%, max-width:240px,
+                    rounded-[10px], overflow-hidden). Lightbox <a> swapped to a <div> since
+                    the play/lightbox was removed — it is now a pure visual. */}
+              <div className="relative w-full max-w-[240px] overflow-hidden rounded-[10px]">
+                {/* .hero-video-thumb — z-index:3 height:150px, dark plaque so the panda
+                      negative-space (#020308) blends → exact original B&W mark. */}
+                <div className="relative z-[3] flex h-[150px] w-full items-center justify-center bg-background [perspective:1100px]">
+                  {/* Real 3D extruded spin of the ORIGINAL GoAds mark (no AI redraw):
+                        GOADS_EXTRUDE_LAYERS copies of the exact SVG stacked along Z give
+                        the logo solid thickness; deeper layers darken (B&W shading) so the
+                        side/back reads as a 3D mass. Logo enlarged to 120px; container
+                        keeps Foreplay 240×150 proportions (~15px vertical breathing). */}
+                  <div className="relative size-[120px] [transform-style:preserve-3d] [animation:goads-spin-y_11s_linear_infinite] motion-reduce:[animation:none]">
+                    {Array.from({ length: GOADS_EXTRUDE_LAYERS }).map((_, i) => {
+                      const z = (i - (GOADS_EXTRUDE_LAYERS - 1) / 2) * 1.15
+                      const brightness = 1 - (i / (GOADS_EXTRUDE_LAYERS - 1)) * 0.8
+                      return (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          key={i}
+                          src="/foreplay/cta/goads-verified-panda.svg"
+                          alt={i === 0 ? "GoAds" : ""}
+                          aria-hidden={i !== 0}
+                          className="absolute inset-0 size-full object-contain"
+                          style={{ transform: `translateZ(${z}px)`, filter: `brightness(${brightness})` }}
+                        />
+                      )
+                    })}
                   </div>
                 </div>
-              </a>
+                {/* Y-axis spin keyframes (scoped; browser dedupes identical <style>) */}
+                <style>{`@keyframes goads-spin-y{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}`}</style>
+              </div>
             </div>
           </div>
         </div>

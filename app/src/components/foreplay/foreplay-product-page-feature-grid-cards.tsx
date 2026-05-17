@@ -6,7 +6,20 @@
 // .product-page-feature-content: flex-1, flex, justify-start, items-end, p-6
 // .product-page-feature-text: flex col, gap-2
 
+import Link from "next/link"
 import { fpText } from "@/components/foreplay/foreplay-typography"
+
+// Product cards (the "Everything You Need to Scale" grid) link to their route.
+// Resource/article cards and feature-attribute cards don't match → stay static.
+const PRODUCT_ROUTES: Record<string, string> = {
+  "Business Manager": "/bm",
+  "Facebook Profiles": "/profiles",
+  "Facebook Pages": "/pages",
+  "Unban Service": "/unban",
+  "Verified Badge": "/blue-verification",
+  "TikTok Assets": "/tiktok-accounts",
+  "Free Tools": "/tools",
+}
 
 interface FeatureCard {
   /** Image at top of card. Omit (or pass empty string) to render a "coming soon" placeholder block. */
@@ -14,6 +27,8 @@ interface FeatureCard {
   imageAlt?: string
   title: string
   description: string
+  /** Explicit destination; falls back to PRODUCT_ROUTES[title] when omitted. */
+  href?: string
 }
 
 interface ForeplayProductPageFeatureGridCardsProps {
@@ -25,43 +40,54 @@ export function ForeplayProductPageFeatureGridCards({
 }: ForeplayProductPageFeatureGridCardsProps) {
   return (
     <div className="relative z-[4] grid auto-cols-fr grid-cols-3 gap-6 overflow-hidden rounded-xl max-md:grid-cols-2 max-sm:grid-cols-1">
-      {cards.map((card, i) => (
-        <div
-          key={i}
-          className="relative z-[1] flex flex-col items-stretch justify-start overflow-hidden rounded-[20px] border border-[var(--fp-solid-700)] p-0 transition-colors duration-200 hover:bg-[var(--fp-solid-900)]"
-        >
-          {/* .product-page-feature-image — real image OR 2:1 "coming soon" placeholder
-              when card.imageSrc is empty (e.g. /pages page while final illustrations are pending). */}
-          {card.imageSrc ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={card.imageSrc}
-              alt={card.imageAlt ?? card.title}
-              className="h-auto w-full self-center"
-              loading="lazy"
-            />
-          ) : (
-            <div
-              aria-hidden="true"
-              className="flex aspect-[2/1] w-full items-center justify-center self-center border-b border-dashed border-[var(--fp-solid-700)] bg-[var(--fp-alpha-700)] text-[var(--fp-alpha-100)]"
-            >
-              <span className={fpText.overline}>Illustration coming soon</span>
-            </div>
-          )}
-          {/* .product-page-feature-content */}
-          <div className="flex flex-1 items-end justify-start p-6">
-            <div className="text-foreground">
-              {/* .product-page-feature-text */}
-              <div className="flex flex-col gap-2">
-                <h3 className={fpText.labelM}>{card.title}</h3>
-                <div className="text-[var(--fp-alpha-100)]">
-                  <p className={fpText.bodyM}>{card.description}</p>
+      {cards.map((card, i) => {
+        const href = card.href ?? PRODUCT_ROUTES[card.title]
+        const cardClass =
+          "relative z-[1] flex flex-col items-stretch justify-start overflow-hidden rounded-[20px] border border-[var(--fp-solid-700)] p-0 transition-colors duration-200 hover:bg-[var(--fp-solid-900)]"
+        const inner = (
+          <>
+            {/* .product-page-feature-image — real image OR 2:1 "coming soon" placeholder
+                when card.imageSrc is empty (e.g. /pages page while final illustrations are pending). */}
+            {card.imageSrc ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={card.imageSrc}
+                alt={card.imageAlt ?? card.title}
+                className="h-auto w-full self-center"
+                loading="lazy"
+              />
+            ) : (
+              <div
+                aria-hidden="true"
+                className="flex aspect-[2/1] w-full items-center justify-center self-center border-b border-dashed border-[var(--fp-solid-700)] bg-[var(--fp-alpha-700)] text-[var(--fp-alpha-100)]"
+              >
+                <span className={fpText.overline}>Illustration coming soon</span>
+              </div>
+            )}
+            {/* .product-page-feature-content */}
+            <div className="flex flex-1 items-end justify-start p-6">
+              <div className="text-foreground">
+                {/* .product-page-feature-text */}
+                <div className="flex flex-col gap-2">
+                  <h3 className={fpText.labelM}>{card.title}</h3>
+                  <div className="text-[var(--fp-alpha-100)]">
+                    <p className={fpText.bodyM}>{card.description}</p>
+                  </div>
                 </div>
               </div>
             </div>
+          </>
+        )
+        return href ? (
+          <Link key={i} href={href} className={`${cardClass} cursor-pointer no-underline`}>
+            {inner}
+          </Link>
+        ) : (
+          <div key={i} className={cardClass}>
+            {inner}
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

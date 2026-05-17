@@ -25,8 +25,8 @@ interface ForeplayProductPageCtaCardProps {
 export function ForeplayProductPageCtaCard({
   title,
   description,
-  ctaLabel = "Start Free Trial",
-  ctaHref = "/sign-up",
+  ctaLabel = "Buy now",
+  ctaHref = "/pricing",
   videoSrc,
   iconSrc,
   iconAlt = "",
