@@ -28,7 +28,7 @@ export function ForeplayLightPrimaryButton({
       type={type}
       {...rest}
       className={cn(
-        "relative z-[5] flex items-center rounded-[10px] bg-background p-2 text-foreground no-underline",
+        "relative z-[5] flex cursor-pointer items-center rounded-[10px] bg-background p-2 text-foreground no-underline",
         "transition-all duration-150",
         "hover:bg-[var(--fp-solid-600)] active:bg-[var(--fp-solid-400)]",
         "disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-background",

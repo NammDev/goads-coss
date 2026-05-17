@@ -33,12 +33,9 @@ export default function ForeplayMarketingLayout({
       <ForeplayHeader />
       {children}
       <ForeplayFooter />
-      {/* Legacy cart — floating trigger; auto-opens via `cart:item-added` event
-          from useCart().addItem (wired to pricing-table "Buy Now").
-          Scoped to marketing routes only. */}
-      <div className="fixed right-5 bottom-5 z-50">
-        <CartPopover />
-      </div>
+      {/* Cart — no floating trigger; opens via header "View cart" (`cart:open`)
+          or pricing "Buy Now" (`cart:item-added`). Marketing routes only. */}
+      <CartPopover />
     </div>
   )
 }

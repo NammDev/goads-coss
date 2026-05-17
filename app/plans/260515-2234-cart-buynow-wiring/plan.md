@@ -1,10 +1,11 @@
 ---
 name: cart-buynow-wiring
-status: planned
+status: completed
 created: 2026-05-15
+completed: 2026-05-17
 branch: feat/pre-launch-polish
 blockedBy: []
-blocks: []
+blocks: [260517-1605-cart-foreplay-redesign]
 ---
 
 # Wire legacy cart into new pricing "Buy Now"

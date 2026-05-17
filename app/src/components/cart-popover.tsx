@@ -1,79 +1,23 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { ShoppingCart } from 'lucide-react'
+import { XIcon } from 'lucide-react'
+import { Dialog as DialogPrimitive } from 'radix-ui'
 
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Separator } from '@/components/ui/separator'
+import { DialogPortal, DialogOverlay } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet'
-import { useIsMobile } from '@/hooks/use-mobile'
 import { useCart } from '@/lib/cart-context'
-import { CONTACT } from '@/data/contact-info'
+import { fpText } from '@/components/foreplay/foreplay-typography'
 import { CartItemRow, CartEmpty } from '@/components/cart-item'
 import { CartSummary } from '@/components/cart-summary'
+import { ForeplaySectionWhiteBlock } from '@/components/foreplay/foreplay-section-white-block'
+import { TELEGRAM_URL, buildTelegramMessage } from '@/components/cart-popover-utils'
 
-/* ---------- hover intent hook (prevents flicker across trigger↔content gap) ---------- */
+// Foreplay redesign: centered modal + blurred backdrop (dims/blurs the page).
+// Dark shell + signature white block (ForeplaySectionWhiteBlock). One layout
+// for desktop & mobile. Logic verbatim; auto-open + persist + Telegram unchanged.
 
-function useHoverIntent(delay = 150) {
-  const [open, setOpen] = useState(false)
-  const closeTimer = useRef<ReturnType<typeof setTimeout>>(null)
-
-  const handleEnter = useCallback(() => {
-    if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null }
-    setOpen(true)
-  }, [])
-
-  const handleLeave = useCallback(() => {
-    closeTimer.current = setTimeout(() => setOpen(false), delay)
-  }, [delay])
-
-  useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current) }, [])
-
-  return { open, setOpen, handleEnter, handleLeave } as const
-}
-
-/* ---------- helpers ---------- */
-
-const TELEGRAM_URL = CONTACT.telegram.support
-
-function buildTelegramMessage(items: ReturnType<typeof useCart>['items'], subtotal: number, payment: string) {
-  const lines = items.map(
-    (i) => `- ${i.name} x${i.quantity} = $${(i.price * i.quantity).toFixed(2)}`
-  )
-  return [
-    '🛒 *New Order from GoAds*',
-    '',
-    ...lines,
-    '',
-    `💰 Total: $${subtotal.toFixed(2)}`,
-    `💳 Payment: ${payment}`,
-  ].join('\n')
-}
-
-/* measure padding so popover visually starts 8px below header border */
-function useHeaderGap(triggerRef: React.RefObject<HTMLButtonElement | null>) {
-  const [gap, setGap] = useState(22)
-  useEffect(() => {
-    const el = triggerRef.current
-    if (!el) return
-    const header = el.closest('header')
-    if (!header) return
-    const headerBottom = header.getBoundingClientRect().bottom
-    const triggerBottom = el.getBoundingClientRect().bottom
-    setGap(headerBottom - triggerBottom + 8)
-  }, [triggerRef])
-  return gap
-}
-
-/* ---------- shared cart body (reused in both Sheet and Popover) ---------- */
+/* ---------- shared cart body — the signature white block ---------- */
 
 interface CartBodyProps {
   items: ReturnType<typeof useCart>['items']
@@ -81,27 +25,31 @@ interface CartBodyProps {
   payment: 'crypto' | 'wise'
   onPaymentChange: (p: 'crypto' | 'wise') => void
   onOrder: () => void
-  scrollAreaClass?: string
 }
 
-function CartBody({ items, subtotal, payment, onPaymentChange, onOrder, scrollAreaClass }: CartBodyProps) {
-  if (items.length === 0) return <CartEmpty />
+function CartBody({ items, subtotal, payment, onPaymentChange, onOrder }: CartBodyProps) {
   return (
-    <>
-      <ScrollArea className={scrollAreaClass ?? 'max-h-72'}>
-        <div className='px-4 py-1'>
-          {items.map((item) => (
-            <CartItemRow key={item.id} item={item} />
-          ))}
-        </div>
-      </ScrollArea>
-      <CartSummary
-        subtotal={subtotal}
-        payment={payment}
-        onPaymentChange={onPaymentChange}
-        onOrder={onOrder}
-      />
-    </>
+    <ForeplaySectionWhiteBlock>
+      {items.length === 0 ? (
+        <CartEmpty />
+      ) : (
+        <>
+          <ScrollArea className='max-h-[min(60vh,28rem)]'>
+            <div className='px-4 pt-4 pb-1'>
+              {items.map((item) => (
+                <CartItemRow key={item.id} item={item} />
+              ))}
+            </div>
+          </ScrollArea>
+          <CartSummary
+            subtotal={subtotal}
+            payment={payment}
+            onPaymentChange={onPaymentChange}
+            onOrder={onOrder}
+          />
+        </>
+      )}
+    </ForeplaySectionWhiteBlock>
   )
 }
 
@@ -109,115 +57,71 @@ function CartBody({ items, subtotal, payment, onPaymentChange, onOrder, scrollAr
 
 export function CartPopover() {
   const { items, totalItems, subtotal, clearCart } = useCart()
-  const { open, setOpen, handleEnter, handleLeave } = useHoverIntent(200)
+  const [open, setOpen] = useState(false)
   const [payment, setPayment] = useState<'crypto' | 'wise'>('crypto')
-  const triggerRef = useRef<HTMLButtonElement>(null)
-  const headerGap = useHeaderGap(triggerRef)
-  const isMobile = useIsMobile()
+  /* the click that opens the cart is "outside" the modal → Radix would dismiss
+     it on the same tick. Ignore outside-dismissals within this window. */
+  const programmaticOpenAt = useRef(0)
 
   const handleOrder = useCallback(() => {
-    const msg = buildTelegramMessage(items, subtotal, payment === 'crypto' ? 'Crypto (USDT)' : 'Wise Transfer')
+    const msg = buildTelegramMessage(
+      items,
+      subtotal,
+      payment === 'crypto' ? 'Crypto (USDT)' : 'Wise Transfer',
+    )
     window.open(`${TELEGRAM_URL}?text=${encodeURIComponent(msg)}`, '_blank')
     clearCart()
     setOpen(false)
-  }, [items, subtotal, payment, clearCart, setOpen])
+  }, [items, subtotal, payment, clearCart])
 
-  /* auto-open when an item is added; then stay open until the user dismisses
-     (click outside / X / order placed) — same as mobile. No auto-close: a cart
-     that vanishes mid-decision is the core UX complaint here. */
+  /* open on item-added OR an explicit "View cart" CTA (`cart:open`); stay open
+     until the user dismisses (X / click backdrop / Esc / order placed). */
   useEffect(() => {
-    const handler = () => setOpen(true)
+    const handler = () => {
+      programmaticOpenAt.current = Date.now()
+      setOpen(true)
+    }
     window.addEventListener('cart:item-added', handler)
-    return () => window.removeEventListener('cart:item-added', handler)
-  }, [setOpen])
+    window.addEventListener('cart:open', handler)
+    return () => {
+      window.removeEventListener('cart:item-added', handler)
+      window.removeEventListener('cart:open', handler)
+    }
+  }, [])
 
-  /* ---------- trigger button (shared) ---------- */
-  const triggerButton = (
-    <Button
-      ref={triggerRef}
-      variant='outline'
-      size='icon'
-      className='relative hover:bg-primary/15 hover:text-foreground dark:hover:bg-primary/15 data-[state=open]:bg-primary/10 data-[state=open]:text-foreground'
-      onMouseEnter={isMobile ? undefined : handleEnter}
-      onMouseLeave={isMobile ? undefined : handleLeave}
-    >
-      <ShoppingCart className='size-4' />
-      <span className='sr-only'>Cart</span>
-      {totalItems > 0 && (
-        <Badge className='absolute -top-1.5 -right-1.5 h-4.5 min-w-4.5 px-1 tabular-nums text-[10px]'>
-          {totalItems > 99 ? '99+' : totalItems}
-        </Badge>
-      )}
-    </Button>
-  )
-
-  /* ---------- mobile: Sheet sidebar ---------- */
-  if (isMobile) {
-    return (
-      <Sheet open={open} onOpenChange={setOpen}>
-        <div
-          onClick={() => setOpen(true)}
-          className='contents'
-        >
-          {triggerButton}
-        </div>
-        <SheetContent
-          side='right'
-          className='w-[85vw] max-w-[380px] p-0 flex flex-col'
-        >
-          <SheetHeader className='flex flex-row items-center justify-between gap-2 px-4 py-3 border-b'>
-            <SheetTitle className='font-medium text-base'>Cart</SheetTitle>
-            {totalItems > 0 && (
-              <Badge variant='secondary' className='h-6 rounded-full px-2 text-xs'>
-                {totalItems} {totalItems === 1 ? 'item' : 'items'}
-              </Badge>
-            )}
-          </SheetHeader>
-
-          <div className='flex flex-col flex-1 overflow-hidden'>
-            <CartBody
-              items={items}
-              subtotal={subtotal}
-              payment={payment}
-              onPaymentChange={setPayment}
-              onOrder={handleOrder}
-              scrollAreaClass='flex-1 overflow-y-auto'
-            />
-          </div>
-        </SheetContent>
-      </Sheet>
-    )
-  }
-
-  /* ---------- desktop: Popover (unchanged) ---------- */
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        {triggerButton}
-      </PopoverTrigger>
-
-      <PopoverContent
-        align='end'
-        sideOffset={0}
-        className='w-[28rem] border-none bg-transparent p-0 shadow-none'
-        onMouseEnter={handleEnter}
-        onMouseLeave={handleLeave}
-      >
-        {/* invisible hover bridge (covers gap between trigger and card) */}
-        <div style={{ height: headerGap }} />
-        {/* visible card */}
-        <div className='rounded-md border bg-popover text-popover-foreground shadow-md'>
-          {/* header */}
-          <div className='flex items-center justify-between gap-2 px-4 py-2.5'>
-            <span className='font-medium'>Cart</span>
-            {totalItems > 0 && (
-              <Badge variant='secondary' className='h-6 rounded-full px-2 text-xs'>
-                {totalItems} {totalItems === 1 ? 'item' : 'items'}
-              </Badge>
-            )}
+    <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
+      <DialogPortal>
+        {/* `foreplay` class re-establishes the --fp-* CSS-var scope inside the
+            portal (portals mount on <body>, outside the .foreplay wrapper —
+            without this every fp token is undefined → washed-out colors). */}
+        <DialogOverlay className='foreplay cursor-pointer bg-black/60 backdrop-blur-md' />
+        <DialogPrimitive.Content
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          onInteractOutside={(e) => {
+            if (Date.now() - programmaticOpenAt.current < 500) e.preventDefault()
+          }}
+          className='foreplay fixed top-1/2 left-1/2 z-50 w-[460px] max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[40px] bg-background shadow-2xl ring-1 ring-[var(--fp-alpha-700)] outline-none duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95'
+        >
+          {/* dark-scope header */}
+          <div className='flex items-center justify-between gap-2 px-6 pt-5 pb-1'>
+            <DialogPrimitive.Title className={`${fpText.headingL} text-foreground`}>
+              Your cart
+            </DialogPrimitive.Title>
+            <div className='flex items-center gap-3'>
+              {totalItems > 0 && (
+                <span className={`${fpText.bodyS} text-[var(--fp-alpha-100)]`}>
+                  {totalItems} {totalItems === 1 ? 'item' : 'items'}
+                </span>
+              )}
+              <DialogPrimitive.Close
+                aria-label='Close'
+                className='flex size-7 cursor-pointer items-center justify-center rounded-full text-[var(--fp-alpha-100)] transition-colors hover:bg-[var(--fp-alpha-700)] hover:text-foreground'
+              >
+                <XIcon className='size-4' />
+              </DialogPrimitive.Close>
+            </div>
           </div>
-
-          <Separator />
 
           <CartBody
             items={items}
@@ -226,8 +130,8 @@ export function CartPopover() {
             onPaymentChange={setPayment}
             onOrder={handleOrder}
           />
-        </div>
-      </PopoverContent>
-    </Popover>
+        </DialogPrimitive.Content>
+      </DialogPortal>
+    </DialogPrimitive.Root>
   )
 }
