@@ -111,7 +111,6 @@ export function CartPopover() {
   const { items, totalItems, subtotal, clearCart } = useCart()
   const { open, setOpen, handleEnter, handleLeave } = useHoverIntent(200)
   const [payment, setPayment] = useState<'crypto' | 'wise'>('crypto')
-  const autoCloseTimer = useRef<ReturnType<typeof setTimeout>>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const headerGap = useHeaderGap(triggerRef)
   const isMobile = useIsMobile()
@@ -123,22 +122,14 @@ export function CartPopover() {
     setOpen(false)
   }, [items, subtotal, payment, clearCart, setOpen])
 
-  /* auto-open when an item is added */
+  /* auto-open when an item is added; then stay open until the user dismisses
+     (click outside / X / order placed) — same as mobile. No auto-close: a cart
+     that vanishes mid-decision is the core UX complaint here. */
   useEffect(() => {
-    const handler = () => {
-      setOpen(true)
-      if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current)
-      // on mobile, keep open until user dismisses; on desktop, auto-close after 3s
-      if (!isMobile) {
-        autoCloseTimer.current = setTimeout(() => setOpen(false), 3000)
-      }
-    }
+    const handler = () => setOpen(true)
     window.addEventListener('cart:item-added', handler)
-    return () => {
-      window.removeEventListener('cart:item-added', handler)
-      if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current)
-    }
-  }, [setOpen, isMobile])
+    return () => window.removeEventListener('cart:item-added', handler)
+  }, [setOpen])
 
   /* ---------- trigger button (shared) ---------- */
   const triggerButton = (

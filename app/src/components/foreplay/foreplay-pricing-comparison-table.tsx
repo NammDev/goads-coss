@@ -15,6 +15,7 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
+import { useCart } from "@/lib/cart-context"
 
 // Grid column classes — default 5 cols (Foreplay pricing), overridable via prop
 const GRID_5COL = "grid grid-cols-[1.75fr_1fr_1fr_1fr_1fr]"
@@ -113,12 +114,42 @@ function CrownBadge() {
 // Action values that render as ghost pill buttons
 const ACTION_VALUES = new Set(["Add to Cart", "Contact"])
 
+// "$80" → 80 ; non-numeric / false → 'contact'
+function parsePrice(v: string | boolean): number | "contact" {
+  if (typeof v !== "string") return "contact"
+  const m = v.replace(/,/g, "").match(/\d+(\.\d+)?/)
+  return m ? Number(m[0]) : "contact"
+}
+
+// Reuses ForeplayCtaButton's light-primary pill classes verbatim, but as a
+// <button> (cart action, not navigation). Adds the product to the legacy cart;
+// cart-popover auto-opens via the `cart:item-added` event dispatched by addItem.
+function CartBuyButton({ feature }: { feature: ComparisonFeature }) {
+  const { addItem } = useCart()
+  return (
+    <button
+      type="button"
+      onClick={() =>
+        addItem({ name: feature.name, price: parsePrice(feature.basic) })
+      }
+      className="relative z-[5] flex cursor-pointer items-center justify-center rounded-[10px] bg-background p-2 text-foreground no-underline transition-all duration-150 hover:bg-[var(--fp-solid-600)] active:bg-[var(--fp-solid-400)] active:text-foreground focus-visible:shadow-[0_0_0_2px_white,0_0_0_3px_var(--fp-solid-900)] focus-visible:outline-none"
+    >
+      <span className="relative z-[2] px-1.5 font-sans text-base font-[550] leading-6 tracking-[-0.01125em]">
+        Buy Now
+      </span>
+    </button>
+  )
+}
+
 // Cell value renderer — check=solid-700, dash=solid-300, text=bodyM solid-700
-// Action values (Add to Cart, Contact) render as ghost pill: invisible border → visible on hover
-function CellValue({ value }: { value: string | boolean }) {
+// Action values: "Add to Cart" → cart button (needs row), "Contact" → link.
+function CellValue({ value, feature }: { value: string | boolean; feature?: ComparisonFeature }) {
   if (value === true) return <div className="text-[var(--fp-solid-700)]"><CheckIcon /></div>
   if (value === false) return <div className="text-[var(--fp-solid-300)]">—</div>
   if (typeof value === "string" && ACTION_VALUES.has(value)) {
+    if (value === "Add to Cart" && feature) {
+      return <CartBuyButton feature={feature} />
+    }
     return (
       <ForeplayCtaButton
         href="/book-demo"
@@ -312,15 +343,15 @@ export function ForeplayPricingComparisonTable({
                     <CellValue value={feat.basic} />
                   </div>
                   <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
-                    <CellValue value={feat.workflow} />
+                    <CellValue value={feat.workflow} feature={feat} />
                   </div>
                   {columns >= 5 && (
                     <>
                       <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
-                        <CellValue value={feat.agency} />
+                        <CellValue value={feat.agency} feature={feat} />
                       </div>
                       <div className="flex items-center justify-center border-l border-[var(--fp-solid-50)] p-4">
-                        <CellValue value={feat.enterprise} />
+                        <CellValue value={feat.enterprise} feature={feat} />
                       </div>
                     </>
                   )}
