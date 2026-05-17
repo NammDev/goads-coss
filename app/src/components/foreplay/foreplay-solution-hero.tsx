@@ -7,6 +7,7 @@
 import type { ReactNode } from "react"
 import { ForeplaySectionHead } from "@/components/foreplay/foreplay-section-head"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
+import { ForeplayTrialCtaButton } from "@/components/foreplay/foreplay-trial-cta-button"
 
 interface ForeplaySolutionHeroProps {
   icon: ReactNode
@@ -53,9 +54,13 @@ export function ForeplaySolutionHero({
       {!hideButtons && (
         <div className="pt-5">
           <div className="relative z-[2] flex items-center justify-center gap-3">
-            <ForeplayCtaButton href={ctaHref} variant="hero">
-              {ctaLabel}
-            </ForeplayCtaButton>
+            {ctaHref === "/sign-up" ? (
+              <ForeplayTrialCtaButton variant="hero" trialLabel={ctaLabel} />
+            ) : (
+              <ForeplayCtaButton href={ctaHref} variant="hero">
+                {ctaLabel}
+              </ForeplayCtaButton>
+            )}
             <ForeplayCtaButton href={secondaryHref} variant="secondary" showIcon={false}>
               {secondaryLabel}
             </ForeplayCtaButton>

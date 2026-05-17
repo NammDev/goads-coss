@@ -12,7 +12,10 @@ import { cn } from "@/lib/utils"
 type ButtonVariant = "nav" | "hero" | "secondary" | "ghost" | "light-primary"
 
 interface ForeplayCtaButtonProps {
-  href: string
+  /** Navigation target. Omit when using `onClick` (action button). */
+  href?: string
+  /** Action handler — renders a <button> instead of a link. Used by cart CTA. */
+  onClick?: () => void
   children: ReactNode
   variant?: ButtonVariant
   showIcon?: boolean
@@ -33,6 +36,7 @@ const variantStyles: Record<ButtonVariant, string> = {
 
 export function ForeplayCtaButton({
   href,
+  onClick,
   children,
   variant = "nav",
   showIcon = true,
@@ -41,13 +45,13 @@ export function ForeplayCtaButton({
 }: ForeplayCtaButtonProps) {
   const isNav = variant === "nav"
   const iconOpacity = variant === "hero" ? 1 : 0.68
-  const external = isExternalUrl(href)
+  const external = href ? isExternalUrl(href) : false
 
   const sharedClass = cn(
     // shared base — nav variant uses Foreplay's `.new-button-small` (6px padding / 8px radius)
     // so the navbar CTA reads at parity with surrounding text links instead of overpowering them.
     // Hero / secondary / ghost / light-primary keep the default `.new-button` rhythm.
-    "relative z-[5] flex items-center no-underline",
+    "relative z-[5] flex cursor-pointer items-center no-underline",
     isNav ? "rounded-[8px] p-1.5" : "rounded-[10px] p-2",
     // variant-specific colors + transitions
     variantStyles[variant],
@@ -81,7 +85,15 @@ export function ForeplayCtaButton({
     </>
   )
 
-  // External links use <a target="_blank">; internal use Next.js <Link>
+  // Action mode (onClick, no href) → <button>. Otherwise: external links use
+  // <a target="_blank">; internal use Next.js <Link>.
+  if (!href) {
+    return (
+      <button type="button" onClick={onClick} className={sharedClass}>
+        {body}
+      </button>
+    )
+  }
   return external ? (
     <a href={href} target="_blank" rel="noopener noreferrer" className={sharedClass}>
       {body}

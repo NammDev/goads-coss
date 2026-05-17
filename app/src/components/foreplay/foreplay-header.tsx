@@ -34,7 +34,7 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ForeplayNavLink } from "@/components/foreplay/foreplay-nav-link"
-import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
+import { ForeplayTrialCtaButton } from "@/components/foreplay/foreplay-trial-cta-button"
 import { ForeplayHeaderProductMenu } from "@/components/foreplay/foreplay-header-product-menu"
 import { ForeplayHeaderResourcesMenu } from "@/components/foreplay/foreplay-header-resources-menu"
 import { ForeplayHeaderToolsMenu } from "@/components/foreplay/foreplay-header-tools-menu"
@@ -106,8 +106,8 @@ export function ForeplayHeader() {
               <div className="flex items-center justify-end gap-2">
                 {/* a.navlink.u-navlink-signin */}
                 <ForeplayNavLink href="/sign-in">Sign in</ForeplayNavLink>
-                {/* a.new-button.new-button-navbar */}
-                <ForeplayCtaButton href="/sign-up">Start free trial</ForeplayCtaButton>
+                {/* a.new-button.new-button-navbar — cart-aware (View cart when filled) */}
+                <ForeplayTrialCtaButton />
               </div>
             </div>
           </nav>

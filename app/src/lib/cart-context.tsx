@@ -110,6 +110,14 @@ function clearCart() {
   persist({ items: [] })
 }
 
+/** Open the cart UI without mutating it (e.g. a "View cart" CTA).
+ *  CartPopover listens for `cart:open` (same effect as `cart:item-added`). */
+export function openCart() {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('cart:open'))
+  }
+}
+
 /* ---------- context ---------- */
 
 type CartContextValue = {

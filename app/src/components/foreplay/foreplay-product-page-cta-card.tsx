@@ -10,6 +10,7 @@
 
 import type { ReactNode } from "react"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
+import { ForeplayTrialCtaButton } from "@/components/foreplay/foreplay-trial-cta-button"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 
 interface ForeplayProductPageCtaCardProps {
@@ -54,9 +55,13 @@ export function ForeplayProductPageCtaCard({
 
           {/* .flex-col-gap-3 — gap-3 (12px), items-start */}
           <div className="flex flex-col items-start gap-3">
-            <ForeplayCtaButton href={ctaHref} variant="hero">
-              {ctaLabel}
-            </ForeplayCtaButton>
+            {ctaHref === "/sign-up" ? (
+              <ForeplayTrialCtaButton variant="hero" trialLabel={ctaLabel} />
+            ) : (
+              <ForeplayCtaButton href={ctaHref} variant="hero">
+                {ctaLabel}
+              </ForeplayCtaButton>
+            )}
 
             {/* .no-cc-required: display:none > .flex-gap-2 — gap-2, items-center */}
             <div className="hidden items-center gap-2">
