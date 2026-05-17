@@ -8,6 +8,7 @@
 
 import { fontInter } from "@/fonts"
 import { ForeplayHeader, ForeplayFooter } from "@/components/foreplay"
+import { CartPopover } from "@/components/cart-popover"
 
 export default function ForeplayMarketingLayout({
   children,
@@ -32,6 +33,9 @@ export default function ForeplayMarketingLayout({
       <ForeplayHeader />
       {children}
       <ForeplayFooter />
+      {/* Cart — no floating trigger; opens via header "View cart" (`cart:open`)
+          or pricing "Buy Now" (`cart:item-added`). Marketing routes only. */}
+      <CartPopover />
     </div>
   )
 }

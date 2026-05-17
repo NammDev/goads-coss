@@ -11,6 +11,7 @@
 "use client"
 
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
+import { ForeplayTrialCtaButton } from "@/components/foreplay/foreplay-trial-cta-button"
 import { fpText, FP_HERO_GRADIENT } from "@/components/foreplay/foreplay-typography"
 import { useHeroScrollAnimation } from "@/components/foreplay/use-hero-scroll-animation"
 
@@ -128,11 +129,14 @@ export function ForeplayProductHero({
           </div>
 
           {/* a.button-dark.button-primary — skipped when hideCta is set */}
-          {!hideCta && (
-            <ForeplayCtaButton href={ctaHref} variant="hero">
-              {ctaLabel}
-            </ForeplayCtaButton>
-          )}
+          {!hideCta &&
+            (ctaHref === "/sign-up" ? (
+              <ForeplayTrialCtaButton variant="hero" trialLabel={ctaLabel} />
+            ) : (
+              <ForeplayCtaButton href={ctaHref} variant="hero">
+                {ctaLabel}
+              </ForeplayCtaButton>
+            ))}
         </div>
       </div>
 
