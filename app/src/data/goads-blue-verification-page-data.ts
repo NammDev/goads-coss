@@ -16,7 +16,7 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
     description:
       "Verified accounts earn up to 30% more engagement on average. The blue check tells your audience you're the real brand — not a competitor, not an impersonator.\n\nBeyond credibility, verification unlocks priority support, account protection and impersonation-removal tools that unverified accounts never see.\n\nWe've taken accounts from unverified to verified on both Facebook and Instagram — at every business size.",
     image: "/foreplay/goads/goads-blue-verification-badge.webp",
-    imageAlt: "Verified Instagram profile with blue checkmark on iPad, by GoAds",
+    imageAlt: "Verified Instagram profile with blue checkmark on iPhone, by GoAds",
     imageMaxWidth: 840, // +50% larger than the default 560
     reversed: false,
   },
