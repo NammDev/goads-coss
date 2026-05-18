@@ -27,6 +27,7 @@ import {
   splitViewerEmailAddress,
   validateViewerEmail,
 } from "@/lib/mail/mail-viewer"
+import { preloadFingerprint } from "@/lib/fingerprint"
 
 const POLL_INTERVAL_MS = 12000
 const POLL_MAX_INTERVAL_MS = 60000
@@ -392,6 +393,10 @@ export function useTempMailViewer() {
   }, [fetchInbox])
 
   useEffect(() => {
+    // Kick off FingerprintJS as early as possible so the visitorId is cached
+    // before the first real API call fires (saves ~200-500 ms on first interaction).
+    preloadFingerprint()
+
     const query = new URLSearchParams(window.location.search)
     const jwt = query.get("jwt")
     if (jwt) {

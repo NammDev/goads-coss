@@ -7,7 +7,7 @@ const cspDirectives = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https: http: https://cdn.shadcnstudio.com https://randomuser.me https://cdn.simpleicons.org https://img.clerk.com https://notion-avatars.netlify.app https://*.clerk.accounts.dev",
   "font-src 'self' data:",
-  "connect-src 'self' https://clerk.goads.shop https://clerk.goadsagency.com https://*.clerk.accounts.dev https://va.vercel-scripts.com https://vitals.vercel-insights.com https://app.cal.com",
+  "connect-src 'self' https://clerk.goads.shop https://clerk.goadsagency.com https://*.clerk.accounts.dev https://va.vercel-scripts.com https://vitals.vercel-insights.com https://app.cal.com https://mail-api.goadsagency.com",
   "frame-src 'self' blob: https://clerk.goads.shop https://clerk.goadsagency.com https://*.clerk.accounts.dev https://challenges.cloudflare.com https://app.cal.com",
   "worker-src 'self' blob:",
   "object-src 'none'",

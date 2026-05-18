@@ -1,7 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
 
 export const dynamic = "force-dynamic"
-export const runtime = "nodejs"
+// Edge runtime: eliminates Node.js cold-start overhead (~100-300 ms) on Vercel.
+// The proxy only does header manipulation + a single fetch — no Node-specific APIs needed.
+export const runtime = "edge"
 
 const WORKER_ORIGIN =
   process.env.TEMP_MAIL_WORKER_ORIGIN ?? "https://mail-api.goadsagency.com"
@@ -42,6 +44,13 @@ async function proxy(request: NextRequest): Promise<NextResponse> {
     // Set correct host for the Worker
     headers.set("host", new URL(WORKER_ORIGIN).host)
 
+    // This is a server-to-server request (Vercel → Cloudflare Worker).
+    // Strip the browser's Origin header so the Worker's CORS middleware does not
+    // reject it based on the browser origin — CORS enforcement is already handled
+    // by the same-origin proxy boundary on the Vercel side.
+    headers.delete("origin")
+    headers.delete("referer")
+
     // Forward real client IP so Worker can rate-limit per user, not per Vercel server
     const clientIp =
       request.headers.get("x-forwarded-for") ??
@@ -50,7 +59,10 @@ async function proxy(request: NextRequest): Promise<NextResponse> {
       headers.set("x-forwarded-for", clientIp.split(",")[0].trim())
     }
 
-    const init: RequestInit & { duplex?: "half" } = {
+    // Edge Runtime uses the Web Streams API natively — `duplex: "half"` is a
+    // Node.js-only workaround and must NOT be set here (it causes a TypeError
+    // on the Edge runtime and is simply ignored / harmful in some runtimes).
+    const init: RequestInit = {
       method: request.method,
       headers,
       redirect: "manual",
@@ -58,7 +70,6 @@ async function proxy(request: NextRequest): Promise<NextResponse> {
 
     if (request.method !== "GET" && request.method !== "HEAD") {
       init.body = request.body
-      init.duplex = "half"
     }
 
     const response = await fetch(targetUrl.toString(), init)
