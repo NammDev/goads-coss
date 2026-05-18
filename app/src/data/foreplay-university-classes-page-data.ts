@@ -23,6 +23,8 @@ export interface FeatureRowData {
   reversed?: boolean
   ctaLabel?: string
   ctaHref?: string
+  /** Optional px cap for the image (default 560 = original Foreplay size). */
+  imageMaxWidth?: number
 }
 
 // ── Hero ──
