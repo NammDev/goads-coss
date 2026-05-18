@@ -11,8 +11,7 @@ import {
 } from "@/components/foreplay"
 import { ForeplayUniversityHero } from "@/components/foreplay/foreplay-university-hero"
 import { ForeplayProductPageFeatureGridCards } from "@/components/foreplay/foreplay-product-page-feature-grid-cards"
-import { partnersHero } from "@/data/goads-partners-page-data"
-import { bmFeatureGrid1 } from "@/data/goads-bm-page-data"
+import { partnersHero, partnersOffers } from "@/data/goads-partners-page-data"
 
 export const metadata: Metadata = {
   title: "Partners | GoAds Affiliate & Reseller Program",
@@ -50,15 +49,15 @@ export default function ForeplayPartnersPage() {
         <div className="flex flex-col py-[108px] max-md:py-24 max-sm:py-20">
           <ForeplaySectionContainer>
             <ForeplaySectionHead
-              subtitle={bmFeatureGrid1.subtitle}
-              title={bmFeatureGrid1.title}
+              subtitle={partnersOffers.subtitle}
+              title={partnersOffers.title}
               titleSize="h2"
-              description={bmFeatureGrid1.description}
+              description={partnersOffers.description}
               descSize="l"
               variant="light"
             />
             <div className="block pt-12 max-md:pt-10">
-              <ForeplayProductPageFeatureGridCards cards={bmFeatureGrid1.cards} />
+              <ForeplayProductPageFeatureGridCards cards={partnersOffers.cards} />
             </div>
           </ForeplaySectionContainer>
         </div>

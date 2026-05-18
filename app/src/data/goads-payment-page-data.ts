@@ -4,7 +4,7 @@
 export const paymentHero = {
   bgImage: "/foreplay/university_bghero.png",
   description:
-    "We support a wide range of secure payment options so you can fund your account the way that works best for your business.",
+    "Fund your account in minutes with the method that suits you — crypto (USDT) or international bank transfer via Wise. Transparent pricing, instant confirmation, and no hidden fees.",
   ctaLabel: "Talk to Sales",
   ctaHref: "/book-demo",
 }

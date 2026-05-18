@@ -60,14 +60,24 @@ export function ForeplayProductUseCaseCarousel({
               <div key={i} className="flex-none">
                 {/* .slide-card */}
                 <div className="flex min-h-[320px] w-[39vw] max-w-[576px] flex-col overflow-hidden rounded-[28px] text-[#1c1d21] shadow-[0_0_0_1px_#1b1c21] max-md:w-[480px] max-sm:w-[calc(100vw-48px)]">
-                  {/* .product-carousel-image */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={card.imageSrc}
-                    alt={card.imageAlt ?? card.title}
-                    className="h-full w-full flex-1 object-cover"
-                    loading="lazy"
-                  />
+                  {/* .product-carousel-image — real image, or a placeholder
+                      block when imageSrc is empty (illustration pending). */}
+                  {card.imageSrc ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={card.imageSrc}
+                      alt={card.imageAlt ?? card.title}
+                      className="h-full w-full flex-1 object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div
+                      aria-hidden="true"
+                      className="flex min-h-[200px] flex-1 items-center justify-center border-b border-dashed border-[#d8d9de] bg-[#f4f4f6] text-[#6c6f74]"
+                    >
+                      <span className={fpText.overline}>Illustration coming soon</span>
+                    </div>
+                  )}
                   {/* .product-page-carousel-content */}
                   <div className="flex-1 p-6 max-sm:px-4 max-sm:py-4">
                     {/* .product-page-carousel-text-content */}

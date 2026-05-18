@@ -32,7 +32,7 @@ function ToolLink({ tool, isActive }: { tool: ToolItem; isActive: boolean }) {
   const Icon = tool.icon
   return (
     <Link
-      href={`/tools/${tool.slug}`}
+      href={tool.href ?? `/tools/${tool.slug}`}
       className={cn(
         fpText.labelS,
         "flex items-center gap-2.5 rounded-[10px] px-3 py-2 transition-colors",

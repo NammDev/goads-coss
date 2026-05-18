@@ -13,7 +13,7 @@ export const tiktokProductCta = {
 // Section 1: Hero — text-only variant (laptop preview + CTA removed).
 // Bottom padding switches to --fp-py-section scale (108/96/80) in ForeplayProductHero.
 export const tiktokHero = {
-  iconSrc: "/foreplay/TIKTOK.svg",
+  iconSrc: "/navbar/tiktok.svg",
   overline: "TikTok Assets",
   title: "Buy Verified TikTok Accounts & Shops",
   description: "TikTok Channels, Shops and Business Centers — Jumio-verified and ready to scale. The fastest-growing ad platform, without the account suspension loop.",
@@ -24,15 +24,15 @@ export const tiktokHero = {
 // TikTok card moved to slot 1; other 5 follow.
 export const tiktokFeatureGrid1 = {
   subtitle: "ALL PRODUCTS",
-  title: "Everything You Need to Scale on TikTok",
-  description: "Channels, Shops, Business Centers. Built for media buyers who want TikTok reach without the verification headaches.",
+  title: "Everything You Need to Scale",
+  description: "TikTok is just one part of the stack. Explore the rest of the GoAds catalog to scale across every platform.",
   cards: [
-    { imageSrc: "/foreplay/titkoks/Group%201029.svg", title: "Business Manager", description: "Verified Meta BMs to pair with TikTok campaigns — cross-platform scaling." },
-    { imageSrc: "/foreplay/titkoks/Group%201030.svg", title: "Facebook Pages", description: "Aged pages with followers, ready to mirror your TikTok creative strategy." },
-    { imageSrc: "/foreplay/titkoks/Group%201031.svg", title: "Unban Service", description: "TikTok account suspended? We recover the asset so you keep the GMV history." },
-    { imageSrc: "/foreplay/titkoks/Group%201034.svg", title: "TikTok Assets", description: "Channels, Shops, Business Centers. Jumio-verified, ready to publish on day one." },
-    { imageSrc: "/foreplay/titkoks/Group%201032.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility across your ad stack." },
-    { imageSrc: "/foreplay/titkoks/Group%201036.svg", title: "Free Tools", description: "2FA Generator, Cookie Login and more. Free utilities for TikTok media buyers." },
+    { imageSrc: "/tiktoks/all-products/Business%20Manager.svg", title: "Business Manager", description: "Verified Meta BMs to pair with TikTok campaigns — cross-platform scaling." },
+    { imageSrc: "/tiktoks/all-products/Facebook%20Pages.svg", title: "Facebook Pages", description: "Aged pages with followers, ready to mirror your TikTok creative strategy." },
+    { imageSrc: "/tiktoks/all-products/Unban%20Service.svg", title: "Unban Service", description: "TikTok account suspended? We recover the asset so you keep the GMV history." },
+    { imageSrc: "", title: "Facebook Profiles", description: "Aged, ID-verified profiles to run alongside your TikTok campaigns. Clean history, ready to go." },
+    { imageSrc: "/tiktoks/all-products/Verified%20Badge.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility across your ad stack." },
+    { imageSrc: "", title: "Free Tools", description: "2FA Generator, Cookie Login and more. Free utilities for TikTok media buyers." },
   ],
 }
 
@@ -51,12 +51,12 @@ export const tiktokFeatureGrid1Testimonial = {
 // Section 5 (feature grid 2): Resources — uses bento2 images
 export const tiktokFeatureGrid2 = {
   cards: [
-    { imageSrc: "/foreplay/titkoks/Group%20965.svg", title: "How to Warm Up a TikTok Business Account", description: "Step-by-step warmup so your account doesn't flag on the first campaign. Avoid the cold-start penalty." },
-    { imageSrc: "/foreplay/titkoks/Group%20990.svg", title: "TikTok Shop USA vs Global: What's Different", description: "KYC, Jumio, tax docs, payout flows. The full breakdown for sellers picking a region." },
-    { imageSrc: "/foreplay/titkoks/Group%20991.svg", title: "Why Your TikTok Ads Account Keeps Getting Banned", description: "Common trigger patterns that burn fresh accounts. How to stay inside policy." },
-    { imageSrc: "/foreplay/titkoks/Group%20992.svg", title: "Jumio-Verified TikTok Shops: What You Get", description: "Why a Jumio-verified Shop outperforms a fresh one — trust score, approval rate, GMV." },
-    { imageSrc: "/foreplay/titkoks/Group%20993.svg", title: "TikTok Business Center: The Setup Guide", description: "Structure your accounts, pixels and catalogs the right way from day one." },
-    { imageSrc: "/foreplay/titkoks/Group%20994.svg", title: "TikTok Ads in 2026: What's Changed", description: "Platform updates, Spark Ads, Shop Ads and what it means for media buyers this year." },
+    { imageSrc: "/tiktoks/features/How%20to%20Warm%20Up%20a%20TikTok%20Business%20Account.svg", title: "How to Warm Up a TikTok Business Account", description: "Step-by-step warmup so your account doesn't flag on the first campaign. Avoid the cold-start penalty." },
+    { imageSrc: "/tiktoks/features/TikTok%20Shop%20USA%20vs%20Global%20What_s%20Different.svg", title: "TikTok Shop USA vs Global: What's Different", description: "KYC, Jumio, tax docs, payout flows. The full breakdown for sellers picking a region." },
+    { imageSrc: "/tiktoks/features/Why%20Your%20TikTok%20Ads%20Account%20Keeps%20Getting%20Banned.svg", title: "Why Your TikTok Ads Account Keeps Getting Banned", description: "Common trigger patterns that burn fresh accounts. How to stay inside policy." },
+    { imageSrc: "/tiktoks/features/Jumio-Verified%20TikTok%20Shops%20What%20You%20Get.svg", title: "Jumio-Verified TikTok Shops: What You Get", description: "Why a Jumio-verified Shop outperforms a fresh one — trust score, approval rate, GMV." },
+    { imageSrc: "/tiktoks/features/TikTok%20Business%20Center%20The%20Setup%20Guide.svg", title: "TikTok Business Center: The Setup Guide", description: "Structure your accounts, pixels and catalogs the right way from day one." },
+    { imageSrc: "/tiktoks/features/TikTok%20Ads%20in%202026%20What_s%20Changed.svg", title: "TikTok Ads in 2026: What's Changed", description: "Platform updates, Spark Ads, Shop Ads and what it means for media buyers this year." },
   ],
 }
 
