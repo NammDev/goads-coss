@@ -31,7 +31,6 @@
 //   .container.navbar-container content = 1440 - 80 = 1360px (matches DevTools 1360×72)
 //   .nav-stack padding-box  = 1360px → dropdown nav absolute left:0 right:0 width = 1360px
 
-import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ForeplayNavLink } from "@/components/foreplay/foreplay-nav-link"
 import { ForeplayTrialCtaButton } from "@/components/foreplay/foreplay-trial-cta-button"
@@ -40,6 +39,7 @@ import { ForeplayHeaderResourcesMenu } from "@/components/foreplay/foreplay-head
 import { ForeplayHeaderToolsMenu } from "@/components/foreplay/foreplay-header-tools-menu"
 import { ForeplayHeaderMobileMenu } from "@/components/foreplay/foreplay-header-mobile-menu"
 import { ForeplayLogoSvg } from "@/components/foreplay/footer/foreplay-logo-svg"
+import { ForeplayLogoLink } from "@/components/foreplay/foreplay-logo-link"
 
 export function ForeplayHeader() {
   return (
@@ -61,8 +61,7 @@ export function ForeplayHeader() {
             which uses position:absolute top:100% left:0% right:0% — escaping through .nav-dropdown (static). */}
         <div className="relative flex w-full items-center justify-between gap-9 p-4">
           {/* .nav-brand.w-nav-brand — source: z-5 rounded-10 p-1 (custom .nav-brand adds rounded-10 + p-1) */}
-          <Link
-            href="/"
+          <ForeplayLogoLink
             aria-label="GoAds home"
             className="z-[5] rounded-[10px] p-1 focus-visible:shadow-[0_0_0_3px] focus-visible:shadow-secondary focus-visible:outline-none"
           >
@@ -76,7 +75,7 @@ export function ForeplayHeader() {
               </div>
             </div>
             <span className="sr-only">GoAds</span>
-          </Link>
+          </ForeplayLogoLink>
 
           {/* Mobile hamburger — sibling of .nav-brand in our React implementation (shown only ≤991px) */}
           <ForeplayHeaderMobileMenu />

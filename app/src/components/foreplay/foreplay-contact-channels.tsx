@@ -50,15 +50,19 @@ export function ForeplayContactChannels() {
 
         <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-sm:grid-cols-1">
           {channels.map((c) => (
+            // Foreplay card (.home-winning-card spec): rounded-[24px],
+            // 1px solid-50 hairline ring, p-6, gap-6, overflow-hidden.
             <div
               key={c.name}
-              className="flex flex-col rounded-[18px] border border-[var(--fp-border-nav)] bg-[var(--fp-alpha-700)] p-6 transition-all duration-200 hover:border-[var(--fp-alpha-300)]"
+              className="relative flex flex-col gap-6 overflow-hidden rounded-[24px] bg-[var(--fp-alpha-700)] p-6 shadow-[0_0_0_1px_var(--fp-solid-50)] transition-all duration-[500ms] ease-[cubic-bezier(0.19,1,0.22,1)] hover:shadow-[0_0_0_1px_var(--fp-alpha-300)]"
             >
-              <div className="flex size-12 items-center justify-center rounded-[12px] bg-background">
+              {/* icon tile — foreplay icon container: size-12, rounded-[12px],
+                  1px alpha-600 hairline, on background */}
+              <div className="flex size-12 items-center justify-center rounded-[12px] border border-[var(--fp-alpha-600)] bg-background">
                 {c.icon}
               </div>
 
-              <div className="mt-5 flex flex-1 flex-col gap-1.5">
+              <div className="flex flex-1 flex-col gap-2">
                 <h3 className={`${fpText.labelL} text-foreground`}>{c.name}</h3>
                 <p className={`${fpText.labelS} text-[var(--fp-alpha-100)]`}>{c.handle}</p>
                 <p className={`${fpText.bodyS} text-[var(--fp-alpha-50)]`}>{c.description}</p>
@@ -68,7 +72,7 @@ export function ForeplayContactChannels() {
                 href={c.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${fpText.labelS} mt-6 inline-flex items-center justify-center gap-1.5 rounded-[10px] bg-primary px-4 py-2.5 text-primary-foreground no-underline transition-all duration-150 hover:bg-[var(--fp-alpha-50)]`}
+                className={`${fpText.labelS} inline-flex items-center justify-center gap-1.5 rounded-[10px] bg-primary px-4 py-2.5 text-primary-foreground no-underline transition-all duration-150 hover:bg-[var(--fp-alpha-50)]`}
               >
                 {c.cta}
               </a>

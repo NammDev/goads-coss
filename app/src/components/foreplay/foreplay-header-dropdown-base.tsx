@@ -91,7 +91,7 @@ export function ForeplayHeaderDropdownBase({ label, children }: ForeplayHeaderDr
         aria-haspopup="true"
         onClick={toggleMenu}
         className={cn(
-          "flex items-center justify-start gap-1 rounded-[10px] py-1.5 pr-1.5 pl-2.5",
+          "flex cursor-pointer items-center justify-start gap-1 rounded-[10px] py-1.5 pr-1.5 pl-2.5",
           "text-foreground/50 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]",
           "hover:text-foreground focus-visible:outline-none focus-visible:shadow-[0_0_0_3px] focus-visible:shadow-secondary",
           open && "text-foreground",

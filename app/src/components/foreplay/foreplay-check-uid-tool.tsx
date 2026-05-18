@@ -14,8 +14,11 @@ import { ForeplayLightPrimaryButton } from "@/components/foreplay/foreplay-light
 import { ForeplayLightGhostAction } from "@/components/foreplay/foreplay-light-ghost-action"
 import { ForeplayCodeChip } from "@/components/foreplay/foreplay-code-chip"
 
-type UIDStatus = "LIVE" | "DEAD"
-type UIDResult = { uid: string; status: UIDStatus }
+import {
+  type UIDResult,
+  type UIDStatus,
+  runUidPool,
+} from "@/components/foreplay/check-uid-runner"
 
 // Smart UID extraction — customers often paste full profile dumps instead of
 // pure UIDs. Order of preference:
@@ -35,25 +38,6 @@ function extractUid(line: string): string | null {
   if (cookieMatch) return cookieMatch[1]
   const anyDigits = trimmed.match(/\b\d{10,18}\b/)
   return anyDigits ? anyDigits[0] : null
-}
-
-// UID liveness check goes through our Next.js API route (/api/check-uid).
-// Browser-direct calls to Facebook Graph fail (CORS + auth) and <img> probes
-// are inconsistent for new-format UIDs like 61…  The server route can spoof a
-// real user-agent + inspect raw HTTP redirects, which is the only reliable
-// signal for "profile exists on facebook.com".
-async function checkUID(uid: string): Promise<UIDResult> {
-  try {
-    const res = await fetch(`/api/check-uid?uid=${encodeURIComponent(uid)}`, {
-      signal: AbortSignal.timeout(12000),
-      cache: "no-store",
-    })
-    if (!res.ok) return { uid, status: "DEAD" }
-    const data = (await res.json()) as { uid: string; status: UIDStatus }
-    return { uid, status: data.status === "LIVE" ? "LIVE" : "DEAD" }
-  } catch {
-    return { uid, status: "DEAD" }
-  }
 }
 
 export function ForeplayCheckUidTool() {
@@ -76,15 +60,12 @@ export function ForeplayCheckUidTool() {
 
     setLoading(true)
     setResults([])
-    const acc: UIDResult[] = []
+    setProgress({ done: 0, total: uids.length })
 
-    for (let i = 0; i < uids.length; i++) {
-      setProgress({ done: i, total: uids.length })
-      const result = await checkUID(uids[i])
-      acc.push(result)
-      setResults([...acc])
-      if (i < uids.length - 1) await new Promise((r) => setTimeout(r, 100))
-    }
+    await runUidPool(uids, (done, partial) => {
+      setProgress({ done, total: uids.length })
+      setResults(partial)
+    })
 
     setProgress(null)
     setLoading(false)

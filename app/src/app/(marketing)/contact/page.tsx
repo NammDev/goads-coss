@@ -3,11 +3,57 @@
 import type { Metadata } from "next"
 import {
   ForeplaySectionContainer,
-  ForeplayContactChannels,
   ForeplayCtaButton,
 } from "@/components/foreplay"
 import { ForeplayUniversityHero } from "@/components/foreplay/foreplay-university-hero"
+import {
+  ForeplayHomeFeaturesGrid,
+  type ForeplayHomeFeatureCard,
+} from "@/components/foreplay/foreplay-home-features-grid"
 import { contactHero } from "@/data/goads-contact-page-data"
+import { TelegramLogo, WhatsAppLogo } from "@/assets/svg/ad-platform-logos"
+import { CONTACT } from "@/data/contact-info"
+
+// GET IN TOUCH channels — reuses the features-grid UI (3-card layout + images
+// kept as placeholders for now; channel logo images to be swapped in later).
+const contactChannelCards: ForeplayHomeFeatureCard[] = [
+  {
+    icon: <TelegramLogo className="size-6" />,
+    title: "Telegram",
+    description:
+      "@goads_official — Fastest way to reach us. Live support, 24/7.",
+    ctaLabel: "Message on Telegram",
+    ctaHref: CONTACT.telegram.officialWithMessage,
+    image: "",
+  },
+  {
+    icon: <WhatsAppLogo className="size-6" />,
+    title: "WhatsApp",
+    description:
+      "Direct line · 24/7 — Prefer WhatsApp? We answer there too.",
+    ctaLabel: "Chat on WhatsApp",
+    ctaHref: CONTACT.whatsapp.withMessage,
+    isMiddle: true,
+    image: "",
+  },
+  {
+    icon: <MailIcon />,
+    title: "Email",
+    description: `${CONTACT.email} — For detailed requests, invoices and documents.`,
+    ctaLabel: "Send an Email",
+    ctaHref: `mailto:${CONTACT.email}`,
+    image: "",
+  },
+]
+
+function MailIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke="currentColor" strokeWidth="1.667" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="m4.5 7 7.5 5.5L19.5 7" stroke="currentColor" strokeWidth="1.667" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
 
 export const metadata: Metadata = {
   title: "Contact | GoAds",
@@ -39,10 +85,15 @@ export default function ForeplayContactPage() {
         </div>
       </ForeplayUniversityHero>
 
-      {/* ═══ Section 2: Contact channels ═══ */}
+      {/* ═══ Section 2: COMMUNITY & RESOURCES ═══ */}
       <section className="section">
         <ForeplaySectionContainer variant="wide">
-          <ForeplayContactChannels />
+          <ForeplayHomeFeaturesGrid
+            subtitle="GET IN TOUCH"
+            title="Reach us your way"
+            description="Real people, fast answers, no tickets. Pick the channel that works for you."
+            cards={contactChannelCards}
+          />
         </ForeplaySectionContainer>
       </section>
     </>

@@ -40,21 +40,21 @@ export const agencyAdAccountUseCases = {
     "Whether you're running DTC at scale, managing an agency book, or pushing into restricted niches — agency ad accounts unlock the headroom you need.",
   cards: [
     {
-      imageSrc: "/foreplay/usecase.webp",
+      imageSrc: "/agency-ad-account/use-cases/DTC%20SCALING.svg",
       imageAlt: "DTC brand scaling Meta ads on agency account",
       title: "DTC Scaling",
       description:
         "Push daily spend from $10K to $100K+ without tripping DSL caps. Ideal for direct-response brands scaling winning creatives fast.",
     },
     {
-      imageSrc: "/foreplay/usecase.webp",
+      imageSrc: "/agency-ad-account/use-cases/agency%20book%20management.svg",
       imageAlt: "agency managing multi-client Meta campaigns",
       title: "Agency Book Management",
       description:
         "Manage dozens of clients under a single whitelisted structure. Prioritized policy review keeps your campaigns live.",
     },
     {
-      imageSrc: "/foreplay/usecase.webp",
+      imageSrc: "/agency-ad-account/use-cases/Restricted%20Niches.svg",
       imageAlt: "restricted niche campaigns on agency ad account",
       title: "Restricted Niches",
       description:
@@ -74,17 +74,17 @@ export const agencyAdAccountCoreFeaturesSection = {
 export const agencyAdAccountCoreFeatureTabs = [
   {
     label: "Whitelist Onboarding",
-    imageSrc: "/foreplay/feature_save.webp",
+    imageSrc: "/agency-ad-account/core-features/WHITELIST%20ONBOARDING.svg",
     imageAlt: "whitelist onboarding workflow",
   },
   {
     label: "Unlimited Daily Spend",
-    imageSrc: "/foreplay/feature_tag.webp",
+    imageSrc: "/agency-ad-account/core-features/UNLIMITED%20DAILY%20SPEND.svg",
     imageAlt: "unlimited daily spend dashboard",
   },
   {
     label: "Direct Meta Rep",
-    imageSrc: "/foreplay/feature_share.webp",
+    imageSrc: "/agency-ad-account/core-features/DIRCT%20META%20REP.svg",
     imageAlt: "direct meta rep communication",
   },
 ]
@@ -96,12 +96,12 @@ export const agencyAdAccountFeatureGrid1 = {
   description:
     "More than just an ad account — it's a complete compliance, support and scaling layer on top of Meta.",
   cards: [
-    { imageSrc: "/foreplay/bento1_1.webp", title: "Whitelisted Status", description: "Campaigns bypass standard review queues and ship faster." },
-    { imageSrc: "/foreplay/bento1_2.webp", title: "Unlimited Daily Spend", description: "No DSL ceiling. Scale a winning creative to whatever the auction will take." },
-    { imageSrc: "/foreplay/bento1_3.webp", title: "Dedicated Meta Rep", description: "Direct line to a Meta partner manager for policy calls and emergencies." },
-    { imageSrc: "/foreplay/bento1_4.webp", title: "Restricted Niche Access", description: "Run categories standard BMs get banned for — crypto, nutra, finance." },
-    { imageSrc: "/foreplay/bento1_5.webp", title: "Priority Policy Review", description: "Ads reviewed by humans, not just the algorithm. Faster approvals." },
-    { imageSrc: "/foreplay/bento1_6.webp", title: "Instant Top-Up", description: "Wire in Monday, spend Monday. No 24-hour holds or manual verification." },
+    { imageSrc: "/agency-ad-account/all-features/Whitelisted%20Status.svg", title: "Whitelisted Status", description: "Campaigns bypass standard review queues and ship faster." },
+    { imageSrc: "/agency-ad-account/all-features/Unlimited%20Daily%20Spend%20(2).svg", title: "Unlimited Daily Spend", description: "No DSL ceiling. Scale a winning creative to whatever the auction will take." },
+    { imageSrc: "/agency-ad-account/all-features/dedicated%20meta%20rep.svg", title: "Dedicated Meta Rep", description: "Direct line to a Meta partner manager for policy calls and emergencies." },
+    { imageSrc: "/agency-ad-account/all-features/Restricted%20Niche%20Access.svg", title: "Restricted Niche Access", description: "Run categories standard BMs get banned for — crypto, nutra, finance." },
+    { imageSrc: "/agency-ad-account/all-features/Priority%20Policy%20Review.svg", title: "Priority Policy Review", description: "Ads reviewed by humans, not just the algorithm. Faster approvals." },
+    { imageSrc: "/agency-ad-account/all-features/Instant%20Top-Up.svg", title: "Instant Top-Up", description: "Wire in Monday, spend Monday. No 24-hour holds or manual verification." },
   ],
 }
 
@@ -121,12 +121,12 @@ export const agencyAdAccountTestimonial1 = {
 // --- Feature Grid 2 ---
 export const agencyAdAccountFeatureGrid2 = {
   cards: [
-    { imageSrc: "/foreplay/bento2_1.png", title: "Compliance Pre-Review", description: "Our team vets landing pages before submission to maximise approval rates." },
-    { imageSrc: "/foreplay/bento2_2.webp", title: "Multi-Account Structure", description: "Run agency → sub-account hierarchies for client isolation and reporting." },
-    { imageSrc: "/foreplay/bento2_3.webp", title: "Transparent Fee Model", description: "Flat % of ad spend. No hidden setup, no surprise top-up fees." },
-    { imageSrc: "/foreplay/bento2_4.webp", title: "Pixel Continuity", description: "Keep your learning data and custom audiences intact when switching." },
-    { imageSrc: "/foreplay/bento2_5.webp", title: "Fast Replacement SLA", description: "If an asset gets flagged, we hand you a replacement within the same business day." },
-    { imageSrc: "/foreplay/bento2_6.webp", title: "Unified Billing", description: "Consolidate spend across clients into one invoice for cleaner ops." },
+    { imageSrc: "/agency-ad-account/all-features/Compliance%20Pre-Review.svg", title: "Compliance Pre-Review", description: "Our team vets landing pages before submission to maximise approval rates." },
+    { imageSrc: "/agency-ad-account/all-features/Multi-Account%20Structure.svg", title: "Multi-Account Structure", description: "Run agency → sub-account hierarchies for client isolation and reporting." },
+    { imageSrc: "/agency-ad-account/all-features/Transparent%20Fee%20Model.svg", title: "Transparent Fee Model", description: "Flat % of ad spend. No hidden setup, no surprise top-up fees." },
+    { imageSrc: "/agency-ad-account/all-features/Pixel%20Continuity.svg", title: "Pixel Continuity", description: "Keep your learning data and custom audiences intact when switching." },
+    { imageSrc: "/agency-ad-account/all-features/Fast%20Replacement%20SLA.svg", title: "Fast Replacement SLA", description: "If an asset gets flagged, we hand you a replacement within the same business day." },
+    { imageSrc: "/agency-ad-account/all-features/Unified%20Billing.svg", title: "Unified Billing", description: "Consolidate spend across clients into one invoice for cleaner ops." },
   ],
 }
 

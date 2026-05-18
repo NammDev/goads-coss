@@ -18,7 +18,6 @@ import {
   Scissors,
   Shield,
   Smile,
-  StickyNote,
   UserSearch,
   type LucideIcon,
 } from "lucide-react";
@@ -85,13 +84,6 @@ export const TOOLS: ToolItem[] = [
     icon: Mail,
     category: "utility",
     featured: true,
-  },
-  {
-    slug: "notepad",
-    title: "Online Notepad",
-    description: "Quick notes saved in your browser",
-    icon: StickyNote,
-    category: "utility",
   },
   {
     slug: "check-ip",

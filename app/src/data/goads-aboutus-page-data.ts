@@ -33,7 +33,7 @@ export const aboutusTestimonials = [
     authorName: "Justin Bui",
     authorRole: "Founder & CEO",
     authorImageSrc: "/foreplay/solutions_test1_avt.webp",
-    bgImageSrc: "/foreplay/solutions_test1_bg.webp",
+    bgImageSrc: "/about/Copy%20of%201.svg",
     bgImageAlt: "Justin Bui — Founder of GOADS",
   },
   {
@@ -44,7 +44,7 @@ export const aboutusTestimonials = [
     authorName: "Nam Nguyen",
     authorRole: "Founder & CTO",
     authorImageSrc: "/foreplay/solutions_test2_avt.webp",
-    bgImageSrc: "/foreplay/solutions_test2_bg.webp",
+    bgImageSrc: "/about/Copy%20of%202.svg",
     bgImageAlt: "Nam Nguyen — Founder & CTO",
   },
   {
@@ -55,7 +55,7 @@ export const aboutusTestimonials = [
     authorName: "",
     authorRole: "",
     authorImageSrc: "",
-    bgImageSrc: "",
-    bgImageAlt: "",
+    bgImageSrc: "/about/Copy%20of%203.svg",
+    bgImageAlt: "Why GOADS",
   },
 ]
