@@ -102,8 +102,8 @@ export function ForeplayUniversityFeatureRow({
   )
 
   return (
-    // .left-right-section
-    <div className="flex items-center gap-6">
+    // .left-right-section — [SRC] display:flex; place-items:center; gap:40px
+    <div className="flex items-center gap-10">
       {reversed ? (
         <>
           {imageBlock}

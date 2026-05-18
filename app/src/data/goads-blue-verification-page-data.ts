@@ -17,7 +17,6 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
       "Verified accounts earn up to 30% more engagement on average. The blue check tells your audience you're the real brand — not a competitor, not an impersonator.\n\nBeyond credibility, verification unlocks priority support, account protection and impersonation-removal tools that unverified accounts never see.\n\nWe've taken accounts from unverified to verified on both Facebook and Instagram — at every business size.",
     image: "/foreplay/goads/goads-blue-verification-badge.webp",
     imageAlt: "Verified Instagram profile with blue checkmark on iPhone, by GoAds",
-    imageMaxWidth: 840, // +50% larger than the default 560
     reversed: false,
   },
   {
@@ -26,7 +25,6 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
       "Your audience doesn't separate Facebook from Instagram — they expect the badge on every profile. One unverified handle breaks trust across both.\n\nWe handle both platforms end-to-end. Single point of contact, official Meta channels only, predictable timelines on every submission.",
     image: "/foreplay/goads/goads-blue-verification-multiplatform.webp",
     imageAlt: "Verified Facebook Page with blue checkmark on iPad, by GoAds",
-    imageMaxWidth: 840, // match image 1 size
     reversed: true,
     ctaLabel: "Contact us now",
     ctaHref: "/book-demo",
