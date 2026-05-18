@@ -11,6 +11,179 @@ import { encrypt } from "@/lib/db/encryption";
 import { credentialSchemaMap } from "@/lib/validators/credential-schemas";
 import type { ProductType } from "@/lib/validators/credential-schemas";
 import { createNotification } from "@/lib/actions/notification-actions";
+import { getOrderTotalQuantity } from "@/lib/db/queries/order-queries";
+
+type DeliverResult =
+  | { success: true; deliveredItemId: string }
+  | { success: false; error: string };
+
+export async function deliverOrderItem(formData: FormData): Promise<DeliverResult> {
+  const { userId } = await auth();
+  if (!userId) return { success: false, error: "Unauthorized" };
+
+  const user = await currentUser();
+  const role = (user?.publicMetadata?.role as string) ?? "customer";
+  if (role !== "super_admin" && role !== "staff") {
+    return { success: false, error: "Unauthorized" };
+  }
+
+  const orderItemId = formData.get("orderItemId") as string;
+  const orderId = formData.get("orderId") as string;
+  const productType = formData.get("productType") as string;
+  const uid = (formData.get("uid") as string) || undefined;
+
+  if (!orderItemId || !orderId || !productType) {
+    return { success: false, error: "Missing required fields" };
+  }
+
+  // Validate productType is a known type
+  if (!(productType in credentialSchemaMap)) {
+    return { success: false, error: `Unknown product type: ${productType}` };
+  }
+
+  const type = productType as ProductType;
+  const schema = credentialSchemaMap[type];
+
+  // Build credentials object from form fields
+  const credentialFields: Record<string, string> = {};
+  if ("shape" in schema) {
+    const shape = (schema as { shape: Record<string, unknown> }).shape;
+    for (const key of Object.keys(shape)) {
+      const val = formData.get(`cred_${key}`) as string | null;
+      if (val) credentialFields[key] = val;
+    }
+  }
+
+  // Validate credentials against schema
+  const parsed = schema.safeParse(credentialFields);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Invalid credentials";
+    return { success: false, error: firstError };
+  }
+
+  try {
+    // Validate orderItemId belongs to this order
+    const [orderItem] = await db
+      .select({ id: orderItems.id })
+      .from(orderItems)
+      .where(eq(orderItems.id, orderItemId))
+      .limit(1);
+
+    if (!orderItem) {
+      return { success: false, error: "Order item not found" };
+    }
+
+    // Check for duplicate delivery
+    const [existingDelivery] = await db
+      .select({ id: deliveredItems.id })
+      .from(deliveredItems)
+      .where(eq(deliveredItems.orderItemId, orderItemId))
+      .limit(1);
+
+    if (existingDelivery) {
+      return { success: false, error: "This item has already been delivered" };
+    }
+
+    const credJson = JSON.stringify(credentialFields);
+    let encryptedCreds: string;
+    try {
+      encryptedCreds = encrypt(credJson);
+    } catch {
+      // Fallback: store plain if ENCRYPTION_KEY not set (dev only)
+      encryptedCreds = credJson;
+    }
+
+    const deliveredItemId = createId();
+    const warrantyUntil = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+    await db.transaction(async (tx) => {
+      // Lock the order row first to prevent race conditions on status transitions
+      const [lockedOrder] = await tx
+        .select({ id: orders.id, status: orders.status })
+        .from(orders)
+        .where(eq(orders.id, orderId))
+        .for("update");
+
+      if (!lockedOrder) throw new Error("ORDER_NOT_FOUND");
+
+      // Reject delivery on terminal-status orders
+      if (lockedOrder.status === "cancelled" || lockedOrder.status === "completed") {
+        throw new Error(`ORDER_TERMINAL:${lockedOrder.status}`);
+      }
+
+      await tx.insert(deliveredItems).values({
+        id: deliveredItemId,
+        orderId,
+        orderItemId,
+        productType: type,
+        uid: uid || null,
+        credentials: encryptedCreds,
+        status: "active",
+        warrantyUntil,
+      });
+
+      // Use SUM(quantity) — not COUNT(*) — to correctly handle lines with quantity > 1
+      const totalQty = await getOrderTotalQuantity(tx, orderId);
+
+      const [deliveredResult] = await tx
+        .select({ delivered: count() })
+        .from(deliveredItems)
+        .where(eq(deliveredItems.orderId, orderId));
+
+      const deliveredCount = deliveredResult?.delivered ?? 0;
+
+      // Auto-transition: paid → processing on first delivery
+      if (lockedOrder.status === "paid") {
+        await tx
+          .update(orders)
+          .set({ status: "processing", updatedAt: new Date() })
+          .where(eq(orders.id, orderId));
+      }
+
+      // Auto-transition: processing → delivered when all items are delivered
+      if (deliveredCount >= totalQty && totalQty > 0) {
+        await tx
+          .update(orders)
+          .set({ status: "delivered", deliveredAt: new Date(), updatedAt: new Date() })
+          .where(eq(orders.id, orderId));
+      }
+    });
+
+    revalidatePath(`/admin/orders/${orderId}`);
+
+    // Non-blocking notification for customer
+    const [order] = await db
+      .select({ customerId: orders.customerId })
+      .from(orders)
+      .where(eq(orders.id, orderId))
+      .limit(1);
+
+    if (order) {
+      createNotification({
+        userId: order.customerId,
+        type: "item_delivered",
+        title: "Item delivered",
+        message: `An item for order #${orderId.slice(-6)} has been delivered.`,
+        linkUrl: `/portal/orders/${orderId}`,
+      }).catch(() => {});
+    }
+
+    return { success: true, deliveredItemId };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+
+    if (message === "ORDER_NOT_FOUND") {
+      return { success: false, error: "Order not found" };
+    }
+    if (message.startsWith("ORDER_TERMINAL:")) {
+      const status = message.split(":")[1];
+      return { success: false, error: `Order is ${status} and cannot receive deliveries` };
+    }
+
+    console.error("deliverOrderItem error:", message);
+    return { success: false, error: "Failed to deliver item" };
+  }
+}
 
 type DeliverResult =
   | { success: true; deliveredItemId: string }
