@@ -77,14 +77,6 @@ export const unbanFeatureRows: FeatureRowData[] = [
   },
 ]
 
-// ── Examples Grid (ecommerceExamples array reused — only section copy changes) ──
-export const unbanExamplesSection = {
-  subtitle: "Recent Recoveries",
-  title: "Real bans, real recoveries",
-  description:
-    "A snapshot of recent disabled assets GoAds has brought back — profiles, pages, ad accounts and Business Managers.",
-}
-
 // ── FAQ ──
 export const unbanFaq = {
   subtitle: "FAQ",
