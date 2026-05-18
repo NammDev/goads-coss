@@ -24,7 +24,7 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
     description:
       "Your audience doesn't separate Facebook from Instagram — they expect the badge on every profile. One unverified handle breaks trust across both.\n\nWe handle both platforms end-to-end. Single point of contact, official Meta channels only, predictable timelines on every submission.",
     image: "/foreplay/goads/goads-blue-verification-multiplatform.webp",
-    imageAlt: "Facebook and Instagram profiles both blue-verified, managed by GoAds",
+    imageAlt: "Facebook business Page showing the blue verified badge on an iPad",
     reversed: true,
     ctaLabel: "Contact us now",
     ctaHref: "/book-demo",
