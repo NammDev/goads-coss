@@ -66,47 +66,32 @@ export function ForeplayHeaderResourcesMenu() {
             <ResourcesList items={learnItems} />
           </div>
 
-          {/* .u-nav-resources-banner — row-span 2, col-span 3, justify-self-end
-              border-l, rounded-[18px], max-w-[275px], m-[10px], pt-[25px] pb-9, relative, overflow-hidden */}
+          {/* .u-nav-resources-banner — row-span 2, col-span 3, justify-self-end.
+              Text-free mood visual (avatars + stars) so it never pixelates when
+              scaled down; ALL copy is crisp HTML overlaid on top. Click →
+              Wall of Love (/reviews). Foreplay nav-banner language. */}
           <a
             href="/reviews"
-            className="col-span-3 row-span-2 row-start-1 relative m-2.5 flex w-full max-w-[275px] items-start justify-center justify-self-end overflow-hidden rounded-[18px] border-l border-[var(--fp-border-nav)] pt-[25px] pb-9 no-underline transition-all duration-200 hover:opacity-80"
+            className="group col-span-3 row-span-2 row-start-1 relative m-2.5 flex w-full max-w-[275px] flex-col items-center justify-end justify-self-end overflow-hidden rounded-[18px] border-l border-[var(--fp-border-nav)] bg-background pb-6 no-underline transition-all duration-200 hover:opacity-95"
           >
-            {/* .nav-banner-content — z-2, flex-col gap-1, items-center, max-w-[200px], text-center */}
-            <div className="relative z-[2] flex max-w-[200px] flex-col items-center gap-1 text-center">
-              {/* .text-solid-900 — color: var(--fp-solid-900) (dark) */}
-              <div className="text-[var(--fp-solid-900)]">
-                {/* .u-nav-banner-title — flex, gap-[5px], items-center, whitespace-nowrap */}
-                <div className="flex items-center gap-[5px] whitespace-nowrap">
-                  {/* .icon-20 — 20×20 */}
-                  <div className="flex size-5 items-center justify-center">
-                    <MerchIcon />
-                  </div>
-                  {/* .text-label-s */}
-                  <div className={fpText.labelS}>Wall of Love</div>
-                </div>
-              </div>
-              {/* .u-nav-merch-link-description — color: var(--fp-solid-900), flex:1, text-left */}
-              <div className="flex-1 text-left text-[var(--fp-solid-900)]">
-                {/* .text-body-s */}
-                <div className={fpText.bodyS}>500+ media buyers trust GoAds</div>
-              </div>
-            </div>
-            {/* .merch-video — absolute, 112%×115%, inset:-1% 0% 0% -7% (z-0, behind content) */}
-            <div
-              className="pointer-events-none absolute z-0 flex items-center justify-center"
-              style={{ top: "-1%", right: "0%", bottom: "0%", left: "-7%", width: "112%", height: "115%" }}
-            >
-              <video
-                autoPlay
-                playsInline
-                muted
-                loop
-                preload="auto"
-                className="m-0 size-full object-cover p-0"
-              >
-                <source src="/video/Website-Loop.webm" type="video/webm" />
-              </video>
+            {/* Decorative mood image — fills card, behind content (no text in it) */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/foreplay/goads-wall-of-love.webp"
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 z-0 size-full scale-105 object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+            {/* Compact bottom scrim — just enough for the single CTA line, so the
+                lower avatars stay bright (no big dark band) */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-1/4 bg-gradient-to-t from-background via-background/70 to-transparent" />
+
+            {/* Crisp HTML copy — single CTA only (heading/subtitle removed per request) */}
+            <div className="relative z-[2] flex items-center gap-1 px-4 text-foreground">
+              <div className={fpText.labelS}>Read all reviews</div>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="transition-transform duration-200 group-hover:translate-x-0.5">
+                <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </div>
           </a>
 
@@ -241,14 +226,6 @@ function ContactIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <rect x="3.25" y="5" width="13.5" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       <path d="m4 6 6 4.5L16 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-function MerchIcon() {
-  return (
-    <svg width="21" height="20" viewBox="0 0 21 20" fill="none">
-      <path d="M2.16 3.13h1.08c.82 0 1.52.59 1.65 1.4L5.06 5.62m0 0 1.04 6.52c.13.8.83 1.4 1.65 1.4h7.15c.82 0 1.52-.6 1.65-1.4l.87-5.56a.78.78 0 0 0-.77-.96H5.06Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M7.58 15.52a.94.94 0 0 1 .94.94.94.94 0 0 1-.94.93.94.94 0 0 1-.94-.93c0-.52.42-.94.94-.94ZM15.08 15.52a.94.94 0 0 1 .94.94.94.94 0 0 1-.94.93.94.94 0 0 1-.94-.93c0-.52.42-.94.94-.94Z" fill="currentColor" stroke="currentColor" strokeWidth="0.21" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }

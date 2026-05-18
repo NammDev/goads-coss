@@ -1,7 +1,6 @@
 'use client'
 
 import { createContext, useContext, useCallback, useSyncExternalStore } from 'react'
-import { toast } from 'sonner'
 import type { Product } from '@/components/product-catalog'
 
 /* ---------- types ---------- */
@@ -81,17 +80,11 @@ function addItem(product: Product) {
       ],
     })
   }
-  /* notify cart sheet to auto-open + show toast */
+  /* `cart:item-added` slides the non-modal cart drawer open (it doesn't block
+     the catalog) and updates count/badge listeners. No toast — the drawer
+     itself is the confirmation now, so a popup would be redundant. */
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent('cart:item-added'))
-    const qty = existing ? existing.quantity + 1 : 1
-    toast(`${product.name} added to cart`, {
-      description: `Quantity: ${qty}`,
-      action: {
-        label: 'View Cart',
-        onClick: () => window.dispatchEvent(new CustomEvent('cart:item-added')),
-      },
-    })
   }
 }
 

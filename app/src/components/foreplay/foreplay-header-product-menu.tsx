@@ -57,10 +57,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplayHeaderDropdownBase } from "@/components/foreplay/foreplay-header-dropdown-base"
-
-// Depth layers for the "What is GoAds?" 3D-extruded spinning logo (banner).
-// More layers = smoother solid edge; 22 ≈ ~24px thickness at 1.15px step.
-const GOADS_EXTRUDE_LAYERS = 22
+import { ForeplayNavBanner3dLogo } from "@/components/foreplay/foreplay-nav-banner-3d-logo"
 
 // ── Product data (matches source order + content) ──
 // Sprite mapping verified via frame-count matching source CSS:
@@ -182,68 +179,8 @@ export function ForeplayHeaderProductMenu() {
                   Source CSS (≥1280px merged): border-l justify-start items-center pt-20
                   → Verified DOM: .nav-product-banner-video has TWO children: .nav-banner-content AND a.nav-lightbox */}
             <div className="flex min-h-[204px] flex-1 flex-col items-center justify-start gap-5 border-l border-[var(--fp-border-nav)] px-6 pt-20">
-              {/* .nav-banner-content — source: z-index:2 gap:4px color:#ffffffad text-align:center
-                    flex-col justify-content:flex-start align-items:center max-width:200px
-                    display:flex position:relative */}
-              <div className="relative z-[2] flex max-w-[200px] flex-col items-center justify-start gap-1 text-center text-[var(--fp-alpha-100)]">
-                {/* .text-white — source: color:#fff, flex:1 (Webflow hidden CSS) */}
-                <div className="flex-1 text-foreground">
-                  {/* .u-nav-banner-title — source: gap:5px, white-space:nowrap, align-items:center,
-                        justify-content:flex-start, display:flex */}
-                  <div className="flex items-center justify-start gap-[5px] whitespace-nowrap">
-                    {/* .icon-20 — source: width:20px, height:20px */}
-                    <div className="size-5">
-                      {/* .svg.w-embed — Webflow SVG wrapper */}
-                      <div className="w-embed">
-                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M8.99609 12.0563V7.94385C8.99609 7.64927 9.32595 7.47495 9.56934 7.64091L12.5851 9.69713C12.7986 9.84269 12.7986 10.1574 12.5851 10.303L9.56934 12.3592C9.32595 12.5252 8.99609 12.3508 8.99609 12.0563Z" fill="white" />
-                          <path fillRule="evenodd" clipRule="evenodd" d="M10.5002 4.13301C7.26013 4.13301 4.63354 6.7596 4.63354 9.99968C4.63354 13.2398 7.26013 15.8663 10.5002 15.8663C13.7403 15.8663 16.3669 13.2398 16.3669 9.99968C16.3669 6.7596 13.7403 4.13301 10.5002 4.13301ZM3.16687 9.99968C3.16687 5.94959 6.45011 2.66634 10.5002 2.66634C14.5503 2.66634 17.8335 5.94959 17.8335 9.99968C17.8335 14.0497 14.5503 17.333 10.5002 17.333C6.45011 17.333 3.16687 14.0497 3.16687 9.99968Z" fill="white" />
-                        </svg>
-                      </div>
-                    </div>
-                    {/* .text-label-s */}
-                    <div className={fpText.labelS}>What is GoAds?</div>
-                  </div>
-                </div>
-              </div>
-              {/* a.nav-lightbox.w-inline-block.w-lightbox — CHILD of .nav-product-banner-video
-                    (verified via closing-div count in source HTML — 4 closes before <a>: text-label-s,
-                    u-nav-banner-title, text-white, nav-banner-content → remaining stack has banner-video)
-                    Source CSS: width:100%, max-width:240px, position:relative
-                    ≥1280px: border-radius:10px, overflow:hidden */}
-              {/* Container keeps Foreplay banner proportions (width:100%, max-width:240px,
-                    rounded-[10px], overflow-hidden). Lightbox <a> swapped to a <div> since
-                    the play/lightbox was removed — it is now a pure visual. */}
-              <div className="relative w-full max-w-[240px] overflow-hidden rounded-[10px]">
-                {/* .hero-video-thumb — z-index:3 height:150px, dark plaque so the panda
-                      negative-space (#020308) blends → exact original B&W mark. */}
-                <div className="relative z-[3] flex h-[150px] w-full items-center justify-center bg-background [perspective:1100px]">
-                  {/* Real 3D extruded spin of the ORIGINAL GoAds mark (no AI redraw):
-                        GOADS_EXTRUDE_LAYERS copies of the exact SVG stacked along Z give
-                        the logo solid thickness; deeper layers darken (B&W shading) so the
-                        side/back reads as a 3D mass. Logo enlarged to 120px; container
-                        keeps Foreplay 240×150 proportions (~15px vertical breathing). */}
-                  <div className="relative size-[120px] [transform-style:preserve-3d] [animation:goads-spin-y_11s_linear_infinite] motion-reduce:[animation:none]">
-                    {Array.from({ length: GOADS_EXTRUDE_LAYERS }).map((_, i) => {
-                      const z = (i - (GOADS_EXTRUDE_LAYERS - 1) / 2) * 1.15
-                      const brightness = 1 - (i / (GOADS_EXTRUDE_LAYERS - 1)) * 0.8
-                      return (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          key={i}
-                          src="/foreplay/cta/goads-verified-panda.svg"
-                          alt={i === 0 ? "GoAds" : ""}
-                          aria-hidden={i !== 0}
-                          className="absolute inset-0 size-full object-contain"
-                          style={{ transform: `translateZ(${z}px)`, filter: `brightness(${brightness})` }}
-                        />
-                      )
-                    })}
-                  </div>
-                </div>
-                {/* Y-axis spin keyframes (scoped; browser dedupes identical <style>) */}
-                <style>{`@keyframes goads-spin-y{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}`}</style>
-              </div>
+              {/* Shared 3D spinning-logo banner (label + mark) */}
+              <ForeplayNavBanner3dLogo />
             </div>
           </div>
         </div>
