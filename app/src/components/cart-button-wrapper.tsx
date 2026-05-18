@@ -6,12 +6,18 @@ import { Button } from '@/components/ui/button'
 import { useCart } from '@/lib/cart-context'
 import ShoppingCartSheet from '@/components/shadcn-studio/blocks/shopping-cart-02/shopping-cart-02'
 
+interface CartButtonWrapperProps {
+  /** When true, shows the self-serve Checkout button (portal only) */
+  showCheckout?: boolean
+}
+
 /** Client boundary for cart sheet inside server-rendered SiteHeader */
-export function CartButtonWrapper() {
+export function CartButtonWrapper({ showCheckout = false }: CartButtonWrapperProps) {
   const { totalItems } = useCart()
 
   return (
     <ShoppingCartSheet
+      showCheckout={showCheckout}
       trigger={
         <Button
           variant='ghost'

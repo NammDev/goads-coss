@@ -1,10 +1,12 @@
 'use client'
 
+import { useEffect } from 'react'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/dashboard/app-sidebar'
 import { SiteHeader } from '@/components/dashboard/site-header'
 import { SiteFooter } from '@/components/dashboard/site-footer'
 import { buildPortalNavGroups } from '@/data/portal-nav'
+import { useCart } from '@/lib/cart-context'
 import type { SerializedNotification } from '@/components/dashboard/site-header'
 
 interface PortalShellProps {
@@ -27,6 +29,12 @@ export function PortalShell({
   children,
 }: PortalShellProps) {
   const navGroups = buildPortalNavGroups(productCounts)
+  const { bindOwner } = useCart()
+
+  // Bind the cart to the current user so cross-user cart clearing works (Req 7.5)
+  useEffect(() => {
+    if (userId) bindOwner(userId)
+  }, [userId, bindOwner])
 
   return (
     <SidebarProvider

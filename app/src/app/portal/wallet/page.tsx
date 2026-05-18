@@ -5,14 +5,20 @@ import { requireRole } from '@/lib/auth/require-role'
 import { getWalletTransactions, getCustomerBalance } from '@/lib/db/queries/wallet-queries'
 import { formatUSD } from '@/lib/format-currency'
 import { WalletTable } from './wallet-table'
+import { WalletPageClient } from './wallet-page-client'
 
-export default async function PortalWalletPage() {
+export default async function PortalWalletPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ returnTo?: string }>
+}) {
   const session = await requireRole('customer')
   const userId = session.user.id
 
-  const [transactions, balance] = await Promise.all([
+  const [transactions, balance, params] = await Promise.all([
     getWalletTransactions(userId),
     getCustomerBalance(userId),
+    searchParams,
   ])
 
   const serializedTransactions = transactions.map((tx) => ({
@@ -20,12 +26,21 @@ export default async function PortalWalletPage() {
     createdAt: tx.createdAt.toISOString(),
   }))
 
+  const returnToCheckout = params.returnTo === 'checkout'
+  const balanceNum = parseFloat(balance ?? '0')
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Wallet</h1>
         <p className="text-muted-foreground mt-1 text-sm">Your balance and transaction history.</p>
       </div>
+
+      {/* Client component handles banner, topup dialog, and resume modal */}
+      <WalletPageClient
+        returnToCheckout={returnToCheckout}
+        balance={balanceNum}
+      />
 
       {/* Balance card */}
       <Card className="shadow-none">

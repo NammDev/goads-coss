@@ -54,7 +54,7 @@ export function SiteHeader({ userId, notifications = [], unreadCount = 0 }: Site
 
         {/* Right side */}
         <div className="ml-auto flex items-center gap-1">
-          <CartButtonWrapper />
+          <CartButtonWrapper showCheckout />
           <NotificationDropdown
             trigger={
               <Button variant="ghost" size="icon" className="relative cursor-pointer">

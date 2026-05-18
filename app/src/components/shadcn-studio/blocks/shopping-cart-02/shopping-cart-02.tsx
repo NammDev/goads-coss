@@ -16,6 +16,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useCart } from '@/lib/cart-context'
+import { CartCheckoutButton } from '@/components/portal/cart-checkout-button'
 
 const TELEGRAM_USERNAME = 'goads_official'
 
@@ -46,9 +47,11 @@ function buildTelegramMessage(
 type ShoppingCartProps = {
   trigger: ReactNode
   defaultOpen?: boolean
+  /** When true, shows the self-serve Checkout button instead of the Telegram order button */
+  showCheckout?: boolean
 }
 
-const ShoppingCart = ({ defaultOpen = false, trigger }: ShoppingCartProps) => {
+const ShoppingCart = ({ defaultOpen = false, trigger, showCheckout = false }: ShoppingCartProps) => {
   const { items, totalItems, subtotal, removeItem, updateQuantity, clearCart } = useCart()
   const [open, setOpen] = useState(defaultOpen)
   const [payment, setPayment] = useState<'crypto' | 'wise'>('crypto')
@@ -254,14 +257,18 @@ const ShoppingCart = ({ defaultOpen = false, trigger }: ShoppingCartProps) => {
               </div>
 
               {/* order button */}
-              <Button
-                size='lg'
-                className='btn-mirror-sweep btn-secondary w-full rounded-lg text-sm gap-2'
-                onClick={handleOrder}
-              >
-                <Send className='size-4' />
-                Order via Telegram
-              </Button>
+              {showCheckout ? (
+                <CartCheckoutButton className="w-full" />
+              ) : (
+                <Button
+                  size='lg'
+                  className='btn-mirror-sweep btn-secondary w-full rounded-lg text-sm gap-2'
+                  onClick={handleOrder}
+                >
+                  <Send className='size-4' />
+                  Order via Telegram
+                </Button>
+              )}
             </div>
           </SheetFooter>
         )}
