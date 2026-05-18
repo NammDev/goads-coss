@@ -23,8 +23,6 @@ export interface FeatureRowData {
   reversed?: boolean
   ctaLabel?: string
   ctaHref?: string
-  /** Optional px cap for the image (default 560). Lower = renders smaller. */
-  imageMaxWidth?: number
 }
 
 // ── Hero ──

@@ -33,7 +33,6 @@ export function ForeplayUniversityFeatureRow({
   reversed = false,
   ctaLabel,
   ctaHref,
-  imageMaxWidth = 560,
 }: FeatureRowData) {
   const textBlock = (
     // .left-right-section-content: flex col, gap-32px, items-start, justify-center (NO flex:1 in source)
@@ -93,9 +92,8 @@ export function ForeplayUniversityFeatureRow({
       <img
         src={image}
         alt={imageAlt}
-        width={imageMaxWidth}
-        style={{ maxWidth: imageMaxWidth }}
-        className="w-full rounded-[20px]"
+        width={560}
+        className="w-full max-w-[560px] rounded-[20px]"
         loading="lazy"
       />
     </div>
