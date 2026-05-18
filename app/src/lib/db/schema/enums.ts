@@ -92,3 +92,12 @@ export const deliveredItemStatusEnum = pgEnum("delivered_item_status", [
   "banned",
   "expired",
 ]);
+
+/** Topup request lifecycle status */
+export const topupRequestStatusEnum = pgEnum("topup_request_status", [
+  "pending",
+  "completed",
+  "failed",
+  "expired",
+  "cancelled",
+]);

@@ -1,5 +1,5 @@
 import { eq, desc, count, sum, sql } from "drizzle-orm";
-import { db } from "@/lib/db";
+import { db, type DbOrTx } from "@/lib/db";
 import { orders, orderItems, deliveredItems, users, products } from "@/lib/db/schema";
 import { dateRangeWhere, type DateRangeParams } from "./date-range-utils";
 import type { InferSelectModel } from "drizzle-orm";
@@ -27,6 +27,22 @@ export type OrderStats = {
   pendingCount: number;
   productCount: number;
 };
+
+/**
+ * Returns the total quantity of all items in an order (SUM of quantities).
+ * Must be used instead of COUNT(*) to correctly handle lines with quantity > 1.
+ * Accepts a transaction context so it can run inside the same tx as delivery writes.
+ */
+export async function getOrderTotalQuantity(
+  txOrDb: DbOrTx,
+  orderId: string,
+): Promise<number> {
+  const [result] = await txOrDb
+    .select({ total: sql<number>`COALESCE(SUM(${orderItems.quantity}), 0)::int` })
+    .from(orderItems)
+    .where(eq(orderItems.orderId, orderId));
+  return result?.total ?? 0;
+}
 
 /** Get all orders with customer name */
 export async function getAllOrders(dateRange?: DateRangeParams): Promise<OrderWithCustomer[]> {
