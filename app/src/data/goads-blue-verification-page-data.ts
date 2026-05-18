@@ -16,7 +16,7 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
     description:
       "Verified accounts earn up to 30% more engagement on average. The blue check tells your audience you're the real brand — not a competitor, not an impersonator.\n\nBeyond credibility, verification unlocks priority support, account protection and impersonation-removal tools that unverified accounts never see.\n\nWe've taken accounts from unverified to verified on both Facebook and Instagram — at every business size.",
     image: "/foreplay/goads/goads-blue-verification-badge.webp",
-    imageAlt: "Instagram profile with a large clear blue verified badge",
+    imageAlt: "Brand profile blue-verified on Instagram with GoAds",
     imageMaxWidth: 840, // +50% larger than the default 560
     reversed: false,
   },
@@ -25,8 +25,8 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
     description:
       "Your audience doesn't separate Facebook from Instagram — they expect the badge on every profile. One unverified handle breaks trust across both.\n\nWe handle both platforms end-to-end. Single point of contact, official Meta channels only, predictable timelines on every submission.",
     image: "/foreplay/goads/goads-blue-verification-multiplatform.webp",
-    imageAlt: "Facebook Page with a large clear blue verified badge",
-    imageMaxWidth: 840, // match image 1 size (copy of image 1, Facebook)
+    imageAlt: "Brand blue-verified on both Facebook and Instagram via GoAds",
+    imageMaxWidth: 840, // match image 1 size
     reversed: true,
     ctaLabel: "Contact us now",
     ctaHref: "/book-demo",
