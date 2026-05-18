@@ -26,7 +26,7 @@ export function ForeplayLightGhostAction({
       type={type}
       {...rest}
       className={cn(
-        "flex items-center gap-2 rounded-[10px] px-3 py-2 text-[var(--fp-solid-500)] no-underline",
+        "flex cursor-pointer items-center gap-2 rounded-[10px] px-3 py-2 text-[var(--fp-solid-500)] no-underline",
         "transition-colors duration-150",
         "hover:bg-[var(--fp-solid-25)] hover:text-[var(--fp-solid-900)]",
         "disabled:cursor-not-allowed disabled:opacity-40",

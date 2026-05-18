@@ -4,7 +4,7 @@
 export const contactHero = {
   bgImage: "/foreplay/university_bghero.png",
   description:
-    "Questions, custom requests, or need a hand? Our team is one message away — real people, fast answers, 24/7.",
+    "Have a question, a custom requirement, or need help choosing the right setup? The GoAds team replies in minutes, not days — real people on Telegram, WhatsApp and Discord, around the clock.",
   ctaLabel: "Talk to Sales",
   ctaHref: "/book-demo",
 }

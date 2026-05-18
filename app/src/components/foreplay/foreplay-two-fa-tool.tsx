@@ -6,9 +6,10 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { ArrowRight, Copy, Download } from "lucide-react"
+import { ArrowRight, Check, Copy, Download } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { copyToClipboard } from "@/lib/clipboard"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplayLightPrimaryButton } from "@/components/foreplay/foreplay-light-primary-button"
 import { ForeplayLightGhostAction } from "@/components/foreplay/foreplay-light-ghost-action"
@@ -118,13 +119,11 @@ export function ForeplayTwoFaTool() {
     setCopiedId(id)
     setTimeout(() => setCopiedId((current) => (current === id ? null : current)), 1400)
   }
-  const copyCode = (entry: CodeEntry) => {
-    navigator.clipboard.writeText(entry.code)
-    flashCopied(entry.secret)
+  const copyCode = async (entry: CodeEntry) => {
+    if (await copyToClipboard(entry.code)) flashCopied(entry.secret)
   }
-  const copyAll = () => {
-    navigator.clipboard.writeText(entries.map((e) => e.code).join("\n"))
-    flashCopied("__all")
+  const copyAll = async () => {
+    if (await copyToClipboard(entries.map((e) => e.code).join("\n"))) flashCopied("__all")
   }
   const exportTxt = () => {
     const text = entries.map((e) => `${e.secret}|${e.code}`).join("\n")
@@ -184,13 +183,17 @@ export function ForeplayTwoFaTool() {
               key={entry.secret}
               entry={entry}
               copied={copiedId === entry.secret}
-              onCopy={() => copyCode(entry)}
+              onCopy={() => {
+                void copyCode(entry)
+              }}
             />
           ))}
 
           <div className="flex items-center gap-2 pt-1">
             <ForeplayLightGhostAction
-              onClick={copyAll}
+              onClick={() => {
+                void copyAll()
+              }}
               icon={<Copy className="size-3.5" />}
               label={copiedId === "__all" ? "Copied" : "Copy all"}
             />
@@ -222,7 +225,7 @@ function CodeCard({
       onClick={onCopy}
       aria-label={`Copy ${entry.code}`}
       className={cn(
-        "group flex w-full items-center justify-between gap-4 rounded-[16px] border border-[var(--fp-solid-50)] bg-[var(--fp-solid-25)] px-5 py-4 text-left max-md:px-4",
+        "group flex w-full cursor-pointer items-center justify-between gap-4 rounded-[16px] border border-[var(--fp-solid-50)] bg-[var(--fp-solid-25)] px-5 py-4 text-left max-md:px-4",
         "transition-all duration-[500ms] ease-[cubic-bezier(0.19,1,0.22,1)]",
         "hover:border-[var(--fp-solid-400)]",
         copied && "border-[var(--fp-solid-700)]",
@@ -240,13 +243,23 @@ function CodeCard({
         >
           {formatCode(entry.code)}
         </span>
-        <Copy
-          className={cn(
-            "size-3.5 text-[var(--fp-solid-400)] transition-colors duration-200",
-            "group-hover:text-[var(--fp-solid-900)]",
-            copied && "text-[var(--fp-solid-900)]",
+        {/* Inline copy feedback — right at the code, no corner toast.
+            Fixed width so the row never shifts on state change. */}
+        <span className="flex w-[78px] shrink-0 items-center justify-end">
+          {copied ? (
+            <span className="flex animate-in items-center gap-1 fade-in zoom-in-95 text-[var(--fp-solid-900)] duration-200">
+              <Check className="size-4" />
+              <span className={cn(fpText.labelS, "font-medium")}>Copied</span>
+            </span>
+          ) : (
+            <Copy
+              className={cn(
+                "size-3.5 text-[var(--fp-solid-400)] transition-colors duration-200",
+                "group-hover:text-[var(--fp-solid-900)]",
+              )}
+            />
           )}
-        />
+        </span>
       </div>
     </button>
   )

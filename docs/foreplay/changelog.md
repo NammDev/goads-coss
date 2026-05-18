@@ -788,3 +788,4 @@ Verbatim Foreplay carousel spec (verified from `foreplay-source.css`):
 - [x] Clone /university/classes page ✅
 
 - [x] Clone 404 / not-found page ✅ (`app/src/app/not-found.tsx` — reuses ForeplaySectionHead + ForeplayCtaButton; gradient 404, skittles video, Return Home; renders for all unmatched routes)
+- [x] Re-clone contact-channel card (Telegram/WhatsApp/Email) to `.home-winning-card` spec ✅ (`foreplay-contact-channels.tsx` — rounded-[24px], `shadow-[0_0_0_1px_var(--fp-solid-50)]` hairline ring, p-6, gap-6, icon tile rounded-[12px] + alpha-600 border, cubic-bezier(.19,1,.22,1) transition)

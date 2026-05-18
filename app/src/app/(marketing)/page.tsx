@@ -63,7 +63,9 @@ export default function ForeplayHomePage() {
           sidebarTitle="Grow without limits"
           ctaHref="/pricing"
           learnMoreHref="/docs"
-          tabs={discoveryTabs}
+          tabs={discoveryTabs.filter(
+            (t) => t.label !== "TikTok" && t.label !== "Google",
+          )}
           tabImages={[
             "/foreplay/goads/goads-agency-ad-account.webp",
             "/foreplay/goads/goads-agency-ad-account.webp",

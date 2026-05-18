@@ -74,9 +74,9 @@ import { ForeplayNavBanner3dLogo } from "@/components/foreplay/foreplay-nav-bann
 const products = [
   { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/bm", icon: "/foreplay/BM.svg", gradient: "blue" },
   { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/profiles", icon: "/foreplay/PROFILES.svg", gradient: "green" },
-  { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/pages", icon: "/foreplay/PAGES.svg", gradient: "red" },
+  { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/pages", icon: "/navbar/pages.svg", gradient: "purple" },
   { label: "Agency Ad Account", desc: "Verified Meta accounts with higher daily caps.", href: "/agency-ad-account", icon: "/foreplay/META.svg", gradient: "meta" },
-  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/tiktok-accounts", icon: "/foreplay/TIKTOK.svg", gradient: "tiktok" },
+  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/tiktok-accounts", icon: "/navbar/tiktok.svg", gradient: "tiktok" },
 ]
 
 // SERVICES — value-added recovery & verification offerings
@@ -88,14 +88,14 @@ const extend = [
 // Glow gradients (linear-gradient bottom-up). Each color sampled from the matching icon SVG:
 // - blue:  BM briefcase (#5B9CFF → bright Foreplay blue)
 // - green: Profiles person (#00924B → Foreplay's brand green)
-// - red:   Pages document (#CC282B → spyder-tinted red for warmth)
+// - purple: Pages document (#7540B7 → brand purple glow)
 // - meta:  Agency Ad Account (#0050E4 — actual Meta blue, distinct from BM's lighter blue)
 // - tiktok: TikTok signature gradient (cyan #25F4EE → pink #FE2C55) — TikTok icon is gray
 //           so the glow uses brand color recognition instead of icon-color match.
 const gradientMap: Record<string, string> = {
   blue: "linear-gradient(#1f69ff00, #1f69ff 70%)",
   green: "linear-gradient(#00a87900, #00a879 70%)",
-  red: "linear-gradient(#ed615a00, #ed615a 70%)",
+  purple: "linear-gradient(#7540b700, #7540b7 70%)",
   meta: "linear-gradient(#0050e400, #0050e4 70%)",
   tiktok: "linear-gradient(#25f4ee00, #25f4ee4d 30%, #fe2c5599 60%, #fe2c55 80%)",
 }

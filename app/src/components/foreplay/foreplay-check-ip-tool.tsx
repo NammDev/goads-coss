@@ -44,29 +44,27 @@ function extractIp(raw: string): string | null {
   return null
 }
 
+// Goes through our /api/check-ip proxy — direct browser calls to ipwho.is are
+// blocked by ad-blockers. The route returns the normalized IPInfo shape.
 async function fetchIP(query?: string): Promise<IPInfo> {
-  const path = query ? `/${encodeURIComponent(query)}` : ""
-  const res = await fetch(`https://ipwho.is${path}`)
-  const data = await res.json()
-  if (!data?.success) {
-    return {
-      ip: query ?? "—",
-      city: "",
-      region: "",
-      country: "",
-      isp: "",
-      timezone: "",
-      valid: false,
-    }
+  const fallback: IPInfo = {
+    ip: query ?? "—",
+    city: "",
+    region: "",
+    country: "",
+    isp: "",
+    timezone: "",
+    valid: false,
   }
-  return {
-    ip: data.ip ?? "",
-    city: data.city ?? "",
-    region: data.region ?? "",
-    country: data.country ?? "",
-    isp: data.connection?.isp ?? data.connection?.org ?? "",
-    timezone: data.timezone?.id ?? "",
-    valid: true,
+  try {
+    const res = await fetch(
+      `/api/check-ip${query ? `?q=${encodeURIComponent(query)}` : ""}`,
+      { cache: "no-store", signal: AbortSignal.timeout(15000) },
+    )
+    if (!res.ok) return fallback
+    return (await res.json()) as IPInfo
+  } catch {
+    return fallback
   }
 }
 
@@ -206,10 +204,10 @@ export function ForeplayCheckIpTool() {
         <div className="flex items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
             <span className={cn(fpText.overline, "text-[var(--fp-solid-400)]")}>IP Address</span>
-            {info && !loading && <StatusBadge valid={info.valid} />}
+            {info && <StatusBadge valid={info.valid} />}
           </div>
 
-          {loading ? (
+          {loading && !info ? (
             <span className="h-9 w-48 animate-pulse rounded-[6px] bg-[var(--fp-solid-25)] max-md:w-32" />
           ) : info ? (
             <div className="flex items-center gap-3">
@@ -244,9 +242,15 @@ export function ForeplayCheckIpTool() {
       </div>
 
       {/* Details list */}
-      {(loading || (info && info.valid)) && (
-        <div className="overflow-hidden rounded-[16px] border border-[var(--fp-solid-50)] bg-white">
-          {loading
+      {((loading && !info) || (info && info.valid)) && (
+        <div
+          className={cn(
+            "overflow-hidden rounded-[16px] border border-[var(--fp-solid-50)] bg-white",
+            "transition-opacity duration-200",
+            loading && info && "opacity-60",
+          )}
+        >
+          {loading && !info
             ? Array.from({ length: 5 }).map((_, i) => (
                 <div
                   key={i}

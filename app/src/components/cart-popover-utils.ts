@@ -3,6 +3,16 @@
 import type { useCart } from '@/lib/cart-context'
 import { CONTACT } from '@/data/contact-info'
 
+// Display price: thousands grouped to the international standard
+// (1000 → "1,000"), drop the trailing ".00" for whole amounts, keep 2
+// decimals only when there are real cents (1234.5 → "1,234.50"). UI only.
+export function formatPrice(n: number): string {
+  return n.toLocaleString('en-US', {
+    minimumFractionDigits: Number.isInteger(n) ? 0 : 2,
+    maximumFractionDigits: 2,
+  })
+}
+
 // Orders go to the official GoAds Telegram (per request).
 export const TELEGRAM_URL = CONTACT.telegram.official
 
@@ -19,7 +29,7 @@ export function buildTelegramMessage(
 
   const itemLines = items.flatMap((i, idx) => [
     `${idx + 1}. ${i.name}`,
-    `   ${i.quantity} × $${i.price.toFixed(2)} = $${(i.price * i.quantity).toFixed(2)}`,
+    `   ${i.quantity} × $${formatPrice(i.price)} = $${formatPrice(i.price * i.quantity)}`,
   ])
 
   return [
@@ -31,7 +41,7 @@ export function buildTelegramMessage(
     ...itemLines,
     '',
     `💳 Payment: ${payment}`,
-    `💰 Total: $${subtotal.toFixed(2)} USD`,
+    `💰 Total: $${formatPrice(subtotal)} USD`,
     ...(trimmedNote ? ['', `📝 Note: ${trimmedNote}`] : []),
     '',
     'Please confirm availability and the next steps for payment & delivery. Thank you!',

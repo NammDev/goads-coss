@@ -9,12 +9,33 @@
 // .lens-security-card-footer: text-wrap balance
 // .card-button-holder: flex col, gap-[15px], flex-1, justify-end, pt-[15px]
 
+import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import { fpText } from "@/components/foreplay/foreplay-typography"
 import { ForeplaySectionHead } from "@/components/foreplay/foreplay-section-head"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
 
-const cards = [
+// Card shape — single source of truth for both default + injected content.
+export type ForeplayHomeFeatureCard = {
+  icon: ReactNode
+  title: string
+  description: string
+  ctaLabel: string
+  ctaHref: string
+  isMiddle?: boolean
+  image: string
+}
+
+// Optional overrides — contact page passes GET IN TOUCH content here.
+// Defaults preserve home/payment pages (propless usage) unchanged.
+type ForeplayHomeFeaturesGridProps = {
+  subtitle?: string
+  title?: string
+  description?: string
+  cards?: ForeplayHomeFeatureCard[]
+}
+
+const defaultCards: ForeplayHomeFeatureCard[] = [
   {
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,11 +44,11 @@ const cards = [
         <path d="M11.167 18.667l1.407-4.927a1 1 0 0 1 .96-.907h5.342a1 1 0 0 1 .96 1.335l-1.16 4.06a1 1 0 0 1-.962.44H11.167Zm0 0H7.833" stroke="currentColor" strokeWidth="1.667" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    title: "Direct access anytime",
-    description: "Reach us on Telegram, WhatsApp or Discord. Real answers from real people, 24/7.",
+    title: "Direct access, anytime",
+    description: "Message us on Telegram, WhatsApp or Discord and get a real answer from a real person — around the clock, no tickets, no waiting.",
     ctaLabel: "Contact Us",
-    ctaHref: "/book-demo",
-    image: "/foreplay/assets/7.png",
+    ctaHref: "/contact",
+    image: "/landing/community/support.png",
   },
   {
     icon: (
@@ -35,8 +56,8 @@ const cards = [
         <path d="M10.333 17.833h3.334M8.667 20.333h6.666C16.254 20.333 17 19.587 17 18.667V5.333C17 4.413 16.254 3.667 15.333 3.667H8.667C7.746 3.667 7 4.413 7 5.333v13.334c0 .92.746 1.666 1.667 1.666Z" stroke="currentColor" strokeWidth="1.667" strokeLinecap="round" />
       </svg>
     ),
-    title: "Built to save you time",
-    description: "Extensions and tools we built to fix what Meta breaks. Free for all users.",
+    title: "Tools that do the work",
+    description: "Free extensions and utilities we built to fix what Meta breaks — BM invites, cookie login, 2FA and more. No cost, no catch.",
     ctaLabel: "View Tools",
     ctaHref: "/tools",
     isMiddle: true,
@@ -50,23 +71,28 @@ const cards = [
       </svg>
     ),
     title: "Stay in the loop",
-    description: "Platform changes, new products, insider tips. Fresh updates straight from us.",
-    ctaLabel: "Learn More",
+    description: "Policy shifts, new products and insider playbooks — straight from the GoAds team, before they cost you a campaign.",
+    ctaLabel: "Read the Blog",
     ctaHref: "/blog",
-    image: "/foreplay/assets/8.png",
+    image: "/landing/community/blog.png",
   },
 ]
 
-export function ForeplayHomeFeaturesGrid() {
+export function ForeplayHomeFeaturesGrid({
+  subtitle = "SUPPORT & RESOURCES",
+  title = "Support that never sleeps",
+  description = "A direct line to our team, the tools we built to beat Meta's headaches, and updates that keep you in front of every platform change.",
+  cards = defaultCards,
+}: ForeplayHomeFeaturesGridProps = {}) {
   return (
     <div className="py-27">
       <div className="mx-auto flex max-w-[1152px] flex-col gap-12">
         {/* .section-head (REUSE) */}
         <ForeplaySectionHead
-          subtitle="COMMUNITY & RESOURCES"
-          title="Stay connected, stay ahead"
+          subtitle={subtitle}
+          title={title}
           titleTag="h2" titleSize="h2"
-          description="Tools, updates, and direct access to our team. Everything to keep you moving."
+          description={description}
           descSize="l"
           variant="light"
         />
@@ -91,15 +117,26 @@ export function ForeplayHomeFeaturesGrid() {
                 </h3>
               </div>
 
-              {/* .lens-security-card-body.home-card-body: h-auto, -mx-6 */}
+              {/* .lens-security-card-body.home-card-body: h-auto, -mx-6.
+                  Empty image → "Illustration coming soon" placeholder
+                  (same pattern as foreplay-product-page-feature-grid-cards). */}
               <div className="-mx-6 h-auto">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="w-full"
-                  loading="lazy"
-                />
+                {card.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div
+                    aria-hidden="true"
+                    className="flex aspect-[2/1] w-full items-center justify-center border-y border-dashed border-[var(--fp-solid-700)] bg-[var(--fp-alpha-700)] text-[var(--fp-alpha-100)]"
+                  >
+                    <span className={fpText.overline}>Illustration coming soon</span>
+                  </div>
+                )}
               </div>
 
               {/* .lens-security-card-footer > .card-button-holder: flex-1 pushes to bottom */}

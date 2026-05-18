@@ -83,22 +83,24 @@ export const goadsHome = {
   },
 
   // Section 7: Community & Resources (replaces Features Grid)
+  // NOTE: rendered by foreplay-home-features-grid.tsx (hardcoded). Kept in
+  // sync so this data isn't misleading; edit the component for live changes.
   community: {
-    subtitle: "COMMUNITY & RESOURCES",
-    title: "Stay connected, stay ahead",
-    description: "Tools, updates, and direct access to our team. Everything to keep you moving.",
+    subtitle: "SUPPORT & RESOURCES",
+    title: "Support that never sleeps",
+    description: "A direct line to our team, the tools we built to beat Meta's headaches, and updates that keep you in front of every platform change.",
     cards: [
       {
-        title: "Direct access anytime",
-        description: "Reach us on Telegram, WhatsApp or Discord. Real answers from real people, 24/7.",
+        title: "Direct access, anytime",
+        description: "Message us on Telegram, WhatsApp or Discord and get a real answer from a real person — around the clock, no tickets, no waiting.",
       },
       {
-        title: "Built to save you time",
-        description: "Extensions and tools we built to fix what Meta breaks. Free for all users.",
+        title: "Tools that do the work",
+        description: "Free extensions and utilities we built to fix what Meta breaks — BM invites, cookie login, 2FA and more. No cost, no catch.",
       },
       {
         title: "Stay in the loop",
-        description: "Platform changes, new products, insider tips. Fresh updates straight from us.",
+        description: "Policy shifts, new products and insider playbooks — straight from the GoAds team, before they cost you a campaign.",
       },
     ],
   },
