@@ -43,40 +43,32 @@ export function ForeplayHeaderToolsMenu() {
             <ToolsList items={dataProcessingItems} />
           </div>
 
-          {/* Toolbox banner — row-span 2, col-span 3, justify-self-end
-              Static gradient card (no video). border-l, rounded-[18px], max-w-[275px], m-2.5, pt-[25px] pb-9 */}
+          {/* Toolbox banner — row-span 2, col-span 3, justify-self-end.
+              3D toolbox visual + content overlay. Click → all GoAds tools.
+              Follows Foreplay nav-banner language (rounded-[18px] card, border-l,
+              title + description + arrow CTA, dark/blue palette). */}
           <a
             href="/tools"
-            className="col-span-3 row-span-2 row-start-1 relative m-2.5 flex w-full max-w-[275px] items-start justify-center justify-self-end overflow-hidden rounded-[18px] border-l border-[var(--fp-border-nav)] pt-[25px] pb-9 no-underline transition-all duration-200 hover:opacity-80"
+            className="group col-span-3 row-span-2 row-start-1 relative m-2.5 flex w-full max-w-[275px] flex-col items-center justify-end justify-self-end overflow-hidden rounded-[18px] border-l border-[var(--fp-border-nav)] bg-background pt-6 pb-7 no-underline transition-all duration-200 hover:opacity-95"
           >
-            {/* .nav-banner-content — z-2, flex-col gap-1, items-center, max-w-[200px], text-center */}
-            <div className="relative z-[2] flex max-w-[200px] flex-col items-center gap-1 text-center">
-              {/* .text-solid-900 — dark text on light gradient */}
-              <div className="text-[var(--fp-solid-900)]">
-                <div className="flex items-center gap-[5px] whitespace-nowrap">
-                  <div className="flex size-5 items-center justify-center">
-                    <ToolboxIcon />
-                  </div>
-                  <div className={fpText.labelS}>GoAds Toolbox</div>
-                </div>
-              </div>
-              {/* Description */}
-              <div className="flex-1 text-left text-[var(--fp-solid-900)]">
-                <div className={fpText.bodyS}>5 free tools for media buyers — security, data &amp; utilities.</div>
-              </div>
-              {/* CTA link */}
-              <div className="mt-2 text-[var(--fp-solid-900)]">
-                <div className={fpText.labelS}>Browse All Tools →</div>
-              </div>
-            </div>
-            {/* Static gradient background layer (replaces video) */}
-            <div
-              className="pointer-events-none absolute inset-0 z-0"
-              style={{
-                backgroundImage:
-                  "linear-gradient(135deg, #e9eaef 0%, #c3c5d2 45%, #dddee5 100%)",
-              }}
+            {/* 3D toolbox image — fills card, behind content */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/foreplay/goads-tools-toolbox.webp"
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 z-0 size-full scale-105 object-cover transition-transform duration-300 group-hover:scale-110"
             />
+            {/* Subtle bottom scrim so the single caption stays legible */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-1/3 bg-gradient-to-t from-background/90 to-transparent" />
+
+            {/* .nav-banner-content — single CTA only (no title/description per request) */}
+            <div className="relative z-[2] flex items-center gap-1 text-foreground">
+              <div className={fpText.labelS}>Browse all tools</div>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="transition-transform duration-200 group-hover:translate-x-0.5">
+                <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
           </a>
 
           {/* Row 2: Utilities — col-span 9 row 2, border-t */}
@@ -184,14 +176,6 @@ function CopyIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <rect x="6" y="6" width="10" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
       <path d="M13 3.5H5A1.5 1.5 0 0 0 3.5 5v9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-function ToolboxIcon() {
-  return (
-    <svg width="21" height="20" viewBox="0 0 21 20" fill="none">
-      <rect x="3" y="6" width="15" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M7.5 6V4.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V6M3 10h15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   )
 }

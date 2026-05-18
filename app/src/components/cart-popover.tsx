@@ -1,84 +1,93 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
-import { XIcon } from 'lucide-react'
+import { useState, useEffect, useCallback } from 'react'
+import { XIcon, ChevronDown } from 'lucide-react'
 import { Dialog as DialogPrimitive } from 'radix-ui'
 
-import { DialogPortal, DialogOverlay } from '@/components/ui/dialog'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { DialogPortal } from '@/components/ui/dialog'
 import { useCart } from '@/lib/cart-context'
 import { fpText } from '@/components/foreplay/foreplay-typography'
 import { CartItemRow, CartEmpty } from '@/components/cart-item'
 import { CartSummary } from '@/components/cart-summary'
-import { ForeplaySectionWhiteBlock } from '@/components/foreplay/foreplay-section-white-block'
 import { TELEGRAM_URL, buildTelegramMessage } from '@/components/cart-popover-utils'
 
-// Foreplay redesign: centered modal + blurred backdrop (dims/blurs the page).
-// Dark shell + signature white block (ForeplaySectionWhiteBlock). One layout
-// for desktop & mobile. Logic verbatim; auto-open + persist + Telegram unchanged.
+// Foreplay redesign: NON-MODAL right-side slide-in drawer (no backdrop) so the
+// catalog stays interactive while open. LIGHT theme — pale-blue→white gradient
+// header + clean white body (Foreplay help-widget aesthetic), softly rounded.
+// Top grab-pill minimises the cart. Persist + Telegram unchanged.
 
-/* ---------- shared cart body — the signature white block ---------- */
+/* ---------- cart body — scroll list + pinned summary (light) ---------- */
 
 interface CartBodyProps {
   items: ReturnType<typeof useCart>['items']
   subtotal: number
   payment: 'crypto' | 'wise'
   onPaymentChange: (p: 'crypto' | 'wise') => void
+  note: string
+  onNoteChange: (note: string) => void
   onOrder: () => void
 }
 
-function CartBody({ items, subtotal, payment, onPaymentChange, onOrder }: CartBodyProps) {
-  return (
-    <ForeplaySectionWhiteBlock>
-      {items.length === 0 ? (
+function CartBody({ items, subtotal, payment, onPaymentChange, note, onNoteChange, onOrder }: CartBodyProps) {
+  if (items.length === 0) {
+    return (
+      <div className='flex flex-col items-center justify-center px-6 py-4'>
         <CartEmpty />
-      ) : (
-        <>
-          <ScrollArea className='max-h-[min(60vh,28rem)]'>
-            <div className='px-4 pt-4 pb-1'>
-              {items.map((item) => (
-                <CartItemRow key={item.id} item={item} />
-              ))}
-            </div>
-          </ScrollArea>
-          <CartSummary
-            subtotal={subtotal}
-            payment={payment}
-            onPaymentChange={onPaymentChange}
-            onOrder={onOrder}
-          />
-        </>
-      )}
-    </ForeplaySectionWhiteBlock>
+      </div>
+    )
+  }
+
+  // Compact card: the list scrolls within a capped height (so the panel hugs
+  // its content like the Foreplay widget instead of stretching full-height),
+  // summary stays directly below.
+  return (
+    <>
+      <div className='max-h-[30vh] space-y-2 overflow-y-auto px-4 pt-3 pb-2'>
+        {items.map((item) => (
+          <CartItemRow key={item.id} item={item} />
+        ))}
+      </div>
+      <CartSummary
+        subtotal={subtotal}
+        itemCount={items.reduce((n, i) => n + i.quantity, 0)}
+        payment={payment}
+        onPaymentChange={onPaymentChange}
+        note={note}
+        onNoteChange={onNoteChange}
+        onOrder={onOrder}
+      />
+    </>
   )
 }
 
 /* ---------- main export ---------- */
 
 export function CartPopover() {
-  const { items, totalItems, subtotal, clearCart } = useCart()
+  const { items, subtotal, clearCart } = useCart()
+  const totalUnits = items.reduce((n, i) => n + i.quantity, 0)
   const [open, setOpen] = useState(false)
   const [payment, setPayment] = useState<'crypto' | 'wise'>('crypto')
-  /* the click that opens the cart is "outside" the modal → Radix would dismiss
-     it on the same tick. Ignore outside-dismissals within this window. */
-  const programmaticOpenAt = useRef(0)
+  const [note, setNote] = useState('')
 
   const handleOrder = useCallback(() => {
     const msg = buildTelegramMessage(
       items,
       subtotal,
       payment === 'crypto' ? 'Crypto (USDT)' : 'Wise Transfer',
+      note,
     )
     window.open(`${TELEGRAM_URL}?text=${encodeURIComponent(msg)}`, '_blank')
     clearCart()
+    setNote('')
     setOpen(false)
-  }, [items, subtotal, payment, clearCart])
+  }, [items, subtotal, payment, note, clearCart])
 
-  /* open on item-added OR an explicit "View cart" CTA (`cart:open`); stay open
-     until the user dismisses (X / click backdrop / Esc / order placed). */
+  /* Open on item-added OR an explicit "View cart" CTA (`cart:open`). The cart is
+     a NON-MODAL right-side drawer (modal={false}, no backdrop) so it can auto-
+     open without blocking the catalog — the user keeps picking products while
+     it slides in. Stays open until dismissed (X / Esc / order placed). */
   useEffect(() => {
     const handler = () => {
-      programmaticOpenAt.current = Date.now()
       setOpen(true)
     }
     window.addEventListener('cart:item-added', handler)
@@ -89,37 +98,57 @@ export function CartPopover() {
     }
   }, [])
 
+  // modal={false}: no scroll-lock, no blocking overlay → the catalog stays
+  // fully interactive while the cart drawer is open.
   return (
-    <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
+    <DialogPrimitive.Root open={open} onOpenChange={setOpen} modal={false}>
       <DialogPortal>
-        {/* `foreplay` class re-establishes the --fp-* CSS-var scope inside the
-            portal (portals mount on <body>, outside the .foreplay wrapper —
-            without this every fp token is undefined → washed-out colors). */}
-        <DialogOverlay className='foreplay cursor-pointer bg-black/60 backdrop-blur-md' />
+        {/* No DialogOverlay — a right-side drawer must not dim/block the page. */}
         <DialogPrimitive.Content
           onOpenAutoFocus={(e) => e.preventDefault()}
-          onInteractOutside={(e) => {
-            if (Date.now() - programmaticOpenAt.current < 500) e.preventDefault()
-          }}
-          className='foreplay fixed top-1/2 left-1/2 z-50 w-[460px] max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[40px] bg-background shadow-2xl ring-1 ring-[var(--fp-alpha-700)] outline-none duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95'
+          /* Never auto-dismiss on outside interaction — keep shopping while
+             open. Close via header X / bottom "Hide" / Esc / order placed. */
+          onInteractOutside={(e) => e.preventDefault()}
+          /* Compact FLOATING card (Foreplay-widget style), ~30% smaller: hugs
+             its content (h-fit, capped), all 4 corners rounded, big soft
+             diffused shadow, small gap from the screen edge. */
+          className='foreplay fixed inset-y-0 right-5 z-50 my-auto flex h-fit max-h-[calc(100dvh-2.5rem)] w-[400px] max-w-[calc(100%-2.5rem)] flex-col overflow-hidden rounded-[22px] bg-white shadow-[0_24px_70px_-18px_rgba(16,24,40,0.5)] ring-1 ring-black/5 outline-none duration-300 data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:animate-in data-[state=open]:slide-in-from-right'
         >
-          {/* dark-scope header */}
-          <div className='flex items-center justify-between gap-2 px-6 pt-5 pb-1'>
-            <DialogPrimitive.Title className={`${fpText.headingL} text-foreground`}>
-              Your cart
-            </DialogPrimitive.Title>
-            <div className='flex items-center gap-3'>
-              {totalItems > 0 && (
-                <span className={`${fpText.bodyS} text-[var(--fp-alpha-100)]`}>
-                  {totalItems} {totalItems === 1 ? 'item' : 'items'}
+          {/* Blue periwinkle gradient header (matches the Foreplay widget):
+              diagonal light→deeper blue, real GOADS logo lock-up + white title.
+              Subline shows live item count for reassurance. */}
+          <div className='relative shrink-0 px-5 pt-5 pb-6 [background:linear-gradient(145deg,#a9c6f1_0%,#7f9fdb_55%,#6a86d0_100%)]'>
+            {/* brand row — original GoAds mark (transparent) + black wordmark */}
+            <div className='flex items-center justify-between gap-3'>
+              <div className='flex items-center gap-2'>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src='/foreplay/logo/goads-logo-mark.png'
+                  alt='GoAds'
+                  className='size-8 object-contain'
+                />
+                <span className='text-[1.0625rem] font-[700] tracking-tight text-[var(--fp-solid-900)]'>
+                  GOADS
                 </span>
-              )}
+              </div>
               <DialogPrimitive.Close
-                aria-label='Close'
-                className='flex size-7 cursor-pointer items-center justify-center rounded-full text-[var(--fp-alpha-100)] transition-colors hover:bg-[var(--fp-alpha-700)] hover:text-foreground'
+                aria-label='Close cart'
+                title='Close (Esc)'
+                className='-mr-0.5 flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--fp-solid-700)]/65 transition-colors hover:bg-black/10 hover:text-[var(--fp-solid-900)]'
               >
                 <XIcon className='size-4' />
               </DialogPrimitive.Close>
+            </div>
+            {/* heading */}
+            <div className='mt-5 flex flex-col gap-1'>
+              <DialogPrimitive.Title className={`${fpText.displayH5} text-white`}>
+                Your cart
+              </DialogPrimitive.Title>
+              <p className='text-[0.8125rem] leading-4 text-white/85'>
+                {totalUnits > 0
+                  ? `${totalUnits} item${totalUnits > 1 ? 's' : ''} · review & check out`
+                  : 'Review your items and check out'}
+              </p>
             </div>
           </div>
 
@@ -128,8 +157,20 @@ export function CartPopover() {
             subtotal={subtotal}
             payment={payment}
             onPaymentChange={setPayment}
+            note={note}
+            onNoteChange={setNote}
             onOrder={handleOrder}
           />
+
+          {/* Bottom collapse control — explicit down-arrow to hide the cart. */}
+          <DialogPrimitive.Close
+            aria-label='Hide cart'
+            title='Hide cart'
+            className={`${fpText.bodyS} group flex shrink-0 cursor-pointer items-center justify-center gap-1.5 border-t border-[var(--fp-solid-50)] py-3.5 text-[var(--fp-solid-400)] transition-colors hover:text-[var(--fp-accent)]`}
+          >
+            <ChevronDown className='size-4 transition-transform group-hover:translate-y-0.5' />
+            Hide cart
+          </DialogPrimitive.Close>
         </DialogPrimitive.Content>
       </DialogPortal>
     </DialogPrimitive.Root>

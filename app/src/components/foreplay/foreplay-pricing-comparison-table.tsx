@@ -123,7 +123,7 @@ function parsePrice(v: string | boolean): number | "contact" {
 
 // Reuses ForeplayCtaButton's light-primary pill classes verbatim, but as a
 // <button> (cart action, not navigation). Adds the product to the legacy cart;
-// cart-popover auto-opens via the `cart:item-added` event dispatched by addItem.
+// slides the non-modal cart drawer in (catalog stays usable) + toast confirms.
 function CartBuyButton({ feature }: { feature: ComparisonFeature }) {
   const { addItem } = useCart()
   return (

@@ -181,6 +181,12 @@
   --fp-py-section-md: 96px; /* tablet (max-md:py-24 = 96px) */
   --fp-py-section-sm: 80px; /* mobile (max-sm:py-20 = 80px) */
 
+  /* Single restrained brand-blue accent (matches the site's dark accent
+     #1c9cf0). Use SPARINGLY on focal points only — keeps the monochrome
+     Foreplay look while adding life (cart: title sheen, total, selected). */
+  --fp-accent: #1c9cf0;
+  --fp-accent-soft: #1c9cf01f;   /* ~12% — chips, tints, hover */
+
   --radius: 1rem;
 }
 
