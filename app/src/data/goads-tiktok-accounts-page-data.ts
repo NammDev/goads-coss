@@ -24,13 +24,13 @@ export const tiktokHero = {
 // TikTok card moved to slot 1; other 5 follow.
 export const tiktokFeatureGrid1 = {
   subtitle: "ALL PRODUCTS",
-  title: "Everything You Need to Scale on TikTok",
-  description: "Channels, Shops, Business Centers. Built for media buyers who want TikTok reach without the verification headaches.",
+  title: "Everything You Need to Scale",
+  description: "TikTok is just one part of the stack. Explore the rest of the GoAds catalog to scale across every platform.",
   cards: [
     { imageSrc: "/tiktoks/all-products/Business%20Manager.svg", title: "Business Manager", description: "Verified Meta BMs to pair with TikTok campaigns — cross-platform scaling." },
     { imageSrc: "/tiktoks/all-products/Facebook%20Pages.svg", title: "Facebook Pages", description: "Aged pages with followers, ready to mirror your TikTok creative strategy." },
     { imageSrc: "/tiktoks/all-products/Unban%20Service.svg", title: "Unban Service", description: "TikTok account suspended? We recover the asset so you keep the GMV history." },
-    { imageSrc: "", title: "TikTok Assets", description: "Channels, Shops, Business Centers. Jumio-verified, ready to publish on day one." },
+    { imageSrc: "", title: "Facebook Profiles", description: "Aged, ID-verified profiles to run alongside your TikTok campaigns. Clean history, ready to go." },
     { imageSrc: "/tiktoks/all-products/Verified%20Badge.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility across your ad stack." },
     { imageSrc: "", title: "Free Tools", description: "2FA Generator, Cookie Login and more. Free utilities for TikTok media buyers." },
   ],
