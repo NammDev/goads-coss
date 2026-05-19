@@ -21,8 +21,31 @@ export async function POST(req: NextRequest) {
   // 1. Read raw body BEFORE JSON.parse so HMAC is over unmodified bytes
   const rawBody = await req.text();
 
-  // 2. Verify signature
+  // 2. Handle Wise sandbox URL verification ping.
+  // Wise sends a test request with no signature (or a "test_event" type) when
+  // registering a webhook. We must return 200 so the URL passes validation.
+  // After registration, all real events will carry a valid X-Wise-Signature.
+  let parsedForPing: Record<string, unknown> | null = null;
+  try {
+    parsedForPing = JSON.parse(rawBody) as Record<string, unknown>;
+  } catch {
+    // not JSON — fall through to signature check which will reject it
+  }
+
   const signatureHeader = req.headers.get("x-wise-signature");
+  const isPing =
+    !signatureHeader &&
+    parsedForPing !== null &&
+    (parsedForPing.type === "test_event" ||
+      parsedForPing.type === "ping" ||
+      Object.keys(parsedForPing).length === 0);
+
+  if (isPing) {
+    console.info("[wise-webhook] ping/test event received, acknowledging");
+    return NextResponse.json({ ok: true });
+  }
+
+  // 3. Verify signature for real events
   const secret = process.env.WISE_WEBHOOK_SECRET ?? "";
 
   if (!verifyWiseWebhookSignature(rawBody, signatureHeader, secret)) {
@@ -30,10 +53,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid_signature" }, { status: 401 });
   }
 
-  // 3. Parse JSON
+  // 4. Parse JSON (reuse already-parsed body if available)
   let event: WiseWebhookEvent;
   try {
-    event = JSON.parse(rawBody) as WiseWebhookEvent;
+    event = (parsedForPing ?? JSON.parse(rawBody)) as WiseWebhookEvent;
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
