@@ -12,56 +12,46 @@ import {
 import { createNotification } from "@/lib/actions/notification-actions";
 import type { WiseWebhookEvent } from "@/lib/integrations/wise/types";
 
-// Only POST is accepted
+// GET / HEAD — return 200 so Wise sandbox can verify the URL is reachable
 export async function GET() {
-  return NextResponse.json({ error: "method_not_allowed" }, { status: 405 });
+  return NextResponse.json({ ok: true, endpoint: "wise-webhook" });
+}
+
+export async function HEAD() {
+  return new NextResponse(null, { status: 200 });
 }
 
 export async function POST(req: NextRequest) {
-  // 1. Read raw body BEFORE JSON.parse so HMAC is over unmodified bytes
+  // 1. Read raw body BEFORE JSON.parse so RSA signature is over unmodified bytes
   const rawBody = await req.text();
 
-  // 2. Handle Wise sandbox URL verification ping.
-  // Wise sends a test request with no signature (or a "test_event" type) when
-  // registering a webhook. We must return 200 so the URL passes validation.
-  // After registration, all real events will carry a valid X-Wise-Signature.
-  let parsedForPing: Record<string, unknown> | null = null;
-  try {
-    parsedForPing = JSON.parse(rawBody) as Record<string, unknown>;
-  } catch {
-    // not JSON — fall through to signature check which will reject it
-  }
-
-  const signatureHeader = req.headers.get("x-wise-signature");
-  const isPing =
-    !signatureHeader &&
-    parsedForPing !== null &&
-    (parsedForPing.type === "test_event" ||
-      parsedForPing.type === "ping" ||
-      Object.keys(parsedForPing).length === 0);
-
-  if (isPing) {
-    console.info("[wise-webhook] ping/test event received, acknowledging");
+  // 2. Handle Wise test notifications (sent when registering a webhook subscription).
+  //    Wise sets X-Test-Notification: true on these — must return 200 immediately.
+  const isTestNotification = req.headers.get("x-test-notification") === "true";
+  if (isTestNotification) {
+    console.info("[wise-webhook] test notification received, acknowledging");
     return NextResponse.json({ ok: true });
   }
 
-  // 3. Verify signature for real events
-  const secret = process.env.WISE_WEBHOOK_SECRET ?? "";
+  // 3. Verify RSA-SHA256 signature.
+  //    Wise sends the Base64-encoded signature in X-Signature-SHA256.
+  //    The public keys are baked into signature.ts (sandbox + production).
+  const signatureHeader = req.headers.get("x-signature-sha256");
 
-  if (!verifyWiseWebhookSignature(rawBody, signatureHeader, secret)) {
-    console.warn("[wise-webhook] invalid signature");
+  if (!verifyWiseWebhookSignature(rawBody, signatureHeader, "")) {
+    console.warn("[wise-webhook] invalid signature, header:", signatureHeader?.slice(0, 20));
     return NextResponse.json({ error: "invalid_signature" }, { status: 401 });
   }
 
-  // 4. Parse JSON (reuse already-parsed body if available)
+  // 4. Parse JSON
   let event: WiseWebhookEvent;
   try {
-    event = (parsedForPing ?? JSON.parse(rawBody)) as WiseWebhookEvent;
+    event = JSON.parse(rawBody) as WiseWebhookEvent;
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
 
-  // 4. Look up topup_request by gatewayPaymentId or reference
+  // 5. Look up topup_request by gatewayPaymentId or reference
   const data = event.data;
   const topup =
     (await getTopupRequestByGatewayId(data.gatewayPaymentId)) ??
@@ -69,10 +59,11 @@ export async function POST(req: NextRequest) {
 
   if (!topup) {
     console.warn("[wise-webhook] unknown reference:", data.reference);
-    return NextResponse.json({ error: "unknown_reference" }, { status: 404 });
+    // Return 200 for unknown references so Wise doesn't keep retrying
+    return NextResponse.json({ ok: true, ignored: true });
   }
 
-  // 5. Branch on event type
+  // 6. Branch on event type
   if (event.type === "payment.completed") {
     // Idempotent replay
     if (topup.status === "completed") {
@@ -107,7 +98,12 @@ export async function POST(req: NextRequest) {
 
         // Lock topup_request row to prevent concurrent credits
         const [lockedTopup] = await tx
-          .select({ id: topupRequests.id, status: topupRequests.status, customerId: topupRequests.customerId, amount: topupRequests.amount })
+          .select({
+            id: topupRequests.id,
+            status: topupRequests.status,
+            customerId: topupRequests.customerId,
+            amount: topupRequests.amount,
+          })
           .from(topupRequests)
           .where(eq(topupRequests.id, topup.id))
           .for("update");
@@ -201,7 +197,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
-  // Unknown event type — log and acknowledge so Wise doesn't retry
+  // Unknown event type — acknowledge so Wise doesn't retry
   console.info("[wise-webhook] unknown event type:", (event as { type: string }).type);
   return NextResponse.json({ ok: true, ignored: true });
 }
