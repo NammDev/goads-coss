@@ -27,7 +27,7 @@ export interface WiseClient {
 // ─── Real client ──────────────────────────────────────────────────────────────
 
 function buildRealClient(): WiseClient {
-  const apiBase = process.env.WISE_API_BASE_URL ?? "https://api.wise.com";
+  const apiBase = process.env.WISE_API_BASE_URL ?? "https://api.wise-sandbox.com";
   const apiToken = process.env.WISE_API_TOKEN;
   const profileId = process.env.WISE_PROFILE_ID;
 
