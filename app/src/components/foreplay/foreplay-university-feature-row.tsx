@@ -38,8 +38,8 @@ export function ForeplayUniversityFeatureRow({
   const textBlock = (
     // .left-right-section-content: flex col, gap-32px, items-start, justify-center (NO flex:1 in source)
     <div className="flex flex-col items-start justify-center gap-8">
-      {/* .section-head.is-align-left: flex col, gap-12px, items-start, text-left, max-w-720px */}
-      <div className="flex w-full max-w-[720px] flex-col items-start gap-3 text-left">
+      {/* .section-head — narrowed so the image column (flex-1) grows much larger */}
+      <div className="flex w-full max-w-[440px] flex-col items-start gap-3 text-left">
         {/* .left-right-product-icon-wrapper (row 1 only): block, h-50px, mb-10px */}
         {icon && (
           <div className="mb-2.5 block h-[50px]">
@@ -64,8 +64,8 @@ export function ForeplayUniversityFeatureRow({
           </div>
         </div>
 
-        {/* .section-head_paragraph: text-wrap:pretty, max-w-512px */}
-        <div className="max-w-[512px] [text-wrap:pretty]">
+        {/* .section-head_paragraph: text-wrap:pretty */}
+        <div className="max-w-[440px] [text-wrap:pretty]">
           {/* .text-alpha-100: color var(--fp-alpha-100), flex:1 (hidden Webflow prop) */}
           <div className="flex-1 text-[var(--fp-alpha-100)]">
             <p className={cn(fpText.bodyL, "whitespace-pre-line")}>{description}</p>
@@ -86,7 +86,7 @@ export function ForeplayUniversityFeatureRow({
 
   const imageBlock = (
     // .left-right-section-image-wrapper: flex:1, w-full, px-16px
-    <div className="w-full flex-1 px-4">
+    <div className="w-full min-w-0 flex-1 px-4">
       {/* .left-right-section-image: border-radius 20px
           img: width="560" attr + webflow img { max-width:100% } → min(560px, 100%) */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
