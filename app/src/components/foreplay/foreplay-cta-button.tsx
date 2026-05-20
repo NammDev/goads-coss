@@ -9,7 +9,7 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
-type ButtonVariant = "nav" | "hero" | "secondary" | "ghost" | "light-primary"
+type ButtonVariant = "nav" | "hero" | "secondary" | "ghost" | "light-primary" | "light-stroke"
 
 interface ForeplayCtaButtonProps {
   /** Navigation target. Omit when using `onClick` (action button). */
@@ -32,6 +32,8 @@ const variantStyles: Record<ButtonVariant, string> = {
   secondary: "bg-secondary text-foreground border-0 transition-all duration-150 hover:bg-border active:bg-[var(--fp-alpha-100)]",
   ghost: "bg-background text-foreground transition-all duration-150 hover:bg-secondary active:bg-[var(--fp-alpha-100)]",
   "light-primary": "bg-background text-foreground transition-all duration-150 hover:bg-[var(--fp-solid-600)] active:bg-[var(--fp-solid-400)] active:text-foreground",
+  // .button-light.button-stroke — white bg, 1px solid-50 ring, solid-900 text
+  "light-stroke": "bg-white text-[var(--fp-solid-900)] shadow-[0_0_0_1px_var(--fp-solid-50)] transition-all duration-150 hover:bg-[var(--fp-solid-25)] hover:shadow-none active:bg-[var(--fp-solid-50)]",
 }
 
 export function ForeplayCtaButton({
@@ -56,7 +58,7 @@ export function ForeplayCtaButton({
     // variant-specific colors + transitions
     variantStyles[variant],
     // focus-visible: dark buttons use bg+white ring, light buttons use white+solid-900 ring
-    variant === "light-primary"
+    variant === "light-primary" || variant === "light-stroke"
       ? "focus-visible:shadow-[0_0_0_2px_white,0_0_0_3px_var(--fp-solid-900)] focus-visible:outline-none"
       : "focus-visible:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus-visible:outline-none",
     className,

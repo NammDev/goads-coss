@@ -26,6 +26,8 @@ export const fpText = {
   bodyM: "font-sans text-base font-normal leading-6 tracking-[-0.01125em]",
   bodyL: "font-sans text-[1.125rem] font-normal leading-7 tracking-[-0.0144em]",
   bodyS: "font-sans text-[0.875rem] font-normal leading-5 tracking-[-0.00643em]",
+  // .text-body-xs — font-size .75rem, line-height 1.25rem (no tracking override in source)
+  bodyXs: "font-sans text-[0.75rem] font-normal leading-5",
 
   // Overline — Inter, uppercase
   overline: "font-sans text-[0.75rem] font-[550] uppercase leading-4 tracking-[0.166667em]",
