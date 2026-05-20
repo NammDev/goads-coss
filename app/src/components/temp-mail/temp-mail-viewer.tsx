@@ -1,13 +1,12 @@
 "use client"
 
-import { forwardRef, useState, type ButtonHTMLAttributes, type ReactNode } from "react"
+import { forwardRef, useEffect, useRef, useState, type ButtonHTMLAttributes, type ReactNode } from "react"
 import { Check, Copy, RefreshCw, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 
 import { MailBodySandbox } from "@/features/temp-mail/mail-body-sandbox"
 import { useTempMailViewer } from "@/features/temp-mail/use-temp-mail-viewer"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
@@ -15,32 +14,51 @@ import { cn } from "@/lib/utils"
 export function TempMailViewer({ className }: { className?: string }) {
   const viewer = useTempMailViewer()
   const [copied, setCopied] = useState(false)
+  const emailInputRef = useRef<HTMLInputElement>(null)
+
+  // Field shows the FULL address (name@domain) so it's one selectable/
+  // copyable string. Only the local part is editable; domain is fixed.
+  const fullAddress = viewer.emailName
+    ? `${viewer.emailName}@${viewer.displayDomain}`
+    : ""
+
+  // After typing, the controlled value re-expands to name@domain which would
+  // shove the caret past the domain — pin it back to the end of the name
+  // (only while the user is actually focused in the field).
+  useEffect(() => {
+    const el = emailInputRef.current
+    if (!el || document.activeElement !== el) return
+    const pos = viewer.emailName.length
+    el.setSelectionRange(pos, pos)
+  }, [viewer.emailName, viewer.displayDomain])
 
   return (
     <TooltipProvider delayDuration={200}>
       <div className={cn("flex flex-col gap-4", className)}>
         {/* Email input row */}
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex min-h-12 flex-1 items-center overflow-hidden rounded-[10px] border border-[var(--fp-solid-50)] bg-white dark:border-border dark:bg-background focus-within:border-[var(--fp-solid-400)] dark:focus-within:border-ring">
-            <Input
-              value={viewer.emailName}
-              onChange={(e) => viewer.setEmailName(e.target.value)}
+          {/* Foreplay light input — always-white block, no dark: variants.
+              Domain shown as placeholder hint (email@<domain>) instead of a
+              literal suffix span. */}
+          <div className="flex min-h-12 flex-1 items-center overflow-hidden rounded-[10px] border border-[var(--fp-solid-50)] bg-white focus-within:border-[var(--fp-solid-400)]">
+            <input
+              ref={emailInputRef}
+              value={fullAddress}
+              onChange={(e) => {
+                // keep only the local part (before first "@"); domain is fixed
+                const localPart = e.target.value.split("@")[0].slice(0, viewer.maxAddressLen)
+                viewer.setEmailName(localPart)
+              }}
               onKeyDown={(e) => { if (e.key === "Enter") void viewer.loadInbox() }}
               type="text"
               inputMode="email"
               data-testid="mailbox-name-input"
               autoComplete="off"
               spellCheck={false}
-              maxLength={viewer.maxAddressLen}
-              placeholder="Enter email name"
-              aria-label="Disposable email name"
-              className="h-12 border-0 font-mono shadow-none focus-visible:ring-0 placeholder:text-[var(--fp-solid-300)] dark:placeholder:text-zinc-500"
+              placeholder={`email@${viewer.displayDomain || "goadsagency.com"}`}
+              aria-label="Disposable email address"
+              className="h-12 w-full min-w-0 border-0 bg-transparent px-3 font-mono text-base text-[var(--fp-solid-900)] outline-none selection:bg-[var(--fp-solid-900)] selection:text-white placeholder:text-[var(--fp-solid-300)] md:text-sm"
             />
-            <span className="shrink-0 px-2 text-sm font-semibold text-[var(--fp-solid-400)] dark:text-zinc-400">
-              {viewer.emailName.length}/{viewer.maxAddressLen}
-            </span>
-            <span className="shrink-0 px-1 text-sm font-semibold text-[var(--fp-solid-400)] dark:text-zinc-400">@</span>
-            <span className="shrink-0 pr-3 text-sm font-semibold">{viewer.displayDomain}</span>
           </div>
 
           <Tooltip>
@@ -49,8 +67,7 @@ export function TempMailViewer({ className }: { className?: string }) {
                 data-testid="load-mailbox"
                 onClick={() => void viewer.loadInbox()}
                 disabled={viewer.loadingInbox || !viewer.domainReady}
-                size="sm"
-                className="bg-background text-foreground hover:bg-[var(--fp-solid-600)] active:bg-[var(--fp-solid-400)] dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                className="h-9 shrink-0 cursor-pointer rounded-[8px] border-0 px-3.5 font-sans text-[0.9375rem] font-[550] leading-5 bg-[var(--fp-solid-900)] text-white shadow-none transition-colors duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] hover:bg-[var(--fp-solid-700)] active:bg-[var(--fp-solid-600)]"
               >
                 Load
               </Button>
@@ -65,8 +82,7 @@ export function TempMailViewer({ className }: { className?: string }) {
                 variant="outline"
                 onClick={() => void viewer.randomAddress()}
                 disabled={viewer.loadingInbox}
-                size="sm"
-                className="border-0 bg-[var(--fp-solid-25)] text-[var(--fp-solid-900)] hover:bg-[var(--fp-solid-50)] active:bg-[var(--fp-solid-100)] dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700 dark:active:bg-zinc-600"
+                className="h-9 shrink-0 cursor-pointer rounded-[8px] border border-[var(--fp-solid-50)] px-3.5 font-sans text-[0.9375rem] font-[550] leading-5 bg-[var(--fp-solid-25)] text-[var(--fp-solid-900)] shadow-none transition-colors duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] hover:bg-[var(--fp-solid-50)] active:bg-[var(--fp-solid-100)]"
               >
                 Random
               </Button>
@@ -86,8 +102,7 @@ export function TempMailViewer({ className }: { className?: string }) {
                   setTimeout(() => setCopied(false), 2000)
                 }}
                 disabled={!viewer.email}
-                size="sm"
-                className="border-0 bg-[var(--fp-solid-25)] text-[var(--fp-solid-900)] hover:bg-[var(--fp-solid-50)] active:bg-[var(--fp-solid-100)] dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700 dark:active:bg-zinc-600"
+                className="h-9 shrink-0 cursor-pointer rounded-[8px] border border-[var(--fp-solid-50)] px-3.5 font-sans text-[0.9375rem] font-[550] leading-5 bg-[var(--fp-solid-25)] text-[var(--fp-solid-900)] shadow-none transition-colors duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] hover:bg-[var(--fp-solid-50)] active:bg-[var(--fp-solid-100)]"
               >
                 {copied ? <Check className="mr-1.5 size-3.5" /> : <Copy className="mr-1.5 size-3.5" />}
                 {copied ? "Copied" : "Copy"}

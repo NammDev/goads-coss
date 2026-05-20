@@ -1,10 +1,6 @@
-"use client"
+// Trial CTA — always renders the trial-style button (no cart-aware switch).
+// Reuses ForeplayCtaButton verbatim for identical styling.
 
-// Cart-aware trial CTA: empty cart → "Start free trial" (→ /sign-up);
-// cart has items → "View cart" (opens the cart, no navigation).
-// Reuses ForeplayCtaButton verbatim for identical styling (DRY).
-
-import { useCart, openCart } from "@/lib/cart-context"
 import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
 
 type ButtonVariant = "nav" | "hero" | "secondary" | "ghost" | "light-primary"
@@ -23,21 +19,6 @@ export function ForeplayTrialCtaButton({
   className,
   trialLabel = "Start free trial",
 }: ForeplayTrialCtaButtonProps) {
-  const { totalItems } = useCart()
-
-  if (totalItems > 0) {
-    return (
-      <ForeplayCtaButton
-        onClick={openCart}
-        variant={variant}
-        showIcon={showIcon}
-        className={className}
-      >
-        View cart
-      </ForeplayCtaButton>
-    )
-  }
-
   return (
     <ForeplayCtaButton
       href="/sign-up"

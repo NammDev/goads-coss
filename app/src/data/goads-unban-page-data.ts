@@ -61,29 +61,21 @@ export const unbanFeatureRows: FeatureRowData[] = [
     title: "Bring Your Assets Back to Life",
     description:
       "Disabled Business Manager? Banned profile? Page restricted? We recover Meta assets using official appeal channels — no shady workarounds, no short-term fixes.\n\nMost cases resolve within 48–72 hours. You keep your pixel, your audience history and your ad spend intact.\n\nPay only when the asset is fully recovered.",
-    image: "/foreplay/university_images1.png",
-    imageAlt: "GoAds unban workflow",
+    image: "/foreplay/goads/goads-unban-recovery.webp",
+    imageAlt: "GoAds recovering a disabled Meta Business Manager — Disabled to Recovered in 48–72h",
     reversed: false,
   },
   {
     title: "Enterprise Recovery for Agencies & High-Spenders",
     description:
       "When ad operations run at scale, a single ban doesn't just take an asset down — it stalls campaigns, halts revenue and damages client trust. Standard unban routes don't move fast enough when multiple clients are at risk.\n\nRunning multiple BMs, 10+ ad accounts, or a blocked agency client? Our enterprise unban desk handles bulk recoveries, prioritized queues and dedicated case managers.",
-    image: "/foreplay/university_images2.png",
-    imageAlt: "GoAds enterprise unban service",
+    image: "/foreplay/goads/goads-unban-enterprise.webp",
+    imageAlt: "GoAds enterprise recovery desk — multi-client queue with a dedicated case manager",
     reversed: true,
     ctaLabel: "Contact us now",
     ctaHref: "/book-demo",
   },
 ]
-
-// ── Examples Grid (ecommerceExamples array reused — only section copy changes) ──
-export const unbanExamplesSection = {
-  subtitle: "Recent Recoveries",
-  title: "Real bans, real recoveries",
-  description:
-    "A snapshot of recent disabled assets GoAds has brought back — profiles, pages, ad accounts and Business Managers.",
-}
 
 // ── FAQ ──
 export const unbanFaq = {

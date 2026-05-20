@@ -26,7 +26,7 @@ const paymentMethodCards: ForeplayHomeFeatureCard[] = [
       "Pay with USDT (TRC20 / ERC20). Instant confirmation, transparent rate, no hidden fees.",
     ctaLabel: "Pay with Crypto",
     ctaHref: CONTACT.telegram.officialWithMessage,
-    image: "",
+    image: "/payment/crypto.svg",
   },
   {
     icon: (
@@ -41,7 +41,7 @@ const paymentMethodCards: ForeplayHomeFeatureCard[] = [
     ctaLabel: "Pay with Wise",
     ctaHref: CONTACT.telegram.officialWithMessage,
     isMiddle: true,
-    image: "",
+    image: "/payment/wise.svg",
   },
   {
     icon: (
@@ -55,7 +55,7 @@ const paymentMethodCards: ForeplayHomeFeatureCard[] = [
       "Prefer a different payment option? Contact our team and we'll find the right setup for you.",
     ctaLabel: "Contact us",
     ctaHref: "/contact",
-    image: "",
+    image: "/payment/support.svg",
   },
 ]
 
@@ -97,6 +97,7 @@ export default function ForeplayPaymentPage() {
             title="Pay the way you prefer"
             description="Fund your account with the method that suits you best. Need something else? Just reach out."
             cards={paymentMethodCards}
+            imageFade
           />
         </ForeplaySectionContainer>
       </section>

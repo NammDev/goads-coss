@@ -1,10 +1,6 @@
 import type { Metadata } from "next"
 
-import {
-  ForeplayToolShell,
-  ForeplayToolHeader,
-  ForeplayToolBody,
-} from "@/components/foreplay"
+import { ForeplayToolHeader, ForeplayToolBody } from "@/components/foreplay"
 import { ForeplayCheckIpTool } from "@/components/foreplay/foreplay-check-ip-tool"
 
 export const metadata: Metadata = {
@@ -28,11 +24,11 @@ function GlobeIcon() {
 
 export default function ForeplayCheckIpPage() {
   return (
-    <ForeplayToolShell>
+    <>
       <ForeplayToolHeader icon={<GlobeIcon />} title="IP Checker" />
       <ForeplayToolBody>
         <ForeplayCheckIpTool />
       </ForeplayToolBody>
-    </ForeplayToolShell>
+    </>
   )
 }

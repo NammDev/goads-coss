@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { fpText } from "@/components/foreplay/foreplay-typography"
-import { useCart, openCart } from "@/lib/cart-context"
 
 // ── Mobile menu data (matches desktop dropdowns, flattened for accordion) ──
 const mobileProductItems = [
@@ -48,7 +47,6 @@ const mobileResourcesItems = [
 
 export function ForeplayHeaderMobileMenu() {
   const [open, setOpen] = useState(false)
-  const { totalItems } = useCart()
   const pathname = usePathname()
 
   // Auto-close on route change
@@ -101,25 +99,12 @@ export function ForeplayHeaderMobileMenu() {
               <path fill="currentColor" d="M0 21.71h6.57v6.86H4.38A4.48 4.48 0 0 1 0 24v-2.29Z" opacity=".6" />
             </svg>
           </Link>
-          {totalItems > 0 ? (
-            <button
-              type="button"
-              onClick={() => {
-                openCart()
-                setOpen(false)
-              }}
-              className="flex items-center rounded-[10px] bg-foreground px-3 py-2 text-[var(--fp-solid-900)] no-underline"
-            >
-              <span className={fpText.labelS}>View cart</span>
-            </button>
-          ) : (
-            <Link
-              href="/sign-up"
-              className="flex items-center rounded-[10px] bg-foreground px-3 py-2 text-[var(--fp-solid-900)] no-underline"
-            >
-              <span className={fpText.labelS}>Start free trial</span>
-            </Link>
-          )}
+          <Link
+            href="/sign-up"
+            className="flex items-center rounded-[10px] bg-foreground px-3 py-2 text-[var(--fp-solid-900)] no-underline"
+          >
+            <span className={fpText.labelS}>Start free trial</span>
+          </Link>
         </div>
 
         {/* Accordion nav */}

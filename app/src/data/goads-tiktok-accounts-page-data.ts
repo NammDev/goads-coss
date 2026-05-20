@@ -30,9 +30,9 @@ export const tiktokFeatureGrid1 = {
     { imageSrc: "/tiktoks/all-products/Business%20Manager.svg", title: "Business Manager", description: "Verified Meta BMs to pair with TikTok campaigns — cross-platform scaling." },
     { imageSrc: "/tiktoks/all-products/Facebook%20Pages.svg", title: "Facebook Pages", description: "Aged pages with followers, ready to mirror your TikTok creative strategy." },
     { imageSrc: "/tiktoks/all-products/Unban%20Service.svg", title: "Unban Service", description: "TikTok account suspended? We recover the asset so you keep the GMV history." },
-    { imageSrc: "", title: "Facebook Profiles", description: "Aged, ID-verified profiles to run alongside your TikTok campaigns. Clean history, ready to go." },
+    { imageSrc: "/tiktoks/all-products/fb%20profiles.svg", title: "Facebook Profiles", description: "Aged, ID-verified profiles to run alongside your TikTok campaigns. Clean history, ready to go." },
     { imageSrc: "/tiktoks/all-products/Verified%20Badge.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility across your ad stack." },
-    { imageSrc: "", title: "Free Tools", description: "2FA Generator, Cookie Login and more. Free utilities for TikTok media buyers." },
+    { imageSrc: "/tiktoks/all-products/Free%20Tools.svg", title: "Free Tools", description: "2FA Generator, Cookie Login and more. Free utilities for TikTok media buyers." },
   ],
 }
 

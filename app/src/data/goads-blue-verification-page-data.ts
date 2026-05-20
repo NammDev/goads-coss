@@ -15,29 +15,23 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
     title: "The blue badge changes how customers see you",
     description:
       "Verified accounts earn up to 30% more engagement on average. The blue check tells your audience you're the real brand — not a competitor, not an impersonator.\n\nBeyond credibility, verification unlocks priority support, account protection and impersonation-removal tools that unverified accounts never see.\n\nWe've taken accounts from unverified to verified on both Facebook and Instagram — at every business size.",
-    image: "/foreplay/university_images1.png",
-    imageAlt: "Brand verified with blue badge",
+    image: "/foreplay/goads/goads-blue-verification-badge.webp",
+    imageAlt: "Verified Instagram profile with blue checkmark on iPhone, by GoAds",
+    imageMaxWidth: 960, // large so the image balances the 3-paragraph copy
     reversed: false,
   },
   {
     title: "Verified on every platform your customers follow you",
     description:
       "Your audience doesn't separate Facebook from Instagram — they expect the badge on every profile. One unverified handle breaks trust across both.\n\nWe handle both platforms end-to-end. Single point of contact, official Meta channels only, predictable timelines on every submission.",
-    image: "/foreplay/university_images2.png",
-    imageAlt: "Multi-platform blue verification",
+    image: "/foreplay/goads/goads-blue-verification-multiplatform.webp",
+    imageAlt: "Verified Facebook Page with blue checkmark on iPad, by GoAds",
+    imageMaxWidth: 960, // match image 1 size
     reversed: true,
     ctaLabel: "Contact us now",
     ctaHref: "/book-demo",
   },
 ]
-
-// ── Examples Grid (reuses ecommerceExamples — only section copy is verification-themed) ──
-export const blueVerificationExamplesSection = {
-  subtitle: "Verified clients",
-  title: "Brands we've helped earn the blue badge",
-  description:
-    "From early-stage startups to established agencies — see who trusted us to secure their verified status across every major platform.",
-}
 
 // ── FAQ ──
 export const blueVerificationFaq = {

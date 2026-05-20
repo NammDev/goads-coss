@@ -108,8 +108,28 @@ export function ForeplayHeaderDropdownBase({ label, children }: ForeplayHeaderDr
         </div>
       </button>
 
-      {/* nav.nav-dropdown-menu.w-dropdown-list — absolute, top:100% left:0 right:0 min-w-full bg-transparent */}
+      {/* nav.nav-dropdown-menu.w-dropdown-list — absolute, top:100% left:0 right:0 min-w-full bg-transparent.
+          Close-on-link-click (capture): waiting for `usePathname` to change
+          leaves the dropdown open during the entire navigation (visible on
+          slow networks). Closing as soon as an <a> is clicked gives instant
+          feedback — the progress bar then takes over. */}
       <nav
+        onClickCapture={(e) => {
+          const a = (e.target as HTMLElement | null)?.closest("a")
+          if (!a) return
+          setOpen(false)
+          // Same-route click → Next does nothing, page looks frozen.
+          // Smooth-scroll to top so the click visibly does *something*.
+          try {
+            const url = new URL(a.href)
+            if (
+              url.origin === window.location.origin &&
+              url.pathname === window.location.pathname
+            ) {
+              window.scrollTo({ top: 0, behavior: "smooth" })
+            }
+          } catch {}
+        }}
         className={cn(
           "absolute top-full right-0 left-0 mt-[-5px] block min-w-full bg-transparent",
           "transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]",

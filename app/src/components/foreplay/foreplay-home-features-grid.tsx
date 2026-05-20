@@ -33,6 +33,9 @@ type ForeplayHomeFeaturesGridProps = {
   title?: string
   description?: string
   cards?: ForeplayHomeFeatureCard[]
+  /** Fade card image top/bottom into the card so a solid-colour panel
+      doesn't read as a hard horizontal band (contact/payment SVGs). */
+  imageFade?: boolean
 }
 
 const defaultCards: ForeplayHomeFeatureCard[] = [
@@ -83,6 +86,7 @@ export function ForeplayHomeFeaturesGrid({
   title = "Support that never sleeps",
   description = "A direct line to our team, the tools we built to beat Meta's headaches, and updates that keep you in front of every platform change.",
   cards = defaultCards,
+  imageFade = false,
 }: ForeplayHomeFeaturesGridProps = {}) {
   return (
     <div className="py-27">
@@ -126,7 +130,13 @@ export function ForeplayHomeFeaturesGrid({
                   <img
                     src={card.image}
                     alt={card.title}
-                    className="w-full"
+                    className={cn(
+                      "w-full",
+                      // fade top/bottom into the card so a solid-colour panel
+                      // doesn't cut across as a hard horizontal band
+                      imageFade &&
+                        "[mask-image:linear-gradient(to_bottom,transparent,#000_22%,#000_78%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,transparent,#000_22%,#000_78%,transparent)]",
+                    )}
                     loading="lazy"
                   />
                 ) : (
