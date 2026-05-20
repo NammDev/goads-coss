@@ -171,6 +171,9 @@
   --fp-solid-800: #0f1116;
   --fp-solid-900: #090a0e;
 
+  /* Accent — online indicator dot (Foreplay --lime-green) */
+  --fp-lime-green: #10b981;
+
   /* Navigation header */
   --fp-nav-bg: #020308eb; /* background at ~92% opacity */
   --fp-border-nav: #2a2b30; /* source: border color on .nav-dropdown-menu-inner / .u-nav-resources-banner (border-left) */
