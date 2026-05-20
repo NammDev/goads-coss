@@ -68,7 +68,7 @@ export function CartSummary({
   onOrder,
 }: CartSummaryProps) {
   return (
-    <div className='flex shrink-0 flex-col gap-3.5 border-t border-[#ECEDEF] px-5 pt-4 pb-4'>
+    <div className='flex shrink-0 flex-col gap-3.5 px-5 pt-4 pb-4'>
       {/* payment method cards */}
       <div className='flex flex-col gap-1.5'>
         <span className='text-[12px] font-medium text-[#6C6F74]'>Payment method</span>
@@ -98,16 +98,19 @@ export function CartSummary({
         />
       </div>
 
-      {/* total — conversion focal point */}
-      <div className='flex items-end justify-between gap-2.5 border-t border-[#ECEDEF] pt-3.5'>
-        <span className='text-[12px] font-medium text-[#6C6F74]'>Total</span>
-        <div className='flex items-baseline gap-1.5'>
-          <span className='text-[12px] font-medium text-[#6C6F74]'>USD</span>
-          <span className='text-[26px] font-semibold leading-none tracking-tight text-[#1A1A1A]'>
-            ${formatPrice(subtotal)}
-          </span>
+      {/* total — conversion focal point. Hidden on an empty cart (no
+          $0.00): the panel then acts as a general Telegram contact form. */}
+      {subtotal > 0 && (
+        <div className='flex items-end justify-between gap-2.5 pt-3.5'>
+          <span className='text-[12px] font-medium text-[#6C6F74]'>Total</span>
+          <div className='flex items-baseline gap-1.5'>
+            <span className='text-[12px] font-medium text-[#6C6F74]'>USD</span>
+            <span className='text-[26px] font-semibold leading-none tracking-tight text-[#1A1A1A]'>
+              ${formatPrice(subtotal)}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* primary CTA — Intercom button: #0A0A0A · 10px radius · 44px height */}
       <button

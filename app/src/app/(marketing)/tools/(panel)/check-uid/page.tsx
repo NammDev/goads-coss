@@ -1,10 +1,6 @@
 import type { Metadata } from "next"
 
-import {
-  ForeplayToolShell,
-  ForeplayToolHeader,
-  ForeplayToolBody,
-} from "@/components/foreplay"
+import { ForeplayToolHeader, ForeplayToolBody } from "@/components/foreplay"
 import { ForeplayCheckUidTool } from "@/components/foreplay/foreplay-check-uid-tool"
 
 export const metadata: Metadata = {
@@ -35,11 +31,11 @@ function ScanFaceIcon() {
 
 export default function ForeplayCheckUidPage() {
   return (
-    <ForeplayToolShell>
+    <>
       <ForeplayToolHeader icon={<ScanFaceIcon />} title="Check Live UID" />
       <ForeplayToolBody>
         <ForeplayCheckUidTool />
       </ForeplayToolBody>
-    </ForeplayToolShell>
+    </>
   )
 }

@@ -8,6 +8,7 @@
 
 import { fontInter } from "@/fonts"
 import { ForeplayHeader, ForeplayFooter } from "@/components/foreplay"
+import { ForeplayNavProgress } from "@/components/foreplay/foreplay-nav-progress"
 import { CartPopover } from "@/components/cart-popover"
 
 export default function ForeplayMarketingLayout({
@@ -30,6 +31,7 @@ export default function ForeplayMarketingLayout({
         "[font-optical-sizing:none]",
       ].join(" ")}
     >
+      <ForeplayNavProgress />
       <ForeplayHeader />
       {children}
       <ForeplayFooter />

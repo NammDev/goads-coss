@@ -82,12 +82,12 @@ export function CartItemRow({ item }: { item: CartItem }) {
 
 export function CartEmpty() {
   return (
-    <div className='flex flex-col items-center justify-center gap-1 rounded-2xl bg-white px-5 py-12 text-center ring-1 ring-[#E6E8EB] shadow-[0_1px_2px_rgba(0,0,0,0.06)]'>
-      <div className='mb-2 flex size-12 items-center justify-center rounded-full bg-[#EEF3FF]'>
-        <ShoppingCart className='size-5 text-[#528BFF]' />
+    <div className='flex min-h-[150px] w-full flex-1 flex-col items-center justify-center gap-0.5 rounded-2xl bg-white px-5 py-7 text-center ring-1 ring-[#E6E8EB] shadow-[0_1px_2px_rgba(0,0,0,0.06)]'>
+      <div className='mb-1.5 flex size-9 items-center justify-center rounded-full bg-[#EEF3FF]'>
+        <ShoppingCart className='size-4 text-[#528BFF]' />
       </div>
-      <p className='text-[15px] font-semibold text-[#1A1A1A]'>Your cart is empty</p>
-      <p className='text-[13px] text-[#6C6F74]'>Browse products and add items</p>
+      <p className='text-[13px] font-semibold text-[#1A1A1A]'>Your cart is empty</p>
+      <p className='text-[12px] text-[#6C6F74]'>Browse products and add items</p>
     </div>
   )
 }

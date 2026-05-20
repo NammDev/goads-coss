@@ -1,10 +1,6 @@
 import type { Metadata } from "next"
 
-import {
-  ForeplayToolShell,
-  ForeplayToolHeader,
-  ForeplayToolBody,
-} from "@/components/foreplay"
+import { ForeplayToolHeader, ForeplayToolBody } from "@/components/foreplay"
 import { ForeplaySplitDataTool } from "@/components/foreplay/foreplay-split-data-tool"
 
 export const metadata: Metadata = {
@@ -29,11 +25,11 @@ function ScissorsIcon() {
 
 export default function ForeplaySplitDataPage() {
   return (
-    <ForeplayToolShell>
+    <>
       <ForeplayToolHeader icon={<ScissorsIcon />} title="Split Data Profile" />
       <ForeplayToolBody>
         <ForeplaySplitDataTool />
       </ForeplayToolBody>
-    </ForeplayToolShell>
+    </>
   )
 }

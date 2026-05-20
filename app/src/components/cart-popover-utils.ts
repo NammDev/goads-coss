@@ -27,6 +27,21 @@ export function buildTelegramMessage(
 ) {
   const trimmedNote = note?.trim()
 
+  // Empty cart → general inquiry (no Order/Total $0.00). Customers can
+  // reach out on Telegram without having added a product first.
+  if (items.length === 0) {
+    return [
+      '👋 Hello GOADS Team,',
+      '',
+      "I'd like to get in touch and learn more about your products.",
+      '',
+      `💳 Preferred payment: ${payment}`,
+      ...(trimmedNote ? ['', `📝 Note: ${trimmedNote}`] : []),
+      '',
+      'Please help me with the next steps. Thank you!',
+    ].join('\n')
+  }
+
   const itemLines = items.flatMap((i, idx) => [
     `${idx + 1}. ${i.name}`,
     `   ${i.quantity} × $${formatPrice(i.price)} = $${formatPrice(i.price * i.quantity)}`,

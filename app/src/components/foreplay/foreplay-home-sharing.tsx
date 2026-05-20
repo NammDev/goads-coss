@@ -88,7 +88,7 @@ export function ForeplayHomeSharing() {
                 onClick={() => setActiveTab(i)}
                 className={cn(
                   // .home-sharing-tab-link
-                  "flex items-center gap-1.5 rounded-[10px] px-5 py-1.5 pl-1.5 text-left",
+                  "flex cursor-pointer items-center gap-1.5 rounded-[10px] px-5 py-1.5 pl-1.5 text-left",
                   "transition-all duration-[400ms] ease-[cubic-bezier(0.19,1,0.22,1)]",
                   activeTab === i
                     ? "bg-[var(--fp-solid-25)]"

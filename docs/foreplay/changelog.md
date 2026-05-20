@@ -4,6 +4,7 @@
 
 | Date | File | Change |
 |------|------|--------|
+| 2026-05-18 | `temp-mail-viewer.tsx` | /tempmail UI refine (Foreplay light, sits in always-white block). Email input: dropped literal `0/30 @ <domain>` suffix spans → domain now a placeholder hint `email@<domain>`; removed `dark:` variants on input wrapper (was flipping dark via global `.dark`/next-themes → root cause of "lúc bị lúc không" mismatch). Load/Random/Copy restyled to Foreplay spec: `h-12 rounded-[10px] px-5 font-[550] text-[0.9375rem] leading-5`, Load = solid-900/white, Random+Copy = solid-25 + solid-50 hairline. Logic untouched. Note: inbox sidebar/mail-list still carry ~40 `dark:` variants (out of scope — same theme-flash risk remains there). |
 | 2026-05-15 | `foreplay-home-hero.tsx` | Hero copy → "Premium Meta Assets" / "Built for Winning Campaigns" (2-line hard break). Restored `.home-hero-top` `pb-20` (80px) to match Foreplay desktop base (was deviated to `pb-10`). |
 | 2026-05-15 | `foreplay-hero-content.tsx` | `renderTitle()` — split string title on `\n` → `<br/>` so intentional line breaks survive HTML whitespace collapse. DOM/CSS unchanged. |
 | 2026-05-15 | `foreplay-platform-logos.tsx` | Hero logo strip: `GoogleLogo`→`FacebookLogo` (simple-icons glyph, #1877F2), `TikTokLogo`→`InstagramLogo` (simple-icons glyph, official IG gradient). `MetaLogo` unchanged. Updated `index.ts` + `foreplay-home-hero-bottom.tsx`. Note: separate `assets/svg/ad-platform-logos.tsx` set untouched. |
