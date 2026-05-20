@@ -10,22 +10,18 @@
 
 import {
   ForeplaySectionContainer,
-  ForeplaySectionHead,
   ForeplayHomeCta,
   ForeplayCtaButton,
   fpText,
 } from "@/components/foreplay"
 import { ForeplayUniversityHero } from "@/components/foreplay/foreplay-university-hero"
 import { ForeplayUniversityFeatureRow } from "@/components/foreplay/foreplay-university-feature-row"
-import { ForeplaySolutionExamplesGrid } from "@/components/foreplay/foreplay-solution-examples-grid"
 import { ForeplayProductPageFaqAccordion } from "@/components/foreplay/foreplay-product-page-faq-accordion"
 import {
   unbanHero,
   unbanFeatureRows,
-  unbanExamplesSection,
   unbanFaq,
 } from "@/data/goads-unban-page-data"
-import { ecommerceExamples } from "@/data/foreplay-ecommerce-solution-page-data"
 import { cn } from "@/lib/utils"
 import { UnbanIcon } from "@/assets/svg/unban-icon"
 
@@ -94,28 +90,7 @@ export default function ForeplayUnbanPage() {
         </ForeplaySectionContainer>
       </div>
 
-      {/* ═══ Section 3: Examples Grid (from /foreplay/industries/ecommerce) ═══ */}
-      <div className="section">
-        <div className="flex flex-col py-[108px] max-md:py-24 max-sm:py-20">
-          <ForeplaySectionContainer>
-            <ForeplaySectionHead
-              subtitle={unbanExamplesSection.subtitle}
-              title={unbanExamplesSection.title}
-              titleSize="h2"
-              description={unbanExamplesSection.description}
-              descSize="l"
-              variant="light"
-            />
-            <div className="block pt-12 max-md:pt-10">
-              {/* Duplicate 3 cards → 6 cards (2x3 grid) for this route only */}
-              <ForeplaySolutionExamplesGrid cards={[...ecommerceExamples, ...ecommerceExamples]} />
-            </div>
-          </ForeplaySectionContainer>
-        </div>
-      </div>
-
-
-      {/* ═══ Section 5: FAQ ═══ */}
+      {/* ═══ Section 3: FAQ ═══ */}
       {/* Override default py-[140px] → py-108px for this route */}
       <div className="section">
         <ForeplaySectionContainer variant="wide">
@@ -126,7 +101,7 @@ export default function ForeplayUnbanPage() {
         </ForeplaySectionContainer>
       </div>
 
-      {/* ═══ Section 6: Final CTA Banner ═══ */}
+      {/* ═══ Section 4: Final CTA Banner ═══ */}
       <div className="section overflow-hidden">
         <ForeplaySectionContainer variant="wide">
           <ForeplayHomeCta />
