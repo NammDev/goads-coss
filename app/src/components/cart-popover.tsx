@@ -55,6 +55,19 @@ export function CartPopover() {
   const [open, setOpen] = useState(false)
   const [payment, setPayment] = useState<'crypto' | 'wise'>('crypto')
   const [note, setNote] = useState('')
+  // The closed pill must not pop in while the panel is still playing its
+  // ~300ms slide-out exit (Radix data-[state=closed] animation). Hold the
+  // pill back until the panel is fully gone, then fade it in. Init true so
+  // the very first page load (never opened) shows the pill immediately.
+  const [pillReady, setPillReady] = useState(true)
+  useEffect(() => {
+    if (open) {
+      setPillReady(false)
+      return
+    }
+    const t = setTimeout(() => setPillReady(true), 320)
+    return () => clearTimeout(t)
+  }, [open])
 
   const handleOrder = useCallback(() => {
     const msg = buildTelegramMessage(
@@ -100,7 +113,7 @@ export function CartPopover() {
           <DialogPrimitive.Close
             aria-label='Close cart'
             title='Close (Esc)'
-            className='absolute top-8 right-5 z-[2] flex cursor-pointer items-center justify-center rounded-[10px] p-2.5 text-white transition-[background-color] duration-150 hover:bg-white/15'
+            className='absolute top-[34px] right-8 z-[2] flex cursor-pointer items-center justify-center rounded-[10px] p-2.5 text-white transition-[background-color] duration-150 hover:bg-white/15'
           >
             <XIcon className='size-4' />
           </DialogPrimitive.Close>
@@ -137,47 +150,55 @@ export function CartPopover() {
           {/* ONLY the product list scrolls (capped ~5 rows). */}
           <CartProducts items={items} />
 
-          {/* FIXED summary — payment / note / total / CTA (never scrolls). */}
-          {items.length > 0 && (
-            <CartSummary
-              subtotal={subtotal}
-              payment={payment}
-              onPaymentChange={setPayment}
-              note={note}
-              onNoteChange={setNote}
-              onOrder={handleOrder}
-            />
-          )}
+          {/* FIXED summary — payment / note / total / CTA (never scrolls).
+              Always shown, even with an empty cart: customers can still
+              reach us on Telegram for a general inquiry. */}
+          <CartSummary
+            subtotal={subtotal}
+            payment={payment}
+            onPaymentChange={setPayment}
+            note={note}
+            onNoteChange={setNote}
+            onOrder={handleOrder}
+          />
 
         </DialogPrimitive.Content>
       </DialogPortal>
 
       {/* Option 1 — info pill that juts out of the right edge: bag + count +
           live total (nudges the sale). Travels to the panel's left edge and
-          collapses to a round X when open. Vertically centred. */}
+          collapses to a round X when open. Vertically centred.
+          While the panel is animating closed (!open && !pillReady) the
+          handle is unmounted so the pill never flashes mid-transition. */}
+      {(open || pillReady) && (
       <button
         type='button'
         aria-label={open ? 'Close cart' : 'Open cart'}
         onClick={() => setOpen((v) => !v)}
         className={
-          'group fixed top-1/2 z-[60] flex -translate-y-1/2 cursor-pointer items-center bg-white transition-[right] duration-300 ease-out ' +
+          'group fixed top-1/2 z-[60] flex -translate-y-1/2 cursor-pointer items-center bg-white transition-[right,transform] duration-300 ease-out ' +
           (open
-            ? 'h-14 w-6 justify-center rounded-l-xl'
-            : 'h-12 gap-2.5 rounded-l-2xl pr-3 pl-4 ring-1 ring-[#E6E8EB] hover:-translate-x-0.5')
+            ? 'size-9 justify-center rounded-full ring-1 ring-[#EAECEF] hover:scale-105'
+            : 'h-12 gap-2.5 rounded-l-2xl pr-3 pl-4 ring-1 ring-[#E6E8EB] animate-in fade-in slide-in-from-right-2 duration-200')
         }
         style={{
-          right: open ? 'calc(1rem + min(400px, calc(100dvw - 2.5rem)))' : 0,
-          // Open: only a soft LEFT shadow so the grip reads as an extrusion of
-          // the cart panel (fused, no full ring). Closed: lifted pill shadow.
+          // Open: small round button straddling the panel's left seam (pulled
+          // 18px over the edge) — a floating collapse affordance, not a tab.
+          right: open
+            ? 'calc(1rem + min(400px, calc(100dvw - 2.5rem)) - 18px)'
+            : 0,
           boxShadow: open
-            ? '-5px 0 14px -8px rgba(16,24,40,0.18)'
+            ? '0 6px 18px -6px rgba(16,24,40,0.22)'
             : '-8px 0 28px -10px rgba(16,24,40,0.22)',
         }}
       >
         {open ? (
-          <ChevronRight className='size-4 text-[#C7CBD1] transition-colors group-hover:text-[#1A1A1A]' />
+          <ChevronRight className='size-4 text-[#9AA0A6] transition-colors group-hover:text-[#1A1A1A]' />
         ) : (
-          <>
+          // Motion lives on the INNER content, not the button box — so the
+          // white pill stays flush to the screen edge and never exposes the
+          // dark page bg behind it on hover.
+          <span className='flex items-center gap-2.5 transition-transform duration-300 ease-out group-hover:-translate-x-0.5'>
             <span className='relative'>
               <ShoppingBag className='size-5 text-[#1A1A1A] transition-transform duration-200 group-hover:scale-110' />
               {count > 0 && (
@@ -198,9 +219,10 @@ export function CartPopover() {
             ) : (
               <span className='text-[14px] font-semibold text-[#1A1A1A]'>Cart</span>
             )}
-          </>
+          </span>
         )}
       </button>
+      )}
     </DialogPrimitive.Root>
   )
 }

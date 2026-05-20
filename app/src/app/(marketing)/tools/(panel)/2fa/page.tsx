@@ -4,7 +4,6 @@
 import type { Metadata } from "next"
 
 import {
-  ForeplayToolShell,
   ForeplayToolHeader,
   ForeplayToolBody,
   ForeplayTwoFaTool,
@@ -39,11 +38,11 @@ function ShieldCheckIcon() {
 
 export default function ForeplayTwoFaPage() {
   return (
-    <ForeplayToolShell>
+    <>
       <ForeplayToolHeader icon={<ShieldCheckIcon />} title="2FA Generator" />
       <ForeplayToolBody>
         <ForeplayTwoFaTool />
       </ForeplayToolBody>
-    </ForeplayToolShell>
+    </>
   )
 }

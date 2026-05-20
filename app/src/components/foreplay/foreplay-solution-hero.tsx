@@ -36,7 +36,9 @@ export function ForeplaySolutionHero({
     <>
       {/* .industries-icon */}
       <div className="mx-auto my-5 flex size-[60px] items-center justify-center rounded-[15px] border border-[#ffffff29]">
-        <div className="size-9">{icon}</div>
+        {/* center the icon within the wrapper so SVGs smaller than size-9
+            (e.g. 32px MailIcon) sit dead-center, not top-left */}
+        <div className="flex size-9 items-center justify-center [&>svg]:size-8">{icon}</div>
       </div>
 
       {/* .section-head — uses h1 for subtitle (SEO), h2 for title */}

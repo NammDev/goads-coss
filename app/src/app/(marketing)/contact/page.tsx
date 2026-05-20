@@ -24,7 +24,7 @@ const contactChannelCards: ForeplayHomeFeatureCard[] = [
       "@goads_official — Fastest way to reach us. Live support, 24/7.",
     ctaLabel: "Message on Telegram",
     ctaHref: CONTACT.telegram.officialWithMessage,
-    image: "",
+    image: "/contact/telegram.svg",
   },
   {
     icon: <WhatsAppLogo className="size-6" />,
@@ -34,7 +34,7 @@ const contactChannelCards: ForeplayHomeFeatureCard[] = [
     ctaLabel: "Chat on WhatsApp",
     ctaHref: CONTACT.whatsapp.withMessage,
     isMiddle: true,
-    image: "",
+    image: "/contact/whats%20app.svg",
   },
   {
     icon: <MailIcon />,
@@ -42,7 +42,7 @@ const contactChannelCards: ForeplayHomeFeatureCard[] = [
     description: `${CONTACT.email} — For detailed requests, invoices and documents.`,
     ctaLabel: "Send an Email",
     ctaHref: `mailto:${CONTACT.email}`,
-    image: "",
+    image: "/contact/gmail.svg",
   },
 ]
 
@@ -93,6 +93,7 @@ export default function ForeplayContactPage() {
             title="Reach us your way"
             description="Real people, fast answers, no tickets. Pick the channel that works for you."
             cards={contactChannelCards}
+            imageFade
           />
         </ForeplaySectionContainer>
       </section>
