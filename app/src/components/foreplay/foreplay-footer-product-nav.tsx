@@ -24,7 +24,7 @@ interface FooterProduct {
 const defaultProducts: FooterProduct[] = [
   { iconSrc: "/foreplay/BM.svg",       subtitle: "BM1–BM10, verified",     label: "Business Manager",  href: "/bm" },
   { iconSrc: "/foreplay/PROFILES.svg", subtitle: "Aged, verified accounts", label: "Facebook Profile",  href: "/profiles" },
-  { iconSrc: "/foreplay/PAGES.svg",    subtitle: "Niche, verified pages",   label: "Facebook Fanpage",  href: "/profiles" },
+  { iconSrc: "/foreplay/PAGES.svg",    subtitle: "Niche, verified pages",   label: "Facebook Fanpage",  href: "/pages" },
   { iconSrc: "/foreplay/META.svg",     subtitle: "Unlimited daily spend",   label: "Agency Ad Account", href: "/agency-ad-account" },
   { iconSrc: "/foreplay/TIKTOK.svg",   subtitle: "Shop & Business Center",  label: "TikTok Asset",      href: "/tiktok-accounts" },
 ]

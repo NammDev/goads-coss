@@ -115,7 +115,20 @@ export function ForeplayHeaderDropdownBase({ label, children }: ForeplayHeaderDr
           feedback — the progress bar then takes over. */}
       <nav
         onClickCapture={(e) => {
-          if ((e.target as HTMLElement | null)?.closest("a")) setOpen(false)
+          const a = (e.target as HTMLElement | null)?.closest("a")
+          if (!a) return
+          setOpen(false)
+          // Same-route click → Next does nothing, page looks frozen.
+          // Smooth-scroll to top so the click visibly does *something*.
+          try {
+            const url = new URL(a.href)
+            if (
+              url.origin === window.location.origin &&
+              url.pathname === window.location.pathname
+            ) {
+              window.scrollTo({ top: 0, behavior: "smooth" })
+            }
+          } catch {}
         }}
         className={cn(
           "absolute top-full right-0 left-0 mt-[-5px] block min-w-full bg-transparent",

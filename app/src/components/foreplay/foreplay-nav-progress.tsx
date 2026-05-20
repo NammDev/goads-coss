@@ -108,7 +108,7 @@ export function ForeplayNavProgress() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-x-0 top-0 z-[200] h-[3px]"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[200] h-[2px]"
     >
       <div
         // Pure white core + cyan-tinted soft halo — matches the site's

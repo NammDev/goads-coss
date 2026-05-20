@@ -105,7 +105,7 @@ export function ForeplayHeader() {
               <div className="flex items-center justify-end gap-2">
                 {/* a.navlink.u-navlink-signin */}
                 <ForeplayNavLink href="/sign-in">Sign in</ForeplayNavLink>
-                {/* a.new-button.new-button-navbar — cart-aware (View cart when filled) */}
+                {/* a.new-button.new-button-navbar — always "Start free trial" */}
                 <ForeplayTrialCtaButton />
               </div>
             </div>
