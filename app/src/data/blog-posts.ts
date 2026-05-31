@@ -34,7 +34,7 @@ export type BlogPost = {
 
 const goadsTeam: BlogAuthor = {
   name: "GoAds Team",
-  avatar: "/avatars/goads-team.png",
+  avatar: "/avatars/author-placeholder.svg",
   title: "Marketing Team",
   socials: {
     website: "https://goads.com",
@@ -65,7 +65,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "March 5, 2026",
     readTime: "8 min read",
-    coverImage: "/foreplay/blog/blog_1.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     featured: true,
     popular: true,
     sections: [
@@ -113,7 +113,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 28, 2026",
     readTime: "12 min read",
-    coverImage: "/foreplay/6952d2ca7adeb06040a5df45_discovery.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     popular: true,
     sections: [
       {
@@ -153,7 +153,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 20, 2026",
     readTime: "10 min read",
-    coverImage: "/foreplay/69419aba40b173a35f30c9ca_a.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     popular: true,
     sections: [
       {
@@ -191,7 +191,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 15, 2026",
     readTime: "9 min read",
-    coverImage: "/foreplay/693c5f30484a0cd5f501cabf_das.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     popular: true,
     sections: [
       {
@@ -230,7 +230,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 8, 2026",
     readTime: "11 min read",
-    coverImage: "/foreplay/69456cf1f1ab892ffc171ea0_lens.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "common-ban-reasons",
@@ -278,7 +278,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 18, 2026",
     readTime: "9 min read",
-    coverImage: "/foreplay/699c79256759e8e5e5d30ffa_Blog.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "the-three-pillars",
@@ -297,7 +297,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 12, 2026",
     readTime: "7 min read",
-    coverImage: "/foreplay/blog/blog_2.webp",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "test-results",
@@ -316,7 +316,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "February 5, 2026",
     readTime: "6 min read",
-    coverImage: "/foreplay/blog/blog_1.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "leading-indicators",
@@ -335,7 +335,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "January 28, 2026",
     readTime: "10 min read",
-    coverImage: "/foreplay/blog/blog_2.webp",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "cold-vs-warm",
@@ -354,7 +354,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "January 22, 2026",
     readTime: "8 min read",
-    coverImage: "/foreplay/blog/blog_1.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "setup",
@@ -373,7 +373,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "January 15, 2026",
     readTime: "11 min read",
-    coverImage: "/foreplay/blog/blog_2.webp",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "when-asc-wins",
@@ -392,7 +392,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "January 8, 2026",
     readTime: "9 min read",
-    coverImage: "/foreplay/blog/blog_1.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "thematic-grouping",
@@ -411,7 +411,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "January 2, 2026",
     readTime: "7 min read",
-    coverImage: "/foreplay/blog/blog_2.webp",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "the-system",
@@ -430,7 +430,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "December 20, 2025",
     readTime: "12 min read",
-    coverImage: "/foreplay/blog/blog_1.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "scaling-thresholds",
@@ -449,7 +449,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "December 14, 2025",
     readTime: "8 min read",
-    coverImage: "/foreplay/blog/blog_2.webp",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "first-48",
@@ -468,7 +468,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "December 6, 2025",
     readTime: "6 min read",
-    coverImage: "/foreplay/blog/blog_1.png",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "matching-the-cycle",
@@ -487,7 +487,7 @@ export const blogPosts: BlogPost[] = [
     author: goadsTeam,
     date: "November 28, 2025",
     readTime: "5 min read",
-    coverImage: "/foreplay/blog/blog_2.webp",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
     sections: [
       {
         id: "the-process",

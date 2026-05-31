@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
 
-import { ForeplayToolHeader, ForeplayToolBody } from "@/components/foreplay"
-import { ForeplaySplitDataTool } from "@/components/foreplay/foreplay-split-data-tool"
+import { ToolBody } from "@/components/tools/body"
+import { ToolHeader } from "@/components/tools/header"
+import { SplitDataTool } from "@/components/tools/split-data"
 
 export const metadata: Metadata = {
-  title: "Split Data Profile | Foreplay Tools",
+  title: "Split Data Profile | GoAds Tools",
   description: "Split text by delimiter into separate columns.",
 }
 
@@ -23,13 +24,13 @@ function ScissorsIcon() {
   )
 }
 
-export default function ForeplaySplitDataPage() {
+export default function SplitDataPage() {
   return (
     <>
-      <ForeplayToolHeader icon={<ScissorsIcon />} title="Split Data Profile" />
-      <ForeplayToolBody>
-        <ForeplaySplitDataTool />
-      </ForeplayToolBody>
+      <ToolHeader icon={<ScissorsIcon />} title="Split Data Profile" />
+      <ToolBody>
+        <SplitDataTool />
+      </ToolBody>
     </>
   )
 }

@@ -123,7 +123,7 @@ export default async function HelpPage({ params }: Props) {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/foreplay/sample-foreplay-avatar.webp"
+                    src="/assets/sample-avatar.webp"
                     alt=""
                     className="aspect-square h-full w-full"
                   />
@@ -262,7 +262,7 @@ export default async function HelpPage({ params }: Props) {
               <span className="relative flex h-10 w-10 shrink-0 overflow-hidden bg-secondary rounded-full">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/foreplay/sample-foreplay-avatar.webp"
+                  src="/assets/sample-avatar.webp"
                   alt=""
                   className="aspect-square !border-0 !shadow-none h-full w-full"
                 />

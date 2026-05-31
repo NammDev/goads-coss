@@ -98,18 +98,7 @@ Boot dev server and walk every route — focus on visual diff vs pre-rename:
 
 ## Regression guards
 
-After the rename, add a `lint:no-foreplay` script that fails CI if `Foreplay` appears in new code:
-
-```json
-// package.json
-{
-  "scripts": {
-    "lint:no-foreplay": "! grep -rn 'Foreplay\\|--fp-\\|foreplay' src/ --include='*.ts' --include='*.tsx' --include='*.css' || (echo 'Foreplay reference detected'; exit 1)"
-  }
-}
-```
-
-Add to CI pipeline. Allow specific paths (comments) via grep `--exclude` flags as needed.
+**Not applicable** — repo has no CI (`.github/workflows/` does not exist) and the app is not yet exposed to real users (production traffic still on the separate `goads.shop` site). Skip the `lint:no-foreplay` CI guard. Rely on manual grep verification during this rename and developer discipline thereafter.
 
 ## Todo
 
@@ -120,10 +109,7 @@ Add to CI pipeline. Allow specific paths (comments) via grep `--exclude` flags a
 - [ ] Dev server boots, all routes render
 - [ ] Floating widget expands with correct colors
 - [ ] No 404s in Network tab on asset requests
-- [ ] Add `lint:no-foreplay` CI guard
-- [ ] Commit: `chore: add no-foreplay lint guard`
-- [ ] Deploy to staging, do same smoke pass with real OG/social previews
-- [ ] Add `next.config.js` redirect `/foreplay/:path*` → `/goads/:path*` (30 days, then remove) — see phase-04 risk
+- [ ] Push to `main` → Vercel auto-deploys → smoke test the deployed URL
 
 ## Success criteria
 
@@ -132,7 +118,6 @@ Add to CI pipeline. Allow specific paths (comments) via grep `--exclude` flags a
 - Visual smoke: all 25 routes render identical to baseline
 - Floating widget fully functional
 - Zero broken asset URLs in Network tab
-- CI guard prevents reintroduction
 
 ## Rollback plan
 
@@ -141,12 +126,11 @@ Each phase = one commit. If verify fails:
 - `git revert <phase-commit>` (or `git reset --hard <pre-phase>` if not yet pushed)
 - Diagnose, retry that phase
 
-If multiple phases pushed and prod broken:
-- Revert ALL rename commits as a chain
-- Add `next.config.js` redirect from new paths back to old as emergency hotfix while diagnosing
+No production user impact concerns — the live `goads.shop` site is a separate codebase. Rollback is purely a dev-experience concern, not an incident response.
 
 ## Unresolved questions
 
-- [ ] **Cal.com event title rename** — `🚀 Foreplay Demo & Action Plan` is still pulled from Cal.com. Coordinate with user to update in Cal.com dashboard separately from this code rename.
-- [ ] **Redirect TTL** — how long to keep `/foreplay/:path*` → `/goads/:path*` redirect? Default suggestion: 30 days, then remove.
-- [ ] **CI integration** — does the project have CI yet? If yes, where to add `lint:no-foreplay`. If no, skip the CI step (manual discipline only).
+_None._ All previously open items resolved:
+- Cal.com event title — handled by user directly in Cal.com dashboard.
+- Redirect `/foreplay/:path*` → `/goads/:path*` — **not needed**; app not yet exposed to real users (no SEO, no social cache, no backlinks to protect).
+- CI integration — **not applicable**; repo has no CI configured.

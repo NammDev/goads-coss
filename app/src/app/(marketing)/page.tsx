@@ -1,30 +1,28 @@
-import {
-  ForeplaySectionContainer,
-  ForeplayDotBg,
-  ForeplaySectionWhiteBlock,
-  ForeplayHomeHero,
-  ForeplayHomeProductShowcase,
-  ForeplayHomeChromeExtension,
-  ForeplayHomeCollab,
-  ForeplayHomeFeaturesGrid,
-  ForeplayHomeCta,
-} from "@/components/foreplay"
-import { swipeFileTabs, spyderTabs, discoveryTabs, lensTabs, briefsTabs } from "@/data/foreplay-product-tabs"
+import { DotBg } from "@/components/atoms/dot-bg"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
+import { HomeChromeExtension } from "@/components/home/chrome-extension"
+import { HomeCollab } from "@/components/home/collab"
+import { HomeCta } from "@/components/home/cta"
+import { HomeFeaturesGrid } from "@/components/home/features-grid"
+import { HomeHero } from "@/components/home/hero"
+import { HomeProductShowcase } from "@/components/home/product-showcase"
+import { assetsTabs, solutionsTabs, platformsTabs, technologyTabs, supportTabs } from "@/data/home-product-tabs"
 
-export default function ForeplayHomePage() {
+export default function HomePage() {
   return (
     <>
       {/* Section 0: Hero (dark bg + dot grid) */}
       <section className="relative">
-        <ForeplayDotBg />
-        <ForeplaySectionContainer>
-          <ForeplayHomeHero />
-        </ForeplaySectionContainer>
+        <DotBg />
+        <SectionContainer>
+          <HomeHero />
+        </SectionContainer>
       </section>
 
       {/* Section 1: Product Showcases (white founder block removed — was empty placeholder) */}
       <section className="section">
-        <ForeplayHomeProductShowcase
+        <HomeProductShowcase
           subtitle="PRODUCTS & SOLUTIONS"
           title="Infrastructure designed for your success"
           description="Verified assets, instant delivery, real support. Everything you need to keep your ads live."
@@ -32,56 +30,56 @@ export default function ForeplayHomePage() {
           sidebarTitle="Premium assets, ready to scale"
           ctaHref="/pricing"
           learnMoreHref="/docs"
-          tabs={swipeFileTabs}
+          tabs={assetsTabs}
           tabImages={[
             // [0] Meta Assets → custom GoAds visual; [1] TikTok Assets → original (unchanged)
-            "/foreplay/goads/goads-meta-assets.webp",
-            "/foreplay/tiktok%20asset.svg",
+            "/assets/meta-assets.webp",
+            "/assets/tiktok%20asset.svg",
           ]}
         />
 
         {/* Spyder — no section head (shares with Swipe File) */}
-        <ForeplayHomeProductShowcase
+        <HomeProductShowcase
           subtitle="" title="" description=""
           sidebarOverline="Solutions"
           sidebarTitle="Fix issues, stay scaling"
           ctaHref="/pricing"
           learnMoreHref="/docs"
-          tabs={spyderTabs}
+          tabs={solutionsTabs}
           tabImages={[
             // [0] Unban & Recovery, [1] Verified Services — both custom GoAds visuals
-            "/foreplay/goads/goads-unban-extension.webp",
-            "/foreplay/goads/goads-verified-services.webp",
+            "/assets/unban-extension.webp",
+            "/assets/verified-services.webp",
           ]}
           showSectionHead={false}
         />
 
         {/* Discovery — no section head */}
-        <ForeplayHomeProductShowcase
+        <HomeProductShowcase
           subtitle="" title="" description=""
           sidebarOverline="Agency Ad Accounts"
           sidebarTitle="Grow without limits"
           ctaHref="/pricing"
           learnMoreHref="/docs"
-          tabs={discoveryTabs.filter(
+          tabs={platformsTabs.filter(
             (t) => t.label !== "TikTok" && t.label !== "Google",
           )}
           tabImages={[
-            "/foreplay/goads/goads-agency-ad-account.webp",
-            "/foreplay/goads/goads-agency-ad-account.webp",
+            "/assets/agency-ad-account.webp",
+            "/assets/agency-ad-account.webp",
           ]}
           showSectionHead={false}
         />
 
         {/* Chrome Extension banner */}
         <div className="py-20">
-          <ForeplayHomeChromeExtension />
+          <HomeChromeExtension />
         </div>
       </section>
 
       {/* Section: "Identify winning patterns" — Lens + Briefs */}
       <section className="section">
-        <ForeplayHomeProductShowcase
+        <HomeProductShowcase
           subtitle="TOOLS & SERVICES"
           title="Powerful tools built from real experience"
           description="Extensions, tools and services designed to solve real problems. So you can focus on scaling."
@@ -89,50 +87,50 @@ export default function ForeplayHomePage() {
           sidebarTitle="Optimize Your Workflow"
           ctaHref="/tools/goads-extension"
           learnMoreHref="/docs"
-          tabs={lensTabs}
+          tabs={technologyTabs}
           tabImages={[
             // [0] All Tools → tools library; [1] GoAds Extensions → launcher (both custom)
-            "/foreplay/goads/goads-all-tools.webp",
-            "/foreplay/goads/goads-extension-launcher.webp",
-            "/foreplay/goads/goads-extension-launcher.webp",
+            "/assets/all-tools.webp",
+            "/assets/extension-launcher.webp",
+            "/assets/extension-launcher.webp",
           ]}
         />
 
-        <ForeplayHomeProductShowcase
+        <HomeProductShowcase
           subtitle="" title="" description=""
           sidebarOverline="Service"
           sidebarTitle="Always On, Always Reliable"
           ctaHref="/pricing"
           learnMoreHref="/docs"
-          tabs={briefsTabs}
+          tabs={supportTabs}
           showSectionHead={false}
           tabImages={[
             // [0] 24/7 support, [1] Quick replacements — custom GoAds visuals
-            "/foreplay/goads/goads-service-support.webp",
-            "/foreplay/goads/goads-service-replacements.webp",
+            "/assets/service-support.webp",
+            "/assets/service-replacements.webp",
           ]}
         />
       </section>
 
       {/* Section 2: Collaboration — white block */}
       <section className="section">
-        <ForeplaySectionWhiteBlock>
-          <ForeplayHomeCollab />
-        </ForeplaySectionWhiteBlock>
+        <SectionWhiteBlock>
+          <HomeCollab />
+        </SectionWhiteBlock>
       </section>
 
       {/* Section 3: Features — "Miles beyond the status quo" */}
       <section className="section">
         {/* Uses .container (1440px) not .section-container (1216px) */}
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayHomeFeaturesGrid />
-        </ForeplaySectionContainer>
+        <SectionContainer variant="wide">
+          <HomeFeaturesGrid />
+        </SectionContainer>
       </section>
       {/* Final CTA — "Ready to ship more winning ads?" */}
       <div className="overflow-hidden">
-        <ForeplaySectionContainer>
-          <ForeplayHomeCta />
-        </ForeplaySectionContainer>
+        <SectionContainer>
+          <HomeCta />
+        </SectionContainer>
       </div>
     </>
   )

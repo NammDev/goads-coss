@@ -1,22 +1,20 @@
 // Foreplay /contact — hero (aboutus pattern) + Community & Resources section.
 
 import type { Metadata } from "next"
+import { CtaButton } from "@/components/atoms/cta-button"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { UniversityHero } from "@/components/university/hero"
 import {
-  ForeplaySectionContainer,
-  ForeplayCtaButton,
-} from "@/components/foreplay"
-import { ForeplayUniversityHero } from "@/components/foreplay/foreplay-university-hero"
-import {
-  ForeplayHomeFeaturesGrid,
-  type ForeplayHomeFeatureCard,
-} from "@/components/foreplay/foreplay-home-features-grid"
-import { contactHero } from "@/data/goads-contact-page-data"
+  HomeFeaturesGrid,
+  type HomeFeatureCard,
+} from "@/components/home/features-grid"
+import { contactHero } from "@/data/contact-page-data"
 import { TelegramLogo, WhatsAppLogo } from "@/assets/svg/ad-platform-logos"
 import { CONTACT } from "@/data/contact-info"
 
 // GET IN TOUCH channels — reuses the features-grid UI (3-card layout + images
 // kept as placeholders for now; channel logo images to be swapped in later).
-const contactChannelCards: ForeplayHomeFeatureCard[] = [
+const contactChannelCards: HomeFeatureCard[] = [
   {
     icon: <TelegramLogo className="size-6" />,
     title: "Telegram",
@@ -61,41 +59,41 @@ export const metadata: Metadata = {
     "Get in touch with the GoAds team — real people, fast answers, 24/7 support across Telegram, WhatsApp and Discord.",
 }
 
-export default function ForeplayContactPage() {
+export default function ContactPage() {
   return (
     <>
       {/* ═══ Section 1: Hero ═══ */}
-      <ForeplayUniversityHero
+      <UniversityHero
         bgImage={contactHero.bgImage}
         title={
           <>
             <span className="text-foreground">Get in Touch</span>
             <br />
-            <span className="text-[var(--fp-alpha-100)]">With Our Team</span>
+            <span className="text-[var(--alpha-100)]">With Our Team</span>
           </>
         }
       >
         <div className="flex flex-col items-center gap-8 pt-3 pb-10 max-md:gap-6 max-md:pb-6">
-          <p className="max-w-[820px] text-center font-sans text-[1.0625rem] font-normal leading-[1.6] tracking-[-0.0125em] text-[var(--fp-alpha-50)] [text-wrap:balance]">
+          <p className="max-w-[820px] text-center font-sans text-[1.0625rem] font-normal leading-[1.6] tracking-[-0.0125em] text-[var(--alpha-50)] [text-wrap:balance]">
             {contactHero.description}
           </p>
-          <ForeplayCtaButton href={contactHero.ctaHref} variant="hero">
+          <CtaButton href={contactHero.ctaHref} variant="hero">
             {contactHero.ctaLabel}
-          </ForeplayCtaButton>
+          </CtaButton>
         </div>
-      </ForeplayUniversityHero>
+      </UniversityHero>
 
       {/* ═══ Section 2: COMMUNITY & RESOURCES ═══ */}
       <section className="section">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayHomeFeaturesGrid
+        <SectionContainer variant="wide">
+          <HomeFeaturesGrid
             subtitle="GET IN TOUCH"
             title="Reach us your way"
             description="Real people, fast answers, no tickets. Pick the channel that works for you."
             cards={contactChannelCards}
             imageFade
           />
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </section>
     </>
   )

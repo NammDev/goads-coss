@@ -21,7 +21,7 @@
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
-import { fpText } from "@/components/foreplay/foreplay-typography"
+import { siteText } from "@/components/atoms/typography"
 import type { BlogPost } from "@/data/blog-posts"
 
 type BlogDetailPost = BlogPost | {
@@ -56,31 +56,31 @@ export function BlogDetailHeader({ post }: BlogDetailHeaderProps) {
             <Link
               href="/blog"
               className={cn(
-                fpText.bodyS,
-                "shrink-0 px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground",
+                siteText.bodyS,
+                "shrink-0 px-2 py-2 text-[var(--alpha-100,#ffffffad)] hover:text-foreground",
               )}
             >
               Blog
             </Link>
-            <span className={cn(fpText.bodyS, "text-[var(--fp-alpha-100,#ffffffad)]")}>
+            <span className={cn(siteText.bodyS, "text-[var(--alpha-100,#ffffffad)]")}>
               /
             </span>
             <Link
               href={`/blog?category=${catSlug}`}
               className={cn(
-                fpText.bodyS,
-                "shrink-0 px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground",
+                siteText.bodyS,
+                "shrink-0 px-2 py-2 text-[var(--alpha-100,#ffffffad)] hover:text-foreground",
               )}
             >
               {post.category}
             </Link>
-            <span className={cn(fpText.bodyS, "text-[var(--fp-alpha-100,#ffffffad)]")}>
+            <span className={cn(siteText.bodyS, "text-[var(--alpha-100,#ffffffad)]")}>
               /
             </span>
             <span
               className={cn(
-                fpText.bodyS,
-                "truncate px-2 py-2 text-[var(--fp-alpha-100,#ffffffad)]",
+                siteText.bodyS,
+                "truncate px-2 py-2 text-[var(--alpha-100,#ffffffad)]",
               )}
             >
               {post.title}
@@ -97,13 +97,13 @@ export function BlogDetailHeader({ post }: BlogDetailHeaderProps) {
             <div className="flex w-full flex-col gap-2 text-balance">
               {/* .text-white > h1.text-display-h4 */}
               <div className="text-foreground">
-                <h1 className={fpText.displayH4}>{post.title}</h1>
+                <h1 className={siteText.displayH4}>{post.title}</h1>
               </div>
             </div>
             {/* .blog-body > .text-alpha-100 > p.text-body-m */}
             <div className="pb-10">
-              <div className="text-[var(--fp-alpha-100,#ffffffad)]">
-                <p className={fpText.bodyM}>{post.description}</p>
+              <div className="text-[var(--alpha-100,#ffffffad)]">
+                <p className={siteText.bodyM}>{post.description}</p>
               </div>
             </div>
             {/* .blog-line: h-px bg-neutral-700 */}

@@ -1,28 +1,29 @@
 // Global 404 — Foreplay-styled, WITH the marketing header + footer.
 // app/not-found.tsx is rendered only by the root layout (no (marketing) group
 // layout), so the Foreplay chrome is rendered here explicitly and the whole
-// page is wrapped in the same `.foreplay` shell as (marketing)/layout.tsx.
+// page is wrapped in the same `.goads` shell as (marketing)/layout.tsx.
 //
 // Source 404 DOM: h1.heading-11 "404" (gradient #fff→#000 clip, 20vw / 250px xl)
 //   + .section-head (h2.text-display-h2 + p.text-body-l) + Return Home button.
 
 import { fontInter } from "@/fonts"
-import { ForeplayHeader, ForeplayFooter } from "@/components/foreplay"
-import { ForeplaySectionHead } from "@/components/foreplay/foreplay-section-head"
-import { ForeplayCtaButton } from "@/components/foreplay/foreplay-cta-button"
+import { Footer } from "@/components/layout/footer"
+import { Header } from "@/components/layout/header"
+import { SectionHead } from "@/components/atoms/section-head"
+import { CtaButton } from "@/components/atoms/cta-button"
 
 export default function NotFound() {
   return (
     <div
       className={[
-        "foreplay",
+        "site",
         fontInter.variable,
         "min-h-svh bg-background text-muted-foreground",
         "font-sans text-base font-normal leading-6 tracking-[-0.01125em]",
         "overflow-x-clip antialiased [font-optical-sizing:none]",
       ].join(" ")}
     >
-      <ForeplayHeader />
+      <Header />
 
       {/* 404 content — centered between header and footer */}
       <main className="flex min-h-[70svh] items-center justify-center px-6 py-24">
@@ -33,7 +34,7 @@ export default function NotFound() {
           </h1>
 
           {/* .section-head — reuse atom (title h2 + paragraph) */}
-          <ForeplaySectionHead
+          <SectionHead
             title="Page not found"
             titleTag="h2"
             titleSize="h2"
@@ -44,14 +45,14 @@ export default function NotFound() {
 
           {/* ._404-button-wrapper — Return Home (button-dark.button-primary = hero) */}
           <div>
-            <ForeplayCtaButton href="/" variant="hero">
+            <CtaButton href="/" variant="hero">
               Return Home
-            </ForeplayCtaButton>
+            </CtaButton>
           </div>
         </div>
       </main>
 
-      <ForeplayFooter />
+      <Footer />
     </div>
   )
 }

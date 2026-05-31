@@ -15,7 +15,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ForeplayLogoSvg } from "@/components/foreplay/footer/foreplay-logo-svg"
+import { FooterLogoSvg } from "@/components/layout/footer/logo-svg"
 import { helpTabs, flattenLeafItems } from "@/data/help-navigation"
 
 /** Single article row inside a section — mirrors docs-sidebar SidebarArticleLink verbatim. */
@@ -110,7 +110,7 @@ export function HelpSidebar() {
               aria-label="GoAds — back to main site"
               className="inline-flex max-w-full min-w-0 items-center truncate"
             >
-              <ForeplayLogoSvg
+              <FooterLogoSvg
                 className="h-8 w-auto"
                 style={{ color: "var(--background)" }}
               />

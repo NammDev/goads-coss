@@ -36,7 +36,7 @@
 //   slightly darker gray than the inherited `text-muted-foreground` on <ol>.
 //   Parent's `[&>svg]:size-3.5` overrides the 1rem in .secondary-svg via
 //   specificity (class + child combinator + element wins over single class),
-//   keeping chevrons at 14×14. CSS lives in globals.css under .foreplay scope.
+//   keeping chevrons at 14×14. CSS lives in globals.css under .goads scope.
 
 import Link from "next/link"
 import { Fragment } from "react"

@@ -2,20 +2,18 @@
 // Composition mirrors /bm: Hero (text-only) → Comparison Table (Pages first)
 //   → Feature Grid 1 + Testimonial 1 → Feature Grid 2 + Testimonial 2 → Product CTA → FAQ → Final CTA
 
-import {
-  ForeplaySectionContainer,
-  ForeplayDotBg,
-  ForeplaySectionWhiteBlock,
-  ForeplaySectionHead,
-  ForeplayProductPageFaqAccordion,
-  ForeplayHomeCta,
-  ForeplayProductPageCtaCard,
-} from "@/components/foreplay"
-import { ForeplayProductHero } from "@/components/foreplay/foreplay-product-hero"
-import { ForeplayProductPageFeatureGridCards } from "@/components/foreplay/foreplay-product-page-feature-grid-cards"
-import { ForeplayProductPageTestimonial } from "@/components/foreplay/foreplay-product-page-testimonial"
-import { ForeplayPricingComparison } from "@/components/foreplay/foreplay-pricing-comparison"
-import { catalogCategories, catalogHeaderColumns } from "@/data/goads-product-catalog-table-data"
+import { DotBg } from "@/components/atoms/dot-bg"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { SectionHead } from "@/components/atoms/section-head"
+import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
+import { HomeCta } from "@/components/home/cta"
+import { ProductPageCtaCard } from "@/components/product/page-cta-card"
+import { ProductPageFaqAccordion } from "@/components/product/page-faq-accordion"
+import { ProductHero } from "@/components/product/hero"
+import { ProductPageFeatureGridCards } from "@/components/product/page-feature-grid-cards"
+import { ProductPageTestimonial } from "@/components/product/page-testimonial"
+import { PricingComparison } from "@/components/pricing/comparison"
+import { catalogCategories, catalogHeaderColumns } from "@/data/product-catalog-table-data"
 import {
   pagesHero,
   pagesFaq,
@@ -24,7 +22,7 @@ import {
   pagesFeatureGrid2,
   pagesFeatureGrid2Testimonial,
   pagesProductCta,
-} from "@/data/goads-pages-page-data"
+} from "@/data/pages-page-content"
 
 // Reorder catalog so the Facebook Pages category sits at index 0 — defaultExpanded={[0]}
 // auto-opens the Pages row on this page. No component or shared-data edits.
@@ -38,16 +36,16 @@ export default function PagesPage() {
     <>
       {/* Section 1: Product Hero (text-only) */}
       <section id="product-hero-section" className="section relative">
-        <ForeplayDotBg />
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayProductHero {...pagesHero} />
-        </ForeplaySectionContainer>
+        <DotBg />
+        <SectionContainer variant="wide">
+          <ProductHero {...pagesHero} />
+        </SectionContainer>
       </section>
 
       {/* Section 2: Product Catalog Table (Pages category first) */}
-      <ForeplaySectionWhiteBlock className="overflow-visible">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayPricingComparison
+      <SectionWhiteBlock className="overflow-visible">
+        <SectionContainer variant="wide">
+          <PricingComparison
             title="All Products & Pricing"
             description="Transparent pricing. No hidden fees. Pick what you need."
             hideTooltipBadge
@@ -59,15 +57,15 @@ export default function PagesPage() {
             footerCtaHref="/book-demo"
             columns={3}
           />
-        </ForeplaySectionContainer>
-      </ForeplaySectionWhiteBlock>
+        </SectionContainer>
+      </SectionWhiteBlock>
 
       {/* Section 3-6: Feature Grids + Testimonials */}
       <div className="section">
         <div className="flex flex-col py-[108px] max-md:py-24 max-sm:py-20">
-          <ForeplaySectionContainer>
+          <SectionContainer>
             {/* Section 3: Feature Grid 1 */}
-            <ForeplaySectionHead
+            <SectionHead
               subtitle={pagesFeatureGrid1.subtitle}
               title={pagesFeatureGrid1.title}
               titleSize="h2"
@@ -76,51 +74,51 @@ export default function PagesPage() {
               variant="light"
             />
             <div className="block pt-12 max-md:pt-10">
-              <ForeplayProductPageFeatureGridCards cards={pagesFeatureGrid1.cards} />
+              <ProductPageFeatureGridCards cards={pagesFeatureGrid1.cards} />
             </div>
 
             {/* Section 4: Testimonial — Stefan M. */}
             <div className="section">
               <div className="mx-auto w-full px-10">
-                <ForeplayProductPageTestimonial {...pagesFeatureGrid1Testimonial} />
+                <ProductPageTestimonial {...pagesFeatureGrid1Testimonial} />
               </div>
             </div>
 
             {/* Section 5: Feature Grid 2 */}
             <div className="block pt-12 max-md:pt-10">
-              <ForeplayProductPageFeatureGridCards cards={pagesFeatureGrid2.cards} />
+              <ProductPageFeatureGridCards cards={pagesFeatureGrid2.cards} />
             </div>
 
             {/* Section 6: Testimonial — Ryan D. */}
             <div className="section">
               <div className="mx-auto w-full px-10">
-                <ForeplayProductPageTestimonial {...pagesFeatureGrid2Testimonial} />
+                <ProductPageTestimonial {...pagesFeatureGrid2Testimonial} />
               </div>
             </div>
-          </ForeplaySectionContainer>
+          </SectionContainer>
         </div>
         <div className="mb-[-80px] h-0" />
       </div>
 
       {/* Section 7: Product CTA Card */}
       <div className="section">
-        <ForeplaySectionContainer>
-          <ForeplayProductPageCtaCard {...pagesProductCta} />
-        </ForeplaySectionContainer>
+        <SectionContainer>
+          <ProductPageCtaCard {...pagesProductCta} />
+        </SectionContainer>
       </div>
 
       {/* Section 8: FAQ */}
       <div className="section">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayProductPageFaqAccordion {...pagesFaq} />
-        </ForeplaySectionContainer>
+        <SectionContainer variant="wide">
+          <ProductPageFaqAccordion {...pagesFaq} />
+        </SectionContainer>
       </div>
 
       {/* Section 9: Final CTA */}
       <div className="section overflow-hidden">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayHomeCta />
-        </ForeplaySectionContainer>
+        <SectionContainer variant="wide">
+          <HomeCta />
+        </SectionContainer>
       </div>
     </>
   )

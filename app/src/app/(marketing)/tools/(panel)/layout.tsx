@@ -5,8 +5,8 @@
 
 import type { ReactNode } from "react"
 
-import { ForeplayToolShell } from "@/components/foreplay/foreplay-tool-shell"
+import { ToolShell } from "@/components/tools/shell"
 
 export default function ToolsPanelLayout({ children }: { children: ReactNode }) {
-  return <ForeplayToolShell>{children}</ForeplayToolShell>
+  return <ToolShell>{children}</ToolShell>
 }

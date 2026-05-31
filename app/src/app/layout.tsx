@@ -8,7 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/lib/cart-context";
 import { Toaster } from "@/components/ui/sonner";
 import { CommandMenu } from "@/components/command-menu";
-import { ForeplayCalendarPopup } from "@/components/foreplay/foreplay-calendar-popup";
+import { CalendarPopup } from "@/components/cal/calendar-popup";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -67,7 +67,7 @@ export default function RootLayout({
               <TooltipProvider>
                 {children}
                 <CommandMenu />
-                <ForeplayCalendarPopup />
+                <CalendarPopup />
                 <ScrollToTop />
                 <Toaster position="top-right" />
               </TooltipProvider>

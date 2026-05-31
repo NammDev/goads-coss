@@ -3,14 +3,11 @@
 
 import type { Metadata } from "next"
 
-import {
-  ForeplayToolHeader,
-  ForeplayToolBody,
-  ForeplayTwoFaTool,
-} from "@/components/foreplay"
-
+import { ToolBody } from "@/components/tools/body"
+import { ToolHeader } from "@/components/tools/header"
+import { TwoFaTool } from "@/components/tools/two-fa"
 export const metadata: Metadata = {
-  title: "2FA Code Generator | Foreplay Tools",
+  title: "2FA Code Generator | GoAds Tools",
   description:
     "Generate TOTP two-factor authentication codes from your 2FA secrets. Browser-only — no signup, no server.",
 }
@@ -36,13 +33,13 @@ function ShieldCheckIcon() {
   )
 }
 
-export default function ForeplayTwoFaPage() {
+export default function TwoFaPage() {
   return (
     <>
-      <ForeplayToolHeader icon={<ShieldCheckIcon />} title="2FA Generator" />
-      <ForeplayToolBody>
-        <ForeplayTwoFaTool />
-      </ForeplayToolBody>
+      <ToolHeader icon={<ShieldCheckIcon />} title="2FA Generator" />
+      <ToolBody>
+        <TwoFaTool />
+      </ToolBody>
     </>
   )
 }

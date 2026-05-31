@@ -1,46 +1,23 @@
-import type { Partner } from './types'
+// GOADS /partners page data — hero + offers grid.
+// Offers decoupled from /bm so partner logos don't leak into the BM page.
+// 4 partner logos provided; remaining slots fall back to the
+// "Illustration coming soon" placeholder (empty imageSrc).
 
-export const partners: Partner[] = [
-  {
-    name: 'Dolphin{anty}',
-    description: 'Anti-detect browser for advertising and multi-accounting. Manage unlimited profiles with unique fingerprints.',
-    offer: '20% off your first subscription',
-    url: 'https://dolphin-anty.com',
-    logo: '/partners/dolphin-anty.svg',
-  },
-  {
-    name: 'GoLogin',
-    description: 'Professional anti-detect browser trusted by 500K+ users. Run multiple ad accounts safely with unique profiles.',
-    offer: 'Special pricing for GoAds clients',
-    url: 'https://gologin.com',
-    logo: '/partners/gologin.svg',
-  },
-  {
-    name: 'AdsPower',
-    description: 'Enterprise-grade anti-detect browser with team collaboration, RPA automation, and local API.',
-    offer: 'Exclusive discount for GoAds users',
-    url: 'https://www.adspower.com',
-    logo: '/partners/adspower.png',
-  },
-  {
-    name: 'Decodo (Smartproxy)',
-    description: 'Premium residential & mobile proxies covering 195+ locations. Perfect for geo-targeted ad campaigns.',
-    offer: '15% off all proxy plans with code GOADS15',
-    url: 'https://decodo.com',
-    logo: '/partners/smartproxy.svg',
-  },
-  {
-    name: 'IPRoyal',
-    description: 'Affordable residential, datacenter, and mobile proxies with unlimited bandwidth options.',
-    offer: 'Special bulk pricing for GoAds clients',
-    url: 'https://iproyal.com',
-    logo: '/partners/iproyal.svg',
-  },
-  {
-    name: 'BigSpy',
-    description: 'Ad spy tool covering Facebook, TikTok, Google & more. Discover winning creatives and competitor strategies.',
-    offer: 'Free trial + 10% off annual plans',
-    url: 'https://bigspy.com',
-    logo: '/partners/bigspy.png',
-  },
-]
+export const partnersHero = {
+  bgImage: "/assets/university_bghero.png",
+}
+
+export const partnersOffers = {
+  subtitle: "ALL PRODUCTS",
+  title: "Everything You Need to Scale",
+  description:
+    "From verified BMs to recovery services. Built for advertisers who refuse to babysit disabled accounts.",
+  cards: [
+    { imageSrc: "/partner/ADS%20POWER.svg", title: "Business Manager", description: "BM1, BM3, BM5, BM10 — all Meta-verified. Pick the DSL that fits your spend." },
+    { imageSrc: "/partner/DOLPHIN.svg", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your BM. Clean history, ready to run." },
+    { imageSrc: "/partner/FLOXY.svg", title: "Unban Service", description: "BM banned? Ad account disabled? We recover the asset so you keep the pixel." },
+    { imageSrc: "/partner/INCOGNITION.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on your BM assets." },
+    { imageSrc: "", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Diversify beyond Meta without the disable risk." },
+    { imageSrc: "", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator. Free utilities for media buyers." },
+  ],
+}

@@ -131,7 +131,7 @@ export function CartPopover() {
               <div className='flex items-center gap-2.5 pr-10'>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src='/foreplay/logo/goads-mark.png'
+                  src='/assets/logo/mark.png'
                   alt='GoAds'
                   className='h-9 w-auto object-contain'
                 />

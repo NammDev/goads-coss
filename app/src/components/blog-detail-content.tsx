@@ -21,9 +21,9 @@ import { type ReactNode, useState, useEffect } from "react"
 import Image from "next/image"
 
 import { cn } from "@/lib/utils"
-import { fpText } from "@/components/foreplay/foreplay-typography"
-import { BlogDetailAuthor } from "@/components/foreplay/blog/blog-detail-author"
-import { BlogDetailCtaSidebar } from "@/components/foreplay/blog/blog-detail-cta-sidebar"
+import { siteText } from "@/components/atoms/typography"
+import { BlogDetailAuthor } from "@/components/blog/blog-detail-author"
+import { BlogDetailCtaSidebar } from "@/components/blog/blog-detail-cta-sidebar"
 import type { BlogAuthor } from "@/data/blog-posts"
 
 interface BlogDetailContentProps {
@@ -73,7 +73,7 @@ export function BlogDetailContent({
           <div className="sticky top-[120px] hidden lg:block">
             <aside className="flex flex-col gap-4">
               <div className="text-foreground">
-                <div className={fpText.labelM}>Table of contents</div>
+                <div className={siteText.labelM}>Table of contents</div>
               </div>
               <nav>
                 <ul className="flex flex-col border-l border-[#ffffff1f] pl-0">
@@ -82,11 +82,11 @@ export function BlogDetailContent({
                       <a
                         href={`#${h.id}`}
                         className={cn(
-                          fpText.bodyS,
+                          siteText.bodyS,
                           "block border-l p-3 transition-all duration-150",
                           activeId === h.id
                             ? "border-foreground text-foreground"
-                            : "border-transparent text-[var(--fp-alpha-100,#ffffffad)] hover:text-foreground",
+                            : "border-transparent text-[var(--alpha-100,#ffffffad)] hover:text-foreground",
                         )}
                       >
                         {h.title}
@@ -139,7 +139,7 @@ export function BlogDetailContent({
               ctaHref="/pricing"
               ctaLabel="Start free trial"
               thumbnail={{
-                src: "/foreplay/680c3ed43df5ea8859a6ac18_home-mockup-1.webp",
+                src: "/assets/hero.webp",
                 alt: "GoAds product preview",
               }}
             />

@@ -3,22 +3,20 @@
 // as the centerpiece, wrapped in the standard marketing dark-hero layout.
 // UI atom rendered here is built via the /clone-foreplay workflow.
 
-import {
-  ForeplaySectionContainer,
-  ForeplayDotBg,
-} from "@/components/foreplay"
+import { DotBg } from "@/components/atoms/dot-bg"
+import { SectionContainer } from "@/components/atoms/section-container"
 
 export default function FreeActionPlanPage() {
   return (
     <section className="relative overflow-hidden">
-      <ForeplayDotBg />
-      <ForeplaySectionContainer>
+      <DotBg />
+      <SectionContainer>
         {/* Hero placeholder — replaced by the cloned popup atom
-            (ForeplayFreeActionPlanHero) once /clone-foreplay completes. */}
+            (FreeActionPlanHero) once /clone-foreplay completes. */}
         <div className="flex min-h-[60vh] items-center justify-center py-20 text-foreground/60">
           Free Action Plan — popup clone goes here.
         </div>
-      </ForeplaySectionContainer>
+      </SectionContainer>
     </section>
   )
 }

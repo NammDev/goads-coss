@@ -6,10 +6,10 @@
 // Right: .blog-feed-wrapper (col 5-6) — popular blogs
 
 import { cn } from "@/lib/utils"
-import { ForeplaySectionContainer } from "@/components/foreplay/foreplay-section-container"
-import { fpText, FP_HERO_GRADIENT } from "@/components/foreplay/foreplay-typography"
-import { BlogFeaturedCard } from "@/components/foreplay/blog/blog-featured-card"
-import { BlogPopularSidebar } from "@/components/foreplay/blog/blog-popular-sidebar"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { siteText, SITE_HERO_GRADIENT } from "@/components/atoms/typography"
+import { BlogFeaturedCard } from "@/components/blog/blog-featured-card"
+import { BlogPopularSidebar } from "@/components/blog/blog-popular-sidebar"
 import type { BlogPost } from "@/data/blog-posts"
 
 interface BlogHeroProps {
@@ -24,7 +24,7 @@ export function BlogHero({ featuredPost, popularPosts, basePath = "/blog" }: Blo
     <section className="relative">
       {/* .fireside-hero: flex col, center, pt-20 pb-20 (desktop) */}
       <div className="flex flex-col items-center justify-start pb-20 pt-20 text-center">
-        <ForeplaySectionContainer>
+        <SectionContainer>
           {/* .product-hero-content: flex col, gap-7 (28px) */}
           <div className="flex flex-col items-center gap-7">
             {/* .hero-text: flex col, gap-4, items-center, max-w-[900px] */}
@@ -33,15 +33,15 @@ export function BlogHero({ featuredPost, popularPosts, basePath = "/blog" }: Blo
                   .text-white-68 class doesn't exist in CSS — vestigial. Inherits body color
                   var(--_lens---neutral-300) = #ffffff5c (36% white) */}
               <div>
-                <h1 className={cn(fpText.overline, "text-[var(--fp-alpha-300,#ffffff5c)]")}>
+                <h1 className={cn(siteText.overline, "text-[var(--alpha-300,#ffffff5c)]")}>
                   Blog
                 </h1>
               </div>
               {/* h2.text-display-h1.hero-title — gradient text */}
               <h2
                 className={cn(
-                  fpText.displayH1,
-                  FP_HERO_GRADIENT,
+                  siteText.displayH1,
+                  SITE_HERO_GRADIENT,
                   "text-balance",
                 )}
               >
@@ -70,7 +70,7 @@ export function BlogHero({ featuredPost, popularPosts, basePath = "/blog" }: Blo
               </div>
             </div>
           )}
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </div>
     </section>
   )

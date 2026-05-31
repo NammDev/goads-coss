@@ -1,17 +1,10 @@
-// Foreplay marketing layout — .body wrapper (header + footer chrome).
-// Lives in a (marketing) route group so the URL stays /foreplay/* while the
-// sibling /help subtree stays independent (its own docs-style layout,
-// no marketing header/footer). Route groups do not affect the URL.
-//
-// CSS: bg background, color neutral-300, tracking-[-0.01125em], Inter 1rem/1.5rem/400, overflow-x clip
-// Structure: .body > header | section | section ... | footer
-
 import { fontInter } from "@/fonts"
-import { ForeplayHeader, ForeplayFooter } from "@/components/foreplay"
-import { ForeplayNavProgress } from "@/components/foreplay/foreplay-nav-progress"
+import { Footer } from "@/components/layout/footer"
+import { Header } from "@/components/layout/header"
+import { NavProgress } from "@/components/layout/nav-progress"
 import { CartPopover } from "@/components/cart-popover"
 
-export default function ForeplayMarketingLayout({
+export default function MarketingLayout({
   children,
 }: {
   children: React.ReactNode
@@ -19,7 +12,7 @@ export default function ForeplayMarketingLayout({
   return (
     <div
       className={[
-        "foreplay",
+        "site",
         fontInter.variable,
         // .body exact CSS
         "min-h-svh bg-background text-muted-foreground",
@@ -31,10 +24,10 @@ export default function ForeplayMarketingLayout({
         "[font-optical-sizing:none]",
       ].join(" ")}
     >
-      <ForeplayNavProgress />
-      <ForeplayHeader />
+      <NavProgress />
+      <Header />
       {children}
-      <ForeplayFooter />
+      <Footer />
       {/* Cart — no floating trigger; opens via header "View cart" (`cart:open`)
           or pricing "Buy Now" (`cart:item-added`). Marketing routes only. */}
       <CartPopover />

@@ -134,7 +134,7 @@ export default async function DocsPage({ params }: Props) {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/foreplay/sample-foreplay-avatar.webp"
+                    src="/assets/sample-avatar.webp"
                     alt=""
                     className="aspect-square h-full w-full"
                   />
@@ -263,7 +263,7 @@ export default async function DocsPage({ params }: Props) {
 
           {/* Article header — h1 + description + author row.
               Class order matches Foreplay spec verbatim. In our single-mode
-              .foreplay scope, `dark:` variants always apply, so we drop the
+              .goads scope, `dark:` variants always apply, so we drop the
               prefix and use the dark variant value directly. */}
           <header>
             <h1 className="text-2xl font-semibold text-white md:text-3xl scroll-mt-6">
@@ -278,7 +278,7 @@ export default async function DocsPage({ params }: Props) {
               <span className="relative flex h-10 w-10 shrink-0 overflow-hidden bg-secondary rounded-full">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/foreplay/sample-foreplay-avatar.webp"
+                  src="/assets/sample-avatar.webp"
                   alt=""
                   className="aspect-square !border-0 !shadow-none h-full w-full"
                 />

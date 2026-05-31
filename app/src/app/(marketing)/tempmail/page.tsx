@@ -1,57 +1,55 @@
 // Foreplay /tempmail — UI-only page (no business logic).
-// Sections: Hero (dark, ForeplaySolutionHero) → Mail Viewer (white block) → FAQ → Final CTA.
+// Sections: Hero (dark, SolutionHero) → Mail Viewer (white block) → FAQ → Final CTA.
 // Header + footer provided by app/src/app/foreplay/layout.tsx.
 
-import {
-  ForeplaySectionContainer,
-  ForeplaySectionWhiteBlock,
-  ForeplayProductPageFaqAccordion,
-  ForeplayHomeCta,
-  ForeplaySolutionHero,
-} from "@/components/foreplay"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
+import { HomeCta } from "@/components/home/cta"
+import { ProductPageFaqAccordion } from "@/components/product/page-faq-accordion"
+import { SolutionHero } from "@/components/solution/hero"
 import {
   tempmailHero,
   tempmailFaq,
-} from "@/data/foreplay-tempmail-page-data"
+} from "@/data/tempmail-page-data"
 import { TempMailViewer } from "@/components/temp-mail/temp-mail-viewer"
 
 export default function TempmailPage() {
   return (
     <>
       {/* Section 1: Hero (dark) — clones /tools composition
-          pb-[108px] compensates for hidden CTA buttons (--fp-py-section). Without this,
+          pb-[108px] compensates for hidden CTA buttons (--py-section). Without this,
           description sits flush against the white block — see design-guideline.md section padding tokens. */}
       <div className="section pb-[108px] max-md:pb-24 max-sm:pb-20">
-        <ForeplaySectionContainer>
-          <ForeplaySolutionHero
+        <SectionContainer>
+          <SolutionHero
             icon={<MailIcon />}
             subtitle={tempmailHero.subtitle}
             title={tempmailHero.title}
             description={tempmailHero.description}
             hideButtons
           />
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </div>
 
       {/* Section 2: Mail Viewer (white block) — integrated real logic */}
-      <ForeplaySectionWhiteBlock>
+      <SectionWhiteBlock>
         <div className="px-10 py-[108px] max-md:px-6 max-md:py-24 max-sm:px-4 max-sm:py-20 max-w-[1136px] mx-auto">
           <TempMailViewer />
         </div>
-      </ForeplaySectionWhiteBlock>
+      </SectionWhiteBlock>
 
       {/* Section 3: FAQ */}
       <div className="section">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayProductPageFaqAccordion {...tempmailFaq} />
-        </ForeplaySectionContainer>
+        <SectionContainer variant="wide">
+          <ProductPageFaqAccordion {...tempmailFaq} />
+        </SectionContainer>
       </div>
 
       {/* Section 4: Final CTA — "Your next winning campaign starts here" */}
       <div className="section overflow-hidden">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayHomeCta />
-        </ForeplaySectionContainer>
+        <SectionContainer variant="wide">
+          <HomeCta />
+        </SectionContainer>
       </div>
     </>
   )

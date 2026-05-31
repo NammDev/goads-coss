@@ -1,116 +1,65 @@
-// Foreplay /tools — 100% cloned from /foreplay/industries/ecommerce
-// Same composition, data, layout, CSS and icons. Only default-export name differs.
-// Sections: SolutionHero + LogoCarousel → Testimonials → ProductTabs → Examples → HomeCTA
+// /tools — GoAds tools landing. Grid of all free utilities.
 
-import {
-  ForeplaySectionContainer,
-  ForeplaySectionHead,
-  ForeplayHomeCta,
-} from "@/components/foreplay"
-import { ForeplaySolutionProductTabs } from "@/components/foreplay/foreplay-solution-product-tabs"
-import { ForeplaySolutionHero } from "@/components/foreplay/foreplay-solution-hero"
-import { ForeplaySolutionLogoCarousel } from "@/components/foreplay/foreplay-solution-logo-carousel"
-import { ForeplaySolutionTestimonialCard } from "@/components/foreplay/foreplay-solution-testimonial-card"
-import { ForeplaySolutionExamplesGrid } from "@/components/foreplay/foreplay-solution-examples-grid"
-import {
-  ecommerceHero,
-  ecommerceLogos,
-  ecommerceTestimonialsSection,
-  ecommerceTestimonials,
-  ecommerceProductTabsSection,
-  ecommerceExamplesSection,
-  ecommerceExamples,
-} from "@/data/foreplay-ecommerce-solution-page-data"
+import Link from "next/link"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { SectionHead } from "@/components/atoms/section-head"
+import { HomeCta } from "@/components/home/cta"
+import { siteText } from "@/components/atoms/typography"
+import { cn } from "@/lib/utils"
+
+interface ToolCard {
+  title: string
+  description: string
+  href: string
+}
+
+const tools: ToolCard[] = [
+  { title: "2FA Generator", description: "Generate TOTP two-factor codes from your secrets.", href: "/tools/2fa" },
+  { title: "Check Live UID", description: "Verify if Facebook UIDs are live or dead.", href: "/tools/check-uid" },
+  { title: "Split Data Profile", description: "Split text by delimiter, line, or token.", href: "/tools/split-data" },
+  { title: "IP Checker", description: "Public IP address, geolocation, and ISP info.", href: "/tools/check-ip" },
+  { title: "GOADS Extension", description: "Free Chrome extension for media buyers.", href: "/tools/goads-extension" },
+  { title: "Temp Mail", description: "Disposable inbox, instant — no signup.", href: "/tempmail" },
+]
 
 export default function ToolsPage() {
   return (
     <>
-      {/* Section 1: Solution Hero + Logo Carousel */}
-      <div className="section">
-        <ForeplaySectionContainer>
-          <ForeplaySolutionHero
-            icon={<EcommerceIcon />}
-            subtitle={ecommerceHero.subtitle}
-            title={ecommerceHero.title}
-            description={ecommerceHero.description}
-          />
-        </ForeplaySectionContainer>
-
-        {/* .industries-carousel-container — full width within container */}
-        <ForeplaySolutionLogoCarousel logos={ecommerceLogos} />
-      </div>
-
-      {/* Section 2: Testimonials */}
       <div className="section">
         <div className="flex flex-col py-[108px] max-md:py-24 max-sm:py-20">
-          <ForeplaySectionContainer>
-            <ForeplaySectionHead
-              subtitle={ecommerceTestimonialsSection.subtitle}
-              title={ecommerceTestimonialsSection.title}
+          <SectionContainer>
+            <SectionHead
+              subtitle="Free Tools"
+              title="Tools for media buyers"
               titleSize="h2"
-              description={ecommerceTestimonialsSection.description}
+              description="A growing collection of free utilities to make your day-to-day faster."
               descSize="l"
               variant="light"
             />
 
-            {/* .industries-testimonial-wrapper */}
-            <div className="flex flex-col gap-16 pt-12 max-md:pt-10">
-              {ecommerceTestimonials.map((t, i) => (
-                <ForeplaySolutionTestimonialCard key={i} {...t} />
+            <div className="grid grid-cols-1 gap-4 pt-12 max-md:pt-10 sm:grid-cols-2 lg:grid-cols-3">
+              {tools.map((t) => (
+                <Link
+                  key={t.href}
+                  href={t.href}
+                  className={cn(
+                    "group flex flex-col gap-2 rounded-[16px] border border-[var(--solid-50)] bg-white p-6 no-underline transition-all duration-200 hover:border-[var(--solid-400)] hover:shadow-md",
+                  )}
+                >
+                  <h3 className={cn(siteText.headingM, "text-[var(--solid-900)]")}>{t.title}</h3>
+                  <p className={cn(siteText.bodyM, "text-[var(--solid-400)]")}>{t.description}</p>
+                </Link>
               ))}
             </div>
-          </ForeplaySectionContainer>
+          </SectionContainer>
         </div>
       </div>
 
-      {/* Section 3: Product Tabs (5 Apps in One) — tabbed showcase, 1 visible at a time */}
-      <section className="section">
-        <ForeplaySolutionProductTabs
-          subtitle={ecommerceProductTabsSection.subtitle}
-          title={ecommerceProductTabsSection.title}
-          description={ecommerceProductTabsSection.description}
-        />
-      </section>
-
-      {/* Section 4: Examples Grid */}
-      <div className="section">
-        <div className="flex flex-col py-[108px] max-md:py-24 max-sm:py-20">
-          <ForeplaySectionContainer>
-            <ForeplaySectionHead
-              subtitle={ecommerceExamplesSection.subtitle}
-              title={ecommerceExamplesSection.title}
-              titleSize="h2"
-              description={ecommerceExamplesSection.description}
-              descSize="l"
-              variant="light"
-            />
-            <div className="block pt-12 max-md:pt-10">
-              <ForeplaySolutionExamplesGrid cards={ecommerceExamples} />
-            </div>
-          </ForeplaySectionContainer>
-        </div>
-      </div>
-
-      {/* Section 5: Final CTA — reuse */}
       <div className="section overflow-hidden">
-        <ForeplaySectionContainer>
-          <ForeplayHomeCta />
-        </ForeplaySectionContainer>
+        <SectionContainer>
+          <HomeCta />
+        </SectionContainer>
       </div>
     </>
-  )
-}
-
-// Ecommerce shopping bag icon from source HTML
-function EcommerceIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M20 10.667a4 4 0 1 1-8 0M6.511 7.834l-1 16c-.096 1.535 1.123 2.833 2.662 2.833h15.656c1.538 0 2.757-1.298 2.661-2.833l-1-16a2.67 2.67 0 0 0-2.661-2.5H9.173a2.67 2.67 0 0 0-2.662 2.5Z"
-        stroke="white"
-        strokeWidth="2.667"
-        strokeLinecap="round"
-      />
-    </svg>
   )
 }
