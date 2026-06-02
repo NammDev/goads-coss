@@ -3,19 +3,17 @@
 // .pricing: flex col, pt-[72px] pb-[108px] (desktop), pt-[40px] pb-[80px] (mobile)
 // .pricing-content: flex col (contains .pricing-tabs then .pricing-footer)
 
-import {
-  ForeplaySectionContainer,
-  ForeplaySectionHead,
-  ForeplaySectionWhiteBlock,
-  ForeplayProductPageFaqAccordion,
-  ForeplayHomeCta,
-} from "@/components/foreplay"
-import { ForeplayPricingCard } from "@/components/foreplay/foreplay-pricing-card"
-import { ForeplayPricingFooter } from "@/components/foreplay/foreplay-pricing-footer"
-import { ForeplayPricingComparison } from "@/components/foreplay/foreplay-pricing-comparison"
-import { FP_HERO_GRADIENT } from "@/components/foreplay/foreplay-typography"
-import { goadsSetupCards, goadsPricingFaqItems } from "@/data/goads-pricing-setups-data"
-import { catalogCategories, catalogHeaderColumns } from "@/data/goads-product-catalog-table-data"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { SectionHead } from "@/components/atoms/section-head"
+import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
+import { HomeCta } from "@/components/home/cta"
+import { ProductPageFaqAccordion } from "@/components/product/page-faq-accordion"
+import { PricingCard } from "@/components/pricing/card"
+import { PricingFooterCta } from "@/components/pricing/footer-cta"
+import { PricingComparison } from "@/components/pricing/comparison"
+import { SITE_HERO_GRADIENT } from "@/components/atoms/typography"
+import { goadsSetupCards, goadsPricingFaqItems } from "@/data/pricing-setups-data"
+import { catalogCategories, catalogHeaderColumns } from "@/data/product-catalog-table-data"
 
 // GOADS setup tiers — 3 one-time pricing cards (replaces Foreplay subscription tiers)
 // place-items-center matches Foreplay .pricing-grid: middle card's extra py-4 padding extends
@@ -23,28 +21,28 @@ import { catalogCategories, catalogHeaderColumns } from "@/data/goads-product-ca
 function PricingCardsGrid() {
   return (
     <div className="grid grid-cols-3 place-items-center gap-0 max-md:grid-cols-1">
-      <ForeplayPricingCard variant="first" data={goadsSetupCards[0]} />
-      <ForeplayPricingCard variant="middle" data={goadsSetupCards[1]} />
-      <ForeplayPricingCard variant="last" data={goadsSetupCards[2]} />
+      <PricingCard variant="first" data={goadsSetupCards[0]} />
+      <PricingCard variant="middle" data={goadsSetupCards[1]} />
+      <PricingCard variant="last" data={goadsSetupCards[2]} />
     </div>
   )
 }
 
-export default function ForeplayPricingPage() {
+export default function PricingPage() {
   return (
     <>
       {/* ═══ Section 1: .section > .container.section-container > .pricing ═══ */}
       <section>
-        <ForeplaySectionContainer variant="section">
+        <SectionContainer variant="section">
           {/* .pricing */}
           {/* .pricing: flex col, pt-[72px] pb-[108px] — gap-16 (was gap-9) gives more breathing room between section-head and cards */}
           <div className="flex flex-col gap-16 pt-[72px] pb-[108px] max-md:gap-12 max-sm:gap-10 max-sm:pt-10 max-sm:pb-20">
 
             {/* .section-head */}
-            <ForeplaySectionHead
+            <SectionHead
               subtitle="Pricing"
               title={
-                <span className={FP_HERO_GRADIENT}>
+                <span className={SITE_HERO_GRADIENT}>
                   All Products &amp; Pricing
                 </span>
               }
@@ -59,17 +57,17 @@ export default function ForeplayPricingPage() {
             {/* .pricing-content: cards (no tabs) + footer */}
             <div className="flex flex-col gap-9">
               <PricingCardsGrid />
-              <ForeplayPricingFooter />
+              <PricingFooterCta />
             </div>
 
           </div>
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </section>
 
       {/* ═══ Section 2: All Products & Pricing — /bm catalog table on white block ═══ */}
-      <ForeplaySectionWhiteBlock className="overflow-visible">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayPricingComparison
+      <SectionWhiteBlock className="overflow-visible">
+        <SectionContainer variant="wide">
+          <PricingComparison
             title=""
             description=""
             hideTooltipBadge
@@ -81,25 +79,25 @@ export default function ForeplayPricingPage() {
             footerCtaHref="/book-demo"
             columns={3}
           />
-        </ForeplaySectionContainer>
-      </ForeplaySectionWhiteBlock>
+        </SectionContainer>
+      </SectionWhiteBlock>
 
       {/* ═══ Section 3: FAQ ═══ */}
       <section>
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayProductPageFaqAccordion
+        <SectionContainer variant="wide">
+          <ProductPageFaqAccordion
             title="Questions? We have answers."
             description="Common questions about GOADS warranty, delivery, and pricing. Always confirm with support for the latest details."
             items={goadsPricingFaqItems}
           />
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </section>
 
       {/* ═══ Section 4: Final CTA ═══ */}
       <section className="overflow-hidden">
-        <ForeplaySectionContainer variant="section">
-          <ForeplayHomeCta />
-        </ForeplaySectionContainer>
+        <SectionContainer variant="section">
+          <HomeCta />
+        </SectionContainer>
       </section>
     </>
   )

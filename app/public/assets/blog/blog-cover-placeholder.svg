@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1d24"/>
+      <stop offset="100%" stop-color="#0a0b0f"/>
+    </linearGradient>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1" fill="#ffffff" opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="450" fill="url(#g)"/>
+  <rect width="800" height="450" fill="url(#dots)"/>
+  <g transform="translate(400 225)" text-anchor="middle">
+    <text font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="600" fill="#ffffff" opacity="0.92">GoAds</text>
+    <text y="36" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="400" fill="#ffffff" opacity="0.4" letter-spacing="3">BLOG</text>
+  </g>
+</svg>

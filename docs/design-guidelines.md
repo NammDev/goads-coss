@@ -509,10 +509,25 @@ xl:  1280px  → Wide desktop
 | Two-column layout | `grid-cols-1` | `md:grid-cols-2` | `md:grid-cols-2` |
 | Stats row | `grid-cols-2` | `grid-cols-2` | `grid-cols-4` |
 
+### Named breakpoint + container tokens (use these, NOT raw `max-[991px]`)
+
+Foreplay (Webflow) breakpoints/widths don't match Tailwind defaults. They're tokenized in `globals.css @theme` — **always reference the names**:
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `fp-sm:` / `max-fp-sm:` | 480px | Foreplay ≤479 tier |
+| `md:` / `max-md:` | 768px | Foreplay ≤767 tier (Tailwind built-in) |
+| `fp-lg:` / `max-fp-lg:` | 992px | Foreplay ≤991 tier (nav switch) |
+| `max-w-site` | 1440px | Foreplay `.container` content width |
+
+Do NOT write raw `max-[991px]:`/`min-[992px]:`/`max-w-[1440px]` — use the tokens. Do NOT swap to Tailwind's `lg`(1024)/`max-w-7xl`(1280) — that breaks Foreplay parity.
+
 ### Navigation
 
-- Desktop mega menu: `>= 1440px` (uses `min-[1440px]:` or custom breakpoint)
-- Mobile drawer: `< 1440px`
+- **Desktop full nav + mega-menus: `>= 992px`** (`fp-lg:block`) — matches Foreplay's Webflow `@media (max-width: 991px)` switch exactly.
+- **Mobile hamburger + drawer: `<= 991px`** (`fp-lg:hidden` on the trigger).
+- The drawer is a Radix Sheet that portals to `<body>` (outside the `.site` dark scope) → it MUST carry the `site` class so dark tokens (`--background`, `--nav-bg`, `--alpha-*`) resolve; otherwise it renders light.
+- (Historical: docs previously said `1440px`; the code used `lg`=1024 for nav and `md`=768 for the hamburger, leaving a **768–1023 dead zone with no nav**. Fixed 2026-06-01 → unified at 992.)
 
 ---
 

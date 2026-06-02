@@ -8,20 +8,18 @@
 // Only TEXT differs (via goads-unban-page-data). All components, layouts, CSS, images,
 // SVGs, wrapper classes and section ordering are identical to blue-verification.
 
-import {
-  ForeplaySectionContainer,
-  ForeplayHomeCta,
-  ForeplayCtaButton,
-  fpText,
-} from "@/components/foreplay"
-import { ForeplayUniversityHero } from "@/components/foreplay/foreplay-university-hero"
-import { ForeplayUniversityFeatureRow } from "@/components/foreplay/foreplay-university-feature-row"
-import { ForeplayProductPageFaqAccordion } from "@/components/foreplay/foreplay-product-page-faq-accordion"
+import { CtaButton } from "@/components/atoms/cta-button"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { siteText } from "@/components/atoms/typography"
+import { HomeCta } from "@/components/home/cta"
+import { UniversityHero } from "@/components/university/hero"
+import { UniversityFeatureRow } from "@/components/university/feature-row"
+import { ProductPageFaqAccordion } from "@/components/product/page-faq-accordion"
 import {
   unbanHero,
   unbanFeatureRows,
   unbanFaq,
-} from "@/data/goads-unban-page-data"
+} from "@/data/unban-page-content"
 import { cn } from "@/lib/utils"
 import { UnbanIcon } from "@/assets/svg/unban-icon"
 
@@ -33,11 +31,11 @@ const UNBAN_STATS = [
   { value: "#1", label: "Trusted in market" },
 ] as const
 
-export default function ForeplayUnbanPage() {
+export default function UnbanPage() {
   return (
     <>
       {/* ═══ Section 1: Hero — 3D unban icon + title + subtitle + CTA + stats strip ═══ */}
-      <ForeplayUniversityHero
+      <UniversityHero
         {...unbanHero}
         badgeIcon={
           <UnbanIcon
@@ -47,14 +45,14 @@ export default function ForeplayUnbanPage() {
       >
         <div className="flex flex-col items-center gap-10 pt-3 pb-10 max-md:gap-8 max-md:pb-6">
           {/* Subtitle — Foreplay body-l in alpha-50, max-w 640px for readability */}
-          <p className="max-w-[640px] text-center font-sans text-[1.125rem] font-normal leading-7 tracking-[-0.0144em] text-[var(--fp-alpha-50)] [text-wrap:balance]">
+          <p className="max-w-[640px] text-center font-sans text-[1.125rem] font-normal leading-7 tracking-[-0.0144em] text-[var(--alpha-50)] [text-wrap:balance]">
             Disabled BM? Banned profile? Page restricted? We recover Meta assets via official appeal channels — no shady workarounds, no short-term fixes.
           </p>
 
           {/* Primary CTA — Foreplay hero variant (white pill) */}
-          <ForeplayCtaButton href="/book-demo" variant="hero">
+          <CtaButton href="/book-demo" variant="hero">
             Start Recovery
-          </ForeplayCtaButton>
+          </CtaButton>
 
           {/* Stats strip — 4-col desktop, 2-col mobile. Matches / KPI strip style */}
           <div className="grid w-full max-w-[720px] grid-cols-2 gap-4 md:grid-cols-4">
@@ -64,48 +62,48 @@ export default function ForeplayUnbanPage() {
                 className="flex flex-col items-center justify-center gap-0.5 p-3 transition-all duration-200"
               >
                 {/* KPI value — Foreplay display-h5 (1.5rem/2rem, 600) */}
-                <span className={cn(fpText.displayH5, "text-foreground")}>
+                <span className={cn(siteText.displayH5, "text-foreground")}>
                   {stat.value}
                 </span>
                 {/* Label — refined small caption: 13px, alpha-50 muted */}
-                <span className="font-sans text-[0.8125rem] font-normal leading-5 tracking-[-0.005em] text-[var(--fp-alpha-50)]">
+                <span className="font-sans text-[0.8125rem] font-normal leading-5 tracking-[-0.005em] text-[var(--alpha-50)]">
                   {stat.label}
                 </span>
               </div>
             ))}
           </div>
         </div>
-      </ForeplayUniversityHero>
+      </UniversityHero>
 
       {/* ═══ Section 2: Left-Right Feature Rows (from /foreplay/university/classes) ═══ */}
       {/* pt + pb section scale — pt added because hero content is shorter than original (475px carousel) */}
-      <div className="section pt-(--fp-py-section) pb-(--fp-py-section) max-md:pt-(--fp-py-section-md) max-md:pb-(--fp-py-section-md) max-sm:pt-(--fp-py-section-sm) max-sm:pb-(--fp-py-section-sm)">
-        <ForeplaySectionContainer>
+      <div className="section pt-(--py-section) pb-(--py-section) max-md:pt-(--py-section-md) max-md:pb-(--py-section-md) max-sm:pt-(--py-section-sm) max-sm:pb-(--py-section-sm)">
+        <SectionContainer>
           {/* .left-right-section-wrapper: flex col, gap-80px */}
           <div className="flex flex-col gap-20">
             {unbanFeatureRows.map((row, i) => (
-              <ForeplayUniversityFeatureRow key={i} {...row} />
+              <UniversityFeatureRow key={i} {...row} />
             ))}
           </div>
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </div>
 
       {/* ═══ Section 3: FAQ ═══ */}
       {/* Override default py-[140px] → py-108px for this route */}
       <div className="section">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayProductPageFaqAccordion
+        <SectionContainer variant="wide">
+          <ProductPageFaqAccordion
             {...unbanFaq}
-            className="py-(--fp-py-section) max-md:py-(--fp-py-section-md) max-sm:py-(--fp-py-section-sm)"
+            className="py-(--py-section) max-md:py-(--py-section-md) max-sm:py-(--py-section-sm)"
           />
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </div>
 
       {/* ═══ Section 4: Final CTA Banner ═══ */}
       <div className="section overflow-hidden">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayHomeCta />
-        </ForeplaySectionContainer>
+        <SectionContainer variant="wide">
+          <HomeCta />
+        </SectionContainer>
       </div>
     </>
   )

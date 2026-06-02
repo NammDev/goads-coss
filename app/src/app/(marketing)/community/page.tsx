@@ -3,11 +3,9 @@
 
 import type { Metadata } from "next"
 
-import {
-  ForeplaySectionContainer,
-  ForeplaySectionHead,
-  ForeplayCtaButton,
-} from "@/components/foreplay"
+import { CtaButton } from "@/components/atoms/cta-button"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { SectionHead } from "@/components/atoms/section-head"
 import { CONTACT } from "@/data/contact-info"
 
 export const metadata: Metadata = {
@@ -19,10 +17,10 @@ export const metadata: Metadata = {
 export default function CommunityPage() {
   return (
     <section className="section">
-      <ForeplaySectionContainer>
+      <SectionContainer>
         <div className="mx-auto flex max-w-[820px] flex-col items-center gap-8 py-24 text-center max-md:py-16">
           {/* Construction icon — minimal, on-brand stroke */}
-          <div className="flex size-16 items-center justify-center rounded-2xl border border-[var(--fp-alpha-600)] bg-[var(--fp-alpha-700)] text-foreground">
+          <div className="flex size-16 items-center justify-center rounded-2xl border border-[var(--alpha-600)] bg-[var(--alpha-700)] text-foreground">
             <svg
               width="32"
               height="32"
@@ -52,7 +50,7 @@ export default function CommunityPage() {
             </svg>
           </div>
 
-          <ForeplaySectionHead
+          <SectionHead
             subtitle="COMMUNITY"
             title="We're building something great"
             titleTag="h1"
@@ -63,15 +61,15 @@ export default function CommunityPage() {
           />
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <ForeplayCtaButton href={CONTACT.telegram.officialWithMessage} variant="hero">
+            <CtaButton href={CONTACT.telegram.officialWithMessage} variant="hero">
               Join us on Telegram
-            </ForeplayCtaButton>
-            <ForeplayCtaButton href="/contact" variant="secondary" showIcon={false}>
+            </CtaButton>
+            <CtaButton href="/contact" variant="secondary" showIcon={false}>
               Contact us
-            </ForeplayCtaButton>
+            </CtaButton>
           </div>
         </div>
-      </ForeplaySectionContainer>
+      </SectionContainer>
     </section>
   )
 }

@@ -6,20 +6,18 @@
 //   4. FAQ accordion
 //   5. Final CTA banner
 
-import {
-  ForeplaySectionContainer,
-  ForeplayHomeCta,
-  ForeplayCtaButton,
-  fpText,
-} from "@/components/foreplay"
-import { ForeplayUniversityHero } from "@/components/foreplay/foreplay-university-hero"
-import { ForeplayUniversityFeatureRow } from "@/components/foreplay/foreplay-university-feature-row"
-import { ForeplayProductPageFaqAccordion } from "@/components/foreplay/foreplay-product-page-faq-accordion"
+import { CtaButton } from "@/components/atoms/cta-button"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { siteText } from "@/components/atoms/typography"
+import { HomeCta } from "@/components/home/cta"
+import { UniversityHero } from "@/components/university/hero"
+import { UniversityFeatureRow } from "@/components/university/feature-row"
+import { ProductPageFaqAccordion } from "@/components/product/page-faq-accordion"
 import {
   blueVerificationHero,
   blueVerificationFeatureRows,
   blueVerificationFaq,
-} from "@/data/goads-blue-verification-page-data"
+} from "@/data/blue-verification-page-data"
 import { CONTACT } from "@/data/contact-info"
 import { cn } from "@/lib/utils"
 import { VerifiedBadge } from "@/assets/svg/verified-badge"
@@ -32,11 +30,11 @@ const VERIFICATION_STATS = [
   { value: "#1", label: "Trusted in market" },
 ] as const
 
-export default function ForeplayBlueVerificationPage() {
+export default function BlueVerificationPage() {
   return (
     <>
       {/* ═══ Section 1: Hero — verified badge icon (128x128 matching .product-hero-icon spec) ═══ */}
-      <ForeplayUniversityHero
+      <UniversityHero
         {...blueVerificationHero}
         badgeIcon={
           <VerifiedBadge
@@ -46,14 +44,14 @@ export default function ForeplayBlueVerificationPage() {
       >
         <div className="flex flex-col items-center gap-10 pt-3 pb-10 max-md:gap-8 max-md:pb-6">
           {/* Subtitle — Foreplay body-l in alpha-50, max-w 640px */}
-          <p className="max-w-[640px] text-center font-sans text-[1.125rem] font-normal leading-7 tracking-[-0.0144em] text-[var(--fp-alpha-50)] [text-wrap:balance]">
+          <p className="max-w-[640px] text-center font-sans text-[1.125rem] font-normal leading-7 tracking-[-0.0144em] text-[var(--alpha-50)] [text-wrap:balance]">
             Earn the blue badge that signals authority and builds instant trust. We submit through official platform channels — no shortcuts, no risk to your account.
           </p>
 
           {/* Primary CTA */}
-          <ForeplayCtaButton href={CONTACT.telegram.officialVerificationBadge} variant="hero">
+          <CtaButton href={CONTACT.telegram.officialVerificationBadge} variant="hero">
             Start Verification
-          </ForeplayCtaButton>
+          </CtaButton>
 
           {/* Stats strip — 4-col desktop, 2-col mobile */}
           <div className="grid w-full max-w-[720px] grid-cols-2 gap-4 md:grid-cols-4">
@@ -62,46 +60,46 @@ export default function ForeplayBlueVerificationPage() {
                 key={stat.label}
                 className="flex flex-col items-center justify-center gap-0.5 p-3 transition-all duration-200"
               >
-                <span className={cn(fpText.displayH5, "text-foreground")}>
+                <span className={cn(siteText.displayH5, "text-foreground")}>
                   {stat.value}
                 </span>
-                <span className="font-sans text-[0.8125rem] font-normal leading-5 tracking-[-0.005em] text-[var(--fp-alpha-50)]">
+                <span className="font-sans text-[0.8125rem] font-normal leading-5 tracking-[-0.005em] text-[var(--alpha-50)]">
                   {stat.label}
                 </span>
               </div>
             ))}
           </div>
         </div>
-      </ForeplayUniversityHero>
+      </UniversityHero>
 
       {/* ═══ Section 2: Left-Right Feature Rows ═══ */}
       {/* pt + pb section scale — pt added because hero content is shorter than original (475px carousel) */}
-      <div className="section pt-(--fp-py-section) pb-(--fp-py-section) max-md:pt-(--fp-py-section-md) max-md:pb-(--fp-py-section-md) max-sm:pt-(--fp-py-section-sm) max-sm:pb-(--fp-py-section-sm)">
-        <ForeplaySectionContainer>
+      <div className="section pt-(--py-section) pb-(--py-section) max-md:pt-(--py-section-md) max-md:pb-(--py-section-md) max-sm:pt-(--py-section-sm) max-sm:pb-(--py-section-sm)">
+        <SectionContainer>
           {/* .left-right-section-wrapper: flex col, gap-80px */}
           <div className="flex flex-col gap-20">
             {blueVerificationFeatureRows.map((row, i) => (
-              <ForeplayUniversityFeatureRow key={i} {...row} />
+              <UniversityFeatureRow key={i} {...row} />
             ))}
           </div>
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </div>
 
       {/* ═══ Section 3: FAQ ═══ */}
       <div className="section">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayProductPageFaqAccordion
+        <SectionContainer variant="wide">
+          <ProductPageFaqAccordion
             {...blueVerificationFaq}
-            className="py-(--fp-py-section) max-md:py-(--fp-py-section-md) max-sm:py-(--fp-py-section-sm)"
+            className="py-(--py-section) max-md:py-(--py-section-md) max-sm:py-(--py-section-sm)"
           />
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </div>
 
       {/* ═══ Section 4: Final CTA Banner ═══ */}
       <div className="section overflow-hidden">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayHomeCta />
-        </ForeplaySectionContainer>
+        <SectionContainer variant="wide">
+          <HomeCta />
+        </SectionContainer>
       </div>
     </>
   )

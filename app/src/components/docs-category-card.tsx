@@ -52,7 +52,7 @@ export function DocsCategoryCard({
             <span className="relative flex h-5 w-5 shrink-0 overflow-hidden rounded-full bg-secondary ring-2 ring-background">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/foreplay/sample-foreplay-avatar.webp"
+                src="/assets/sample-avatar.webp"
                 alt=""
                 className="aspect-square h-full w-full"
               />

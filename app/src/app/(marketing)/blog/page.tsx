@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 import { BlogHero } from "@/components/blog-hero"
 import { BlogListing } from "@/components/blog-listing"
-import { ForeplayHomeCta } from "@/components/foreplay/foreplay-home-cta"
+import { HomeCta } from "@/components/home/cta"
 import { blogPosts, getFeaturedPost, getPopularPosts } from "@/data/blog-posts"
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function BlogPage() {
     <>
       <BlogHero featuredPost={featuredPost} popularPosts={popularPosts} />
       <BlogListing posts={blogPosts} />
-      <ForeplayHomeCta />
+      <HomeCta />
     </>
   )
 }

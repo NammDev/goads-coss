@@ -3,7 +3,7 @@
 // once; each child (docs/help) only supplies its own shell. (DRY)
 
 import { fontInter } from "@/fonts"
-import { foreplayDocsTokens } from "@/lib/foreplay-docs-tokens"
+import { siteDocsTokens } from "@/lib/docs-tokens"
 
 export default function DocumentationLayout({
   children,
@@ -12,8 +12,8 @@ export default function DocumentationLayout({
 }) {
   return (
     <div
-      className={`foreplay ${fontInter.variable} font-sans`}
-      style={foreplayDocsTokens}
+      className={`site ${fontInter.variable} font-sans`}
+      style={siteDocsTokens}
     >
       {children}
     </div>

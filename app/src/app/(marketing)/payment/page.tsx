@@ -1,19 +1,17 @@
 // Foreplay /payment — hero (aboutus pattern) + Community & Resources section.
 
 import type { Metadata } from "next"
-import {
-  ForeplaySectionContainer,
-  ForeplayHomeFeaturesGrid,
-  ForeplayCtaButton,
-} from "@/components/foreplay"
-import type { ForeplayHomeFeatureCard } from "@/components/foreplay/foreplay-home-features-grid"
-import { ForeplayUniversityHero } from "@/components/foreplay/foreplay-university-hero"
-import { paymentHero } from "@/data/goads-payment-page-data"
+import { CtaButton } from "@/components/atoms/cta-button"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { HomeFeaturesGrid } from "@/components/home/features-grid"
+import type { HomeFeatureCard } from "@/components/home/features-grid"
+import { UniversityHero } from "@/components/university/hero"
+import { paymentHero } from "@/data/payment-page-content"
 import { CONTACT } from "@/data/contact-info"
 
 // PAYMENT METHODS — reuses the features-grid UI (3-card layout). Images left
 // empty → "Illustration coming soon" placeholder until final art is ready.
-const paymentMethodCards: ForeplayHomeFeatureCard[] = [
+const paymentMethodCards: HomeFeatureCard[] = [
   {
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,41 +63,41 @@ export const metadata: Metadata = {
     "Secure, flexible payment options to fund your GoAds account the way that works best for your business.",
 }
 
-export default function ForeplayPaymentPage() {
+export default function PaymentPage() {
   return (
     <>
       {/* ═══ Section 1: Hero ═══ */}
-      <ForeplayUniversityHero
+      <UniversityHero
         bgImage={paymentHero.bgImage}
         title={
           <>
             <span className="text-foreground">Flexible Payment</span>
             <br />
-            <span className="text-[var(--fp-alpha-100)]">Options for Every Client</span>
+            <span className="text-[var(--alpha-100)]">Options for Every Client</span>
           </>
         }
       >
         <div className="flex flex-col items-center gap-8 pt-3 pb-10 max-md:gap-6 max-md:pb-6">
-          <p className="max-w-[820px] text-center font-sans text-[1.0625rem] font-normal leading-[1.6] tracking-[-0.0125em] text-[var(--fp-alpha-50)] [text-wrap:balance]">
+          <p className="max-w-[820px] text-center font-sans text-[1.0625rem] font-normal leading-[1.6] tracking-[-0.0125em] text-[var(--alpha-50)] [text-wrap:balance]">
             {paymentHero.description}
           </p>
-          <ForeplayCtaButton href={paymentHero.ctaHref} variant="hero">
+          <CtaButton href={paymentHero.ctaHref} variant="hero">
             {paymentHero.ctaLabel}
-          </ForeplayCtaButton>
+          </CtaButton>
         </div>
-      </ForeplayUniversityHero>
+      </UniversityHero>
 
       {/* ═══ Section 2: COMMUNITY & RESOURCES ═══ */}
       <section className="section">
-        <ForeplaySectionContainer variant="wide">
-          <ForeplayHomeFeaturesGrid
+        <SectionContainer variant="wide">
+          <HomeFeaturesGrid
             subtitle="PAYMENT METHODS"
             title="Pay the way you prefer"
             description="Fund your account with the method that suits you best. Need something else? Just reach out."
             cards={paymentMethodCards}
             imageFade
           />
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </section>
     </>
   )

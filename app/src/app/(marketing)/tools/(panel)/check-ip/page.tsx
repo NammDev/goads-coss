@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
 
-import { ForeplayToolHeader, ForeplayToolBody } from "@/components/foreplay"
-import { ForeplayCheckIpTool } from "@/components/foreplay/foreplay-check-ip-tool"
+import { ToolBody } from "@/components/tools/body"
+import { ToolHeader } from "@/components/tools/header"
+import { CheckIpTool } from "@/components/tools/check-ip"
 
 export const metadata: Metadata = {
-  title: "IP Checker | Foreplay Tools",
+  title: "IP Checker | GoAds Tools",
   description: "View your current public IP address and location info.",
 }
 
@@ -22,13 +23,13 @@ function GlobeIcon() {
   )
 }
 
-export default function ForeplayCheckIpPage() {
+export default function CheckIpPage() {
   return (
     <>
-      <ForeplayToolHeader icon={<GlobeIcon />} title="IP Checker" />
-      <ForeplayToolBody>
-        <ForeplayCheckIpTool />
-      </ForeplayToolBody>
+      <ToolHeader icon={<GlobeIcon />} title="IP Checker" />
+      <ToolBody>
+        <CheckIpTool />
+      </ToolBody>
     </>
   )
 }

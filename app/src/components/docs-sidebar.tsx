@@ -28,7 +28,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ForeplayLogoSvg } from "@/components/foreplay/footer/foreplay-logo-svg"
+import { FooterLogoSvg } from "@/components/layout/footer/logo-svg"
 import { docsTabs, flattenLeafItems } from "@/data/docs-navigation"
 
 /** Single article row inside a section. Mirrors Foreplay's verbatim spec:
@@ -148,7 +148,7 @@ export function DocsSidebar() {
               aria-label="GoAds — back to main site"
               className="inline-flex max-w-full min-w-0 items-center truncate"
             >
-              <ForeplayLogoSvg
+              <FooterLogoSvg
                 className="h-8 w-auto"
                 style={{ color: "var(--background)" }}
               />

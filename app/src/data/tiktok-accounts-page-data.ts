@@ -1,0 +1,91 @@
+// GoAds /tiktok-accounts page data — hero, feature grids, testimonials, FAQ
+// Identical shape to goads-profiles-page-data.ts; only TEXT differs.
+// All asset paths (images, videos, SVG decorations) are kept 1:1.
+
+// Product CTA Card (same video/icon, only title + description differ)
+export const tiktokProductCta = {
+  title: "Start scaling on TikTok today",
+  description: "Every TikTok asset ships Jumio-verified, policy-clean and backed by a 7-day warranty.\n\nChannels, Shops and Business Centers — live on day one.",
+  iconSrc: "/assets/cta/verified-panda.svg",
+  iconAlt: "GoAds panda mascot with verified badge",
+}
+
+// Section 1: Hero — text-only variant (laptop preview + CTA removed).
+// Bottom padding switches to --py-section scale (108/96/80) in ProductHero.
+export const tiktokHero = {
+  iconSrc: "/navbar/tiktok.svg",
+  overline: "TikTok Assets",
+  title: "Buy Verified TikTok Accounts & Shops",
+  description: "TikTok Channels, Shops and Business Centers — Jumio-verified and ready to scale. The fastest-growing ad platform, without the account suspension loop.",
+  hideCta: true,
+}
+
+// Section 3 (feature grid 1): All Products — uses bento1 images
+// TikTok card moved to slot 1; other 5 follow.
+export const tiktokFeatureGrid1 = {
+  subtitle: "ALL PRODUCTS",
+  title: "Everything You Need to Scale",
+  description: "TikTok is just one part of the stack. Explore the rest of the GoAds catalog to scale across every platform.",
+  cards: [
+    { imageSrc: "/tiktoks/all-products/Business%20Manager.svg", title: "Business Manager", description: "Verified Meta BMs to pair with TikTok campaigns — cross-platform scaling." },
+    { imageSrc: "/tiktoks/all-products/Facebook%20Pages.svg", title: "Facebook Pages", description: "Aged pages with followers, ready to mirror your TikTok creative strategy." },
+    { imageSrc: "/tiktoks/all-products/Unban%20Service.svg", title: "Unban Service", description: "TikTok account suspended? We recover the asset so you keep the GMV history." },
+    { imageSrc: "/tiktoks/all-products/fb%20profiles.svg", title: "Facebook Profiles", description: "Aged, ID-verified profiles to run alongside your TikTok campaigns. Clean history, ready to go." },
+    { imageSrc: "/tiktoks/all-products/Verified%20Badge.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility across your ad stack." },
+    { imageSrc: "/tiktoks/all-products/Free%20Tools.svg", title: "Free Tools", description: "2FA Generator, Cookie Login and more. Free utilities for TikTok media buyers." },
+  ],
+}
+
+// Section 4 (testimonial 1): Stefan M.
+export const tiktokFeatureGrid1Testimonial = {
+  logoSrc: "/assets/testimonial1_logo.webp",
+  logoAlt: "GoAds client",
+  quote: "TikTok Shop USA is a nightmare to verify yourself. Bought three Jumio-verified Shops from GoAds, all live inside 24 hours, GMV scaling weekly. Worth every dollar.",
+  authorName: "Stefan M.",
+  authorRole: "Agency Owner, Germany",
+  authorImageSrc: "/assets/testimonial1_founder.webp",
+  decorationLeftSrc: "/assets/test_left.svg",
+  decorationRightSrc: "/assets/test_right.svg",
+}
+
+// Section 5 (feature grid 2): Resources — uses bento2 images
+export const tiktokFeatureGrid2 = {
+  cards: [
+    { imageSrc: "/tiktoks/features/How%20to%20Warm%20Up%20a%20TikTok%20Business%20Account.svg", title: "How to Warm Up a TikTok Business Account", description: "Step-by-step warmup so your account doesn't flag on the first campaign. Avoid the cold-start penalty." },
+    { imageSrc: "/tiktoks/features/TikTok%20Shop%20USA%20vs%20Global%20What_s%20Different.svg", title: "TikTok Shop USA vs Global: What's Different", description: "KYC, Jumio, tax docs, payout flows. The full breakdown for sellers picking a region." },
+    { imageSrc: "/tiktoks/features/Why%20Your%20TikTok%20Ads%20Account%20Keeps%20Getting%20Banned.svg", title: "Why Your TikTok Ads Account Keeps Getting Banned", description: "Common trigger patterns that burn fresh accounts. How to stay inside policy." },
+    { imageSrc: "/tiktoks/features/Jumio-Verified%20TikTok%20Shops%20What%20You%20Get.svg", title: "Jumio-Verified TikTok Shops: What You Get", description: "Why a Jumio-verified Shop outperforms a fresh one — trust score, approval rate, GMV." },
+    { imageSrc: "/tiktoks/features/TikTok%20Business%20Center%20The%20Setup%20Guide.svg", title: "TikTok Business Center: The Setup Guide", description: "Structure your accounts, pixels and catalogs the right way from day one." },
+    { imageSrc: "/tiktoks/features/TikTok%20Ads%20in%202026%20What_s%20Changed.svg", title: "TikTok Ads in 2026: What's Changed", description: "Platform updates, Spark Ads, Shop Ads and what it means for media buyers this year." },
+  ],
+}
+
+// Section 6 (testimonial 2): Ryan D.
+export const tiktokFeatureGrid2Testimonial = {
+  logoSrc: "/assets/test_logo.jpg",
+  logoAlt: "GoAds client",
+  quote: "Ran 8 TikTok Shops in 3 months. Only 1 got flagged and they replaced it inside an hour. Support was in Telegram before I finished typing the ticket.",
+  authorName: "Ryan D.",
+  authorRole: "Media Buyer, US",
+  authorImageSrc: "/assets/test_tim_keen_avatar.webp",
+  decorationLeftSrc: "/assets/test_left.svg",
+  decorationRightSrc: "/assets/test_right.svg",
+}
+
+// Section 7: FAQ (10 TikTok-specific items)
+export const tiktokFaq = {
+  title: "Questions about TikTok Assets?",
+  description: "Most frequent questions about buying, using and scaling TikTok Channels, Shops and Business Centers.",
+  items: [
+    { question: "What TikTok assets do you sell?", answer: "Fresh TikTok Channels, Ads Business Accounts, TikTok Shop Info (USA), Affiliate accounts with follower counts, and fully Jumio-verified TikTok Shops USA." },
+    { question: "What does Jumio-verified mean?", answer: "Jumio is TikTok's KYC partner. A Jumio-verified Shop has completed full identity + business verification, so you skip the weeks-long approval loop and start listing products immediately." },
+    { question: "Can I run ads right after delivery?", answer: "Yes. Our TikTok Ads Business Accounts ship with a pixel slot, clean policy history and a light warmup already done. Add your creative and launch." },
+    { question: "How long do TikTok accounts last?", answer: "With a proper warmup and clean creative, most clients run the same channel or shop for 3–6 months. Suspensions come from policy hits, not the account itself." },
+    { question: "What if my TikTok account gets suspended?", answer: "Within the 7-day warranty, we replace it at no charge. After warranty, we offer a paid unban service or a discounted replacement." },
+    { question: "Do TikTok Shops work outside the US?", answer: "TikTok Shop is region-locked. Our USA Shops target US customers; for other regions, contact sales — we handle UK, SEA and EU on request." },
+    { question: "Can I change the password and email after purchase?", answer: "Yes. We recommend spacing security changes out over a few days and logging in from a stable IP/device to stay under the fraud-detection radar." },
+    { question: "How are TikTok assets delivered?", answer: "Usually within a few hours. Delivery includes login credentials, cookies, recovery email, Jumio/KYC status (if applicable) and a warmup guide." },
+    { question: "Do I need a Business Center?", answer: "If you run more than one TikTok Ads account or Shop, yes. We sell BCs separately or bundled with multi-asset orders — contact sales for combos." },
+    { question: "Do you offer bulk pricing?", answer: "Yes. Agencies and DTC brands ordering 5+ TikTok assets get tiered discounts. Contact us for a custom quote." },
+  ],
+}

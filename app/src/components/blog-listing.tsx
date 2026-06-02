@@ -15,11 +15,11 @@
 
 import { useState, useMemo } from "react"
 
-import { ForeplaySectionContainer } from "@/components/foreplay/foreplay-section-container"
-import { BlogCard } from "@/components/foreplay/blog/blog-card"
-import { BlogCategoryBar } from "@/components/foreplay/blog/blog-category-bar"
-import { BlogPagination } from "@/components/foreplay/blog/blog-pagination"
-import { BlogRelatedHead } from "@/components/foreplay/blog/blog-related-head"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { BlogCard } from "@/components/blog/blog-card"
+import { BlogCategoryBar } from "@/components/blog/blog-category-bar"
+import { BlogPagination } from "@/components/blog/blog-pagination"
+import { BlogRelatedHead } from "@/components/blog/blog-related-head"
 import { blogCategories, type BlogPost } from "@/data/blog-posts"
 
 const POSTS_PER_PAGE = 6
@@ -52,7 +52,7 @@ export function BlogListing({ posts, basePath = "/blog" }: BlogListingProps) {
 
   return (
     <section>
-      <ForeplaySectionContainer>
+      <SectionContainer>
         {/* .blog-feed: flex col, gap-9 (36px), pb-[120px] */}
         <div className="flex flex-col gap-9 pb-[120px]">
           {/* .blog-related-head: Explore More Blogs + subtitle */}
@@ -76,7 +76,7 @@ export function BlogListing({ posts, basePath = "/blog" }: BlogListingProps) {
           </div>
 
           {paged.length === 0 && (
-            <p className="py-16 text-center text-[var(--fp-alpha-100,#ffffffad)]">
+            <p className="py-16 text-center text-[var(--alpha-100,#ffffffad)]">
               No articles found in this category yet.
             </p>
           )}
@@ -88,7 +88,7 @@ export function BlogListing({ posts, basePath = "/blog" }: BlogListingProps) {
             onPageChange={setCurrentPage}
           />
         </div>
-      </ForeplaySectionContainer>
+      </SectionContainer>
     </section>
   )
 }

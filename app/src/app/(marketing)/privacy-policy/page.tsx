@@ -8,7 +8,7 @@
 //           .section-head_title
 //             h1.text-display-h2 "Privacy Policy"
 //   .section-white-block (bg white, color solid-700 dark, rounded-[36px])
-//     .container (wide, max-w-[1440px], px-10)
+//     .container (wide, max-w-site, px-10)
 //       .v-padding-50 (spacer: py-[25px])
 //       .blog-rtb > .text-solid-700 > .w-richtext (rich text content)
 //       .v-padding-50 (spacer: py-[25px])
@@ -17,50 +17,50 @@
 // Content is rendered via dangerouslySetInnerHTML with @tailwindcss/typography `prose` classes.
 
 import type { Metadata } from "next"
-import { ForeplaySectionContainer } from "@/components/foreplay/foreplay-section-container"
-import { ForeplaySectionHead } from "@/components/foreplay/foreplay-section-head"
-import { ForeplaySectionWhiteBlock } from "@/components/foreplay/foreplay-section-white-block"
-import { foreplayPrivacyPolicyContent } from "@/data/foreplay-privacy-policy-content"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { SectionHead } from "@/components/atoms/section-head"
+import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
+import { foreplayPrivacyPolicyContent } from "@/data/privacy-policy-content"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Foreplay",
+  title: "Privacy Policy | GoAds",
   description:
-    "Read Foreplay's Privacy Policy to understand how we protect your data and ensure your privacy. Learn about our practices and your rights.",
+    "Read GoAds's Privacy Policy to understand how we protect your data and ensure your privacy. Learn about our practices and your rights.",
 }
 
-export default function ForeplayPrivacyPolicyPage() {
+export default function PrivacyPolicyPage() {
   return (
     <>
       {/* .section.overflow-hidden — hero wrapper */}
       <section className="overflow-hidden">
         {/* .container.section-container — max-w-[1216px] px-10 */}
-        <ForeplaySectionContainer variant="section">
+        <SectionContainer variant="section">
           {/* .pages-title — flex-col, py-[75px] */}
           <div className="flex flex-col py-[75px]">
-            {/* .section-head — reuse ForeplaySectionHead atom
+            {/* .section-head — reuse SectionHead atom
                 variant="light" → text-foreground (white) matches source .section-head_title { color: neutral-0 = white }
                 titleTag="h1" (semantic) + titleSize="h2" (visual .text-display-h2 size) */}
-            <ForeplaySectionHead
+            <SectionHead
               title={foreplayPrivacyPolicyContent.title}
               titleTag="h1"
               titleSize="h2"
               variant="light"
             />
           </div>
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </section>
 
       {/* .section-white-block — bg white, rounded-[36px], text color solid-700 (dark on white) */}
-      <ForeplaySectionWhiteBlock>
-        {/* .container (wide variant per source — max-w-[1440px] px-10) */}
-        <ForeplaySectionContainer variant="wide">
+      <SectionWhiteBlock>
+        {/* .container (wide variant per source — max-w-site px-10) */}
+        <SectionContainer variant="wide">
           {/* .v-padding-50 — empty spacer (padding: 25px 0) */}
           <div className="py-[25px]" />
           {/* .blog-rtb — source CSS: font-size:16px, line-height:24px, letter-spacing:-0.18px,
               color:var(--_lens---neutral-50). NO width constraint, NO margin — full container width. */}
-          <div className="text-base leading-6 tracking-[-0.18px] text-[var(--fp-alpha-50)]">
+          <div className="text-base leading-6 tracking-[-0.18px] text-[var(--alpha-50)]">
             {/* .text-solid-700 — overrides parent .blog-rtb color back to dark for readability on white bg */}
-            <div className="text-[var(--fp-solid-700)]">
+            <div className="text-[var(--solid-700)]">
               {/* .w-richtext — prose styling via @tailwindcss/typography
                   h3 source: font-size:24px, line-height:32px, margin:16px 0 12px
                     → [&_h3]:text-2xl [&_h3]:leading-8 [&_h3]:mt-4 [&_h3]:mb-3
@@ -73,8 +73,8 @@ export default function ForeplayPrivacyPolicyPage() {
           </div>
           {/* .v-padding-50 — empty spacer (padding: 25px 0) */}
           <div className="py-[25px]" />
-        </ForeplaySectionContainer>
-      </ForeplaySectionWhiteBlock>
+        </SectionContainer>
+      </SectionWhiteBlock>
     </>
   )
 }

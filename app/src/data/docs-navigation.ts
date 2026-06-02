@@ -58,11 +58,11 @@ export const docsTabs: DocsTab[] = [
     slug: "getting-started",
     icon: Rocket,
     items: [
-      { title: "WTF is Foreplay??", slug: "what-is-agency-account" },
+      { title: "WTF is GoAds??", slug: "what-is-agency-account" },
       {
         title: "Chrome Extension",
         slug: "how-goads-works",
-        iconSrc: "/foreplay/sample-chrome-icon.png",
+        iconSrc: "/assets/sample-chrome-icon.png",
       },
     ],
   },

@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
 
-import { ForeplayToolHeader, ForeplayToolBody } from "@/components/foreplay"
-import { ForeplayCheckUidTool } from "@/components/foreplay/foreplay-check-uid-tool"
+import { ToolBody } from "@/components/tools/body"
+import { ToolHeader } from "@/components/tools/header"
+import { CheckUidTool } from "@/components/tools/check-uid"
 
 export const metadata: Metadata = {
-  title: "Check Live UID | Foreplay Tools",
+  title: "Check Live UID | GoAds Tools",
   description: "Check if Facebook UIDs are live or dead accounts.",
 }
 
@@ -29,13 +30,13 @@ function ScanFaceIcon() {
   )
 }
 
-export default function ForeplayCheckUidPage() {
+export default function CheckUidPage() {
   return (
     <>
-      <ForeplayToolHeader icon={<ScanFaceIcon />} title="Check Live UID" />
-      <ForeplayToolBody>
-        <ForeplayCheckUidTool />
-      </ForeplayToolBody>
+      <ToolHeader icon={<ScanFaceIcon />} title="Check Live UID" />
+      <ToolBody>
+        <CheckUidTool />
+      </ToolBody>
     </>
   )
 }

@@ -2,10 +2,10 @@
 // (hero title section + white rich-text block). Content from data file.
 
 import type { Metadata } from "next"
-import { ForeplaySectionContainer } from "@/components/foreplay/foreplay-section-container"
-import { ForeplaySectionHead } from "@/components/foreplay/foreplay-section-head"
-import { ForeplaySectionWhiteBlock } from "@/components/foreplay/foreplay-section-white-block"
-import { foreplayRefundPolicyContent } from "@/data/foreplay-refund-policy-content"
+import { SectionContainer } from "@/components/atoms/section-container"
+import { SectionHead } from "@/components/atoms/section-head"
+import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
+import { foreplayRefundPolicyContent } from "@/data/refund-policy-content"
 
 export const metadata: Metadata = {
   title: "Refund Policy | GoAds",
@@ -13,27 +13,27 @@ export const metadata: Metadata = {
     "GoAds Refund Policy — replacement-only warranty terms for Business Managers and Facebook Profiles, exclusions, and how to request a replacement.",
 }
 
-export default function ForeplayRefundPolicyPage() {
+export default function RefundPolicyPage() {
   return (
     <>
       <section className="overflow-hidden">
-        <ForeplaySectionContainer variant="section">
+        <SectionContainer variant="section">
           <div className="flex flex-col py-[75px]">
-            <ForeplaySectionHead
+            <SectionHead
               title={foreplayRefundPolicyContent.title}
               titleTag="h1"
               titleSize="h2"
               variant="light"
             />
           </div>
-        </ForeplaySectionContainer>
+        </SectionContainer>
       </section>
 
-      <ForeplaySectionWhiteBlock>
-        <ForeplaySectionContainer variant="wide">
+      <SectionWhiteBlock>
+        <SectionContainer variant="wide">
           <div className="py-[25px]" />
-          <div className="text-base leading-6 tracking-[-0.18px] text-[var(--fp-alpha-50)]">
-            <div className="text-[var(--fp-solid-700)]">
+          <div className="text-base leading-6 tracking-[-0.18px] text-[var(--alpha-50)]">
+            <div className="text-[var(--solid-700)]">
               <div
                 className="prose prose-neutral max-w-none font-sans [&_h3]:mt-4 [&_h3]:mb-3 [&_h3]:text-2xl [&_h3]:leading-8 [&_p]:my-4 [&_p]:text-base [&_p]:leading-6 [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:my-1"
                 dangerouslySetInnerHTML={{ __html: foreplayRefundPolicyContent.html }}
@@ -41,8 +41,8 @@ export default function ForeplayRefundPolicyPage() {
             </div>
           </div>
           <div className="py-[25px]" />
-        </ForeplaySectionContainer>
-      </ForeplaySectionWhiteBlock>
+        </SectionContainer>
+      </SectionWhiteBlock>
     </>
   )
 }

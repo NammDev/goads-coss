@@ -11,5 +11,6 @@ export const CONTACT = {
     withMessage: 'https://wa.me/84865717497?text=Hi%20GOADS%20%F0%9F%91%8B%20I%27m%20interested%20in%20your%20services.%20Can%20you%20help%20me%3F',
   },
   email: 'info@goads.shop',
+  discord: '#',
   linkedin: '#',
 } as const

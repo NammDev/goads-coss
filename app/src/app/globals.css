@@ -7,6 +7,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Foreplay parity design tokens (Tailwind v4 @theme).
+   Foreplay is a Webflow site → its breakpoints are 991/767/479 and its content
+   width is 1440px, none of which match Tailwind's defaults (1024/768/640, 1280).
+   Define named tokens so components reference `fp-lg:`/`max-fp-lg:`/`max-w-site`
+   instead of scattered magic numbers — single source of truth, parity preserved.
+     fp-sm = 480px  → `max-fp-sm:` ≈ Foreplay ≤479
+     fp-lg = 992px  → `fp-lg:` ≈ ≥992 (full nav), `max-fp-lg:` ≈ ≤991 (mobile nav)
+     (the 767 tier maps to Tailwind's built-in `md` / `max-md:`)
+   max-w-site = 1440px (Foreplay .container width). */
+@theme {
+  --breakpoint-fp-sm: 480px;
+  --breakpoint-fp-lg: 992px;
+  --container-site: 1440px;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #0f1419;
@@ -118,8 +133,8 @@
   --shadow-2xl: 0 1px 3px 0px oklch(0.00 0 0 / 0.25);
 }
 
-/* ── Foreplay redesign: dark theme scoped to .foreplay wrapper ── */
-.foreplay {
+/* ── Foreplay redesign: dark theme scoped to .site wrapper ── */
+.site {
   --background: #020308; /* --_lens---background: near-black with blue tint */
   --foreground: #ffffff;
   --card: #ffffff1a;            /* neutral-700: white 10% */
@@ -144,68 +159,68 @@
   --font-display: var(--font-inter), 'Inter Display', ui-sans-serif, system-ui, sans-serif;
 
   /* ── Foreplay neutral palette (white at various opacities — for dark bg) ── */
-  --fp-alpha-0: #ffffff;      /* neutral-0: white 100% */
-  --fp-alpha-25: #ffffffeb;   /* neutral-25: white 92% */
-  --fp-alpha-50: #ffffffd6;   /* neutral-50: white 84% */
-  --fp-alpha-100: #ffffffad;  /* neutral-100: white 68% */
-  --fp-alpha-200: #ffffff70;  /* neutral-200: white 44% */
-  --fp-alpha-300: #ffffff5c;  /* neutral-300: white 36% */
-  --fp-alpha-400: #ffffff52;  /* neutral-400: white 32% */
-  --fp-alpha-500: #fff3;      /* neutral-500: white 20% */
-  --fp-alpha-600: #ffffff29;  /* neutral-600: white 16% */
-  --fp-alpha-700: #ffffff1a;  /* neutral-700: white 10% */
-  --fp-alpha-800: #ffffff0f;  /* neutral-800: white 6% */
-  --fp-alpha-900: #ffffff08;  /* neutral-900: white 3% */
+  --alpha-0: #ffffff;      /* neutral-0: white 100% */
+  --alpha-25: #ffffffeb;   /* neutral-25: white 92% */
+  --alpha-50: #ffffffd6;   /* neutral-50: white 84% */
+  --alpha-100: #ffffffad;  /* neutral-100: white 68% */
+  --alpha-200: #ffffff70;  /* neutral-200: white 44% */
+  --alpha-300: #ffffff5c;  /* neutral-300: white 36% */
+  --alpha-400: #ffffff52;  /* neutral-400: white 32% */
+  --alpha-500: #fff3;      /* neutral-500: white 20% */
+  --alpha-600: #ffffff29;  /* neutral-600: white 16% */
+  --alpha-700: #ffffff1a;  /* neutral-700: white 10% */
+  --alpha-800: #ffffff0f;  /* neutral-800: white 6% */
+  --alpha-900: #ffffff08;  /* neutral-900: white 3% */
 
   /* ── Foreplay solid palette (for white/light bg sections) ── */
-  --fp-solid-0: #ffffff;
-  --fp-solid-25: #f9f9fa;
-  --fp-solid-50: #e9eaef;
-  --fp-solid-100: #dddee5;
-  --fp-solid-200: #c3c5d2;
-  --fp-solid-300: #b2b4c5;
-  --fp-solid-400: #4c505f;
-  --fp-solid-500: #343642;
-  --fp-solid-600: #24262e;
-  --fp-solid-700: #171920;
-  --fp-solid-800: #0f1116;
-  --fp-solid-900: #090a0e;
+  --solid-0: #ffffff;
+  --solid-25: #f9f9fa;
+  --solid-50: #e9eaef;
+  --solid-100: #dddee5;
+  --solid-200: #c3c5d2;
+  --solid-300: #b2b4c5;
+  --solid-400: #4c505f;
+  --solid-500: #343642;
+  --solid-600: #24262e;
+  --solid-700: #171920;
+  --solid-800: #0f1116;
+  --solid-900: #090a0e;
 
   /* Accent — online indicator dot (Foreplay --lime-green) */
-  --fp-lime-green: #10b981;
+  --lime-green: #10b981;
 
   /* Navigation header */
-  --fp-nav-bg: #020308eb; /* background at ~92% opacity */
-  --fp-border-nav: #2a2b30; /* source: border color on .nav-dropdown-menu-inner / .u-nav-resources-banner (border-left) */
+  --nav-bg: #020308eb; /* background at ~92% opacity */
+  --border-nav: #2a2b30; /* source: border color on .nav-dropdown-menu-inner / .u-nav-resources-banner (border-left) */
 
   /* ── Foreplay section vertical padding scale ── */
   /* Source: foreplay.co uses 108px desktop / 96px tablet / 80px mobile for section py */
-  --fp-py-section: 108px;  /* desktop section padding (py-[108px] in source) */
-  --fp-py-section-md: 96px; /* tablet (max-md:py-24 = 96px) */
-  --fp-py-section-sm: 80px; /* mobile (max-sm:py-20 = 80px) */
+  --py-section: 108px;  /* desktop section padding (py-[108px] in source) */
+  --py-section-md: 96px; /* tablet (max-md:py-24 = 96px) */
+  --py-section-sm: 80px; /* mobile (max-sm:py-20 = 80px) */
 
   /* Single restrained brand-blue accent (matches the site's dark accent
      #1c9cf0). Use SPARINGLY on focal points only — keeps the monochrome
      Foreplay look while adding life (cart: title sheen, total, selected). */
-  --fp-accent: #1c9cf0;
-  --fp-accent-soft: #1c9cf01f;   /* ~12% — chips, tints, hover */
+  --accent: #1c9cf0;
+  --accent-soft: #1c9cf01f;   /* ~12% — chips, tints, hover */
 
   --radius: 1rem;
 }
 
-/* Force html/body black when .foreplay wrapper is present */
-html:has(.foreplay) {
+/* Force html/body black when .site wrapper is present */
+html:has(.site) {
   background-color: #020308;
 }
 
 /* ── Foreplay .secondary-svg: muted icon color for inline SVGs ──
    Source: Foreplay docs CSS — paints chevron separators and other
    utility icons a dimmer gray than text-muted-foreground.
-   .foreplay is dark-mode-only, so we use the dark-mode value:
+   .site is dark-mode-only, so we use the dark-mode value:
      :is(.dark .secondary-svg) { color: hsl(var(--background-accent)) }
    Width/height (1rem) are kept to match source; parent class utilities
    like `[&>svg]:size-3.5` win on specificity when present (chevrons → 14×14). */
-.foreplay .secondary-svg {
+.site .secondary-svg {
   height: 1rem;
   width: 1rem;
   color: hsl(var(--background-accent));
@@ -751,4 +766,15 @@ a.link-animated:hover::before {
   --sidebar-border: hsl(240 3.7% 15.9%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
+}
+
+/* Home hero scroll-animation is desktop-only. On ≤991px (Foreplay parity) the
+   sticky pin + 3D scale/fade are disabled so the hero renders normally — the
+   !important beats the inline animation styles set in hero.tsx + the JS hook. */
+@media (max-width: 991px) {
+  .home-hero-sticky-anim {
+    position: static !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

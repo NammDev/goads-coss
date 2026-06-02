@@ -49,9 +49,11 @@ export default function NewProductPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="type">Product Type</Label>
+              <Label htmlFor="
+type">Product Type</Label>
               <Select required>
-                <SelectTrigger id="type">
+                <SelectTrigger id="
+type">
                   <SelectValue placeholder="Select product type" />
                 </SelectTrigger>
                 <SelectContent>

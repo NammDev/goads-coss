@@ -1,0 +1,172 @@
+// GoAds /agency-ad-account page data — Facebook/Meta Agency Ad Accounts
+// Shape mirrors foreplay-swipe-file-page-data.ts. ALL asset paths preserved 1:1.
+// Only TEXT differs — no images, videos, CSS, HTML or component changes.
+
+// --- Product Hero ---
+// Text-only variant (laptop preview removed). ProductHero auto-pads
+// with --py-section (108/96/80) when previewImageSrc is omitted.
+export const agencyAdAccountHero = {
+  iconSrc: "/assets/META.svg",
+  overline: "Facebook Agency Ad Accounts",
+  title: "Scale Meta ads with unlimited spend and zero disable risk",
+  description:
+    "Run high-spend Meta campaigns on whitelisted agency ad accounts. Unlimited daily caps, priority policy review and a direct rep — no more burned BMs.",
+  ctaLabel: "Talk to Sales",
+  ctaHref: "/book-demo",
+}
+
+// --- Before/After Solution ---
+// Trailing visuals (`visual` ReactNode) are injected from page.tsx; the legacy
+// imageSrc slot is left empty so the data file stays pure-text.
+export const agencyAdAccountSolution = {
+  title: "Why do you need an Agency Ad Account?",
+  description:
+    "Running high-spend Meta campaigns on personal or standard BMs is a losing game — bans, DSL caps, manual appeals. Agency ad accounts ship whitelisted through an official Meta partnership, so you stop babysitting accounts and start scaling.",
+  before: {
+    label: "Before ...",
+    description: "Restricted accounts, soaring CPM, lost orders.",
+  },
+  after: {
+    label: "After GoAds",
+    description: "Whitelisted accounts, lower CPM, more orders.",
+  },
+}
+
+// --- Use Cases ---
+export const agencyAdAccountUseCases = {
+  subtitle: "Use Cases",
+  title: "Built for high-spend advertisers",
+  description:
+    "Whether you're running DTC at scale, managing an agency book, or pushing into restricted niches — agency ad accounts unlock the headroom you need.",
+  cards: [
+    {
+      imageSrc: "/agency-ad-account/use-cases/DTC%20SCALING.svg",
+      imageAlt: "DTC brand scaling Meta ads on agency account",
+      title: "DTC Scaling",
+      description:
+        "Push daily spend from $10K to $100K+ without tripping DSL caps. Ideal for direct-response brands scaling winning creatives fast.",
+    },
+    {
+      imageSrc: "/agency-ad-account/use-cases/agency%20book%20management.svg",
+      imageAlt: "agency managing multi-client Meta campaigns",
+      title: "Agency Book Management",
+      description:
+        "Manage dozens of clients under a single whitelisted structure. Prioritized policy review keeps your campaigns live.",
+    },
+    {
+      imageSrc: "/agency-ad-account/use-cases/Restricted%20Niches.svg",
+      imageAlt: "restricted niche campaigns on agency ad account",
+      title: "Restricted Niches",
+      description:
+        "Crypto, nutra, finance, adult-adjacent — agency accounts handle niches standard BMs can't touch.",
+    },
+  ],
+}
+
+// --- Core Features Tabs ---
+export const agencyAdAccountCoreFeaturesSection = {
+  subtitle: "Core Features",
+  title: "How agency ad accounts work",
+  description:
+    "Every agency ad account ships with whitelist status, a dedicated rep and campaign-level support. Launch in hours, scale in days.",
+}
+
+export const agencyAdAccountCoreFeatureTabs = [
+  {
+    label: "Whitelist Onboarding",
+    imageSrc: "/agency-ad-account/core-features/WHITELIST%20ONBOARDING.svg",
+    imageAlt: "whitelist onboarding workflow",
+  },
+  {
+    label: "Unlimited Daily Spend",
+    imageSrc: "/agency-ad-account/core-features/UNLIMITED%20DAILY%20SPEND.svg",
+    imageAlt: "unlimited daily spend dashboard",
+  },
+  {
+    label: "Direct Meta Rep",
+    imageSrc: "/agency-ad-account/core-features/DIRCT%20META%20REP.svg",
+    imageAlt: "direct meta rep communication",
+  },
+]
+
+// --- Feature Grid (first set — "All Features") ---
+export const agencyAdAccountFeatureGrid1 = {
+  subtitle: "All Features",
+  title: "Everything an agency account gives you",
+  description:
+    "More than just an ad account — it's a complete compliance, support and scaling layer on top of Meta.",
+  cards: [
+    { imageSrc: "/agency-ad-account/all-features/Whitelisted%20Status.svg", title: "Whitelisted Status", description: "Campaigns bypass standard review queues and ship faster." },
+    { imageSrc: "/agency-ad-account/all-features/Unlimited%20Daily%20Spend%20(2).svg", title: "Unlimited Daily Spend", description: "No DSL ceiling. Scale a winning creative to whatever the auction will take." },
+    { imageSrc: "/agency-ad-account/all-features/dedicated%20meta%20rep.svg", title: "Dedicated Meta Rep", description: "Direct line to a Meta partner manager for policy calls and emergencies." },
+    { imageSrc: "/agency-ad-account/all-features/Restricted%20Niche%20Access.svg", title: "Restricted Niche Access", description: "Run categories standard BMs get banned for — crypto, nutra, finance." },
+    { imageSrc: "/agency-ad-account/all-features/Priority%20Policy%20Review.svg", title: "Priority Policy Review", description: "Ads reviewed by humans, not just the algorithm. Faster approvals." },
+    { imageSrc: "/agency-ad-account/all-features/Instant%20Top-Up.svg", title: "Instant Top-Up", description: "Wire in Monday, spend Monday. No 24-hour holds or manual verification." },
+  ],
+}
+
+// --- Testimonial 1 ---
+export const agencyAdAccountTestimonial1 = {
+  logoSrc: "/assets/testimonial1_logo.webp",
+  logoAlt: "GoAds agency client",
+  quote:
+    "We used to burn a BM every 2 weeks trying to hold $30K/day. Switched to GoAds agency accounts — haven't had a disable in 4 months, and we're pushing $120K/day on a single account.",
+  authorName: "Stefan M.",
+  authorRole: "Performance Director, DTC Brand",
+  authorImageSrc: "/assets/testimonial1_founder.webp",
+  decorationLeftSrc: "/assets/test_left.svg",
+  decorationRightSrc: "/assets/test_right.svg",
+}
+
+// --- Feature Grid 2 ---
+export const agencyAdAccountFeatureGrid2 = {
+  cards: [
+    { imageSrc: "/agency-ad-account/all-features/Compliance%20Pre-Review.svg", title: "Compliance Pre-Review", description: "Our team vets landing pages before submission to maximise approval rates." },
+    { imageSrc: "/agency-ad-account/all-features/Multi-Account%20Structure.svg", title: "Multi-Account Structure", description: "Run agency → sub-account hierarchies for client isolation and reporting." },
+    { imageSrc: "/agency-ad-account/all-features/Transparent%20Fee%20Model.svg", title: "Transparent Fee Model", description: "Flat % of ad spend. No hidden setup, no surprise top-up fees." },
+    { imageSrc: "/agency-ad-account/all-features/Pixel%20Continuity.svg", title: "Pixel Continuity", description: "Keep your learning data and custom audiences intact when switching." },
+    { imageSrc: "/agency-ad-account/all-features/Fast%20Replacement%20SLA.svg", title: "Fast Replacement SLA", description: "If an asset gets flagged, we hand you a replacement within the same business day." },
+    { imageSrc: "/agency-ad-account/all-features/Unified%20Billing.svg", title: "Unified Billing", description: "Consolidate spend across clients into one invoice for cleaner ops." },
+  ],
+}
+
+// --- Testimonial 2 ---
+export const agencyAdAccountTestimonial2 = {
+  logoSrc: "/assets/test_logo.jpg",
+  logoAlt: "GoAds agency client",
+  quote:
+    "Moved our whole affiliate book onto GoAds agency accounts. The compliance pre-review alone saves us 10+ hours per week, and our approval rate jumped from 60% to 95%.",
+  authorName: "Ryan D.",
+  authorRole: "Founder, Media Buying Agency",
+  authorImageSrc: "/assets/test_tim_keen_avatar.webp",
+  decorationLeftSrc: "/assets/test_left.svg",
+  decorationRightSrc: "/assets/test_right.svg",
+}
+
+// --- Product CTA ---
+export const agencyAdAccountProductCta = {
+  title: "Start scaling on an agency account today",
+  description:
+    "Whitelisted Meta ad accounts, unlimited daily spend, direct partner rep and a compliance team on your side.\n\nLaunch in under 48 hours.",
+  iconSrc: "/assets/cta/verified-panda.svg",
+  iconAlt: "GoAds panda mascot with verified badge",
+}
+
+// --- FAQ ---
+export const agencyAdAccountFaq = {
+  subtitle: "FAQ",
+  title: "Questions about Agency Ad Accounts?",
+  description: "Most frequent questions about running Meta campaigns on GoAds agency accounts.",
+  items: [
+    { question: "What is a Facebook agency ad account?", answer: "An ad account owned and managed by an official Meta agency partner. You run the campaigns, the agency holds the relationship with Meta — which unlocks whitelist status, higher spend caps and priority support." },
+    { question: "How much does it cost?", answer: "We charge a flat % of ad spend. No setup fee, no top-up fee, no account-management fee. The exact rate depends on your monthly volume — contact sales for a quote." },
+    { question: "How fast can I launch?", answer: "Most clients launch within 48 hours of approval. Onboarding includes KYC, landing page review and a kickoff call with your dedicated rep." },
+    { question: "What industries are supported?", answer: "Mainstream DTC, SaaS, finance, crypto, nutra, supplements, dating and most restricted niches. We pass on adult content and scam adjacent offers." },
+    { question: "Can I bring my existing pixel?", answer: "Yes. We migrate your pixel events, custom audiences and conversion data so you don't lose learning phases or CBO history." },
+    { question: "What happens if my account gets disabled?", answer: "Agency accounts rarely get disabled thanks to whitelist status, but if it happens we issue a replacement within the same business day. No downtime, no re-onboarding." },
+    { question: "Do I work with Meta directly?", answer: "Your dedicated partner rep handles all Meta interactions — escalations, policy calls, emergencies. You focus on creative and optimisation." },
+    { question: "Is there a spend minimum?", answer: "Yes. We work best with advertisers spending $10K/month or more. Smaller advertisers should look at our standard BM products first." },
+    { question: "How is billing handled?", answer: "You top up the account in advance (wire, card, crypto). Spend is deducted in real time and surfaced in your native Meta Ads Manager." },
+    { question: "Can agencies manage multiple clients?", answer: "Yes. Agencies get a parent account with isolated sub-accounts per client, consolidated billing and per-client reporting." },
+  ],
+}
