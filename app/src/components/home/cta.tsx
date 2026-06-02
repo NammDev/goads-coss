@@ -9,8 +9,9 @@ import { SectionHead } from "@/components/atoms/section-head"
 import { CtaButton } from "@/components/atoms/cta-button"
 
 export function HomeCta() {
+  // .home-cta — pt 108 desktop → 80px ≤991 (Foreplay)
   return (
-    <div className="flex flex-col items-center gap-9 pt-[108px]">
+    <div className="flex flex-col items-center gap-9 pt-[108px] max-fp-lg:pt-20">
       {/* .section-head.is-large */}
       <SectionHead
         title="Your next winning campaign starts here"

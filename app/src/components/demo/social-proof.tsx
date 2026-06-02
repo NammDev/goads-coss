@@ -71,8 +71,9 @@ const socialProofItems = [
 export function DemoSocialProof() {
   return (
     <div className="flex flex-col py-20">
-      {/* .demo-socailproof-head-copy: grid 2 cols, gap-4 */}
-      <div className="grid grid-cols-[1fr_1fr] items-stretch gap-4">
+      {/* .demo-socailproof-head-copy: 2-col desktop; stack ≤991 so the icon grid
+          gets full width below the heading (Foreplay stacks this on mobile). */}
+      <div className="grid grid-cols-[1fr_1fr] items-stretch gap-4 max-fp-lg:grid-cols-1">
         {/* .section-head.is-align-left */}
         <div className="flex flex-col items-start gap-2 text-left">
           <div className="[text-wrap:balance]">
@@ -89,8 +90,8 @@ export function DemoSocialProof() {
           </div>
         </div>
 
-        {/* .demo-socialproof-icons: grid 3 cols, gap-2, items stretch to fill height */}
-        <div className="grid auto-cols-fr grid-cols-3 items-stretch gap-2">
+        {/* .demo-socialproof-icons: 3-col; →1-col ≤479 (Foreplay) so the min-w-144 cards don't overflow */}
+        <div className="grid auto-cols-fr grid-cols-3 items-stretch gap-2 max-fp-sm:grid-cols-1">
           {socialProofItems.map((item, i) => (
             <div
               key={i}

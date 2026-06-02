@@ -15,8 +15,10 @@ export function FooterLinkColumns() {
   const companyCat = footerLinkCategories.find(c => c.title === "Company")
   const legalCat = footerLinkCategories.find(c => c.title === "Legal")
 
+  // .footer-links — Foreplay keeps 4 columns at ALL widths (measured: never
+  // collapses to 2-col; just cramps). ≤991 row-gap 32px. Smaller col-gap on mobile.
   return (
-    <div className="grid auto-cols-fr grid-cols-4 gap-4 max-md:grid-cols-2 max-md:gap-y-8 max-sm:grid-cols-2">
+    <div className="grid auto-cols-fr grid-cols-4 gap-4 max-fp-lg:gap-y-8 max-md:gap-x-3">
       {mainCols.map(cat => (
         <LinkCategory key={cat.title} title={cat.title} links={cat.links} />
       ))}
@@ -33,7 +35,7 @@ export function FooterLinkColumns() {
 
 function LinkCategory({ title, links }: { title: string; links: { label: string; href: string; external?: boolean }[] }) {
   return (
-    <div className="flex flex-col gap-2.5 text-[#ffffffeb] max-sm:gap-3">
+    <div className="flex flex-col gap-2.5 text-[#ffffffeb] max-md:gap-3">
       <div className={siteText.overline}>{title}</div>
       <ul className="mb-0 flex flex-col gap-1 pl-0 max-md:pb-6 max-sm:pb-4">
         {links.map(link => (

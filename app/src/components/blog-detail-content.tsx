@@ -64,7 +64,7 @@ export function BlogDetailContent({
   return (
     <section>
       {/* .container: max-w-1440 + px-10 (40px) → content area 1360px (matches Foreplay) */}
-      <div className="mx-auto w-full max-w-[1440px] px-6 md:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-site px-6 md:px-8 lg:px-10">
         {/* .blog-main-wrapper (CTA removed): 2-col TOC + main, gap-9, items-start.
             Center spans 2 of 3 conceptual cols so main column stays 752px-ish (matches hero width).
             Right rail empty for symmetry — keeps main column visually centered. */}

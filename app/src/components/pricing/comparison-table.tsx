@@ -258,13 +258,19 @@ export function PricingComparisonTable({
 
   return (
     // .comparison-grid-scroll > .comparison-grid
-    <div className="pl-6">
-      <div className="rounded-[16px] border border-[var(--solid-50)]">
+    // ≤991px: 5 fr-columns would squish to ~55px each → unreadable. Foreplay keeps
+    // the grid a fixed width (600px ≤991, 480px ≤767) inside an overflow:auto scroll
+    // container → horizontal scroll with readable columns.
+    <div className="pl-6 max-fp-lg:overflow-x-auto max-fp-lg:pl-0">
+      <div className="rounded-[16px] border border-[var(--solid-50)] max-fp-lg:min-w-[600px] max-md:min-w-[480px]">
 
         {/* ── .comparison-th: sticky header ── */}
         <div className={cn(
           gridCols,
           "sticky top-[72px] z-50 rounded-t-[16px] border-b border-[var(--solid-50)] bg-white",
+          // in the mobile horizontal-scroll container, sticky-top fights the
+          // scroll box → keep header static ≤991 (it scrolls with the table).
+          "max-fp-lg:static",
         )}>
           {/* Empty label column */}
           <div className="p-4" />
@@ -360,8 +366,9 @@ export function PricingComparisonTable({
           </div>
         ))}
 
-        {/* ── .comparison-grid-footer: flex col, gap-5 (20px), items-center, py-10 (40px) ── */}
-        <div className="flex flex-col items-center gap-5 py-10">
+        {/* ── .comparison-grid-footer — hidden ≤991 (Foreplay): it sits inside the
+             fixed-width scroll grid and would get clipped; CTA is redundant on mobile ── */}
+        <div className="flex flex-col items-center gap-5 py-10 max-fp-lg:hidden">
           {/* .text-solid-900 > h3.text-display-h4 */}
           <div className="text-[var(--solid-900)]">
             <h3 className={siteText.displayH4}>{footerTitle}</h3>

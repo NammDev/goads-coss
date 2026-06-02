@@ -1,51 +1,43 @@
-// Foreplay action-plan popup card — .calendar-pop-up-main.pop-from-bl
-// CSS: bg #fff, border 1px solid solid-100, radius 18px, min/max-w 360px.
-// Composes 3 sections (header + body + cta) each separated by a 1px solid-100 divider.
-// Header: gap 10px, padding 14px, items-center.
-// Body:   gap 15px, padding 14px, flex-col.
-// CTA:    gap 8px,  padding 14px, flex-col.
+// Floating contact card — mounted inside CalendarPopup (collapsible widget) and
+// any route that wants the card as a hero centerpiece.
 //
-// Atom; mounted inside CalendarPopup (collapsible widget) and any
-// route that wants the card as a hero centerpiece.
+// Structure: header (founder) + body (title/desc + 3 channel pills) + cta (2 buttons).
+// CSS: bg #fff, border 1px solid-100, radius 18px, fixed 360px width.
+// Each section separated by a 1px solid-100 divider.
 
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { AvatarOnline } from "@/components/atoms/avatar-online"
-import { DatePill } from "@/components/atoms/date-pill"
+import { ChannelPill } from "@/components/atoms/channel-pill"
 import { CtaButton } from "@/components/atoms/cta-button"
 import {
   actionPlanFounder,
   actionPlanCopy,
-  type ActionPlanDate,
+  contactChannels,
 } from "@/data/action-plan-page-data"
 
 interface ActionPlanCardProps {
-  dates: ActionPlanDate[]
   onClose?: () => void
   className?: string
 }
 
-export function ActionPlanCard({
-  dates,
-  onClose,
-  className,
-}: ActionPlanCardProps) {
+export function ActionPlanCard({ onClose, className }: ActionPlanCardProps) {
   return (
     <div
       className={cn(
-        // .calendar-pop-up-main.pop-from-bl
-        "flex w-[360px] min-w-[360px] max-w-[360px] flex-col items-stretch",
+        // Cap at 360px (desktop) but shrink to fit narrow viewports so the
+        // floating support card never overflows at 375px (min: 100vw − 40px gutter).
+        "flex w-[min(360px,calc(100vw-2.5rem))] flex-col items-stretch",
         "rounded-[18px] border border-[var(--solid-100)] bg-white shadow-2xl",
         className,
       )}
     >
-      {/* .calendar-pop-up-header */}
+      {/* Header — founder identity */}
       <div className="flex items-center gap-[10px] border-b border-[var(--solid-100)] p-[14px]">
         <AvatarOnline
           src={actionPlanFounder.avatarSrc}
           alt={actionPlanFounder.avatarAlt}
         />
-        {/* .calendar-pop-up-text — flex col, flex-1, gap 0 */}
         <div className="flex flex-1 flex-col">
           <div className={cn(siteText.labelS, "text-[var(--solid-900)]")}>
             {actionPlanFounder.name}
@@ -54,12 +46,11 @@ export function ActionPlanCard({
             {actionPlanFounder.role}
           </div>
         </div>
-        {/* .cal-pop-up-close — opacity .75, hover 1 */}
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="flex size-6 items-center justify-center text-[var(--solid-900)] opacity-75 transition-opacity duration-200 hover:opacity-100"
+          className="flex size-6 cursor-pointer items-center justify-center text-[var(--solid-900)] opacity-75 transition-opacity duration-200 hover:opacity-100"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -67,7 +58,7 @@ export function ActionPlanCard({
         </button>
       </div>
 
-      {/* .calendar-pop-body — gap 15px, padding 14px */}
+      {/* Body — title + description + 3 channel pills */}
       <div className="flex flex-col gap-[15px] border-b border-[var(--solid-100)] p-[14px]">
         <div className="flex flex-col">
           <div className={cn(siteText.labelS, "text-[var(--solid-900)]")}>
@@ -77,21 +68,15 @@ export function ActionPlanCard({
             {actionPlanCopy.cardDescription}
           </div>
         </div>
-        {/* #datePills.datepills — gap 8px, justify-between, items-center */}
+        {/* Channel pills — same rhythm as the old datepills row (gap 8px, justify-between, items-center) */}
         <div className="flex items-center justify-between gap-2">
-          {dates.map((d, i) => (
-            <DatePill
-              key={`${d.dow}-${d.dom}-${i}`}
-              dow={d.dow}
-              dom={d.dom}
-              isToday={d.isToday}
-              href={actionPlanCopy.primaryHref}
-            />
+          {contactChannels.map((c) => (
+            <ChannelPill key={c.label} label={c.label} href={c.href} icon={c.icon} />
           ))}
         </div>
       </div>
 
-      {/* .calendar-pop-cta — gap 8px, padding 14px, flex-col */}
+      {/* CTA — Book a Call (primary) + Start Free Trial (secondary) */}
       <div className="flex flex-col gap-2 p-[14px]">
         <CtaButton
           href={actionPlanCopy.primaryHref}

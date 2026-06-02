@@ -21,9 +21,10 @@ interface HomeHeroVideoProps {
 export function HomeHeroVideo({ className }: HomeHeroVideoProps) {
   return (
     <>
-      {/* .home-hero-overlay: gradient fade from background, covers bottom of sticky */}
+      {/* .home-hero-overlay: gradient fade behind the scroll-animated sticky.
+          Foreplay hides it ≤991 (no sticky animation on mobile → no fade needed). */}
       <div
-        className="pointer-events-none absolute inset-x-0 -bottom-[10%] top-[33%] bg-gradient-to-t from-background from-10% to-transparent"
+        className="pointer-events-none absolute inset-x-0 -bottom-[10%] top-[33%] bg-gradient-to-t from-background from-10% to-transparent max-fp-lg:hidden"
         aria-hidden="true"
       />
 

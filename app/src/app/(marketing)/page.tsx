@@ -71,8 +71,8 @@ export default function HomePage() {
           showSectionHead={false}
         />
 
-        {/* Chrome Extension banner */}
-        <div className="py-20">
+        {/* Chrome Extension banner — whole section (incl py-20) hidden ≤479 so no empty gap */}
+        <div className="py-20 max-fp-sm:hidden">
           <HomeChromeExtension />
         </div>
       </section>

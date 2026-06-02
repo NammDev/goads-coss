@@ -101,16 +101,17 @@ export function HomeFeaturesGrid({
           variant="light"
         />
 
-        {/* .lens-security-grid: 3 cols, border solid-700, rounded-[28px] */}
-        <div className="grid auto-cols-fr grid-cols-3 rounded-[28px] border border-[var(--solid-700)]">
+        {/* .lens-security-grid: 3 cols desktop; ≤991 → 1 col, max-w-480 centered (Foreplay) */}
+        <div className="grid auto-cols-fr grid-cols-3 rounded-[28px] border border-[var(--solid-700)] max-fp-lg:mx-auto max-fp-lg:max-w-[480px] max-fp-lg:grid-cols-1">
           {cards.map((card, i) => (
             <div
               key={i}
               className={cn(
                 // .lens-security-card
                 "flex flex-col px-6 pt-6 pb-6",
-                // .is-middle: border-left + border-right
-                card.isMiddle && "border-x border-[var(--solid-700)]",
+                // .is-middle: border-l+r on the 3-col desktop; on the 1-col mobile
+                // stack switch to border-t+b so it separates the stacked cards.
+                card.isMiddle && "border-x border-[var(--solid-700)] max-fp-lg:border-x-0 max-fp-lg:border-y",
               )}
             >
               {/* .lens-security-card-head */}

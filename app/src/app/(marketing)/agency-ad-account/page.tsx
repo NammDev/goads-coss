@@ -104,7 +104,7 @@ export default function AgencyAdAccountPage() {
             <div className="block pt-12 max-md:pt-10">
               <ProductPageFeatureTabs tabs={tabsWithIcons} />
 
-              <div className="mt-8">
+              <div className="mt-8 max-fp-sm:hidden">
                 <HomeChromeExtension />
               </div>
             </div>

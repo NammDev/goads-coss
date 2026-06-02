@@ -1,10 +1,11 @@
-// Foreplay header — mobile hamburger + slide-in drawer
-// Breakpoints: max-md (≤991px) show hamburger, hide desktop nav
-// Source uses .w-nav-button hamburger + .nav-menu drawer on mobile
-// DOM: Sheet from right with logo + Start free trial at top, accordion nav items below
+// Foreplay mobile nav — .nav-menu column dropdown (≤991px) with inline accordion.
+// Hamburger ↔ X drops a column panel below the bar (anchored to relative .nav-stack),
+// matching Foreplay's mobile .nav-menu-inner. Product / Tools / Resources expand
+// inline; everything flush-left (padding-left:0). Data + icons in nav-menu-items.tsx.
 //
-// Auto-close on route change via Next.js usePathname effect
-// Scroll lock handled by shadcn Sheet (Radix Dialog)
+// Layouts mirror Foreplay's per-menu designs:
+//   Product / Tools → stacked (icon + title above desc) — nav-product-menu badges
+//   Resources       → inline (icon + label + desc on one row) — nav-resources-menu
 
 "use client"
 
@@ -12,181 +13,169 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { siteText } from "@/components/atoms/typography"
+import {
+  PRODUCT_GROUPS, TOOLS_GROUPS, RESOURCES_GROUPS,
+  type NavMenuGroup,
+} from "@/components/layout/nav-menu-items"
 
-// ── Mobile menu data (matches desktop dropdowns, flattened for accordion) ──
-const mobileProductItems = [
-  { section: "Accounts & Assets", items: [
-    { label: "Business Manager", desc: "Verified BMs ready to scale your ads.", href: "/bm" },
-    { label: "Facebook Profiles", desc: "Aged, ID-verified profiles for media buying.", href: "/profiles" },
-    { label: "Facebook Pages", desc: "Aged pages with clean history.", href: "/pages" },
-    { label: "TikTok Accounts", desc: "Ready-to-spend TikTok ad assets.", href: "/tiktok-accounts" },
-  ]},
-  { section: "Services", items: [
-    { label: "Agency Ad Account", desc: "Premium ad accounts with unlimited spend.", href: "/agency-ad-account" },
-    { label: "Blue Verification", desc: "Get Meta verified — instant credibility.", href: "/blue-verification" },
-    { label: "Unban Service", desc: "Recover banned BMs and ad accounts.", href: "/unban" },
-  ]},
+type Section =
+  | { label: string; href: string }
+  | { label: string; groups: NavMenuGroup[]; inline?: boolean }
+
+const SECTIONS: Section[] = [
+  { label: "Product", groups: PRODUCT_GROUPS },
+  { label: "Tools", groups: TOOLS_GROUPS },
+  { label: "Resources", groups: RESOURCES_GROUPS, inline: true },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Book a Demo", href: "/book-demo" },
 ]
 
-const mobileResourcesItems = [
-  { label: "University", desc: "Ad masterclasses", href: "/university" },
-  { label: "Events & Webinars", desc: "Live workshops + Q&A", href: "/fireside" },
-  { label: "Knowledge Base", desc: "Guides and tutorials", href: "https://help.foreplay.co/" },
-  { label: "Experts", desc: "Free Swipe Files", href: "/experts" },
-  { label: "Blog", desc: "Marketing news & tips", href: "/blog" },
-  { label: "Affiliate Program", desc: "Make over $10k/mo referring GoAds", href: "/affiliates" },
-  { label: "Work with Brands", desc: "Get world-class creative services.", href: "/work-with-brands" },
-  { label: "Agency Directory", desc: "Discover the worlds best agencies.", href: "/agency-directory" },
-]
+// .text-navlink @≤991 — Inter Display 20px/28px 600
+const navText = "font-display text-[1.25rem] font-semibold leading-[1.75rem] [font-optical-sizing:auto]"
 
 export function HeaderMobileMenu() {
   const [open, setOpen] = useState(false)
+  const [expanded, setExpanded] = useState<string | null>(null)
   const pathname = usePathname()
 
-  // Auto-close on route change
+  useEffect(() => { setOpen(false); setExpanded(null) }, [pathname])
   useEffect(() => {
-    setOpen(false)
-  }, [pathname])
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => { document.body.style.overflow = prev }
+  }, [open])
+
+  const close = () => setOpen(false)
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      {/* Hamburger trigger — show on mobile (≤991px), hide on desktop */}
-      <SheetTrigger
-        asChild
-        className="hidden max-md:flex"
-      >
-        <button
-          type="button"
-          aria-label="Open menu"
-          className="flex size-11 items-center justify-center rounded-[10px] p-2 text-foreground transition-colors hover:bg-[var(--alpha-700)]"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </button>
-      </SheetTrigger>
-
-      {/* Drawer from right — full-height, dark bg, scroll internally */}
-      <SheetContent
-        side="right"
+    <>
+      {/* .nav-menu-button.w-nav-button — Foreplay icon (kept as-is when open, NO X morph).
+          .w--open @991: z-index:5; background-color:neutral-800. */}
+      <button
+        type="button"
+        aria-label="menu"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
         className={cn(
-          "foreplay w-full max-w-md overflow-y-auto border-[var(--border-nav)] bg-background p-0 text-[var(--alpha-100)]",
-          "sm:max-w-md",
+          "z-[5] flex size-11 items-center justify-center rounded-[10px] p-2 text-foreground transition-colors fp-lg:hidden",
+          open ? "bg-[var(--alpha-700)]" : "hover:bg-[var(--alpha-700)]",
         )}
       >
-        {/* Hidden title/description for a11y */}
-        <SheetTitle className="sr-only">Navigation menu</SheetTitle>
-        <SheetDescription className="sr-only">GoAds site navigation</SheetDescription>
+        {/* .icon-20 — exact Foreplay SVG (100%) */}
+        <div className="flex size-5 items-center justify-center">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.75 6.25H3.25M16.75 13.75H8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+      </button>
 
-        {/* Drawer header: logo + Start free trial CTA */}
-        <div className="flex items-center justify-between border-b border-[var(--border-nav)] px-4 py-4">
-          <Link href="/" className="p-1" onClick={() => setOpen(false)}>
-            <svg width="108" height="32" viewBox="0 0 108 32" fill="none" className="text-foreground">
-              <path fill="currentColor" d="M4.38 3.43h2.2v6.86H0V8a4.48 4.48 0 0 1 4.38-4.57Z" />
-              <path fill="currentColor" d="M17.52 3.43H8.76v6.86h8.76V3.43Z" opacity=".85" />
-              <path fill="currentColor" d="M16.43 12.57H8.76v6.86h5.48c1.2 0 2.19-.98 2.19-2.2v-4.66Z" opacity=".7" />
-              <path fill="currentColor" d="M24.1 12.57h-5.48v4.67a2.2 2.2 0 0 0 2.19 2.19h3.29v-6.86Z" opacity=".2" />
-              <path fill="currentColor" d="M17.52 21.71h6.58v2.3a4.48 4.48 0 0 1-4.39 4.56h-2.19v-6.86Z" opacity=".1" />
-              <path fill="currentColor" d="M13.14 21.71H8.76v6.86h6.57v-4.66a2.2 2.2 0 0 0-2.19-2.2Z" opacity=".2" />
-              <path fill="currentColor" d="M19.71 3.43A4.48 4.48 0 0 1 24.1 8v2.29H19.7V3.43Z" opacity=".6" />
-              <path fill="currentColor" d="M6.57 12.57H0v6.86h6.57v-6.86Z" opacity=".85" />
-              <path fill="currentColor" d="M0 21.71h6.57v6.86H4.38A4.48 4.48 0 0 1 0 24v-2.29Z" opacity=".6" />
-            </svg>
-          </Link>
-          <Link
-            href="/sign-up"
-            className="flex items-center rounded-[10px] bg-foreground px-3 py-2 text-[var(--solid-900)] no-underline"
-          >
-            <span className={siteText.labelS}>Start free trial</span>
-          </Link>
+      <div
+        className={cn(
+          "absolute top-full right-0 left-0 z-[90] origin-top fp-lg:hidden",
+          "flex max-h-[calc(100dvh-72px)] flex-col items-stretch gap-3 overflow-y-auto",
+          "rounded-b-[28px] max-fp-sm:rounded-b-[16px] bg-background px-5 pt-3 pb-6",
+          "shadow-[inset_0_0_0_1px_#0003]",
+          "transition-all duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]",
+          open ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+        )}
+        aria-hidden={!open}
+      >
+        <div className="flex flex-col items-stretch gap-1">
+          {SECTIONS.map((s) => {
+            if ("href" in s) {
+              return (
+                <Link key={s.label} href={s.href} onClick={close} className="py-2 text-foreground no-underline">
+                  <span className={navText}>{s.label}</span>
+                </Link>
+              )
+            }
+            const isOpen = expanded === s.label
+            return (
+              <div key={s.label} className="flex flex-col">
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  onClick={() => setExpanded(isOpen ? null : s.label)}
+                  className="flex items-center justify-between py-2 text-left text-foreground"
+                >
+                  <span className={navText}>{s.label}</span>
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={cn("text-[var(--alpha-100)] transition-transform duration-300", isOpen && "rotate-180")}>
+                    <path d="M7 8.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+
+                {isOpen && (
+                  <div className="flex flex-col gap-4 pt-1 pb-2">
+                    {s.groups.map((g) => (
+                      <div key={g.overline} className="flex flex-col gap-1">
+                        {/* .nav-overline-title @991 padding-left:0 — flush */}
+                        <div className={cn(siteText.overline, "text-[var(--alpha-50)]")}>{g.overline}</div>
+                        <ul className="m-0 flex flex-col gap-0.5 p-0">
+                          {g.items.map((it) => {
+                            const Icon = it.icon
+                            return (
+                              <li key={it.label} className="list-none">
+                                <Link
+                                  href={it.href}
+                                  onClick={close}
+                                  target={it.href.startsWith("http") ? "_blank" : undefined}
+                                  className="-mx-2 flex items-center gap-3 rounded-[12px] px-2 py-2 no-underline transition-colors hover:bg-[var(--alpha-700)]"
+                                >
+                                  {/* icon: img (Product) or icon-20 svg (Tools/Resources) */}
+                                  {it.img ? (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img src={it.img} alt="" aria-hidden className="size-9 shrink-0 object-contain opacity-90" />
+                                  ) : Icon ? (
+                                    <span className="flex size-5 shrink-0 items-center justify-center text-foreground">
+                                      <Icon />
+                                    </span>
+                                  ) : null}
+
+                                  {s.inline ? (
+                                    // Resources — label + desc inline (one row, desc wraps)
+                                    <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0">
+                                      <span className={cn(siteText.labelS, "text-foreground")}>{it.label}</span>
+                                      <span className={cn(siteText.bodyS, "text-[var(--alpha-100)]")}>{it.desc}</span>
+                                    </span>
+                                  ) : (
+                                    // Product / Tools — title stacked above desc
+                                    <span className="flex min-w-0 flex-col">
+                                      <span className={cn(siteText.labelS, "text-foreground")}>{it.label}</span>
+                                      <span className={cn(siteText.bodyS, "text-[var(--alpha-100)]")}>{it.desc}</span>
+                                    </span>
+                                  )}
+                                </Link>
+                              </li>
+                            )
+                          })}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
 
-        {/* Accordion nav */}
-        <Accordion type="multiple" className="flex flex-col px-4 py-4">
-          {/* Product accordion */}
-          <AccordionItem value="product" className="border-[var(--border-nav)]">
-            <AccordionTrigger className="py-4 text-foreground hover:no-underline [&>svg]:text-[var(--alpha-100)]">
-              <span className="font-sans text-[0.9375rem]">Product</span>
-            </AccordionTrigger>
-            <AccordionContent className="pb-4">
-              <div className="flex flex-col gap-4">
-                {mobileProductItems.map((section) => (
-                  <div key={section.section} className="flex flex-col gap-2">
-                    <div className="px-2 text-[var(--alpha-50)]">
-                      <div className={siteText.overline}>{section.section}</div>
-                    </div>
-                    <ul className="m-0 flex flex-col gap-1 p-0">
-                      {section.items.map((item) => (
-                        <li key={item.label} className="list-none">
-                          <Link
-                            href={item.href}
-                            onClick={() => setOpen(false)}
-                            className="flex flex-col rounded-[10px] px-2 py-2 text-[var(--alpha-100)] no-underline transition-colors hover:bg-[var(--alpha-700)]"
-                            target={item.href.startsWith("http") ? "_blank" : undefined}
-                          >
-                            <span className={cn(siteText.labelS, "text-foreground")}>{item.label}</span>
-                            <span className={siteText.bodyS}>{item.desc}</span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          {/* Resources accordion */}
-          <AccordionItem value="resources" className="border-[var(--border-nav)]">
-            <AccordionTrigger className="py-4 text-foreground hover:no-underline [&>svg]:text-[var(--alpha-100)]">
-              <span className="font-sans text-[0.9375rem]">Resources</span>
-            </AccordionTrigger>
-            <AccordionContent className="pb-4">
-              <ul className="m-0 flex flex-col gap-1 p-0">
-                {mobileResourcesItems.map((item) => (
-                  <li key={item.label} className="list-none">
-                    <Link
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                      target={item.href.startsWith("http") ? "_blank" : undefined}
-                      className="flex flex-col rounded-[10px] px-2 py-2 text-[var(--alpha-100)] no-underline transition-colors hover:bg-[var(--alpha-700)]"
-                    >
-                      <span className={cn(siteText.labelS, "text-foreground")}>{item.label}</span>
-                      <span className={siteText.bodyS}>{item.desc}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </AccordionContent>
-          </AccordionItem>
-
-          {/* Plain links: Pricing, Book a Demo, Sign in */}
+        <div className="mt-2 flex flex-col items-stretch gap-2">
           <Link
-            href="/pricing"
-            onClick={() => setOpen(false)}
-            className="border-b border-[var(--border-nav)] py-4 text-foreground no-underline"
+            href="/sign-up"
+            onClick={close}
+            className="flex items-center justify-center gap-1 rounded-[12px] bg-foreground px-4 py-3 text-[var(--solid-900)] no-underline transition-opacity hover:opacity-90"
           >
-            <span className="font-sans text-[0.9375rem]">Pricing</span>
+            <span className={cn(navText, "text-[var(--solid-900)]")}>Start free trial</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </Link>
-          <Link
-            href="/book-demo"
-            onClick={() => setOpen(false)}
-            className="border-b border-[var(--border-nav)] py-4 text-foreground no-underline"
-          >
-            <span className="font-sans text-[0.9375rem]">Book a Demo</span>
+          <Link href="/sign-in" onClick={close} className="py-2 text-center text-foreground no-underline">
+            <span className={navText}>Sign in</span>
           </Link>
-          <Link
-            href="/sign-in"
-            onClick={() => setOpen(false)}
-            className="py-4 text-foreground no-underline"
-          >
-            <span className="font-sans text-[0.9375rem]">Sign in</span>
-          </Link>
-        </Accordion>
-      </SheetContent>
-    </Sheet>
+        </div>
+      </div>
+    </>
   )
 }

@@ -177,6 +177,10 @@ export function CartPopover() {
         onClick={() => setOpen((v) => !v)}
         className={
           'group fixed top-1/2 z-[60] flex -translate-y-1/2 cursor-pointer items-center bg-white transition-[right,transform] duration-300 ease-out ' +
+          // Mobile (≤991px): hide the closed pill when the cart is empty so it
+          // never overlaps hero content — matches Foreplay's clean mobile. The
+          // pill reappears once an item is added (count > 0). Desktop unaffected.
+          (!open && count === 0 ? 'max-fp-lg:hidden ' : '') +
           (open
             ? 'size-9 justify-center rounded-full ring-1 ring-[#EAECEF] hover:scale-105'
             : 'h-12 gap-2.5 rounded-l-2xl pr-3 pl-4 ring-1 ring-[#E6E8EB] animate-in fade-in slide-in-from-right-2 duration-200')

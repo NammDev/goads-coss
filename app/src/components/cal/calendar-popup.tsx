@@ -1,48 +1,22 @@
-// Foreplay floating calendar popup — clone of .calendar-popup-wrapper widget.
-// Default state: small trigger chip pinned bottom-left (avatar + "Click Me!" +
-// subline). On click: expands to the full action-plan card.
+// Floating support widget — bottom-left fixed pill, click to expand the full
+// contact card (founder + channel pills + 2 CTAs).
 //
-// DOM map (source: foreplay-homepage-latest.html:1027-1029):
-//   .calendar-popup-wrapper       → outer fixed wrapper (this file)
-//     .calendar-pop-up-wrap       → relative container
-//       .calendar-pop-up-trigger  → collapsed chip (always rendered)
-//       .calendar-pop-up-main     → expanded card (animated mount)
-//
-// CSS spec (extracted exactly):
-//   wrapper:  fixed inset auto auto 0 0, padding 20px (bottom/left 0 per override)
-//   trigger:  bg #fff, 1px solid solid-100, radius 12px (bottom corners 0 when card mounted)
-//   trigger-body: gap 10px, padding 8px 14px 8px 8px, items-center
-//   main:     absolute bottom 0 left 0, w 360px, radius 18px
+// Trigger chip is a GoAds-branded badge (dark pill + brand mark + "Support" label
+// + online dot) to distinguish from Foreplay's white "Click Me!" Intercom-clone.
 
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { fontInter } from "@/fonts"
 import { siteText } from "@/components/atoms/typography"
-import { AvatarOnline } from "@/components/atoms/avatar-online"
+import { GoadsMark } from "@/components/layout/goads-mark"
 import { ActionPlanCard } from "@/components/misc/action-plan-card"
-import {
-  actionPlanFounder,
-  actionPlanCopy,
-  getActionPlanDates,
-  type ActionPlanDate,
-} from "@/data/action-plan-page-data"
 
 export function CalendarPopup() {
   const [open, setOpen] = useState(false)
-  // Dates computed client-side to avoid SSR/CSR drift on rolling "today".
-  const [dates, setDates] = useState<ActionPlanDate[]>([])
-
-  useEffect(() => {
-    setDates(getActionPlanDates())
-  }, [])
 
   return (
-    // .calendar-popup-wrapper — fixed bottom-left, padded inset so chip sits
-    // away from the viewport edges. Wrapped in `.goads` so `--*` CSS
-    // tokens resolve (they're scoped to `.goads` in globals.css, and this
-    // widget mounts in the root layout — outside the marketing wrapper).
     <div
       className={cn(
         "site",
@@ -50,47 +24,41 @@ export function CalendarPopup() {
         "pointer-events-none fixed inset-auto bottom-5 left-5 z-10 flex flex-col items-start justify-end",
       )}
     >
-      {/* .calendar-pop-up-wrap — relative positioning context */}
       <div className="pointer-events-auto relative flex flex-col items-start">
-        {/* .calendar-pop-up-main — expanded card; sits ABOVE the trigger */}
-        {open && dates.length > 0 && (
+        {/* Expanded card — sits ABOVE the trigger */}
+        {open && (
           <div className="absolute bottom-full left-0 mb-2">
-            <ActionPlanCard
-              dates={dates}
-              onClose={() => setOpen(false)}
-            />
+            <ActionPlanCard onClose={() => setOpen(false)} />
           </div>
         )}
 
-        {/* .calendar-pop-up-trigger — collapsed chip, always visible */}
+        {/* Trigger chip — GoAds brand badge (dark pill) */}
         <button
           type="button"
-          onClick={() => setOpen(prev => !prev)}
+          onClick={() => setOpen((prev) => !prev)}
           aria-expanded={open}
-          aria-label={open ? "Close action plan" : "Open free action plan"}
+          aria-label={open ? "Close support" : "Open GoAds support"}
           className={cn(
-            "flex cursor-pointer flex-col items-stretch",
-            "rounded-[12px] bg-white text-left",
-            "border border-[var(--solid-100)] shadow-2xl",
-            "transition-colors duration-200 hover:bg-[var(--solid-50)]",
+            "group flex cursor-pointer items-center gap-2.5 rounded-full",
+            "bg-[var(--solid-900)] text-white",
+            "py-2 pl-2 pr-4",
+            "shadow-xl shadow-black/20 ring-1 ring-white/5",
+            "transition-all duration-200",
+            "hover:bg-[var(--solid-700)] hover:scale-[1.02]",
           )}
         >
-          {/* .calendar-pop-up-trigger-body — gap 10px, padding 8px 14px 8px 8px */}
-          <div className="flex items-center gap-[10px] py-2 pl-2 pr-[14px]">
-            <AvatarOnline
-              src={actionPlanFounder.avatarSrc}
-              alt={actionPlanFounder.avatarAlt}
-            />
-            {/* .calendar-pop-up-text — flex col, flex-1, gap 0 */}
-            <div className="flex flex-1 flex-col">
-              <div className={cn(siteText.labelS, "text-[var(--solid-900)]")}>
-                {actionPlanCopy.triggerTitle}
-              </div>
-              <div className={cn(siteText.bodyXs, "text-[var(--solid-400)]")}>
-                {actionPlanCopy.triggerSubline}
-              </div>
-            </div>
-          </div>
+          {/* Brand mark — circular dark plate so panda body punches through */}
+          <span className="relative flex size-7 items-center justify-center rounded-full bg-[var(--solid-700)] text-[var(--solid-900)] transition-colors duration-200 group-hover:bg-[var(--solid-600)]">
+            <GoadsMark className="size-5" />
+            {/* Online dot — top-right of the mark */}
+            <span className="absolute -right-0.5 -top-0.5 block size-2 rounded-full bg-[var(--lime-green)] ring-2 ring-[var(--solid-900)] transition-[ring-color] duration-200 group-hover:ring-[var(--solid-700)]" />
+          </span>
+
+          {/* Label */}
+          <span className="flex flex-col items-start leading-tight">
+            <span className={cn(siteText.labelS, "text-white")}>Support</span>
+            <span className={cn(siteText.bodyXs, "text-white/60")}>Online · reply ~2m</span>
+          </span>
         </button>
       </div>
     </div>

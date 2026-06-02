@@ -49,8 +49,9 @@ export function HomeSharing() {
   const [activeTab, setActiveTab] = useState(0)
 
   return (
-    // .home-sharing: original Foreplay base = padding-top:96px, NO padding-bottom (bottom 0)
-    <div className="grid grid-cols-[1fr_1fr] items-stretch gap-10 pt-24">
+    // .home-sharing: 2-col grid desktop; Foreplay stacks to 1-col ≤991 (content
+    // then image below) — pt 96 desktop → 80 ≤479. (@991 display:flex / @479 pt-80.)
+    <div className="grid grid-cols-[1fr_1fr] items-stretch gap-10 pt-24 max-fp-lg:grid-cols-1 max-fp-lg:gap-8 max-fp-sm:pt-20">
       {/* .home-sharing-content (left side) */}
       <div className="flex flex-col gap-10">
         {/* .section-head.is-align-left */}
@@ -77,8 +78,9 @@ export function HomeSharing() {
         {/* .line separator */}
         <div className="h-px w-full bg-[var(--solid-50)]" />
 
-        {/* .home-sharing-tabs */}
-        <div className="flex gap-3">
+        {/* .home-sharing-tabs — links + CTA side-by-side desktop; stack ≤991 (links
+            list on top, CTA card below full-width — matches Foreplay mobile). */}
+        <div className="flex gap-3 max-fp-lg:flex-col max-fp-lg:gap-8">
           {/* .home-sharing-tabs-links */}
           <div className="flex flex-1 flex-col gap-1.5">
             {tabs.map((tab, i) => (
@@ -129,8 +131,9 @@ export function HomeSharing() {
         </div>
       </div>
 
-      {/* .home-sharing-tab-panes-2: right side image, bleeds right */}
-      <div className="-mr-[999px] mt-[-80px] w-[60vw] max-w-[720px] [aspect-ratio:720/680]">
+      {/* .home-sharing-tab-panes-2: right-bleed image desktop; ≤991 reset bleed/
+          negative-margin → full-width below content (Foreplay @767 w-100% max-h-480). */}
+      <div className="-mr-[999px] mt-[-80px] w-[60vw] max-w-[720px] [aspect-ratio:720/680] max-fp-lg:mr-0 max-fp-lg:mt-0 max-fp-lg:w-full max-fp-lg:max-w-none max-fp-lg:max-h-[480px]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/assets/portal-tablet-mockup.webp"

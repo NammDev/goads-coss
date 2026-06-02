@@ -47,10 +47,13 @@ export function HeroContent({
       <div className="text-foreground">
         <h1
           className={cn(
-            // .text-display-h1: Inter Display, 3.75rem/4.25rem, 600, tracking -0.0075em
-            // font-optical-sizing:auto activates Inter's display optical size at 60px
-            "font-display text-[3.75rem] font-semibold leading-[4.25rem] tracking-[-0.0075em]",
-            "[font-optical-sizing:auto]",
+            // .text-display-h1.hero-title — responsive cascade matching Foreplay exactly:
+            //   ≤479px: 2.375rem/3rem (38/48)  ·  480–767px: 3.25rem/3.75rem (52/60)  ·  ≥768px: 3.75rem/4.25rem (60/68)
+            // (goads previously hardcoded 60px at all widths → oversized on mobile.)
+            "font-display font-semibold tracking-[-0.0075em] [font-optical-sizing:auto]",
+            "text-[2.375rem] leading-[3rem]",
+            "min-[480px]:text-[3.25rem] min-[480px]:leading-[3.75rem]",
+            "md:text-[3.75rem] md:leading-[4.25rem]",
             // .hero-title: gradient text fill + text-wrap balance
             "[text-wrap:balance]",
             SITE_HERO_GRADIENT,

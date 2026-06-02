@@ -43,7 +43,7 @@ export function UniversityHero({
   return (
     <section className="section relative isolate overflow-hidden">
       {/* .container (wide 1440px) */}
-      <div className="container mx-auto w-full max-w-[1440px] px-10">
+      <div className="container mx-auto w-full max-w-site px-10">
         {/* .fireside-hero */}
         <div className="relative flex flex-col items-center pt-20 pb-20 text-center">
           {/* .fireside-hero-logo-wrapper — render badge icon (JSX) | text badge | image logo */}

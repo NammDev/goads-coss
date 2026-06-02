@@ -29,16 +29,27 @@ export function HomeHero() {
         aria-hidden="true"
       />
 
-      {/* .home-hero-sticky: animated on scroll */}
+      {/* .home-hero-sticky: animated on scroll (desktop). On ≤991px Foreplay
+          disables the pin (position:static) + shows the hero fully — the
+          `home-hero-sticky-anim` class + globals rule force static/opacity:1/
+          transform:none with !important (beats the inline animation styles +
+          the JS hook), so the scroll-scale effect is desktop-only. */}
       <div
         ref={stickyRef}
-        className="sticky top-[132px] [transform-style:preserve-3d] [will-change:opacity,transform]"
+        className="home-hero-sticky-anim sticky top-[132px] [transform-style:preserve-3d] [will-change:opacity,transform]"
         style={{ opacity: 0, transform: "translate3d(0, -33%, 0) scale3d(0.75, 0.75, 1)" }}
       >
-        {/* .home-hero-top */}
-        <div className="flex flex-col items-center gap-10 pt-3 pb-20 -mt-3">
+        {/* .home-hero-top — pb 80px desktop/tablet, 48px @≤479 (Foreplay) */}
+        <div className="flex flex-col items-center gap-10 pt-3 pb-20 -mt-3 max-fp-sm:pb-12">
           <HeroContent
-            title={"Premium Meta Assets\nBuilt for Winning Campaigns"}
+            title={
+              <>
+                {/* Mobile (<768): shorter 2-line title (full size, no shrink) */}
+                <span className="md:hidden">Meta Assets<br />Winning Campaigns</span>
+                {/* Desktop (≥768): full title */}
+                <span className="hidden md:inline">Premium Meta Assets<br />Built for Winning Campaigns</span>
+              </>
+            }
             description="GOADS provides verified Business Managers, agency ad accounts, profiles, pages, and Meta infrastructure for teams scaling serious campaigns."
           />
 

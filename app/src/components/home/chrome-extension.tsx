@@ -14,14 +14,17 @@ import { SectionContainer } from "@/components/atoms/section-container"
 export function HomeChromeExtension() {
   return (
     <SectionContainer>
-      <div className="relative flex gap-10 overflow-hidden rounded-[32px] p-10 shadow-[0_0_0_1px_var(--solid-700)]">
+      {/* .home-extension — Foreplay mobile cascade: ≤767 stack to column;
+          ≤479 hidden (Chrome extension promo is pointless on phones — Foreplay
+          hides it too via display:none @479). */}
+      <div className="relative flex gap-10 overflow-hidden rounded-[32px] p-10 shadow-[0_0_0_1px_var(--solid-700)] max-md:flex-col">
         {/* .home-extension-logo: absolute, left -4%, opacity 50% */}
         <figure className="absolute inset-y-0 left-[-4%] flex w-[128px] items-center justify-start opacity-50">
           <ChromeLogo />
         </figure>
 
-        {/* .home-extension-content */}
-        <div className="flex flex-1 flex-col gap-5 pl-20">
+        {/* .home-extension-content — pl-20 desktop, pl-0 ≤767 (Foreplay) */}
+        <div className="flex flex-1 flex-col gap-5 pl-20 max-md:pl-0">
           {/* .home-extension-title */}
           <div className="flex max-w-[480px] flex-col gap-2">
             <div className="text-[var(--alpha-50)]">
@@ -67,8 +70,8 @@ export function HomeChromeExtension() {
           </div>
         </div>
 
-        {/* .home-extension-cta */}
-        <div className="flex items-end justify-end">
+        {/* .home-extension-cta — ≤767 stack full-width (Foreplay flex-flow column, items stretch) */}
+        <div className="flex items-end justify-end max-md:flex-col max-md:items-stretch max-md:justify-start">
           <CtaButton href="/tools/goads-extension" variant="hero">
             Install Free
           </CtaButton>

@@ -17,8 +17,6 @@ export const footerLinkCategories: FooterLinkCategory[] = [
       { label: "Unban Service", href: "/unban" },
       { label: "Blue Verification", href: "/blue-verification" },
       { label: "Facebook Agency", href: "/agency-ad-account" },
-      { label: "Google Agency", href: "/google-agency" },
-      { label: "TikTok Agency", href: "/tiktok-agency" },
     ],
   },
   {

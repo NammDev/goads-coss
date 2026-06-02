@@ -54,12 +54,12 @@ export function Header() {
           .container wins for max-width:1440px + padding:0 40px (comes later in CSS than .navbar-container)
           .navbar-container adds: display:flex, justify-content:space-between, align-items:center
           position:relative + px-2 (8px) + z-5 are MOBILE ONLY (.container.navbar-container inside @media ≤991px) */}
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-10">
+      <div className="mx-auto flex max-w-site items-center justify-between px-2 fp-lg:px-10">
         {/* .nav-stack — DESKTOP: flex gap-9 items-center justify-between w-full p-4 relative
             (py-3 and h-[72px] are MOBILE ONLY overrides)
             CRITICAL: position:relative here is the positioning context for child nav.nav-dropdown-menu
             which uses position:absolute top:100% left:0% right:0% — escaping through .nav-dropdown (static). */}
-        <div className="relative flex w-full items-center justify-between gap-9 p-4">
+        <div className="relative flex w-full items-center justify-between gap-9 p-4 max-fp-lg:h-[72px] max-fp-lg:py-3">
           {/* .nav-brand.w-nav-brand — source: z-5 rounded-10 p-1 (custom .nav-brand adds rounded-10 + p-1) */}
           <LogoLink
             aria-label="GoAds home"
@@ -80,10 +80,13 @@ export function Header() {
           {/* Mobile hamburger — sibling of .nav-brand in our React implementation (shown only ≤991px) */}
           <HeaderMobileMenu />
 
-          {/* nav.nav-menu.w-nav-menu — source: flex-1 position:static (desktop only) */}
+          {/* nav.nav-menu.w-nav-menu — source: flex-1 position:static (desktop only)
+              Switch at 992px to match Foreplay (Webflow 991 breakpoint): full nav ≥992,
+              hamburger ≤991. Pairs with HeaderMobileMenu trigger (fp-lg:hidden).
+              Fixes the 768–1023 dead zone where neither nav nor hamburger showed. */}
           <nav
             role="navigation"
-            className="static hidden flex-1 max-md:hidden lg:block"
+            className="static hidden flex-1 fp-lg:block"
           >
             {/* .nav-menu-inner — source: flex justify-between (NO gap, NO items-center) */}
             <div className="flex justify-between">

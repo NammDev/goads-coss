@@ -102,8 +102,9 @@ export function UniversityFeatureRow({
   )
 
   return (
-    // .left-right-section — [SRC] display:flex; place-items:center; gap:40px
-    <div className="flex items-center gap-10">
+    // .left-right-section — flex row desktop; Foreplay stacks to column ≤991
+    // (text + visual would otherwise squish side-by-side on mobile).
+    <div className="flex items-center gap-10 max-fp-lg:flex-col max-fp-lg:items-start">
       {reversed ? (
         <>
           {imageBlock}

@@ -7,6 +7,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Foreplay parity design tokens (Tailwind v4 @theme).
+   Foreplay is a Webflow site → its breakpoints are 991/767/479 and its content
+   width is 1440px, none of which match Tailwind's defaults (1024/768/640, 1280).
+   Define named tokens so components reference `fp-lg:`/`max-fp-lg:`/`max-w-site`
+   instead of scattered magic numbers — single source of truth, parity preserved.
+     fp-sm = 480px  → `max-fp-sm:` ≈ Foreplay ≤479
+     fp-lg = 992px  → `fp-lg:` ≈ ≥992 (full nav), `max-fp-lg:` ≈ ≤991 (mobile nav)
+     (the 767 tier maps to Tailwind's built-in `md` / `max-md:`)
+   max-w-site = 1440px (Foreplay .container width). */
+@theme {
+  --breakpoint-fp-sm: 480px;
+  --breakpoint-fp-lg: 992px;
+  --container-site: 1440px;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #0f1419;
@@ -751,4 +766,15 @@ a.link-animated:hover::before {
   --sidebar-border: hsl(240 3.7% 15.9%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
+}
+
+/* Home hero scroll-animation is desktop-only. On ≤991px (Foreplay parity) the
+   sticky pin + 3D scale/fade are disabled so the hero renders normally — the
+   !important beats the inline animation styles set in hero.tsx + the JS hook. */
+@media (max-width: 991px) {
+  .home-hero-sticky-anim {
+    position: static !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

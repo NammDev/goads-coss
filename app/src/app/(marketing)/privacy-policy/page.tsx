@@ -8,7 +8,7 @@
 //           .section-head_title
 //             h1.text-display-h2 "Privacy Policy"
 //   .section-white-block (bg white, color solid-700 dark, rounded-[36px])
-//     .container (wide, max-w-[1440px], px-10)
+//     .container (wide, max-w-site, px-10)
 //       .v-padding-50 (spacer: py-[25px])
 //       .blog-rtb > .text-solid-700 > .w-richtext (rich text content)
 //       .v-padding-50 (spacer: py-[25px])
@@ -52,7 +52,7 @@ export default function PrivacyPolicyPage() {
 
       {/* .section-white-block — bg white, rounded-[36px], text color solid-700 (dark on white) */}
       <SectionWhiteBlock>
-        {/* .container (wide variant per source — max-w-[1440px] px-10) */}
+        {/* .container (wide variant per source — max-w-site px-10) */}
         <SectionContainer variant="wide">
           {/* .v-padding-50 — empty spacer (padding: 25px 0) */}
           <div className="py-[25px]" />
