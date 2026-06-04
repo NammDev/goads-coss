@@ -34,14 +34,16 @@ export function SenjaReviewCard({
   return (
     <div
       className={cn(
-        "flex h-full flex-col gap-2 rounded-xl border border-[hsl(0,0%,90%)] bg-white p-4 text-left font-sans text-base text-[#374151]",
+        "flex h-full flex-col gap-2 rounded-xl border border-[var(--solid-100)] bg-white p-4 text-left font-sans text-base text-[var(--solid-700)]",
+        // Subtle lift on hover for a refined, interactive feel.
+        "transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_12px_28px_-12px_rgba(0,0,0,0.18)]",
         className,
       )}
     >
       {/* Endorser row: avatar + name + spacer + platform icon */}
       <div className="flex items-center gap-2">
         {/* Avatar — 42px circle */}
-        <div className="flex size-[42px] shrink-0 items-center justify-center rounded-full bg-black text-xs font-medium text-[#757575]">
+        <div className="flex size-[42px] shrink-0 items-center justify-center rounded-full bg-[var(--solid-100)] text-xs font-medium text-[var(--solid-400)]">
           {avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -55,7 +57,7 @@ export function SenjaReviewCard({
           )}
         </div>
         {/* Name */}
-        <div className="min-w-0 flex-1 truncate font-semibold text-[#374151]">
+        <div className="min-w-0 flex-1 truncate font-semibold tracking-[-0.01125em] text-[var(--solid-900)]">
           {name}
         </div>
         {/* Platform icon */}
@@ -72,7 +74,7 @@ export function SenjaReviewCard({
       </div>
 
       {/* Review content — line-clamp 10, exact Senja -webkit-box approach */}
-      <div className="text-left text-[#374151]">
+      <div className="text-left text-[var(--solid-700)] leading-6 tracking-[-0.01125em]">
         <div
           style={{
             overflow: "hidden",
@@ -85,8 +87,8 @@ export function SenjaReviewCard({
         </div>
       </div>
 
-      {/* Date — opacity 0.7, pushed to bottom */}
-      <div className="mt-auto pt-2 text-xs opacity-70">
+      {/* Date — muted solid token, pushed to bottom */}
+      <div className="mt-auto pt-2 text-[0.75rem] leading-5 text-[var(--solid-400)]">
         {date}
       </div>
     </div>

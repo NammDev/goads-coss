@@ -173,7 +173,7 @@ export function renderIDCard(canvas: HTMLCanvasElement, fields: IDFields): void 
   ctx.fillStyle = "rgba(255,255,255,0.5)";
   ctx.textBaseline = "middle";
   ctx.fillText(
-    "FOR TESTING / EDUCATIONAL PURPOSES ONLY — NOT A REAL DOCUMENT",
+    "FOR TESTING / EDUCATIONAL PURPOSES ONLY, NOT A REAL DOCUMENT",
     24,
     H - 25
   );

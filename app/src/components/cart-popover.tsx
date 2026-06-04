@@ -132,7 +132,7 @@ export function CartPopover() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src='/assets/logo/mark.png'
-                  alt='GoAds'
+                  alt='GOADS'
                   className='h-9 w-auto object-contain'
                 />
                 <span className='text-[22px] font-bold leading-none tracking-tight text-[#14161A]'>

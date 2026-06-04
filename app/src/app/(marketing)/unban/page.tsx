@@ -46,7 +46,7 @@ export default function UnbanPage() {
         <div className="flex flex-col items-center gap-10 pt-3 pb-10 max-md:gap-8 max-md:pb-6">
           {/* Subtitle — Foreplay body-l in alpha-50, max-w 640px for readability */}
           <p className="max-w-[640px] text-center font-sans text-[1.125rem] font-normal leading-7 tracking-[-0.0144em] text-[var(--alpha-50)] [text-wrap:balance]">
-            Disabled BM? Banned profile? Page restricted? We recover Meta assets via official appeal channels — no shady workarounds, no short-term fixes.
+            Disabled BM? Banned profile? Page restricted? We recover Meta assets via official appeal channels, no shady workarounds, no short-term fixes.
           </p>
 
           {/* Primary CTA — Foreplay hero variant (white pill) */}

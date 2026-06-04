@@ -72,7 +72,7 @@ function applyWatermark(
 
 export function BatchWatermarkContent() {
   const [images, setImages] = useState<ImageFile[]>([]);
-  const [text, setText] = useState("GoAds.shop");
+  const [text, setText] = useState("GOADS.shop");
   const [fontSize, setFontSize] = useState(24);
   const [color, setColor] = useState("#ffffff");
   const [opacity, setOpacity] = useState(50);

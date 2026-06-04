@@ -55,7 +55,7 @@ export const helpTabs: HelpTab[] = [
     slug: "getting-started",
     icon: Rocket,
     items: [
-      { title: "Welcome to GoAds Help", slug: "welcome" },
+      { title: "Welcome to GOADS Help", slug: "welcome" },
       { title: "Creating Your Account", slug: "create-account" },
       { title: "Navigating the Dashboard", slug: "dashboard-overview" },
     ],

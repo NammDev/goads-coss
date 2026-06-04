@@ -145,7 +145,7 @@ export function DocsSidebar() {
                 blend (punch-through) while the white wordmark/G stay visible. */}
             <Link
               href="/"
-              aria-label="GoAds — back to main site"
+              aria-label="GOADS, back to main site"
               className="inline-flex max-w-full min-w-0 items-center truncate"
             >
               <FooterLogoSvg

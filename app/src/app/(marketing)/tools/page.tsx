@@ -19,7 +19,7 @@ const tools: ToolCard[] = [
   { title: "Split Data Profile", description: "Split text by delimiter, line, or token.", href: "/tools/split-data" },
   { title: "IP Checker", description: "Public IP address, geolocation, and ISP info.", href: "/tools/check-ip" },
   { title: "GOADS Extension", description: "Free Chrome extension for media buyers.", href: "/tools/goads-extension" },
-  { title: "Temp Mail", description: "Disposable inbox, instant — no signup.", href: "/tempmail" },
+  { title: "Temp Mail", description: "Disposable inbox, instant, no signup.", href: "/tempmail" },
 ]
 
 export default function ToolsPage() {

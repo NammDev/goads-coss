@@ -140,7 +140,7 @@ export function BlogDetailContent({
               ctaLabel="Start free trial"
               thumbnail={{
                 src: "/assets/hero.webp",
-                alt: "GoAds product preview",
+                alt: "GOADS product preview",
               }}
             />
           </div>

@@ -54,7 +54,7 @@ export function NavBanner3dLogo({
                 <img
                   key={i}
                   src="/assets/cta/verified-panda.svg"
-                  alt={i === 0 ? "GoAds" : ""}
+                  alt={i === 0 ? "GOADS" : ""}
                   aria-hidden={i !== 0}
                   className="absolute inset-0 size-full object-contain"
                   style={{ transform: `translateZ(${z}px)`, filter: `brightness(${brightness})` }}

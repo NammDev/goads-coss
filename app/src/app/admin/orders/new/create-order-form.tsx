@@ -101,7 +101,7 @@ export function CreateOrderForm({ customers, products }: Props) {
               <SelectContent>
                 {customers.map((c) => (
                   <SelectItem key={c.id} value={c.id}>
-                    {c.name} — {c.email}
+                    {c.name}, {c.email}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -141,7 +141,7 @@ export function CreateOrderForm({ customers, products }: Props) {
                     <SelectContent>
                       {products.map((p) => (
                         <SelectItem key={p.id} value={p.id}>
-                          {p.name} — {formatUSD(p.price)}
+                          {p.name}, {formatUSD(p.price)}
                         </SelectItem>
                       ))}
                     </SelectContent>

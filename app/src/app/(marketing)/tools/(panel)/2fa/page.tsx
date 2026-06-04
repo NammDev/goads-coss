@@ -7,9 +7,9 @@ import { ToolBody } from "@/components/tools/body"
 import { ToolHeader } from "@/components/tools/header"
 import { TwoFaTool } from "@/components/tools/two-fa"
 export const metadata: Metadata = {
-  title: "2FA Code Generator | GoAds Tools",
+  title: "2FA Code Generator | GOADS Tools",
   description:
-    "Generate TOTP two-factor authentication codes from your 2FA secrets. Browser-only — no signup, no server.",
+    "Generate TOTP two-factor authentication codes from your 2FA secrets. Browser-only, no signup, no server.",
 }
 
 function ShieldCheckIcon() {

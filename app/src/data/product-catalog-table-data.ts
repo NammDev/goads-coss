@@ -17,8 +17,8 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "Facebook Profiles", basic: false, workflow: false, agency: false, enterprise: false, isProduct: true, productHref: "/profiles", subtitle: "Aged, verified, ready to scale" },
       { name: "Premium Asia Reinstated Profile", basic: "$40", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Premium USA Reinstated Profile", basic: "$50", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Asia Super Aged (7+ Years) Double Reinstated", basic: "$95", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "USA Super Aged (7+ Years) Double Reinstated", basic: "$110", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", hasCrown: true },
+      { name: "Asia Super Aged Double Reinstated (7+ Years)", basic: "$95", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "USA Super Aged Double Reinstated (7+ Years)", basic: "$110", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", hasCrown: true },
     ],
   },
   {

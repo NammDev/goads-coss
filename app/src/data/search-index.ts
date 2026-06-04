@@ -47,7 +47,7 @@ export const SEARCH_CATEGORIES: Record<
 // ---------------------------------------------------------------------------
 
 const PAGES: SearchItem[] = [
-  { id: "p-home", title: "Home", description: "GoAds homepage", href: "/", category: "pages", icon: Home, keywords: "home landing goads" },
+  { id: "p-home", title: "Home", description: "GOADS homepage", href: "/", category: "pages", icon: Home, keywords: "home landing goads" },
   { id: "p-bm", title: "Business Manager", description: "Buy Meta Business Manager accounts", href: "/bm", category: "pages", icon: ShoppingCart, keywords: "bm business manager meta facebook" },
   { id: "p-agency", title: "Agency Ad Account", description: "Meta agency ad accounts for scaling", href: "/agency", category: "pages", icon: ShoppingCart, keywords: "agency ad account meta facebook" },
   { id: "p-google", title: "Google Agency", description: "Google whitelisted agency accounts", href: "/google-agency", category: "pages", icon: ShoppingCart, keywords: "google ads agency whitelisted" },

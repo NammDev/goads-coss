@@ -16,7 +16,7 @@ export function HomeCta() {
       <SectionHead
         title="Your next winning campaign starts here"
         titleTag="h2" titleSize="h2"
-        description="Join 500+ advertisers who trust GoAds. Stable assets, real support, instant replacement."
+        description="Join 500+ advertisers who trust GOADS. Stable assets, real support, instant replacement."
         descSize="l"
         variant="light"
         size="large"
@@ -41,7 +41,7 @@ export function HomeCta() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/assets/cta-command-center.webp"
-          alt="GoAds account infrastructure command center"
+          alt="GOADS account infrastructure command center"
           width={1440}
           height={966}
           className="h-auto w-full max-w-[1037px] [mask-image:linear-gradient(to_bottom,black_62%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_62%,transparent_98%)]"

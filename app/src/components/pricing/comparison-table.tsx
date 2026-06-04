@@ -126,7 +126,7 @@ function CrownBadge() {
 // Inline crown shown only ≤768px (next to the feature name) since the left "tab" badge is hidden.
 function CrownInline() {
   return (
-    <div className="hidden size-[18px] shrink-0 text-[var(--solid-700)] max-md:block" aria-label="Only with GoAds">
+    <div className="hidden size-[18px] shrink-0 text-[var(--solid-700)] max-md:block" aria-label="Only with GOADS">
       <CrownGlyph />
     </div>
   )
@@ -230,7 +230,7 @@ const sampleCategories: ComparisonCategory[] = [
       { name: "Data Look-back Limit", basic: false, workflow: "Unlimited", agency: "Unlimited", enterprise: "Unlimited" },
       { name: "Top Performing Reports", basic: false, workflow: "Unlimited", agency: "Unlimited", enterprise: "Unlimited" },
       { name: "Comparison Reports", basic: false, workflow: "Unlimited", agency: "Unlimited", enterprise: "Unlimited" },
-      { name: "GoAds Creative Scores", basic: false, workflow: true, agency: true, enterprise: true },
+      { name: "GOADS Creative Scores", basic: false, workflow: true, agency: true, enterprise: true },
       { name: "White-Label Sharing", basic: false, workflow: true, agency: true, enterprise: true },
       { name: "Custom Metric Builder", basic: false, workflow: "Coming soon", agency: "Coming soon", enterprise: "Coming soon", hasCrown: true },
     ],

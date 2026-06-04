@@ -5,7 +5,7 @@ import { ToolHeader } from "@/components/tools/header"
 import { CheckUidTool } from "@/components/tools/check-uid"
 
 export const metadata: Metadata = {
-  title: "Check Live UID | GoAds Tools",
+  title: "Check Live UID | GOADS Tools",
   description: "Check if Facebook UIDs are live or dead accounts.",
 }
 

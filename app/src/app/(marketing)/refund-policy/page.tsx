@@ -8,9 +8,9 @@ import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
 import { foreplayRefundPolicyContent } from "@/data/refund-policy-content"
 
 export const metadata: Metadata = {
-  title: "Refund Policy | GoAds",
+  title: "Refund Policy | GOADS",
   description:
-    "GoAds Refund Policy — replacement-only warranty terms for Business Managers and Facebook Profiles, exclusions, and how to request a replacement.",
+    "GOADS Refund Policy, replacement-only warranty terms for Business Managers and Facebook Profiles, exclusions, and how to request a replacement.",
 }
 
 export default function RefundPolicyPage() {

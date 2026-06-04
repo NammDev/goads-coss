@@ -12,7 +12,7 @@ import { ProductPageFeatureGridCards } from "@/components/product/page-feature-g
 import { partnersHero, partnersOffers } from "@/data/partners-page-data"
 
 export const metadata: Metadata = {
-  title: "Partners | GoAds Affiliate & Reseller Program",
+  title: "Partners | GOADS Affiliate & Reseller Program",
   description:
     "Take advantage of exclusive discounts from our trusted partners in the ad-tech ecosystem.",
 }
@@ -34,7 +34,7 @@ export default function PartnersPage() {
         <div className="flex flex-col items-center gap-8 pt-3 pb-10 max-md:gap-6 max-md:pb-6">
           <p className="max-w-[820px] text-center font-sans text-[1.0625rem] font-normal leading-[1.6] tracking-[-0.0125em] text-[var(--alpha-50)] [text-wrap:balance]">
             Take advantage of exclusive discounts from the leading tools in the
-            ad-tech ecosystem — handpicked for GoAds clients.
+            ad-tech ecosystem, handpicked for GOADS clients.
           </p>
           <CtaButton href="#partners" variant="hero">
             View Offers

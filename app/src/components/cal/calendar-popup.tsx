@@ -37,7 +37,7 @@ export function CalendarPopup() {
           type="button"
           onClick={() => setOpen((prev) => !prev)}
           aria-expanded={open}
-          aria-label={open ? "Close support" : "Open GoAds support"}
+          aria-label={open ? "Close support" : "Open GOADS support"}
           className={cn(
             "group flex cursor-pointer items-center gap-2.5 rounded-full",
             "bg-[var(--solid-900)] text-white",

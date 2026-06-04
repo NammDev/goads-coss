@@ -6,7 +6,7 @@ import { HomeCta } from "@/components/home/cta"
 import { blogPosts, getFeaturedPost, getPopularPosts } from "@/data/blog-posts"
 
 export const metadata: Metadata = {
-  title: "Blog — GoAds",
+  title: "Blog, GOADS",
   description:
     "Free insights and guides for scaling your ad accounts. Tips on Meta Ads, Google Ads, TikTok Ads, and more.",
 }

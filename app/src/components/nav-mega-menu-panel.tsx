@@ -66,7 +66,7 @@ export function AgencyPanel() {
       <MenuColumn label="By Platform" items={AGENCY_ACCOUNTS} />
       <CtaCard
         title="Ready-to-Use Setups"
-        description="Skip the hassle — BMs, profiles, pages, pixels & domains fully configured."
+        description="Skip the hassle, BMs, profiles, pages, pixels & domains fully configured."
         primaryLabel="Explore Setups"
         primaryHref="/pricing"
         secondaryLabel="Talk to Sales"
@@ -93,7 +93,7 @@ export function ProductsPanel() {
       <MenuColumn label="Services" items={PRODUCT_SERVICES} />
       <CtaCard
         title="Ready-to-Use Setups"
-        description="Complete ad infrastructure — BMs, profiles, pages, pixels & domains — fully configured."
+        description="Complete ad infrastructure, BMs, profiles, pages, pixels & domains, fully configured."
         primaryLabel="Explore Setups"
         primaryHref="/pricing"
         secondaryLabel="Talk to Sales"
@@ -148,9 +148,9 @@ export function ToolsPanel() {
               </div>
             </div>
             <div className="text-center">
-              <p className="text-sm font-semibold text-foreground">GoAds Toolbox</p>
+              <p className="text-sm font-semibold text-foreground">GOADS Toolbox</p>
               <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-                9 free tools built for media buyers — data processing, security & utilities.
+                9 free tools built for media buyers, data processing, security & utilities.
               </p>
             </div>
           </div>

@@ -137,7 +137,7 @@ export function HomeSharing() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/assets/portal-tablet-mockup.webp"
-          alt="GoAds account infrastructure dashboard on tablet"
+          alt="GOADS account infrastructure dashboard on tablet"
           className="size-full object-contain object-left-top"
           loading="lazy"
         />

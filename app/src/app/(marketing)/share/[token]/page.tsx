@@ -54,7 +54,7 @@ export default async function PublicSharePage({ params }: { params: Promise<{ to
       {!isLoggedIn && (
         <PageHero
           label="Your Order is Ready"
-          heading="Welcome to GoAds"
+          heading="Welcome to GOADS"
           description="Your order details are below. Create a free account to manage all your orders, get exclusive pricing, and reorder in seconds."
         >
           <div className="flex justify-center gap-3">
@@ -72,14 +72,14 @@ export default async function PublicSharePage({ params }: { params: Promise<{ to
       {!isLoggedIn && (
         <section className="container py-10 lg:py-12">
           <div className="mx-auto max-w-4xl space-y-8">
-            <h2 className="text-center text-xl font-semibold">Get more from GoAds</h2>
+            <h2 className="text-center text-xl font-semibold">Get more from GOADS</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {/* Large card — spans 2 cols */}
               <div className="bg-card space-y-3 rounded-xl border p-6 sm:col-span-2">
                 <PackageIcon className="text-primary size-6" />
                 <h3 className="text-base font-semibold">All Orders in One Place</h3>
                 <p className="text-muted-foreground text-sm">
-                  View full order history, track delivery &amp; warranty status, access credentials anytime. No more share links — everything lives in your dashboard.
+                  View full order history, track delivery &amp; warranty status, access credentials anytime. No more share links, everything lives in your dashboard.
                 </p>
               </div>
               <div className="bg-card space-y-3 rounded-xl border p-6">
@@ -93,7 +93,7 @@ export default async function PublicSharePage({ params }: { params: Promise<{ to
                 <RefreshCwIcon className="text-primary size-6" />
                 <h3 className="text-base font-semibold">Reorder in Seconds</h3>
                 <p className="text-muted-foreground text-sm">
-                  Same product, same specs — 2 clicks. No back-and-forth needed.
+                  Same product, same specs, 2 clicks. No back-and-forth needed.
                 </p>
               </div>
               <div className="bg-card space-y-3 rounded-xl border p-6">
