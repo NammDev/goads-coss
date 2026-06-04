@@ -9,7 +9,7 @@
 
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -38,6 +38,8 @@ export function HeaderMobileMenu() {
   const [open, setOpen] = useState(false)
   const [expanded, setExpanded] = useState<string | null>(null)
   const pathname = usePathname()
+  const panelRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => { setOpen(false); setExpanded(null) }, [pathname])
   useEffect(() => {
@@ -47,6 +49,21 @@ export function HeaderMobileMenu() {
     return () => { document.body.style.overflow = prev }
   }, [open])
 
+  // Close when pointer goes down outside the panel (and outside the toggle —
+  // the button's own onClick handles toggling). No backdrop, so the page stays
+  // visible; this just dismisses the menu on any outside tap/click.
+  useEffect(() => {
+    if (!open) return
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Node
+      if (panelRef.current?.contains(target)) return
+      if (buttonRef.current?.contains(target)) return
+      setOpen(false)
+    }
+    document.addEventListener("pointerdown", onPointerDown)
+    return () => document.removeEventListener("pointerdown", onPointerDown)
+  }, [open])
+
   const close = () => setOpen(false)
 
   return (
@@ -54,6 +71,7 @@ export function HeaderMobileMenu() {
       {/* .nav-menu-button.w-nav-button — Foreplay icon (kept as-is when open, NO X morph).
           .w--open @991: z-index:5; background-color:neutral-800. */}
       <button
+        ref={buttonRef}
         type="button"
         aria-label="menu"
         aria-expanded={open}
@@ -72,6 +90,7 @@ export function HeaderMobileMenu() {
       </button>
 
       <div
+        ref={panelRef}
         className={cn(
           "absolute top-full right-0 left-0 z-[90] origin-top fp-lg:hidden",
           "flex max-h-[calc(100dvh-72px)] flex-col items-stretch gap-3 overflow-y-auto",

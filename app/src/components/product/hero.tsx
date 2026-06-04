@@ -76,8 +76,11 @@ export function ProductHero({
       >
         {/* .product-hero-icon — 256x256 slot, mt-[-40px] mb-[-24px] (desktop), p-8 (tablet), p-6 (mobile).
             Flex-center so the static SVG variant (no video) sits at its natural ~200px size centered
-            inside the 256px box, matching Foreplay's original video-icon proportions. */}
-        <div className="relative flex size-64 items-center justify-center -mt-10 -mb-6 max-md:size-auto max-md:p-8 max-sm:p-6">
+            inside the 256px box, matching Foreplay's original video-icon proportions.
+            Foreplay's negative margins are DESKTOP-ONLY — on tablet/mobile the icon uses
+            padding only (no margin pull), so reset my-0 at max-md to stop the icon being
+            yanked up under the header on small screens. */}
+        <div className="relative flex size-64 items-center justify-center -mt-10 -mb-6 max-md:my-0 max-md:size-auto max-md:p-8 max-sm:p-6">
           {/* .product-hero-icon-video — animated icon, fills parent */}
           {iconVideoSrc && (
             <div className="absolute inset-0 z-[1]">

@@ -6,7 +6,8 @@
 
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { fontInter } from "@/fonts"
 import { siteText } from "@/components/atoms/typography"
@@ -15,6 +16,13 @@ import { ActionPlanCard } from "@/components/misc/action-plan-card"
 
 export function CalendarPopup() {
   const [open, setOpen] = useState(false)
+
+  // Auto-close the support card on route change (per UX decision: don't carry
+  // the open overlay across navigations). The trigger chip itself stays.
+  const pathname = usePathname()
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   return (
     <div
