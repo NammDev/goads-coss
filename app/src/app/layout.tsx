@@ -18,20 +18,20 @@ const clerkProxyUrl = process.env.NEXT_PUBLIC_CLERK_PROXY_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.goads.shop"),
-  title: "Agency Ad Accounts | 7-Day Warranty + 24/7 Support | GoAds",
+  title: "Agency Ad Accounts | 7-Day Warranty + 24/7 Support | GOADS",
   description:
     "Buy verified Business Managers & agency ad accounts. 3,242+ BMs sold, 7-day warranty, 24/7 support. Scale your Facebook ads without bans.",
   openGraph: {
-    title: "GoAds - Agency Ad Accounts",
+    title: "GOADS - Agency Ad Accounts",
     description:
       "Stop Losing Accounts. Start Scaling. 7-day warranty, 24/7 support.",
     url: "https://www.goads.shop",
     type: "website",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "GoAds - Agency Ad Accounts" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "GOADS - Agency Ad Accounts" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GoAds - Agency Ad Accounts",
+    title: "GOADS - Agency Ad Accounts",
     images: ["/og-image.png"],
   },
   robots: {

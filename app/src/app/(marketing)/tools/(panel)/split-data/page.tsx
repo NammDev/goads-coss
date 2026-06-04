@@ -5,7 +5,7 @@ import { ToolHeader } from "@/components/tools/header"
 import { SplitDataTool } from "@/components/tools/split-data"
 
 export const metadata: Metadata = {
-  title: "Split Data Profile | GoAds Tools",
+  title: "Split Data Profile | GOADS Tools",
   description: "Split text by delimiter into separate columns.",
 }
 

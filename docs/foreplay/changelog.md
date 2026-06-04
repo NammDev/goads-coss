@@ -790,3 +790,5 @@ Verbatim Foreplay carousel spec (verified from `foreplay-source.css`):
 
 - [x] Clone 404 / not-found page ✅ (`app/src/app/not-found.tsx` — reuses ForeplaySectionHead + ForeplayCtaButton; gradient 404, skittles video, Return Home; renders for all unmatched routes)
 - [x] Re-clone contact-channel card (Telegram/WhatsApp/Email) to `.home-winning-card` spec ✅ (`foreplay-contact-channels.tsx` — rounded-[24px], `shadow-[0_0_0_1px_var(--fp-solid-50)]` hairline ring, p-6, gap-6, icon tile rounded-[12px] + alpha-600 border, cubic-bezier(.19,1,.22,1) transition)
+
+- [x] Align /book-demo to Foreplay theme ✅ (260604) — DemoHero title → `siteText.displayH2` (responsive Inter Display scale); `.demo-hero` padding 64/80 → 120px (Foreplay) w/ 80 tablet / 64 mobile; `.demo-hero-top` pb-12 → pb-10 (≈logo-grid mt 40px); `.demo-socialproof` py-20 → py-16 (Foreplay 64px); Senja review card recolored to `--solid-*` tokens (border `--solid-100`, name `--solid-900`, body/date `--solid-700`/`--solid-400`) + Inter tracking `-0.01125em`. Content + marquee animation unchanged.

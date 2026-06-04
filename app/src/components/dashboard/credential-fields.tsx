@@ -57,7 +57,7 @@ export function CredentialFields({
   if (SERVICE_TYPES.includes(productType)) {
     return (
       <p className="text-muted-foreground text-sm italic">
-        Status tracked via order — no credentials to display.
+        Status tracked via order, no credentials to display.
       </p>
     )
   }

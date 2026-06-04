@@ -140,7 +140,7 @@ export function CheckUidTool() {
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={"100012345678\nor paste the full profile row — UID is auto-extracted"}
+          placeholder={"100012345678\nor paste the full profile row, UID is auto-extracted"}
           rows={5}
           spellCheck={false}
           className={cn(

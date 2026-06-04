@@ -72,6 +72,6 @@ export const technologyTabs = [
         <path stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" d="M16.25 14.75v-9.5c0-.83-.67-1.5-1.5-1.5h-9.5c-.83 0-1.5.67-1.5 1.5v9.5c0 .83.67 1.5 1.5 1.5h9.5c.83 0 1.5-.67 1.5-1.5ZM7 13v-2.25M10 13V7m3 6V9.25" />
       </svg>
     ),
-    label: "GoAds Extensions",
+    label: "GOADS Extensions",
   },
 ]

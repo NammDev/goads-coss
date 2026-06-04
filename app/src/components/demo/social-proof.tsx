@@ -70,7 +70,7 @@ const socialProofItems = [
 
 export function DemoSocialProof() {
   return (
-    <div className="flex flex-col py-20">
+    <div className="flex flex-col py-16">
       {/* .demo-socailproof-head-copy: 2-col desktop; stack ≤991 so the icon grid
           gets full width below the heading (Foreplay stacks this on mobile). */}
       <div className="grid grid-cols-[1fr_1fr] items-stretch gap-4 max-fp-lg:grid-cols-1">
@@ -84,7 +84,7 @@ export function DemoSocialProof() {
           <div className="[text-wrap:balance]">
             <div className="text-[var(--solid-600)]">
               <p className={siteText.bodyL}>
-                Thousands of advertisers and agencies scale on GoAds infrastructure every day.
+                Thousands of advertisers and agencies scale on GOADS infrastructure every day.
               </p>
             </div>
           </div>

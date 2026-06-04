@@ -12,30 +12,26 @@ import { HomeHeroBottom } from "@/components/home/hero-bottom"
 import { CalEmbed } from "@/components/cal/embed"
 
 export function DemoHero() {
+  // .demo-hero vertical rhythm — tightened top (single-column centered layout
+  // doesn't need Foreplay's full 120px). 48px top / 80px bottom, scales down on mobile.
   return (
-    <div className="flex flex-col items-center pt-16 pb-20">
-      {/* .demo-hero-top: flex col, gap-10, pb-12 */}
-      <div className="flex w-full flex-col items-center gap-10 pb-12">
+    <div className="flex flex-col items-center pt-12 pb-20 max-sm:pt-8 max-sm:pb-16">
+      {/* .demo-hero-top: flex col, gap-10 (40px); pb-10 ≈ Foreplay logo-grid margin-top 40px */}
+      <div className="flex w-full flex-col items-center gap-10 pb-10">
         {/* .hero-text: flex col, gap-3, items-center, max-w-[900px], centered */}
         <div className="flex max-w-[900px] flex-col items-center gap-3 text-center [text-wrap:balance]">
           {/* .text-alpha-100 > .overline-heading-wrapper > h1.text-overline */}
           <div className="text-[var(--alpha-100)]">
-            <h1 className={siteText.overline}>Book a Demo</h1>
+            <h1 className={siteText.overline}>Book a Call</h1>
           </div>
-          {/* h1.text-display-h2 — Inter Display, 2.75rem/3.36rem */}
-          <h1
-            className={cn(
-              "font-display text-[2.75rem] font-semibold leading-[3.36rem] tracking-[-0.0075em]",
-              "[font-optical-sizing:auto] [text-wrap:balance]",
-              SITE_HERO_GRADIENT,
-            )}
-          >
-            1:1 Creative Solutions Call
+          {/* h1.text-display-h2 — Inter Display, responsive scale (Foreplay token) */}
+          <h1 className={cn(siteText.displayH2, "[text-wrap:balance]", SITE_HERO_GRADIENT)}>
+            Strategy Call
           </h1>
           {/* .text-alpha-50 > .text-body-l */}
           <div className="text-[var(--alpha-50)]">
             <div className={siteText.bodyL}>
-              Launch winning ads on repeat. Book a 30 minute call with one of creative solution reps and walkthrough how Foreplay can help scale your ad workflow.
+              Book a free 30-minute call with a GOADS account specialist. We&apos;ll map out the right Business Manager, profiles, and ad account setup to scale your Meta campaigns, and keep them running without disables.
             </div>
           </div>
         </div>

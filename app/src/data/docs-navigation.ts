@@ -58,7 +58,7 @@ export const docsTabs: DocsTab[] = [
     slug: "getting-started",
     icon: Rocket,
     items: [
-      { title: "WTF is GoAds??", slug: "what-is-agency-account" },
+      { title: "WTF is GOADS??", slug: "what-is-agency-account" },
       {
         title: "Chrome Extension",
         slug: "how-goads-works",

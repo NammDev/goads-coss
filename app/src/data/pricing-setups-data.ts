@@ -9,7 +9,7 @@ export const goadsPricingFaqItems = [
   {
     question: "What is your warranty policy?",
     answer:
-      "Profiles come with a 14-day unlimited warranty. Business Managers (BMs) include a 7-day warranty. Ad Accounts are covered under warranty until you begin spending. Policies may be updated — always confirm the exact warranty terms with our support team at the time of purchase.",
+      "Profiles come with a 14-day unlimited warranty. Business Managers (BMs) include a 7-day warranty. Ad Accounts are covered under warranty until you begin spending. Policies may be updated, always confirm the exact warranty terms with our support team at the time of purchase.",
   },
   {
     question: "How long does delivery take?",
@@ -19,17 +19,17 @@ export const goadsPricingFaqItems = [
   {
     question: "What happens if an asset gets restricted or banned?",
     answer:
-      "Replacements are provided free of charge within the warranty window. For assets outside warranty, our paid unban/recovery service can attempt to reinstate them — success rates and timelines are case-dependent. Message support for a quick assessment.",
+      "Replacements are provided free of charge within the warranty window. For assets outside warranty, our paid unban/recovery service can attempt to reinstate them, success rates and timelines are case-dependent. Message support for a quick assessment.",
   },
   {
     question: "Can I get a refund?",
     answer:
-      "Yes — refunds are issued for undelivered orders or assets that fail the warranty terms above. Refunds are reviewed case-by-case. Reach out to support and we'll resolve it quickly.",
+      "Yes, refunds are issued for undelivered orders or assets that fail the warranty terms above. Refunds are reviewed case-by-case. Reach out to support and we'll resolve it quickly.",
   },
   {
     question: "Do you offer bulk discounts for agencies?",
     answer:
-      "Yes. Volume-based discounts apply automatically as your order quantity grows. Agencies and high-volume advertisers can also unlock Enterprise pricing — talk to sales to lock in custom agency rates.",
+      "Yes. Volume-based discounts apply automatically as your order quantity grows. Agencies and high-volume advertisers can also unlock Enterprise pricing, talk to sales to lock in custom agency rates.",
   },
   {
     question: "How do I always get the most accurate pricing and specs?",
@@ -39,7 +39,7 @@ export const goadsPricingFaqItems = [
   {
     question: "What payment methods do you accept?",
     answer:
-      "We accept bank transfer, USDT, and major cryptocurrencies. Agency accounts can request invoicing or custom payment terms — contact our sales team to set this up.",
+      "We accept bank transfer, USDT, and major cryptocurrencies. Agency accounts can request invoicing or custom payment terms, contact our sales team to set this up.",
   },
 ]
 

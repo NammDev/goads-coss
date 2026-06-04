@@ -3,9 +3,9 @@
 // Product CTA Card (same video/icon, only title + description differ)
 export const profilesProductCta = {
   title: "Start scaling with stable profiles today",
-  description: "Every Facebook profile ships ID-verified, pre-warmed and backed by a 7-day warranty.\n\nSkip the disable loop — run ads without interruption.",
+  description: "Every Facebook profile ships ID-verified, pre-warmed and backed by a 7-day warranty.\n\nSkip the disable loop, run ads without interruption.",
   iconSrc: "/assets/cta/verified-panda.svg",
-  iconAlt: "GoAds panda mascot with verified badge",
+  iconAlt: "GOADS panda mascot with verified badge",
 }
 
 // Section 1: Hero — text-only variant (laptop preview + CTA removed).
@@ -37,9 +37,7 @@ export const profilesFeatureGrid1 = {
 
 // Section 4 (testimonial 1): Stefan M.
 export const profilesFeatureGrid1Testimonial = {
-  logoSrc: "/assets/testimonial1_logo.webp",
-  logoAlt: "GoAds client",
-  quote: "Telegram sellers nearly killed my business. Constant bans, zero support. Switched to GoAds, haven't looked back. Profiles run, support replies, life is good.",
+  quote: "Telegram sellers nearly killed my business. Constant bans, zero support. Switched to GOADS, haven't looked back. Profiles run, support replies, life is good.",
   authorName: "Stefan M.",
   authorRole: "Agency Owner, Germany",
   authorImageSrc: "/assets/testimonial1_founder.webp",
@@ -61,8 +59,6 @@ export const profilesFeatureGrid2 = {
 
 // Section 6 (testimonial 2): Ryan D.
 export const profilesFeatureGrid2Testimonial = {
-  logoSrc: "/assets/test_logo.jpg",
-  logoAlt: "GoAds client",
   quote: "Bought 20 profiles over 3 months. Only 1 needed replacement and they handled it in under an hour. That's the service I pay for.",
   authorName: "Ryan D.",
   authorRole: "Media Buyer, US",
@@ -119,9 +115,7 @@ export const profilesProductCards = [
 
 // Section 4: Testimonial 1
 export const profilesTestimonial1 = {
-  logoSrc: "/assets/testimonial1_logo.webp",
-  logoAlt: "GoAds client",
-  quote: "Telegram sellers nearly killed my business. Constant bans, zero support. Switched to GoAds, haven't looked back. Profiles run, support replies, life is good.",
+  quote: "Telegram sellers nearly killed my business. Constant bans, zero support. Switched to GOADS, haven't looked back. Profiles run, support replies, life is good.",
   authorName: "Stefan M.",
   authorRole: "Agency Owner, Germany",
   authorImageSrc: "/assets/testimonial1_founder.webp",
@@ -133,7 +127,7 @@ export const profilesTestimonial1 = {
 export const profilesResourcesSection = {
   subtitle: "RESOURCES",
   title: "Learn From the Experts",
-  description: "Guides, tips, and insights to help you run ads smarter. Fresh content from the GoAds team.",
+  description: "Guides, tips, and insights to help you run ads smarter. Fresh content from the GOADS team.",
 }
 
 export const profilesResourceCards = [
@@ -171,8 +165,6 @@ export const profilesResourceCards = [
 
 // Section 6: Testimonial 2
 export const profilesTestimonial2 = {
-  logoSrc: "/assets/test_logo.jpg",
-  logoAlt: "GoAds client",
   quote: "Bought 20 profiles over 3 months. Only 1 needed replacement and they handled it in under an hour. That's the service I pay for.",
   authorName: "Ryan D.",
   authorRole: "Media Buyer, US",

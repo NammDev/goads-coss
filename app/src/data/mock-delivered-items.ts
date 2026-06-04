@@ -35,7 +35,7 @@ export const mockDeliveredItems: MockDeliveredItem[] = [
     uid: '9876543210123456',
     credentials: {
       bmId: '9876543210123456',
-      name: 'GoAds Agency Main',
+      name: 'GOADS Agency Main',
       inviteLink: 'https://business.facebook.com/settings/requests/9876543210123456',
     },
     status: 'active',
@@ -116,7 +116,7 @@ export const mockDeliveredItems: MockDeliveredItem[] = [
     warrantyUntil: '2026-03-11T08:00:00Z',
     createdAt: '2026-03-04T08:00:00Z',
     updatedAt: '2026-03-04T08:00:00Z',
-    note: 'Banned — warranty replacement pending',
+    note: 'Banned, warranty replacement pending',
   },
   // ORD-001 extra: page items for cust-001
   {
@@ -128,7 +128,7 @@ export const mockDeliveredItems: MockDeliveredItem[] = [
     credentials: {
       pageId: '112233445566778',
       link: 'https://www.facebook.com/testpage112233',
-      name: 'GoAds Test Page',
+      name: 'GOADS Test Page',
       holdingId: '9876543210123456',
     },
     status: 'active',
@@ -277,7 +277,7 @@ export const mockDeliveredItems: MockDeliveredItem[] = [
     warrantyUntil: '2026-03-01T08:00:00Z',
     createdAt: '2026-02-22T08:00:00Z',
     updatedAt: '2026-02-22T08:00:00Z',
-    note: 'Banned — warranty replacement pending',
+    note: 'Banned, warranty replacement pending',
   },
   {
     id: 'del-010',

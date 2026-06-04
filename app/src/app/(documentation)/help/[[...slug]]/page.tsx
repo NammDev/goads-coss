@@ -19,7 +19,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 // One-line descriptions per help category shown on landing cards
 const categoryDescriptions: Record<string, string> = {
-  "getting-started": "New to GoAds? Start here for account setup and orientation.",
+  "getting-started": "New to GOADS? Start here for account setup and orientation.",
   billing: "Manage your subscription, invoices, and payment methods.",
   troubleshooting: "Fix common issues with login, ad accounts, and billing.",
 }
@@ -131,7 +131,7 @@ export default async function HelpPage({ params }: Props) {
               </div>
               <div className="flex items-center gap-2 text-foreground/80">
                 <p className="!m-0 leading-none !text-[13px]">
-                  By <span className="font-semibold text-foreground">GoAds Team</span>
+                  By <span className="font-semibold text-foreground">GOADS Team</span>
                 </p>
                 <span className="text-[13px] text-foreground/50">•</span>
                 <p className="!m-0 !-mt-px !text-[13px]">
@@ -270,7 +270,7 @@ export default async function HelpPage({ params }: Props) {
               <div className="flex flex-col gap-2 justify-between ml-3 font-medium">
                 <p className="!leading-none !font-normal !text-[13px] !text-foreground/80 !m-0">
                   Written By{" "}
-                  <span className="font-medium text-foreground">GoAds Team</span>
+                  <span className="font-medium text-foreground">GOADS Team</span>
                 </p>
                 {article.lastUpdated && (
                   <p className="!text-[13px] !font-normal !text-foreground/80 !leading-none !m-0">

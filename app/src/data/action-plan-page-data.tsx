@@ -1,5 +1,5 @@
 // Data for the floating contact widget (bottom-left CalendarPopup).
-// Founder card + 3 channel pills (Telegram/Discord/Email) + 2 CTAs.
+// Founder card + 3 channel pills (Telegram Support / Telegram Channel / Discord) + 2 CTAs.
 // Replaces the older date-picker layout — same UI rhythm, contact-first content.
 
 import type { ReactNode } from "react"
@@ -7,19 +7,19 @@ import { CONTACT } from "@/data/contact-info"
 
 export const actionPlanFounder = {
   name: "Justin Bui",
-  role: "Founder & CEO @ GoAds",
+  role: "Founder & CEO @ GOADS",
   avatarSrc: "/assets/solutions_test1_avt.webp",
-  avatarAlt: "Justin Bui — Founder & CEO of GoAds",
+  avatarAlt: "Justin Bui, Founder & CEO of GOADS",
 }
 
 export const actionPlanCopy = {
-  cardTitle: "Talk to us — we're online",
+  cardTitle: "Talk to us, we're online",
   cardDescription:
     "Pick your channel for a quick chat, or book a call for a deeper conversation about scaling your ad accounts.",
   primaryCta: "Book a Call",
   primaryHref: "/book-demo",
-  secondaryCta: "Start Free Trial",
-  secondaryHref: "/sign-up",
+  secondaryCta: "View Pricing",
+  secondaryHref: "/pricing",
 }
 
 export interface ContactChannel {
@@ -41,15 +41,8 @@ const DiscordIcon = (
   </svg>
 )
 
-const EmailIcon = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 6.5h16a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 16V8A1.5 1.5 0 0 1 4 6.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="m3 8 9 6 9-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
-
 export const contactChannels: ContactChannel[] = [
-  { label: "Telegram", href: CONTACT.telegram.officialWithMessage, icon: TelegramIcon },
+  { label: "Support", href: CONTACT.telegram.official, icon: TelegramIcon },
+  { label: "Channel", href: CONTACT.telegram.channel, icon: TelegramIcon },
   { label: "Discord", href: CONTACT.discord, icon: DiscordIcon },
-  { label: "Email", href: `mailto:${CONTACT.email}`, icon: EmailIcon },
 ]

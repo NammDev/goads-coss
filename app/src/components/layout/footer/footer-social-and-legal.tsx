@@ -13,7 +13,7 @@ export function FooterSocialAndLegal() {
       {/* .footer-foot-1 */}
       <div className="flex flex-1 items-center gap-4 max-md:flex-col max-md:gap-3">
         <p className={`${siteText.bodyS} text-[#ffffff68]`}>
-          &copy; 2026 GoAds, Inc. All rights reserved.
+          &copy; 2026 GOADS, Inc. All rights reserved.
         </p>
         <Link href="/privacy-policy" className="py-1 text-[var(--alpha-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
           <div className={siteText.bodyS}>Privacy Policy</div>

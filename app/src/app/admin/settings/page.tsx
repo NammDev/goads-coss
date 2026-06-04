@@ -35,7 +35,7 @@ export default function SettingsPage() {
               <form onSubmit={handleSave} className="space-y-5 max-w-lg">
                 <div className="space-y-2">
                   <Label htmlFor="system-name">System Name</Label>
-                  <Input id="system-name" defaultValue="GoAds Admin" />
+                  <Input id="system-name" defaultValue="GOADS Admin" />
                 </div>
 
                 <div className="space-y-2">

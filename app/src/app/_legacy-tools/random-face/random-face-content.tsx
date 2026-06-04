@@ -107,7 +107,7 @@ export function RandomFaceContent() {
             </div>
 
             <p className="text-xs text-muted-foreground">
-              Powered by pravatar.cc — random avatars, not real people.
+              Powered by pravatar.cc, random avatars, not real people.
             </p>
           </div>
         </div>

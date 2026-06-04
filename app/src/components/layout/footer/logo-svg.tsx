@@ -15,7 +15,7 @@ export function FooterLogoSvg(props: SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 656.41 234.74"
       role="img"
-      aria-label="GoAds"
+      aria-label="GOADS"
       className="block h-10 w-auto"
       {...props}
     >

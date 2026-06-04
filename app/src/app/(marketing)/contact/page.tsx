@@ -19,7 +19,7 @@ const contactChannelCards: HomeFeatureCard[] = [
     icon: <TelegramLogo className="size-6" />,
     title: "Telegram",
     description:
-      "@goads_official — Fastest way to reach us. Live support, 24/7.",
+      "@goads_official, Fastest way to reach us. Live support, 24/7.",
     ctaLabel: "Message on Telegram",
     ctaHref: CONTACT.telegram.officialWithMessage,
     image: "/contact/telegram.svg",
@@ -28,7 +28,7 @@ const contactChannelCards: HomeFeatureCard[] = [
     icon: <WhatsAppLogo className="size-6" />,
     title: "WhatsApp",
     description:
-      "Direct line · 24/7 — Prefer WhatsApp? We answer there too.",
+      "Direct line · 24/7, Prefer WhatsApp? We answer there too.",
     ctaLabel: "Chat on WhatsApp",
     ctaHref: CONTACT.whatsapp.withMessage,
     isMiddle: true,
@@ -37,7 +37,7 @@ const contactChannelCards: HomeFeatureCard[] = [
   {
     icon: <MailIcon />,
     title: "Email",
-    description: `${CONTACT.email} — For detailed requests, invoices and documents.`,
+    description: `${CONTACT.email}, For detailed requests, invoices and documents.`,
     ctaLabel: "Send an Email",
     ctaHref: `mailto:${CONTACT.email}`,
     image: "/contact/gmail.svg",
@@ -54,9 +54,9 @@ function MailIcon() {
 }
 
 export const metadata: Metadata = {
-  title: "Contact | GoAds",
+  title: "Contact | GOADS",
   description:
-    "Get in touch with the GoAds team — real people, fast answers, 24/7 support across Telegram, WhatsApp and Discord.",
+    "Get in touch with the GOADS team, real people, fast answers, 24/7 support across Telegram, WhatsApp and Discord.",
 }
 
 export default function ContactPage() {

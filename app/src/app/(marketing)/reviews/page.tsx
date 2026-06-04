@@ -7,7 +7,7 @@ import { SectionContainer } from "@/components/atoms/section-container"
 import { SectionHead } from "@/components/atoms/section-head"
 import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
 import { HomeCta } from "@/components/home/cta"
-import { SenjaReviewMasonryGrid } from "@/components/reviews/senja-masonry-grid"
+import { SenjaReviewMarquee } from "@/components/reviews/senja-review-marquee"
 import { goadsReviews } from "@/data/reviews-data"
 
 export default function ReviewsPage() {
@@ -24,7 +24,7 @@ export default function ReviewsPage() {
               title="What customers have to say"
               titleTag="h2"
               titleSize="h2"
-              description="Don't just take our word for it. See what advertisers say about GoAds."
+              description="Don't just take our word for it. See what advertisers say about GOADS."
               descSize="l"
               variant="light"
             />
@@ -37,7 +37,7 @@ export default function ReviewsPage() {
       <SectionWhiteBlock>
         <SectionContainer variant="wide">
           <div className="py-16">
-            <SenjaReviewMasonryGrid reviews={goadsReviews} initialCount={10} loadMoreCount={10} />
+            <SenjaReviewMarquee reviews={goadsReviews} />
           </div>
         </SectionContainer>
       </SectionWhiteBlock>

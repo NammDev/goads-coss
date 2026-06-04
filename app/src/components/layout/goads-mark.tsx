@@ -13,7 +13,7 @@ export function GoadsMark(props: SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="20 20 220 200"
       role="img"
-      aria-label="GoAds"
+      aria-label="GOADS"
       {...props}
     >
       {/* Panda body — currentColor blends with parent bg (punch-through hole) */}

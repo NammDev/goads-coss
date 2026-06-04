@@ -8,9 +8,9 @@
 export const pagesProductCta = {
   title: "Start running with verified Pages today",
   description:
-    "Every Facebook Page ships pre-warmed, policy-clean and backed by a 7-day warranty.\n\nFrom aged Pages to monetized 10K-follower assets — pick the trust score that fits your campaigns.",
+    "Every Facebook Page ships pre-warmed, policy-clean and backed by a 7-day warranty.\n\nFrom aged Pages to monetized 10K-follower assets, pick the trust score that fits your campaigns.",
   iconSrc: "/assets/cta/verified-panda.svg",
-  iconAlt: "GoAds panda mascot with verified badge",
+  iconAlt: "GOADS panda mascot with verified badge",
 }
 
 // Section 1: Hero — text-only variant (laptop preview + CTA removed).
@@ -20,7 +20,7 @@ export const pagesHero = {
   overline: "Facebook Pages",
   title: "Buy Aged Facebook Pages",
   description:
-    "Pre-warmed Pages with real history and clean policy records. Skip the new-Page penalty — start advertising from a brand asset Meta already trusts.",
+    "Pre-warmed Pages with real history and clean policy records. Skip the new-Page penalty, start advertising from a brand asset Meta already trusts.",
   hideCta: true,
 }
 
@@ -31,7 +31,7 @@ export const pagesFeatureGrid1 = {
   description:
     "From warmed-up Pages to recovery services. Built for advertisers who refuse to start every campaign from a fresh-Page disadvantage.",
   cards: [
-    { imageSrc: "/pages/all-products/fb%20pages.svg", title: "Facebook Pages", description: "Aged, 1K–10K follower, livestream-ready or monetized — pick the trust score that matches your spend." },
+    { imageSrc: "/pages/all-products/fb%20pages.svg", title: "Facebook Pages", description: "Aged, 1K–10K follower, livestream-ready or monetized, pick the trust score that matches your spend." },
     { imageSrc: "/pages/all-products/fb%20profiles.svg", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your Page. Clean history, ready to run." },
     { imageSrc: "/pages/all-products/Business%20Manager.svg", title: "Business Manager", description: "BM1 to BM2500, all Meta-verified. Add your Page, share assets, scale safely." },
     { imageSrc: "/pages/all-products/Verified%20Badge.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on the assets you already run." },
@@ -42,10 +42,8 @@ export const pagesFeatureGrid1 = {
 
 // Section 4 (testimonial 1): Stefan M.
 export const pagesFeatureGrid1Testimonial = {
-  logoSrc: "/assets/testimonial1_logo.webp",
-  logoAlt: "GoAds client",
   quote:
-    "Fresh Pages used to die in 48 hours — couldn't get past learning phase. Switched to GoAds aged Pages, every campaign clears review on the first try. Three months, zero restrictions.",
+    "Fresh Pages used to die in 48 hours, couldn't get past learning phase. Switched to GOADS aged Pages, every campaign clears review on the first try. Three months, zero restrictions.",
   authorName: "Stefan M.",
   authorRole: "Agency Owner, Germany",
   authorImageSrc: "/assets/testimonial1_founder.webp",
@@ -67,10 +65,8 @@ export const pagesFeatureGrid2 = {
 
 // Section 6 (testimonial 2): Ryan D.
 export const pagesFeatureGrid2Testimonial = {
-  logoSrc: "/assets/test_logo.jpg",
-  logoAlt: "GoAds client",
   quote:
-    "Bought a 5K aged Page on Monday, ran $400/day from it by Friday. Same supplier, same playbook for the last four months. One Page restricted — replaced in 30 minutes.",
+    "Bought a 5K aged Page on Monday, ran $400/day from it by Friday. Same supplier, same playbook for the last four months. One Page restricted, replaced in 30 minutes.",
   authorName: "Ryan D.",
   authorRole: "Media Buyer, US",
   authorImageSrc: "/assets/test_tim_keen_avatar.webp",
@@ -111,7 +107,7 @@ export const pagesFaq = {
     {
       question: "Can I link a purchased Page to my own Business Manager?",
       answer:
-        "Yes. Every Page ships with full admin access — you can claim it under your BM, share access with team members, or run ads via a partner BM.",
+        "Yes. Every Page ships with full admin access, you can claim it under your BM, share access with team members, or run ads via a partner BM.",
     },
     {
       question: "Do I need to warm up the Page before running ads?",

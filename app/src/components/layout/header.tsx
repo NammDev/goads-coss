@@ -62,7 +62,7 @@ export function Header() {
         <div className="relative flex w-full items-center justify-between gap-9 p-4 max-fp-lg:h-[72px] max-fp-lg:py-3">
           {/* .nav-brand.w-nav-brand — source: z-5 rounded-10 p-1 (custom .nav-brand adds rounded-10 + p-1) */}
           <LogoLink
-            aria-label="GoAds home"
+            aria-label="GOADS home"
             className="z-[5] rounded-[10px] p-1 focus-visible:shadow-[0_0_0_3px] focus-visible:shadow-secondary focus-visible:outline-none"
           >
             {/* .u-nav-brand-logo — h-10 (40px). Inline SVG so panda silhouette
@@ -74,7 +74,7 @@ export function Header() {
                 <FooterLogoSvg />
               </div>
             </div>
-            <span className="sr-only">GoAds</span>
+            <span className="sr-only">GOADS</span>
           </LogoLink>
 
           {/* Mobile hamburger — sibling of .nav-brand in our React implementation (shown only ≤991px) */}

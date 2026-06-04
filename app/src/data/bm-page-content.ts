@@ -6,9 +6,9 @@
 // in place of the generic folder video, to reinforce the "verified BM" message.
 export const bmProductCta = {
   title: "Start scaling with a verified BM today",
-  description: "Every Business Manager ships Meta-verified, configured and backed by a 7-day warranty.\n\nFrom BM1 to BM2500 — pick the DSL that fits your spend.",
+  description: "Every Business Manager ships Meta-verified, configured and backed by a 7-day warranty.\n\nFrom BM1 to BM2500, pick the DSL that fits your spend.",
   iconSrc: "/assets/cta/verified-panda.svg",
-  iconAlt: "GoAds panda mascot with verified badge",
+  iconAlt: "GOADS panda mascot with verified badge",
 }
 
 // Section 1: Hero — text-only variant (laptop preview + CTA removed per /bm spec).
@@ -18,7 +18,7 @@ export const bmHero = {
   iconSrc: "/assets/BM.svg",
   overline: "Business Managers",
   title: "Buy Verified Meta Business Managers",
-  description: "BM1 to BM2500, verified by Meta, ready to run high-budget ads. Skip the disabled-account loop — start with a BM your auction actually trusts.",
+  description: "BM1 to BM2500, verified by Meta, ready to run high-budget ads. Skip the disabled-account loop, start with a BM your auction actually trusts.",
   hideCta: true,
 }
 
@@ -29,7 +29,7 @@ export const bmFeatureGrid1 = {
   title: "Everything You Need to Scale",
   description: "From verified BMs to recovery services. Built for advertisers who refuse to babysit disabled accounts.",
   cards: [
-    { imageSrc: "/assets/icons/1.svg", title: "Business Manager", description: "BM1, BM3, BM5, BM10 — all Meta-verified. Pick the DSL that fits your spend." },
+    { imageSrc: "/assets/icons/1.svg", title: "Business Manager", description: "BM1, BM3, BM5, BM10, all Meta-verified. Pick the DSL that fits your spend." },
     { imageSrc: "/assets/icons/2.png", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your BM. Clean history, ready to run." },
     { imageSrc: "/assets/icons/3.png", title: "Unban Service", description: "BM banned? Ad account disabled? We recover the asset so you keep the pixel." },
     { imageSrc: "/assets/icons/4.png", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on your BM assets." },
@@ -40,9 +40,7 @@ export const bmFeatureGrid1 = {
 
 // Section 4 (testimonial 1): Stefan M.
 export const bmFeatureGrid1Testimonial = {
-  logoSrc: "/assets/testimonial1_logo.webp",
-  logoAlt: "GoAds client",
-  quote: "Lost two BM5s in a week last quarter — Telegram sellers, zero replacement. Switched to GoAds, bought a BM10 Unlimited DSL, been live 4 months straight. Support replies in minutes.",
+  quote: "Lost two BM5s in a week last quarter, Telegram sellers, zero replacement. Switched to GOADS, bought a BM10 Unlimited DSL, been live 4 months straight. Support replies in minutes.",
   authorName: "Stefan M.",
   authorRole: "Agency Owner, Germany",
   authorImageSrc: "/assets/testimonial1_founder.webp",
@@ -58,15 +56,13 @@ export const bmFeatureGrid2 = {
     { imageSrc: "/assets/bm/Group%20998.svg", title: "Why Verified BMs Survive 10× Longer", description: "The trust-score mechanics behind Meta's verification and why it matters for disables." },
     { imageSrc: "/assets/bm/Group%201000.svg", title: "How to Add Ad Accounts to a Verified BM", description: "Step-by-step workflow to add, share and assign accounts without tripping policy flags." },
     { imageSrc: "/assets/bm/Group%201002.svg", title: "BM10, BM50, BM100: Enterprise Scaling Guide", description: "When to graduate from BM5 to multi-account enterprise structures. Agency playbook." },
-    { imageSrc: "/assets/bm/Group%201004.svg", title: "WhatsApp Business API Setup on a Verified BM", description: "Connect WABA, pick your messaging tier, and start conversational ads — in under an hour." },
+    { imageSrc: "/assets/bm/Group%201004.svg", title: "WhatsApp Business API Setup on a Verified BM", description: "Connect WABA, pick your messaging tier, and start conversational ads, in under an hour." },
   ],
 }
 
 // Section 6 (testimonial 2): Ryan D.
 export const bmFeatureGrid2Testimonial = {
-  logoSrc: "/assets/test_logo.jpg",
-  logoAlt: "GoAds client",
-  quote: "Started with a BM3, moved to BM5 Unlimited DSL after two weeks, now running a BM10. Same supplier, same playbook. Zero bans, one replacement in 4 months — handled in 40 minutes.",
+  quote: "Started with a BM3, moved to BM5 Unlimited DSL after two weeks, now running a BM10. Same supplier, same playbook. Zero bans, one replacement in 4 months, handled in 40 minutes.",
   authorName: "Ryan D.",
   authorRole: "Media Buyer, US",
   authorImageSrc: "/assets/test_tim_keen_avatar.webp",
@@ -83,10 +79,10 @@ export const bmFaq = {
     { question: "Which BM tier should I buy?", answer: "BM1 for solo buyers or testing. BM3 for small teams running 2–3 campaigns in parallel. BM5 for scaling agencies. BM10+ for enterprise operations with multiple clients or geographies." },
     { question: "What does DSL mean and which limit do I need?", answer: "DSL = Daily Spend Limit per ad account. $250 DSL is fine for most direct-response campaigns. Choose Unlimited DSL if you plan to scale a single account past $250/day or run high-CPM brand campaigns." },
     { question: "How long does a verified BM last?", answer: "With clean creatives and a proper warmup, most clients run the same verified BM for 6+ months. Disables mostly come from policy violations, not from the BM itself." },
-    { question: "What happens if my BM gets disabled?", answer: "Within the 7-day warranty, we replace it at no charge — instantly. After the warranty, we offer a same-day unban service or a discounted replacement." },
+    { question: "What happens if my BM gets disabled?", answer: "Within the 7-day warranty, we replace it at no charge, instantly. After the warranty, we offer a same-day unban service or a discounted replacement." },
     { question: "Can I add my own ad accounts to a purchased BM?", answer: "Yes. Every verified BM ships with the full admin access you need to create or link ad accounts, share assets, and assign team roles." },
-    { question: "Do I need a separate profile to manage the BM?", answer: "You can use your own profile, but we strongly recommend pairing the BM with an aged GoAds profile to avoid a fresh-account trust penalty on first login." },
-    { question: "What about WhatsApp Business API?", answer: "We sell verified BMs pre-configured with WABA — choose between a 2K or 10K messaging limit. Scale up anytime by re-verifying with Meta." },
+    { question: "Do I need a separate profile to manage the BM?", answer: "You can use your own profile, but we strongly recommend pairing the BM with an aged GOADS profile to avoid a fresh-account trust penalty on first login." },
+    { question: "What about WhatsApp Business API?", answer: "We sell verified BMs pre-configured with WABA, choose between a 2K or 10K messaging limit. Scale up anytime by re-verifying with Meta." },
     { question: "How are BMs delivered?", answer: "Usually within a few hours. Delivery includes BM ID, admin credentials, access cookies, setup instructions and any WABA keys if applicable." },
     { question: "Do you offer bulk or enterprise pricing?", answer: "Yes. Agencies running 10+ BMs or enterprise clients ordering BM50/BM100/BM2500 get tiered discounts. Contact sales for a custom quote." },
   ],

@@ -151,7 +151,7 @@ export function TwoFaTool() {
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Paste secrets — one per line"
+          placeholder="Paste secrets, one per line"
           rows={5}
           spellCheck={false}
           className={cn(

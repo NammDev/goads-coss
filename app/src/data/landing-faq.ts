@@ -28,7 +28,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   },
   {
     question: 'How does the 7-day warranty work?',
-    answer: 'If your account gets disabled within 7 days of delivery for reasons unrelated to policy violations on your end, we will replace it for free — no questions asked.',
+    answer: 'If your account gets disabled within 7 days of delivery for reasons unrelated to policy violations on your end, we will replace it for free, no questions asked.',
   },
   {
     question: 'How fast is delivery?',
@@ -55,8 +55,8 @@ export const FAQ_ITEMS: FAQItem[] = [
     answer: 'Our primary support channel is Telegram (@GoAdsSupport) with an average response time under 2 hours. We also offer Discord community support and email support.',
   },
   {
-    question: 'What makes GoAds different from other providers?',
-    answer: 'We combine 5+ years of experience, a 7-day warranty policy, sub-2-hour support response times, and a full-stack platform covering Meta, Google, and TikTok — all from a single provider.',
+    question: 'What makes GOADS different from other providers?',
+    answer: 'We combine 5+ years of experience, a 7-day warranty policy, sub-2-hour support response times, and a full-stack platform covering Meta, Google, and TikTok, all from a single provider.',
   },
 ]
 
@@ -73,7 +73,7 @@ export const faqTabsData: FAQTab[] = [
       {
         question: 'Products & Services',
         answer:
-          'GoAds provides a full range of advertising assets and services, including Business Managers, ad accounts, profiles, pages, TikTok assets, recovery services, and blue badge support.\n\nEverything is prepared to help advertisers launch and scale campaigns smoothly.',
+          'GOADS provides a full range of advertising assets and services, including Business Managers, ad accounts, profiles, pages, TikTok assets, recovery services, and blue badge support.\n\nEverything is prepared to help advertisers launch and scale campaigns smoothly.',
       },
     ],
   },
@@ -83,19 +83,19 @@ export const faqTabsData: FAQTab[] = [
     icon: SettingsIcon,
     faqs: [
       {
-        question: 'What is GoAds warranty policy?',
+        question: 'What is GOADS warranty policy?',
         answer:
-          'At GoAds, all assets are delivered in working condition and carefully checked before delivery. Our warranty covers replacement only — refunds are not provided under any circumstances.\n\nOnce an asset has been delivered and begins to be used, the responsibility for its operation and compliance with platform policies belongs to the client.',
+          'At GOADS, all assets are delivered in working condition and carefully checked before delivery. Our warranty covers replacement only, refunds are not provided under any circumstances.\n\nOnce an asset has been delivered and begins to be used, the responsibility for its operation and compliance with platform policies belongs to the client.',
       },
       {
         question: 'Business Manager warranty (72 hours)',
         answer:
-          'If a Business Manager becomes restricted or disabled within 72 hours after delivery, GoAds will provide a replacement, provided that no activity has been performed inside the Business Manager.\n\nActivities that void the warranty:\n• Adding payment methods\n• Running advertisements\n• Creating ad accounts or pages\n• Adding or verifying domains\n• Making administrative or structural changes',
+          'If a Business Manager becomes restricted or disabled within 72 hours after delivery, GOADS will provide a replacement, provided that no activity has been performed inside the Business Manager.\n\nActivities that void the warranty:\n• Adding payment methods\n• Running advertisements\n• Creating ad accounts or pages\n• Adding or verifying domains\n• Making administrative or structural changes',
       },
       {
         question: 'Facebook Profile warranty (7 days)',
         answer:
-          'All Facebook Profiles include a 7-day warranty from delivery. If a profile becomes restricted or disabled within the warranty period, GoAds will provide a replacement with no limit on the number of replacements during the 7-day period.',
+          'All Facebook Profiles include a 7-day warranty from delivery. If a profile becomes restricted or disabled within the warranty period, GOADS will provide a replacement with no limit on the number of replacements during the 7-day period.',
       },
       {
         question: 'When does the warranty not apply?',
@@ -112,7 +112,7 @@ export const faqTabsData: FAQTab[] = [
       {
         question: 'Billing & Payments',
         answer:
-          'GoAds accepts multiple payment methods including cryptocurrency, bank transfer, and other common international payment options.\n\nPayment details and guidance are provided by the team to ensure a smooth and secure transaction process.',
+          'GOADS accepts multiple payment methods including cryptocurrency, bank transfer, and other common international payment options.\n\nPayment details and guidance are provided by the team to ensure a smooth and secure transaction process.',
       },
     ],
   },
@@ -124,7 +124,7 @@ export const faqTabsData: FAQTab[] = [
       {
         question: 'Support',
         answer:
-          'GoAds provides responsive support and 1-on-1 assistance throughout the entire process.\nClients can contact the team through Telegram, email, or other official channels for quick help whenever needed.\n\nTelegram: goads_official\nWhatsApp: +84865717497',
+          'GOADS provides responsive support and 1-on-1 assistance throughout the entire process.\nClients can contact the team through Telegram, email, or other official channels for quick help whenever needed.\n\nTelegram: goads_official\nWhatsApp: +84865717497',
       },
     ],
   },
