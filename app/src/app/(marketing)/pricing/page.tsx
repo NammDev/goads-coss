@@ -19,8 +19,10 @@ import { catalogCategories, catalogHeaderColumns } from "@/data/product-catalog-
 // place-items-center matches Foreplay .pricing-grid: middle card's extra py-4 padding extends
 // it taller than side cards (visually highlighted middle tier)
 function PricingCardsGrid() {
+  // Desktop: 3 cols joined edge-to-edge (gap-0, shared box-shadow borders).
+  // ≤991px: 1 col with gap so the stacked card borders DON'T touch (32 → 24 → 20px).
   return (
-    <div className="grid grid-cols-3 place-items-center gap-0 max-md:grid-cols-1">
+    <div className="grid grid-cols-3 place-items-center gap-0 max-[991px]:grid-cols-1 max-[991px]:gap-8 max-[767px]:gap-6 max-[479px]:gap-5">
       <PricingCard variant="first" data={goadsSetupCards[0]} />
       <PricingCard variant="middle" data={goadsSetupCards[1]} />
       <PricingCard variant="last" data={goadsSetupCards[2]} />

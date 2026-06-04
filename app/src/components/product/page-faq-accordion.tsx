@@ -41,8 +41,9 @@ export function ProductPageFaqAccordion({
       return next
     })
 
+  // .faq responsive: base gap-12/py-140 · ≤767px gap-10/py-80 · ≤479px pt-64 (pb stays 80)
   return (
-    <div className={cn("flex flex-col gap-12 py-[140px] max-md:gap-10 max-md:py-20 max-sm:py-16", className)}>
+    <div className={cn("flex flex-col gap-12 py-[140px] max-md:gap-10 max-md:py-20 max-[479px]:pt-16", className)}>
       <SectionHead
         subtitle={subtitle} title={title} titleTag="h3" titleSize="h2"
         description={description} descSize="l" variant="light"
@@ -54,9 +55,9 @@ export function ProductPageFaqAccordion({
         ))}
       </div>
 
-      {/* .faq-buttons: flex, gap-3, center, py-3 — sibling of .faq-block-container */}
-      <div className="flex items-center justify-center gap-3 py-3 max-sm:flex-col max-sm:items-stretch">
-          <a href="#" className="flex items-center gap-[5px] rounded-[10px] bg-background p-2 text-foreground no-underline transition-all duration-200 hover:bg-[var(--alpha-700)] focus:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus:outline-none">
+      {/* .faq-buttons: flex, gap-3, center, py-3 — sibling of .faq-block-container; ≤479px → column + stretch */}
+      <div className="flex items-center justify-center gap-3 py-3 max-[479px]:flex-col max-[479px]:items-stretch">
+          <a href="#" className="flex items-center justify-center gap-[5px] rounded-[10px] bg-background p-2 text-foreground no-underline transition-all duration-200 hover:bg-[var(--alpha-700)] focus:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus:outline-none">
             {/* .button-icon-block.icon-left */}
             <span className="relative z-[2] -mr-1 flex items-center justify-center opacity-[0.68]">
               <span className="flex size-6 items-center justify-center">
@@ -69,7 +70,7 @@ export function ProductPageFaqAccordion({
             </span>
             <span className="relative z-[2] px-1.5 font-sans text-base font-[550] leading-6 tracking-[-0.01125em]">Contact support</span>
           </a>
-          <a href="#" target="_blank" className="flex items-center gap-[5px] rounded-[10px] bg-background p-2 text-foreground no-underline transition-all duration-200 hover:bg-[var(--alpha-700)] focus:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus:outline-none">
+          <a href="#" target="_blank" className="flex items-center justify-center gap-[5px] rounded-[10px] bg-background p-2 text-foreground no-underline transition-all duration-200 hover:bg-[var(--alpha-700)] focus:shadow-[0_0_0_2px_var(--background),0_0_0_3px_white] focus:outline-none">
             <span className="relative z-[2] -mr-1 flex items-center justify-center opacity-[0.68]">
               <span className="flex size-6 items-center justify-center">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +125,8 @@ function FaqBlock({ item, isExpanded, onToggle }: { item: FaqItem; isExpanded: b
         {/* .faq-block_head */}
         <div className="flex items-center">
           <h4 className={cn(
-            "m-0 font-sans text-[1.125rem] font-medium tracking-[-0.0144em] max-sm:text-base",
+            // .text-label-l: 1.125rem/500 → 1rem at ≤767px
+            "m-0 font-sans text-[1.125rem] font-medium tracking-[-0.0144em] max-md:text-base",
             "transition-colors duration-[900ms] [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]",
             isExpanded && "text-foreground",
           )}>

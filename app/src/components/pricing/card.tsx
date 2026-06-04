@@ -103,10 +103,13 @@ interface PricingCardProps {
   className?: string
 }
 
+// Desktop: first/last are half-rounded (outer edges) to join the middle into one bar.
+// ≤991px (stacked): every card is fully rounded with its own border (Foreplay .is-first/.is-last
+// border-radius:20px; .is-middle box-shadow dims neutral-100 → neutral-600 to match siblings).
 const containerVariants = {
-  first: "rounded-l-[20px]",
-  middle: "rounded-[20px] py-4 relative shadow-[0_0_0_1px_var(--alpha-100)]",
-  last: "rounded-r-[20px]",
+  first: "rounded-l-[20px] max-[991px]:rounded-[20px]",
+  middle: "rounded-[20px] py-4 relative shadow-[0_0_0_1px_var(--alpha-100)] max-[991px]:shadow-[0_0_0_1px_var(--alpha-700)]",
+  last: "rounded-r-[20px] max-[991px]:rounded-[20px]",
 }
 
 export function PricingCard({
@@ -117,8 +120,8 @@ export function PricingCard({
   return (
     <div
       className={cn(
-        // .pricing-card-container
-        "bg-background",
+        // .pricing-card-container — fills column width when stacked (≤991px width:100%)
+        "bg-background max-[991px]:w-full",
         variant === "middle"
           ? containerVariants.middle
           : cn("shadow-[0_0_0_1px_var(--alpha-700)]", containerVariants[variant]),

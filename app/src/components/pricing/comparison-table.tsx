@@ -19,7 +19,12 @@ import { useCart } from "@/lib/cart-context"
 
 // Grid column classes — default 5 cols (Foreplay pricing), overridable via prop
 const GRID_5COL = "grid grid-cols-[1.75fr_1fr_1fr_1fr_1fr]"
-const GRID_3COL = "grid grid-cols-[3.75fr_1fr_1fr]"
+// ≤768px: name column flexes (minmax 0,1fr); Price + Action use FIXED widths (3.5rem / 7rem).
+// Fixed — not auto — because every row is its own grid: `auto` would size each row's columns to
+// that row's content ($80 vs $340 vs —), so the vertical borders would land at different x per
+// row. Identical fixed tracks keep the dividers aligned across all rows + header, and the 7rem
+// action track always fits the Buy/Contact button → no horizontal scroll.
+const GRID_3COL = "grid grid-cols-[3.75fr_1fr_1fr] max-md:grid-cols-[minmax(0,1fr)_3.5rem_7rem]"
 
 // Check icon (solid-700 on white bg)
 function CheckIcon() {
@@ -96,17 +101,33 @@ function InfoTooltip({ text, href }: { text: string; href?: string }) {
   )
 }
 
-// .comparison-tr-badge: absolute left, border solid-50, rounded-l-[10px], 40px wide, crown icon
+// Crown glyph (shared) — "Only with GoAds" exclusive marker
+function CrownGlyph() {
+  return (
+    <svg viewBox="0 0 18 18" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="square" strokeLinejoin="round" fill="none" strokeWidth="1.5"
+        d="M3.13 13.06 1.5 5.25 6 7.5 9 3l3 4.5 4.5-2.25-1.63 7.8a1.5 1.5 0 0 1-1.46 1.2H4.59a1.5 1.5 0 0 1-1.46-1.2Z"
+        stroke="currentColor" />
+    </svg>
+  )
+}
+
+// .comparison-tr-badge: absolute left "tab", border solid-50, rounded-l-[10px], 40px wide.
+// Hidden ≤768px — it sticks out left of the row (right-full) and would overflow the viewport
+// once horizontal scroll is removed; the inline crown (CrownInline) replaces it on mobile.
 function CrownBadge() {
   return (
-    <div className="absolute inset-y-[-1px] right-full flex w-10 items-center justify-center rounded-l-[10px] border-y border-l border-[var(--solid-50)]">
-      <div className="size-[18px]">
-        <svg viewBox="0 0 18 18" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="square" strokeLinejoin="round" fill="none" strokeWidth="1.5"
-            d="M3.13 13.06 1.5 5.25 6 7.5 9 3l3 4.5 4.5-2.25-1.63 7.8a1.5 1.5 0 0 1-1.46 1.2H4.59a1.5 1.5 0 0 1-1.46-1.2Z"
-            stroke="currentColor" />
-        </svg>
-      </div>
+    <div className="absolute inset-y-[-1px] right-full flex w-10 items-center justify-center rounded-l-[10px] border-y border-l border-[var(--solid-50)] max-md:hidden">
+      <div className="size-[18px]"><CrownGlyph /></div>
+    </div>
+  )
+}
+
+// Inline crown shown only ≤768px (next to the feature name) since the left "tab" badge is hidden.
+function CrownInline() {
+  return (
+    <div className="hidden size-[18px] shrink-0 text-[var(--solid-700)] max-md:block" aria-label="Only with GoAds">
+      <CrownGlyph />
     </div>
   )
 }
@@ -243,6 +264,9 @@ export function PricingComparisonTable({
   columns = 5,
 }: PricingComparisonTableProps = {}) {
   const gridCols = columns === 3 ? GRID_3COL : GRID_5COL
+  // Only the wide (5-col / 4-plan) table can't fit a phone → keeps the horizontal-scroll
+  // fallback. The 3-col catalog table (all product routes) fits natively, no scroll.
+  const isWide = columns >= 5
   const cats = categories ?? sampleCategories
   const headers = headerColumns ?? [
     { name: "Basic", cta: "Start Trial", href: "/sign-up", variant: "light-primary" as const },
@@ -258,11 +282,14 @@ export function PricingComparisonTable({
 
   return (
     // .comparison-grid-scroll > .comparison-grid
-    // ≤991px: 5 fr-columns would squish to ~55px each → unreadable. Foreplay keeps
-    // the grid a fixed width (600px ≤991, 480px ≤767) inside an overflow:auto scroll
-    // container → horizontal scroll with readable columns.
-    <div className="pl-6 max-fp-lg:overflow-x-auto max-fp-lg:pl-0">
-      <div className="rounded-[16px] border border-[var(--solid-50)] max-fp-lg:min-w-[600px] max-md:min-w-[480px]">
+    // Wide (5-col): ≤991px the fr-columns squish to ~55px → keep Foreplay's fixed-width
+    //   grid (600/480px) inside overflow:auto → horizontal scroll.
+    // 3-col catalog: fits natively (name flexes, Price+Action auto) → no scroll, no min-width.
+    <div className={cn("pl-6 max-fp-lg:pl-0", isWide && "max-fp-lg:overflow-x-auto")}>
+      <div className={cn(
+        "rounded-[16px] border border-[var(--solid-50)]",
+        isWide && "max-fp-lg:min-w-[600px] max-md:min-w-[480px]",
+      )}>
 
         {/* ── .comparison-th: sticky header ── */}
         <div className={cn(
@@ -276,7 +303,7 @@ export function PricingComparisonTable({
           <div className="p-4" />
           {/* Plan columns */}
           {headers.map((plan, i) => (
-            <div key={plan.name || i} className="flex flex-col items-center justify-center gap-3 border-l border-[var(--solid-50)] p-4">
+            <div key={plan.name || i} className="flex flex-col items-center justify-center gap-3 border-l border-[var(--solid-50)] p-4 max-md:px-2">
               {plan.name && <div className={cn(siteText.headingM, "text-[var(--solid-700)]")}>{plan.name}</div>}
               {plan.cta && plan.href && (
                 <CtaButton href={plan.href} variant={plan.variant ?? "light-primary"} className="justify-center">
@@ -301,8 +328,11 @@ export function PricingComparisonTable({
             </button>
 
             {/* .comparison-category-rows: collapsible content */}
+            {/* -mx-12/px-12 reserves left room for the crown "tab" badge on desktop; zeroed
+                ≤768px (badge hidden there) so rows don't overflow the viewport left edge */}
             <div className={cn(
               "-mx-12 overflow-clip px-12 transition-all duration-[600ms] [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]",
+              "max-md:mx-0 max-md:px-0",
               expanded[i] ? "h-auto" : "h-0",
             )}>
               {cat.features.map((feat) => (
@@ -314,10 +344,17 @@ export function PricingComparisonTable({
                     feat.isProduct && "bg-[var(--solid-25)]",
                   )}
                 >
-                  {/* .comparison-tr-badge (crown, absolute left) */}
-                  {feat.hasCrown && <CrownBadge />}
-                  {/* .comparison-tr-title */}
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 p-4 text-left">
+                  {/* .comparison-tr-badge (crown "tab", absolute left — desktop only) */}
+                  {feat.hasCrown && !feat.isProduct && <CrownBadge />}
+                  {/* .comparison-tr-title — product-intro rows span the full width (no Price/Action
+                      columns: it's a descriptive header for the product line, not a comparable item).
+                      px tightened ≤768px so feature names keep room beside Price/Action. */}
+                  <div className={cn(
+                    "flex flex-wrap items-center gap-x-3 gap-y-1 p-4 text-left max-md:px-3",
+                    feat.isProduct && "col-span-full",
+                  )}>
+                    {/* Inline crown replaces the hidden left badge on mobile */}
+                    {feat.hasCrown && <CrownInline />}
                     {/* Product link row (icon + label + subtitle) */}
                     {feat.productHref ? (
                       <>
@@ -343,21 +380,26 @@ export function PricingComparisonTable({
                       </>
                     )}
                   </div>
-                  {/* .comparison-tr-cell — border-l solid-50, flex center, p-4 */}
-                  <div className="flex items-center justify-center border-l border-[var(--solid-50)] p-4">
-                    <CellValue value={feat.basic} />
-                  </div>
-                  <div className="flex items-center justify-center border-l border-[var(--solid-50)] p-4">
-                    <CellValue value={feat.workflow} feature={feat} />
-                  </div>
-                  {columns >= 5 && (
+                  {/* Value cells — skipped entirely for product-intro rows (title spans full width) */}
+                  {!feat.isProduct && (
                     <>
-                      <div className="flex items-center justify-center border-l border-[var(--solid-50)] p-4">
-                        <CellValue value={feat.agency} feature={feat} />
+                      {/* .comparison-tr-cell — border-l solid-50, flex center, p-4 */}
+                      <div className="flex items-center justify-center border-l border-[var(--solid-50)] p-4 max-md:px-2">
+                        <CellValue value={feat.basic} />
                       </div>
-                      <div className="flex items-center justify-center border-l border-[var(--solid-50)] p-4">
-                        <CellValue value={feat.enterprise} feature={feat} />
+                      <div className="flex items-center justify-center border-l border-[var(--solid-50)] p-4 max-md:px-2">
+                        <CellValue value={feat.workflow} feature={feat} />
                       </div>
+                      {columns >= 5 && (
+                        <>
+                          <div className="flex items-center justify-center border-l border-[var(--solid-50)] p-4 max-md:px-2">
+                            <CellValue value={feat.agency} feature={feat} />
+                          </div>
+                          <div className="flex items-center justify-center border-l border-[var(--solid-50)] p-4 max-md:px-2">
+                            <CellValue value={feat.enterprise} feature={feat} />
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                 </div>
@@ -366,9 +408,9 @@ export function PricingComparisonTable({
           </div>
         ))}
 
-        {/* ── .comparison-grid-footer — hidden ≤991 (Foreplay): it sits inside the
-             fixed-width scroll grid and would get clipped; CTA is redundant on mobile ── */}
-        <div className="flex flex-col items-center gap-5 py-10 max-fp-lg:hidden">
+        {/* ── .comparison-grid-footer — hidden ≤991 ONLY for the wide scroll grid (would be
+             clipped). The 3-col catalog table fits, so its footer CTA shows on mobile. ── */}
+        <div className={cn("flex flex-col items-center gap-5 py-10", isWide && "max-fp-lg:hidden")}>
           {/* .text-solid-900 > h3.text-display-h4 */}
           <div className="text-[var(--solid-900)]">
             <h3 className={siteText.displayH4}>{footerTitle}</h3>

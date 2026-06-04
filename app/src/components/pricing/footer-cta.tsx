@@ -1,8 +1,8 @@
 // Foreplay pricing enterprise footer — .pricing-footer
 // SOURCE DOM: .pricing-footer > .pricing-footer-enterprise | .pricing-footer-vertical_divider | .pricing-footer-extra
-// .pricing-footer: border 1px neutral-600 (#ffffff29), rounded-[20px], w-full, flex row
-// .pricing-footer-enterprise: flex col, gap-5, min-w-[320px], max-w-[368px], p-[20px_24px_24px]
-// .pricing-footer-vertical_divider: bg neutral-600 (#ffffff29), w-px, h-full (self-stretch)
+// .pricing-footer: border 1px neutral-600 (#ffffff29), rounded-[20px], w-full, flex row → ≤991px column
+// .pricing-footer-enterprise: flex col, gap-5, min-w-[320px], max-w-[368px], p-[20px_24px_24px] → ≤991px max-w-none
+// .pricing-footer-vertical_divider: bg neutral-600 (#ffffff29), w-px, h-full (self-stretch); collapses in column
 // .pricing-footer-extra: flex col, gap-10, flex-1, justify-between, p-[32px_24px]
 // .pricing-footer-head: flex col, gap-2, pt-2
 // .pricing-footer-custom: flex col, gap-2
@@ -36,11 +36,11 @@ interface PricingFooterProps {
 
 export function PricingFooterCta({ className }: PricingFooterProps) {
   return (
-    // .pricing-footer
-    <div className={cn("flex w-full rounded-[20px] border border-[#ffffff29]", className)}>
+    // .pricing-footer — ≤991px stacks vertically (flex-col)
+    <div className={cn("flex w-full rounded-[20px] border border-[#ffffff29] max-[991px]:flex-col", className)}>
 
-      {/* .pricing-footer-enterprise */}
-      <div className="flex min-w-[320px] max-w-[368px] flex-col gap-5 px-6 pt-5 pb-6">
+      {/* .pricing-footer-enterprise — ≤991px max-width:none */}
+      <div className="flex min-w-[320px] max-w-[368px] flex-col gap-5 px-6 pt-5 pb-6 max-[991px]:max-w-none">
 
         {/* .pricing-footer-head */}
         <div className="flex flex-col gap-2 pt-2">
@@ -93,13 +93,14 @@ export function PricingFooterCta({ className }: PricingFooterProps) {
               "Dedicated account manager & priority support",
               "Flexible warranty across all products",
             ].map((text) => (
-              // li.pricing-footer-extra-list-item
-              <li key={text} className="flex items-center gap-2">
-                {/* .text-white > .icon-20 > svg check */}
-                <div className="flex-1 text-white">
+              // li.pricing-footer-extra-list-item: flex, gap-2 (8px), items-center, justify-start
+              <li key={text} className="flex items-center justify-start gap-2">
+                {/* .text-white > .icon-20: fixed 20px icon — must NOT grow (shrink-0), else it
+                    eats 50% of the row and pushes text away from the check */}
+                <div className="shrink-0 text-white">
                   <CheckIcon />
                 </div>
-                {/* .text-white > .text-body-s */}
+                {/* .text-white > .text-body-s: fills remaining width */}
                 <div className="flex-1 text-white">
                   <div className={siteText.bodyS}>{text}</div>
                 </div>
