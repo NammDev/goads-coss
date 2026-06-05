@@ -10,12 +10,13 @@
 
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
 import { useCart } from "@/lib/cart-context"
+import { CONTACT } from "@/data/contact-info"
 
 // Grid column classes — default 5 cols (Foreplay pricing), overridable via prop
 const GRID_5COL = "grid grid-cols-[1.75fr_1fr_1fr_1fr_1fr]"
@@ -135,6 +136,12 @@ function CrownInline() {
 // Action values that render as ghost pill buttons
 const ACTION_VALUES = new Set(["Add to Cart", "Contact"])
 
+// Category name → URL slug, e.g. "Other Service" → "other-service".
+// Used as an anchor target so other pages can deep-link + auto-expand a category
+// via /pricing#<slug> (e.g. /pricing#other-service).
+const slugify = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+
 // "$80" → 80 ; non-numeric / false → 'contact'
 function parsePrice(v: string | boolean): number | "contact" {
   if (typeof v !== "string") return "contact"
@@ -171,9 +178,15 @@ function CellValue({ value, feature }: { value: string | boolean; feature?: Comp
     if (value === "Add to Cart" && feature) {
       return <CartBuyButton feature={feature} />
     }
+    // "Contact" → GOADS Telegram support with a friendly pre-filled message
+    // (per product). Opens in new tab; CtaButton detects the external URL.
+    const intro = feature?.name
+      ? `Hi GOADS 👋 I'm interested in your ${feature.name}. Could you let me know the price, availability and how long delivery takes? Thank you!`
+      : "Hi GOADS 👋 I'm interested in your services. Could you share the details? Thank you!"
+    const contactHref = `${CONTACT.telegram.official}?text=${encodeURIComponent(intro)}`
     return (
       <CtaButton
-        href="/book-demo"
+        href={contactHref}
         variant="light-primary"
         className="justify-center"
         showIcon={false}
@@ -280,6 +293,26 @@ export function PricingComparisonTable({
 
   const toggle = (i: number) => setExpanded(prev => ({ ...prev, [i]: !prev[i] }))
 
+  // Deep-link support: /pricing#<category-slug> auto-expands that category and
+  // scrolls it into view (e.g. /unban & /blue-verification CTAs → #other-service).
+  useEffect(() => {
+    function openFromHash() {
+      const slug = decodeURIComponent(window.location.hash.replace(/^#/, ""))
+      if (!slug) return
+      const idx = cats.findIndex(c => slugify(c.name) === slug)
+      if (idx === -1) return
+      setExpanded(prev => ({ ...prev, [idx]: true }))
+      // rAF so the row expansion has started before we scroll the head into view
+      requestAnimationFrame(() => {
+        document.getElementById(`cat-${slug}`)?.scrollIntoView({ behavior: "smooth", block: "start" })
+      })
+    }
+    openFromHash()
+    window.addEventListener("hashchange", openFromHash)
+    return () => window.removeEventListener("hashchange", openFromHash)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     // .comparison-grid-scroll > .comparison-grid
     // Wide (5-col): ≤991px the fr-columns squish to ~55px → keep Foreplay's fixed-width
@@ -316,7 +349,7 @@ export function PricingComparisonTable({
 
         {/* ── Categories (collapsible) ── */}
         {cats.map((cat, i) => (
-          <div key={cat.name}>
+          <div key={cat.name} id={`cat-${slugify(cat.name)}`} className="scroll-mt-[150px]">
             {/* .comparison-category-head: clickable, bg solid-25, flex between */}
             <button
               type="button"
@@ -420,6 +453,8 @@ export function PricingComparisonTable({
             {/* .new-button.new-button-secondary: white bg, border inset, dark text */}
             <a
               href={footerCtaHref}
+              target={footerCtaHref.startsWith("http") ? "_blank" : undefined}
+              rel={footerCtaHref.startsWith("http") ? "noopener noreferrer" : undefined}
               className="flex w-full items-center justify-center rounded-[10px] bg-white p-2 text-[#13151a] no-underline shadow-[inset_0_0_0_1px_#ebebeb] transition-all duration-200 hover:bg-[#f2f2f2] hover:shadow-[inset_0_0_0_1px_transparent]"
             >
               <span className={cn("relative z-[2] px-1.5", siteText.headingM)}>{footerCtaLabel}</span>

@@ -49,8 +49,8 @@ export default function UnbanPage() {
             Disabled BM? Banned profile? Page restricted? We recover Meta assets via official appeal channels, no shady workarounds, no short-term fixes.
           </p>
 
-          {/* Primary CTA — Foreplay hero variant (white pill) */}
-          <CtaButton href="/book-demo" variant="hero">
+          {/* Primary CTA — jumps to pricing and auto-opens the "Other Service" row */}
+          <CtaButton href="/pricing#other-service" variant="hero">
             Start Recovery
           </CtaButton>
 

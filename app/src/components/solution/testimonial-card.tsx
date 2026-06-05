@@ -37,8 +37,10 @@ export function SolutionTestimonialCard({
   return (
     // .industries-testimonial
     <div className="relative flex flex-col items-start overflow-hidden rounded-[20px] border border-[#ffffff1a] p-12 max-md:p-6 max-sm:p-3">
-      {/* .industries-testimonial-content */}
-      <div className="relative z-[1] flex flex-col gap-[74px] max-md:gap-12 max-md:pt-6">
+      {/* .industries-testimonial-content — capped to the left ~58% on desktop so the
+          quote/text never overlaps the photo (and the person's face) on the right.
+          Full width on mobile, where the image stacks above as a static block. */}
+      <div className="relative z-[1] flex flex-col gap-[74px] max-md:gap-12 max-md:pt-6 md:max-w-[79%]">
         {/* .industries-testimonial-link > logo (text or image) */}
         <a href={logoHref} target="_blank" rel="noopener noreferrer" className="self-start transition-all duration-200 hover:opacity-80">
           {logoText ? (
@@ -80,10 +82,10 @@ export function SolutionTestimonialCard({
 
       {/* .industry-testimonial-image-holder — only renders when bgImageSrc provided */}
       {bgImageSrc && (
-        <div className="absolute inset-y-0 right-0 left-auto h-full max-md:static max-md:order-first max-md:overflow-hidden max-md:rounded-[15px] max-md:border max-md:border-[#ffffff1a]">
-          {/* .industry-testimonial-bg */}
+        <div className="absolute inset-y-0 right-0 left-auto h-full w-[40%] max-md:static max-md:w-full max-md:order-first max-md:overflow-hidden max-md:rounded-[15px] max-md:border max-md:border-[#ffffff1a]">
+          {/* .industry-testimonial-bg — fills the fixed right column; object-center keeps the face visible */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={bgImageSrc} alt={bgImageAlt} className="h-full object-cover" loading="lazy" />
+          <img src={bgImageSrc} alt={bgImageAlt} className="h-full w-full object-cover object-center max-md:h-auto" loading="lazy" />
           {/* .industry-testimonial-image-fade — gradient fade on desktop, none on mobile */}
           <div
             className="absolute inset-0 max-md:hidden"

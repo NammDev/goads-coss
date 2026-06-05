@@ -21,6 +21,8 @@ interface ProductPageCtaCardProps {
   videoSrc?: string
   iconSrc?: string
   iconAlt?: string
+  /** Extra classes for the content column (e.g. widen max-width so a long title fits one line) */
+  contentClassName?: string
 }
 
 export function ProductPageCtaCard({
@@ -31,6 +33,7 @@ export function ProductPageCtaCard({
   videoSrc,
   iconSrc,
   iconAlt = "",
+  contentClassName = "",
 }: ProductPageCtaCardProps) {
   return (
     // .cta — desktop: py-20 (80px)
@@ -38,7 +41,7 @@ export function ProductPageCtaCard({
       {/* .cta-block — desktop: p-[84px], tablet: p-16 pb-0, mobile: pt-8 px-8 pb-0 */}
       <div className="relative overflow-hidden rounded-[36px] bg-background p-[84px] shadow-[0_0_0_1px_var(--solid-700)] max-md:px-16 max-md:pt-16 max-md:pb-0 max-sm:px-8 max-sm:pt-8 max-sm:pb-0">
         {/* .cta-block-content — desktop: z-1, flex col, gap-8 (32px), max-w-[66%], relative */}
-        <div className="relative z-[1] flex max-w-[66%] flex-col gap-8 max-md:max-w-none">
+        <div className={`relative z-[1] flex max-w-[66%] flex-col gap-8 max-md:max-w-none ${contentClassName}`}>
           {/* .flex-col-gap-2.align-start.text-balance */}
           <div className="flex flex-col items-start gap-2 [text-wrap:balance]">
             {/* .text-white: color #fff + flex:1 > h2.text-display-h3.mobile-landscape-text-display-h4 */}
