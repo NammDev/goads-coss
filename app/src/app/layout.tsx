@@ -12,32 +12,85 @@ import { CalendarPopup } from "@/components/cal/calendar-popup";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 const clerkProxyUrl = process.env.NEXT_PUBLIC_CLERK_PROXY_URL;
 
+// Single source for the shared link-preview copy. Facebook, Instagram, LinkedIn,
+// WhatsApp, Telegram, Discord, Slack, Pinterest, etc. ALL read the same Open Graph
+// tags below; X/Twitter reads the twitter:* tags. Discord also colours its embed
+// bar from `theme-color` (set in `viewport`).
+const SITE_URL = "https://www.goads.shop";
+const SITE_NAME = "GOADS";
+const SITE_TITLE = "GOADS | Agency Ad Accounts & Meta Assets | 24/7 Support";
+const SITE_DESCRIPTION =
+  "Premium agency ad accounts and Meta assets backed by industry-leading warranty, dedicated customer support, fast delivery, and long-term reliability.";
+const OG_IMAGE = {
+  url: "/og-image.png",
+  width: 1200,
+  height: 630,
+  alt: "GOADS - Agency Ad Accounts & Meta Assets",
+  type: "image/png",
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.goads.shop"),
-  title: "Agency Ad Accounts | 7-Day Warranty + 24/7 Support | GOADS",
-  description:
-    "Buy verified Business Managers & agency ad accounts. 3,242+ BMs sold, 7-day warranty, 24/7 support. Scale your Facebook ads without bans.",
+  metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  keywords: [
+    "GOADS",
+    "agency ad accounts",
+    "Meta Business Manager",
+    "verified BM",
+    "Facebook ad accounts",
+    "Facebook profiles",
+    "Facebook pages",
+    "TikTok accounts",
+    "Meta assets",
+    "unban service",
+    "blue verification",
+    "scale Facebook ads",
+  ],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "technology",
+  alternates: { canonical: "/" },
+  // Open Graph — used by Facebook, Instagram, LinkedIn, WhatsApp, Telegram,
+  // Discord, Slack, Pinterest, Messenger, Zalo and most link unfurlers.
   openGraph: {
-    title: "GOADS - Agency Ad Accounts",
-    description:
-      "Stop Losing Accounts. Start Scaling. 7-day warranty, 24/7 support.",
-    url: "https://www.goads.shop",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    locale: "en_US",
     type: "website",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "GOADS - Agency Ad Accounts" }],
+    images: [OG_IMAGE],
   },
+  // X / Twitter card.
   twitter: {
     card: "summary_large_image",
-    title: "GOADS - Agency Ad Accounts",
-    images: ["/og-image.png"],
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [OG_IMAGE.url],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+};
+
+// theme-color: tints the mobile browser UI and the Discord embed accent bar.
+export const viewport: Viewport = {
+  themeColor: "#10b981",
 };
 
 export default function RootLayout({
