@@ -57,6 +57,16 @@ export const metadata: Metadata = {
   publisher: SITE_NAME,
   category: "technology",
   alternates: { canonical: "/" },
+  // Icons served from /public (reliable static serving) + declared explicitly so
+  // the tab favicon AND the iOS "Add to Home Screen" apple-touch-icon both resolve.
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   // Open Graph — used by Facebook, Instagram, LinkedIn, WhatsApp, Telegram,
   // Discord, Slack, Pinterest, Messenger, Zalo and most link unfurlers.
   openGraph: {
