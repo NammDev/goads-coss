@@ -28,6 +28,7 @@ import {
   StickyNote,
   ImagePlus,
 } from 'lucide-react'
+import { CONTACT } from '@/data/contact-info'
 
 /* ====== Agency Accounts ====== */
 
@@ -163,7 +164,7 @@ export const RESOURCES_SUPPORT = [
     icon: Phone,
     title: 'Talk to Sales',
     description: 'Book a 1-on-1 consultation',
-    href: '/book-demo',
+    href: CONTACT.telegram.sales,
   },
 ]
 

@@ -14,6 +14,7 @@ import { PricingComparison } from "@/components/pricing/comparison"
 import { SITE_HERO_GRADIENT } from "@/components/atoms/typography"
 import { goadsSetupCards, goadsPricingFaqItems } from "@/data/pricing-setups-data"
 import { catalogCategories, catalogHeaderColumns } from "@/data/product-catalog-table-data"
+import { CONTACT } from "@/data/contact-info"
 
 // GOADS setup tiers — 3 one-time pricing cards (replaces Foreplay subscription tiers)
 // place-items-center matches Foreplay .pricing-grid: middle card's extra py-4 padding extends
@@ -75,10 +76,10 @@ export default function PricingPage() {
             hideTooltipBadge
             categories={catalogCategories}
             headerColumns={catalogHeaderColumns}
-            defaultExpanded={[0]}
+            defaultExpanded={catalogCategories.map((_, i) => i)}
             footerTitle="Need a custom order?"
             footerCtaLabel="Talk to Sales"
-            footerCtaHref="/book-demo"
+            footerCtaHref={CONTACT.telegram.sales}
             columns={3}
           />
         </SectionContainer>

@@ -10,25 +10,27 @@ export interface FooterLinkCategory {
 export const footerLinkCategories: FooterLinkCategory[] = [
   {
     title: "Product",
+    // Matches the navbar Product mega-menu (Products + Services), exact labels + hrefs + order.
     links: [
-      { label: "Business Managers", href: "/bm" },
-      { label: "Facebook Assets", href: "/profiles" },
+      { label: "Business Manager", href: "/bm" },
+      { label: "Facebook Profile", href: "/profiles" },
+      { label: "Facebook Pages", href: "/pages" },
+      { label: "Agency Ad Account", href: "/agency-ad-account" },
       { label: "TikTok Assets", href: "/tiktok-accounts" },
       { label: "Unban Service", href: "/unban" },
       { label: "Blue Verification", href: "/blue-verification" },
-      { label: "Facebook Agency", href: "/agency-ad-account" },
     ],
   },
   {
     title: "Resources",
+    // Matches the navbar Resources mega-menu (Learn items + Reviews). Order follows the menu.
     links: [
       { label: "Blog", href: "/blog" },
       { label: "Docs", href: "/docs" },
-      { label: "Help Center", href: "/help" },
       { label: "Community", href: "/community" },
-      { label: "Reviews", href: "/reviews" },
+      { label: "Help Center", href: "/help" },
       { label: "Payment Methods", href: "/payment" },
-      { label: "Toolbox", href: "/tools" },
+      { label: "Reviews", href: "/reviews" },
     ],
   },
   {
@@ -56,7 +58,6 @@ export const footerLinkCategories: FooterLinkCategory[] = [
     title: "Legal",
     links: [
       { label: "Privacy Policy", href: "/privacy-policy" },
-      { label: "Terms of Service", href: "/terms-of-service" },
       { label: "Refund Policy", href: "/refund-policy" },
     ],
   },

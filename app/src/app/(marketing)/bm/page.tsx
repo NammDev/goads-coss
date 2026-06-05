@@ -14,6 +14,7 @@ import { ProductPageFeatureGridCards } from "@/components/product/page-feature-g
 import { ProductPageTestimonial } from "@/components/product/page-testimonial"
 import { PricingComparison } from "@/components/pricing/comparison"
 import { catalogCategories, catalogHeaderColumns } from "@/data/product-catalog-table-data"
+import { CONTACT } from "@/data/contact-info"
 import {
   bmHero,
   bmFaq,
@@ -54,7 +55,7 @@ export default function BmPage() {
             defaultExpanded={[0]}
             footerTitle="Need a custom order?"
             footerCtaLabel="Talk to Sales"
-            footerCtaHref="/book-demo"
+            footerCtaHref={CONTACT.telegram.sales}
             columns={3}
           />
         </SectionContainer>

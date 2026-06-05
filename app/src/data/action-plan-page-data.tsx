@@ -8,14 +8,13 @@ import { CONTACT } from "@/data/contact-info"
 export const actionPlanFounder = {
   name: "Justin Bui",
   role: "Founder & CEO @ GOADS",
-  avatarSrc: "/assets/solutions_test1_avt.webp",
+  avatarSrc: "/about/justin-bui.webp",
   avatarAlt: "Justin Bui, Founder & CEO of GOADS",
 }
 
 export const actionPlanCopy = {
-  cardTitle: "Talk to us, we're online",
-  cardDescription:
-    "Pick your channel for a quick chat, or book a call for a deeper conversation about scaling your ad accounts.",
+  cardTitle: "We're here to help",
+  cardDescription: "Get fast support from the GOADS team",
   primaryCta: "Book a Call",
   primaryHref: "/book-demo",
   secondaryCta: "View Pricing",

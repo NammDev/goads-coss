@@ -2,6 +2,8 @@
 // Shape mirrors foreplay-swipe-file-page-data.ts. ALL asset paths preserved 1:1.
 // Only TEXT differs — no images, videos, CSS, HTML or component changes.
 
+import { CONTACT } from "./contact-info"
+
 // --- Product Hero ---
 // Text-only variant (laptop preview removed). ProductHero auto-pads
 // with --py-section (108/96/80) when previewImageSrc is omitted.
@@ -12,7 +14,7 @@ export const agencyAdAccountHero = {
   description:
     "Run high-spend Meta campaigns on whitelisted agency ad accounts. Unlimited daily caps, priority policy review and a direct rep, no more burned BMs.",
   ctaLabel: "Talk to Sales",
-  ctaHref: "/book-demo",
+  ctaHref: CONTACT.telegram.sales,
 }
 
 // --- Before/After Solution ---
@@ -109,9 +111,9 @@ export const agencyAdAccountFeatureGrid1 = {
 export const agencyAdAccountTestimonial1 = {
   quote:
     "We used to burn a BM every 2 weeks trying to hold $30K/day. Switched to GOADS agency accounts, haven't had a disable in 4 months, and we're pushing $120K/day on a single account.",
-  authorName: "Stefan M.",
-  authorRole: "Performance Director, DTC Brand",
-  authorImageSrc: "/assets/testimonial1_founder.webp",
+  authorName: "James Carter",
+  authorRole: "Performance Director, NovaPeak Commerce",
+  authorImageSrc: "/assets/testimonials/t08.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }
@@ -132,9 +134,9 @@ export const agencyAdAccountFeatureGrid2 = {
 export const agencyAdAccountTestimonial2 = {
   quote:
     "Moved our whole affiliate book onto GOADS agency accounts. The compliance pre-review alone saves us 10+ hours per week, and our approval rate jumped from 60% to 95%.",
-  authorName: "Ryan D.",
-  authorRole: "Founder, Media Buying Agency",
-  authorImageSrc: "/assets/test_tim_keen_avatar.webp",
+  authorName: "Daniel Brooks",
+  authorRole: "Founder, BrightScale Media",
+  authorImageSrc: "/assets/testimonials/t10.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }
@@ -142,8 +144,7 @@ export const agencyAdAccountTestimonial2 = {
 // --- Product CTA ---
 export const agencyAdAccountProductCta = {
   title: "Start scaling on an agency account today",
-  description:
-    "Whitelisted Meta ad accounts, unlimited daily spend, direct partner rep and a compliance team on your side.\n\nLaunch in under 48 hours.",
+  description: "Whitelisted agency accounts with unlimited daily spend, a direct partner rep, and a compliance team on your side, live in under 48 hours.",
   iconSrc: "/assets/cta/verified-panda.svg",
   iconAlt: "GOADS panda mascot with verified badge",
 }

@@ -41,9 +41,9 @@ export const bmFeatureGrid1 = {
 // Section 4 (testimonial 1): Stefan M.
 export const bmFeatureGrid1Testimonial = {
   quote: "Lost two BM5s in a week last quarter, Telegram sellers, zero replacement. Switched to GOADS, bought a BM10 Unlimited DSL, been live 4 months straight. Support replies in minutes.",
-  authorName: "Stefan M.",
-  authorRole: "Agency Owner, Germany",
-  authorImageSrc: "/assets/testimonial1_founder.webp",
+  authorName: "Lukas Hoffmann",
+  authorRole: "Agency Owner, Hoffmann Digital",
+  authorImageSrc: "/assets/testimonials/t01.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }
@@ -63,9 +63,9 @@ export const bmFeatureGrid2 = {
 // Section 6 (testimonial 2): Ryan D.
 export const bmFeatureGrid2Testimonial = {
   quote: "Started with a BM3, moved to BM5 Unlimited DSL after two weeks, now running a BM10. Same supplier, same playbook. Zero bans, one replacement in 4 months, handled in 40 minutes.",
-  authorName: "Ryan D.",
-  authorRole: "Media Buyer, US",
-  authorImageSrc: "/assets/test_tim_keen_avatar.webp",
+  authorName: "Tyler Reed",
+  authorRole: "Media Buyer, PeakReach Agency",
+  authorImageSrc: "/assets/testimonials/t02.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }

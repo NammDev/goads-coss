@@ -18,6 +18,7 @@
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
+import { CONTACT } from "@/data/contact-info"
 
 // Check icon SVG (same as sprite-check)
 function CheckIcon() {
@@ -69,7 +70,7 @@ export function PricingFooterCta({ className }: PricingFooterProps) {
         <div className="h-px w-full bg-[#ffffff29]" />
 
         {/* a.button-dark.button-secondary — Talk with an Expert */}
-        <CtaButton href="/book-demo" variant="secondary" className="justify-center">
+        <CtaButton href={CONTACT.telegram.sales} variant="secondary" className="justify-center">
           Talk with an Expert
         </CtaButton>
       </div>

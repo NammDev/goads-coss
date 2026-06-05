@@ -38,9 +38,9 @@ export const profilesFeatureGrid1 = {
 // Section 4 (testimonial 1): Stefan M.
 export const profilesFeatureGrid1Testimonial = {
   quote: "Telegram sellers nearly killed my business. Constant bans, zero support. Switched to GOADS, haven't looked back. Profiles run, support replies, life is good.",
-  authorName: "Stefan M.",
-  authorRole: "Agency Owner, Germany",
-  authorImageSrc: "/assets/testimonial1_founder.webp",
+  authorName: "Elena Vasquez",
+  authorRole: "Agency Owner, Vasquez Growth",
+  authorImageSrc: "/assets/testimonials/t05.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }
@@ -60,9 +60,9 @@ export const profilesFeatureGrid2 = {
 // Section 6 (testimonial 2): Ryan D.
 export const profilesFeatureGrid2Testimonial = {
   quote: "Bought 20 profiles over 3 months. Only 1 needed replacement and they handled it in under an hour. That's the service I pay for.",
-  authorName: "Ryan D.",
-  authorRole: "Media Buyer, US",
-  authorImageSrc: "/assets/test_tim_keen_avatar.webp",
+  authorName: "Mateo Romero",
+  authorRole: "Media Buyer, Romero Media",
+  authorImageSrc: "/assets/testimonials/t03.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }

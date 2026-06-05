@@ -83,6 +83,11 @@ export function CommandMenu() {
 
   const handleSelect = (href: string) => {
     setOpen(false)
+    // External links (e.g. Telegram) open in a new tab; internal routes use the router.
+    if (/^https?:\/\//.test(href)) {
+      window.open(href, "_blank", "noopener,noreferrer")
+      return
+    }
     router.push(href)
   }
 

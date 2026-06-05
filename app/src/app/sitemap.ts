@@ -30,7 +30,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/google-agency",
     "/tiktok-agency",
     "/privacy-policy",
-    "/terms-of-service",
     "/refund-policy",
     "/community",
   ]

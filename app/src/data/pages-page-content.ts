@@ -44,9 +44,9 @@ export const pagesFeatureGrid1 = {
 export const pagesFeatureGrid1Testimonial = {
   quote:
     "Fresh Pages used to die in 48 hours, couldn't get past learning phase. Switched to GOADS aged Pages, every campaign clears review on the first try. Three months, zero restrictions.",
-  authorName: "Stefan M.",
-  authorRole: "Agency Owner, Germany",
-  authorImageSrc: "/assets/testimonial1_founder.webp",
+  authorName: "Sofia Marchetti",
+  authorRole: "Agency Owner, Marchetti Media",
+  authorImageSrc: "/assets/testimonials/t07.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }
@@ -67,9 +67,9 @@ export const pagesFeatureGrid2 = {
 export const pagesFeatureGrid2Testimonial = {
   quote:
     "Bought a 5K aged Page on Monday, ran $400/day from it by Friday. Same supplier, same playbook for the last four months. One Page restricted, replaced in 30 minutes.",
-  authorName: "Ryan D.",
-  authorRole: "Media Buyer, US",
-  authorImageSrc: "/assets/test_tim_keen_avatar.webp",
+  authorName: "Owen Walsh",
+  authorRole: "Media Buyer, AdLift Collective",
+  authorImageSrc: "/assets/testimonials/t04.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }

@@ -78,7 +78,7 @@ export function CalendarPopup() {
           {/* Label */}
           <span className="flex flex-col items-start leading-tight">
             <span className={cn(siteText.labelS, "text-white")}>Support</span>
-            <span className={cn(siteText.bodyXs, "text-white/60")}>Online · reply ~2m</span>
+            <span className={cn(siteText.bodyXs, "text-white/60")}>Online · 24/7</span>
           </span>
         </button>
       </div>
