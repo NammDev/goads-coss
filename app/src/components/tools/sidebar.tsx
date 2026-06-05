@@ -10,6 +10,7 @@
 
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ChevronDown, PanelLeft } from "lucide-react"
@@ -91,10 +92,20 @@ export function ToolsSidebar() {
   )
 }
 
-// Mobile trigger + drawer
+// Mobile trigger + drawer.
+// Controlled open state so the drawer auto-closes on navigation — clicking a
+// tool Link changes the route client-side without unmounting the Sheet, so an
+// uncontrolled Sheet would stay open. Close on every pathname change.
 export function ToolsSidebarMobile() {
+  const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <button
           type="button"
@@ -107,9 +118,20 @@ export function ToolsSidebarMobile() {
           <span>Tools</span>
         </button>
       </SheetTrigger>
+      {/* `site` class re-applies Foreplay dark-theme tokens INSIDE the Radix
+          portal. SheetContent renders to document.body — outside the .site
+          wrapper — so without this, --background/--alpha-* fall back to :root
+          (white in light-mode OS, black in dark-mode OS), making the drawer
+          render white on light-mode phones. Scoping `site` here pins it dark. */}
+      {/* pt-20 (80px) clears the sticky header (h-[72px], z-100) which renders
+          ABOVE this drawer (z-50) and would otherwise swallow the first category
+          label + items. overflow-y-auto so the full list stays reachable. The
+          default top-right X sits under the header (hidden) and is redundant —
+          tap the overlay / Esc / pick a tool to close — so it's turned off. */}
       <SheetContent
         side="left"
-        className="w-64 border-r border-[#ffffff29] bg-background p-4 pt-8 text-muted-foreground"
+        showCloseButton={false}
+        className="site w-64 overflow-y-auto border-r border-[#ffffff29] bg-background p-4 pt-20 text-muted-foreground"
       >
         <SidebarNav />
       </SheetContent>

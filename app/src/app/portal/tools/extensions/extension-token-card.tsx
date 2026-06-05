@@ -39,9 +39,9 @@ function formatDate(dateStr?: string | null) {
 
 const AUTH_STEPS = [
   'Install the extension and open Facebook',
-  'Click "Sign in with GoAds" in the extension overlay',
-  'Sign in with your GoAds account (same as this portal)',
-  'Come back to Facebook — the extension connects automatically',
+  'Click "Sign in with GOADS" in the extension overlay',
+  'Sign in with your GOADS account (same as this portal)',
+  'Come back to Facebook, the extension connects automatically',
 ]
 
 export function ExtensionTokenCard({ initial }: { initial: TokenStatus }) {
@@ -76,7 +76,7 @@ export function ExtensionTokenCard({ initial }: { initial: TokenStatus }) {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground mb-4 text-sm">
-            The extension uses your GoAds account — no tokens needed.
+            The extension uses your GOADS account, no tokens needed.
             Just sign in once and you&apos;re connected.
           </p>
           <ol className="space-y-2.5">
@@ -105,8 +105,8 @@ export function ExtensionTokenCard({ initial }: { initial: TokenStatus }) {
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="text-muted-foreground text-xs">
-              You have an old extension token. The extension now uses your GoAds
-              account directly — this token is no longer needed.
+              You have an old extension token. The extension now uses your GOADS
+              account directly, this token is no longer needed.
             </p>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div>

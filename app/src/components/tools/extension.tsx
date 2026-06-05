@@ -50,7 +50,7 @@ export function ExtensionTool() {
           <span className="text-[var(--solid-500)]">Login by cookie.</span>
         </h2>
         <p className={cn(siteText.bodyL, "text-[var(--solid-500)]")}>
-          Built by GOADS — Meta Asset specialists.
+          Built by GOADS, Meta Asset specialists.
         </p>
 
         <div className="flex flex-wrap items-center gap-3 pt-2">

@@ -20,10 +20,10 @@ export function SiteHeader() {
         <div className="flex w-full items-center justify-between max-lg:gap-4">
 
           {/* Logo */}
-          <Link href="/" className="shrink-0" aria-label="GoAds Agency - Home">
+          <Link href="/" className="shrink-0" aria-label="GOADS Agency - Home">
             <div className="flex items-center gap-2.5 max-[550px]:[&_span]:hidden">
               <SsLogo />
-              <span className="text-xl font-semibold">goads/agency</span>
+              <span className="text-xl font-semibold">GOADS/agency</span>
             </div>
           </Link>
 

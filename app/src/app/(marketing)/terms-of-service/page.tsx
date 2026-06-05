@@ -8,9 +8,9 @@ import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
 import { foreplayTermsOfServiceContent } from "@/data/terms-of-service-content"
 
 export const metadata: Metadata = {
-  title: "Terms of Service | GoAds",
+  title: "Terms of Service | GOADS",
   description:
-    "GoAds Terms of Service — how our advertising assets and services are provided, warranty terms, payment, and your responsibilities.",
+    "GOADS Terms of Service, how our advertising assets and services are provided, warranty terms, payment, and your responsibilities.",
 }
 
 export default function TermsOfServicePage() {

@@ -48,7 +48,7 @@ const defaultCards: HomeFeatureCard[] = [
       </svg>
     ),
     title: "Direct access, anytime",
-    description: "Message us on Telegram, WhatsApp or Discord and get a real answer from a real person — around the clock, no tickets, no waiting.",
+    description: "Message us on Telegram, WhatsApp or Discord and get a real answer from a real person, around the clock, no tickets, no waiting.",
     ctaLabel: "Contact Us",
     ctaHref: "/contact",
     image: "/landing/community/support.png",
@@ -60,7 +60,7 @@ const defaultCards: HomeFeatureCard[] = [
       </svg>
     ),
     title: "Tools that do the work",
-    description: "Free extensions and utilities we built to fix what Meta breaks — BM invites, cookie login, 2FA and more. No cost, no catch.",
+    description: "Free extensions and utilities we built to fix what Meta breaks, BM invites, cookie login, 2FA and more. No cost, no catch.",
     ctaLabel: "View Tools",
     ctaHref: "/tools",
     isMiddle: true,
@@ -74,7 +74,7 @@ const defaultCards: HomeFeatureCard[] = [
       </svg>
     ),
     title: "Stay in the loop",
-    description: "Policy shifts, new products and insider playbooks — straight from the GoAds team, before they cost you a campaign.",
+    description: "Policy shifts, new products and insider playbooks, straight from the GOADS team, before they cost you a campaign.",
     ctaLabel: "Read the Blog",
     ctaHref: "/blog",
     image: "/landing/community/blog.png",

@@ -48,12 +48,12 @@ export const tempmailFaq = {
     {
       question: "Is Temp Mail safe to use for signing up to services?",
       answer:
-        "Yes — it's purpose-built for that. Use it for tools, trials, and platforms where you don't want to give out your main address.",
+        "Yes, it's purpose-built for that. Use it for tools, trials, and platforms where you don't want to give out your main address.",
     },
     {
       question: "Can I send emails from a Temp Mail address?",
       answer:
-        "No — Temp Mail is receive-only. It's designed for verifying signups and receiving one-time codes, not outbound messaging.",
+        "No, Temp Mail is receive-only. It's designed for verifying signups and receiving one-time codes, not outbound messaging.",
     },
     {
       question: "Does Temp Mail work with Facebook / Google signups?",

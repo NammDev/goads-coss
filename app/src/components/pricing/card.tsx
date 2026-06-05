@@ -18,10 +18,13 @@
 // .text-white: color #fff, flex-1
 // .text-alpha-100: color neutral-100 (#ffffffad), flex-1
 
-import type { ReactNode } from "react"
+"use client"
+
+import { type ReactNode, useState, useCallback } from "react"
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
+import { useCart } from "@/lib/cart-context"
 
 // SVG icons extracted from source sprites
 function CheckIcon() {
@@ -117,6 +120,28 @@ export function PricingCard({
   data,
   className,
 }: PricingCardProps) {
+  const { addItem } = useCart()
+  const [cartState, setCartState] = useState<"idle" | "loading" | "done">("idle")
+
+  // Setup tiers are one-time bundles — parse "$250" → 250 so they add to cart
+  // like a normal product. Non-numeric prices (e.g. "Contact") fall back to the link.
+  const priceNum = data ? Number(String(data.price).replace(/[^0-9.]/g, "")) : NaN
+  const canBuy = Number.isFinite(priceNum) && priceNum > 0
+
+  const handleAddToCart = useCallback(() => {
+    if (!data || !canBuy || cartState !== "idle") return
+    setCartState("loading")
+    setTimeout(() => {
+      // addItem dispatches `cart:item-added`, which slides the cart drawer open.
+      addItem({ name: data.planName, description: data.description, price: priceNum, unit: "setup" })
+      setCartState("done")
+      setTimeout(() => setCartState("idle"), 1200)
+    }, 400)
+  }, [data, canBuy, priceNum, cartState, addItem])
+
+  const ctaText =
+    cartState === "loading" ? "Adding..." : cartState === "done" ? "Added to cart" : (data?.ctaLabel ?? "Add to cart")
+
   return (
     <div
       className={cn(
@@ -178,12 +203,15 @@ export function PricingCard({
             {/* .div-block-335 — full width wrapper */}
             <div className="flex w-full flex-col">
               {/* Reuse CtaButton — exact DOM: .button-dark.button-primary|secondary */}
+              {/* Purchasable setup → add-to-cart action button (opens cart drawer). */}
+              {/* Otherwise → plain link (e.g. "Contact"/custom href). */}
               <CtaButton
-                href={data?.ctaHref ?? "#"}
+                {...(canBuy ? { onClick: handleAddToCart } : { href: data?.ctaHref ?? "#" })}
                 variant={data?.ctaVariant === "primary" ? "hero" : "secondary"}
                 className="w-full justify-center"
+                showIcon={!canBuy || cartState === "idle"}
               >
-                {data?.ctaLabel ?? "Start Free Trial"}
+                {canBuy ? ctaText : (data?.ctaLabel ?? "Start Free Trial")}
               </CtaButton>
             </div>
             {/* .no-cc-required — display:none in source */}

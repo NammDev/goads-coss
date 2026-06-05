@@ -33,7 +33,7 @@ export type BlogPost = {
 }
 
 const goadsTeam: BlogAuthor = {
-  name: "GoAds Team",
+  name: "GOADS Team",
   avatar: "/avatars/author-placeholder.svg",
   title: "Marketing Team",
   socials: {
@@ -72,7 +72,7 @@ export const blogPosts: BlogPost[] = [
       {
         id: "why-agency-accounts",
         title: "Why Agency Accounts Matter",
-        content: `<p>Agency ad accounts are the backbone of any serious Facebook advertising operation. Unlike personal ad accounts, agency accounts come with higher spending limits, better support, and most importantly — significantly lower ban rates.</p>
+        content: `<p>Agency ad accounts are the backbone of any serious Facebook advertising operation. Unlike personal ad accounts, agency accounts come with higher spending limits, better support, and most importantly, significantly lower ban rates.</p>
 <p>When you're spending thousands of dollars per day on ads, the last thing you want is to wake up to a disabled account. Agency accounts provide the stability and trust that Meta's systems look for when evaluating advertiser quality.</p>`,
       },
       {
@@ -80,9 +80,9 @@ export const blogPosts: BlogPost[] = [
         title: "Optimal Account Structure",
         content: `<p>The key to scaling with agency accounts lies in proper structure. Here's what we recommend:</p>
 <ul>
-<li><strong>Separate accounts by offer</strong> — Each product or service should have its own ad account to isolate risk</li>
-<li><strong>Warm up gradually</strong> — Start with $50-100/day and increase by 20% every 2-3 days</li>
-<li><strong>Use multiple pixels</strong> — Distribute your tracking across accounts for redundancy</li>
+<li><strong>Separate accounts by offer</strong>, Each product or service should have its own ad account to isolate risk</li>
+<li><strong>Warm up gradually</strong>, Start with $50-100/day and increase by 20% every 2-3 days</li>
+<li><strong>Use multiple pixels</strong>, Distribute your tracking across accounts for redundancy</li>
 </ul>
 <p>This structure ensures that if one account faces issues, your entire operation doesn't come to a halt.</p>`,
       },
@@ -119,13 +119,13 @@ export const blogPosts: BlogPost[] = [
       {
         id: "bm-limits-overview",
         title: "Business Manager Limits Overview",
-        content: `<p>Meta Business Manager comes with several built-in limits that can restrict your advertising capabilities. Understanding these limits is the first step to working within — or around — them.</p>
+        content: `<p>Meta Business Manager comes with several built-in limits that can restrict your advertising capabilities. Understanding these limits is the first step to working within, or around, them.</p>
 <p>The most common limits include ad account creation caps, spending thresholds, and pixel limitations. Each of these can be a bottleneck for growing advertisers.</p>`,
       },
       {
         id: "spending-thresholds",
         title: "Spending Thresholds Explained",
-        content: `<p>New Business Managers typically start with low spending limits — sometimes as low as $50/day. These limits increase over time based on account history, payment reliability, and ad quality.</p>
+        content: `<p>New Business Managers typically start with low spending limits, sometimes as low as $50/day. These limits increase over time based on account history, payment reliability, and ad quality.</p>
 <p>Verified agency accounts bypass many of these restrictions, starting with significantly higher limits from day one. This is one of the primary reasons serious advertisers invest in agency infrastructure.</p>`,
       },
       {
@@ -167,16 +167,16 @@ export const blogPosts: BlogPost[] = [
         title: "Key Benefits",
         content: `<p>The advantages of whitelisted accounts include:</p>
 <ul>
-<li><strong>Higher trust scores</strong> — Your ads are less likely to be flagged by automated systems</li>
-<li><strong>Faster review times</strong> — New ads get approved in minutes instead of hours</li>
-<li><strong>Better ad delivery</strong> — Higher quality scores lead to lower CPCs and better placements</li>
-<li><strong>Fewer suspensions</strong> — Whitelisted accounts have significantly lower suspension rates</li>
+<li><strong>Higher trust scores</strong>, Your ads are less likely to be flagged by automated systems</li>
+<li><strong>Faster review times</strong>, New ads get approved in minutes instead of hours</li>
+<li><strong>Better ad delivery</strong>, Higher quality scores lead to lower CPCs and better placements</li>
+<li><strong>Fewer suspensions</strong>, Whitelisted accounts have significantly lower suspension rates</li>
 </ul>`,
       },
       {
         id: "how-to-get-one",
         title: "How to Get a Whitelisted Account",
-        content: `<p>Getting a whitelisted account typically requires working with an authorized Google partner or agency. At GoAds, we provide pre-verified whitelisted accounts that are ready to use from day one.</p>
+        content: `<p>Getting a whitelisted account typically requires working with an authorized Google partner or agency. At GOADS, we provide pre-verified whitelisted accounts that are ready to use from day one.</p>
 <p>Our accounts come with a 7-day warranty and full support to ensure you can start advertising without delays.</p>`,
       },
     ],
@@ -187,7 +187,7 @@ export const blogPosts: BlogPost[] = [
     categorySlug: "tiktok-ads",
     title: "Getting Started with TikTok Verified Ad Accounts",
     description:
-      "Everything you need to know about TikTok verified agency accounts — from setup to scaling. Learn how to leverage TikTok's algorithm for maximum ROAS.",
+      "Everything you need to know about TikTok verified agency accounts, from setup to scaling. Learn how to leverage TikTok's algorithm for maximum ROAS.",
     author: goadsTeam,
     date: "February 15, 2026",
     readTime: "9 min read",
@@ -209,7 +209,7 @@ export const blogPosts: BlogPost[] = [
 <li>Campaign structure setup</li>
 <li>Creative asset preparation</li>
 </ul>
-<p>With a GoAds verified account, much of this process is streamlined — you'll receive a fully verified account ready for campaign launch.</p>`,
+<p>With a GOADS verified account, much of this process is streamlined, you'll receive a fully verified account ready for campaign launch.</p>`,
       },
       {
         id: "scaling-tiktok",
@@ -249,13 +249,13 @@ export const blogPosts: BlogPost[] = [
         title: "Prevention Strategies",
         content: `<p>Here are 7 proven strategies to keep your accounts healthy:</p>
 <ul>
-<li><strong>Use agency accounts</strong> — They have inherently higher trust levels</li>
-<li><strong>Warm up gradually</strong> — Never jump from $0 to $1000/day overnight</li>
-<li><strong>Review policies regularly</strong> — Meta updates its policies frequently</li>
-<li><strong>Diversify your accounts</strong> — Don't put all your budget in one account</li>
-<li><strong>Monitor ad quality scores</strong> — Low quality scores are an early warning sign</li>
-<li><strong>Keep landing pages compliant</strong> — Your landing page matters as much as your ad</li>
-<li><strong>Maintain clean payment methods</strong> — Use reliable payment sources without history of chargebacks</li>
+<li><strong>Use agency accounts</strong>, They have inherently higher trust levels</li>
+<li><strong>Warm up gradually</strong>, Never jump from $0 to $1000/day overnight</li>
+<li><strong>Review policies regularly</strong>, Meta updates its policies frequently</li>
+<li><strong>Diversify your accounts</strong>, Don't put all your budget in one account</li>
+<li><strong>Monitor ad quality scores</strong>, Low quality scores are an early warning sign</li>
+<li><strong>Keep landing pages compliant</strong>, Your landing page matters as much as your ad</li>
+<li><strong>Maintain clean payment methods</strong>, Use reliable payment sources without history of chargebacks</li>
 </ul>`,
       },
       {
@@ -263,7 +263,7 @@ export const blogPosts: BlogPost[] = [
         title: "What to Do If You Get Banned",
         content: `<p>If despite your best efforts an account gets banned, here's what to do:</p>
 <p>First, don't panic. Submit an appeal through Meta's standard process. If the ban was a false positive, it's often resolved within 24-48 hours.</p>
-<p>If the appeal fails, consider starting fresh with a new agency account from a trusted provider like GoAds. Our accounts come with a 7-day warranty specifically for situations like these.</p>`,
+<p>If the appeal fails, consider starting fresh with a new agency account from a trusted provider like GOADS. Our accounts come with a 7-day warranty specifically for situations like these.</p>`,
       },
     ],
   },
@@ -283,7 +283,7 @@ export const blogPosts: BlogPost[] = [
       {
         id: "the-three-pillars",
         title: "The Three Pillars",
-        content: `<p>Expected CTR, ad relevance, and landing page experience. Each one is graded against your competitors in the same auction — not against an absolute scale.</p>`,
+        content: `<p>Expected CTR, ad relevance, and landing page experience. Each one is graded against your competitors in the same auction, not against an absolute scale.</p>`,
       },
     ],
   },
@@ -293,7 +293,7 @@ export const blogPosts: BlogPost[] = [
     categorySlug: "tiktok-ads",
     title: "Spark Ads vs Non-Spark: Which Wins in 2026?",
     description:
-      "Spark Ads borrow social proof from organic posts. We tested both at $30K/mo spend — here's what actually moved the needle.",
+      "Spark Ads borrow social proof from organic posts. We tested both at $30K/mo spend, here's what actually moved the needle.",
     author: goadsTeam,
     date: "February 12, 2026",
     readTime: "7 min read",
@@ -388,7 +388,7 @@ export const blogPosts: BlogPost[] = [
     categorySlug: "google-ads",
     title: "Structuring Performance Max Asset Groups for Maximum ROAS",
     description:
-      "PMax rewards intentional structure. Lumping everything into one asset group leaves performance — and budget — on the table.",
+      "PMax rewards intentional structure. Lumping everything into one asset group leaves performance, and budget, on the table.",
     author: goadsTeam,
     date: "January 8, 2026",
     readTime: "9 min read",
@@ -397,7 +397,7 @@ export const blogPosts: BlogPost[] = [
       {
         id: "thematic-grouping",
         title: "Thematic Grouping",
-        content: `<p>Split asset groups by product theme, not SKU. PMax's algorithm needs enough signal per group to optimize — narrow themes starve the model.</p>`,
+        content: `<p>Split asset groups by product theme, not SKU. PMax's algorithm needs enough signal per group to optimize, narrow themes starve the model.</p>`,
       },
     ],
   },
@@ -464,7 +464,7 @@ export const blogPosts: BlogPost[] = [
     categorySlug: "meta-ads",
     title: "Retargeting Window Sizes: Beyond the 7/14/30 Defaults",
     description:
-      "Most advertisers default to 30-day retargeting windows. But your buying cycle, AOV, and audience size should drive the choice — not Meta's templates.",
+      "Most advertisers default to 30-day retargeting windows. But your buying cycle, AOV, and audience size should drive the choice, not Meta's templates.",
     author: goadsTeam,
     date: "December 6, 2025",
     readTime: "6 min read",

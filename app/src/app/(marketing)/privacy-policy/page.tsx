@@ -23,9 +23,9 @@ import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
 import { foreplayPrivacyPolicyContent } from "@/data/privacy-policy-content"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | GoAds",
+  title: "Privacy Policy | GOADS",
   description:
-    "Read GoAds's Privacy Policy to understand how we protect your data and ensure your privacy. Learn about our practices and your rights.",
+    "Read GOADS's Privacy Policy to understand how we protect your data and ensure your privacy. Learn about our practices and your rights.",
 }
 
 export default function PrivacyPolicyPage() {

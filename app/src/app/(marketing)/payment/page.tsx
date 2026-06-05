@@ -58,9 +58,9 @@ const paymentMethodCards: HomeFeatureCard[] = [
 ]
 
 export const metadata: Metadata = {
-  title: "Payment Methods | GoAds",
+  title: "Payment Methods | GOADS",
   description:
-    "Secure, flexible payment options to fund your GoAds account the way that works best for your business.",
+    "Secure, flexible payment options to fund your GOADS account the way that works best for your business.",
 }
 
 export default function PaymentPage() {

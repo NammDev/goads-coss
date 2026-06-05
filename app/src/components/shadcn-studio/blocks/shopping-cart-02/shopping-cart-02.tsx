@@ -29,7 +29,7 @@ function buildTelegramMessage(
     (i) => `  • ${i.name} × ${i.quantity} = $${i.price * i.quantity}`
   )
   const parts = [
-    '🛒 New Order from GoAds',
+    '🛒 New Order from GOADS',
     '',
     '📦 Items:',
     ...lines,

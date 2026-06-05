@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { usePathname } from 'next/navigation'
 import { XIcon, ChevronRight, ShoppingBag } from 'lucide-react'
 import { Dialog as DialogPrimitive } from 'radix-ui'
 
@@ -22,20 +23,33 @@ import { SW, SW_GRADIENT } from '@/components/support-widget/support-widget.toke
 
 /* ---------- products region — ONLY this scrolls ---------- */
 
-// Cap the scroll area to ~5 rows (a row ≈ 84px + 10px gap). Beyond that the
-// product list scrolls internally; header / summary / footer stay fixed.
-const LIST_MAX_H = 460
+// Cap the scroll area to ~3.5 rows (a row ≈ 84px + 10px gap). Beyond that the
+// product list scrolls internally; header / summary / footer stay fixed. Kept
+// compact so the cart doesn't dominate the screen — on short viewports the list
+// shrinks below this anyway (flex-auto), so this is just the tall-screen ceiling.
+const LIST_MAX_H = 320
 
 function CartProducts({ items }: { items: ReturnType<typeof useCart>['items'] }) {
   // §6 cards container: gap 10px · relative z-1 · -mt-34px (cards rise UP into
   // the bottom of the gradient header) · 20px side inset (px-5).
+  //
+  // flex-auto (flex: 1 1 auto) + min-h-0 — handles BOTH cases correctly, on
+  // Safari and Chrome:
+  //   • Few items → panel is h-fit (indefinite). basis:auto sizes the list to
+  //     its content, so the panel hugs it. (flex-1's basis:0% would collapse
+  //     the list to 0px on iOS Safari — the earlier "products vanish" bug.)
+  //   • Many items → panel hits max-h (now a DEFINITE height), so the list
+  //     SHRINKS (flex-shrink + min-h-0) and scrolls internally while the fixed
+  //     header + summary (Total / Order via Telegram) stay visible — instead of
+  //     the panel overflowing past the viewport and clipping the Order button.
+  // LIST_MAX_H caps the list on tall screens to preserve the ~5-row look.
   return (
-    <div className='relative z-[1] -mt-[34px] flex min-h-0 flex-1 flex-col px-5'>
+    <div className='relative z-[1] -mt-[34px] flex min-h-0 flex-auto flex-col px-5'>
       {items.length === 0 ? (
         <CartEmpty />
       ) : (
         <div
-          className='flex flex-1 flex-col gap-[10px] overflow-y-auto pb-1 [scrollbar-gutter:stable]'
+          className='flex min-h-0 flex-auto flex-col gap-[10px] overflow-y-auto pb-1 [scrollbar-gutter:stable]'
           style={{ maxHeight: LIST_MAX_H }}
         >
           {items.map((item) => (
@@ -55,11 +69,20 @@ export function CartPopover() {
   const [open, setOpen] = useState(false)
   const [payment, setPayment] = useState<'crypto' | 'wise'>('crypto')
   const [note, setNote] = useState('')
+  // Auto-close the cart on route change — user navigating to another page
+  // dismisses the drawer (per UX decision: don't carry the overlay across routes).
+  const pathname = usePathname()
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
   // The closed pill must not pop in while the panel is still playing its
   // ~300ms slide-out exit (Radix data-[state=closed] animation). Hold the
   // pill back until the panel is fully gone, then fade it in. Init true so
   // the very first page load (never opened) shows the pill immediately.
   const [pillReady, setPillReady] = useState(true)
+  // Re-keys the cart pill's bag+badge on each mobile add so the bump keyframe
+  // replays (5→6 pop). Incremented by the cart:item-added handler below.
+  const [bumpKey, setBumpKey] = useState(0)
   useEffect(() => {
     if (open) {
       setPillReady(false)
@@ -82,30 +105,53 @@ export function CartPopover() {
     setOpen(false)
   }, [items, subtotal, payment, note, clearCart])
 
-  /* Open on item-added OR an explicit "View cart" CTA (`cart:open`). Non-modal
-     drawer (modal={false}, no backdrop) so it auto-opens without blocking the
-     catalog. Stays open until dismissed (X / Esc / Hide / order placed). */
+  /* Buy Now (`cart:item-added`):
+       - Desktop (≥992px): slide the non-modal drawer open — the drawer IS the
+         confirmation (doesn't block the catalog).
+       - Mobile (≤991px): keep the drawer CLOSED and instead bump the floating
+         cart badge (5→6 pop) — a lighter add-to-cart cue that doesn't cover the
+         small screen.
+     The explicit "View cart" CTA (`cart:open`) always opens, every breakpoint. */
   useEffect(() => {
-    const handler = () => setOpen(true)
-    window.addEventListener('cart:item-added', handler)
-    window.addEventListener('cart:open', handler)
+    const onAdded = () => {
+      const isMobile = window.matchMedia('(max-width: 991.98px)').matches
+      if (isMobile) {
+        setBumpKey((k) => k + 1)
+      } else {
+        setOpen(true)
+      }
+    }
+    const onOpen = () => setOpen(true)
+    window.addEventListener('cart:item-added', onAdded)
+    window.addEventListener('cart:open', onOpen)
     return () => {
-      window.removeEventListener('cart:item-added', handler)
-      window.removeEventListener('cart:open', handler)
+      window.removeEventListener('cart:item-added', onAdded)
+      window.removeEventListener('cart:open', onOpen)
     }
   }, [])
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={setOpen} modal={false}>
       <DialogPortal>
-        {/* No DialogOverlay — a side drawer must not dim/block the page. */}
+        {/* Desktop: no overlay (non-modal side drawer keeps the catalog usable).
+            Mobile (≤991px): the panel nearly fills the screen and its top tucks
+            under the sticky header, so the X is hard to reach — add a dim
+            backdrop that closes the cart on tap (an obvious, reachable dismiss).
+            Rendered only while open + only on mobile (fp-lg:hidden). */}
+        {open && (
+          <div
+            className="fixed inset-0 z-[105] bg-black/45 fp-lg:hidden"
+            aria-hidden="true"
+            onClick={() => setOpen(false)}
+          />
+        )}
         <DialogPrimitive.Content
           onOpenAutoFocus={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
           /* §1 panel shell: 24px radius · diffused shadow · hugs content.
              Right-anchored, vertically centred · slides in from the right
              (right → left). Toggled by the side handle (right-edge centre). */
-          className='fixed right-4 inset-y-0 z-50 my-auto flex h-fit max-h-[calc(100dvh-2.5rem)] w-[min(400px,calc(100dvw-2.5rem))] flex-col overflow-hidden bg-white outline-none duration-300 data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=closed]:fade-out data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=open]:fade-in'
+          className='fixed right-4 inset-y-0 z-[110] my-auto flex h-fit max-h-[calc(100dvh-2.5rem)] w-[min(400px,calc(100dvw-2.5rem))] flex-col overflow-hidden bg-white outline-none duration-300 data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=closed]:fade-out data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=open]:fade-in'
           style={{ borderRadius: SW.panelRadius, boxShadow: SW.panelShadow }}
         >
           {/* §2b close button — pinned to the panel (does not scroll), white,
@@ -132,7 +178,7 @@ export function CartPopover() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src='/assets/logo/mark.png'
-                  alt='GoAds'
+                  alt='GOADS'
                   className='h-9 w-auto object-contain'
                 />
                 <span className='text-[22px] font-bold leading-none tracking-tight text-[#14161A]'>
@@ -176,7 +222,7 @@ export function CartPopover() {
         aria-label={open ? 'Close cart' : 'Open cart'}
         onClick={() => setOpen((v) => !v)}
         className={
-          'group fixed top-1/2 z-[60] flex -translate-y-1/2 cursor-pointer items-center bg-white transition-[right,transform] duration-300 ease-out ' +
+          'group fixed top-1/2 z-[110] flex -translate-y-1/2 cursor-pointer items-center bg-white transition-[right,transform] duration-300 ease-out ' +
           // Mobile (≤991px): hide the closed pill when the cart is empty so it
           // never overlaps hero content — matches Foreplay's clean mobile. The
           // pill reappears once an item is added (count > 0). Desktop unaffected.
@@ -203,7 +249,12 @@ export function CartPopover() {
           // white pill stays flush to the screen edge and never exposes the
           // dark page bg behind it on hover.
           <span className='flex items-center gap-2.5 transition-transform duration-300 ease-out group-hover:-translate-x-0.5'>
-            <span className='relative'>
+            {/* key={bumpKey} remounts on each mobile add so the bump keyframe
+                replays; gated to bumpKey>0 so it never plays on first paint. */}
+            <span
+              key={bumpKey}
+              className={'relative' + (bumpKey > 0 ? ' cart-badge-bump' : '')}
+            >
               <ShoppingBag className='size-5 text-[#1A1A1A] transition-transform duration-200 group-hover:scale-110' />
               {count > 0 && (
                 <span className='absolute -top-2 -right-2 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#528BFF] px-1 text-[10px] font-semibold tabular-nums text-white ring-2 ring-white'>

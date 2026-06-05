@@ -35,7 +35,7 @@ export function DocsAiPanel({
             <Bot className="size-6 text-muted-foreground" />
           </div>
           <div>
-            <p className="text-sm font-medium">Ask a question about GoAds</p>
+            <p className="text-sm font-medium">Ask a question about GOADS</p>
             <p className="mt-1 text-xs text-muted-foreground">
               Get instant answers about ad accounts, billing, setup, and more.
             </p>

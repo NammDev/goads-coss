@@ -13,7 +13,7 @@ export const partnersOffers = {
   description:
     "From verified BMs to recovery services. Built for advertisers who refuse to babysit disabled accounts.",
   cards: [
-    { imageSrc: "/partner/ADS%20POWER.svg", title: "Business Manager", description: "BM1, BM3, BM5, BM10 — all Meta-verified. Pick the DSL that fits your spend." },
+    { imageSrc: "/partner/ADS%20POWER.svg", title: "Business Manager", description: "BM1, BM3, BM5, BM10, all Meta-verified. Pick the DSL that fits your spend." },
     { imageSrc: "/partner/DOLPHIN.svg", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your BM. Clean history, ready to run." },
     { imageSrc: "/partner/FLOXY.svg", title: "Unban Service", description: "BM banned? Ad account disabled? We recover the asset so you keep the pixel." },
     { imageSrc: "/partner/INCOGNITION.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on your BM assets." },

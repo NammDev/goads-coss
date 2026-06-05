@@ -14,18 +14,18 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
   {
     title: "The blue badge changes how customers see you",
     description:
-      "Verified accounts earn up to 30% more engagement on average. The blue check tells your audience you're the real brand — not a competitor, not an impersonator.\n\nBeyond credibility, verification unlocks priority support, account protection and impersonation-removal tools that unverified accounts never see.\n\nWe've taken accounts from unverified to verified on both Facebook and Instagram — at every business size.",
+      "Verified accounts earn up to 30% more engagement on average. The blue check tells your audience you're the real brand, not a competitor, not an impersonator.\n\nBeyond credibility, verification unlocks priority support, account protection and impersonation-removal tools that unverified accounts never see.\n\nWe've taken accounts from unverified to verified on both Facebook and Instagram, at every business size.",
     image: "/assets/blue-verification-badge.webp",
-    imageAlt: "Verified Instagram profile with blue checkmark on iPhone, by GoAds",
+    imageAlt: "Verified Instagram profile with blue checkmark on iPhone, by GOADS",
     imageMaxWidth: 960, // large so the image balances the 3-paragraph copy
     reversed: false,
   },
   {
     title: "Verified on every platform your customers follow you",
     description:
-      "Your audience doesn't separate Facebook from Instagram — they expect the badge on every profile. One unverified handle breaks trust across both.\n\nWe handle both platforms end-to-end. Single point of contact, official Meta channels only, predictable timelines on every submission.",
+      "Your audience doesn't separate Facebook from Instagram, they expect the badge on every profile. One unverified handle breaks trust across both.\n\nWe handle both platforms end-to-end. Single point of contact, official Meta channels only, predictable timelines on every submission.",
     image: "/assets/blue-verification-multiplatform.webp",
-    imageAlt: "Verified Facebook Page with blue checkmark on iPad, by GoAds",
+    imageAlt: "Verified Facebook Page with blue checkmark on iPad, by GOADS",
     imageMaxWidth: 960, // match image 1 size
     reversed: true,
     ctaLabel: "Contact us now",
@@ -63,7 +63,7 @@ export const blueVerificationFaq = {
     {
       question: "Is this official Meta verification?",
       answer:
-        "Yes. We submit your application through official Meta channels. You get the real blue badge on your account — no third-party tricks.",
+        "Yes. We submit your application through official Meta channels. You get the real blue badge on your account, no third-party tricks.",
     },
   ],
 }

@@ -5,7 +5,7 @@ import { ToolHeader } from "@/components/tools/header"
 import { CheckIpTool } from "@/components/tools/check-ip"
 
 export const metadata: Metadata = {
-  title: "IP Checker | GoAds Tools",
+  title: "IP Checker | GOADS Tools",
   description: "View your current public IP address and location info.",
 }
 

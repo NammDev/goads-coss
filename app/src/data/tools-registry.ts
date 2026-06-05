@@ -96,7 +96,7 @@ export const TOOLS: ToolItem[] = [
   {
     slug: "goads-extension",
     title: "GOADS Extension",
-    description: "Free Chrome extension — bypass BM invites, login by cookie",
+    description: "Free Chrome extension, bypass BM invites, login by cookie",
     icon: Chrome,
     category: "utility",
     featured: true,

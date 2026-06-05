@@ -6,7 +6,8 @@
 
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { fontInter } from "@/fonts"
 import { siteText } from "@/components/atoms/typography"
@@ -15,6 +16,13 @@ import { ActionPlanCard } from "@/components/misc/action-plan-card"
 
 export function CalendarPopup() {
   const [open, setOpen] = useState(false)
+
+  // Auto-close the support card on route change (per UX decision: don't carry
+  // the open overlay across navigations). The trigger chip itself stays.
+  const pathname = usePathname()
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   return (
     <div
@@ -37,7 +45,7 @@ export function CalendarPopup() {
           type="button"
           onClick={() => setOpen((prev) => !prev)}
           aria-expanded={open}
-          aria-label={open ? "Close support" : "Open GoAds support"}
+          aria-label={open ? "Close support" : "Open GOADS support"}
           className={cn(
             "group flex cursor-pointer items-center gap-2.5 rounded-full",
             "bg-[var(--solid-900)] text-white",

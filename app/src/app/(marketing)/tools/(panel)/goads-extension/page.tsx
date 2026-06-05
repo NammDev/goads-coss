@@ -6,7 +6,7 @@ import { ToolHeader } from "@/components/tools/header"
 import { ExtensionTool } from "@/components/tools/extension"
 
 export const metadata: Metadata = {
-  title: "GOADS Extension | GoAds Tools",
+  title: "GOADS Extension | GOADS Tools",
   description:
     "Free Chrome extension to bypass Business Manager invites and login by cookie. Built for ad agencies.",
 }

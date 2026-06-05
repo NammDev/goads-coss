@@ -62,7 +62,7 @@ export function NavMobileDrawer() {
       <SheetContent side="left" className="w-80 overflow-y-auto p-0">
         <SheetHeader className="flex flex-row items-center gap-2.5 px-5 py-4">
           <SsLogo />
-          <SheetTitle className="text-lg font-semibold">goads/agency</SheetTitle>
+          <SheetTitle className="text-lg font-semibold">GOADS/agency</SheetTitle>
         </SheetHeader>
 
         {DRAWER_SECTIONS.map(({ label, items }, i) => (

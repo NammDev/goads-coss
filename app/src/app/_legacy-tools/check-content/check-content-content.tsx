@@ -47,7 +47,7 @@ export function CheckContentContent() {
           <ToolsSidebarMobile />
           <h1 className="text-2xl font-semibold">Check Content</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Analyze text — character count, word count, emails, URLs, and more
+            Analyze text, character count, word count, emails, URLs, and more
           </p>
         </div>
 

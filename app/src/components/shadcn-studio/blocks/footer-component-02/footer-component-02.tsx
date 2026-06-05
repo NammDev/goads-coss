@@ -25,7 +25,7 @@ const Footer = () => {
       <div className='container grid grid-cols-6 gap-6 py-8 sm:gap-8 sm:py-16 md:py-24'>
         <div className='col-span-full flex flex-col items-start gap-4 lg:col-span-2'>
           <Link href='/' className='text-xl font-semibold'>
-            goads/agency
+            GOADS/agency
           </Link>
           <p className='text-muted-foreground'>
             Premium Meta, Google & TikTok ad infrastructure for agencies and media buyers.
@@ -172,7 +172,7 @@ const Footer = () => {
         <p className='text-center font-medium text-balance'>
           {`©${new Date().getFullYear()}`}{' '}
           <Link href='/' className='link-animated'>
-            GoAds
+            GOADS
           </Link>
           {' '}&ndash; Stop Losing Accounts. Start Scaling.
         </p>

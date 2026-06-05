@@ -246,7 +246,7 @@ export function SplitDataTool() {
           ))}
         </div>
         <p className={cn(siteText.bodyS, "mt-3 text-[var(--solid-400)] [text-wrap:pretty]")}>
-          Paste your profiles. Copy the result into Google Sheets — 8 columns fill in.
+          Paste your profiles. Copy the result into Google Sheets, 8 columns fill in.
         </p>
       </div>
 

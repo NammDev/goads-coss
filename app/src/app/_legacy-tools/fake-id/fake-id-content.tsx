@@ -78,9 +78,9 @@ export function FakeIdContent() {
                 onChange={(e) => setCountry(e.target.value as Country)}
                 className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               >
-                <option value="us">🇺🇸 US — California Driver License</option>
-                <option value="ph">🇵🇭 Philippines — National ID</option>
-                <option value="in">🇮🇳 India — Aadhaar Card</option>
+                <option value="us">🇺🇸 US, California Driver License</option>
+                <option value="ph">🇵🇭 Philippines, National ID</option>
+                <option value="in">🇮🇳 India, Aadhaar Card</option>
               </select>
             </div>
 
@@ -111,8 +111,8 @@ export function FakeIdContent() {
                   onChange={(e) => setGender(e.target.value)}
                   className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 >
-                  <option value="M">M — Male</option>
-                  <option value="F">F — Female</option>
+                  <option value="M">M, Male</option>
+                  <option value="F">F, Female</option>
                 </select>
               </div>
             </div>

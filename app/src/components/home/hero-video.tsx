@@ -44,7 +44,7 @@ export function HomeHeroVideo({ className }: HomeHeroVideoProps) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={HERO_IMAGE_SRC}
-              alt="GoAds verified Meta assets — Business Manager, Pages, Instagram, ad accounts, customer growth"
+              alt="GOADS verified Meta assets, Business Manager, Pages, Instagram, ad accounts, customer growth"
               className="size-full object-cover"
               loading="eager"
             />

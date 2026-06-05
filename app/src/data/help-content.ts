@@ -19,18 +19,18 @@ export const helpContent: Record<string, HelpArticle> = {
   // ─── Getting Started ───────────────────────────────────────────────────────
 
   "getting-started/welcome": {
-    title: "Welcome to GoAds Help",
+    title: "Welcome to GOADS Help",
     description:
-      "Everything you need to know to get the most out of GoAds and our support resources.",
+      "Everything you need to know to get the most out of GOADS and our support resources.",
     lastUpdated: "May 2025",
     body: h(
       "div",
       null,
-      h("h2", null, "What is GoAds?"),
+      h("h2", null, "What is GOADS?"),
       h(
         "p",
         null,
-        "GoAds is a managed ad-account platform that gives agencies and media buyers access to whitelisted Meta, Google, and TikTok accounts — with higher spending limits, reduced policy friction, and concierge support.",
+        "GOADS is a managed ad-account platform that gives agencies and media buyers access to whitelisted Meta, Google, and TikTok accounts, with higher spending limits, reduced policy friction, and concierge support.",
       ),
       h("h2", null, "How this Help Center works"),
       h(
@@ -42,7 +42,7 @@ export const helpContent: Record<string, HelpArticle> = {
       h(
         "ul",
         null,
-        h("li", null, "Search first — most common questions are already answered here."),
+        h("li", null, "Search first, most common questions are already answered here."),
         h(
           "li",
           null,
@@ -72,7 +72,7 @@ export const helpContent: Record<string, HelpArticle> = {
   "getting-started/create-account": {
     title: "Creating Your Account",
     description:
-      "Step-by-step guide to signing up for GoAds and setting up your first ad account.",
+      "Step-by-step guide to signing up for GOADS and setting up your first ad account.",
     lastUpdated: "May 2025",
     body: h(
       "div",
@@ -81,9 +81,9 @@ export const helpContent: Record<string, HelpArticle> = {
       h(
         "p",
         null,
-        "To create a GoAds account you will need a valid business email address, a registered business name, and a payment method (credit card or bank transfer).",
+        "To create a GOADS account you will need a valid business email address, a registered business name, and a payment method (credit card or bank transfer).",
       ),
-      h("h2", null, "Step 1 — Sign up"),
+      h("h2", null, "Step 1, Sign up"),
       h(
         "p",
         null,
@@ -91,19 +91,19 @@ export const helpContent: Record<string, HelpArticle> = {
         h("strong", null, "Get Started"),
         ". Fill in your name, business email, and choose a password. Check your inbox for a verification email and click the link inside.",
       ),
-      h("h2", null, "Step 2 — Complete your profile"),
+      h("h2", null, "Step 2, Complete your profile"),
       h(
         "p",
         null,
         "After verifying your email, you will be prompted to enter your business details: company name, industry, and estimated monthly ad spend. This information helps us assign the right account tier.",
       ),
-      h("h2", null, "Step 3 — Choose a plan"),
+      h("h2", null, "Step 3, Choose a plan"),
       h(
         "p",
         null,
         "Select a subscription plan that matches your spend volume. All plans include a 7-day free trial. You will not be charged until the trial period ends.",
       ),
-      h("h2", null, "Step 4 — Connect your first ad account"),
+      h("h2", null, "Step 4, Connect your first ad account"),
       h(
         "p",
         null,
@@ -125,7 +125,7 @@ export const helpContent: Record<string, HelpArticle> = {
   "getting-started/dashboard-overview": {
     title: "Navigating the Dashboard",
     description:
-      "A quick tour of the GoAds dashboard so you can find what you need fast.",
+      "A quick tour of the GOADS dashboard so you can find what you need fast.",
     lastUpdated: "May 2025",
     body: h(
       "div",
@@ -134,16 +134,16 @@ export const helpContent: Record<string, HelpArticle> = {
       h(
         "p",
         null,
-        "The GoAds dashboard is divided into four main areas: the left navigation panel, the top status bar, the main content area, and the quick-action toolbar on the right.",
+        "The GOADS dashboard is divided into four main areas: the left navigation panel, the top status bar, the main content area, and the quick-action toolbar on the right.",
       ),
       h("h2", null, "Left navigation"),
       h(
         "ul",
         null,
-        h("li", null, h("strong", null, "Accounts"), " — view and manage all connected ad accounts."),
-        h("li", null, h("strong", null, "Campaigns"), " — create and monitor campaigns across platforms."),
-        h("li", null, h("strong", null, "Billing"), " — view invoices and manage payment methods."),
-        h("li", null, h("strong", null, "Settings"), " — update your profile, team members, and API keys."),
+        h("li", null, h("strong", null, "Accounts"), ", view and manage all connected ad accounts."),
+        h("li", null, h("strong", null, "Campaigns"), ", create and monitor campaigns across platforms."),
+        h("li", null, h("strong", null, "Billing"), ", view invoices and manage payment methods."),
+        h("li", null, h("strong", null, "Settings"), ", update your profile, team members, and API keys."),
       ),
       h("h2", null, "Status indicators"),
       h(
@@ -171,7 +171,7 @@ export const helpContent: Record<string, HelpArticle> = {
   "billing/manage-subscription": {
     title: "Managing Your Subscription",
     description:
-      "How to view, upgrade, downgrade, or cancel your GoAds subscription.",
+      "How to view, upgrade, downgrade, or cancel your GOADS subscription.",
     lastUpdated: "May 2025",
     body: h(
       "div",
@@ -212,7 +212,7 @@ export const helpContent: Record<string, HelpArticle> = {
   "billing/payment-methods": {
     title: "Accepted Payment Methods",
     description:
-      "Which payment methods GoAds accepts and how to update your billing details.",
+      "Which payment methods GOADS accepts and how to update your billing details.",
     lastUpdated: "May 2025",
     body: h(
       "div",
@@ -234,7 +234,7 @@ export const helpContent: Record<string, HelpArticle> = {
         h("strong", null, "Settings → Billing → Payment Methods"),
         ". Click ",
         h("strong", null, "Add Method"),
-        " and enter your card details. Your information is encrypted and processed by Stripe — GoAds never stores raw card numbers.",
+        " and enter your card details. Your information is encrypted and processed by Stripe, GOADS never stores raw card numbers.",
       ),
       h("h2", null, "Failed payments"),
       h(
@@ -296,7 +296,7 @@ export const helpContent: Record<string, HelpArticle> = {
       h(
         "p",
         null,
-        "GoAds does not provide partial refunds for unused time within a billing period. If you believe you were charged in error, contact support within 14 days of the charge.",
+        "GOADS does not provide partial refunds for unused time within a billing period. If you believe you were charged in error, contact support within 14 days of the charge.",
       ),
       h("h2", null, "Reactivating your account"),
       h(
@@ -312,7 +312,7 @@ export const helpContent: Record<string, HelpArticle> = {
   "troubleshooting/login-issues": {
     title: "Login & Access Issues",
     description:
-      "Troubleshoot problems signing into your GoAds account, including password resets and 2FA.",
+      "Troubleshoot problems signing into your GOADS account, including password resets and 2FA.",
     lastUpdated: "May 2025",
     body: h(
       "div",
@@ -346,7 +346,7 @@ export const helpContent: Record<string, HelpArticle> = {
       h(
         "p",
         null,
-        "Ensure the Google account you're using matches the email registered with GoAds. If your company enforces SSO, contact your IT administrator to verify that GoAds is an approved application.",
+        "Ensure the Google account you're using matches the email registered with GOADS. If your company enforces SSO, contact your IT administrator to verify that GOADS is an approved application.",
       ),
     ),
   },
@@ -354,7 +354,7 @@ export const helpContent: Record<string, HelpArticle> = {
   "troubleshooting/ad-account-connection": {
     title: "Ad Account Not Connecting",
     description:
-      "Fix common errors when linking Meta, Google, or TikTok ad accounts to GoAds.",
+      "Fix common errors when linking Meta, Google, or TikTok ad accounts to GOADS.",
     lastUpdated: "May 2025",
     body: h(
       "div",
@@ -393,7 +393,7 @@ export const helpContent: Record<string, HelpArticle> = {
         h(
           "li",
           null,
-          "Make sure you grant all requested OAuth scopes during the connection flow — partial permission causes a silent failure.",
+          "Make sure you grant all requested OAuth scopes during the connection flow, partial permission causes a silent failure.",
         ),
       ),
       h("h2", null, "TikTok Ads account"),
@@ -472,7 +472,7 @@ export const helpContent: Record<string, HelpArticle> = {
         h("li", null, "Steps to reproduce the issue (numbered list is ideal)."),
         h("li", null, "Screenshots or a screen recording if available."),
         h("li", null, "Your browser name and version (e.g., Chrome 124)."),
-        h("li", null, "Your GoAds account email."),
+        h("li", null, "Your GOADS account email."),
       ),
       h("h2", null, "How to submit"),
       h(

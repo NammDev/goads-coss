@@ -9,9 +9,9 @@ import { SectionHead } from "@/components/atoms/section-head"
 import { CONTACT } from "@/data/contact-info"
 
 export const metadata: Metadata = {
-  title: "Community | GoAds",
+  title: "Community | GOADS",
   description:
-    "The GoAds community hub is under construction. In the meantime, join us on Telegram for live conversations with media buyers and our team.",
+    "The GOADS community hub is under construction. In the meantime, join us on Telegram for live conversations with media buyers and our team.",
 }
 
 export default function CommunityPage() {
@@ -55,7 +55,7 @@ export default function CommunityPage() {
             title="We're building something great"
             titleTag="h1"
             titleSize="h2"
-            description="Our community hub is under construction. While we put the finishing touches on it, jump into our Telegram — real conversations with media buyers, agencies and the GoAds team."
+            description="Our community hub is under construction. While we put the finishing touches on it, jump into our Telegram, real conversations with media buyers, agencies and the GOADS team."
             descSize="l"
             variant="light"
           />

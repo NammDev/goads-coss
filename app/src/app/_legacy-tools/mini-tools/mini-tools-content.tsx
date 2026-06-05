@@ -16,7 +16,7 @@ export function MiniToolsContent() {
           <ToolsSidebarMobile />
           <h1 className="text-2xl font-semibold">All Tools</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Browse all {TOOLS.length} free tools — no sign-up, 100% client-side
+            Browse all {TOOLS.length} free tools, no sign-up, 100% client-side
           </p>
         </div>
 

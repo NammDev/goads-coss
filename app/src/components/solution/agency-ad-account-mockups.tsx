@@ -78,7 +78,7 @@ export function AgencyDisabledAccountMockup() {
         <div className="mt-3 flex items-center gap-2 border-t border-zinc-100 pt-3">
           <span className="size-1.5 animate-pulse rounded-full bg-red-500" />
           <div className="text-[11px] text-red-700">
-            Account flagged — 3rd restriction this month
+            Account flagged, 3rd restriction this month
           </div>
         </div>
       </div>
@@ -162,7 +162,7 @@ export function AgencyWhitelistedAccountMockup() {
         <div className="mt-3 flex items-center gap-2 border-t border-white/10 pt-3">
           <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
           <div className="text-[11px] text-emerald-400">
-            Unlimited DSL — Meta rep online
+            Unlimited DSL, Meta rep online
           </div>
         </div>
       </div>

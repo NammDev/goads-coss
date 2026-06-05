@@ -32,7 +32,7 @@ export default async function PortalExtensionsPage() {
       <div>
         <h1 className="text-2xl font-semibold">Extensions</h1>
         <p className="text-muted-foreground mt-1 text-sm">
-          Exclusive Chrome extensions for GoAds customers
+          Exclusive Chrome extensions for GOADS customers
         </p>
       </div>
 

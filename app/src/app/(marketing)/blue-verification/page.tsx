@@ -45,7 +45,7 @@ export default function BlueVerificationPage() {
         <div className="flex flex-col items-center gap-10 pt-3 pb-10 max-md:gap-8 max-md:pb-6">
           {/* Subtitle — Foreplay body-l in alpha-50, max-w 640px */}
           <p className="max-w-[640px] text-center font-sans text-[1.125rem] font-normal leading-7 tracking-[-0.0144em] text-[var(--alpha-50)] [text-wrap:balance]">
-            Earn the blue badge that signals authority and builds instant trust. We submit through official platform channels — no shortcuts, no risk to your account.
+            Earn the blue badge that signals authority and builds instant trust. We submit through official platform channels, no shortcuts, no risk to your account.
           </p>
 
           {/* Primary CTA */}
