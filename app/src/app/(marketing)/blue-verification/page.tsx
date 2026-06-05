@@ -18,7 +18,6 @@ import {
   blueVerificationFeatureRows,
   blueVerificationFaq,
 } from "@/data/blue-verification-page-data"
-import { CONTACT } from "@/data/contact-info"
 import { cn } from "@/lib/utils"
 import { VerifiedBadge } from "@/assets/svg/verified-badge"
 
@@ -48,8 +47,8 @@ export default function BlueVerificationPage() {
             Earn the blue badge that signals authority and builds instant trust. We submit through official platform channels, no shortcuts, no risk to your account.
           </p>
 
-          {/* Primary CTA */}
-          <CtaButton href={CONTACT.telegram.officialVerificationBadge} variant="hero">
+          {/* Primary CTA — jumps to pricing and auto-opens the "Other Service" row */}
+          <CtaButton href="/pricing#other-service" variant="hero">
             Start Verification
           </CtaButton>
 

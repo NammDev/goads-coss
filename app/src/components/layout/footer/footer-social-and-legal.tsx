@@ -18,9 +18,6 @@ export function FooterSocialAndLegal() {
         <Link href="/privacy-policy" className="py-1 text-[var(--alpha-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
           <div className={siteText.bodyS}>Privacy Policy</div>
         </Link>
-        <Link href="/terms-of-service" className="py-1 text-[var(--alpha-300)] no-underline transition-opacity duration-200 hover:text-[#ffffffeb]">
-          <div className={siteText.bodyS}>Terms &amp; Conditions</div>
-        </Link>
       </div>
 
       {/* .footer-social-links-list */}

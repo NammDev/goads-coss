@@ -25,7 +25,7 @@ export const unbanFeatureRows: FeatureRowData[] = [
     imageAlt: "GOADS enterprise recovery desk, multi-client queue with a dedicated case manager",
     reversed: true,
     ctaLabel: "Contact us now",
-    ctaHref: "/book-demo",
+    ctaHref: "/pricing#other-service",
   },
 ]
 

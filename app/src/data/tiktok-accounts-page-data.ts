@@ -5,7 +5,7 @@
 // Product CTA Card (same video/icon, only title + description differ)
 export const tiktokProductCta = {
   title: "Start scaling on TikTok today",
-  description: "Every TikTok asset ships Jumio-verified, policy-clean and backed by a 7-day warranty.\n\nChannels, Shops and Business Centers, live on day one.",
+  description: "Every TikTok asset ships Jumio-verified, policy-clean and warranty-backed, with Channels, Shops and Business Centers live on day one.",
   iconSrc: "/assets/cta/verified-panda.svg",
   iconAlt: "GOADS panda mascot with verified badge",
 }
@@ -39,9 +39,9 @@ export const tiktokFeatureGrid1 = {
 // Section 4 (testimonial 1): Stefan M.
 export const tiktokFeatureGrid1Testimonial = {
   quote: "TikTok Shop USA is a nightmare to verify yourself. Bought three Jumio-verified Shops from GOADS, all live inside 24 hours, GMV scaling weekly. Worth every dollar.",
-  authorName: "Stefan M.",
-  authorRole: "Agency Owner, Germany",
-  authorImageSrc: "/assets/testimonial1_founder.webp",
+  authorName: "Isabella Costa",
+  authorRole: "Agency Owner, Costa Digital",
+  authorImageSrc: "/assets/testimonials/t09.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }
@@ -61,9 +61,9 @@ export const tiktokFeatureGrid2 = {
 // Section 6 (testimonial 2): Ryan D.
 export const tiktokFeatureGrid2Testimonial = {
   quote: "Ran 8 TikTok Shops in 3 months. Only 1 got flagged and they replaced it inside an hour. Support was in Telegram before I finished typing the ticket.",
-  authorName: "Ryan D.",
-  authorRole: "Media Buyer, US",
-  authorImageSrc: "/assets/test_tim_keen_avatar.webp",
+  authorName: "Noah Bennett",
+  authorRole: "Media Buyer, Bennett & Co",
+  authorImageSrc: "/assets/testimonials/t06.webp",
   decorationLeftSrc: "/assets/test_left.svg",
   decorationRightSrc: "/assets/test_right.svg",
 }

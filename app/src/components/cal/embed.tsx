@@ -28,17 +28,24 @@ export function CalEmbed({ className }: CalEmbedProps) {
   }, [])
 
   return (
+    // overflow-hidden (not auto) just clips to the rounded corners — the embed
+    // must NOT live in a fixed-height scroll box.
     <div
       className={cn(
-        "w-full overflow-auto rounded-2xl",
+        "w-full overflow-hidden rounded-2xl",
         className,
       )}
     >
+      {/* Let @calcom/embed-react own its height — it auto-resizes the iframe to
+          the month_view content via postMessage. The previous height:100% +
+          overflow:scroll trapped the calendar in a ~500px scroll box (parent has
+          no fixed height), cramping it. Keep only width + a minHeight floor to
+          avoid an initial 0-height flash; the embed grows past it as needed. */}
       <Cal
         namespace={CAL_NAMESPACE}
         calLink={CAL_LINK}
         config={{ layout: "month_view", theme: "dark" }}
-        style={{ width: "100%", height: "100%", overflow: "scroll", minHeight: "500px" }}
+        style={{ width: "100%", minHeight: "600px" }}
       />
     </div>
   )

@@ -154,7 +154,7 @@ export default function AgencyAdAccountPage() {
       {/* Section 9: Product CTA Card */}
       <div className="section">
         <SectionContainer>
-          <ProductPageCtaCard {...agencyAdAccountProductCta} />
+          <ProductPageCtaCard {...agencyAdAccountProductCta} contentClassName="md:max-w-[72%]" />
         </SectionContainer>
       </div>
 

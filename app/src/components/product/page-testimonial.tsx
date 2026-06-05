@@ -35,8 +35,8 @@ export function ProductPageTestimonial({
 }: ProductPageTestimonialProps) {
   return (
     <div className="relative py-[120px] max-md:py-[108px] max-sm:py-20">
-      {/* .testemonial-contents */}
-      <div className="mx-auto flex max-w-[80%] flex-col items-center gap-6 text-center max-sm:max-w-[640px]">
+      {/* .testemonial-contents — max-w 80% desktop; ≤991px (max-fp-lg) → 640px */}
+      <div className="mx-auto flex max-w-[80%] flex-col items-center gap-6 text-center max-fp-lg:max-w-[640px]">
         {/* .testimonial-logo-image */}
         {logoSrc && (
           // eslint-disable-next-line @next/next/no-img-element
@@ -77,20 +77,21 @@ export function ProductPageTestimonial({
         </div>
       </div>
 
-      {/* .testimonial-decoration (left) */}
+      {/* .testimonial-decoration (left) — ≤991px: shift out left:-10% + h-full;
+          ≤479px: width 40% (per testi-res.css). SVG preserves its aspect. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={decorationLeftSrc}
         alt=""
-        className="absolute top-1/2 left-0 w-[12%] -translate-y-1/2 opacity-70 max-md:w-[20%] max-sm:w-[40%]"
+        className="absolute top-1/2 left-0 w-[12%] -translate-y-1/2 opacity-70 max-fp-lg:left-[-10%] max-fp-lg:h-full max-fp-sm:w-[40%]"
         loading="lazy"
       />
-      {/* .testimonial-decoration.is-right */}
+      {/* .testimonial-decoration.is-right — ≤991px: shift out right:-10% + h-full */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={decorationRightSrc}
         alt=""
-        className="absolute top-1/2 right-0 w-[12%] -translate-y-1/2 opacity-70 max-md:w-[20%] max-sm:w-[40%]"
+        className="absolute top-1/2 right-0 w-[12%] -translate-y-1/2 opacity-70 max-fp-lg:right-[-10%] max-fp-lg:h-full max-fp-sm:w-[40%]"
         loading="lazy"
       />
     </div>

@@ -63,4 +63,12 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "TikTok Shop USA (Jumio Verified)", basic: "$400", workflow: "Contact", agency: "7 days", enterprise: "Contact" },
     ],
   },
+  {
+    name: "Other Service",
+    features: [
+      { name: "Unban Service (Profile, Page, BM, etc.)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
+      { name: "Verification Badge (Page, Instagram, etc.)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "SMM (Boost Likes, Followers, Comments)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
+    ],
+  },
 ]

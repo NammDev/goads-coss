@@ -29,7 +29,7 @@ export const blueVerificationFeatureRows: FeatureRowData[] = [
     imageMaxWidth: 960, // match image 1 size
     reversed: true,
     ctaLabel: "Contact us now",
-    ctaHref: "/book-demo",
+    ctaHref: "/pricing#other-service",
   },
 ]
 

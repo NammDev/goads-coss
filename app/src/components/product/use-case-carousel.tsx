@@ -13,7 +13,7 @@
 
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect, useRef } from "react"
 import { siteText } from "@/components/atoms/typography"
 import { CarouselArrows } from "@/components/atoms/carousel-arrows"
 import { SectionContainer } from "@/components/atoms/section-container"
@@ -34,6 +34,23 @@ export function ProductUseCaseCarousel({
 }: ProductUseCaseCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  // Card width is responsive (max-w-576 desktop · 480 tablet · 100vw-48 mobile),
+  // so a FIXED 592px step over-scrolls on smaller screens (cuts cards in half —
+  // same bug as the blog carousel). Measure the real rendered card width + gap
+  // and step by that; recompute on resize.
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [step, setStep] = useState(576 + 16)
+
+  useEffect(() => {
+    const measure = () => {
+      const firstCard = trackRef.current?.firstElementChild as HTMLElement | null
+      if (firstCard) setStep(firstCard.offsetWidth + 16)
+    }
+    measure()
+    window.addEventListener("resize", measure)
+    return () => window.removeEventListener("resize", measure)
+  }, [cards.length])
+
   const canPrev = currentIndex > 0
   const canNext = currentIndex < cards.length - 1
 
@@ -52,8 +69,9 @@ export function ProductUseCaseCarousel({
         <div className="flex flex-col gap-12 pt-16">
           {/* .product-carousel-track */}
           <div
+            ref={trackRef}
             className="flex items-stretch gap-4 transition-transform duration-[800ms] [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]"
-            style={{ transform: `translateX(-${currentIndex * (576 + 16)}px)` }}
+            style={{ transform: `translateX(-${currentIndex * step}px)` }}
           >
             {cards.map((card, i) => (
               /* .slide */
