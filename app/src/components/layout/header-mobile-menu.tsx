@@ -18,6 +18,7 @@ import {
   PRODUCT_GROUPS, TOOLS_GROUPS, RESOURCES_GROUPS,
   type NavMenuGroup,
 } from "@/components/layout/nav-menu-items"
+import { CONTACT } from "@/data/contact-info"
 
 type Section =
   | { label: string; href: string }
@@ -180,19 +181,25 @@ export function HeaderMobileMenu() {
         </div>
 
         <div className="mt-2 flex flex-col items-stretch gap-2">
-          <Link
-            href="/sign-up"
+          <a
+            href={CONTACT.telegram.officialWithMessage}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={close}
-            className="flex items-center justify-center gap-1 rounded-[12px] bg-foreground px-4 py-3 text-[var(--solid-900)] no-underline transition-opacity hover:opacity-90"
+            className="flex items-center justify-center gap-1 rounded-[10px] bg-foreground p-2 font-semibold text-[var(--solid-900)] no-underline transition-opacity hover:opacity-90"
           >
-            <span className={cn(navText, "text-[var(--solid-900)]")}>Start free trial</span>
+            <span className={cn(navText, "text-[var(--solid-900)]")}>Contact Us</span>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </Link>
-          <Link href="/sign-in" onClick={close} className="py-2 text-center text-foreground no-underline">
+          </a>
+          {/* Sign in temporarily disabled (feature not open yet) — non-clickable */}
+          <span
+            aria-disabled="true"
+            className="cursor-not-allowed py-2 text-center text-foreground opacity-50 select-none"
+          >
             <span className={navText}>Sign in</span>
-          </Link>
+          </span>
         </div>
       </div>
     </>
