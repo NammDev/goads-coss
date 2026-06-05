@@ -4,6 +4,15 @@
 // Structure: header (founder) + body (title/desc + 3 channel pills) + cta (2 buttons).
 // CSS: bg #fff, border 1px solid-100, radius 18px, fixed 360px width.
 // Each section separated by a 1px solid-100 divider.
+//
+// "Book a Call" opens the Cal.com popup (element-click embed) instead of routing
+// to /book-demo — getCalApi loads embed.js; the data-cal-* attrs on the button
+// make Cal open its modal on click.
+
+"use client"
+
+import { useEffect } from "react"
+import { getCalApi } from "@calcom/embed-react"
 
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
@@ -21,7 +30,21 @@ interface ActionPlanCardProps {
   className?: string
 }
 
+// Cal.com popup (element-click embed) — values from the Cal dashboard snippet.
+const CAL_NAMESPACE = "30min"
+const CAL_LINK = "nam-khanh-nguyen-dhpuv7/30min"
+const CAL_CONFIG = JSON.stringify({ layout: "month_view", useSlotsViewOnSmallScreen: "true" })
+
 export function ActionPlanCard({ onClose, className }: ActionPlanCardProps) {
+  // Load Cal embed.js + configure the "30min" namespace so the data-cal-* button
+  // below opens the booking modal on click.
+  useEffect(() => {
+    ;(async function () {
+      const cal = await getCalApi({ namespace: CAL_NAMESPACE })
+      cal("ui", { hideEventTypeDetails: false, layout: "month_view" })
+    })()
+  }, [])
+
   return (
     <div
       className={cn(
@@ -78,11 +101,16 @@ export function ActionPlanCard({ onClose, className }: ActionPlanCardProps) {
 
       {/* CTA — Book a Call (primary) + Start Free Trial (secondary) */}
       <div className="flex flex-col gap-2 p-[14px]">
+        {/* Book a Call → opens the Cal.com popup (no navigation). */}
         <CtaButton
-          href={actionPlanCopy.primaryHref}
           variant="light-primary"
           showIcon={false}
           className="justify-center"
+          data={{
+            "data-cal-namespace": CAL_NAMESPACE,
+            "data-cal-link": CAL_LINK,
+            "data-cal-config": CAL_CONFIG,
+          }}
         >
           {actionPlanCopy.primaryCta}
         </CtaButton>

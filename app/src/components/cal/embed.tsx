@@ -32,20 +32,21 @@ export function CalEmbed({ className }: CalEmbedProps) {
     // must NOT live in a fixed-height scroll box.
     <div
       className={cn(
-        "w-full overflow-hidden rounded-2xl",
+        // Responsive min-height floor so the booking UI renders FULLY even when
+        // Cal's JS auto-resize (postMessage) doesn't fire — which is exactly the
+        // localhost-OK / prod-cramped discrepancy. Cal grows the iframe PAST this
+        // when resize works; this guarantees a deterministic baseline either way.
+        "w-full overflow-hidden rounded-2xl min-h-[640px] max-md:min-h-[720px] max-sm:min-h-[860px]",
         className,
       )}
     >
-      {/* Let @calcom/embed-react own its height — it auto-resizes the iframe to
-          the month_view content via postMessage. The previous height:100% +
-          overflow:scroll trapped the calendar in a ~500px scroll box (parent has
-          no fixed height), cramping it. Keep only width + a minHeight floor to
-          avoid an initial 0-height flash; the embed grows past it as needed. */}
       <Cal
         namespace={CAL_NAMESPACE}
         calLink={CAL_LINK}
         config={{ layout: "month_view", theme: "dark" }}
-        style={{ width: "100%", minHeight: "600px" }}
+        // height:100% + minHeight:inherit makes the embed fill the wrapper's
+        // responsive min-height; auto-resize still grows it taller when it works.
+        style={{ width: "100%", height: "100%", minHeight: "inherit" }}
       />
     </div>
   )

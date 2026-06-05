@@ -75,6 +75,10 @@ export function TempMailViewer({ className }: { className?: string }) {
             <TooltipContent>Load inbox for this email address</TooltipContent>
           </Tooltip>
 
+          {/* Mobile line break — keeps [input + Load] on row 1 and wraps
+              Random/Copy to row 2. Hidden ≥sm (all four share one row). */}
+          <div aria-hidden className="hidden basis-full max-sm:block" />
+
           <Tooltip>
             <TooltipTrigger asChild>
               <Button

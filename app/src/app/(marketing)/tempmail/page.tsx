@@ -33,7 +33,7 @@ export default function TempmailPage() {
 
       {/* Section 2: Mail Viewer (white block) — integrated real logic */}
       <SectionWhiteBlock>
-        <div className="px-10 py-[108px] max-md:px-6 max-md:py-24 max-sm:px-4 max-sm:py-20 max-w-[1136px] mx-auto">
+        <div className="px-10 py-[108px] max-md:px-6 max-md:py-24 max-sm:px-4 max-sm:pt-8 max-sm:pb-16 max-w-[1136px] mx-auto">
           <TempMailViewer />
         </div>
       </SectionWhiteBlock>

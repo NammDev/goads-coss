@@ -32,15 +32,16 @@ export type BlogPost = {
   }[]
 }
 
-const goadsTeam: BlogAuthor = {
-  name: "GOADS Team",
-  avatar: "/avatars/author-placeholder.svg",
-  title: "Marketing Team",
-  socials: {
-    website: "https://goads.com",
-    linkedin: "https://linkedin.com/company/goads",
-    instagram: "https://instagram.com/goads",
-  },
+const namNguyen: BlogAuthor = {
+  name: "Nam Nguyen",
+  avatar: "/about/nam-nguyen.webp",
+  title: "Founder",
+}
+
+const justinBui: BlogAuthor = {
+  name: "Justin Bui",
+  avatar: "/about/justin-bui.webp",
+  title: "Co-Founder",
 }
 
 export const blogCategories = [
@@ -62,7 +63,7 @@ export const blogPosts: BlogPost[] = [
     title: "How to Scale Facebook Ads with Agency Accounts",
     description:
       "Learn how agency ad accounts can help you scale your Facebook campaigns without the risk of bans. Discover best practices for account structure, budget allocation, and creative testing.",
-    author: goadsTeam,
+    author: namNguyen,
     date: "March 5, 2026",
     readTime: "8 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -110,7 +111,7 @@ export const blogPosts: BlogPost[] = [
       "Understanding Meta Business Manager Limits and How to Work Around Them",
     description:
       "A comprehensive guide to Meta Business Manager restrictions, spending limits, and how verified agency accounts provide higher thresholds for serious advertisers.",
-    author: goadsTeam,
+    author: justinBui,
     date: "February 28, 2026",
     readTime: "12 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -150,7 +151,7 @@ export const blogPosts: BlogPost[] = [
       "Google Whitelisted Accounts Explained: What They Are and Why You Need One",
     description:
       "Explore the benefits of Google whitelisted ad accounts, including higher trust scores, fewer suspensions, and better ad delivery for competitive niches.",
-    author: goadsTeam,
+    author: namNguyen,
     date: "February 20, 2026",
     readTime: "10 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -188,7 +189,7 @@ export const blogPosts: BlogPost[] = [
     title: "Getting Started with TikTok Verified Ad Accounts",
     description:
       "Everything you need to know about TikTok verified agency accounts, from setup to scaling. Learn how to leverage TikTok's algorithm for maximum ROAS.",
-    author: goadsTeam,
+    author: justinBui,
     date: "February 15, 2026",
     readTime: "9 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -227,7 +228,7 @@ export const blogPosts: BlogPost[] = [
     title: "7 Proven Strategies to Avoid Facebook Ad Account Bans",
     description:
       "Stop losing ad accounts. Learn the most common reasons for bans and actionable strategies to keep your accounts healthy and running.",
-    author: goadsTeam,
+    author: namNguyen,
     date: "February 8, 2026",
     readTime: "11 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -275,7 +276,7 @@ export const blogPosts: BlogPost[] = [
     title: "Google Ads Quality Score: A Deep Dive for 2026",
     description:
       "Quality Score quietly decides your CPCs. Here's how the three components actually weigh against each other and what to optimize first.",
-    author: goadsTeam,
+    author: justinBui,
     date: "February 18, 2026",
     readTime: "9 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -294,7 +295,7 @@ export const blogPosts: BlogPost[] = [
     title: "Spark Ads vs Non-Spark: Which Wins in 2026?",
     description:
       "Spark Ads borrow social proof from organic posts. We tested both at $30K/mo spend, here's what actually moved the needle.",
-    author: goadsTeam,
+    author: namNguyen,
     date: "February 12, 2026",
     readTime: "7 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -313,7 +314,7 @@ export const blogPosts: BlogPost[] = [
     title: "Detecting Creative Fatigue Before It Tanks Your ROAS",
     description:
       "Frequency alone is a lagging indicator. These five signals catch fatigue 5-7 days earlier so you can rotate creatives before CPA spikes.",
-    author: goadsTeam,
+    author: justinBui,
     date: "February 5, 2026",
     readTime: "6 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -332,7 +333,7 @@ export const blogPosts: BlogPost[] = [
     title: "UGC vs Studio Creative: The 2026 Performance Data",
     description:
       "100 brands, 12 months of data. We compared raw UGC against high-production studio ads across cold and warm audiences.",
-    author: goadsTeam,
+    author: namNguyen,
     date: "January 28, 2026",
     readTime: "10 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -351,7 +352,7 @@ export const blogPosts: BlogPost[] = [
     title: "Pixel Stacking: The Redundancy Strategy That Saves Accounts",
     description:
       "Running multiple pixels across redundant accounts gives you tracking continuity even when one account gets disabled. Here's how to set it up cleanly.",
-    author: goadsTeam,
+    author: justinBui,
     date: "January 22, 2026",
     readTime: "8 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -370,7 +371,7 @@ export const blogPosts: BlogPost[] = [
     title: "Advantage+ Shopping Campaigns: When to Use Them (And When Not To)",
     description:
       "ASC works phenomenally for some accounts and terribly for others. The deciding factor is rarely the one Meta tells you about.",
-    author: goadsTeam,
+    author: namNguyen,
     date: "January 15, 2026",
     readTime: "11 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -389,7 +390,7 @@ export const blogPosts: BlogPost[] = [
     title: "Structuring Performance Max Asset Groups for Maximum ROAS",
     description:
       "PMax rewards intentional structure. Lumping everything into one asset group leaves performance, and budget, on the table.",
-    author: goadsTeam,
+    author: justinBui,
     date: "January 8, 2026",
     readTime: "9 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -408,7 +409,7 @@ export const blogPosts: BlogPost[] = [
     title: "Managing TikTok Spark Codes at Scale",
     description:
       "Once you're running 20+ Spark Ads across multiple creators, manual code management becomes a bottleneck. Here's the system we use.",
-    author: goadsTeam,
+    author: namNguyen,
     date: "January 2, 2026",
     readTime: "7 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -427,7 +428,7 @@ export const blogPosts: BlogPost[] = [
     title: "Budget Pacing Strategies That Actually Hold Up at Scale",
     description:
       "Daily vs lifetime budgets. CBO vs ABO. Manual scaling vs algorithm. Here's what survives past $5K/day spend.",
-    author: goadsTeam,
+    author: justinBui,
     date: "December 20, 2025",
     readTime: "12 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -446,7 +447,7 @@ export const blogPosts: BlogPost[] = [
     title: "The Ban Recovery Playbook: What to Do in the First 48 Hours",
     description:
       "Getting banned is stressful but not always terminal. Here's the exact sequence we follow to maximize appeal success rates.",
-    author: goadsTeam,
+    author: namNguyen,
     date: "December 14, 2025",
     readTime: "8 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -465,7 +466,7 @@ export const blogPosts: BlogPost[] = [
     title: "Retargeting Window Sizes: Beyond the 7/14/30 Defaults",
     description:
       "Most advertisers default to 30-day retargeting windows. But your buying cycle, AOV, and audience size should drive the choice, not Meta's templates.",
-    author: goadsTeam,
+    author: justinBui,
     date: "December 6, 2025",
     readTime: "6 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
@@ -484,7 +485,7 @@ export const blogPosts: BlogPost[] = [
     title: "The Monthly Search Terms Audit That Cuts CPA by 18%",
     description:
       "Search terms reports get ignored after launch. Spending 30 minutes a month here is the highest-ROI optimization in Google Ads.",
-    author: goadsTeam,
+    author: namNguyen,
     date: "November 28, 2025",
     readTime: "5 min read",
     coverImage: "/assets/blog/blog-cover-placeholder.svg",
