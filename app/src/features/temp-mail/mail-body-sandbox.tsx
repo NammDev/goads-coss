@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 
 import { hardenMailLinks } from "@/lib/mail/mail-sanitizer"
 
@@ -53,14 +53,25 @@ export function MailBodySandbox({
   <body>${sanitizedHtml}</body>
 </html>`
   }, [html])
+  const [loadedSrcDoc, setLoadedSrcDoc] = useState("")
+  const loaded = loadedSrcDoc === srcDoc
 
   return (
-    <iframe
-      className={className}
-      sandbox="allow-same-origin"
-      referrerPolicy="no-referrer"
-      title={title}
-      srcDoc={srcDoc}
-    />
+    <div className={["relative overflow-hidden", className].filter(Boolean).join(" ")} aria-busy={!loaded}>
+      {!loaded && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-white text-sm text-zinc-500">
+          Loading mail...
+        </div>
+      )}
+      <iframe
+        className="absolute inset-0 h-full w-full border-0 bg-inherit"
+        sandbox="allow-same-origin"
+        referrerPolicy="no-referrer"
+        title={title}
+        srcDoc={srcDoc}
+        style={{ opacity: loaded ? 1 : 0 }}
+        onLoad={() => setLoadedSrcDoc(srcDoc)}
+      />
+    </div>
   )
 }
