@@ -20,7 +20,7 @@ const clerkProxyUrl = process.env.NEXT_PUBLIC_CLERK_PROXY_URL;
 // WhatsApp, Telegram, Discord, Slack, Pinterest, etc. ALL read the same Open Graph
 // tags below; X/Twitter reads the twitter:* tags. Discord also colours its embed
 // bar from `theme-color` (set in `viewport`).
-const SITE_URL = "https://www.goads.shop";
+const SITE_URL = "https://goadsagency.com";
 const SITE_NAME = "GOADS";
 const SITE_TITLE = "GOADS | Agency Ad Accounts & Meta Assets | 24/7 Support";
 const SITE_DESCRIPTION =
