@@ -22,6 +22,9 @@ interface CtaButtonProps {
   /** Optional leading icon rendered before the text */
   leadingIcon?: ReactNode
   className?: string
+  /** Extra attributes (e.g. data-cal-* for a Cal.com popup trigger) forwarded
+   *  onto the rendered button/anchor. */
+  data?: Record<string, string>
 }
 
 const isExternalUrl = (href: string) => /^https?:\/\//.test(href) || href.startsWith("mailto:") || href.startsWith("tel:")
@@ -44,6 +47,7 @@ export function CtaButton({
   showIcon = true,
   leadingIcon,
   className,
+  data,
 }: CtaButtonProps) {
   const isNav = variant === "nav"
   const iconOpacity = variant === "hero" ? 1 : 0.68
@@ -91,17 +95,17 @@ export function CtaButton({
   // <a target="_blank">; internal use Next.js <Link>.
   if (!href) {
     return (
-      <button type="button" onClick={onClick} className={sharedClass}>
+      <button type="button" onClick={onClick} className={sharedClass} {...data}>
         {body}
       </button>
     )
   }
   return external ? (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={sharedClass}>
+    <a href={href} target="_blank" rel="noopener noreferrer" className={sharedClass} {...data}>
       {body}
     </a>
   ) : (
-    <Link href={href} className={sharedClass}>
+    <Link href={href} className={sharedClass} {...data}>
       {body}
     </Link>
   )
