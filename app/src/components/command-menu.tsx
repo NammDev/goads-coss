@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { Circle } from "lucide-react"
 
@@ -101,7 +101,25 @@ export function CommandMenu() {
         <DialogTitle>Command Palette</DialogTitle>
         <DialogDescription>Search for a command to run...</DialogDescription>
       </DialogHeader>
-      <DialogContent className="overflow-hidden p-0" showCloseButton={false}>
+      {/* `site` re-applies Foreplay dark tokens inside the Radix portal (it
+          escapes the page's .site scope). The CSS-var overrides re-skin the
+          shared shadcn Command to Foreplay's monochrome look WITHOUT touching
+          ui/command.tsx (still blue-accented in admin/portal):
+            • --accent / --accent-foreground → selected row = subtle white-10%
+              highlight + white text, replacing the legacy blue.
+            • --popover → uniform dark panel (not the translucent neutral-700). */}
+      <DialogContent
+        className="site overflow-hidden rounded-2xl border-[var(--border-nav)] p-0"
+        showCloseButton={false}
+        style={
+          {
+            "--accent": "var(--alpha-700)",
+            "--accent-foreground": "var(--foreground)",
+            "--popover": "var(--background)",
+            "--popover-foreground": "var(--foreground)",
+          } as CSSProperties
+        }
+      >
         <Command
           shouldFilter={false}
           className="**:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5"

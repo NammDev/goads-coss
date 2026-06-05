@@ -9,7 +9,6 @@ import {
   getViewerMail,
   getViewerMails,
   getViewerSettings,
-  randomAddress as createRandomAddress,
   type ViewerMail,
 } from "@/lib/api/temp-mail-viewer"
 import {
@@ -33,6 +32,27 @@ const POLL_INTERVAL_MS = 12000
 const POLL_MAX_INTERVAL_MS = 60000
 const POLL_BACKOFF_AFTER_EMPTY = 5
 const DEFAULT_MAX_ADDRESS_LEN = 30
+
+// Random mailbox name generated CLIENT-SIDE so "Random" can show an address
+// instantly (no /api/viewer/random round-trip just to pick a name). a-z0-9,
+// first char a letter; the live session is then provisioned via the normal
+// createViewerSession path — same as Load.
+function generateRandomMailboxName(minLen: number, maxLen: number): string {
+  const charset = "abcdefghijklmnopqrstuvwxyz0123456789"
+  const len = Math.min(Math.max(minLen, 10), maxLen)
+  const pick = (n: number): number[] => {
+    if (typeof crypto !== "undefined" && crypto.getRandomValues) {
+      const arr = new Uint32Array(n)
+      crypto.getRandomValues(arr)
+      return Array.from(arr)
+    }
+    return Array.from({ length: n }, () => Math.floor(Math.random() * 0xffffffff))
+  }
+  const rnd = pick(len)
+  let name = rnd.map((v) => charset[v % charset.length]).join("")
+  if (!/[a-z]/.test(name[0])) name = "a" + name.slice(1)
+  return name
+}
 
 type ViewerConfig = {
   defaultDomains: string[]
@@ -318,27 +338,52 @@ export function useTempMailViewer() {
     }
   }, [email, emailName.length, fetchInbox, fixedDomain, minAddressLen, resolvedDomain, revokeAllMailObjectUrls, setEmailAddress, startPolling])
 
-  const randomAddress = useCallback(async () => {
-    setLoadingInbox(true)
+  const randomAddress = useCallback(() => {
+    if (!resolvedDomain) {
+      setErrorText("Email domain is not configured.")
+      return
+    }
     setErrorText("")
     setStatusText("")
-    try {
-      const data = await createRandomAddress()
-      setEmailAddress(data.email || "")
-      currentEmailStorage.set(data.email || "")
-      viewerTokenStorage.set(data.token || "")
-      revokeAllMailObjectUrls()
-      setMails([])
-      setSelectedMailId(null)
-      setLoadingInbox(false)
-      await fetchInbox()
-      startPolling()
-    } catch (error) {
-      setErrorText(error instanceof Error ? error.message : "Failed to create random address")
-    } finally {
-      setLoadingInbox(false)
-    }
-  }, [fetchInbox, revokeAllMailObjectUrls, setEmailAddress, startPolling])
+
+    // INSTANT — no loading, no blocking. Generating the address itself needs no
+    // backend, so do it client-side and show it + reset the inbox immediately.
+    // The mailbox is then activated SILENTLY in the background (a token is the
+    // only server bit required to actually receive mail) — the UI never waits.
+    const name = generateRandomMailboxName(minAddressLen, maxAddressLen)
+    setEmailName(name)
+    const nextEmail = buildViewerEmail(name, resolvedDomain, maxAddressLen)
+    if (!fixedDomain) setFixedDomain(resolvedDomain)
+    setEmailAddress(nextEmail)
+    currentEmailStorage.set(nextEmail)
+    revokeAllMailObjectUrls()
+    setMails([])
+    setSelectedMailId(null)
+    stopPolling()
+
+    // Background activation — fire-and-forget, zero loading UI.
+    void createViewerSession(nextEmail)
+      .then((data) => {
+        viewerTokenStorage.set(data.token || "")
+        if (data.email) {
+          setEmailAddress(data.email)
+          currentEmailStorage.set(data.email)
+        }
+        startPolling()
+      })
+      .catch((error) => {
+        setErrorText(error instanceof Error ? error.message : "Failed to create random address")
+      })
+  }, [
+    resolvedDomain,
+    minAddressLen,
+    maxAddressLen,
+    fixedDomain,
+    revokeAllMailObjectUrls,
+    setEmailAddress,
+    startPolling,
+    stopPolling,
+  ])
 
   const copyAddress = useCallback(async () => {
     if (!email) return

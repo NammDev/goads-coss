@@ -1,4 +1,5 @@
-// Floating support widget — bottom-left fixed pill, click to expand the full
+// Floating support widget — fixed pill (bottom-left by default, bottom-right on
+// /docs + /help to avoid their sidebar footer), click to expand the full
 // contact card (founder + channel pills + 2 CTAs).
 //
 // Trigger chip is a GoAds-branded badge (dark pill + brand mark + "Support" label
@@ -24,18 +25,30 @@ export function CalendarPopup() {
     setOpen(false)
   }, [pathname])
 
+  // Docs/Help have a bottom-LEFT sidebar footer (Docs/Help/Contact) that this
+  // bottom-left widget overlaps. Move the widget to the bottom-RIGHT on those
+  // routes ONLY (scoped — NOT a global reposition). Everywhere else stays left.
+  const onDocsArea =
+    pathname.startsWith("/docs") || pathname.startsWith("/help")
+
   return (
     <div
       className={cn(
         "site",
         fontInter.variable,
-        "pointer-events-none fixed inset-auto bottom-5 left-5 z-10 flex flex-col items-start justify-end",
+        "pointer-events-none fixed inset-auto bottom-5 z-10 flex flex-col justify-end",
+        onDocsArea ? "right-5 items-end" : "left-5 items-start",
       )}
     >
-      <div className="pointer-events-auto relative flex flex-col items-start">
+      <div
+        className={cn(
+          "pointer-events-auto relative flex flex-col",
+          onDocsArea ? "items-end" : "items-start",
+        )}
+      >
         {/* Expanded card — sits ABOVE the trigger */}
         {open && (
-          <div className="absolute bottom-full left-0 mb-2">
+          <div className={cn("absolute bottom-full mb-2", onDocsArea ? "right-0" : "left-0")}>
             <ActionPlanCard onClose={() => setOpen(false)} />
           </div>
         )}

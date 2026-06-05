@@ -29,7 +29,7 @@
 
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -43,13 +43,30 @@ interface BlogRelatedCarouselProps {
   currentSlug: string
 }
 
-// Card max width 480px + 16px gap → 496px slide step at desktop
+// Card max width 480px + 16px gap → 496px slide step at desktop (fallback only).
 const CARD_MAX_WIDTH = 480
 const CARD_GAP = 16
 
 export function BlogRelatedCarousel({ posts, currentSlug }: BlogRelatedCarouselProps) {
   const related = posts.filter((p) => p.slug !== currentSlug).slice(0, 6)
   const [index, setIndex] = useState(0)
+
+  // The card width is responsive (max-w-480 desktop · 50vw tablet · 100vw-48px
+  // mobile), so a FIXED 496px step over-scrolls on smaller screens — landing
+  // "half this card / half the next". Measure the actual rendered card width
+  // (+ gap) and step by that; recompute on resize.
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [step, setStep] = useState(CARD_MAX_WIDTH + CARD_GAP)
+
+  useEffect(() => {
+    const measure = () => {
+      const firstCard = trackRef.current?.firstElementChild as HTMLElement | null
+      if (firstCard) setStep(firstCard.offsetWidth + CARD_GAP)
+    }
+    measure()
+    window.addEventListener("resize", measure)
+    return () => window.removeEventListener("resize", measure)
+  }, [related.length])
 
   const canPrev = index > 0
   const canNext = index < related.length - 1
@@ -92,9 +109,10 @@ export function BlogRelatedCarousel({ posts, currentSlug }: BlogRelatedCarouselP
               <div className="flex flex-col gap-12 pt-16">
                 {/* .blog-related-list: flex row gap-4 pb-2, translateX transition */}
                 <div
+                  ref={trackRef}
                   className="flex items-stretch gap-4 pb-2 transition-transform duration-[600ms] [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]"
                   style={{
-                    transform: `translateX(-${index * (CARD_MAX_WIDTH + CARD_GAP)}px)`,
+                    transform: `translateX(-${index * step}px)`,
                   }}
                 >
                   {related.map((post) => (

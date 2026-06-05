@@ -1,14 +1,19 @@
-// Help sidebar — verbatim clone of docs-sidebar.tsx, adapted for /help.
-// Swapped: helpTabs + base path `/help`.
-// Tab active = pathname.startsWith(`/help/${tab.slug}`)
-// Leaf active = pathname === href
-// Footer Docs/Help/Contact block kept IDENTICAL to docs-sidebar.tsx.
+// Shared inner content for the documentation sidebar (powers BOTH the desktop
+// aside and the mobile full-screen drawer — DRY across /docs and /help).
+//
+// Pixel-perfect Foreplay help-center clone (lifted verbatim from the old
+// docs-sidebar.tsx): brand row + search · collapsible category accordion ·
+// Docs/Help/Contact footer. Generic over the nav-item type so /docs (DocsNavItem)
+// and /help (HelpNavItem) both reuse it via their own `flatten` fn.
+//
+// Returns a fragment of three sections (top · flex-grow middle · mt-auto footer)
+// to be placed inside a `flex flex-col` container (the aside or the drawer).
 
 "use client"
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { FileText, type LucideIcon } from "lucide-react"
+import { FileText, X, type LucideIcon } from "lucide-react"
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,27 +21,42 @@ import {
 } from "@/components/ui/collapsible"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { FooterLogoSvg } from "@/components/layout/footer/logo-svg"
-import { helpTabs, flattenLeafItems } from "@/data/help-navigation"
 
-/** Single article row inside a section — mirrors docs-sidebar SidebarArticleLink verbatim. */
+type SidebarLeaf = { title: string; href: string; icon?: LucideIcon }
+
+interface DocumentationSidebarContentProps<I> {
+  /** Top-level categories (collapsible sections). */
+  tabs: ReadonlyArray<{ title: string; slug: string; items: I[] }>
+  /** Route base, e.g. "/docs" or "/help". */
+  basePath: string
+  /** Flatten a tab's (possibly nested) items into a 1-level leaf list. */
+  flatten: (items: I[], basePath: string) => SidebarLeaf[]
+  /** Called on any link click — mobile drawer uses it to self-close. */
+  onNavigate?: () => void
+  /** When provided, renders a close (X) button in the brand row (mobile drawer). */
+  onClose?: () => void
+}
+
+/** Single article row inside a section (Foreplay verbatim spec). */
 function SidebarArticleLink({
   href,
   title,
   icon: Icon = FileText,
   isActive,
+  onNavigate,
 }: {
   href: string
   title: string
   icon?: LucideIcon
   isActive: boolean
+  onNavigate?: () => void
 }) {
   return (
     <Link
       href={href}
+      onClick={onNavigate}
       className={`mx-0 flex h-8 cursor-pointer items-center rounded-lg px-2 py-1.5 transition-colors duration-200 ease-in-out ${
-        isActive
-          ? "bg-accent/10 hover:bg-accent/[15%]"
-          : "hover:bg-secondary/60"
+        isActive ? "bg-accent/10 hover:bg-accent/[15%]" : "hover:bg-secondary/60"
       }`}
     >
       <div
@@ -53,13 +73,14 @@ function SidebarArticleLink({
   )
 }
 
-/** Search button — identical markup to docs-sidebar SidebarSearch. */
-function SidebarSearch() {
+/** Search button — dispatches ⌘K to open the global command menu. */
+function SidebarSearch({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <button
       type="button"
-      aria-label="Search help articles"
+      aria-label="Search articles"
       onClick={() => {
+        onNavigate?.()
         document.dispatchEvent(
           new KeyboardEvent("keydown", { key: "k", metaKey: true }),
         )
@@ -94,68 +115,62 @@ function SidebarSearch() {
   )
 }
 
-export function HelpSidebar() {
+export function DocumentationSidebarContent<I>({
+  tabs,
+  basePath,
+  flatten,
+  onNavigate,
+  onClose,
+}: DocumentationSidebarContentProps<I>) {
   const pathname = usePathname()
 
   return (
-    <aside className="sticky top-0 hidden h-svh w-[278px] shrink-0 flex-col justify-between overflow-x-hidden border-r border-border shadow-sm lg:flex">
-      {/* Top container — same spec as docs-sidebar */}
-      <div className="relative w-full p-4 xl:p-3">
+    <>
+      {/* Top — brand row (+ mobile close) + search */}
+      <div className="relative w-full shrink-0 p-4 xl:p-3">
         <div className="flex flex-col items-start">
-
-          {/* Brand row */}
           <div className="flex w-full items-center justify-between">
             <Link
               href="/"
               aria-label="GOADS, back to main site"
+              onClick={onNavigate}
               className="inline-flex max-w-full min-w-0 items-center truncate"
             >
+              {/* 28px (h-7) — unified with the mobile topbar brand + Foreplay's
+                  w-7 h-7 (28px) reference avatar, so the logo never resizes
+                  between the topbar and the open drawer. */}
               <FooterLogoSvg
-                className="h-8 w-auto"
+                className="h-7 w-auto"
                 style={{ color: "var(--background)" }}
               />
             </Link>
 
-            <div className="flex items-center gap-2">
-              {/* Mobile close button */}
+            {onClose && (
               <button
                 type="button"
-                aria-expanded="false"
-                className="flex h-8 cursor-pointer items-center justify-center rounded-lg border border-border bg-secondary px-2 text-foreground shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] transition-colors duration-200 ease-in-out hover:bg-secondary/60 xl:hidden"
+                onClick={onClose}
+                aria-label="Close navigation"
+                className="flex h-8 cursor-pointer items-center justify-center rounded-lg border border-border bg-secondary px-2 text-foreground shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] transition-colors duration-200 ease-in-out hover:bg-secondary/60"
               >
-                <span className="sr-only">Open main menu</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  className="block h-6 w-6"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <X className="size-5" />
               </button>
-            </div>
+            )}
           </div>
 
-          {/* Search bar */}
-          <SidebarSearch />
+          <SidebarSearch onNavigate={onNavigate} />
         </div>
       </div>
 
-      {/* Middle: scrollable nav */}
+      {/* Middle — scrollable category accordion (all tabs) */}
       <div className="relative min-h-0 flex-grow">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -inset-x-4 bottom-0 z-[1] hidden h-32 bg-gradient-to-b from-transparent to-background lg:block"
         />
         <ScrollArea className="h-full w-full">
-          <nav className="space-y-1.5 pb-20 pl-3 pr-2" aria-label="Help sidebar">
-            {helpTabs.map((tab) => {
-              const isActiveTab = pathname.startsWith(`/help/${tab.slug}`)
+          <nav className="space-y-1.5 pb-20 pl-3 pr-2" aria-label="Documentation navigation">
+            {tabs.map((tab) => {
+              const isActiveTab = pathname.startsWith(`${basePath}/${tab.slug}`)
               return (
                 <div
                   key={tab.slug}
@@ -186,17 +201,16 @@ export function HelpSidebar() {
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <div className="space-y-1 p-1 px-2">
-                        {flattenLeafItems(tab.items, `/help/${tab.slug}`).map(
-                          (leaf) => (
-                            <SidebarArticleLink
-                              key={leaf.href}
-                              href={leaf.href}
-                              title={leaf.title}
-                              icon={leaf.icon}
-                              isActive={pathname === leaf.href}
-                            />
-                          ),
-                        )}
+                        {flatten(tab.items, `${basePath}/${tab.slug}`).map((leaf) => (
+                          <SidebarArticleLink
+                            key={leaf.href}
+                            href={leaf.href}
+                            title={leaf.title}
+                            icon={leaf.icon}
+                            isActive={pathname === leaf.href}
+                            onNavigate={onNavigate}
+                          />
+                        ))}
                       </div>
                     </CollapsibleContent>
                   </Collapsible>
@@ -207,9 +221,8 @@ export function HelpSidebar() {
         </ScrollArea>
       </div>
 
-      {/* Footer — Docs / Help / Contact Support. Identical to docs-sidebar.tsx verbatim.
-          Active-route highlight via pathname.startsWith so Help lights up on /help. */}
-      <div className="relative mt-auto flex flex-col gap-1 border-t border-border p-2 pl-3 xl:bg-background/60">
+      {/* Footer — Docs / Help / Contact Support (active route lights up) */}
+      <div className="relative mt-auto flex shrink-0 flex-col gap-1 border-t border-border p-2 pl-3 xl:bg-background/60">
         {[
           { label: "Docs", href: "/docs", emoji: "📄" },
           { label: "Help", href: "/help", emoji: "❓" },
@@ -220,10 +233,9 @@ export function HelpSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               className={`mx-0 flex h-8 cursor-pointer select-none items-center rounded-lg px-3 py-1.5 transition-colors duration-200 ease-in-out ${
-                isActive
-                  ? "bg-accent/10 hover:bg-accent/[15%]"
-                  : "hover:bg-secondary"
+                isActive ? "bg-accent/10 hover:bg-accent/[15%]" : "hover:bg-secondary"
               }`}
             >
               <span
@@ -246,6 +258,6 @@ export function HelpSidebar() {
           )
         })}
       </div>
-    </aside>
+    </>
   )
 }
