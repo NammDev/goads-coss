@@ -20,7 +20,7 @@ const clerkProxyUrl = process.env.NEXT_PUBLIC_CLERK_PROXY_URL;
 // WhatsApp, Telegram, Discord, Slack, Pinterest, etc. ALL read the same Open Graph
 // tags below; X/Twitter reads the twitter:* tags. Discord also colours its embed
 // bar from `theme-color` (set in `viewport`).
-const SITE_URL = "https://www.goads.shop";
+const SITE_URL = "https://goadsagency.com";
 const SITE_NAME = "GOADS";
 const SITE_TITLE = "GOADS | Agency Ad Accounts & Meta Assets | 24/7 Support";
 const SITE_DESCRIPTION =
@@ -57,6 +57,16 @@ export const metadata: Metadata = {
   publisher: SITE_NAME,
   category: "technology",
   alternates: { canonical: "/" },
+  // Icons served from /public (reliable static serving) + declared explicitly so
+  // the tab favicon AND the iOS "Add to Home Screen" apple-touch-icon both resolve.
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   // Open Graph — used by Facebook, Instagram, LinkedIn, WhatsApp, Telegram,
   // Discord, Slack, Pinterest, Messenger, Zalo and most link unfurlers.
   openGraph: {

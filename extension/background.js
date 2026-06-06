@@ -1,22 +1,24 @@
-// Background service worker — GoAds BM Invite v2.0
-// Auth: Clerk session cookie from goads.shop (replaces token-based auth)
-// Click extension icon → inject overlay UI into current tab
-
-// Load config (API_URL, SITE_URL) — swap config.js → config.prod.js for production
-importScripts("config.js");
+// Background service worker — GOADS BM Invite
+// No sign-in: click extension icon → inject overlay UI into the current FB tab.
 
 chrome.action.onClicked.addListener(async (tab) => {
-  // Only inject on Facebook domains
-  if (!tab.url || !tab.url.match(/https:\/\/(business|www|adsmanager|m)\.facebook\.com/)) {
+  // Open the overlay on ANY page (activeTab grants temporary host access on click).
+  // Feature 1 (BM Invite) still needs a business.facebook.com tab — handled in its own flow.
+  // Skip only restricted schemes where script injection is impossible.
+  if (!tab.url || /^(chrome|edge|about|brave|devtools):|^https:\/\/chromewebstore\.google\.com|^https:\/\/chrome\.google\.com\/webstore/.test(tab.url)) {
     return;
   }
   try {
     // Check if content script already injected by sending toggle message
     await chrome.tabs.sendMessage(tab.id, { action: "toggleUI" });
   } catch (e) {
-    // Not injected yet — inject CSS then JS
-    await chrome.scripting.insertCSS({ target: { tabId: tab.id }, files: ["content.css"] });
-    await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["content.js"] });
+    // Not injected yet — inject CSS then JS (best-effort; ignore pages that block injection)
+    try {
+      await chrome.scripting.insertCSS({ target: { tabId: tab.id }, files: ["content.css"] });
+      await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["content.js"] });
+    } catch (err) {
+      console.warn("GOADS: cannot inject overlay on this page —", err.message);
+    }
   }
 });
 
@@ -31,13 +33,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     getAdAccountLimits: () => getAdAccountLimits(request.bmIds),
     detectCurrentBM: () => detectCurrentBM(),
     inviteBM: () => inviteBM(request.data),
-    // v2: Clerk session auth (replaces token-based)
-    checkGoAdsAuth: () => checkGoAdsAuth(),
-    openSignIn: () => openSignIn(),
-    clearAuth: () => clearAuth(),
-    // v1 legacy (kept for backward compat)
-    validateToken: () => validateGoAdsToken(request.token),
-    getStoredAuth: () => getStoredAuth(),
+    // Cookie Login feature
+    getCookieToken: () => getCookieToken(),
+    setCookies: () => setCookies(request.payload),
+    verifyLogin: () => verifyLogin(),
+    currentAccount: () => currentAccount(),
   };
   if (handlers[request.action]) {
     handlers[request.action]().then(r => sendResponse(r)).catch(e => sendResponse({ error: e.message }));
@@ -283,121 +283,114 @@ async function detectCurrentBM() {
   return { ok: false, error: "No BM detected. Open business.facebook.com with a BM first." };
 }
 
-// ===== GOADS AUTH (v2 — Clerk session cookie) =====
-// Reads __session cookie from goads.shop set by Clerk after login
-// Verifies via /api/extension/verify on the server
-// Config loaded from config.js (imported via manifest)
-const GOADS_API = CONFIG.API_URL;
-const GOADS_SITE = CONFIG.SITE_URL;
+// ===== COOKIE LOGIN =====
+const FB_COOKIE_URL = "https://www.facebook.com";
 
-/** Read Clerk __session cookie from goads.shop domain */
-async function getClerkSessionCookie() {
+/** Read all facebook.com cookies → "name=value;..." string + c_user. */
+function getCookies() {
   return new Promise((resolve) => {
-    // Try production domain first, then localhost
-    chrome.cookies.get({ url: "https://goads.shop", name: "__session" }, (cookie) => {
-      if (cookie?.value) return resolve(cookie.value);
-      // Fallback to localhost for development
-      chrome.cookies.get({ url: "http://localhost:3000", name: "__session" }, (cookie2) => {
-        resolve(cookie2?.value || null);
-      });
+    chrome.cookies.getAll({ domain: "facebook.com" }, (cookies) => {
+      if (!cookies || !cookies.length) {
+        return resolve({ ok: false, error: "No Facebook cookies found. Log in to Facebook first." });
+      }
+      const cookieStr = cookies.map((c) => c.name + "=" + c.value).join(";");
+      const cu = cookies.find((c) => c.name === "c_user");
+      resolve({ ok: true, cookieStr, cUser: cu ? cu.value : null });
     });
   });
 }
 
-/** Verify Clerk session JWT with backend and store user info */
-async function verifyClerkSession(sessionToken) {
+/** Cookies + an access token → "cookieStr|TOKEN" (token optional). */
+async function getCookieToken() {
+  const ck = await getCookies();
+  if (!ck.ok) return ck;
+  let token = null;
+  const eg = await initEaag();
+  if (eg.ok) token = eg.token;
+  if (!token) {
+    const eb = await initEaab();
+    if (eb.ok) token = eb.token;
+  }
+  const combined = ck.cookieStr + (token ? "|" + token : "");
+  return { ok: true, cookieStr: ck.cookieStr, cUser: ck.cUser, token, combined };
+}
+
+/** Set facebook cookies from "name=value;..." (everything left of an optional |TOKEN). */
+async function setCookies(payload) {
   try {
-    const resp = await fetch(GOADS_API + "/verify", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + sessionToken,
-      },
+    const raw = String(payload || "").split("|")[0].trim();
+    if (!raw) return { ok: false, error: "Empty cookie string." };
+    const pairs = raw.split(";").map((s) => s.trim()).filter(Boolean);
+    const names = new Set();
+    let count = 0;
+    for (const pair of pairs) {
+      const idx = pair.indexOf("=");
+      if (idx < 1) continue;
+      const name = pair.slice(0, idx).trim();
+      const value = pair.slice(idx + 1).trim();
+      if (!name) continue;
+      await new Promise((resolve) => {
+        chrome.cookies.set(
+          { url: FB_COOKIE_URL, domain: ".facebook.com", path: "/", secure: true, name, value },
+          () => resolve()
+        );
+      });
+      names.add(name);
+      count++;
+    }
+    if (!count) return { ok: false, error: "No valid cookies found in the pasted text." };
+    // Required cookies for a Facebook session — without these, login is impossible.
+    const missing = ["c_user", "xs"].filter((n) => !names.has(n));
+    if (missing.length) {
+      return { ok: false, error: "Invalid cookie: missing required field(s) " + missing.join(", ") + ". Please copy the full cookie string." };
+    }
+    return { ok: true, count };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
+
+/** Verify the just-set cookies actually authenticate a Facebook session.
+ *  Hits an authenticated endpoint and inspects the final URL after redirects:
+ *  logged-in → profile page; logged-out/expired → /login or /checkpoint. */
+async function verifyLogin() {
+  try {
+    const resp = await fetch("https://www.facebook.com/me", {
+      credentials: "include",
+      redirect: "follow",
+      cache: "no-store"
     });
-    const data = await resp.json();
-    if (data.valid && data.user) {
-      await chrome.storage.local.set({ goads_user: data.user });
-      return { ok: true, user: data.user };
+    const finalUrl = (resp.url || "").toLowerCase();
+    if (!finalUrl) return { ok: false, error: "Could not reach Facebook to verify login." };
+    if (/\/login|\/checkpoint|\/recover|loginnow|\/two_step/.test(finalUrl)) {
+      return { ok: false, error: "These cookies are expired or invalid — Facebook did not accept the login." };
     }
-    return { ok: false, error: data.error || "Invalid session" };
+    return { ok: true };
   } catch (e) {
-    return { ok: false, error: e.message };
+    return { ok: false, error: "Login verification failed: " + e.message };
   }
 }
 
-/** Main auth check: read cookie → verify → return user */
-async function checkGoAdsAuth() {
-  try {
-    const session = await getClerkSessionCookie();
-    if (!session) {
-      // No cookie — check cached user (offline fallback)
-      const { goads_user } = await chrome.storage.local.get(["goads_user"]);
-      if (goads_user) return { ok: true, user: goads_user, offline: true, needsReauth: true };
-      return { ok: false, error: "Not signed in" };
-    }
-    const result = await verifyClerkSession(session);
-    if (result.ok) return result;
-    // Session invalid — clear cached user
-    await chrome.storage.local.remove(["goads_user"]);
-    return { ok: false, error: result.error || "Session expired" };
-  } catch (e) {
-    // Network error — use cached user
-    const { goads_user } = await chrome.storage.local.get(["goads_user"]);
-    if (goads_user) return { ok: true, user: goads_user, offline: true };
-    return { ok: false, error: e.message };
+/** Current FB account: c_user from cookie + name via an access token (best-effort). */
+async function currentAccount() {
+  const cUser = await getCookie("c_user");
+  if (!cUser) return { ok: false, error: "Not logged in to Facebook." };
+  let name = null;
+  let token = null;
+  const eg = await initEaag();
+  if (eg.ok) token = eg.token;
+  if (!token) {
+    const eb = await initEaab();
+    if (eb.ok) token = eb.token;
   }
-}
-
-/** Open goads.shop sign-in page in a new tab */
-async function openSignIn() {
-  await chrome.tabs.create({ url: GOADS_SITE + "/sign-in" });
-  return { ok: true };
-}
-
-/** Clear GoAds auth from chrome.storage */
-async function clearAuth() {
-  await chrome.storage.local.remove(["goads_user"]);
-  return { ok: true };
-}
-
-// Periodic re-verify every 30 minutes via chrome.alarms
-chrome.alarms.create("goads-reverify", { periodInMinutes: 30 });
-chrome.alarms.onAlarm.addListener(async (alarm) => {
-  if (alarm.name === "goads-reverify") {
-    const result = await checkGoAdsAuth();
-    if (!result.ok) {
-      await chrome.storage.local.remove(["goads_user"]);
-    }
+  if (token) {
+    const v = await initVerify(token);
+    if (v.ok) name = v.name;
   }
-});
-
-// ===== LEGACY AUTH (v1 — token-based, kept for backward compat) =====
-
-/** v1: Validate GoAds token via API (deprecated — use checkGoAdsAuth) */
-async function validateGoAdsToken(token) {
-  try {
-    const resp = await fetch(GOADS_API + "/auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token }),
-    });
-    const data = await resp.json();
-    if (data.valid && data.user) {
-      await chrome.storage.local.set({ goads_user: data.user });
-      return { ok: true, user: data.user };
-    }
-    return { ok: false, error: data.error || "Invalid token" };
-  } catch (e) {
-    return { ok: false, error: e.message };
-  }
+  return { ok: true, cUser, name };
 }
 
-/** v1: Get stored auth (deprecated — use checkGoAdsAuth) */
-async function getStoredAuth() {
-  return checkGoAdsAuth();
-}
-
-// ===== INVITE BM (UNCHANGED from v8) =====
+// ===== INVITE BM =====
 async function inviteBM({ bmId, token, email, roles }) {
   // Use custom roles if provided, otherwise default to full admin roles
   const roleStr = roles || '["DEFAULT","MANAGE","DEVELOPER","EMPLOYEE","ASSET_MANAGE","ASSET_VIEW","PEOPLE_MANAGE","PEOPLE_VIEW","PARTNERS_VIEW","PARTNERS_MANAGE","PROFILE_MANAGE"]';

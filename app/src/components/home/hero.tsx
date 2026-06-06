@@ -15,7 +15,6 @@ import { CtaButton } from "@/components/atoms/cta-button"
 import { HomeHeroBottom } from "@/components/home/hero-bottom"
 import { HomeHeroVideo } from "@/components/home/hero-video"
 import { useHeroScrollAnimation } from "@/components/home/use-hero-scroll-animation"
-import { CONTACT } from "@/data/contact-info"
 
 export function HomeHero() {
   const { triggerRef, stickyRef } = useHeroScrollAnimation()
@@ -55,8 +54,8 @@ export function HomeHero() {
 
           {/* .home-hero-cta */}
           <div className="flex items-center gap-3">
-            <CtaButton href={CONTACT.telegram.officialWithMessage} variant="hero">
-              Contact Us
+            <CtaButton href="/pricing" variant="hero">
+              View Products
             </CtaButton>
           </div>
         </div>

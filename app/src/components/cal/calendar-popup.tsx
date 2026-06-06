@@ -62,7 +62,9 @@ export function CalendarPopup() {
           className={cn(
             "group flex cursor-pointer items-center gap-2.5 rounded-full",
             "bg-[var(--solid-900)] text-white",
-            "py-2 pl-2 pr-4",
+            // h-12 (48px) matches the cart pill so both floating buttons are
+            // the same size / symmetric. (Was py-2 → ~56px, too tall.)
+            "h-12 pl-2 pr-4",
             "shadow-xl shadow-black/20 ring-1 ring-white/5",
             "transition-all duration-200",
             "hover:bg-[var(--solid-700)] hover:scale-[1.02]",

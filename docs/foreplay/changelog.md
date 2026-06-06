@@ -796,3 +796,5 @@ Verbatim Foreplay carousel spec (verified from `foreplay-source.css`):
 - [x] Refund/Warranty policy typography → Foreplay tokens ✅ (260605) — /refund-policy headings were oversized (h3 24px + h4 18px, semibold). Rescaled to Foreplay rich-text tokens: section h3 → headingL 1.125rem/leading-6/font-550, sub h4 → 1rem/leading-6/font-550, body/li 1rem, tracking -0.0144em/-0.01125em; tightened margins (p my-3, hr my-6). solid-900 for headings/strong/links.
 
 - [x] Privacy Policy rewrite + Foreplay typography ✅ (260605) — replaced legacy Foreplay copy (hello@foreplay.co, Chrome-extension refs) with GOADS privacy policy (6 sections: Information We Collect, How We Use Information, Acceptable Use, Data Security & Retention, Policy Updates, Contact). Prose rescaled to match /refund-policy: h3 → headingL 1.125rem/font-550, body/li 1rem, hr separators, solid-900 headings/strong/links. Also removed /terms-of-service page + all its links (footer, sitemap).
+
+- [x] Mobile menu CTA button height → Foreplay spec (260605) — "Contact Us" pill was rounded-[12px] px-4 py-3 (too tall). Set to .button-dark spec: rounded-[10px] p-2 font-semibold.
