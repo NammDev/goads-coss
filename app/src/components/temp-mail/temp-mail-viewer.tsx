@@ -239,7 +239,7 @@ export function TempMailViewer({ className }: { className?: string }) {
                   <h2 className="text-sm font-semibold">{viewer.selectedMail.subject || "No subject"}</h2>
                   <p className="mt-0.5 text-xs text-[var(--solid-400)]">{viewer.selectedMail.source}</p>
                 </header>
-                {!viewer.loadingDetail || viewer.selectedMail.message || viewer.selectedMail.text ? (
+                {viewer.selectedMail.detailLoaded ? (
                   <MailBodySandbox
                     className="min-h-[420px] flex-1 border-0 bg-white"
                     html={viewer.selectedMail.message || viewer.selectedMail.text || ""}

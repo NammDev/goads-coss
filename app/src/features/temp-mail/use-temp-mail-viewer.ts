@@ -61,6 +61,12 @@ type ViewerConfig = {
   maxAddressLen: number
 }
 
+type NormalizeMailOptions = {
+  parseRaw?: boolean
+  createAttachmentUrls?: boolean
+  markDetailLoaded?: boolean
+}
+
 const parseMailMetadata = (metadata: unknown) => {
   if (!metadata) return {}
   if (typeof metadata === "object") return metadata as Record<string, unknown>
@@ -97,7 +103,7 @@ export function useTempMailViewer() {
   const [mails, setMails] = useState<ParsedViewerMail[]>([])
   const [selectedMailId, setSelectedMailId] = useState<number | string | null>(null)
   const [loadingInbox, setLoadingInbox] = useState(false)
-  const [loadingDetail, setLoadingDetail] = useState(false)
+  const [loadingDetailId, setLoadingDetailId] = useState<number | string | null>(null)
   const [polling, setPolling] = useState(false)
   const [errorText, setErrorText] = useState("")
   const [statusText, setStatusText] = useState("")
@@ -127,6 +133,7 @@ export function useTempMailViewer() {
   const hasSession = Boolean(viewerTokenStorage.get() && email)
   const displayDomain = resolvedDomain || "domain"
   const selectedMail = mails.find((item) => item.id === selectedMailId) || null
+  const loadingDetail = Boolean(selectedMailId && loadingDetailId === selectedMailId)
   const lastCheckedText = lastCheckedAt
     ? new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" }).format(lastCheckedAt)
     : "Not checked yet"
@@ -143,7 +150,7 @@ export function useTempMailViewer() {
 
   const normalizeMail = useCallback(async (
     mail: ViewerMail | ParsedViewerMail,
-    { parseRaw = false, createAttachmentUrls = false } = {},
+    { parseRaw = false, createAttachmentUrls = false, markDetailLoaded = false }: NormalizeMailOptions = {},
   ): Promise<ParsedViewerMail> => {
     const item = { ...mail } as ParsedViewerMail
     const metadata = parseMailMetadata(item.metadata)
@@ -162,7 +169,7 @@ export function useTempMailViewer() {
       message: item.message || item.html || item.text || "",
       text: item.text || item.message || String(metadata.snippet || ""),
       source: String(metadata.source || item.source || item.from || "Unknown sender"),
-      detailLoaded: Boolean(item.raw || item.message || item.html || item.text),
+      detailLoaded: Boolean(item.detailLoaded || markDetailLoaded),
     }
   }, [])
 
@@ -176,25 +183,24 @@ export function useTempMailViewer() {
 
   const hydrateSelectedMailDetail = useCallback(async () => {
     const mail = mailsRef.current.find((item) => item.id === selectedMailIdRef.current)
-    if (!mail || loadingDetail) return
-    if (mail.raw) {
-      if (mail.attachmentUrlsCreated) return
-      const processed = await normalizeMail({ ...mail }, { parseRaw: true, createAttachmentUrls: true })
-      replaceMail(processed)
-      return
-    }
-    setLoadingDetail(true)
+    if (!mail || loadingDetailId === mail.id) return
+    if (mail.detailLoaded && (mail.attachmentUrlsCreated || !mail.raw)) return
+
+    setLoadingDetailId(mail.id)
     try {
-      const detail = await getViewerMail(mail.id)
+      const detail = mail.raw ? mail : await getViewerMail(mail.id)
       if (!detail) return
-      const processed = await normalizeMail({ ...mail, ...detail }, { parseRaw: true, createAttachmentUrls: true })
+      const processed = await normalizeMail(
+        { ...mail, ...detail },
+        { parseRaw: true, createAttachmentUrls: true, markDetailLoaded: true },
+      )
       replaceMail(processed)
     } catch (error) {
       setErrorText(error instanceof Error ? error.message : "Failed to load mail")
     } finally {
-      setLoadingDetail(false)
+      setLoadingDetailId((current) => (current === mail.id ? null : current))
     }
-  }, [loadingDetail, normalizeMail, replaceMail])
+  }, [loadingDetailId, normalizeMail, replaceMail])
 
   useEffect(() => {
     if (selectedMailId) {
@@ -456,8 +462,7 @@ export function useTempMailViewer() {
       const params = new URLSearchParams(fragment.startsWith("?") ? fragment.slice(1) : fragment)
       const mailbox = params.get("mailbox") || params.get("email")
       if (mailbox) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        setEmailAddress(mailbox)
+        window.queueMicrotask(() => setEmailAddress(mailbox))
         window.history.replaceState({}, document.title, `${window.location.pathname}${window.location.search}`)
       }
     }
