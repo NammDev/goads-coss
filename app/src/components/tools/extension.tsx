@@ -35,11 +35,11 @@ const features: Feature[] = [
 const steps = [
   "Download the .zip and unzip it.",
   "Open chrome://extensions and turn on Developer mode (top-right).",
-  'Click "Load unpacked" and select the goads-extension folder.',
+  'Click "Load unpacked" and select the GOADS-Extension folder.',
   "Open any website and click the GOADS icon to launch.",
 ]
 
-const ZIP_URL = "/downloads/goads-extension.zip"
+const ZIP_URL = "/downloads/GOADS-Extension.zip"
 
 export function ExtensionTool() {
   return (

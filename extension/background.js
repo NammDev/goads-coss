@@ -439,23 +439,44 @@ async function verifyLogin() {
   }
 }
 
-/** Current FB account: c_user from cookie + name via an access token (best-effort). */
+/** Current FB account — FAST: c_user from cookie (instant) + display name read
+ *  straight from an already-open Facebook tab (no token scrape, no network).
+ *  If no FB tab is open, returns the id alone — still instant. EAAG/EAAB token
+ *  loading is deferred to getCookieToken() (only when the user clicks Get cookie). */
 async function currentAccount() {
   const cUser = await getCookie("c_user");
   if (!cUser) return { ok: false, error: "Not logged in to Facebook." };
-  let name = null;
-  let token = null;
-  const eg = await initEaag();
-  if (eg.ok) token = eg.token;
-  if (!token) {
-    const eb = await initEaab();
-    if (eb.ok) token = eb.token;
-  }
-  if (token) {
-    const v = await initVerify(token);
-    if (v.ok) name = v.name;
-  }
+  const name = await readNameFromFacebookTab();
   return { ok: true, cUser, name };
+}
+
+/** Read the logged-in user's display name from any open *.facebook.com tab via a
+ *  MAIN-world inject of require("CurrentUserInitialData"). Instant; null if none. */
+async function readNameFromFacebookTab() {
+  let tabs;
+  try {
+    tabs = await chrome.tabs.query({ url: "*://*.facebook.com/*" });
+  } catch (e) {
+    return null;
+  }
+  if (!tabs || !tabs.length) return null;
+  for (let i = 0; i < tabs.length; i++) {
+    try {
+      const r = await chrome.scripting.executeScript({
+        target: { tabId: tabs[i].id },
+        func: function () {
+          try {
+            var d = require("CurrentUserInitialData");
+            if (d && d.NAME) return d.NAME;
+          } catch (e) {}
+          return null;
+        },
+        world: "MAIN"
+      });
+      if (r && r[0] && r[0].result) return r[0].result;
+    } catch (e) {}
+  }
+  return null;
 }
 
 // ===== INVITE BM =====

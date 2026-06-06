@@ -1,27 +1,27 @@
 #!/bin/bash
 # Build the extension zip for the website download button.
 # Usage: ./build-zip.sh
-# Output: app/public/downloads/goads-extension.zip
-#   The archive contains a top-level goads-extension/ folder so users unzip to a
-#   clean folder ready for chrome://extensions → Load unpacked.
+# Output: app/public/downloads/GOADS-Extension.zip
+#   FLAT archive — files sit at the zip root (manifest.json at top level), NOT in
+#   a wrapper folder. When the user runs "Extract All" (Windows) or double-clicks
+#   (macOS), the OS auto-creates a single GOADS-Extension/ folder with the files
+#   directly inside — ready for chrome://extensions → Load unpacked, no nesting.
 # The extension is env-agnostic (no sign-in / no config / no API base URL).
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUT_DIR="$SCRIPT_DIR/../app/public/downloads"
-TMP_DIR=$(mktemp -d)
-STAGE="$TMP_DIR/goads-extension"
 
-mkdir -p "$OUT_DIR" "$STAGE"
+mkdir -p "$OUT_DIR"
 
-# Ship only the files the manifest loads.
-cp "$SCRIPT_DIR"/{background.js,content.js,content.css,manifest.json,icon48.png,icon128.png} "$STAGE/"
+# Zip every file the manifest references (scripts, styles, icons, logo, font),
+# flat at the archive root.
+cd "$SCRIPT_DIR"
+rm -f "$OUT_DIR/GOADS-Extension.zip"
+zip -j "$OUT_DIR/GOADS-Extension.zip" \
+  background.js content.js content.css manifest.json \
+  icon16.png icon32.png icon48.png icon128.png \
+  goads-logo.png inter-var.woff2
 
-# Zip with the goads-extension/ folder as the archive root.
-cd "$TMP_DIR"
-rm -f "$OUT_DIR/goads-extension.zip"
-zip -r "$OUT_DIR/goads-extension.zip" goads-extension
-
-rm -rf "$TMP_DIR"
-echo "Built: $OUT_DIR/goads-extension.zip"
+echo "Built: $OUT_DIR/GOADS-Extension.zip"

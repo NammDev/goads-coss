@@ -54,7 +54,7 @@ export default async function PortalExtensionsPage() {
         </CardHeader>
         <CardContent className="flex flex-wrap gap-3">
           <Button size="sm" className="gap-2" asChild>
-            <a href="/downloads/goads-extension.zip" download>
+            <a href="/downloads/GOADS-Extension.zip" download>
               <DownloadIcon className="size-4" />
               Download Extension
             </a>
