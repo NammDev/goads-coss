@@ -1,4 +1,4 @@
-// GoAds BM Invite — Content Script (overlay injected into FB page)
+// GOADS BM Invite — Content Script (overlay injected into FB page)
 (() => {
   // Prevent double injection
   if (document.getElementById("goads-bm-overlay")) {
@@ -10,7 +10,6 @@
   let eaag = null;
   let bmId = null;
   let userName = null;
-  let goadsUser = null; // GoAds authenticated user
 
   // Listen for toggle message from background
   chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
@@ -51,24 +50,37 @@
       <!-- Header -->
       <div class="goads-header">
         <div class="goads-header-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          BM INVITE TOOL
+          <span class="goads-brand-mark">
+            <svg viewBox="20 20 220 200" xmlns="http://www.w3.org/2000/svg" aria-label="GOADS">
+              <circle cx="132.08" cy="117.68" r="51.45" fill="currentColor"/>
+              <path fill="#fff" d="M160.57,116.22c0-.22.17-.39.39-.39l20.09-.09,20.36.09c.22,0,.39.18.39.39v67.73c0,.13-.06.26-.17.33-19.07,13.59-45.14,20.85-69.1,20.85-52.54,0-90.95-35.58-90.95-85.77s38.41-85.77,91.89-85.77c30.71,0,52.07,13.97,68.33,33.34,0,0-10.89,10.09-11.05,10.23l-14.58,13.19c-.16.14-.41.13-.55-.03-11.25-12.29-24.13-18.09-39.79-18.09-29.29,0-48.47,19.98-47.05,50.25,1.16,24.75,21.81,44.01,46.59,44,8.63,0,16.8-1.62,24.96-5.31.14-.06.23-.21.23-.36v-44.59Z"/>
+              <path fill="currentColor" d="M94.19,139.84c.01.19-.12.37-.3.41-10.77,2.57-17.76-8.85-16.71-17.08.89-6.97,5.9-13.53,14.37-15.24.23-.05.45.13.47.36l2.17,31.54Z"/>
+              <path fill="currentColor" d="M113.91,77.99c-.2.03-.39-.09-.44-.28-2.26-8.41,7.59-14.88,14.74-14.69,6.07.16,11.81,3.64,13.41,10.27.05.22-.1.44-.33.48l-27.38,4.22Z"/>
+              <ellipse fill="#fff" cx="134.78" cy="115.01" rx="7.07" ry="3.47" transform="translate(-38.17 153.51) rotate(-53.03)"/>
+              <ellipse fill="#fff" cx="113.13" cy="121.16" rx="13.67" ry="10.11" transform="translate(-51.81 137.67) rotate(-52.68)"/>
+              <ellipse fill="#fff" cx="134.03" cy="93.75" rx="13.67" ry="10.11" transform="translate(-21.79 143.5) rotate(-52.68)"/>
+              <path fill="#fff" d="M111.12,109.97l4.11-2.31c2.73-1.53,4.77-4.04,5.71-7.03l1.55-4.9c.08-.25.38-.35.59-.21l13.01,8.86c.21.14.23.44.05.61l-2.39,2.21c-3.12,2.88-5.66,6.33-7.47,10.18l-2.97,6.3c-.12.26-.46.3-.65.09l-11.64-13.21c-.17-.19-.12-.48.1-.6Z"/>
+              <path fill="currentColor" d="M132.18,88.76l1.51,2.48c.29.48.95.55,1.33.15l.46-.48c.44-.46,1.22-.29,1.41.32l.99,3.01c.29.89-.87,1.52-1.46.79h0c-.32-.4-.92-.42-1.27-.05l-.75.79c-.35.37-.94.34-1.26-.05l-3.72-4.53c-.27-.33-.25-.81.04-1.12l1.39-1.46c.38-.4,1.04-.33,1.33.15Z"/>
+              <path fill="currentColor" d="M159.82,137.07c4.71-.18,10.65,3.47,11.41,8.54.57,3.78-.74,7.65-3.38,10.4-2.11,2.2-6.32,4.76-9.33,5.95-.25.1-.53-.07-.54-.34-.14-3.25-.88-20.25-1.05-24.05-.01-.26.22-.45.47-.4.65.14,1.74.04,2.01.04.08,0,.32-.15.4-.15Z"/>
+            </svg>
+          </span>
+          GOADS Tools
         </div>
-        <div class="goads-header-sub">goads.shop | Invite users to Business Manager via email</div>
+        <div class="goads-header-sub">goadsagency.com · Facebook BM &amp; Cookie tools</div>
         <button class="goads-close" id="goads-btnClose">✕</button>
       </div>
 
-      <!-- Auth Screen -->
-      <div id="goads-authSection" class="goads-hidden">
-        <div class="goads-auth-screen">
-          <div class="goads-auth-icon">🔐</div>
-          <div class="goads-auth-title">Sign in to GoAds</div>
-          <div class="goads-auth-desc">Sign in with your GoAds account to use this tool. A new tab will open for you to log in.</div>
-          <div class="goads-auth-form">
-            <button class="goads-btn goads-btn-primary" id="goads-btnSignIn" style="width:100%">Sign in with GoAds</button>
-          </div>
-          <div id="goads-authError" class="goads-alert goads-alert-error"></div>
-          <div class="goads-auth-hint" style="text-align:center;font-size:12px;color:#888;margin-top:8px">After signing in, come back to this tab — it will connect automatically.</div>
+      <!-- Home: feature picker -->
+      <div id="goads-homeSection">
+        <div class="goads-home">
+          <button class="goads-feature-btn" id="goads-featInvite">
+            <span class="goads-feature-emoji">🔗</span>
+            <span class="goads-feature-text"><b>BM Invite</b><small>Invite users to your Business Manager via email</small></span>
+          </button>
+          <button class="goads-feature-btn" id="goads-featCookie">
+            <span class="goads-feature-emoji">🍪</span>
+            <span class="goads-feature-text"><b>Cookie Login</b><small>Import / get cookies to log in to Facebook</small></span>
+          </button>
         </div>
       </div>
 
@@ -95,6 +107,10 @@
 
       <!-- Main -->
       <div id="goads-mainSection" class="goads-hidden">
+        <div class="goads-feature-head">
+          <button class="goads-back" id="goads-backInvite">← Back</button>
+          <div class="goads-guide">⚠️ Open <b>business.facebook.com</b> and select a Business Manager first. The tool auto-fetches the token and detects the BM.</div>
+        </div>
         <div class="goads-main">
           <div class="goads-form-col">
             <div>
@@ -124,12 +140,6 @@
           </div>
           <div class="goads-sidebar-col">
             <div class="goads-sidebar-card">
-              <div class="goads-sidebar-card-title">👤 GoAds Account</div>
-              <div class="goads-pill goads-pill-green" id="goads-pillGoads">Connected</div>
-              <div class="goads-auth-user-name" id="goads-userName"></div>
-              <button class="goads-btn-disconnect" id="goads-btnDisconnect">Disconnect</button>
-            </div>
-            <div class="goads-sidebar-card">
               <div class="goads-sidebar-card-title">📊 Status</div>
               <div class="goads-pill goads-pill-green" id="goads-pillToken">Token: Valid</div>
               <div class="goads-pill goads-pill-green" id="goads-pillBM">BM: —</div>
@@ -146,9 +156,35 @@
         </div>
       </div>
 
+      <!-- Cookie Login -->
+      <div id="goads-cookieSection" class="goads-hidden">
+        <div class="goads-feature-head">
+          <button class="goads-back" id="goads-backCookie">← Back</button>
+          <div class="goads-guide">Paste a cookie to <b>log in to Facebook without a password</b> (the page will reload). Get the current account's cookie below.</div>
+        </div>
+        <div class="goads-cookie">
+          <div class="goads-cookie-account">Current account: <b id="goads-ckAccount">—</b></div>
+
+          <!-- PRIMARY: paste cookie → login Facebook (no password) -->
+          <label class="goads-cookie-label">🔑 Log in with cookie</label>
+          <textarea id="goads-ckImportIn" class="goads-cookie-ta" placeholder="Paste cookie: c_user=...;xs=...;... (optional |TOKEN)"></textarea>
+          <button class="goads-btn goads-btn-primary" id="goads-ckImport" style="width:100%">Import &amp; Login</button>
+          <div id="goads-ckResult" class="goads-alert"></div>
+
+          <!-- SECONDARY: get current account cookie -->
+          <div style="border-top:1px solid var(--card-border); margin:16px 0 14px"></div>
+          <label class="goads-cookie-label">Get current account cookie <span style="font-weight:400;opacity:.7">(optional)</span></label>
+          <textarea id="goads-ckGetOut" class="goads-cookie-ta" readonly placeholder="Click 'Get' to copy this account's cookie|token..."></textarea>
+          <div class="goads-cookie-row">
+            <button class="goads-btn goads-btn-outline" id="goads-ckGet">Get Cookie + Token</button>
+            <button class="goads-btn goads-btn-outline" id="goads-ckCopy">Copy</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Footer -->
       <div class="goads-footer">
-        <span>GoAds BM Invite v1.0 · <a href="https://goads.shop" target="_blank">goads.shop</a></span>
+        <span>GOADS · <a href="https://goadsagency.com" target="_blank">goadsagency.com</a></span>
         <div class="goads-footer-right">
           <a href="https://t.me/goads_official" target="_blank">Telegram</a>
         </div>
@@ -168,72 +204,24 @@
     $("goads-btnGenEmail").addEventListener("click", generateEmail);
     $("goads-btnOpenMail").addEventListener("click", openMailbox);
 
-    // Auth screen buttons
-    $("goads-btnSignIn").addEventListener("click", handleSignIn);
-    $("goads-btnDisconnect").addEventListener("click", handleDisconnect);
+    // Feature navigation (home ↔ features)
+    $("goads-featInvite").addEventListener("click", () => { init(); });
+    $("goads-featCookie").addEventListener("click", openCookieFeature);
+    $("goads-backInvite").addEventListener("click", () => showScreen("home"));
+    $("goads-backCookie").addEventListener("click", () => showScreen("home"));
+
+    // Cookie Login actions
+    $("goads-ckGet").addEventListener("click", handleGetCookie);
+    $("goads-ckCopy").addEventListener("click", handleCopyCookie);
+    $("goads-ckImport").addEventListener("click", handleImportCookie);
 
     // Close on Escape
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") hideOverlay();
     });
 
-    // Start auth check
-    checkAuth();
-  }
-
-  // ══════════════════════════════════════
-  // ── GoAds Auth Flow (v2 — Clerk session) ──
-  // ══════════════════════════════════════
-
-  async function checkAuth() {
-    const res = await msg("checkGoAdsAuth");
-    if (res.ok && res.user) {
-      goadsUser = res.user;
-      showConnectedState();
-      init(); // proceed to FB init
-    } else {
-      showScreen("auth");
-    }
-  }
-
-  /** Open goads.shop sign-in in a new tab */
-  async function handleSignIn() {
-    const btn = $("goads-btnSignIn");
-    const errEl = $("goads-authError");
-    errEl.style.display = "none";
-    btn.disabled = true;
-    btn.innerHTML = '<span class="goads-spinner"></span> Opening sign-in...';
-
-    await msg("openSignIn");
-
-    btn.disabled = false;
-    btn.textContent = "Sign in with GoAds";
-  }
-
-  async function handleDisconnect() {
-    await msg("clearAuth");
-    goadsUser = null;
-    $("goads-authError").style.display = "none";
-    showScreen("auth");
-  }
-
-  // Auto re-check auth when user returns to this tab (after signing in)
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && !goadsUser) {
-      checkAuth();
-    }
-  });
-
-  function showConnectedState() {
-    const nameEl = $("goads-userName");
-    const pillEl = $("goads-pillGoads");
-    if (nameEl && goadsUser) {
-      nameEl.textContent = goadsUser.name || goadsUser.email || "User";
-    }
-    if (pillEl) {
-      pillEl.textContent = "Connected";
-      pillEl.className = "goads-pill goads-pill-green";
-    }
+    // No sign-in — show the feature picker (home).
+    showScreen("home");
   }
 
   // ══════════════════════════════════════
@@ -265,7 +253,7 @@
   // ══════════════════════════════════════
 
   function showScreen(name) {
-    ["goads-authSection", "goads-loadingSection", "goads-errorSection", "goads-mainSection"].forEach((id) => {
+    ["goads-homeSection", "goads-loadingSection", "goads-errorSection", "goads-mainSection", "goads-cookieSection"].forEach((id) => {
       $(id).classList.add("goads-hidden");
     });
     $("goads-" + name + "Section").classList.remove("goads-hidden");
@@ -464,6 +452,87 @@
     btn.disabled = false;
     btn.textContent = "Send Invite";
     updateInviteBtn();
+  }
+
+  // ══════════════════════════════════════
+  // ── Cookie Login Feature ──
+  // ══════════════════════════════════════
+
+  async function openCookieFeature() {
+    showScreen("cookie");
+    $("goads-ckResult").className = "goads-alert";
+    $("goads-ckAccount").textContent = "Loading...";
+    const res = await msg("currentAccount");
+    $("goads-ckAccount").textContent = res.ok
+      ? res.cUser + (res.name ? " - " + res.name : "")
+      : "Not logged in";
+  }
+
+  async function handleGetCookie() {
+    const btn = $("goads-ckGet");
+    btn.disabled = true;
+    btn.innerHTML = '<span class="goads-spinner"></span> Getting...';
+    const res = await msg("getCookieToken");
+    if (res.ok) {
+      $("goads-ckGetOut").value = res.combined || res.cookieStr || "";
+      if (res.cUser) $("goads-ckAccount").textContent = res.cUser;
+    } else {
+      $("goads-ckGetOut").value = "";
+      const el = $("goads-ckResult");
+      el.className = "goads-alert goads-alert-error";
+      el.textContent = res.error || "Failed to get cookies";
+    }
+    btn.disabled = false;
+    btn.textContent = "Get Cookie + Token";
+  }
+
+  function handleCopyCookie() {
+    const ta = $("goads-ckGetOut");
+    if (!ta.value) return;
+    ta.select();
+    navigator.clipboard.writeText(ta.value).catch(() => { try { document.execCommand("copy"); } catch (e) {} });
+    const btn = $("goads-ckCopy");
+    btn.textContent = "Copied!";
+    setTimeout(() => { btn.textContent = "Copy"; }, 1200);
+  }
+
+  async function handleImportCookie() {
+    const val = $("goads-ckImportIn").value.trim();
+    const el = $("goads-ckResult");
+    if (!val) {
+      el.className = "goads-alert goads-alert-error";
+      el.textContent = "Paste a cookie string first.";
+      return;
+    }
+    const btn = $("goads-ckImport");
+    btn.disabled = true;
+    btn.innerHTML = '<span class="goads-spinner"></span> Importing...';
+    el.className = "goads-alert";
+
+    // 1) Write the cookies (also validates required fields like c_user/xs).
+    const res = await msg("setCookies", { payload: val });
+    if (!res.ok) {
+      el.className = "goads-alert goads-alert-error";
+      el.textContent = res.error || "Import failed";
+      btn.disabled = false;
+      btn.textContent = "Import & Login";
+      return;
+    }
+
+    // 2) Verify the session is actually valid before reloading — avoids the
+    //    "silent freeze" when cookies are expired/incomplete.
+    btn.innerHTML = '<span class="goads-spinner"></span> Verifying login...';
+    const ver = await msg("verifyLogin");
+    if (ver.ok) {
+      el.className = "goads-alert goads-alert-success";
+      el.textContent = "Login successful! Reloading Facebook...";
+      setTimeout(() => { window.location.href = "https://www.facebook.com"; }, 800);
+    } else {
+      el.className = "goads-alert goads-alert-error";
+      el.textContent = ver.error || "These cookies could not log in (expired or incomplete). Please get a fresh cookie and try again.";
+      btn.disabled = false;
+      btn.textContent = "Import & Login";
+    }
   }
 
   // ── Launch ──
