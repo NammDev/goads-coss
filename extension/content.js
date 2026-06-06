@@ -306,12 +306,23 @@
     setStep("goads-stepCookie", "done");
     setProgress(25);
 
-    // Step 2: Fetch tokens
+    // Step 2 + 4 (FAST PATH): one inject into the open business.facebook.com tab
+    // reads token + bmId at once from the already-loaded page — no page re-downloads.
     setStep("goads-stepToken", "active");
-    const [eg, eb] = await Promise.all([msg("initEaag"), msg("initEaab")]);
-    if (eg.ok) eaag = eg.token;
-    if (eb.ok) token = eb.token;
-    if (!token) token = eaag;
+    setStep("goads-stepDetect", "active");
+    const fast = await msg("initFromBMTab");
+    if (fast.ok) {
+      if (fast.token) token = fast.token;
+      if (fast.bmId) bmId = fast.bmId;
+    }
+
+    // Token fallback: scrape pages only if the fast inject didn't yield a token.
+    if (!token) {
+      const [eg, eb] = await Promise.all([msg("initEaag"), msg("initEaab")]);
+      if (eg.ok) eaag = eg.token;
+      if (eb.ok) token = eb.token;
+      if (!token) token = eaag;
+    }
 
     if (!token) {
       setStep("goads-stepToken", "fail");
@@ -329,13 +340,14 @@
     setStep("goads-stepVerify", vr.ok ? "done" : "fail");
     setProgress(75);
 
-    // Step 4: Detect BM
-    setStep("goads-stepDetect", "active");
-    const detect = await msg("detectCurrentBM");
+    // Step 4: BM detect — already have it from the fast inject; else fall back.
+    if (!bmId) {
+      const detect = await msg("detectCurrentBM");
+      if (detect.ok && detect.bmId) bmId = detect.bmId;
+    }
 
     updateTokenPill(true);
-    if (detect.ok && detect.bmId) {
-      bmId = detect.bmId;
+    if (bmId) {
       updateBmPill(bmId, true);
       setStep("goads-stepDetect", "done");
     } else {
@@ -344,7 +356,6 @@
     }
     setProgress(100);
 
-    await new Promise((r) => setTimeout(r, 300));
     showScreen("main");
     updateInviteBtn();
   }

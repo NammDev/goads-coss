@@ -28,6 +28,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     initEaag: () => initEaag(),
     initEaab: () => initEaab(),
     initVerify: () => initVerify(request.token),
+    initFromBMTab: () => initFromBMTab(),
     listBMs: () => listBMs(request.token, request.after, request.limit),
     enrichBMs: () => enrichBMs(request.token, request.bmIds),
     getAdAccountLimits: () => getAdAccountLimits(request.bmIds),
@@ -119,6 +120,73 @@ function getCookie(name) {
       resolve(cookie ? cookie.value : null);
     });
   });
+}
+
+// ===== FAST INIT: single inject into the open business.facebook.com tab =====
+// Reads token + dtsg + bmId + uid in ONE round-trip from the page that is
+// ALREADY loaded in the user's tab — no multi-MB HTML re-downloads (the slow
+// path of initEaag/initEaab). Falls back to those scrapers only if this misses.
+async function initFromBMTab() {
+  let tabs;
+  try {
+    tabs = await chrome.tabs.query({ url: "https://business.facebook.com/*" });
+  } catch (e) {
+    return { ok: false, error: "no-bm-tab" };
+  }
+  if (!tabs || !tabs.length) return { ok: false, error: "no-bm-tab" };
+
+  for (let i = 0; i < tabs.length; i++) {
+    try {
+      const r = await chrome.scripting.executeScript({
+        target: { tabId: tabs[i].id },
+        func: function () {
+          var out = { bmId: null, dtsg: null, uid: null, token: null };
+
+          // uid — from cookie on the page
+          var uidM = document.cookie.match(/c_user=(\d+)/);
+          out.uid = uidM ? uidM[1] : null;
+
+          // dtsg — page CSRF token (already in memory)
+          try { out.dtsg = require("DTSG").getToken(); } catch (e) {}
+          if (!out.dtsg) { try { out.dtsg = require("DTSGInitData").token; } catch (e) {} }
+          if (!out.dtsg) {
+            var dm = document.documentElement.innerHTML.match(/"token":"(NAf[^"]+)"/);
+            out.dtsg = dm ? dm[1] : null;
+          }
+
+          // bmId — URL param → path → require context
+          var params = new URLSearchParams(window.location.search);
+          out.bmId = params.get("business_id");
+          if (!out.bmId) {
+            var pm = window.location.pathname.match(/^\/(\d{10,})(?:\/|$)/);
+            if (pm) out.bmId = pm[1];
+          }
+          if (!out.bmId) {
+            try { var ctx = require("CurrentBusinessAccountID"); if (ctx) out.bmId = String(ctx); } catch (e) {}
+          }
+
+          // token — regex the ALREADY-loaded DOM (no network). Prefer EAAG, then EAAB.
+          var html = document.documentElement.innerHTML;
+          var tm = html.match(/EAAG[A-Za-z0-9]+/g) || html.match(/EAAB[A-Za-z0-9]+/g);
+          if (tm) {
+            var uniq = [];
+            for (var j = 0; j < tm.length; j++) if (uniq.indexOf(tm[j]) === -1) uniq.push(tm[j]);
+            uniq.sort(function (a, b) { return b.length - a.length; });
+            out.token = uniq[0];
+          }
+
+          return out;
+        },
+        world: "MAIN"
+      });
+      const res = r && r[0] && r[0].result;
+      // Accept the result as soon as we have at least a usable token or bmId.
+      if (res && (res.token || res.bmId)) {
+        return { ok: true, token: res.token, dtsg: res.dtsg, bmId: res.bmId, uid: res.uid };
+      }
+    } catch (e) {}
+  }
+  return { ok: false, error: "inject-failed" };
 }
 
 // ===== LIST BMs (with pagination) =====

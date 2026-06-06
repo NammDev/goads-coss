@@ -20,13 +20,13 @@ Mỗi feature có **banner hướng dẫn** + nút **← Back** về Home.
 | `background.js` (~440 dòng) | Service worker. Message router + handlers FB + cookie. `onClicked`: inject overlay **mọi trang** (chỉ chặn scheme đặc biệt: `chrome://`, `edge://`, `about:`, web store). |
 | `content.js` (~550 dòng) | Overlay UI (IIFE inject vào FB). Home + BM Invite + Cookie Login screens. |
 | `content.css` (~520 dòng) | Style overlay — Foreplay dark theme (vars ở `:root` của `#goads-bm-overlay`). |
-| `build-zip.sh` | Đóng gói → `app/public/downloads/goads-bm-invite-v2.zip` (env-agnostic, không còn config swap). |
+| `build-zip.sh` | Đóng gói → `app/public/downloads/goads-extension.zip` (archive root = `goads-extension/` folder) (env-agnostic, không còn config swap). |
 | `icon48.png` / `icon128.png` | Icon extension. |
 | **Đã xoá** | `config.js`, `config.prod.js` (auth cũ); `popup.html`, `popup.js` (legacy V1 dead code). |
 
 ## background.js — message handlers
 Router: `chrome.runtime.onMessage` → `handlers[request.action]()`.
-- **FB init:** `initCookie` (check c_user+xs), `initEaag` (regex `EAAG…` từ business.facebook.com), `initEaab` (regex `EAAB…` từ adsmanager), `initVerify` (graph /me → name).
+- **FB init:** `initCookie` (check c_user+xs), `initFromBMTab` (**fast path** — inject 1 lần `world:MAIN` vào tab `business.facebook.com` đang mở, đọc 1 lượt `token+dtsg+bmId+uid` **từ DOM đã load sẵn**, không tải lại trang), `initEaag`/`initEaab` (**fallback** — regex `EAAG…`/`EAAB…` bằng cách *tải nguyên trang* HTML; chỉ chạy khi fast path không ra token), `initVerify` (graph /me → name).
 - **BM:** `detectCurrentBM` (business_id từ URL/path/require MAIN-world), `listBMs`, `enrichBMs`, `getAdAccountLimits` (inject MAIN-world XHR với fb_dtsg+uid) — *các hàm BM list/enrich/limits hiện UI chưa gọi, để dành.*
 - **Invite:** `inviteBM({bmId,token,email,roles})` → Graph batch.
 - **Cookie (mới):** `getCookieToken` (getAll facebook → `cookieStr|token`); `setCookies(payload)` (parse `name=value;` trái của `|` → `chrome.cookies.set` trên `.facebook.com`; **bắt buộc có `c_user`+`xs`**, thiếu → trả lỗi); `verifyLogin` (fetch `www.facebook.com/me` redirect-follow → URL cuối dính `/login|/checkpoint` = cookie hỏng → báo lỗi); `currentAccount` (c_user + name).
@@ -37,7 +37,7 @@ Router: `chrome.runtime.onMessage` → `handlers[request.action]()`.
 - `createOverlay()` build innerHTML: **header** (logo gấu + "GOADS Tools" + close) → **homeSection** (2 nút feature) → loadingSection → errorSection → **mainSection** (BM invite: guide+back, form-col + sidebar-col) → **cookieSection** (guide+back, account, **Import & Login** [chính], divider, Get/Copy [phụ]) → footer.
 - `showScreen(name)`: ẩn `[home,loading,error,main,cookie]Section`, hiện 1.
 - Mở overlay → `showScreen("home")`.
-- BM Invite: click `featInvite` → `init()` (4 bước, progress) → `main`/`error`.
+- BM Invite: click `featInvite` → `init()` (4 bước, progress) → `main`/`error`. **Tối ưu tốc độ:** bước 2 (token) + bước 4 (detect BM) gộp vào 1 lần gọi `initFromBMTab` (inject đọc DOM trang đã mở); `initEaag/initEaab` scrape trang chỉ còn là fallback khi không có token; **đã bỏ delay giả 300ms** cuối flow.
 - Cookie: click `featCookie` → `openCookieFeature()` → `currentAccount` → các nút `handleGetCookie / handleCopyCookie / handleImportCookie`. **Import flow:** `setCookies` → `verifyLogin` → ok mới reload, hỏng thì hiện lỗi rõ (không còn "đơ" im lặng).
 - **Ngôn ngữ UI: English** toàn bộ. Brand hiển thị: **GOADS** (header, footer, aria-label, name/description manifest).
 - Email gen: random `@cvlmail.net` + open mailbox `cvlmail.net/#/<user>`.
@@ -57,7 +57,7 @@ Router: `chrome.runtime.onMessage` → `handlers[request.action]()`.
 
 ## Build & test
 - **Test:** `chrome://extensions` → Load unpacked → thư mục `extension/` → mở **web bất kỳ** (vd google.com) → click icon (trang nội bộ `chrome://`/web store thì Chrome chặn, không hiện).
-- **Zip:** `./build-zip.sh` → `app/public/downloads/goads-bm-invite-v2.zip` (website cho tải).
+- **Zip:** `./build-zip.sh` → `app/public/downloads/goads-extension.zip` (archive root = `goads-extension/` folder) (website cho tải).
 
 ## Lịch sử thay đổi gần đây
 1. Gỡ **toàn bộ sign-in** (Clerk/verify/alarm/legacy token) — extension dùng ngay.
@@ -69,6 +69,7 @@ Router: `chrome.runtime.onMessage` → `handlers[request.action]()`.
 7. **Fix "đơ" khi import cookie hỏng**: `setCookies` validate bắt buộc `c_user`+`xs`; thêm `verifyLogin` check session thật trên server; import sai → báo lỗi rõ, **không reload**.
 8. **Toàn bộ UI → English**; mọi text brand `GoAds`/`goads` → **GOADS**; **xoá** popup.html/js legacy.
 9. **Redesign theo Foreplay tools-page (B/W mix)**: bỏ all-dark; thêm **thẻ trắng** cho content (home cards + tool screens) trên shell tối; port `--solid-*` palette + type scale Foreplay (sửa lỗi font 13px đồng loạt). Verify bằng headless-Chrome screenshot.
+10. **Tối ưu tốc độ fetch BM** (fix "init chậm"): thêm `initFromBMTab` — gộp lấy token + detect BM vào **1 inject** đọc thẳng DOM trang `business.facebook.com` đang mở (thay vì `initEaag`/`initEaab` tải 6 trang HTML nặng vài MB để regex token). Scrape trang giữ làm fallback. Bỏ delay 300ms. Kỳ vọng nhanh hơn nhiều lần khi đã mở sẵn tab BM.
 
 ## TODO / lưu ý chưa xong
 - **Font Inter chưa bundle** — fallback system sans. Muốn chuẩn cần thêm `Inter.woff2` + `@font-face` qua `web_accessible_resources`.
