@@ -33,6 +33,9 @@ interface BlogDetailCtaSidebarProps {
   thumbnail?: { src: string; alt: string }
   /** href the thumbnail click should open (e.g. YouTube watch URL) */
   thumbnailHref?: string
+  /** Show the play-button overlay on the thumbnail. Only true when the thumbnail
+   *  actually opens a video. Defaults to true to preserve the original card. */
+  showPlay?: boolean
   className?: string
 }
 
@@ -62,6 +65,7 @@ export function BlogDetailCtaSidebar({
   ctaLabel,
   thumbnail,
   thumbnailHref,
+  showPlay = true,
   className,
 }: BlogDetailCtaSidebarProps) {
   return (
@@ -92,10 +96,14 @@ export function BlogDetailCtaSidebar({
               className="object-cover"
               sizes="(max-width: 1279px) 100vw, 280px"
             />
-            {/* .blog-cta-lightbox-play: 36px round, bg neutral-800, backdrop-blur-12 */}
-            <div className="relative z-[2] flex size-9 items-center justify-center rounded-full bg-[#ffffff0f] text-foreground backdrop-blur-[12px]">
-              <PlayIcon />
-            </div>
+            {/* .blog-cta-lightbox-play: 36px round, bg neutral-800, backdrop-blur-12.
+                Only rendered for an actual video — otherwise the thumbnail is a
+                plain product preview that links through (no fake play button). */}
+            {showPlay && (
+              <div className="relative z-[2] flex size-9 items-center justify-center rounded-full bg-[#ffffff0f] text-foreground backdrop-blur-[12px]">
+                <PlayIcon />
+              </div>
+            )}
           </a>
         )}
 

@@ -33,7 +33,9 @@ interface ActionPlanCardProps {
 // Cal.com popup (element-click embed) — values from the Cal dashboard snippet.
 const CAL_NAMESPACE = "30min"
 const CAL_LINK = "nam-khanh-nguyen-dhpuv7/30min"
-const CAL_CONFIG = JSON.stringify({ layout: "month_view", useSlotsViewOnSmallScreen: "true" })
+// theme:"dark" is REQUIRED — without it Cal falls back to "auto" and the popup
+// renders with a white background in some contexts (e.g. prod).
+const CAL_CONFIG = JSON.stringify({ layout: "month_view", theme: "dark", useSlotsViewOnSmallScreen: "true" })
 
 export function ActionPlanCard({ onClose, className }: ActionPlanCardProps) {
   // Load Cal embed.js + configure the "30min" namespace so the data-cal-* button
@@ -41,7 +43,7 @@ export function ActionPlanCard({ onClose, className }: ActionPlanCardProps) {
   useEffect(() => {
     ;(async function () {
       const cal = await getCalApi({ namespace: CAL_NAMESPACE })
-      cal("ui", { hideEventTypeDetails: false, layout: "month_view" })
+      cal("ui", { hideEventTypeDetails: false, layout: "month_view", theme: "dark" })
     })()
   }, [])
 

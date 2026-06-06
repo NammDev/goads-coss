@@ -7,17 +7,44 @@ export const partnersHero = {
   bgImage: "/assets/university_bghero.png",
 }
 
+// Each card links out to the partner's site (opens in a new tab). Swap these
+// hrefs for your own affiliate / referral links so the discount tracks back to
+// GOADS. NOTE: confirm the Floxy domain before publishing.
 export const partnersOffers = {
-  subtitle: "ALL PRODUCTS",
-  title: "Everything You Need to Scale",
+  subtitle: "TRUSTED PARTNERS",
+  title: "Tools We Use, Discounts You Get",
   description:
-    "From verified BMs to recovery services. Built for advertisers who refuse to babysit disabled accounts.",
+    "Hand-picked ad-tech tools our own media buyers run every day, with exclusive pricing for GOADS clients.",
   cards: [
-    { imageSrc: "/partner/ADS%20POWER.svg", title: "Business Manager", description: "BM1, BM3, BM5, BM10, all Meta-verified. Pick the DSL that fits your spend." },
-    { imageSrc: "/partner/DOLPHIN.svg", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your BM. Clean history, ready to run." },
-    { imageSrc: "/partner/FLOXY.svg", title: "Unban Service", description: "BM banned? Ad account disabled? We recover the asset so you keep the pixel." },
-    { imageSrc: "/partner/INCOGNITION.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on your BM assets." },
-    { imageSrc: "", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Diversify beyond Meta without the disable risk." },
-    { imageSrc: "", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator. Free utilities for media buyers." },
+    {
+      imageSrc: "/partner/ADS%20POWER.svg",
+      title: "AdsPower",
+      description: "Antidetect browser for running unlimited ad accounts in isolated profiles. Exclusive discount for GOADS clients.",
+      href: "https://www.adspower.com",
+    },
+    {
+      imageSrc: "/partner/DOLPHIN.svg",
+      title: "Dolphin{anty}",
+      description: "Antidetect browser built for media buyers managing accounts at scale. Special partner rate inside.",
+      href: "https://dolphin-anty.com",
+    },
+    {
+      imageSrc: "/partner/INCOGNITION.svg",
+      title: "Incogniton",
+      description: "Create and manage hundreds of secure browser profiles, each with its own fingerprint. Partner discount applied.",
+      href: "https://incogniton.com",
+    },
+    {
+      imageSrc: "/partner/FLOXY.svg",
+      title: "Floxy",
+      description: "Fast residential and mobile proxies that keep every ad account on a clean, dedicated IP. GOADS partner pricing.",
+      href: "https://floxy.io",
+    },
+    {
+      imageSrc: "/partner/PROXY-CHEAP.svg",
+      title: "Proxy-Cheap",
+      description: "Affordable residential, mobile and datacenter proxies for ad accounts and antidetect browsers. Exclusive GOADS referral pricing.",
+      href: "https://app.proxy-cheap.com/r/uiHz2t",
+    },
   ],
 }

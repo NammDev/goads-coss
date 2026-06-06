@@ -2,7 +2,16 @@
 // SERVER-SIDE. Client-side direct calls to graph.facebook.com are blocked by
 // ad-blockers / privacy extensions (facebook.com is on every blocklist), so
 // every UID would falsely read DEAD. The server has no ad-blocker and no CORS
-// constraint. A returned `data.url` (incl. silhouette) ⇒ profile exists ⇒ LIVE.
+// constraint.
+//
+// LIVE/DEAD is decided by the picture URL HOST, not by `is_silhouette`:
+//   • Active account  → a real per-user photo on  scontent*.fbcdn.net/v/t...
+//   • Disabled/deactivated (or nonexistent) → the GENERIC default avatar on
+//     static.*.fbcdn.net/rsrc.php/...  (a shared .gif placeholder)
+// The old rule ("any data.url ⇒ LIVE") wrongly flagged disabled accounts LIVE
+// because Graph still hands back the placeholder URL for them. `is_silhouette`
+// is unreliable — Facebook returns `true` even for accounts that DO have a real
+// photo — so we ignore it and inspect the host instead.
 
 import { NextResponse } from "next/server"
 
@@ -21,6 +30,13 @@ export async function GET(req: Request) {
   return NextResponse.json({ uid, status: await probe(uid) })
 }
 
+// Generic default-avatar placeholder served for disabled / deactivated /
+// nonexistent accounts. Real photos live on scontent*.fbcdn.net; the shared
+// silhouette lives on static.*.fbcdn.net under /rsrc.php/.
+function isPlaceholderAvatar(url: string): boolean {
+  return /\/rsrc\.php\//i.test(url) || /:\/\/static\./i.test(url)
+}
+
 async function probe(uid: string): Promise<UIDStatus> {
   try {
     const res = await fetch(
@@ -35,7 +51,10 @@ async function probe(uid: string): Promise<UIDStatus> {
     const json = (await res.json().catch(() => null)) as
       | { data?: { url?: string } }
       | null
-    return json?.data?.url ? "LIVE" : "DEAD"
+    const url = json?.data?.url
+    if (!url) return "DEAD"
+    // Real per-user photo ⇒ active; generic placeholder ⇒ disabled/deactivated.
+    return isPlaceholderAvatar(url) ? "DEAD" : "LIVE"
   } catch {
     return "DEAD"
   }

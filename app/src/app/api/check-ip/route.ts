@@ -26,9 +26,29 @@ function clientIp(req: Request): string {
   return req.headers.get("x-real-ip")?.trim() ?? ""
 }
 
+// Loopback / private / link-local addresses aren't publicly resolvable. In local
+// dev the forwarded client IP is ::1 / 127.0.0.1, which ip-api rejects → the tool
+// showed INVALID. Treat these as "unknown" so we fall back to the empty path and
+// let ip-api resolve the caller's real public IP. In production the forwarded IP
+// is the visitor's public IP, so this branch never triggers there.
+function isPrivateOrLoopback(ip: string): boolean {
+  if (!ip) return true
+  const v = ip.replace(/^::ffff:/i, "") // unwrap IPv4-mapped IPv6
+  return (
+    v === "::1" ||
+    /^127\./.test(v) ||
+    /^10\./.test(v) ||
+    /^192\.168\./.test(v) ||
+    /^172\.(1[6-9]|2\d|3[01])\./.test(v) ||
+    /^(fe80|fc|fd)/i.test(v)
+  )
+}
+
 export async function GET(req: Request) {
   const q = new URL(req.url).searchParams.get("q")?.trim()
-  const target = q || clientIp(req) // empty → ipwho.is returns server IP (dev/local only)
+  const detected = clientIp(req)
+  // empty path → ip-api returns the caller's own public IP (used for "My IP")
+  const target = q || (isPrivateOrLoopback(detected) ? "" : detected)
   const path = target ? `/${encodeURIComponent(target)}` : ""
 
   const fail: IPInfo = {

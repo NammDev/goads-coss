@@ -1,7 +1,9 @@
 // Foreplay IP Checker — auto-detects user's IP and looks up any IP on demand.
 // Spec: docs/foreplay/tool-design-language.md
-// API: ipwho.is — free, HTTPS, CORS-enabled, supports own-IP (empty path) and lookup by IP.
-//      Returns { ip, success, city, region, country, timezone, connection: { isp, org }, ... }
+// Data goes through the same-origin /api/check-ip proxy (direct browser IP-geo
+// calls are blocked by ad-blockers). The proxy uses ip-api.com server-side and
+// returns the normalized IPInfo shape { ip, city, region, country, isp,
+// timezone, valid }.
 
 "use client"
 

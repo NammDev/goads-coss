@@ -35,9 +35,9 @@
 <use xlink:href="#image0_642_5400" transform="matrix(0.00258398 0 0 0.0113636 -0.348837 -1.78409)"/>
 </pattern>
 <linearGradient id="paint0_linear_642_5400" x1="600" y1="0" x2="600" y2="863" gradientUnits="userSpaceOnUse">
-<stop stop-color="#081E3E"/>
-<stop offset="0.281415" stop-color="#081E3E"/>
-<stop offset="1" stop-color="#081E3E" stop-opacity="0.27"/>
+<stop stop-color="#2a0e38"/>
+<stop offset="0.281415" stop-color="#2a0e38"/>
+<stop offset="1" stop-color="#2a0e38" stop-opacity="0.27"/>
 </linearGradient>
 <linearGradient id="paint1_linear_642_5400" x1="600" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
 <stop stop-color="white"/>

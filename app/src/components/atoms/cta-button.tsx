@@ -22,6 +22,9 @@ interface CtaButtonProps {
   /** Optional leading icon rendered before the text */
   leadingIcon?: ReactNode
   className?: string
+  /** Render a same-origin file download (`<a href download>`) instead of a
+   *  navigation. Used for serving the extension .zip from /public. */
+  download?: boolean
   /** Extra attributes (e.g. data-cal-* for a Cal.com popup trigger) forwarded
    *  onto the rendered button/anchor. */
   data?: Record<string, string>
@@ -33,7 +36,9 @@ const variantStyles: Record<ButtonVariant, string> = {
   nav: "bg-primary text-primary-foreground transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] hover:bg-primary/90",
   hero: "bg-primary text-primary-foreground transition-all duration-150 hover:bg-[var(--alpha-50)] active:bg-[var(--alpha-100)]",
   secondary: "bg-secondary text-foreground border-0 transition-all duration-150 hover:bg-border active:bg-[var(--alpha-100)]",
-  ghost: "bg-background text-foreground transition-all duration-150 hover:bg-secondary active:bg-[var(--alpha-100)]",
+  // active was alpha-100 (#ffffffad, 68% white) → ugly white flash on click for
+  // this dark-bg button. alpha-600 (16% white) = subtle press, no flash.
+  ghost: "bg-background text-foreground transition-all duration-150 hover:bg-secondary active:bg-[var(--alpha-600)]",
   "light-primary": "bg-background text-foreground transition-all duration-150 hover:bg-[var(--solid-600)] active:bg-[var(--solid-400)] active:text-foreground",
   // .button-light.button-stroke — white bg, 1px solid-50 ring, solid-900 text
   "light-stroke": "bg-white text-[var(--solid-900)] shadow-[0_0_0_1px_var(--solid-50)] transition-all duration-150 hover:bg-[var(--solid-25)] hover:shadow-none active:bg-[var(--solid-50)]",
@@ -47,6 +52,7 @@ export function CtaButton({
   showIcon = true,
   leadingIcon,
   className,
+  download,
   data,
 }: CtaButtonProps) {
   const isNav = variant === "nav"
@@ -98,6 +104,15 @@ export function CtaButton({
       <button type="button" onClick={onClick} className={sharedClass} {...data}>
         {body}
       </button>
+    )
+  }
+  // File download → plain anchor with `download` (Next <Link> would client-nav
+  // and ignore the attribute).
+  if (download) {
+    return (
+      <a href={href} download className={sharedClass} {...data}>
+        {body}
+      </a>
     )
   }
   return external ? (

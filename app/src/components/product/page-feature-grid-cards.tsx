@@ -43,6 +43,8 @@ export function ProductPageFeatureGridCards({
       {cards.map((card, i) => {
         const href = card.href ?? PRODUCT_ROUTES[card.title]
         const interactive = Boolean(href)
+        // Partner cards point to external sites → open in a new tab via <a>.
+        const external = href ? /^https?:\/\//.test(href) : false
         // Base card. NO border-colour / ring change on hover (that reads as a
         // tacky white outline). Instead a soft internal light-sheen fades in
         // from the top + image zoom + arrow — signature 500ms cubic-bezier.
@@ -107,14 +109,27 @@ export function ProductPageFeatureGridCards({
             </div>
           </>
         )
-        return href ? (
+        if (!href) {
+          return (
+            <div key={i} className={cardClass}>
+              {inner}
+            </div>
+          )
+        }
+        return external ? (
+          <a
+            key={i}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cardClass}
+          >
+            {inner}
+          </a>
+        ) : (
           <Link key={i} href={href} className={cardClass}>
             {inner}
           </Link>
-        ) : (
-          <div key={i} className={cardClass}>
-            {inner}
-          </div>
         )
       })}
     </div>

@@ -1,9 +1,11 @@
-// Foreplay GOADS Extension — info/install page inside tool design language.
+// Foreplay GOADS Extension — download + install page inside tool design language.
 // Spec: docs/foreplay/tool-design-language.md
-// Pattern: hero copy + Install CTA + feature grid (bg-solid-25 cards).
-// Copy mirrors homepage chromeExtension section (data/goads-home-content.ts).
+// Pattern: hero copy + Download CTA → /downloads/goads-extension.zip, then a
+// "How to install" steps strip (manual / load-unpacked), then a feature grid.
+// The extension is NOT on the Chrome Web Store — it ships as a downloadable zip
+// that users load unpacked. Zip is built by extension/build-zip.sh.
 
-import { Cookie, LogIn, type LucideIcon } from "lucide-react"
+import { Download, Link2, Cookie, type LucideIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
@@ -17,18 +19,27 @@ type Feature = {
 
 const features: Feature[] = [
   {
-    icon: LogIn,
-    title: "Bypass BM Invites",
-    description: "Auto-accept business manager invitations without the wait.",
+    icon: Link2,
+    title: "BM Invite",
+    description:
+      "Invite users into your Business Manager by email, straight from the BM page — no invite link needed.",
   },
   {
     icon: Cookie,
-    title: "Login by Cookie",
-    description: "Restore sessions instantly from JSON cookies.",
+    title: "Cookie Login",
+    description:
+      "Log in to any Facebook account by importing its cookie — no username or password.",
   },
 ]
 
-const CHROME_STORE_URL = "https://chrome.google.com/webstore"
+const steps = [
+  "Download the .zip and unzip it.",
+  "Open chrome://extensions and turn on Developer mode (top-right).",
+  'Click "Load unpacked" and select the goads-extension folder.',
+  "Open any website and click the GOADS icon to launch.",
+]
+
+const ZIP_URL = "/downloads/goads-extension.zip"
 
 export function ExtensionTool() {
   return (
@@ -36,7 +47,7 @@ export function ExtensionTool() {
       {/* Hero */}
       <div className="flex flex-col gap-5 max-md:gap-4">
         <span className={cn(siteText.overline, "text-[var(--solid-400)]")}>
-          Free Chrome Extension
+          Free Chrome Extension · No sign-in
         </span>
         <h2
           className={cn(
@@ -45,22 +56,49 @@ export function ExtensionTool() {
             "max-md:text-[1.75rem] max-md:leading-[2.25rem]",
           )}
         >
-          Bypass Business Manager invites.
+          BM Invite &amp; Cookie Login.
           <br />
-          <span className="text-[var(--solid-500)]">Login by cookie.</span>
+          <span className="text-[var(--solid-500)]">In one extension.</span>
         </h2>
         <p className={cn(siteText.bodyL, "text-[var(--solid-500)]")}>
-          Built by GOADS, Meta Asset specialists.
+          Built by GOADS, Meta Asset specialists. Download, load it unpacked, and
+          it works on any page.
         </p>
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
-          <CtaButton href={CHROME_STORE_URL} variant="light-primary">
-            Install Free
+          <CtaButton
+            href={ZIP_URL}
+            download
+            variant="light-primary"
+            showIcon={false}
+            leadingIcon={<Download className="size-4" />}
+          >
+            Download Extension
           </CtaButton>
           <span className={cn(siteText.bodyS, "text-[var(--solid-400)]")}>
-            Chrome only
+            Chrome · .zip
           </span>
         </div>
+      </div>
+
+      {/* How to install — manual / load-unpacked steps */}
+      <div className="rounded-[16px] border border-[var(--solid-50)] bg-[var(--solid-25)] p-5 max-md:p-4">
+        <span className={cn(siteText.overline, "text-[var(--solid-400)]")}>How to install</span>
+        <ol className="mt-3 flex flex-col gap-2.5">
+          {steps.map((label, i) => (
+            <li key={label} className={cn(siteText.bodyS, "flex items-center gap-3 text-[var(--solid-500)]")}>
+              <span
+                className={cn(
+                  siteText.labelS,
+                  "flex size-5 shrink-0 items-center justify-center rounded-full bg-white text-[var(--solid-700)] shadow-[inset_0_0_0_1px_var(--solid-50)]",
+                )}
+              >
+                {i + 1}
+              </span>
+              {label}
+            </li>
+          ))}
+        </ol>
       </div>
 
       {/* Features grid */}

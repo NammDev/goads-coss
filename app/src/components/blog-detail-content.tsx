@@ -134,13 +134,15 @@ export function BlogDetailContent({
               visible while user scrolls through the article body ── */}
           <div className="sticky top-[120px] hidden lg:block">
             <BlogDetailCtaSidebar
-              title="Start your free trial"
-              description="Save, organize, share and analyze your next winning ad."
+              title="Accounts built to scale"
+              description="Verified Business Managers and agency ad accounts with the headroom to scale your Meta campaigns, without the bans."
               ctaHref="/pricing"
-              ctaLabel="Start free trial"
+              ctaLabel="View pricing"
+              thumbnailHref="/pricing"
+              showPlay={false}
               thumbnail={{
                 src: "/assets/hero.webp",
-                alt: "GOADS product preview",
+                alt: "GOADS premium Meta assets",
               }}
             />
           </div>

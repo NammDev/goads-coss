@@ -107,8 +107,9 @@ export function Header() {
 
               {/* .navmenu-cta — source: flex items-center gap-2 justify-end */}
               <div className="flex items-center justify-end gap-2">
-                {/* Sign in — temporarily DISABLED (feature not open yet): non-clickable,
-                    muted + cursor-not-allowed, not a link so customers can't navigate. */}
+                {/* Sign in — temporarily DISABLED (feature not open yet): muted +
+                    not-allowed cursor + "Coming soon" tooltip, not a link so
+                    customers can't navigate. */}
                 <span
                   aria-disabled="true"
                   title="Coming soon"

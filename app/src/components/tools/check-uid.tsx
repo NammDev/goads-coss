@@ -1,7 +1,8 @@
 // Foreplay Check Live UID — functional tool body.
 // Spec: docs/foreplay/tool-design-language.md
 // Logic ported verbatim from app/src/app/tools/check-uid/check-uid-content.tsx.
-// UI: input card → progress chip → result cards (status dot + label) → bulk actions.
+// UI: input card → progress chip → two grouped result lists (Active / Disabled,
+// each with a count badge + Copy) → export.
 
 "use client"
 
@@ -12,7 +13,6 @@ import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { LightPrimaryButton } from "@/components/atoms/light-primary-button"
 import { LightGhostAction } from "@/components/atoms/light-ghost-action"
-import { CodeChip } from "@/components/atoms/code-chip"
 
 import {
   type UIDResult,
@@ -79,12 +79,6 @@ export function CheckUidTool() {
   // Internal API uses LIVE/DEAD; surface them to the user as Active/Disabled.
   const labelOf = (s: UIDStatus) => (s === "LIVE" ? "Active" : "Disabled")
 
-  const copyResults = () => {
-    navigator.clipboard.writeText(
-      results.map((r) => `${r.uid} | ${labelOf(r.status)}`).join("\n"),
-    )
-    flashCopied("__all")
-  }
   const copyActiveOnly = () => {
     navigator.clipboard.writeText(
       results.filter((r) => r.status === "LIVE").map((r) => r.uid).join("\n"),
@@ -109,8 +103,11 @@ export function CheckUidTool() {
   }
 
   const hasResults = results.length > 0
-  const liveCount = results.filter((r) => r.status === "LIVE").length
-  const deadCount = results.length - liveCount
+  const activeUids = results.filter((r) => r.status === "LIVE").map((r) => r.uid)
+  const disabledUids = results.filter((r) => r.status === "DEAD").map((r) => r.uid)
+  // Total to show in the count badges: the run target while checking, else the
+  // settled result count.
+  const total = progress?.total ?? results.length
 
   return (
     <>
@@ -160,66 +157,105 @@ export function CheckUidTool() {
         </div>
       </div>
 
-      {/* Results */}
+      {/* Results — split into two grouped lists (Active / Disabled) */}
       {(hasResults || progress) && (
         <div className="flex flex-col gap-3">
-          {/* Stats / progress row */}
-          <div className="flex items-center justify-end gap-2">
-            {progress && (
+          {/* Progress row */}
+          {progress && (
+            <div className="flex items-center justify-end">
               <span className={cn(siteText.bodyS, "text-[var(--solid-400)]")}>
-                Checking {progress.done + 1}/{progress.total}…
+                Checking {Math.min(progress.done + 1, progress.total)}/{progress.total}…
               </span>
-            )}
-            {hasResults && !progress && (
-              <span className={cn(siteText.bodyS, "text-[var(--solid-400)]")}>
-                <span className="text-[var(--solid-900)]">{liveCount} active</span> · {deadCount} disabled · {results.length} total
-              </span>
-            )}
-          </div>
-
-          {/* Result cards */}
-          {results.map((r) => (
-            <div
-              key={r.uid}
-              className={cn(
-                "group flex items-center justify-between gap-4 rounded-[16px] border border-[var(--solid-50)] bg-[var(--solid-25)] p-5 max-md:p-4",
-                "transition-colors duration-[500ms] ease-[cubic-bezier(0.19,1,0.22,1)]",
-                "hover:border-[var(--solid-400)]",
-              )}
-            >
-              <CodeChip text={r.uid} />
-              <StatusBadge status={r.status} />
             </div>
-          ))}
+          )}
 
-          {/* Bulk actions */}
+          <ResultList
+            kind="active"
+            uids={activeUids}
+            total={total}
+            onCopy={copyActiveOnly}
+            copied={copiedId === "__active"}
+          />
+          <ResultList
+            kind="disabled"
+            uids={disabledUids}
+            total={total}
+            onCopy={copyDisabledOnly}
+            copied={copiedId === "__disabled"}
+          />
+
+          {/* Export full list */}
           {hasResults && !progress && (
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              <LightGhostAction
-                onClick={copyResults}
-                icon={<Copy className="size-3.5" />}
-                label={copiedId === "__all" ? "Copied" : "Copy all"}
-              />
-              <LightGhostAction
-                onClick={copyActiveOnly}
-                icon={<Copy className="size-3.5" />}
-                label={copiedId === "__active" ? "Copied" : "Copy active"}
-              />
-              <LightGhostAction
-                onClick={copyDisabledOnly}
-                icon={<Copy className="size-3.5" />}
-                label={copiedId === "__disabled" ? "Copied" : "Copy disabled"}
-              />
+            <div className="flex justify-end pt-1">
               <LightGhostAction
                 onClick={exportTxt}
                 icon={<Download className="size-3.5" />}
-                label="Export"
+                label="Export .txt"
               />
             </div>
           )}
         </div>
       )}
     </>
+  )
+}
+
+// One grouped result list: header (status dot + label + count badge + Copy) and
+// a read-only mono textarea of UIDs. Same card/typography/colors as the rest of
+// the tool — only the layout (grouped, not per-row) follows the new spec.
+function ResultList({
+  kind,
+  uids,
+  total,
+  onCopy,
+  copied,
+}: {
+  kind: "active" | "disabled"
+  uids: string[]
+  total: number
+  onCopy: () => void
+  copied: boolean
+}) {
+  const isActive = kind === "active"
+  return (
+    <div className="flex flex-col gap-3 rounded-[16px] border border-[var(--solid-50)] bg-[var(--solid-25)] p-5 max-md:p-4">
+      <div className="flex items-center justify-between gap-3">
+        <span className="flex items-center gap-2">
+          <span className={cn("size-2 rounded-full", isActive ? "bg-emerald-500" : "bg-[var(--solid-300)]")} />
+          <span className={cn(siteText.labelS, isActive ? "text-[var(--solid-900)]" : "text-[var(--solid-400)]")}>
+            {isActive ? "Active" : "Disabled"}
+          </span>
+          <span
+            className={cn(
+              siteText.labelS,
+              "rounded-full px-2 py-0.5",
+              isActive
+                ? "bg-emerald-50 text-emerald-700"
+                : "bg-white text-[var(--solid-500)] shadow-[inset_0_0_0_1px_var(--solid-50)]",
+            )}
+          >
+            {uids.length} / {total}
+          </span>
+        </span>
+        <LightGhostAction
+          onClick={onCopy}
+          icon={<Copy className="size-3.5" />}
+          label={copied ? "Copied" : "Copy"}
+        />
+      </div>
+      <textarea
+        readOnly
+        value={uids.join("\n")}
+        rows={Math.min(Math.max(uids.length, 3), 8)}
+        placeholder="—"
+        spellCheck={false}
+        className={cn(
+          siteText.bodyM,
+          "w-full resize-y rounded-[12px] border border-[var(--solid-50)] bg-white px-4 py-3 font-mono text-[var(--solid-700)] outline-none",
+          "placeholder:font-sans placeholder:text-[var(--solid-300)]",
+        )}
+      />
+    </div>
   )
 }
 
@@ -240,24 +276,3 @@ function Step({ n, label, children }: { n: number; label?: string; children?: Re
   )
 }
 
-function StatusBadge({ status }: { status: UIDStatus }) {
-  const isLive = status === "LIVE"
-  return (
-    <span className="flex shrink-0 items-center gap-2">
-      <span
-        className={cn(
-          "size-2 rounded-full",
-          isLive ? "bg-emerald-500" : "bg-[var(--solid-300)]",
-        )}
-      />
-      <span
-        className={cn(
-          siteText.labelS,
-          isLive ? "text-[var(--solid-900)]" : "text-[var(--solid-400)]",
-        )}
-      >
-        {isLive ? "Active" : "Disabled"}
-      </span>
-    </span>
-  )
-}

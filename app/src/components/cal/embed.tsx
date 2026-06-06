@@ -32,11 +32,11 @@ export function CalEmbed({ className }: CalEmbedProps) {
     // must NOT live in a fixed-height scroll box.
     <div
       className={cn(
-        // Responsive min-height floor so the booking UI renders FULLY even when
-        // Cal's JS auto-resize (postMessage) doesn't fire — which is exactly the
-        // localhost-OK / prod-cramped discrepancy. Cal grows the iframe PAST this
-        // when resize works; this guarantees a deterministic baseline either way.
-        "w-full overflow-hidden rounded-2xl min-h-[640px] max-md:min-h-[720px] max-sm:min-h-[860px]",
+        // No TALL min-height: on prod the Cal page renders with a light/white bg
+        // and (when not in inline mode) centers the booker — so any iframe height
+        // BEYOND the booker's own ~500px shows as a white band. Keep just a modest
+        // floor (~booker height) and let Cal's auto-resize grow it when it fires.
+        "w-full overflow-hidden rounded-2xl",
         className,
       )}
     >
@@ -44,9 +44,7 @@ export function CalEmbed({ className }: CalEmbedProps) {
         namespace={CAL_NAMESPACE}
         calLink={CAL_LINK}
         config={{ layout: "month_view", theme: "dark" }}
-        // height:100% + minHeight:inherit makes the embed fill the wrapper's
-        // responsive min-height; auto-resize still grows it taller when it works.
-        style={{ width: "100%", height: "100%", minHeight: "inherit" }}
+        style={{ width: "100%", minHeight: "500px" }}
       />
     </div>
   )

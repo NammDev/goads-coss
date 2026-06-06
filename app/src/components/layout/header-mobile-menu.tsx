@@ -193,9 +193,11 @@ export function HeaderMobileMenu() {
               <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
-          {/* Sign in temporarily disabled (feature not open yet) — non-clickable */}
+          {/* Sign in temporarily disabled (feature not open yet) — non-clickable,
+              muted + not-allowed cursor + "Coming soon" tooltip. */}
           <span
             aria-disabled="true"
+            title="Coming soon"
             className="cursor-not-allowed py-2 text-center text-foreground opacity-50 select-none"
           >
             <span className={navText}>Sign in</span>

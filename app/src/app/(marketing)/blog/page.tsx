@@ -13,7 +13,11 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   const featuredPost = getFeaturedPost() ?? blogPosts[0]
-  const popularPosts = getPopularPosts(4)
+  // Exclude the hero post from the popular rail so a featured + popular post
+  // doesn't appear twice in a row. Fetch one extra, then trim back to 4.
+  const popularPosts = getPopularPosts(5)
+    .filter((p) => p.slug !== featuredPost.slug)
+    .slice(0, 4)
 
   return (
     <>
