@@ -33,7 +33,8 @@
 
 import { cn } from "@/lib/utils"
 import { NavLink } from "@/components/layout/nav-link"
-import { TrialCtaButton } from "@/components/atoms/trial-cta-button"
+import { CtaButton } from "@/components/atoms/cta-button"
+import { CONTACT } from "@/data/contact-info"
 import { HeaderProductMenu } from "@/components/layout/header-product-menu"
 import { HeaderResourcesMenu } from "@/components/layout/header-resources-menu"
 import { HeaderToolsMenu } from "@/components/layout/header-tools-menu"
@@ -106,10 +107,19 @@ export function Header() {
 
               {/* .navmenu-cta — source: flex items-center gap-2 justify-end */}
               <div className="flex items-center justify-end gap-2">
-                {/* a.navlink.u-navlink-signin */}
-                <NavLink href="/sign-in">Sign in</NavLink>
-                {/* a.new-button.new-button-navbar — always "Start free trial" */}
-                <TrialCtaButton />
+                {/* Sign in — temporarily DISABLED (feature not open yet): non-clickable,
+                    muted + cursor-not-allowed, not a link so customers can't navigate. */}
+                <span
+                  aria-disabled="true"
+                  title="Coming soon"
+                  className="flex cursor-not-allowed items-center justify-start rounded-[10px] px-2.5 py-1.5 text-[0.9375rem] leading-5 text-[var(--alpha-300)] opacity-50 select-none"
+                >
+                  Sign in
+                </span>
+                {/* Primary nav CTA → GOADS Telegram (was "Start free trial") */}
+                <CtaButton href={CONTACT.telegram.officialWithMessage} variant="nav">
+                  Contact Us
+                </CtaButton>
               </div>
             </div>
           </nav>

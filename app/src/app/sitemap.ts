@@ -3,7 +3,7 @@ import { blogPosts } from "@/data/blog-posts"
 import { TOOLS } from "@/data/tools-registry"
 import { getAllPostSlugs, getCategories } from "@/lib/db/queries/community-queries"
 
-const BASE_URL = "https://www.goads.shop"
+const BASE_URL = "https://goadsagency.com"
 
 // Sitemap pulls dynamic community URLs from DB — generate at request time,
 // not at build time, so a momentary DB outage doesn't break the build.

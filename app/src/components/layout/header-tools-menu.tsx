@@ -71,8 +71,8 @@ export function HeaderToolsMenu() {
             </div>
           </a>
 
-          {/* Row 2: Utilities — col-span 9 row 2, border-t */}
-          <div className="col-span-9 row-start-2 flex flex-col items-start gap-4 border-t border-[var(--border-nav)] px-4 pt-4 pb-5">
+          {/* Row 2: Utilities — col-span 9 row 2 (horizontal divider removed per design request) */}
+          <div className="col-span-9 row-start-2 flex flex-col items-start gap-4 px-4 pt-4 pb-5">
             <NavOverlineTitle>More</NavOverlineTitle>
             <ToolsList items={utilitiesItems} />
           </div>

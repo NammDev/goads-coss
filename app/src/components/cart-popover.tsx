@@ -222,21 +222,26 @@ export function CartPopover() {
         aria-label={open ? 'Close cart' : 'Open cart'}
         onClick={() => setOpen((v) => !v)}
         className={
-          'group fixed top-1/2 z-[110] flex -translate-y-1/2 cursor-pointer items-center bg-white transition-[right,transform] duration-300 ease-out ' +
+          'group fixed z-[110] flex cursor-pointer items-center bg-white transition-[right,transform] duration-300 ease-out ' +
           // Mobile (≤991px): hide the closed pill when the cart is empty so it
           // never overlaps hero content — matches Foreplay's clean mobile. The
           // pill reappears once an item is added (count > 0). Desktop unaffected.
           (!open && count === 0 ? 'max-fp-lg:hidden ' : '') +
           (open
-            ? 'size-9 justify-center rounded-full ring-1 ring-[#EAECEF] hover:scale-105'
-            : 'h-12 gap-2.5 rounded-l-2xl pr-3 pl-4 ring-1 ring-[#E6E8EB] animate-in fade-in slide-in-from-right-2 duration-200')
+            ? 'top-1/2 -translate-y-1/2 size-9 justify-center rounded-full ring-1 ring-[#EAECEF] hover:scale-105'
+            : 'top-1/2 -translate-y-1/2 right-0 h-12 gap-2.5 rounded-l-2xl pr-3 pl-4 ring-1 ring-[#E6E8EB] animate-in fade-in slide-in-from-right-2 duration-200 ' +
+              // Mobile: mirror the bottom-LEFT Support pill → free-floating rounded
+              // pill in the bottom-RIGHT corner (symmetric). Desktop keeps the
+              // right-edge vertical tab above.
+              'max-fp-lg:top-auto max-fp-lg:bottom-5 max-fp-lg:right-5 max-fp-lg:translate-y-0 max-fp-lg:rounded-full max-fp-lg:px-4')
         }
         style={{
           // Open: small round button straddling the panel's left seam (pulled
-          // 18px over the edge) — a floating collapse affordance, not a tab.
-          right: open
-            ? 'calc(1rem + min(400px, calc(100dvw - 2.5rem)) - 18px)'
-            : 0,
+          // 18px over the edge). Closed: position comes from the classes above
+          // (right-0 desktop tab / bottom-right pill on mobile).
+          ...(open
+            ? { right: 'calc(1rem + min(400px, calc(100dvw - 2.5rem)) - 18px)' }
+            : {}),
           boxShadow: open
             ? '0 6px 18px -6px rgba(16,24,40,0.22)'
             : '-8px 0 28px -10px rgba(16,24,40,0.22)',

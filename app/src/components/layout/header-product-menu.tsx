@@ -110,7 +110,7 @@ export function HeaderProductMenu() {
           {/* .nav-product-menu-links — source: display:grid, flex:1, grid-cols-10, grid-rows-[auto_auto] */}
           <div className="grid flex-1 grid-cols-10 grid-rows-[auto_auto]">
             {/* Single full-width product section (5 items combined — no divider) */}
-            <ProductSection className="col-span-10 row-start-1 overflow-hidden" title="Products">
+            <ProductSection className="col-span-10 row-start-1" title="Products">
               {/* ul.nav-badge-list.w-list-unstyled — flex gap-3 flex-1 items-stretch list-none */}
               <ul className="m-0 flex flex-1 list-none items-stretch gap-3 p-0">
                 {products.map((item) => (
@@ -119,8 +119,9 @@ export function HeaderProductMenu() {
               </ul>
             </ProductSection>
 
-            {/* .nav-product-menu-links-sub — col-span-10 row-2, border-t, flex-col items-start p-4 */}
-            <div className="col-span-10 row-start-2 flex flex-col items-start border-t border-[var(--border-nav)] p-4">
+            {/* .nav-product-menu-links-sub — col-span-10 row-2, flex-col items-start p-4
+                (horizontal divider removed per design request; padding keeps spacing balanced) */}
+            <div className="col-span-10 row-start-2 flex flex-col items-start p-4">
               <SectionLabel>Services</SectionLabel>
               {/* ul.u-nav-product-menu-links-sub-list.w-list-unstyled — flex gap-3 items-center list-none */}
               <ul className="m-0 flex list-none items-center gap-3 p-0">
@@ -240,17 +241,17 @@ function ProductBadge({
             <div className={siteText.bodyS}>{desc}</div>
           </div>
         </div>
-        {/* Static SVG icon — 88×88, z-2, mt-4 mb-[-20px], relative */}
+        {/* Static SVG icon — 88×88, z-2, full image shown (no negative margin / clipping) */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={icon}
           alt={label}
-          className="relative z-[2] mt-4 mb-[-20px] size-[88px] object-contain"
+          className="relative z-[2] mt-4 size-[88px] object-contain"
           loading="lazy"
         />
-        {/* .nav-badge-gradient — blurred glow that rises on hover (visual flourish kept). */}
+        {/* .nav-badge-gradient — blurred glow that rises on hover (toned down: smaller + subtler). */}
         <div
-          className="pointer-events-none absolute bottom-[-40%] aspect-square h-[116px] w-[116px] translate-y-1/2 rounded-[16%] opacity-0 blur-[28px] transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-y-0 group-hover:opacity-100"
+          className="pointer-events-none absolute bottom-[-30%] aspect-square h-[72px] w-[72px] translate-y-1/4 rounded-[16%] opacity-0 blur-[24px] transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-y-0 group-hover:opacity-50"
           style={{ backgroundImage: gradientMap[gradient] || gradientMap.blue }}
         />
       </Link>
