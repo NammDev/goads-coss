@@ -95,8 +95,9 @@ export function HeaderResourcesMenu() {
             </div>
           </a>
 
-          {/* .u-nav-resources-earn — col-span 9 row 2, border-t, flex-col gap-4, p-[16px_16px_20px] */}
-          <div className="col-span-9 row-start-2 flex flex-col items-start gap-4 border-t border-[var(--border-nav)] px-4 pt-4 pb-5">
+          {/* .u-nav-resources-earn — col-span 9 row 2, flex-col gap-4, p-[16px_16px_20px]
+              (horizontal divider removed per design request) */}
+          <div className="col-span-9 row-start-2 flex flex-col items-start gap-4 px-4 pt-4 pb-5">
             <NavOverlineTitle>Company</NavOverlineTitle>
             <ResourcesList items={earnItems} />
           </div>
