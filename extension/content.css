@@ -11,11 +11,12 @@
   --chrome-border: #ffffff29;/* alpha-600 16% — shell border */
   --chrome-surface: #ffffff14;/* close btn / subtle */
 
-  /* ── White card (solid palette — content surfaces) ── */
-  --card: #ffffff;          /* solid-0 — card bg */
-  --card-soft: #f9f9fa;     /* solid-25 — guide bar / sidebar / inputs hover */
-  --card-border: #e9eaef;   /* solid-50 — card + input border */
-  --card-border-strong: #4c505f; /* solid-400 — focus / hover border */
+  /* ── White card surfaces — pure white + black + borders only, NO off-white
+     (matches goadsagency.com /tools pages: white & black, never grey fills) ── */
+  --card: #ffffff;          /* card bg */
+  --card-soft: #ffffff;     /* was off-white #f9f9fa → now pure white */
+  --card-border: #e6e7ec;   /* hairline border (separation comes from borders) */
+  --card-border-strong: #18181b; /* black-ish focus / hover border */
 
   /* ink (text on white) */
   --ink-strong: #171920;    /* solid-700 — titles, input text */
@@ -28,13 +29,16 @@
   --btn-fg: #ffffff;
   --btn-hover: #24262e;     /* solid-600 */
 
-  /* status (tuned for white card) */
-  --ok-bg: #ecfdf5; --ok-border: #a7f3d0; --ok-fg: #047857;
+  /* status — positive/neutral state: pure white + border + black text */
+  --ok-bg: #ffffff; --ok-border: #e6e7ec; --ok-fg: #18181b;
   --err-bg: #fef2f2; --err-border: #fecaca; --err-fg: #b91c1c;
+  --warn-bg: #fffbeb; --warn-border: #fde68a; --warn-fg: #b45309;
+  /* neutral accent (flashes) — black & white scheme */
+  --accent: #18181b;
 
   --radius: 10px;           /* buttons / inputs */
   --radius-card: 14px;      /* cards (solid-50 surfaces) */
-  --font: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font: 'GoadsInter', var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --mono: "SF Mono", "Fira Code", "Consolas", monospace;
   --shadow: 0 24px 60px -16px rgba(0,0,0,0.65);
 
@@ -43,19 +47,43 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2147483647;
-  width: 640px;
+  width: 1080px;
+  max-width: calc(100vw - 32px);
+  max-height: 92vh;
   font-family: var(--font);
-  font-size: 14px;          /* bodyS base (was 13) */
+  font-size: 15px;          /* bodyS base (was 13) */
   line-height: 1.5;
   color: var(--fg);
   background: var(--bg);
   border: 1px solid var(--chrome-border);
   border-radius: 16px;
   box-shadow: var(--shadow);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   animation: goads-fadein 0.2s ease;
   -webkit-font-smoothing: antialiased;
 }
+
+/* ══ Shared icon sizing — every inline SVG inherits currentColor and a size
+   from its container so all icons read consistently across the tool. ══ */
+#goads-bm-overlay .goads-bicon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+#goads-bm-overlay .goads-bicon svg { width: 18px; height: 18px; display: block; }
+#goads-bm-overlay .goads-btn svg { width: 18px; height: 18px; }
+#goads-bm-overlay .goads-icon svg { width: 19px; height: 19px; display: block; }
+#goads-bm-overlay .goads-icon-btn svg { width: 18px; height: 18px; }
+#goads-bm-overlay .goads-close svg { width: 15px; height: 15px; }
+#goads-bm-overlay .goads-back svg { width: 16px; height: 16px; }
+#goads-bm-overlay .goads-sidebar-card-title svg { width: 16px; height: 16px; }
+#goads-bm-overlay .goads-cookie-label svg { width: 18px; height: 18px; }
+#goads-bm-overlay .goads-cookie-account svg { width: 17px; height: 17px; }
+/* subtle drop shadow on every inline icon for a touch of 3D depth */
+#goads-bm-overlay .goads-bicon svg,
+#goads-bm-overlay .goads-icon svg { filter: drop-shadow(0 1px 1.2px rgba(0,0,0,0.2)); }
 
 #goads-bm-backdrop {
   position: fixed;
@@ -69,7 +97,10 @@
 
 @keyframes goads-fadein { from { opacity: 0; } to { opacity: 1; } }
 
-/* ══ Header (dark chrome) ══ */
+/* ══ Header — soft airy blue gradient banner, reproduced from the
+   goadsagency.com cart (sampled: TL #fafcff → mid #afc9ff → BR #6195ff).
+   A white radial glow blooms from the top-left (the "blur" highlight),
+   layered over a cornflower-blue diagonal. Dark navy text for contrast. ══ */
 #goads-bm-overlay .goads-header {
   padding: 16px 22px;
   background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent);
@@ -78,17 +109,18 @@
   border-bottom: 1px solid var(--chrome-border);
 }
 #goads-bm-overlay .goads-header-title {
-  font-size: 18px;          /* headingL */
-  font-weight: 600;
-  letter-spacing: -0.018em;
+  font-size: 19px;          /* Foreplay headingL */
+  font-weight: 550;
+  line-height: 24px;
+  letter-spacing: -0.0144em;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 11px;
   color: var(--fg);
 }
 #goads-bm-overlay .goads-header-sub {
-  font-size: 12px;          /* bodyXs */
+  font-size: 13px;          /* bodyXs */
   color: var(--chrome-sub);
   margin-top: 4px;
   letter-spacing: -0.006em;
@@ -111,18 +143,20 @@
   transition: background 0.15s;
 }
 #goads-bm-overlay .goads-close:hover { background: rgba(255,255,255,0.20); }
-/* Brand badge: white chip + dark panda mark (currentColor = --bg) */
+/* Brand badge: official GOADS logo (white G+panda on black) in a rounded chip */
 #goads-bm-overlay .goads-brand-mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: #fff;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--chrome-border);
 }
-#goads-bm-overlay .goads-brand-mark svg { width: 19px; height: 19px; color: var(--bg); }
+#goads-bm-overlay .goads-brand-mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
 /* ══ White card stage (tool screens) ══ */
 #goads-bm-overlay #goads-loadingSection,
@@ -146,10 +180,40 @@
   transition: border-color 0.15s, background 0.15s;
 }
 #goads-bm-overlay .goads-feature-btn:hover { border-color: var(--card-border-strong); background: var(--card-soft); }
-#goads-bm-overlay .goads-feature-emoji { font-size: 24px; line-height: 1; }
-#goads-bm-overlay .goads-feature-text { display: flex; flex-direction: column; gap: 2px; }
-#goads-bm-overlay .goads-feature-text b { font-size: 15px; font-weight: 600; letter-spacing: -0.011em; color: var(--ink-strong); }
-#goads-bm-overlay .goads-feature-text small { font-size: 13px; color: var(--ink-soft); letter-spacing: -0.006em; }
+/* Icon chip — vivid gradient tile with 3D depth (glossy top highlight + colour
+   drop shadow), white icon. */
+#goads-bm-overlay .goads-feature-icon {
+  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; border-radius: 13px;
+  color: #fff;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.5), 0 6px 16px -5px rgba(0,0,0,0.45);
+}
+#goads-bm-overlay .goads-feature-icon svg { filter: drop-shadow(0 1.5px 1.5px rgba(0,0,0,0.3)); }
+#goads-bm-overlay .goads-feature-icon.fi-invite {
+  background: linear-gradient(145deg, #6aa0ff 0%, #2563eb 55%, #1742c2 100%);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.5), 0 7px 18px -5px rgba(37,99,235,0.65);
+}
+#goads-bm-overlay .goads-feature-icon.fi-cookie {
+  background: linear-gradient(145deg, #ffc44d 0%, #f59005 55%, #d9760a 100%);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.55), 0 7px 18px -5px rgba(240,140,7,0.65);
+}
+#goads-bm-overlay .goads-feature-icon svg { width: 22px; height: 22px; }
+#goads-bm-overlay .goads-feature-text { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+/* Prerequisite note — plain text + a green tick, no coloured pill */
+#goads-bm-overlay .goads-feature-note {
+  display: flex; align-items: baseline; gap: 6px; align-self: flex-start;
+  margin-top: 8px;
+  font-size: 13px; font-weight: 500; line-height: 17px; letter-spacing: -0.00643em;
+  color: var(--ink-soft);
+}
+#goads-bm-overlay .goads-note-tick { color: #07a83f; font-weight: 700; flex-shrink: 0; }
+/* Right chevron (reuses left-arrow icon, flipped) */
+#goads-bm-overlay .goads-feature-arrow { flex-shrink: 0; color: var(--ink-faint); transition: transform 0.15s, color 0.15s; }
+#goads-bm-overlay .goads-feature-arrow svg { width: 18px; height: 18px; transform: scaleX(-1); }
+#goads-bm-overlay .goads-feature-btn:hover .goads-feature-arrow { color: var(--ink-strong); transform: translateX(2px); }
+#goads-bm-overlay .goads-feature-text b { font-size: 17px; font-weight: 550; line-height: 24px; letter-spacing: -0.01125em; color: var(--ink-strong); }
+#goads-bm-overlay .goads-feature-text small { font-size: 15px; font-weight: 400; line-height: 20px; letter-spacing: -0.00643em; color: var(--ink-soft); }
 
 /* ══ Feature head: back + guidance bar ══ */
 #goads-bm-overlay .goads-feature-head {
@@ -158,31 +222,63 @@
   background: var(--card);
 }
 #goads-bm-overlay .goads-back {
-  flex-shrink: 0; padding: 6px 11px; border: 1px solid var(--card-border);
-  border-radius: 8px; background: var(--card); color: var(--ink);
-  font-size: 13px; font-weight: 500; letter-spacing: -0.006em; cursor: pointer;
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 11px 6px 9px; border: 1px solid var(--btn);
+  border-radius: 8px; background: var(--btn); color: var(--btn-fg);
+  font-size: 15px; font-weight: 500; line-height: 20px; letter-spacing: -0.00643em; cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
-#goads-bm-overlay .goads-back:hover { background: var(--card-soft); color: var(--ink-strong); }
+#goads-bm-overlay .goads-back:hover { background: var(--btn-hover); color: var(--btn-fg); }
 #goads-bm-overlay .goads-guide {
-  flex: 1; font-size: 12.5px; line-height: 1.45; color: var(--ink-soft);
+  flex: 1; font-size: 13px; line-height: 1.45; color: var(--ink-soft);
   background: var(--card-soft); border: 1px solid var(--card-border);
   border-radius: 8px; padding: 8px 11px;
 }
 #goads-bm-overlay .goads-guide b { color: var(--ink-strong); font-weight: 600; }
+/* Slim screen title (replaces the verbose guide bar) */
+#goads-bm-overlay .goads-feature-title { font-size: 17px; font-weight: 550; line-height: 24px; letter-spacing: -0.01125em; color: var(--ink-strong); }
+
+/* Status rows: key (left) + pill value (right) */
+#goads-bm-overlay .goads-stat-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+#goads-bm-overlay .goads-stat-row + .goads-stat-row { margin-top: 8px; }
+#goads-bm-overlay .goads-stat-key { font-size: 15px; font-weight: 400; line-height: 20px; letter-spacing: -0.00643em; color: var(--ink-soft); }
+#goads-bm-overlay .goads-stat-row .goads-pill { max-width: 100%; white-space: nowrap; display: inline-block; }
+#goads-bm-overlay .goads-stat-key { flex-shrink: 0; }
 
 /* ══ Main layout (BM invite) ══ */
 #goads-bm-overlay .goads-main {
   display: grid;
-  grid-template-columns: 1fr 208px;
-  min-height: 268px;
+  grid-template-columns: 1fr 384px;
+  height: 560px;              /* FIXED frame — never grows with results */
 }
 #goads-bm-overlay .goads-form-col {
-  padding: 20px 22px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 13px;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 }
+/* Scroll region holds inputs + results; Clear/Send is pinned below it so the
+   action bar never shifts when results appear. */
+#goads-bm-overlay .goads-form-scroll {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 13px;
+}
+#goads-bm-overlay .goads-form-col > .goads-action-row { flex-shrink: 0; }
+/* Header row + count stay fixed; the textarea and the results list each take an
+   EQUAL share of the remaining height (the two boxes line up exactly). */
+#goads-bm-overlay .goads-form-scroll > .goads-block-head,
+#goads-bm-overlay .goads-form-scroll > .goads-field-foot { flex-shrink: 0; }
+#goads-bm-overlay .goads-email-block > .goads-block-head,
+#goads-bm-overlay .goads-email-block > .goads-field-foot { flex-shrink: 0; }
+/* Recipients header row: label (left) + action buttons (right), fixed at top */
+#goads-bm-overlay .goads-block-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin-bottom: 8px;
+}
+#goads-bm-overlay .goads-block-head label { margin-bottom: 0; }
 #goads-bm-overlay .goads-sidebar-col {
   padding: 20px 16px;
   background: var(--card-soft);
@@ -190,6 +286,9 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  min-height: 0;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 /* ══ Form ══ */
@@ -197,21 +296,41 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;          /* labelS */
+  font-size: 15px;          /* Foreplay labelS */
   font-weight: 500;
-  letter-spacing: -0.006em;
+  line-height: 20px;
+  letter-spacing: -0.00643em;
   margin-bottom: 7px;
   color: var(--ink-strong);
 }
-#goads-bm-overlay .goads-icon { font-size: 15px; }
+#goads-bm-overlay .goads-icon { display: inline-flex; align-items: center; justify-content: center; }
+/* Per-icon realistic colour palette — each meaningful icon gets its own hue.
+   Single-class selectors so a `gc-*` on any span/button wins cleanly. */
+#goads-bm-overlay .gc-blue   { color: #1c9cf0; }
+#goads-bm-overlay .gc-indigo { color: #5b3df5; }
+#goads-bm-overlay .gc-violet { color: #9112e8; }
+#goads-bm-overlay .gc-green  { color: #07a83f; }
+#goads-bm-overlay .gc-amber  { color: #f5880a; }
+#goads-bm-overlay .gc-teal   { color: #06bcbc; }
+#goads-bm-overlay .gc-cyan   { color: #0098ec; }
+#goads-bm-overlay .gc-red    { color: #ef3b30; }
+#goads-bm-overlay .gc-slate  { color: #475569; }
+/* subtle drop shadow gives the flat icons a touch of 3D depth */
+#goads-bm-overlay .goads-icon svg,
+#goads-bm-overlay .goads-icon-btn svg,
+#goads-bm-overlay .goads-sidebar-card-title .goads-bicon svg,
+#goads-bm-overlay .goads-cookie-label .goads-bicon svg,
+#goads-bm-overlay .goads-cookie-account .goads-bicon svg,
+#goads-bm-overlay .goads-feature-note .goads-bicon svg { filter: drop-shadow(0 1px 1px rgba(0,0,0,0.18)); }
 #goads-bm-overlay input,
 #goads-bm-overlay select {
   width: 100%;
   padding: 11px 13px;
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
-  font-size: 14px;          /* bodyS */
-  letter-spacing: -0.011em;
+  font-size: 15px;          /* Foreplay bodyS */
+  line-height: 20px;
+  letter-spacing: -0.00643em;
   font-family: var(--font);
   background: var(--card);
   color: var(--ink-strong);
@@ -234,11 +353,48 @@
   cursor: pointer;
 }
 
-/* email row */
-#goads-bm-overlay .goads-email-row { display: flex; gap: 6px; align-items: stretch; }
-#goads-bm-overlay .goads-email-row input { flex: 1; }
+/* email textarea (multi-email entry) */
+#goads-bm-overlay .goads-email-ta {
+  width: 100%;
+  flex: 1 1 0;
+  min-height: 60px;
+  resize: none;
+  padding: 11px 13px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  font-size: 15px;          /* Foreplay bodyS */
+  line-height: 20px;
+  letter-spacing: -0.00643em;
+  font-family: var(--font);
+  background: var(--card);
+  color: var(--ink-strong);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+#goads-bm-overlay .goads-email-ta:focus { border-color: var(--card-border-strong); box-shadow: 0 0 0 3px rgba(2,3,8,0.06); }
+#goads-bm-overlay .goads-email-ta::placeholder { color: var(--ink-soft); }
+
+/* field footer: live count (left) + action buttons (right) */
+#goads-bm-overlay .goads-field-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px;
+}
+#goads-bm-overlay .goads-email-count { font-size: 13px; font-weight: 400; line-height: 20px; color: var(--ink-soft); }
+#goads-bm-overlay .goads-email-count.ok { color: var(--ok-fg); font-weight: 600; }
+#goads-bm-overlay .goads-field-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+/* Compact inline access-level select, sits on the Recipients row with the buttons */
+#goads-bm-overlay select.goads-role-select {
+  width: auto;
+  padding: 7px 30px 7px 11px;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: var(--radius);
+  background-position: right 10px center;
+  cursor: pointer;
+}
+
 #goads-bm-overlay .goads-icon-btn {
-  width: 42px;
+  width: 38px; height: 38px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -253,6 +409,23 @@
 #goads-bm-overlay .goads-icon-btn:hover { background: var(--card-soft); color: var(--ink-strong); border-color: var(--card-border-strong); }
 #goads-bm-overlay .goads-icon-btn:active { transform: scale(0.95); }
 
+/* Labeled mini buttons (Generate email / Open inbox) — clear purpose, colour icon */
+#goads-bm-overlay .goads-mini-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 12px; border: 1px solid var(--btn); border-radius: var(--radius);
+  background: var(--btn); color: var(--btn-fg);
+  font-size: 14px; font-weight: 500; letter-spacing: -0.00643em; line-height: 18px;
+  font-family: var(--font); cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+#goads-bm-overlay .goads-mini-btn:hover { background: var(--btn-hover); color: var(--btn-fg); border-color: var(--btn-hover); }
+#goads-bm-overlay .goads-mini-btn:active { transform: scale(0.97); }
+#goads-bm-overlay .goads-mini-btn .goads-bicon svg { width: 18px; height: 18px; }
+
+/* action row (Clear + Send) */
+#goads-bm-overlay .goads-action-row { display: flex; gap: 10px; margin-top: 2px; }
+#goads-bm-overlay .goads-action-row .goads-btn-outline { flex: 1; }
+#goads-bm-overlay .goads-action-row .goads-btn-primary { flex: 1.7; }
+
 /* ══ Buttons ══ */
 #goads-bm-overlay .goads-btn {
   display: inline-flex;
@@ -261,9 +434,10 @@
   gap: 6px;
   padding: 10px 16px;
   border-radius: var(--radius);
-  font-size: 14px;          /* labelS, weight 550 */
-  font-weight: 550;
-  letter-spacing: -0.006em;
+  font-size: 15px;          /* Foreplay labelS */
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.00643em;
   font-family: var(--font);
   cursor: pointer;
   border: 1px solid transparent;
@@ -277,12 +451,13 @@
   border-color: var(--btn);
 }
 #goads-bm-overlay .goads-btn-primary:hover:not(:disabled) { background: var(--btn-hover); border-color: var(--btn-hover); }
+/* Unified: every button is black with white text + white icon */
 #goads-bm-overlay .goads-btn-outline {
-  background: var(--card);
-  color: var(--ink);
-  border-color: var(--card-border);
+  background: var(--btn);
+  color: var(--btn-fg);
+  border-color: var(--btn);
 }
-#goads-bm-overlay .goads-btn-outline:hover:not(:disabled) { background: var(--card-soft); color: var(--ink-strong); }
+#goads-bm-overlay .goads-btn-outline:hover:not(:disabled) { background: var(--btn-hover); border-color: var(--btn-hover); color: var(--btn-fg); }
 
 /* ══ Sidebar cards ══ */
 #goads-bm-overlay .goads-sidebar-card {
@@ -292,14 +467,15 @@
   padding: 12px 13px;
 }
 #goads-bm-overlay .goads-sidebar-card-title {
-  font-size: 11px;          /* overline */
+  font-size: 13px;          /* Foreplay overline */
   font-weight: 550;
+  line-height: 16px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1667em;
   color: var(--ink-soft);
 }
 #goads-bm-overlay .goads-pill {
@@ -307,9 +483,9 @@
   align-items: center;
   padding: 4px 10px;
   border-radius: 9999px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: -0.003em;
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: -0.00643em;
   border: 1px solid;
 }
 #goads-bm-overlay .goads-pill + .goads-pill { margin-top: 8px; }
@@ -317,23 +493,63 @@
 #goads-bm-overlay .goads-pill-red { background: var(--err-bg); color: var(--err-fg); border-color: var(--err-border); }
 #goads-bm-overlay .goads-pill-yellow { background: var(--card-soft); color: var(--ink-soft); border-color: var(--card-border); }
 
-#goads-bm-overlay .goads-sidebar-notes {
-  font-size: 12px;
-  color: var(--ink-soft);
-  line-height: 1.6;
+/* numbered "How to use" steps — clear, sequential guidance */
+#goads-bm-overlay .goads-steps {
+  font-size: 13px;          /* Foreplay bodyXs */
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 20px;
   list-style: none;
   padding: 0;
   margin: 0;
+  counter-reset: goads-step;
 }
-#goads-bm-overlay .goads-sidebar-notes li { margin-bottom: 4px; padding-left: 14px; position: relative; }
-#goads-bm-overlay .goads-sidebar-notes li::before { content: "–"; position: absolute; left: 0; color: var(--ink-faint); }
+#goads-bm-overlay .goads-steps li {
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 9px;
+  counter-increment: goads-step;
+}
+#goads-bm-overlay .goads-steps li:last-child { margin-bottom: 0; }
+#goads-bm-overlay .goads-steps li::before {
+  content: counter(goads-step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--btn);
+  color: var(--btn-fg);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#goads-bm-overlay .goads-steps b { color: var(--ink-strong); font-weight: 600; }
+/* note below the steps — same Inter scale as the steps (bodyXs), with a label */
+#goads-bm-overlay .goads-steps-note {
+  margin: 13px 0 0; padding-top: 12px;
+  border-top: 1px solid var(--card-border);
+}
+#goads-bm-overlay .goads-note-label {
+  font-size: 13px; font-weight: 600; line-height: 20px; letter-spacing: -0.00643em;
+  color: var(--ink-strong); margin-bottom: 3px;
+}
+#goads-bm-overlay .goads-steps-note p {
+  margin: 0 0 6px; font-size: 13px; font-weight: 400; line-height: 20px;
+  letter-spacing: -0.00643em; color: var(--ink-soft);
+}
+#goads-bm-overlay .goads-steps-note p:last-child { margin-bottom: 0; }
 
 /* ══ Alert ══ */
 #goads-bm-overlay .goads-alert {
   padding: 10px 13px;
   border-radius: var(--radius);
-  font-size: 13px;
-  letter-spacing: -0.006em;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.00643em;
   display: none;
   word-break: break-word;
   border: 1px solid;
@@ -346,11 +562,95 @@
   display: block;
   background: var(--err-bg); border-color: var(--err-border); color: var(--err-fg);
 }
+#goads-bm-overlay .goads-alert-warn {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn-fg);
+}
+
+/* ══ Invite readiness banner (ready / pending / error) ══ */
+#goads-bm-overlay .goads-banner {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; border-radius: var(--radius);
+  font-size: 15px; font-weight: 500; line-height: 20px;
+  border: 1px solid; letter-spacing: -0.00643em;
+}
+#goads-bm-overlay .goads-banner svg { width: 16px; height: 16px; }
+#goads-bm-overlay .goads-banner.ready { background: var(--ok-bg); border-color: var(--ok-border); color: var(--ok-fg); }
+#goads-bm-overlay .goads-banner.pending { background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn-fg); }
+#goads-bm-overlay .goads-banner.error { background: var(--err-bg); border-color: var(--err-border); color: var(--err-fg); }
+/* compact when shown inside the Status card; clickable to re-check */
+#goads-bm-overlay .goads-sidebar-card .goads-banner { margin-bottom: 12px; padding: 8px 10px; font-size: 14px; line-height: 17px; font-weight: 600; cursor: pointer; transition: filter 0.15s; }
+#goads-bm-overlay .goads-sidebar-card .goads-banner:hover { filter: brightness(0.97); }
 #goads-bm-overlay .goads-alert-link {
   color: inherit; font-weight: 600; text-decoration: underline;
   margin-left: auto; white-space: nowrap; cursor: pointer;
 }
 #goads-bm-overlay .goads-alert-link:hover { opacity: 0.8; }
+
+/* ══ Per-email invite results — fills leftover space, scrolls internally
+   so the fixed-height frame never grows with more emails ══ */
+#goads-bm-overlay .goads-result-wrap {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+#goads-bm-overlay .goads-result-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  font-size: 13px; font-weight: 550; line-height: 16px; text-transform: uppercase; letter-spacing: 0.1667em;
+  color: var(--ink-soft); margin-bottom: 7px; flex-shrink: 0;
+}
+#goads-bm-overlay .goads-result-wrap.ok .goads-result-head { color: var(--ok-fg); }
+#goads-bm-overlay .goads-result-wrap.warn .goads-result-head { color: var(--warn-fg); }
+#goads-bm-overlay .goads-result-wrap.fail .goads-result-head { color: var(--err-fg); }
+#goads-bm-overlay .goads-tempmail-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 11px 5px 9px; border-radius: 999px;
+  border: 1px solid var(--ok-border); background: var(--ok-bg); color: var(--ok-fg);
+  font-family: var(--font); font-size: 12px; font-weight: 600; text-transform: none;
+  letter-spacing: -0.00643em; line-height: 16px; cursor: pointer; white-space: nowrap;
+  transition: all 0.15s;
+}
+#goads-bm-overlay .goads-tempmail-btn:hover { background: #d6ecfd; border-color: #8fd0f7; }
+#goads-bm-overlay .goads-tempmail-btn .goads-bicon svg { width: 15px; height: 15px; }
+#goads-bm-overlay .goads-result-list {
+  display: flex; flex-direction: column; gap: 6px;
+  flex: 1 1 0; min-height: 60px; overflow-y: auto;
+  border: 1px solid var(--card-border); border-radius: var(--radius);
+  padding: 8px;
+  background: var(--card-soft);
+}
+/* placeholder shown while no invites have been sent yet */
+#goads-bm-overlay .goads-result-list:empty::before {
+  content: "Sent and failed invitations will appear here.";
+  margin: auto; padding: 8px; text-align: center;
+  color: var(--ink-soft); font-size: 13px; line-height: 18px;
+}
+/* Open inbox under the sent-emails list (fixed within the results block) */
+#goads-bm-overlay .goads-result-foot { flex-shrink: 0; display: flex; margin-top: 10px; }
+#goads-bm-overlay .goads-result-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 7px 10px; border-radius: 7px; background: var(--card);
+  border: 1px solid var(--card-border); font-size: 15px; line-height: 20px; letter-spacing: -0.00643em;
+}
+#goads-bm-overlay .goads-rr-email { color: var(--ink-strong); word-break: break-all; }
+#goads-bm-overlay .goads-rr-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  flex-shrink: 0; font-weight: 600; white-space: nowrap; max-width: 50%;
+  overflow: hidden; text-overflow: ellipsis;
+}
+#goads-bm-overlay .goads-rr-ic { display: inline-flex; }
+#goads-bm-overlay .goads-rr-ic svg { width: 13px; height: 13px; }
+#goads-bm-overlay .goads-result-row.ok .goads-rr-status { color: var(--ok-fg); }
+#goads-bm-overlay .goads-result-row.fail .goads-rr-status { color: var(--err-fg); }
+#goads-bm-overlay .goads-result-row.pending .goads-rr-status { color: var(--ink-soft); }
+
+/* small dark spinner for white-card contexts (result rows) */
+#goads-bm-overlay .goads-spinner-sm {
+  width: 12px; height: 12px;
+  border: 2px solid var(--card-border); border-top-color: var(--ink-soft);
+  border-radius: 50%; animation: goads-spin 0.6s linear infinite; display: inline-block;
+}
 
 /* ══ Loading ══ */
 #goads-bm-overlay .goads-loading {
@@ -360,8 +660,8 @@
   gap: 16px;
 }
 #goads-bm-overlay .goads-loading-header { display: flex; align-items: center; justify-content: space-between; }
-#goads-bm-overlay .goads-loading-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-strong); }
-#goads-bm-overlay .goads-loading-pct { font-size: 12px; color: var(--ink-soft); font-family: var(--mono); }
+#goads-bm-overlay .goads-loading-title { font-size: 17px; font-weight: 550; line-height: 24px; letter-spacing: -0.01125em; color: var(--ink-strong); }
+#goads-bm-overlay .goads-loading-pct { font-size: 13px; color: var(--ink-soft); font-family: var(--mono); }
 #goads-bm-overlay .goads-progress-bar {
   width: 100%; height: 4px; background: var(--card-border); border-radius: 2px; overflow: hidden;
 }
@@ -369,10 +669,10 @@
 #goads-bm-overlay .goads-step-list { display: flex; flex-direction: column; gap: 9px; }
 #goads-bm-overlay .goads-step {
   display: flex; align-items: center; gap: 10px;
-  font-size: 14px; color: #9aa0ab; transition: color 0.2s;
+  font-size: 15px; color: #9aa0ab; transition: color 0.2s;
 }
 #goads-bm-overlay .goads-step.active { color: var(--ink-strong); font-weight: 500; }
-#goads-bm-overlay .goads-step.done { color: #059669; }
+#goads-bm-overlay .goads-step.done { color: var(--ok-fg); }
 #goads-bm-overlay .goads-step.fail { color: #dc2626; }
 #goads-bm-overlay .goads-step-icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 #goads-bm-overlay .goads-step-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-faint); }
@@ -392,15 +692,21 @@
 #goads-bm-overlay .goads-error-screen { padding: 26px 24px; display: flex; flex-direction: column; gap: 14px; }
 
 /* ══ Cookie Login ══ */
-#goads-bm-overlay .goads-cookie { padding: 18px; display: flex; flex-direction: column; }
-#goads-bm-overlay .goads-cookie-account { font-size: 13px; color: var(--ink-soft); margin-bottom: 12px; }
+#goads-bm-overlay .goads-cookie { padding: 18px; display: flex; flex-direction: column; height: 560px; box-sizing: border-box; }
+#goads-bm-overlay .goads-cookie-account { display: flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 400; line-height: 20px; letter-spacing: -0.00643em; color: var(--ink-soft); margin-bottom: 12px; }
 #goads-bm-overlay .goads-cookie-account b { color: var(--ink-strong); font-weight: 600; }
-#goads-bm-overlay .goads-cookie-label { font-size: 14px; font-weight: 500; letter-spacing: -0.006em; color: var(--ink-strong); margin-bottom: 7px; }
+#goads-bm-overlay .goads-cookie-label { display: flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 500; line-height: 20px; letter-spacing: -0.00643em; color: var(--ink-strong); margin-bottom: 7px; }
+#goads-bm-overlay .goads-cookie-sep { border-top: 1px solid var(--card-border); margin: 16px 0 14px; }
+/* Two side-by-side blocks (sign-in | export) — landscape layout, fills frame */
+#goads-bm-overlay .goads-cookie-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; flex: 1 1 auto; min-height: 0; }
+#goads-bm-overlay .goads-cookie-block { display: flex; flex-direction: column; min-height: 0; }
+#goads-bm-overlay .goads-cookie-block + .goads-cookie-block { padding-left: 18px; border-left: 1px solid var(--card-border); }
+#goads-bm-overlay .goads-cookie-hint { margin: 0 0 9px; font-size: 13px; font-weight: 400; line-height: 20px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #goads-bm-overlay .goads-cookie-ta {
-  width: 100%; min-height: 80px; resize: vertical; padding: 11px;
+  width: 100%; flex: 1 1 auto; min-height: 70px; resize: none; padding: 11px;
   border: 1px solid var(--card-border); border-radius: var(--radius);
   background: var(--card-soft); color: var(--ink-strong);
-  font-family: var(--mono); font-size: 12.5px; line-height: 1.5; word-break: break-all; box-sizing: border-box;
+  font-family: var(--mono); font-size: 13px; line-height: 1.5; word-break: break-all; box-sizing: border-box;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 #goads-bm-overlay .goads-cookie-ta:focus { outline: none; border-color: var(--card-border-strong); box-shadow: 0 0 0 3px rgba(2,3,8,0.06); }
@@ -415,12 +721,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 13px;          /* Foreplay bodyXs */
+  line-height: 20px;
   color: var(--chrome-muted);
 }
 #goads-bm-overlay .goads-footer a { color: var(--fg); text-decoration: none; }
 #goads-bm-overlay .goads-footer a:hover { text-decoration: underline; }
 #goads-bm-overlay .goads-footer-right { display: flex; align-items: center; gap: 8px; }
+/* Telegram support link — brand-blue glyph + "Support" label */
+#goads-bm-overlay .goads-tg { display: inline-flex; align-items: center; gap: 6px; }
+#goads-bm-overlay .goads-tg:hover { text-decoration: none; opacity: 0.85; }
+#goads-bm-overlay .goads-tg-ic { display: inline-flex; color: #29a9eb; }
+#goads-bm-overlay .goads-tg-ic svg { width: 16px; height: 16px; display: block; }
 
 /* ══ Hidden utility ══ */
 #goads-bm-overlay .goads-hidden { display: none !important; }

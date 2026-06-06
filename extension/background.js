@@ -410,19 +410,36 @@ async function inviteBM({ bmId, token, email, roles }) {
         credentials: "include"
       }
     );
-    const text = await resp.text();
+    let text = await resp.text();
+    // Facebook prepends anti-JSON-hijack tokens to some responses — strip them
+    // so JSON.parse doesn't fail and dump raw text into the UI.
+    text = text.replace(/^(for\s*\(;;\);|while\s*\(1\);)\s*/, "").trim();
+
+    // Security challenge: Facebook requires the actor to re-verify before this
+    // action is allowed. Not a bug — surface a clear, friendly instruction.
+    if (/challenge_type"?\s*:\s*"?reauth/i.test(text) || /\breauth\b/i.test(text)) {
+      return { success: false, error: "Facebook needs you to re-verify this account before inviting. Open business.facebook.com, finish the security check, then try again." };
+    }
+    if (/checkpoint/i.test(text)) {
+      return { success: false, error: "This account hit a Facebook checkpoint. Resolve it on facebook.com, then retry." };
+    }
+
     let data;
-    try { data = JSON.parse(text); } catch (e) { return { success: false, error: text.substring(0, 150) }; }
+    try { data = JSON.parse(text); } catch (e) { return { success: false, error: "Facebook returned an unexpected response. Please try again." }; }
 
     if (Array.isArray(data) && data.length > 0) {
       const item = data[0];
       let body;
       try { body = typeof item.body === "string" ? JSON.parse(item.body) : item.body; } catch (e) { body = {}; }
+      // Challenge can also arrive inside the batch item body.
+      if (body && (body.challenge_type === "reauth" || body.challenge_type === "checkpoint")) {
+        return { success: false, error: "Facebook needs you to re-verify this account before inviting. Open business.facebook.com, finish the security check, then try again." };
+      }
       if (item.code === 200 && !body?.error) return { success: true, id: body?.id };
       if (body?.error) return { success: false, error: body.error.error_user_msg || body.error.message };
     }
-    if (data?.error) return { success: false, error: data.error.message };
-    return { success: false, error: "Unexpected response" };
+    if (data?.error) return { success: false, error: data.error.error_user_msg || data.error.message };
+    return { success: false, error: "Facebook returned an unexpected response. Please try again." };
   } catch (e) {
     return { success: false, error: e.message };
   }

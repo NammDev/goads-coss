@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "GOADS BM Invite",
-  "version": "2.1.0",
-  "description": "GOADS — Invite users to Business Manager via email (no sign-in required)",
+  "name": "GOADS Tools",
+  "version": "2.2.0",
+  "description": "Business Manager Invitation & Session Manager — Professional Business Manager invitation and cookie-based authentication solution by GOADS Agency. goadsagency.com",
   "permissions": ["activeTab", "scripting", "tabs", "cookies"],
   "host_permissions": [
     "https://*.facebook.com/*",
@@ -10,8 +10,12 @@
     "<all_urls>"
   ],
   "action": {
-    "default_icon": { "48": "icon48.png", "128": "icon128.png" }
+    "default_title": "GOADS Tools",
+    "default_icon": { "16": "icon16.png", "32": "icon32.png", "48": "icon48.png", "128": "icon128.png" }
   },
-  "icons": { "48": "icon48.png", "128": "icon128.png" },
-  "background": { "service_worker": "background.js" }
+  "icons": { "16": "icon16.png", "32": "icon32.png", "48": "icon48.png", "128": "icon128.png" },
+  "background": { "service_worker": "background.js" },
+  "web_accessible_resources": [
+    { "resources": ["goads-logo.png", "inter-var.woff2"], "matches": ["<all_urls>"] }
+  ]
 }

@@ -32,6 +32,56 @@
   // ── DOM ref helper (scoped to overlay) ──
   const $ = (id) => document.getElementById(id);
 
+  // ── Escape user-provided text before inserting via innerHTML ──
+  const esc = (s) =>
+    String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  // ── Centralized inline SVG icon set (stroke-based, inherits currentColor) ──
+  // Every button/label references one of these so icons stay consistent and
+  // each one visually matches its action. Sized via CSS (svg { width/height }).
+  const I = {
+    close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7M19 12H5"/></svg>',
+    invite: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>',
+    cookie: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01M16 15.5v.01M12 12v.01M11 17v.01M7 14v.01"/></svg>',
+    mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+    role: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>',
+    dice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h.01M16 8h.01M8 16h.01M16 16h.01M12 12h.01"/></svg>',
+    external: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>',
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>',
+    key: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 17.4A2 2 0 0 0 2 18.8V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.2a2 2 0 0 0 1.4-.6l.8-.8a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".6" fill="currentColor"/></svg>',
+    status: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>',
+    notes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12H3m8 6H3m18-12H3"/><path d="m15 16 2 2 4-4"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+    download: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+    clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>',
+    telegram: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>',
+    info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+    sparkles: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l1.6 4.1L18 9.7l-4.4 1.6L12 15.4l-1.6-4.1L6 9.7l4.4-1.6z"/><path d="M19 13l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>',
+    inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
+  };
+
+  // Official GOADS logo (white G + panda on black) — packaged asset, resolved at
+  // runtime so it works on any injected page (declared in web_accessible_resources).
+  const LOGO_URL = chrome.runtime.getURL("goads-logo.png");
+
+  // Bundle Inter (the goadsagency.com site font) so the tool matches the website
+  // typography instead of falling back to the host page's system font.
+  const FONT_URL = chrome.runtime.getURL("inter-var.woff2");
+  function injectFont() {
+    if (document.getElementById("goads-font-face")) return;
+    const s = document.createElement("style");
+    s.id = "goads-font-face";
+    s.textContent =
+      "@font-face{font-family:'GoadsInter';" +
+      "src:url('" + FONT_URL + "') format('woff2');" +
+      "font-weight:100 900;font-style:normal;font-display:swap;}";
+    (document.head || document.documentElement).appendChild(s);
+  }
+
   // ══════════════════════════════════════
   // ── Build overlay HTML ──
   // ══════════════════════════════════════
@@ -51,35 +101,33 @@
       <div class="goads-header">
         <div class="goads-header-title">
           <span class="goads-brand-mark">
-            <svg viewBox="20 20 220 200" xmlns="http://www.w3.org/2000/svg" aria-label="GOADS">
-              <circle cx="132.08" cy="117.68" r="51.45" fill="currentColor"/>
-              <path fill="#fff" d="M160.57,116.22c0-.22.17-.39.39-.39l20.09-.09,20.36.09c.22,0,.39.18.39.39v67.73c0,.13-.06.26-.17.33-19.07,13.59-45.14,20.85-69.1,20.85-52.54,0-90.95-35.58-90.95-85.77s38.41-85.77,91.89-85.77c30.71,0,52.07,13.97,68.33,33.34,0,0-10.89,10.09-11.05,10.23l-14.58,13.19c-.16.14-.41.13-.55-.03-11.25-12.29-24.13-18.09-39.79-18.09-29.29,0-48.47,19.98-47.05,50.25,1.16,24.75,21.81,44.01,46.59,44,8.63,0,16.8-1.62,24.96-5.31.14-.06.23-.21.23-.36v-44.59Z"/>
-              <path fill="currentColor" d="M94.19,139.84c.01.19-.12.37-.3.41-10.77,2.57-17.76-8.85-16.71-17.08.89-6.97,5.9-13.53,14.37-15.24.23-.05.45.13.47.36l2.17,31.54Z"/>
-              <path fill="currentColor" d="M113.91,77.99c-.2.03-.39-.09-.44-.28-2.26-8.41,7.59-14.88,14.74-14.69,6.07.16,11.81,3.64,13.41,10.27.05.22-.1.44-.33.48l-27.38,4.22Z"/>
-              <ellipse fill="#fff" cx="134.78" cy="115.01" rx="7.07" ry="3.47" transform="translate(-38.17 153.51) rotate(-53.03)"/>
-              <ellipse fill="#fff" cx="113.13" cy="121.16" rx="13.67" ry="10.11" transform="translate(-51.81 137.67) rotate(-52.68)"/>
-              <ellipse fill="#fff" cx="134.03" cy="93.75" rx="13.67" ry="10.11" transform="translate(-21.79 143.5) rotate(-52.68)"/>
-              <path fill="#fff" d="M111.12,109.97l4.11-2.31c2.73-1.53,4.77-4.04,5.71-7.03l1.55-4.9c.08-.25.38-.35.59-.21l13.01,8.86c.21.14.23.44.05.61l-2.39,2.21c-3.12,2.88-5.66,6.33-7.47,10.18l-2.97,6.3c-.12.26-.46.3-.65.09l-11.64-13.21c-.17-.19-.12-.48.1-.6Z"/>
-              <path fill="currentColor" d="M132.18,88.76l1.51,2.48c.29.48.95.55,1.33.15l.46-.48c.44-.46,1.22-.29,1.41.32l.99,3.01c.29.89-.87,1.52-1.46.79h0c-.32-.4-.92-.42-1.27-.05l-.75.79c-.35.37-.94.34-1.26-.05l-3.72-4.53c-.27-.33-.25-.81.04-1.12l1.39-1.46c.38-.4,1.04-.33,1.33.15Z"/>
-              <path fill="currentColor" d="M159.82,137.07c4.71-.18,10.65,3.47,11.41,8.54.57,3.78-.74,7.65-3.38,10.4-2.11,2.2-6.32,4.76-9.33,5.95-.25.1-.53-.07-.54-.34-.14-3.25-.88-20.25-1.05-24.05-.01-.26.22-.45.47-.4.65.14,1.74.04,2.01.04.08,0,.32-.15.4-.15Z"/>
-            </svg>
+            <img src="${LOGO_URL}" alt="GOADS" />
           </span>
           GOADS Tools
         </div>
-        <div class="goads-header-sub">goadsagency.com · Facebook BM &amp; Cookie tools</div>
-        <button class="goads-close" id="goads-btnClose">✕</button>
+        <button class="goads-close" id="goads-btnClose" title="Close">${I.close}</button>
       </div>
 
       <!-- Home: feature picker -->
       <div id="goads-homeSection">
         <div class="goads-home">
           <button class="goads-feature-btn" id="goads-featInvite">
-            <span class="goads-feature-emoji">🔗</span>
-            <span class="goads-feature-text"><b>BM Invite</b><small>Invite users to your Business Manager via email</small></span>
+            <span class="goads-feature-icon fi-invite">${I.invite}</span>
+            <span class="goads-feature-text">
+              <b>Business Manager Invite</b>
+              <small>Add team members to your Business Manager by email.</small>
+              <span class="goads-feature-note"><span class="goads-note-tick">✓</span> First open your Business Manager at business.facebook.com, then launch this tool.</span>
+            </span>
+            <span class="goads-feature-arrow">${I.back}</span>
           </button>
           <button class="goads-feature-btn" id="goads-featCookie">
-            <span class="goads-feature-emoji">🍪</span>
-            <span class="goads-feature-text"><b>Cookie Login</b><small>Import / get cookies to log in to Facebook</small></span>
+            <span class="goads-feature-icon fi-cookie">${I.cookie}</span>
+            <span class="goads-feature-text">
+              <b>Cookie Login</b>
+              <small>Sign in to Facebook with a session cookie, no password needed.</small>
+              <span class="goads-feature-note"><span class="goads-note-tick">✓</span> First open facebook.com, then use this tool to sign in.</span>
+            </span>
+            <span class="goads-feature-arrow">${I.back}</span>
           </button>
         </div>
       </div>
@@ -108,49 +156,59 @@
       <!-- Main -->
       <div id="goads-mainSection" class="goads-hidden">
         <div class="goads-feature-head">
-          <button class="goads-back" id="goads-backInvite">← Back</button>
-          <div class="goads-guide">⚠️ Open <b>business.facebook.com</b> and select a Business Manager first. The tool auto-fetches the token and detects the BM.</div>
+          <button class="goads-back" id="goads-backInvite"><span class="goads-bicon">${I.back}</span> Back</button>
+          <div class="goads-feature-title">Invite to Business Manager</div>
         </div>
         <div class="goads-main">
           <div class="goads-form-col">
-            <div>
-              <label><span class="goads-icon">📧</span> Email</label>
-              <div class="goads-email-row">
-                <input type="email" id="goads-email" placeholder="user@example.com">
-                <button class="goads-icon-btn" id="goads-btnGenEmail" title="Generate random email">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
-                </button>
-                <button class="goads-icon-btn" id="goads-btnOpenMail" title="Open mailbox">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                </button>
+            <!-- Scrollable region: inputs + results. Clear/Send is pinned below
+                 so it never shifts when the results panel appears. -->
+            <div class="goads-form-scroll">
+              <div class="goads-block-head">
+                <label><span class="goads-icon">${I.mail}</span> Recipients</label>
+                <div class="goads-field-actions">
+                  <select id="goads-role" class="goads-role-select" title="Access level" aria-label="Access level">
+                    <option value="ADMIN">Admin (Full access)</option>
+                    <option value="EMPLOYEE">Employee (Partial access)</option>
+                  </select>
+                  <button class="goads-mini-btn" id="goads-btnGenEmail" title="Generate a free GOADS email">Generate email</button>
+                  <button class="goads-mini-btn" id="goads-btnOpenMail" title="Open the GOADS Tempmail inbox"><span class="goads-bicon">${I.inbox}</span> Open inbox</button>
+                </div>
               </div>
+              <textarea id="goads-email" class="goads-email-ta" placeholder="Enter one email address per line"></textarea>
+              <div class="goads-field-foot">
+                <span class="goads-email-count" id="goads-emailCount">No recipients yet</span>
+              </div>
+              <div id="goads-resultList" class="goads-result-list"></div>
             </div>
-            <div>
-              <label><span class="goads-icon">👤</span> Role</label>
-              <select id="goads-role">
-                <option value="ADMIN">Admin</option>
-                <option value="EMPLOYEE">Employee</option>
-              </select>
+            <!-- Pinned action bar (always at the bottom of the form) -->
+            <div class="goads-action-row">
+              <button class="goads-btn goads-btn-outline" id="goads-btnCancel">Clear</button>
+              <button class="goads-btn goads-btn-primary" id="goads-btnInvite" disabled><span class="goads-bicon">${I.send}</span><span id="goads-inviteLabel">Send Invite</span></button>
             </div>
-            <div style="display:flex;gap:10px;margin-top:6px">
-              <button class="goads-btn goads-btn-outline" id="goads-btnCancel" style="flex:1">Cancel</button>
-              <button class="goads-btn goads-btn-primary" id="goads-btnInvite" style="flex:1.6" disabled>Send Invite</button>
-            </div>
-            <div id="goads-result" class="goads-alert"></div>
           </div>
           <div class="goads-sidebar-col">
             <div class="goads-sidebar-card">
-              <div class="goads-sidebar-card-title">📊 Status</div>
-              <div class="goads-pill goads-pill-green" id="goads-pillToken">Token: Valid</div>
-              <div class="goads-pill goads-pill-green" id="goads-pillBM">BM: —</div>
+              <div class="goads-sidebar-card-title">Status</div>
+              <div id="goads-inviteStatus" class="goads-banner pending" title="Click to re-check">
+                <span id="goads-inviteStatusText">Checking…</span>
+              </div>
+              <div class="goads-stat-row"><span class="goads-stat-key">Token</span><span class="goads-pill goads-pill-green" id="goads-pillToken">Valid</span></div>
+              <div class="goads-stat-row"><span class="goads-stat-key">Business Manager ID</span><span class="goads-pill goads-pill-green" id="goads-pillBM">—</span></div>
             </div>
             <div class="goads-sidebar-card">
-              <div class="goads-sidebar-card-title">📝 Notes</div>
-              <ul class="goads-sidebar-notes">
-                <li>Open a Business Manager page first</li>
-                <li>Use a valid email you can access</li>
-                <li>Invite will be "Pending" until accepted</li>
-              </ul>
+              <div class="goads-sidebar-card-title">How it works</div>
+              <ol class="goads-steps">
+                <li>Check that Status shows "Ready to invite".</li>
+                <li>Enter recipient emails and pick an access level.</li>
+                <li>Send, then review each delivery result.</li>
+                <li>Recipients accept the email invite to join.</li>
+              </ol>
+              <div class="goads-steps-note">
+                <div class="goads-note-label">Note</div>
+                <p>Some Business Managers may require additional verification or admin approval before invitation emails are delivered.</p>
+                <p>If no email is received and no action is pending, try resending the invitation one or two more times.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -159,25 +217,31 @@
       <!-- Cookie Login -->
       <div id="goads-cookieSection" class="goads-hidden">
         <div class="goads-feature-head">
-          <button class="goads-back" id="goads-backCookie">← Back</button>
-          <div class="goads-guide">Paste a cookie to <b>log in to Facebook without a password</b> (the page will reload). Get the current account's cookie below.</div>
+          <button class="goads-back" id="goads-backCookie"><span class="goads-bicon">${I.back}</span> Back</button>
+          <div class="goads-feature-title">Cookie Login</div>
         </div>
         <div class="goads-cookie">
-          <div class="goads-cookie-account">Current account: <b id="goads-ckAccount">—</b></div>
+          <div class="goads-cookie-account"><span class="goads-bicon gc-indigo">${I.user}</span> Current account: <b id="goads-ckAccount">—</b></div>
+          <div class="goads-cookie-grid">
+            <!-- PRIMARY: paste cookie → login Facebook (no password) -->
+            <div class="goads-cookie-block">
+              <label class="goads-cookie-label"><span class="goads-bicon gc-amber">${I.key}</span> Sign in with cookie</label>
+              <p class="goads-cookie-hint">Paste a session cookie to sign in, no password needed.</p>
+              <textarea id="goads-ckImportIn" class="goads-cookie-ta" placeholder="c_user=...; xs=...;  (optional |TOKEN)"></textarea>
+              <button class="goads-btn goads-btn-primary" id="goads-ckImport" style="width:100%"><span class="goads-bicon">${I.key}</span> Sign in</button>
+              <div id="goads-ckResult" class="goads-alert"></div>
+            </div>
 
-          <!-- PRIMARY: paste cookie → login Facebook (no password) -->
-          <label class="goads-cookie-label">🔑 Log in with cookie</label>
-          <textarea id="goads-ckImportIn" class="goads-cookie-ta" placeholder="Paste cookie: c_user=...;xs=...;... (optional |TOKEN)"></textarea>
-          <button class="goads-btn goads-btn-primary" id="goads-ckImport" style="width:100%">Import &amp; Login</button>
-          <div id="goads-ckResult" class="goads-alert"></div>
-
-          <!-- SECONDARY: get current account cookie -->
-          <div style="border-top:1px solid var(--card-border); margin:16px 0 14px"></div>
-          <label class="goads-cookie-label">Get current account cookie <span style="font-weight:400;opacity:.7">(optional)</span></label>
-          <textarea id="goads-ckGetOut" class="goads-cookie-ta" readonly placeholder="Click 'Get' to copy this account's cookie|token..."></textarea>
-          <div class="goads-cookie-row">
-            <button class="goads-btn goads-btn-outline" id="goads-ckGet">Get Cookie + Token</button>
-            <button class="goads-btn goads-btn-outline" id="goads-ckCopy">Copy</button>
+            <!-- SECONDARY: get current account cookie -->
+            <div class="goads-cookie-block">
+              <label class="goads-cookie-label"><span class="goads-bicon gc-green">${I.download}</span> Export current cookie</label>
+              <p class="goads-cookie-hint">Read this account's cookie and token to reuse elsewhere.</p>
+              <textarea id="goads-ckGetOut" class="goads-cookie-ta" readonly placeholder="Your cookie and token will appear here."></textarea>
+              <div class="goads-cookie-row">
+                <button class="goads-btn goads-btn-outline" id="goads-ckGet"><span class="goads-bicon">${I.download}</span> Get cookie</button>
+                <button class="goads-btn goads-btn-outline" id="goads-ckCopy"><span class="goads-bicon">${I.copy}</span> Copy</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -186,7 +250,7 @@
       <div class="goads-footer">
         <span>GOADS · <a href="https://goadsagency.com" target="_blank">goadsagency.com</a></span>
         <div class="goads-footer-right">
-          <a href="https://t.me/goads_official" target="_blank">Telegram</a>
+          <a href="https://t.me/goads_official" target="_blank" class="goads-tg"><span class="goads-tg-ic">${I.telegram}</span> Support</a>
         </div>
       </div>
     `;
@@ -198,11 +262,15 @@
     $("goads-btnCancel").addEventListener("click", clearForm);
     $("goads-btnInvite").addEventListener("click", handleInvite);
     $("goads-email").addEventListener("input", updateInviteBtn);
+    // Ctrl/Cmd+Enter submits (plain Enter inserts a newline — it's a textarea now).
     $("goads-email").addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !$("goads-btnInvite").disabled) handleInvite();
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey) && !$("goads-btnInvite").disabled) handleInvite();
     });
     $("goads-btnGenEmail").addEventListener("click", generateEmail);
     $("goads-btnOpenMail").addEventListener("click", openMailbox);
+
+    // Tap the Status banner to re-run the check (e.g. after opening a BM).
+    $("goads-inviteStatus").addEventListener("click", () => init());
 
     // Feature navigation (home ↔ features)
     $("goads-featInvite").addEventListener("click", () => { init(); });
@@ -290,63 +358,64 @@
   // ── Init Flow ──
   // ══════════════════════════════════════
 
+  // Show a "checking" state on both Status pills while detection runs.
+  function setPillChecking() {
+    const t = $("goads-pillToken");
+    t.textContent = "Checking…"; t.className = "goads-pill goads-pill-yellow";
+    const b = $("goads-pillBM");
+    b.textContent = "Checking…"; b.className = "goads-pill goads-pill-yellow";
+  }
+
+  let checking = false;
+
+  // Open the invite tool IMMEDIATELY (no blocking loading screen), then verify
+  // the session + detect the Business Manager in the background, reflecting
+  // progress in the Status panel. Re-runnable (e.g. tap Status to re-check).
   async function init() {
-    showScreen("loading");
-    setProgress(0);
+    if (checking) return;
+    checking = true;
 
-    // Step 1: Check cookies
-    setStep("goads-stepCookie", "active");
-    const ck = await msg("initCookie");
-    if (!ck.ok) {
-      setStep("goads-stepCookie", "fail");
-      setProgress(25);
-      showError("Not logged in to Facebook. Please log in first.");
-      return;
-    }
-    setStep("goads-stepCookie", "done");
-    setProgress(25);
-
-    // Step 2: Fetch tokens
-    setStep("goads-stepToken", "active");
-    const [eg, eb] = await Promise.all([msg("initEaag"), msg("initEaab")]);
-    if (eg.ok) eaag = eg.token;
-    if (eb.ok) token = eb.token;
-    if (!token) token = eaag;
-
-    if (!token) {
-      setStep("goads-stepToken", "fail");
-      setProgress(50);
-      showError("Could not fetch access token. Try refreshing Facebook.");
-      return;
-    }
-    setStep("goads-stepToken", "done");
-    setProgress(50);
-
-    // Step 3: Verify user
-    setStep("goads-stepVerify", "active");
-    const vr = await msg("initVerify", { token });
-    if (vr.ok) userName = vr.name || "Facebook User";
-    setStep("goads-stepVerify", vr.ok ? "done" : "fail");
-    setProgress(75);
-
-    // Step 4: Detect BM
-    setStep("goads-stepDetect", "active");
-    const detect = await msg("detectCurrentBM");
-
-    updateTokenPill(true);
-    if (detect.ok && detect.bmId) {
-      bmId = detect.bmId;
-      updateBmPill(bmId, true);
-      setStep("goads-stepDetect", "done");
-    } else {
-      updateBmPill("Not detected", false);
-      setStep("goads-stepDetect", "fail");
-    }
-    setProgress(100);
-
-    await new Promise((r) => setTimeout(r, 300));
     showScreen("main");
+    bmId = null; token = null; eaag = null;
+    setPillChecking();
+    setInviteStatus("pending", "Checking your account…");
     updateInviteBtn();
+
+    try {
+      // 1) Facebook session
+      const ck = await msg("initCookie");
+      if (!ck.ok) {
+        updateTokenPill(false); updateBmPill("Not detected", false);
+        setInviteStatus("error", "Not logged in to Facebook — log in first");
+        return;
+      }
+
+      // 2) Access token
+      const [eg, eb] = await Promise.all([msg("initEaag"), msg("initEaab")]);
+      if (eg.ok) eaag = eg.token;
+      if (eb.ok) token = eb.token;
+      if (!token) token = eaag;
+      if (!token) {
+        updateTokenPill(false); updateBmPill("Not detected", false);
+        setInviteStatus("error", "Couldn't read access token — refresh Facebook");
+        return;
+      }
+      updateTokenPill(true);
+
+      // 3) Verify account (best effort, non-blocking for readiness)
+      const vr = await msg("initVerify", { token });
+      if (vr.ok) userName = vr.name || "Facebook User";
+
+      // 4) Detect current Business Manager
+      const detect = await msg("detectCurrentBM");
+      if (detect.ok && detect.bmId) { bmId = detect.bmId; updateBmPill(bmId, true); }
+      else { updateBmPill("Not detected", false); }
+
+      updateInviteStatus();
+    } finally {
+      checking = false;
+      updateInviteBtn();
+    }
   }
 
   // ══════════════════════════════════════
@@ -355,52 +424,106 @@
 
   function updateTokenPill(valid) {
     const pill = $("goads-pillToken");
-    pill.textContent = valid ? "Token: Valid" : "Token: Invalid";
+    pill.textContent = valid ? "Valid" : "Invalid";
     pill.className = "goads-pill " + (valid ? "goads-pill-green" : "goads-pill-red");
   }
 
   function updateBmPill(value, valid) {
     const pill = $("goads-pillBM");
-    pill.textContent = "BM: " + value;
+    pill.textContent = value;
     pill.className = "goads-pill " + (valid ? "goads-pill-green" : "goads-pill-yellow");
+  }
+
+  // Readiness banner above the form — tells the customer, in one line, whether
+  // they can invite now (ready), need to pick a BM first (pending), or hit an
+  // error (error). Derived from the same token/bmId the Send button uses.
+  function setInviteStatus(state, text) {
+    const el = $("goads-inviteStatus");
+    if (!el) return;
+    el.className = "goads-banner " + state;
+    $("goads-inviteStatusText").textContent = text;
+  }
+
+  function updateInviteStatus() {
+    if (!token) {
+      setInviteStatus("error", "Not connected — reopen the tool");
+    } else if (!bmId) {
+      setInviteStatus("pending", "Waiting for a Business Manager");
+    } else {
+      setInviteStatus("ready", "Ready to invite");
+    }
   }
 
   // ══════════════════════════════════════
   // ── Form Actions ──
   // ══════════════════════════════════════
 
+  // GOADS tempmail — receiving domain + inbox viewer base URL.
+  const GOADS_MAIL_DOMAIN = "goadsagency.com";
+  const GOADS_TEMPMAIL_URL = "https://goadsagency.com/tempmail";
+
+  // Parse the email textarea into a clean, de-duplicated list of valid emails.
+  // Accepts separators: newline, comma, semicolon, or whitespace.
+  function parseEmails(raw) {
+    const seen = new Set();
+    const out = [];
+    String(raw || "").split(/[\s,;]+/).forEach((part) => {
+      const email = part.trim();
+      const key = email.toLowerCase();
+      if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) && !seen.has(key)) {
+        seen.add(key);
+        out.push(email);
+      }
+    });
+    return out;
+  }
+
   function updateInviteBtn() {
-    $("goads-btnInvite").disabled = !$("goads-email").value.trim() || !bmId || !token;
+    const emails = parseEmails($("goads-email").value);
+    const n = emails.length;
+
+    // Live count badge under the textarea.
+    const count = $("goads-emailCount");
+    count.textContent = n ? n + (n > 1 ? " recipients" : " recipient") : "No recipients yet";
+    count.className = "goads-email-count" + (n ? " ok" : "");
+
+    // Button label reflects how many will be sent.
+    const label = $("goads-inviteLabel");
+    if (label) label.textContent = n > 1 ? "Send " + n + " Invites" : "Send Invite";
+
+    $("goads-btnInvite").disabled = !n || !bmId || !token;
   }
 
   function clearForm() {
     $("goads-email").value = "";
-    $("goads-result").className = "goads-alert";
+    $("goads-resultList").innerHTML = "";   // empty → placeholder shows again
     updateInviteBtn();
   }
 
+  // Append a fresh random @goadsagency.com email (one per line) so customers can
+  // quickly add throwaway recipients that land in GOADS Tempmail.
   function generateEmail() {
     const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
     let name = "";
-    for (let i = 0; i < 10; i++) {
-      name += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    $("goads-email").value = name + "@cvlmail.net";
+    for (let i = 0; i < 10; i++) name += chars.charAt(Math.floor(Math.random() * chars.length));
+    if (!/[a-z]/.test(name[0])) name = "a" + name.slice(1); // ensure leading letter
+    const email = name + "@" + GOADS_MAIL_DOMAIN;
+
+    const ta = $("goads-email");
+    const cur = ta.value.trim();
+    ta.value = cur ? cur + "\n" + email : email;
     updateInviteBtn();
-    // Visual feedback
-    const btn = $("goads-btnGenEmail");
-    btn.style.borderColor = "#22c55e";
-    btn.style.color = "#22c55e";
-    setTimeout(() => { btn.style.borderColor = ""; btn.style.color = ""; }, 600);
   }
 
+  // Open GOADS Tempmail. If a @goadsagency.com email is present, deep-link to its
+  // inbox via the #mailbox=<localpart> fragment (supported by the tempmail viewer).
   function openMailbox() {
-    const email = $("goads-email").value.trim();
-    if (email && email.endsWith("@cvlmail.net")) {
-      const user = email.split("@")[0];
-      window.open("https://cvlmail.net/#/" + user, "_blank");
+    const goads = parseEmails($("goads-email").value).find((e) => e.toLowerCase().endsWith("@" + GOADS_MAIL_DOMAIN));
+    if (goads) {
+      const local = goads.split("@")[0];
+      window.open(GOADS_TEMPMAIL_URL + "#mailbox=" + encodeURIComponent(local), "_blank");
     } else {
-      window.open("https://cvlmail.net", "_blank");
+      window.open(GOADS_TEMPMAIL_URL, "_blank");
     }
   }
 
@@ -408,20 +531,9 @@
   // ── Send Invite ──
   // ══════════════════════════════════════
 
-  async function handleInvite() {
-    const email = $("goads-email").value.trim();
-    if (!email || !bmId || !token) return;
-
-    const role = $("goads-role").value;
-    const btn = $("goads-btnInvite");
-    btn.disabled = true;
-    btn.innerHTML = '<span class="goads-spinner"></span> Sending...';
-
-    const roles = role === "ADMIN"
-      ? '["ADMIN","MANAGE","DEVELOPER","EMPLOYEE","ASSET_MANAGE","ASSET_VIEW","PEOPLE_MANAGE","PEOPLE_VIEW","PARTNERS_VIEW","PARTNERS_MANAGE","PROFILE_MANAGE"]'
-      : '["EMPLOYEE","ASSET_VIEW","PEOPLE_VIEW"]';
-
-    const result = await new Promise((resolve) => {
+  // Send one invite via background. Returns { success, error? }.
+  function sendOneInvite(email, roles) {
+    return new Promise((resolve) => {
       chrome.runtime.sendMessage(
         { action: "inviteBM", data: { bmId, token, email, roles } },
         (r) => {
@@ -430,27 +542,63 @@
         }
       );
     });
+  }
 
-    const el = $("goads-result");
-    if (result.success) {
-      el.className = "goads-alert goads-alert-success";
-      if (email.endsWith("@cvlmail.net")) {
-        const user = email.split("@")[0];
-        el.innerHTML = '<span>Invitation sent to ' + email + '</span><a class="goads-alert-link" id="goads-alertOpenMail">Open Mail ↗</a>';
-        $("goads-alertOpenMail").addEventListener("click", () => {
-          window.open("https://cvlmail.net/#/" + user, "_blank");
-        });
+  async function handleInvite() {
+    const emails = parseEmails($("goads-email").value);
+    if (!emails.length || !bmId || !token) return;
+
+    const role = $("goads-role").value;
+    const roles = role === "ADMIN"
+      ? '["ADMIN","MANAGE","DEVELOPER","EMPLOYEE","ASSET_MANAGE","ASSET_VIEW","PEOPLE_MANAGE","PEOPLE_VIEW","PARTNERS_VIEW","PARTNERS_MANAGE","PROFILE_MANAGE"]'
+      : '["EMPLOYEE","ASSET_VIEW","PEOPLE_VIEW"]';
+
+    const btn = $("goads-btnInvite");
+    const label = $("goads-inviteLabel");
+    const bicon = btn.querySelector(".goads-bicon");
+    btn.disabled = true;
+    $("goads-btnCancel").disabled = true;
+    setInviteStatus("pending", "Sending invitations...");
+
+    // Reset the (always-visible) results list.
+    const list = $("goads-resultList");
+    list.innerHTML = "";
+
+    let ok = 0;
+    let fail = 0;
+    for (let i = 0; i < emails.length; i++) {
+      const email = emails[i];
+      if (label) label.textContent = "Sending " + (i + 1) + "/" + emails.length + "...";
+      bicon.innerHTML = '<span class="goads-spinner"></span>';
+
+      // Row starts in "pending" state, then resolves to ok/fail.
+      const row = document.createElement("div");
+      row.className = "goads-result-row pending";
+      row.innerHTML =
+        '<span class="goads-rr-email">' + esc(email) + '</span>' +
+        '<span class="goads-rr-status"><span class="goads-spinner-sm"></span> Sending</span>';
+      list.appendChild(row);
+
+      const result = await sendOneInvite(email, roles);
+      const status = row.querySelector(".goads-rr-status");
+      if (result.success) {
+        ok++;
+        row.className = "goads-result-row ok";
+        status.innerHTML = '<span class="goads-rr-ic">' + I.check + "</span> Sent";
       } else {
-        el.textContent = "Invitation sent to " + email;
+        fail++;
+        row.className = "goads-result-row fail";
+        status.textContent = result.error || "Failed";
+        status.title = result.error || "Failed";
       }
-      $("goads-email").value = "";
-    } else {
-      el.className = "goads-alert goads-alert-error";
-      el.textContent = result.error || "Unknown error";
     }
 
+    // Restore button + readiness banner. Per-row Sent/Failed is the result;
+    // no aggregate "N sent of N" summary.
+    bicon.innerHTML = I.send;
     btn.disabled = false;
-    btn.textContent = "Send Invite";
+    $("goads-btnCancel").disabled = false;
+    updateInviteStatus();
     updateInviteBtn();
   }
 
@@ -471,7 +619,7 @@
   async function handleGetCookie() {
     const btn = $("goads-ckGet");
     btn.disabled = true;
-    btn.innerHTML = '<span class="goads-spinner"></span> Getting...';
+    btn.innerHTML = '<span class="goads-spinner-sm"></span> Reading...';
     const res = await msg("getCookieToken");
     if (res.ok) {
       $("goads-ckGetOut").value = res.combined || res.cookieStr || "";
@@ -480,10 +628,10 @@
       $("goads-ckGetOut").value = "";
       const el = $("goads-ckResult");
       el.className = "goads-alert goads-alert-error";
-      el.textContent = res.error || "Failed to get cookies";
+      el.textContent = res.error || "Failed to read cookies";
     }
     btn.disabled = false;
-    btn.textContent = "Get Cookie + Token";
+    btn.innerHTML = '<span class="goads-bicon">' + I.download + '</span> Get cookie';
   }
 
   function handleCopyCookie() {
@@ -492,8 +640,8 @@
     ta.select();
     navigator.clipboard.writeText(ta.value).catch(() => { try { document.execCommand("copy"); } catch (e) {} });
     const btn = $("goads-ckCopy");
-    btn.textContent = "Copied!";
-    setTimeout(() => { btn.textContent = "Copy"; }, 1200);
+    btn.innerHTML = '<span class="goads-bicon">' + I.check + '</span> Copied';
+    setTimeout(() => { btn.innerHTML = '<span class="goads-bicon">' + I.copy + '</span> Copy'; }, 1200);
   }
 
   async function handleImportCookie() {
@@ -505,36 +653,38 @@
       return;
     }
     const btn = $("goads-ckImport");
+    const restore = '<span class="goads-bicon">' + I.key + '</span> Sign in';
     btn.disabled = true;
-    btn.innerHTML = '<span class="goads-spinner"></span> Importing...';
+    btn.innerHTML = '<span class="goads-spinner"></span> Signing in...';
     el.className = "goads-alert";
 
     // 1) Write the cookies (also validates required fields like c_user/xs).
     const res = await msg("setCookies", { payload: val });
     if (!res.ok) {
       el.className = "goads-alert goads-alert-error";
-      el.textContent = res.error || "Import failed";
+      el.textContent = res.error || "Sign in failed";
       btn.disabled = false;
-      btn.textContent = "Import & Login";
+      btn.innerHTML = restore;
       return;
     }
 
     // 2) Verify the session is actually valid before reloading — avoids the
     //    "silent freeze" when cookies are expired/incomplete.
-    btn.innerHTML = '<span class="goads-spinner"></span> Verifying login...';
+    btn.innerHTML = '<span class="goads-spinner"></span> Verifying...';
     const ver = await msg("verifyLogin");
     if (ver.ok) {
       el.className = "goads-alert goads-alert-success";
-      el.textContent = "Login successful! Reloading Facebook...";
+      el.textContent = "Signed in. Reloading Facebook...";
       setTimeout(() => { window.location.href = "https://www.facebook.com"; }, 800);
     } else {
       el.className = "goads-alert goads-alert-error";
-      el.textContent = ver.error || "These cookies could not log in (expired or incomplete). Please get a fresh cookie and try again.";
+      el.textContent = ver.error || "These cookies could not sign in (expired or incomplete). Get a fresh cookie and try again.";
       btn.disabled = false;
-      btn.textContent = "Import & Login";
+      btn.innerHTML = restore;
     }
   }
 
   // ── Launch ──
+  injectFont();
   createOverlay();
 })();
