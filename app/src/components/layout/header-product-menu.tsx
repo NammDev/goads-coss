@@ -53,9 +53,11 @@
 
 "use client"
 
+import { useEffect } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
+import { ImageWithSkeleton } from "@/components/atoms/image-with-skeleton"
 import { HeaderDropdownBase } from "@/components/layout/header-dropdown-base"
 import { NavBanner3dLogo } from "@/components/layout/nav-banner-3d-logo"
 
@@ -101,6 +103,15 @@ const gradientMap: Record<string, string> = {
 }
 
 export function HeaderProductMenu() {
+  // Warm the cache for the product icons on mount so they're ready before the
+  // user hovers the dropdown open — no "pop" (the skeleton barely shows).
+  useEffect(() => {
+    for (const p of products) {
+      const img = new window.Image()
+      img.src = p.icon
+    }
+  }, [])
+
   return (
     <HeaderDropdownBase label="Product">
       {/* .nav-dropdown-menu-inner — source: background, border 1px, rounded-28, width:100% (stretch to nav-stack), overflow-hidden */}
@@ -242,13 +253,7 @@ function ProductBadge({
           </div>
         </div>
         {/* Static SVG icon — 88×88, z-2, full image shown (no negative margin / clipping) */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={icon}
-          alt={label}
-          className="relative z-[2] mt-4 size-[88px] object-contain"
-          loading="lazy"
-        />
+        <ImageWithSkeleton src={icon} alt={label} className="z-[2] mt-4 size-[88px]" />
         {/* .nav-badge-gradient — blurred glow that rises on hover (toned down: smaller + subtler). */}
         <div
           className="pointer-events-none absolute bottom-[-30%] aspect-square h-[72px] w-[72px] translate-y-1/4 rounded-[16%] opacity-0 blur-[24px] transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-y-0 group-hover:opacity-50"

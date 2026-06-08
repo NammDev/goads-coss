@@ -14,6 +14,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
+import { ImageWithSkeleton } from "@/components/atoms/image-with-skeleton"
 import {
   PRODUCT_GROUPS, TOOLS_GROUPS, RESOURCES_GROUPS,
   type NavMenuGroup,
@@ -48,6 +49,19 @@ export function HeaderMobileMenu() {
     const prev = document.body.style.overflow
     document.body.style.overflow = "hidden"
     return () => { document.body.style.overflow = prev }
+  }, [open])
+
+  // Prefetch submenu product icons as soon as the menu opens, so they're cached
+  // by the time the user expands "Product" — no "pop", skeleton barely shows.
+  useEffect(() => {
+    if (!open) return
+    const urls = SECTIONS.flatMap((s) =>
+      "groups" in s ? s.groups.flatMap((g) => g.items.map((it) => it.img).filter(Boolean) as string[]) : [],
+    )
+    for (const url of urls) {
+      const img = new window.Image()
+      img.src = url
+    }
   }, [open])
 
   // Close when pointer goes down outside the panel (and outside the toggle —
@@ -145,8 +159,7 @@ export function HeaderMobileMenu() {
                                 >
                                   {/* icon: img (Product) or icon-20 svg (Tools/Resources) */}
                                   {it.img ? (
-                                    // eslint-disable-next-line @next/next/no-img-element
-                                    <img src={it.img} alt="" aria-hidden className="size-9 shrink-0 object-contain opacity-90" />
+                                    <ImageWithSkeleton src={it.img} className="size-9 shrink-0" imgClassName="opacity-90" />
                                   ) : Icon ? (
                                     <span className="flex size-5 shrink-0 items-center justify-center text-foreground">
                                       <Icon />
