@@ -24,7 +24,7 @@ const paymentMethodCards: HomeFeatureCard[] = [
       "Pay with USDT (TRC20 / ERC20). Instant confirmation, transparent rate, no hidden fees.",
     ctaLabel: "Pay with Crypto",
     ctaHref: CONTACT.telegram.officialWithMessage,
-    image: "/payment/crypto.svg",
+    image: "/payment/crypto.webp",
   },
   {
     icon: (
@@ -39,7 +39,7 @@ const paymentMethodCards: HomeFeatureCard[] = [
     ctaLabel: "Pay with Wise",
     ctaHref: CONTACT.telegram.officialWithMessage,
     isMiddle: true,
-    image: "/payment/wise.svg",
+    image: "/payment/wise.webp",
   },
   {
     icon: (
@@ -53,7 +53,7 @@ const paymentMethodCards: HomeFeatureCard[] = [
       "Prefer a different payment option? Contact our team and we'll find the right setup for you.",
     ctaLabel: "Contact us",
     ctaHref: "/contact",
-    image: "/payment/support.svg",
+    image: "/payment/support.webp",
   },
 ]
 

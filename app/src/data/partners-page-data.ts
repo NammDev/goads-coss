@@ -23,7 +23,7 @@ export const partnersOffers = {
       href: "https://www.adspower.com",
     },
     {
-      imageSrc: "/partner/DOLPHIN.svg",
+      imageSrc: "/partner/DOLPHIN.webp",
       title: "Dolphin{anty}",
       description: "Antidetect browser built for media buyers managing accounts at scale. Special partner rate inside.",
       href: "https://dolphin-anty.com",

@@ -51,7 +51,7 @@ const defaultCards: HomeFeatureCard[] = [
     description: "Message us on Telegram, WhatsApp or Discord and get a real answer from a real person, around the clock, no tickets, no waiting.",
     ctaLabel: "Contact Us",
     ctaHref: "/contact",
-    image: "/landing/community/support.png",
+    image: "/landing/community/support.webp",
   },
   {
     icon: (
@@ -77,7 +77,7 @@ const defaultCards: HomeFeatureCard[] = [
     description: "Policy shifts, new products and insider playbooks, straight from the GOADS team, before they cost you a campaign.",
     ctaLabel: "Read the Blog",
     ctaHref: "/blog",
-    image: "/landing/community/blog.png",
+    image: "/landing/community/blog.webp",
   },
 ]
 

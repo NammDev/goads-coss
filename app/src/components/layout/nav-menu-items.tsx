@@ -41,11 +41,11 @@ export const TOOLS_GROUPS: NavMenuGroup[] = [
 // ── Product (foreplay nav-product-menu — Products / Services) — uses img icons ──
 export const PRODUCT_GROUPS: NavMenuGroup[] = [
   { overline: "Products", items: [
-    { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/bm", img: "/assets/BM.svg" },
-    { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/profiles", img: "/assets/PROFILES.svg" },
-    { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/pages", img: "/navbar/pages.svg" },
-    { label: "Agency Ad Account", desc: "Verified Meta accounts, higher caps.", href: "/agency-ad-account", img: "/assets/META.svg" },
-    { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/tiktok-accounts", img: "/navbar/tiktok.svg" },
+    { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/bm", img: "/assets/BM.webp" },
+    { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/profiles", img: "/assets/PROFILES.webp" },
+    { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/pages", img: "/navbar/pages.webp" },
+    { label: "Agency Ad Account", desc: "Verified Meta accounts, higher caps.", href: "/agency-ad-account", img: "/assets/META.webp" },
+    { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/tiktok-accounts", img: "/navbar/tiktok.webp" },
   ]},
   { overline: "Services", items: [
     { label: "Unban Service", desc: "Recover disabled BMs, profiles & pages.", href: "/unban", icon: IconChrome },

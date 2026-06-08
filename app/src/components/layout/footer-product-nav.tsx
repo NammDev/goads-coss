@@ -22,11 +22,11 @@ interface FooterProduct {
 // GoAds product nav — 5 core products. Icons swapped from Foreplay's sprite WebPs
 // (footer_1-5.webp) to GoAds brand SVGs that match the header nav + product hero icons.
 const defaultProducts: FooterProduct[] = [
-  { iconSrc: "/assets/BM.svg",       subtitle: "BM1–BM10, verified",     label: "Business Manager",  href: "/bm" },
-  { iconSrc: "/assets/PROFILES.svg", subtitle: "Aged, verified accounts", label: "Facebook Profile",  href: "/profiles" },
-  { iconSrc: "/assets/PAGES.svg",    subtitle: "Niche, verified pages",   label: "Facebook Fanpage",  href: "/pages" },
-  { iconSrc: "/assets/META.svg",     subtitle: "Unlimited daily spend",   label: "Agency Ad Account", href: "/agency-ad-account" },
-  { iconSrc: "/assets/TIKTOK.svg",   subtitle: "Shop & Business Center",  label: "TikTok Asset",      href: "/tiktok-accounts" },
+  { iconSrc: "/assets/BM.webp",       subtitle: "BM1–BM10, verified",     label: "Business Manager",  href: "/bm" },
+  { iconSrc: "/assets/PROFILES.webp", subtitle: "Aged, verified accounts", label: "Facebook Profile",  href: "/profiles" },
+  { iconSrc: "/assets/PAGES.webp",    subtitle: "Niche, verified pages",   label: "Facebook Fanpage",  href: "/pages" },
+  { iconSrc: "/assets/META.webp",     subtitle: "Unlimited daily spend",   label: "Agency Ad Account", href: "/agency-ad-account" },
+  { iconSrc: "/assets/TIKTOK.webp",   subtitle: "Shop & Business Center",  label: "TikTok Asset",      href: "/tiktok-accounts" },
 ]
 
 interface FooterProductNavProps {

@@ -34,7 +34,7 @@ export default function HomePage() {
           tabImages={[
             // [0] Meta Assets → custom GoAds visual; [1] TikTok Assets → original (unchanged)
             "/assets/meta-assets.webp",
-            "/assets/tiktok%20asset.svg",
+            "/assets/tiktok-asset.webp",
           ]}
         />
 

@@ -10,6 +10,8 @@
 
 "use client"
 
+import Image from "next/image"
+
 import { CtaButton } from "@/components/atoms/cta-button"
 import { TrialCtaButton } from "@/components/atoms/trial-cta-button"
 import { siteText, SITE_HERO_GRADIENT } from "@/components/atoms/typography"
@@ -93,18 +95,18 @@ export function ProductHero({
               With iconVideoSrc: image is desktop-hidden + invisible (video plays in absolute layer).
               Without iconVideoSrc: image fills the 256×256 desktop slot (size-full), then shrinks
               to 128×128 / 108×108 on tablet/mobile to match original responsive icon scale. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={iconSrc}
             alt={`${overline} icon`}
             width={128}
             height={128}
+            priority
+            sizes="128px"
             className={
               iconVideoSrc
                 ? "invisible hidden max-md:block max-md:size-32 max-sm:size-[108px]"
                 : "size-32 object-contain max-sm:size-[108px]"
             }
-            loading="eager"
           />
         </div>
 
@@ -170,14 +172,14 @@ export function ProductHero({
         )}
 
         {/* .product-hero-preview-image — monitor mockup frame (z-2) */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={previewImageSrc}
           alt="Product preview"
           width={1440}
           height={900}
+          priority
+          sizes="(max-width: 768px) 100vw, 1440px"
           className="pointer-events-none relative z-[2] aspect-[16/10] w-full"
-          loading="eager"
         />
 
         {/* .product-hero-preview-underlay — gradient, display:none on desktop */}

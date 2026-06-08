@@ -9,6 +9,8 @@
 
 "use client"
 
+import Image from "next/image"
+
 import { cn } from "@/lib/utils"
 
 // Hero video replaced with a static GoAds product visual (FB-blue Foreplay-style)
@@ -40,13 +42,14 @@ export function HomeHeroVideo({ className }: HomeHeroVideoProps) {
           {/* .homepage-video slot: aspect 1400/730 — static hero image.
               Source desktop has no radius; rounded-3xl (24px, Foreplay large-block
               standard) added per request so the image corners are curved. */}
-          <div className="w-full overflow-hidden rounded-3xl [aspect-ratio:1400/730]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div className="relative w-full overflow-hidden rounded-3xl [aspect-ratio:1400/730]">
+            <Image
               src={HERO_IMAGE_SRC}
               alt="GOADS verified Meta assets, Business Manager, Pages, Instagram, ad accounts, customer growth"
-              className="size-full object-cover"
-              loading="eager"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 1400px"
+              className="object-cover"
             />
           </div>
 

@@ -5,6 +5,8 @@
 // .main-cta-buttons: flex, gap-3, items-center
 // .home-cta-image-wrapper: margin -8% -40px (bleeds out)
 
+import Image from "next/image"
+
 import { SectionHead } from "@/components/atoms/section-head"
 import { CtaButton } from "@/components/atoms/cta-button"
 
@@ -38,12 +40,12 @@ export function HomeCta() {
           mask-gradient (starts at 40% — laptop level — to hide lower body/belly) dissolves
           the subject seamlessly into the footer. */}
       <div className="flex justify-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/assets/cta-command-center.webp"
           alt="GOADS account infrastructure command center"
           width={1440}
           height={966}
+          sizes="(max-width: 768px) 100vw, 1037px"
           className="h-auto w-full max-w-[1037px] [mask-image:linear-gradient(to_bottom,black_62%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_62%,transparent_98%)]"
           loading="lazy"
         />

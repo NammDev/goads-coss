@@ -22,7 +22,7 @@ const contactChannelCards: HomeFeatureCard[] = [
       "@goads_official, Fastest way to reach us. Live support, 24/7.",
     ctaLabel: "Message on Telegram",
     ctaHref: CONTACT.telegram.officialWithMessage,
-    image: "/contact/telegram.svg",
+    image: "/contact/telegram.webp",
   },
   {
     icon: <WhatsAppLogo className="size-6" />,
@@ -32,7 +32,7 @@ const contactChannelCards: HomeFeatureCard[] = [
     ctaLabel: "Chat on WhatsApp",
     ctaHref: CONTACT.whatsapp.withMessage,
     isMiddle: true,
-    image: "/contact/whats%20app.svg",
+    image: "/contact/whats%20app.webp",
   },
   {
     icon: <MailIcon />,
@@ -40,7 +40,7 @@ const contactChannelCards: HomeFeatureCard[] = [
     description: `${CONTACT.email}, For detailed requests, invoices and documents.`,
     ctaLabel: "Send an Email",
     ctaHref: `mailto:${CONTACT.email}`,
-    image: "/contact/gmail.svg",
+    image: "/contact/gmail.webp",
   },
 ]
 

@@ -72,11 +72,11 @@ import { NavBanner3dLogo } from "@/components/layout/nav-banner-3d-logo"
 // Gradient key matches the icon's brand color (sampled from each SVG's primary stop-color)
 // so the hover glow reads as "this product's accent" rather than the original Foreplay sprites.
 const products = [
-  { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/bm", icon: "/assets/BM.svg", gradient: "blue" },
-  { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/profiles", icon: "/assets/PROFILES.svg", gradient: "green" },
-  { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/pages", icon: "/navbar/pages.svg", gradient: "purple" },
-  { label: "Agency Ad Account", desc: "Verified Meta accounts with higher daily caps.", href: "/agency-ad-account", icon: "/assets/META.svg", gradient: "meta" },
-  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/tiktok-accounts", icon: "/navbar/tiktok.svg", gradient: "tiktok" },
+  { label: "Business Manager", desc: "BM1–BM10, verified & aged tiers.", href: "/bm", icon: "/assets/BM.webp", gradient: "blue" },
+  { label: "Facebook Profile", desc: "Aged profiles, ready to run.", href: "/profiles", icon: "/assets/PROFILES.webp", gradient: "green" },
+  { label: "Facebook Pages", desc: "Verified fan pages with real reach.", href: "/pages", icon: "/navbar/pages.webp", gradient: "purple" },
+  { label: "Agency Ad Account", desc: "Verified Meta accounts with higher daily caps.", href: "/agency-ad-account", icon: "/assets/META.webp", gradient: "meta" },
+  { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/tiktok-accounts", icon: "/navbar/tiktok.webp", gradient: "tiktok" },
 ]
 
 // SERVICES — value-added recovery & verification offerings

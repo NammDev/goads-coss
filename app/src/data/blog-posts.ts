@@ -66,7 +66,7 @@ export const blogPosts: BlogPost[] = [
     author: namNguyen,
     date: "June 6, 2026",
     readTime: "7 min read",
-    coverImage: "/assets/blog/how-much-can-you-scale-ad-budget.png",
+    coverImage: "/assets/blog/how-much-can-you-scale-ad-budget.webp",
     featured: true,
     popular: true,
     sections: [

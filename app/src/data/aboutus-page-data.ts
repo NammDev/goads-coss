@@ -55,7 +55,7 @@ export const aboutusTestimonials = [
     authorName: "",
     authorRole: "",
     authorImageSrc: "",
-    bgImageSrc: "/about/Copy%20of%203.svg",
+    bgImageSrc: "/about/Copy%20of%203.webp",
     bgImageAlt: "Why GOADS",
   },
 ]

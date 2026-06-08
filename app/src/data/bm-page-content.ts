@@ -15,7 +15,7 @@ export const bmProductCta = {
 // Spacing follows Foreplay's --py-section scale (108/96/80) for bottom padding
 // to replace the breathing room the preview block normally provides.
 export const bmHero = {
-  iconSrc: "/assets/BM.svg",
+  iconSrc: "/assets/BM.webp",
   overline: "Business Managers",
   title: "Buy Verified Meta Business Managers",
   description: "BM1 to BM2500, verified by Meta, ready to run high-budget ads. Skip the disabled-account loop, start with a BM your auction actually trusts.",
@@ -29,12 +29,12 @@ export const bmFeatureGrid1 = {
   title: "Everything You Need to Scale",
   description: "From verified BMs to recovery services. Built for advertisers who refuse to babysit disabled accounts.",
   cards: [
-    { imageSrc: "/assets/icons/1.svg", title: "Business Manager", description: "BM1, BM3, BM5, BM10, all Meta-verified. Pick the DSL that fits your spend." },
-    { imageSrc: "/assets/icons/2.png", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your BM. Clean history, ready to run." },
-    { imageSrc: "/assets/icons/3.png", title: "Unban Service", description: "BM banned? Ad account disabled? We recover the asset so you keep the pixel." },
-    { imageSrc: "/assets/icons/4.png", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on your BM assets." },
-    { imageSrc: "/assets/icons/5.png", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Diversify beyond Meta without the disable risk." },
-    { imageSrc: "/assets/icons/6.png", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator. Free utilities for media buyers." },
+    { imageSrc: "/assets/icons/1.webp", title: "Business Manager", description: "BM1, BM3, BM5, BM10, all Meta-verified. Pick the DSL that fits your spend." },
+    { imageSrc: "/assets/icons/2.webp", title: "Facebook Profiles", description: "Aged, ID-verified profiles to pair with your BM. Clean history, ready to run." },
+    { imageSrc: "/assets/icons/3.webp", title: "Unban Service", description: "BM banned? Ad account disabled? We recover the asset so you keep the pixel." },
+    { imageSrc: "/assets/icons/4.webp", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost on your BM assets." },
+    { imageSrc: "/assets/icons/5.webp", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Diversify beyond Meta without the disable risk." },
+    { imageSrc: "/assets/icons/6.webp", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator. Free utilities for media buyers." },
   ],
 }
 
@@ -51,12 +51,12 @@ export const bmFeatureGrid1Testimonial = {
 // Section 5 (feature grid 2): Resources — uses bento2 images
 export const bmFeatureGrid2 = {
   cards: [
-    { imageSrc: "/assets/bm/Group%20996.svg", title: "BM1 vs BM3 vs BM5: Which Do You Need?", description: "Match the ad account count to your spend. A clear breakdown of who buys which tier." },
-    { imageSrc: "/assets/bm/Group%20997.svg", title: "Unlimited DSL vs $250 DSL: Real-World Cost", description: "Break-even math for scaling campaigns. When the premium tier actually pays off." },
-    { imageSrc: "/assets/bm/Group%20998.svg", title: "Why Verified BMs Survive 10× Longer", description: "The trust-score mechanics behind Meta's verification and why it matters for disables." },
-    { imageSrc: "/assets/bm/Group%201000.svg", title: "How to Add Ad Accounts to a Verified BM", description: "Step-by-step workflow to add, share and assign accounts without tripping policy flags." },
-    { imageSrc: "/assets/bm/Group%201002.svg", title: "BM10, BM50, BM100: Enterprise Scaling Guide", description: "When to graduate from BM5 to multi-account enterprise structures. Agency playbook." },
-    { imageSrc: "/assets/bm/Group%201004.svg", title: "WhatsApp Business API Setup on a Verified BM", description: "Connect WABA, pick your messaging tier, and start conversational ads, in under an hour." },
+    { imageSrc: "/assets/bm/Group%20996.webp", title: "BM1 vs BM3 vs BM5: Which Do You Need?", description: "Match the ad account count to your spend. A clear breakdown of who buys which tier." },
+    { imageSrc: "/assets/bm/Group%20997.webp", title: "Unlimited DSL vs $250 DSL: Real-World Cost", description: "Break-even math for scaling campaigns. When the premium tier actually pays off." },
+    { imageSrc: "/assets/bm/Group%20998.webp", title: "Why Verified BMs Survive 10× Longer", description: "The trust-score mechanics behind Meta's verification and why it matters for disables." },
+    { imageSrc: "/assets/bm/Group%201000.webp", title: "How to Add Ad Accounts to a Verified BM", description: "Step-by-step workflow to add, share and assign accounts without tripping policy flags." },
+    { imageSrc: "/assets/bm/Group%201002.webp", title: "BM10, BM50, BM100: Enterprise Scaling Guide", description: "When to graduate from BM5 to multi-account enterprise structures. Agency playbook." },
+    { imageSrc: "/assets/bm/Group%201004.webp", title: "WhatsApp Business API Setup on a Verified BM", description: "Connect WABA, pick your messaging tier, and start conversational ads, in under an hour." },
   ],
 }
 

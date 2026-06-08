@@ -11,7 +11,7 @@ export const profilesProductCta = {
 // Section 1: Hero — text-only variant (laptop preview + CTA removed).
 // Bottom padding switches to --py-section scale (108/96/80) in ProductHero.
 export const profilesHero = {
-  iconSrc: "/assets/PROFILES.svg",
+  iconSrc: "/assets/PROFILES.webp",
   overline: "Facebook Profiles",
   title: "Buy Aged Facebook Profiles",
   description: "Run ads without interruptions. Pre-tested, ID-verified, and backed by warranty. The foundation every serious advertiser needs.",
@@ -26,11 +26,11 @@ export const profilesFeatureGrid1 = {
   description: "From stable assets to recovery services. Built for advertisers who need reliability.",
   cards: [
 
-    { imageSrc: "/profiles/all-products/Business%20Manager.svg", title: "Business Manager", description: "Verified BM1 to BM5. The foundation for serious ad operations." },
-    { imageSrc: "/profiles/all-products/Facebook%20Pages.svg", title: "Facebook Pages", description: "Aged pages with followers. Ready to run ads and build trust." },
-    { imageSrc: "/profiles/all-products/Unban%20Service.svg", title: "Unban Service", description: "Profile, Page, Ad Account, BM. We bring them back to life." },
-    { imageSrc: "/profiles/all-products/Verified%20Badge.svg", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost." },
-    { imageSrc: "/profiles/all-products/TikTok%20Assets.svg", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Scale on the fastest-growing platform." },
+    { imageSrc: "/profiles/all-products/Business%20Manager.webp", title: "Business Manager", description: "Verified BM1 to BM5. The foundation for serious ad operations." },
+    { imageSrc: "/profiles/all-products/Facebook%20Pages.webp", title: "Facebook Pages", description: "Aged pages with followers. Ready to run ads and build trust." },
+    { imageSrc: "/profiles/all-products/Unban%20Service.webp", title: "Unban Service", description: "Profile, Page, Ad Account, BM. We bring them back to life." },
+    { imageSrc: "/profiles/all-products/Verified%20Badge.webp", title: "Verified Badge", description: "Blue tick for Pages and Instagram. Instant credibility boost." },
+    { imageSrc: "/profiles/all-products/TikTok%20Assets.webp", title: "TikTok Assets", description: "Accounts, Shops, Business Centers. Scale on the fastest-growing platform." },
     { imageSrc: "/profiles/all-products/Free%20Tools.svg", title: "Free Tools", description: "BM Invite, Cookie Login, 2FA Generator and more. Built to save you time." },
   ],
 }
@@ -49,11 +49,11 @@ export const profilesFeatureGrid1Testimonial = {
 export const profilesFeatureGrid2 = {
   cards: [
     { imageSrc: "/profiles/features/How%20to%20Warm%20Up%20Facebook%20Profiles.svg", title: "How to Warm Up Facebook Profiles", description: "Step-by-step guide to prepare your profile before running ads. Avoid checkpoints from day one." },
-    { imageSrc: "/profiles/features/BM1%20vs%20BM5%20Which%20One%20Do%20You%20Need.svg", title: "BM1 vs BM5: Which One Do You Need?", description: "Breaking down the differences. Find the right Business Manager for your ad spend level." },
-    { imageSrc: "/profiles/features/Why%20Your%20Ad%20Account%20Keeps%20Getting%20Banned.svg", title: "Why Your Ad Account Keeps Getting Banned", description: "Common mistakes that trigger Meta's algorithm. And how to avoid them." },
-    { imageSrc: "/profiles/features/Aged%20Profiles%20vs%20Fresh%20Accounts.svg", title: "Aged Profiles vs Fresh Accounts", description: "Why aged profiles survive longer. The science behind account trust scores." },
-    { imageSrc: "/profiles/features/How%20to%20Bypass%20Facebook%20Verification.svg", title: "How to Bypass Facebook Verification", description: "Stuck on selfie or ID verification? Here's what actually works." },
-    { imageSrc: "/profiles/features/Facebook%20Ads%20in%202026%20What_s%20Changed.svg", title: "Facebook Ads in 2026: What's Changed", description: "Platform updates, policy shifts, and what it means for advertisers this year." },
+    { imageSrc: "/profiles/features/BM1%20vs%20BM5%20Which%20One%20Do%20You%20Need.webp", title: "BM1 vs BM5: Which One Do You Need?", description: "Breaking down the differences. Find the right Business Manager for your ad spend level." },
+    { imageSrc: "/profiles/features/Why%20Your%20Ad%20Account%20Keeps%20Getting%20Banned.webp", title: "Why Your Ad Account Keeps Getting Banned", description: "Common mistakes that trigger Meta's algorithm. And how to avoid them." },
+    { imageSrc: "/profiles/features/Aged%20Profiles%20vs%20Fresh%20Accounts.webp", title: "Aged Profiles vs Fresh Accounts", description: "Why aged profiles survive longer. The science behind account trust scores." },
+    { imageSrc: "/profiles/features/How%20to%20Bypass%20Facebook%20Verification.webp", title: "How to Bypass Facebook Verification", description: "Stuck on selfie or ID verification? Here's what actually works." },
+    { imageSrc: "/profiles/features/Facebook%20Ads%20in%202026%20What_s%20Changed.webp", title: "Facebook Ads in 2026: What's Changed", description: "Platform updates, policy shifts, and what it means for advertisers this year." },
   ],
 }
 
@@ -132,32 +132,32 @@ export const profilesResourcesSection = {
 
 export const profilesResourceCards = [
   {
-    imageSrc: "/images/placeholder.webp",
+    imageSrc: "/profiles/features/How%20to%20Warm%20Up%20Facebook%20Profiles.svg",
     title: "How to Warm Up Facebook Profiles",
     description: "Step-by-step guide to prepare your profile before running ads. Avoid checkpoints from day one.",
   },
   {
-    imageSrc: "/images/placeholder.webp",
+    imageSrc: "/profiles/features/BM1%20vs%20BM5%20Which%20One%20Do%20You%20Need.webp",
     title: "BM1 vs BM5: Which One Do You Need?",
     description: "Breaking down the differences. Find the right Business Manager for your ad spend level.",
   },
   {
-    imageSrc: "/images/placeholder.webp",
+    imageSrc: "/profiles/features/Why%20Your%20Ad%20Account%20Keeps%20Getting%20Banned.webp",
     title: "Why Your Ad Account Keeps Getting Banned",
     description: "Common mistakes that trigger Meta's algorithm. And how to avoid them.",
   },
   {
-    imageSrc: "/images/placeholder.webp",
+    imageSrc: "/profiles/features/Aged%20Profiles%20vs%20Fresh%20Accounts.webp",
     title: "Aged Profiles vs Fresh Accounts",
     description: "Why aged profiles survive longer. The science behind account trust scores.",
   },
   {
-    imageSrc: "/images/placeholder.webp",
+    imageSrc: "/profiles/features/How%20to%20Bypass%20Facebook%20Verification.webp",
     title: "How to Bypass Facebook Verification",
     description: "Stuck on selfie or ID verification? Here's what actually works.",
   },
   {
-    imageSrc: "/images/placeholder.webp",
+    imageSrc: "/profiles/features/Facebook%20Ads%20in%202026%20What_s%20Changed.webp",
     title: "Facebook Ads in 2026: What's Changed",
     description: "Platform updates, policy shifts, and what it means for advertisers this year.",
   },
