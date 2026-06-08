@@ -8,7 +8,10 @@ import Cal, { getCalApi } from "@calcom/embed-react"
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 
-const CAL_LINK = "nam-khanh-nguyen-dhpuv7/30min"
+// theme=dark in the link forces the booker iframe to boot dark from its very
+// first render (URL-level) — avoids the race where cal("ui",{theme}) runs after
+// the iframe already painted light (bg-default = white) on our all-dark page.
+const CAL_LINK = "nam-khanh-nguyen-dhpuv7/30min?theme=dark"
 const CAL_NAMESPACE = "goads-sales-consultation"
 
 interface CalEmbedProps {
