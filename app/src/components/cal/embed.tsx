@@ -8,8 +8,12 @@ import Cal, { getCalApi } from "@calcom/embed-react"
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 
-// Matches the official Cal "dark theme" embed snippet (event Appearance set to
-// Dark on cal.com): namespace "30min", theme dark in BOTH config and ui.
+// NOTE: the booker's light/dark is controlled by cal.com, NOT this code. We pass
+// theme:"dark" (config + ui) which is the correct embed setup, but if the booker
+// still renders light it's because the cal.com EVENT TYPE Appearance/Theme is not
+// forced to Dark (it then follows the viewer's OS prefers-color-scheme). Verified:
+// even cal.com/.../30min?theme=dark renders light on a light-OS browser until the
+// event appearance is forced dark on cal.com. Fix that toggle on cal.com.
 const CAL_LINK = "nam-khanh-nguyen-dhpuv7/30min"
 const CAL_NAMESPACE = "30min"
 
