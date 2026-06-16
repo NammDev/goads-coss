@@ -92,7 +92,7 @@ export function CalEmbed({ className }: CalEmbedProps) {
         namespace={CAL_NAMESPACE}
         calLink={CAL_LINK}
         config={{ layout: "month_view", useSlotsViewOnSmallScreen: "true", theme: "dark" }}
-        style={{ width: "100%", minHeight: "500px" }}
+        style={{ width: "100%", minHeight: "500px", background: "var(--background)", colorScheme: "dark" }}
         className={cn("transition-opacity duration-300", ready ? "opacity-100" : "opacity-0")}
       />
     </div>
