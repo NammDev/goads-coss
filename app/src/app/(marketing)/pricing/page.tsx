@@ -11,7 +11,7 @@ import { ProductPageFaqAccordion } from "@/components/product/page-faq-accordion
 import { PricingCard } from "@/components/pricing/card"
 import { PricingFooterCta } from "@/components/pricing/footer-cta"
 import { PricingComparison } from "@/components/pricing/comparison"
-import { SITE_HERO_GRADIENT } from "@/components/atoms/typography"
+import { SITE_HERO_GRADIENT, siteText } from "@/components/atoms/typography"
 import { goadsSetupCards, goadsPricingFaqItems } from "@/data/pricing-setups-data"
 import { catalogCategories, catalogHeaderColumns } from "@/data/product-catalog-table-data"
 import { CONTACT } from "@/data/contact-info"
@@ -84,6 +84,25 @@ export default function PricingPage() {
           />
         </SectionContainer>
       </SectionWhiteBlock>
+
+      {/* ═══ Legal disclaimer — advertising-only use notice (VN compliance) ═══ */}
+      {/* tokens: border --alpha-700 (#ffffff1a/10%), bg --alpha-900 (#ffffff08/3%), */}
+      {/* body --alpha-100 (#ffffffad/68%), emphasis --alpha-25 (#ffffffeb/92%) */}
+      <section>
+        <SectionContainer variant="wide">
+          <div className="mx-auto flex max-w-[820px] flex-col gap-3 rounded-2xl border border-[var(--alpha-700)] bg-[var(--alpha-900)] px-8 py-6 text-left max-sm:px-5 max-sm:py-5">
+            <p className={`${siteText.bodyS} leading-6 text-[var(--alpha-100)]`}>
+              The resources on this website are provided strictly for{" "}
+              <strong className="font-[550] text-[var(--alpha-25)]">ADVERTISING</strong> purposes only. We assume no
+              liability whatsoever for any unlawful use of these resources by customers.
+            </p>
+            <p className={`${siteText.bodyS} leading-6 text-[var(--alpha-100)]`}>
+              We only sell cleanly nurtured and aged Pages &amp; Profiles. We strictly do not sell hacked, stolen, or
+              scam-related accounts from real individuals or organizations.
+            </p>
+          </div>
+        </SectionContainer>
+      </section>
 
       {/* ═══ Section 3: FAQ ═══ */}
       <section>

@@ -28,6 +28,8 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "BM3 Verified", basic: "$180", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM5 Verified ($250 DSL)", basic: "$340", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM5 Verified (Unlimited DSL)", basic: "$390", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "BM WABA 250 limit (WhatsApp API)", basic: "$100", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "BM WABA 2000 limit (WhatsApp API)", basic: "$240", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM10 Verified ($250 DSL)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
       { name: "BM10 Verified (Unlimited DSL)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
       { name: "BM50", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
