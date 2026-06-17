@@ -798,3 +798,40 @@ Verbatim Foreplay carousel spec (verified from `foreplay-source.css`):
 - [x] Privacy Policy rewrite + Foreplay typography ✅ (260605) — replaced legacy Foreplay copy (hello@foreplay.co, Chrome-extension refs) with GOADS privacy policy (6 sections: Information We Collect, How We Use Information, Acceptable Use, Data Security & Retention, Policy Updates, Contact). Prose rescaled to match /refund-policy: h3 → headingL 1.125rem/font-550, body/li 1rem, hr separators, solid-900 headings/strong/links. Also removed /terms-of-service page + all its links (footer, sitemap).
 
 - [x] Mobile menu CTA button height → Foreplay spec (260605) — "Contact Us" pill was rounded-[12px] px-4 py-3 (too tall). Set to .button-dark spec: rounded-[10px] p-2 font-semibold.
+
+## Giveaway Route `/giveaway` — Foreplay MCP UI Clone (260616) ✅
+
+Content-only clone of `foreplay.co/mcp` into a new marketing route (200 free aged Facebook pages). Pixel target: `Screenshot 2026-06-16 182639.png` (hero + tabs + 3-step grid) + `182650.png` (alternating feature rows).
+
+### Source-of-truth note
+- Vendored `foreplay-source.css` (bundle `be2f89f77`) PREDATED the MCP page → `.mcp-*`/`.tabs-2` classes absent. Pulled the LIVE bundle `foreplay-3-0.shared.4bb351b52.min.css` → saved as `docs/foreplay/html/foreplay-source-latest.css` (canonical going forward). Exact rules extracted to `plans/260616-1827-giveaway-route/research/researcher-03-exact-mcp-css.md`.
+
+### New components (`app/src/components/giveaway/`)
+| Component | Foreplay class | Notes |
+|-----------|---------------|-------|
+| `giveaway-hero.tsx` | `.product-hero` / `.api-hero-content` / `.mcp-tag` | Dedicated hero (tag pill + 2 CTAs, no preview). Reuses `useHeroScrollAnimation`. NOT extending ProductHero. |
+| `giveaway-method-tabs.tsx` | `.mcp-tabs-menu` / `.mcp-tab-link` | Telegram/Discord segmented control. Active `.w--current` = `--alpha-700`; hover `--alpha-800`. Presentational, isolated (removable for single-grid). |
+| `giveaway-claim-steps.tsx` | `.tabs-2` / `.mcp-steps-grid` / `.mcp-steps-wrapper` | Client; owns tab state; 3-step grid (same steps both panes) + urgency + progress. |
+| `giveaway-step-chip.tsx` | `.mcp-steps-button` / `.div-block-362` | link chip (external + chevron) / copy chip (clipboard + "Copied!" 1.5s). |
+| `giveaway-progress-bar.tsx` | (NEW — not in source) | Deterministic auto-increment `min(cap, base+floor(elapsedHours*rate))`, 60s tick, hydration-safe (base on first render). track `--alpha-700` / fill `foreground`. |
+| `giveaway-feature-rows.tsx` | `.lens-gamification-grid/-content/-illustration` | 4 alternating rows (DOM-order flip), white block. Reuses SectionWhiteBlock/Container/Head + CtaButton `light-stroke`. |
+
+### Token map (no hex in JSX)
+`var(--_lens---neutral-700)`/`#ffffff1f` → `--alpha-700` (10%); `#ffffff14` → `--alpha-800` (6%); `#fff0` → transparent; white → `foreground`; subtitle/body muted → `--alpha-100` (68%).
+
+### Reused atoms
+`CtaButton` (hero/secondary/light-stroke), `SectionContainer` (wide/section), `SectionWhiteBlock`, `SectionHead` (left-align via className), `DotBg`, `useHeroScrollAnimation`, `siteText`/`SITE_HERO_GRADIENT`.
+
+### Data + route
+- `app/src/data/giveaway-page-data.ts` — all copy + links (`"#"` placeholders) + progress config.
+- `app/src/app/(marketing)/giveaway/page.tsx` — composes Hero+Steps (dark) → FeatureRows (white) → HomeCta; metadata + canonical + OG.
+
+### Modified
+- `home/cta.tsx` — parametrized with OPTIONAL props (title/description/primary*/secondary*/imageSrc) defaulting to original literals; secondary CTA renders only when label provided. All 14 existing `<HomeCta />` usages unchanged.
+
+### Deviations / placeholders (fine-tune later)
+- KEPT the MCP tab switcher for fidelity, repurposed as Telegram/Discord (same 3 steps both panes).
+- Telegram/Discord links = `"#"`; feature-row images = `/assets/giveaway/row-1..4.webp` placeholders; `ratePerHour: 1` (tune to giveaway window).
+
+### Hero pixel-rebuild (260617) — `giveaway-hero.tsx` rewritten 1:1 vs `mcp-hero.css`
+Source-of-truth = user-provided `docs/foreplay/html/mcp-hero.css` (focused exact CSS) + `mcp-hero.html` + `Screenshot 2026-06-16 182639.png`. Rebuilt the `.product-hero` block to match source DOM verbatim: `.product-hero` (pt-[10px] pb-0 col center) → `.product-hero-sticky` (sticky top-[100px]) → `.api-hero-content` (gap-7 pb-[42px]) → `.mcp-tag` (gap-1 rounded-full bg-[var(--alpha-700)] py-1.5 pr-2.5 pl-1.5 + icon-24 placeholder + label-m "MCP") + `.hero-text` (max-w-[900px] gap-4: displayH1 gradient title + max-w-[512px]/alpha-100 body-l subtitle) + `.main-cta-buttons` (z-[2] gap-3: CtaButton hero "Start now" + secondary "View Pricing"). Verified: `max-w-site`=1440px and `--alpha-700`=#ffffff1a=neutral-700 (exact). `.text-white-84` has NO CSS rule in bundle → subtitle correctly inherits alpha-100 (68%). **Original Foreplay copy kept temporarily for pixel verification — content swaps to giveaway next.** Build + lint clean.

@@ -10,28 +10,51 @@ import Image from "next/image"
 import { SectionHead } from "@/components/atoms/section-head"
 import { CtaButton } from "@/components/atoms/cta-button"
 
-export function HomeCta() {
+// All props OPTIONAL with the original literals as defaults → existing
+// `<HomeCta />` usages (14 pages) keep working unchanged. Pass overrides to reuse
+// this final-CTA layout with custom copy (e.g. the /giveaway route).
+interface HomeCtaProps {
+  title?: string
+  description?: string
+  primaryLabel?: string
+  primaryHref?: string
+  secondaryLabel?: string
+  secondaryHref?: string
+  imageSrc?: string
+}
+
+export function HomeCta({
+  title = "Your next winning campaign starts here",
+  description = "Join 500+ advertisers who trust GOADS. Stable assets, real support, instant replacement.",
+  primaryLabel = "Get Started",
+  primaryHref = "/pricing",
+  secondaryLabel = "View Pricing",
+  secondaryHref = "/pricing",
+  imageSrc = "/assets/cta-command-center.webp",
+}: HomeCtaProps = {}) {
   // .home-cta — pt 108 desktop → 80px ≤991 (Foreplay)
   return (
     <div className="flex flex-col items-center gap-9 pt-[108px] max-fp-lg:pt-20">
       {/* .section-head.is-large */}
       <SectionHead
-        title="Your next winning campaign starts here"
+        title={title}
         titleTag="h2" titleSize="h2"
-        description="Join 500+ advertisers who trust GOADS. Stable assets, real support, instant replacement."
+        description={description}
         descSize="l"
         variant="light"
         size="large"
       />
 
-      {/* .main-cta-buttons */}
+      {/* .main-cta-buttons — secondary rendered only when a label is provided */}
       <div className="flex items-center gap-3">
-        <CtaButton href="/pricing" variant="hero">
-          Get Started
+        <CtaButton href={primaryHref} variant="hero">
+          {primaryLabel}
         </CtaButton>
-        <CtaButton href="/pricing" variant="secondary" showIcon={false}>
-          View Pricing
-        </CtaButton>
+        {secondaryLabel && (
+          <CtaButton href={secondaryHref} variant="secondary" showIcon={false}>
+            {secondaryLabel}
+          </CtaButton>
+        )}
       </div>
 
       {/* Image: transparent cutout, max-w 1037 (~72% of 1440 / 10% below prior 1152), centered.
@@ -41,7 +64,7 @@ export function HomeCta() {
           the subject seamlessly into the footer. */}
       <div className="flex justify-center">
         <Image
-          src="/assets/cta-command-center.webp"
+          src={imageSrc}
           alt="GOADS account infrastructure command center"
           width={1440}
           height={966}

@@ -1,6 +1,7 @@
 import { fontInter } from "@/fonts"
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
+import { GiveawayAnnouncementBar } from "@/components/layout/giveaway-announcement-bar"
 import { NavProgress } from "@/components/layout/nav-progress"
 import { CartPopover } from "@/components/cart-popover"
 
@@ -25,6 +26,7 @@ export default function MarketingLayout({
       ].join(" ")}
     >
       <NavProgress />
+      <GiveawayAnnouncementBar />
       <Header />
       {children}
       <Footer />
