@@ -106,7 +106,7 @@ export const giveawayFeatureRows = [
 // Sitewide announcement bar (above the header). Links to the giveaway route.
 // `highlight` is rendered in the amber accent to make the dollar value pop.
 export const giveawayBanner = {
-  text: "🎁 Giveaway: 200 free aged Facebook Pages worth ",
+  text: "🎁 Giveaway: 200 free super aged Facebook Pages worth ",
   highlight: "$7,000",
   cta: "Claim yours",
   href: "/giveaway",
