@@ -213,6 +213,13 @@
   --accent: #1c9cf0;
   --accent-soft: #1c9cf01f;   /* ~12% — chips, tints, hover */
 
+  /* Giveaway announcement bar — dark navy so the promo stands out from the
+     near-black page background. Center-bright gradient draws the eye. */
+  --giveaway-banner-bg: linear-gradient(90deg, #081226 0%, #112a63 50%, #081226 100%);
+  --giveaway-banner-border: #1d3a78;       /* navy edge, subtle separation */
+  --giveaway-banner-highlight: #ffd45e;    /* warm amber for the $7,000 value */
+  --giveaway-banner-cta-text: #0b1a3f;     /* navy text on the white CTA pill */
+
   --radius: 1rem;
 }
 

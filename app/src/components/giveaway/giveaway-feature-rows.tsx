@@ -14,7 +14,6 @@
 // ASYMMETRIC 5/7 split + place-items-center is the "so le" that balances each row.
 
 import Image from "next/image"
-import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
 import { SectionContainer } from "@/components/atoms/section-container"
 import { SectionHead } from "@/components/atoms/section-head"
 import { CtaButton } from "@/components/atoms/cta-button"
@@ -82,20 +81,20 @@ function GiveawayFeatureRow(row: FeatureRow) {
   )
 }
 
+// White-block wrapper is provided by the page (shared with the claim steps),
+// so this renders only the container + rows.
 export function GiveawayFeatureRows() {
   return (
-    <SectionWhiteBlock>
-      <SectionContainer variant="section">
-        {/* .v-padding-experts — padding 48px top/bottom */}
-        <div className="py-12">
-          {/* .div-block-360 — flex col, gap 100px between rows */}
-          <div className="flex flex-col gap-[100px]">
-            {giveawayFeatureRows.map((row) => (
-              <GiveawayFeatureRow key={row.title} {...row} />
-            ))}
-          </div>
+    <SectionContainer variant="section">
+      {/* .v-padding-experts — padding 48px top/bottom */}
+      <div className="py-12">
+        {/* .div-block-360 — flex col, gap 100px between rows */}
+        <div className="flex flex-col gap-[100px]">
+          {giveawayFeatureRows.map((row) => (
+            <GiveawayFeatureRow key={row.title} {...row} />
+          ))}
         </div>
-      </SectionContainer>
-    </SectionWhiteBlock>
+      </div>
+    </SectionContainer>
   )
 }

@@ -6,6 +6,7 @@
 // EXACT CSS (researcher-03): gap 8px / bg #ffffff14 (--alpha-800) / radius 8px /
 // mt 12px / padding 8px 8px 8px 12px; inner div-block-362 gap 6px / flex 1.
 
+import type { ReactNode } from "react"
 import { useState } from "react"
 import { siteText } from "@/components/atoms/typography"
 import { cn } from "@/lib/utils"
@@ -14,10 +15,17 @@ type GiveawayChip =
   | { kind: "link"; label: string; href: string }
   | { kind: "copy"; label: string; copyText: string }
 
+// Light styling — chips now sit on white cards in the white block.
 const CHIP_SHELL =
-  "flex items-center gap-2 rounded-lg bg-[var(--alpha-800)] mt-3 py-2 pr-2 pl-3 text-foreground no-underline transition-all hover:bg-[var(--alpha-700)]"
+  "flex items-center gap-2 rounded-lg border border-[var(--solid-100)] bg-white py-2 pr-2 pl-3 text-[var(--solid-700)] no-underline transition-all hover:bg-[var(--solid-25)]"
 
-export function GiveawayStepChip({ chip }: { chip: GiveawayChip }) {
+export function GiveawayStepChip({
+  chip,
+  leadingIcon,
+}: {
+  chip: GiveawayChip
+  leadingIcon?: ReactNode
+}) {
   const [copied, setCopied] = useState(false)
 
   if (chip.kind === "link") {
@@ -29,8 +37,11 @@ export function GiveawayStepChip({ chip }: { chip: GiveawayChip }) {
         className={CHIP_SHELL}
       >
         {/* .div-block-362 */}
-        <span className="flex flex-1 items-center gap-1.5">
-          <span className={cn(siteText.labelS, "text-foreground")}>
+        <span className="flex flex-1 items-center gap-2">
+          {leadingIcon && (
+            <span className="shrink-0 text-[var(--solid-700)]">{leadingIcon}</span>
+          )}
+          <span className={cn(siteText.labelS, "text-[var(--solid-700)]")}>
             {chip.label}
           </span>
         </span>
@@ -48,7 +59,7 @@ export function GiveawayStepChip({ chip }: { chip: GiveawayChip }) {
   return (
     <button type="button" onClick={onCopy} className={CHIP_SHELL}>
       <span className="flex flex-1 items-center gap-1.5">
-        <span className={cn(siteText.labelS, "text-foreground")}>
+        <span className={cn(siteText.labelS, "text-[var(--solid-700)]")}>
           {copied ? "Copied!" : chip.label}
         </span>
       </span>

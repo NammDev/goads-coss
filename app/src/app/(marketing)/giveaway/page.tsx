@@ -5,6 +5,7 @@
 
 import type { Metadata } from "next"
 import { SectionContainer } from "@/components/atoms/section-container"
+import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
 import { GiveawayHero } from "@/components/giveaway/giveaway-hero"
 import { GiveawayClaimSteps } from "@/components/giveaway/giveaway-claim-steps"
 import { GiveawayFeatureRows } from "@/components/giveaway/giveaway-feature-rows"
@@ -28,15 +29,17 @@ export const metadata: Metadata = {
 export default function GiveawayPage() {
   return (
     <>
-      {/* Section 1: Hero + Claim steps (plain dark background, no dot grid).
+      {/* Section 1: Hero (plain dark background, no dot grid).
           pt offsets the sticky translucent header so the hero doesn't hug it. */}
       <section className="relative overflow-hidden pt-8 max-sm:pt-8">
         <GiveawayHero />
-        <GiveawayClaimSteps />
       </section>
 
-      {/* Section 2: Feature rows (white block — component owns the white block) */}
-      <GiveawayFeatureRows />
+      {/* Section 2: White block — claim steps + feature rows share one white block */}
+      <SectionWhiteBlock>
+        <GiveawayClaimSteps />
+        <GiveawayFeatureRows />
+      </SectionWhiteBlock>
 
       {/* Section 3: FAQ (reused ProductPageFaqAccordion, dark bg, wide container) */}
       <section className="relative overflow-hidden">

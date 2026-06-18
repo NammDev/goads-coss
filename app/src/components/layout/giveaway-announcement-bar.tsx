@@ -38,22 +38,27 @@ export function GiveawayAnnouncementBar() {
   }
 
   return (
-    <div className="relative w-full border-b border-[var(--alpha-700)] bg-[var(--alpha-800)]">
+    <div className="relative w-full border-b border-[var(--giveaway-banner-border)] [background:var(--giveaway-banner-bg)]">
       <Link
         href={giveawayBanner.href}
-        className="group flex items-center justify-center gap-1.5 px-12 py-2.5 text-center no-underline"
+        className="group flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-12 py-3 text-center no-underline"
       >
-        <span className={cn(siteText.labelS, "text-foreground")}>
+        <span className={cn(siteText.labelS, "text-[1.05rem] leading-6 font-semibold text-white")}>
           {giveawayBanner.text}
+          <span className="font-bold text-[var(--giveaway-banner-highlight)]">
+            {giveawayBanner.highlight}
+          </span>
         </span>
         <span
           className={cn(
             siteText.labelS,
-            "inline-flex items-center gap-1 text-foreground underline-offset-4 group-hover:underline",
+            "inline-flex items-center gap-1 rounded-full bg-white px-3.5 py-1 text-[1.05rem] leading-6 font-semibold text-[var(--giveaway-banner-cta-text)] shadow-sm transition-transform group-hover:scale-105",
           )}
         >
           {giveawayBanner.cta}
-          <span aria-hidden="true">→</span>
+          <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
+            →
+          </span>
         </span>
       </Link>
 
@@ -62,7 +67,7 @@ export function GiveawayAnnouncementBar() {
         type="button"
         onClick={dismiss}
         aria-label="Dismiss giveaway banner"
-        className="absolute top-1/2 right-3 flex size-6 -translate-y-1/2 items-center justify-center rounded-md text-[var(--alpha-100)] transition-colors hover:bg-[var(--alpha-700)] hover:text-foreground"
+        className="absolute top-1/2 right-3 flex size-6 -translate-y-1/2 items-center justify-center rounded-md text-white/70 transition-colors hover:bg-white/10 hover:text-white"
       >
         <svg viewBox="0 0 20 20" width="16" height="16" fill="none" aria-hidden="true">
           <path
