@@ -13,7 +13,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { FileText, X, type LucideIcon } from "lucide-react"
+import { X, type LucideIcon } from "lucide-react"
 import {
   Collapsible,
   CollapsibleContent,
@@ -37,17 +37,18 @@ interface DocumentationSidebarContentProps<I> {
   onClose?: () => void
 }
 
-/** Single article row inside a section (Foreplay verbatim spec). */
+/** Single article row inside a section. The leading icon is replaced by the
+ *  article's sequential index within its section (per spec). */
 function SidebarArticleLink({
   href,
   title,
-  icon: Icon = FileText,
+  index,
   isActive,
   onNavigate,
 }: {
   href: string
   title: string
-  icon?: LucideIcon
+  index: number
   isActive: boolean
   onNavigate?: () => void
 }) {
@@ -64,8 +65,12 @@ function SidebarArticleLink({
           isActive ? "text-accent-foreground" : "text-foreground/80"
         }`}
       >
-        <div className="grid size-full place-items-center opacity-60">
-          <Icon className="size-4 shrink-0" />
+        <div
+          className={`grid size-full place-items-center text-[12px] font-semibold tabular-nums ${
+            isActive ? "text-accent-foreground" : "text-accent/70"
+          }`}
+        >
+          {index}
         </div>
         <span className="truncate">{title}</span>
       </div>
@@ -201,12 +206,12 @@ export function DocumentationSidebarContent<I>({
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <div className="space-y-1 p-1 px-2">
-                        {flatten(tab.items, `${basePath}/${tab.slug}`).map((leaf) => (
+                        {flatten(tab.items, `${basePath}/${tab.slug}`).map((leaf, i) => (
                           <SidebarArticleLink
                             key={leaf.href}
                             href={leaf.href}
                             title={leaf.title}
-                            icon={leaf.icon}
+                            index={i + 1}
                             isActive={pathname === leaf.href}
                             onNavigate={onNavigate}
                           />

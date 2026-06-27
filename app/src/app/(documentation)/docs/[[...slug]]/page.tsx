@@ -15,11 +15,12 @@ import { DocsBreadcrumb } from "@/components/docs-breadcrumb"
 
 // One-line descriptions per category (Foreplay-style preview text on landing cards)
 const categoryDescriptions: Record<string, string> = {
-  "getting-started": "Best steps on getting started with GOADS.",
-  meta: "Run ads on Meta with whitelisted accounts and verified BMs.",
-  google: "Whitelisted Google Ads accounts that survive policy reviews.",
-  tiktok: "Verified TikTok accounts, Shops, and Business Centers.",
-  billing: "Manage subscriptions, payments, warranty, and support.",
+  "getting-started": "Start here, learn how GOADS Meta assets work and how to get help.",
+  "asset-overview": "Aged profiles, BM3, BM5, agency accounts, and which asset fits you.",
+  "setup-configuration": "Set up your assets, connect to Business Manager, and log in safely.",
+  "security-best-practices": "Why accounts get disabled or hacked, and how to prevent it.",
+  "goads-tools": "Extensions and tools to add assets, check UIDs, get codes, and 2FA.",
+  "questions-bank": "Answers to the most common questions, grouped by topic and asset type.",
 }
 
 type Props = {
@@ -129,14 +130,14 @@ export default async function DocsPage({ params }: Props) {
             <div className="mt-6 flex items-center gap-3">
               <div className="flex -space-x-2">
                 <span
-                  className="relative flex h-7 w-7 shrink-0 overflow-hidden rounded-full bg-secondary ring-2 ring-background"
+                  className="relative flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white ring-2 ring-background"
                   style={{ zIndex: 1 }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/assets/sample-avatar.webp"
-                    alt=""
-                    className="aspect-square h-full w-full"
+                    src="/assets/logo/mark.png"
+                    alt="GOADS"
+                    className="h-full w-full object-contain p-1"
                   />
                 </span>
               </div>
@@ -159,7 +160,7 @@ export default async function DocsPage({ params }: Props) {
               trailing chevron with group-hover color shift. */}
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-1 rounded-lg border border-border/70 p-1.5">
-              {tab.items.map((item) => (
+              {tab.items.map((item, i) => (
                 <div key={item.slug}>
                   <Link
                     href={`/docs/${tab.slug}/${item.slug}`}
@@ -171,37 +172,10 @@ export default async function DocsPage({ params }: Props) {
                     >
                       <span className="flex flex-col items-start justify-center">
                         <span className="inline-flex max-w-xl items-center text-sm leading-5 font-normal">
-                          <div className="mr-1.5 inline-block !opacity-75">
-                            {item.iconSrc ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={item.iconSrc}
-                                alt="Custom icon"
-                                className="block aspect-auto shrink-0 object-contain"
-                                style={{ width: "1rem", height: "1rem" }}
-                              />
-                            ) : (
-                              <span
-                                role="img"
-                                aria-label="Featured icon"
-                                className="flex aspect-auto shrink-0 items-center justify-center leading-none"
-                                style={{ width: "1rem", height: "1rem" }}
-                              >
-                                {/* Foreplay F-block default — 9 sub-paths verbatim (incl. inline path style for absolute 100% parity). */}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 50 50">
-                                  <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M13.6928 6.4585H16.9234V16.5718H7.23157V13.2007C7.23157 9.47562 10.123 6.4585 13.6928 6.4585Z" />
-                                  <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M33.0768 6.4585H20.1543V16.5718H33.0768V6.4585Z" />
-                                  <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M31.4615 19.9431H20.1543V30.0564H28.2309C30.0151 30.0564 31.4615 28.61 31.4615 26.8257V19.9431Z" />
-                                  <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M42.7686 19.9431H34.692V26.8257C34.692 28.61 36.1384 30.0564 37.9226 30.0564H42.7686V19.9431Z" />
-                                  <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M33.0765 33.4282H42.7684V36.7993C42.7684 40.5244 39.877 43.5415 36.3072 43.5415H33.0765V33.4282Z" />
-                                  <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M26.6155 33.4282H20.1543V43.5415H29.8462V36.6588C29.8462 34.8746 28.3998 33.4282 26.6155 33.4282Z" />
-                                  <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M36.3071 6.4585C39.877 6.4585 42.7684 9.47562 42.7684 13.2007V16.5718H36.3071V6.4585Z" />
-                                  <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M16.9234 19.9431H7.23157V30.0564H16.9234V19.9431Z" />
-                                  <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M7.23157 33.4282H16.9234V43.5415H13.6928C10.123 43.5415 7.23157 40.5244 7.23157 36.7993V33.4282Z" />
-                                </svg>
-                              </span>
-                            )}
-                          </div>
+                          {/* Sequential index replaces the old icon (per spec). */}
+                          <span className="mr-2.5 inline-flex min-w-[1.5rem] shrink-0 justify-center text-sm font-semibold tabular-nums text-accent/80">
+                            {i + 1}
+                          </span>
                           {item.title}
                         </span>
                       </span>
@@ -275,12 +249,12 @@ export default async function DocsPage({ params }: Props) {
               </p>
             )}
             <div className="flex items-center mt-8">
-              <span className="relative flex h-10 w-10 shrink-0 overflow-hidden bg-secondary rounded-full">
+              <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden bg-white rounded-full">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/assets/sample-avatar.webp"
-                  alt=""
-                  className="aspect-square !border-0 !shadow-none h-full w-full"
+                  src="/assets/logo/mark.png"
+                  alt="GOADS"
+                  className="!border-0 !shadow-none h-full w-full object-contain p-1.5"
                 />
               </span>
               <div className="flex flex-col gap-2 justify-between ml-3 font-medium">
@@ -306,7 +280,11 @@ export default async function DocsPage({ params }: Props) {
             h1-h6 sizing+margins, p/li body text, heading→p tightening (mt-1rem),
             list spacing (32px between blocks), and link decoration via the
             `.installation-content` rules in globals.css. */}
-        <div className="w-full installation-content">
+        <div
+          className={`w-full installation-content${
+            parentTab?.slug === "questions-bank" ? " qa-content" : ""
+          }`}
+        >
           <MarkdocRenderer content={contentTree} />
         </div>
 

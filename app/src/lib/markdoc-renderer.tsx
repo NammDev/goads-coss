@@ -5,6 +5,7 @@ import Markdoc, {
   type RenderableTreeNode,
 } from "@markdoc/markdoc"
 import { DocsCallout } from "@/components/docs-callout"
+import { DocsSupportChannels } from "@/components/docs-support-channels"
 import { markdocTags } from "@/lib/markdoc-tags"
 
 export type TocHeading = { id: string; title: string; depth: number }
@@ -119,6 +120,7 @@ export const markdocComponents = {
       {children}
     </DocsCallout>
   ),
+  SupportChannels: () => <DocsSupportChannels />,
 }
 
 /** Render a Markdoc RenderableTreeNode to React.

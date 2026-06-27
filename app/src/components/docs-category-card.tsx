@@ -49,12 +49,12 @@ export function DocsCategoryCard({
         {/* Footer row — avatar stack + article count */}
         <div className="mt-auto flex items-center gap-3 pt-5">
           <div className="flex items-center -space-x-2">
-            <span className="relative flex h-5 w-5 shrink-0 overflow-hidden rounded-full bg-secondary ring-2 ring-background">
+            <span className="relative flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white ring-2 ring-background">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/sample-avatar.webp"
-                alt=""
-                className="aspect-square h-full w-full"
+                src="/assets/logo/mark.png"
+                alt="GOADS"
+                className="h-full w-full object-contain p-0.5"
               />
             </span>
           </div>

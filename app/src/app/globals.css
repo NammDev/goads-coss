@@ -688,6 +688,28 @@ a.link-animated:hover::before {
   color: hsl(var(--foreground));
 }
 
+/* Unordered list — disc markers, indent matching ol. Without this rule
+   Tailwind preflight resets `ul` to `list-style: none`, so bullets vanish
+   and items collapse into an undifferentiated wall of stacked lines. */
+.installation-content ul {
+  margin: 32px auto;
+  padding-left: 1.5rem;
+  padding-top: 0.75rem !important;
+  list-style-type: disc;
+}
+.installation-content ul li {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: hsl(var(--foreground));
+}
+
+/* Breathing room between consecutive list items so each point is scannable
+   (the `> * { margin: 32px auto }` rule only spaces top-level blocks, never
+   sibling <li>s). 8px keeps items grouped while still visually separated. */
+.installation-content li + li {
+  margin-top: 0.5rem;
+}
+
 .installation-content > p + ol,
 .installation-content > p + ul {
   margin-top: -20px !important;
@@ -777,6 +799,125 @@ a.link-animated:hover::before {
 .installation-content h5:last-child,
 .installation-content h6:last-child {
   margin-bottom: 0;
+}
+
+/* Markdoc tables inside docs articles — Foreplay's docs CSS ships no table
+   styles, so comparison tables (e.g. BM3 vs BM5) would render unstyled on the
+   dark canvas. Scoped, token-driven styling keeps them readable and on-brand. */
+.installation-content table {
+  width: 100%;
+  margin: 32px auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  overflow: hidden;
+  font-size: 0.9375rem;
+  line-height: 1.5rem;
+}
+.installation-content thead {
+  background: var(--secondary);
+}
+.installation-content th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.installation-content td {
+  padding: 0.75rem 1rem;
+  color: hsl(var(--foreground));
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.installation-content tbody tr:last-child td {
+  border-bottom: 0;
+}
+.installation-content th + th,
+.installation-content td + td {
+  border-left: 1px solid var(--border);
+}
+
+/* ── Docs reading polish — professional help-center finish.
+   Links get the brand-accent treatment; standalone bold "label:" lines read as
+   bright sub-labels and hug the content that follows them. Scoped so it never
+   leaks outside docs articles. ── */
+
+/* Links — brand accent, weight 500, underline only on hover (prose + lists). */
+.installation-content a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+  overflow-wrap: anywhere; /* long URLs never overflow the column */
+}
+.installation-content a:hover {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--accent) 55%, transparent);
+}
+
+/* Emphasis labels (e.g. "Key Functions:", "How to Use:", "Function:") render
+   as crisp white sub-labels above their list or paragraph. */
+.installation-content strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* A standalone bold-label paragraph hugs the paragraph that follows it
+   (label→list pairs are already tightened by the `> p + ul/ol` rule above). */
+.installation-content > p:has(> strong:only-child) + p {
+  margin-top: 0.5rem;
+}
+
+/* Inline brand/utility icons inside headings (e.g. the Outlook mark on the
+   Hotmail login steps). Sized to the heading's cap height so they read as a
+   tidy leading glyph rather than a full-size image. */
+.installation-content :is(h1, h2, h3, h4) img {
+  display: inline-block;
+  height: 1.05em;
+  width: auto;
+  vertical-align: -0.16em;
+  margin-right: 0.45rem;
+}
+
+/* ── Questions Bank FAQ styling ───────────────────────────────────────────
+   Scoped to `.qa-content` (added only on /docs/questions-bank/* pages), so
+   normal docs articles keep their plain headings. Each question (h3) gets a
+   round accent "Q" badge and a divider line above it, turning a flat list of
+   headings into a scannable FAQ that invites reading. */
+.qa-content h3 {
+  position: relative;
+  margin-top: 2.5rem !important;
+  padding-top: 2rem;
+  padding-left: 2.75rem;
+  border-top: 1px solid hsl(var(--border) / 0.6);
+  color: #fff;
+}
+.qa-content h3::before {
+  content: "Q";
+  position: absolute;
+  left: 0;
+  top: calc(2rem - 0.15rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 9999px;
+  background: hsl(var(--accent) / 0.14);
+  color: hsl(var(--accent));
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+}
+/* The answer paragraph immediately after a question gets a subtle accent rail
+   so the eye reads question → answer as one unit. */
+.qa-content h3 + p {
+  border-left: 2px solid hsl(var(--accent) / 0.25);
+  padding-left: 0.85rem;
+  margin-left: 0.1rem;
 }
 
 /* Respect user's motion preferences */

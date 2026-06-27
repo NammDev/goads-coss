@@ -12,4 +12,12 @@ export const callout: Schema = {
   },
 }
 
-export const markdocTags = { callout }
+/* Self-closing tag rendering the colored brand-icon support channel list.
+   Data lives in the DocsSupportChannels component (brand constants). */
+export const supportChannels: Schema = {
+  render: "SupportChannels",
+  selfClosing: true,
+  attributes: {},
+}
+
+export const markdocTags = { callout, channels: supportChannels }
