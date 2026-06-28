@@ -1,71 +1,116 @@
-// Help center catch-all page — static, no Keystatic, no Markdoc.
-// Three views mirror docs/[[...slug]]/page.tsx markup verbatim:
-//   1. Landing  — /help
-//   2. Category — /help/<tab-slug>
-//   3. Article  — /help/<tab-slug>/<article-slug>
+// Help center — surfaces the docs Questions Bank as the GOADS FAQ.
+// Single source of truth: content lives in app/src/content/docs/qa-*/index.mdoc
+// (tab "questions-bank") and is rendered here via Markdoc, identical to
+// /docs/questions-bank/<slug>, including the FAQ "Q" badge (qa-content scope).
 //
-// Data sources: help-navigation.ts + help-content.ts (plain static).
-// Reuses: DocsBreadcrumb, DocsCategoryCard, DocsArticleAside (plain-prop components).
-// HelpLandingSearch replaces the docs-coupled DocsLandingSearch.
+// Views:
+//   1. Landing   — /help                              (hero + search + question list)
+//   2. Category  — /help/questions-bank               (breadcrumb + list)
+//   3. Article   — /help/questions-bank/<article>     (Markdoc FAQ + TOC)
 
 import Link from "next/link"
-import { helpTabs, getFlatHelp } from "@/data/help-navigation"
-import { helpContent } from "@/data/help-content"
+import { docsTabs } from "@/data/docs-navigation"
+import { reader } from "@/lib/keystatic-reader"
+import {
+  transformMarkdoc,
+  MarkdocRenderer,
+  extractHeadingsFromNode,
+} from "@/lib/markdoc-renderer"
 import { HelpLandingSearch } from "@/components/help/help-landing-search"
-import { DocsCategoryCard } from "@/components/docs-category-card"
 import { DocsBreadcrumb } from "@/components/docs-breadcrumb"
 import { DocsArticleAside } from "@/components/docs-article-aside"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-// One-line descriptions per help category shown on landing cards
-const categoryDescriptions: Record<string, string> = {
-  "getting-started": "New to GOADS? Start here for account setup and orientation.",
-  billing: "Manage your subscription, invoices, and payment methods.",
-  troubleshooting: "Fix common issues with login, ad accounts, and billing.",
-}
+const QA_TAB = docsTabs.find((t) => t.slug === "questions-bank")
+const QA_DESCRIPTION =
+  "Answers to the most common questions, grouped by topic and asset type."
 
 type Props = {
   params: Promise<{ slug?: string[] }>
 }
 
+/** Find a Keystatic doc entry by its navSlug field matching the URL slug. */
+async function getDocByNavSlug(navSlug: string) {
+  const slugs = await reader.collections.docs.list()
+  for (const s of slugs) {
+    const doc = await reader.collections.docs.read(s)
+    if (doc?.navSlug === navSlug) return { slug: s, doc }
+  }
+  return null
+}
+
+/** Foreplay-style article list (sequential index + chevron) used on the
+ *  landing and category views. Links to /help/questions-bank/<slug>. */
+function QuestionList() {
+  if (!QA_TAB) return null
+  return (
+    <div className="flex flex-col gap-1 rounded-lg border border-border/70 p-1.5">
+      {QA_TAB.items.map((item, i) => (
+        <div key={item.slug}>
+          <Link
+            href={`/help/${QA_TAB.slug}/${item.slug}`}
+            className="!decoration-transparent hover:!decoration-transparent"
+          >
+            <button
+              type="button"
+              className="group flex w-full cursor-pointer items-center justify-between rounded-lg bg-transparent p-3 px-2 text-left text-foreground transition-colors duration-200 ease-in-out hover:bg-accent/[7%] hover:text-accent-foreground focus:ring-accent/10"
+            >
+              <span className="flex flex-col items-start justify-center">
+                <span className="inline-flex max-w-xl items-center text-sm leading-5 font-normal">
+                  <span className="mr-2.5 inline-flex min-w-[1.5rem] shrink-0 justify-center text-sm font-semibold tabular-nums text-accent/80">
+                    {i + 1}
+                  </span>
+                  {item.title}
+                </span>
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+                className="h-5 w-5 group-hover:text-accent-foreground/60"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </Link>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default async function HelpPage({ params }: Props) {
   const { slug } = await params
+
+  if (!QA_TAB) return <HelpNotFound />
 
   // ── View 1: Landing (/help) ──────────────────────────────────────
   if (!slug || slug.length === 0) {
     return (
       <div className="relative flex w-full gap-10 px-4 py-10 sm:px-12 lg:py-16">
-        {/* Top decorative gradient */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-32 w-full bg-gradient-to-b from-secondary/30 to-transparent"
         />
 
         <article className="z-10 mx-auto mt-0 mb-24 w-full max-w-[720px] min-w-0 flex-shrink">
-          {/* Hero — installation-content scope applies typography */}
           <div className="installation-content mt-8 text-center">
             <h1>How can we help you?</h1>
             <p>
-              Search for any helpful articles from our team to find an answer
-              to your question.
+              Browse the questions our customers ask most, grouped by topic and
+              asset type.
             </p>
           </div>
 
-          {/* Search bar with animated shine border */}
           <HelpLandingSearch />
 
-          {/* Category grid */}
-          <div className="mt-16 grid gap-3 sm:grid-cols-2">
-            {helpTabs.map((tab) => (
-              <DocsCategoryCard
-                key={tab.slug}
-                href={`/help/${tab.slug}`}
-                icon={tab.icon}
-                title={tab.title}
-                description={categoryDescriptions[tab.slug] ?? ""}
-                articleCount={countArticles(tab.items)}
-              />
-            ))}
+          <div className="mt-16">
+            <QuestionList />
           </div>
         </article>
       </div>
@@ -74,14 +119,12 @@ export default async function HelpPage({ params }: Props) {
 
   const fullSlug = slug.join("/")
 
-  // ── View 2: Category index (/help/<tab-slug>) ────────────────────
+  // ── View 2: Category index (/help/questions-bank) ────────────────
   if (slug.length === 1) {
-    const tab = helpTabs.find((t) => t.slug === slug[0])
-    if (!tab) return <HelpNotFound />
+    if (slug[0] !== QA_TAB.slug) return <HelpNotFound />
 
-    const Icon = tab.icon
-    const articleCount = countArticles(tab.items)
-    const description = categoryDescriptions[tab.slug] ?? ""
+    const Icon = QA_TAB.icon
+    const articleCount = QA_TAB.items.length
 
     return (
       <div className="relative flex w-full gap-10 px-4 py-10 sm:px-12 lg:py-16">
@@ -94,38 +137,31 @@ export default async function HelpPage({ params }: Props) {
           <div className="pb-12">
             <div className="pb-5">
               <DocsBreadcrumb
-                items={[
-                  { label: "Home", href: "/help" },
-                  { label: tab.title },
-                ]}
+                items={[{ label: "Home", href: "/help" }, { label: QA_TAB.title }]}
               />
             </div>
 
-            {/* Big category icon */}
             <div className="mb-3 inline-flex text-accent sm:mb-6">
               <Icon className="block size-12 shrink-0" strokeWidth={1.5} />
             </div>
 
-            {/* Title */}
             <h1 className="scroll-mt-6 text-2xl font-semibold text-white sm:text-3xl">
-              {tab.title}
+              {QA_TAB.title}
             </h1>
 
-            {/* Description */}
-            <p className="mt-6 text-base text-foreground">{description}</p>
+            <p className="mt-6 text-base text-foreground">{QA_DESCRIPTION}</p>
 
-            {/* Author + article count row */}
             <div className="mt-6 flex items-center gap-3">
               <div className="flex -space-x-2">
                 <span
-                  className="relative flex h-7 w-7 shrink-0 overflow-hidden rounded-full bg-secondary ring-2 ring-background"
+                  className="relative flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white ring-2 ring-background"
                   style={{ zIndex: 1 }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/assets/sample-avatar.webp"
-                    alt=""
-                    className="aspect-square h-full w-full"
+                    src="/assets/logo/mark.png"
+                    alt="GOADS"
+                    className="h-full w-full object-contain p-1"
                   />
                 </span>
               </div>
@@ -141,80 +177,33 @@ export default async function HelpPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Articles list */}
           <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-1 rounded-lg border border-border/70 p-1.5">
-              {tab.items.map((item) => (
-                <div key={item.slug}>
-                  <Link
-                    href={`/help/${tab.slug}/${item.slug}`}
-                    className="!decoration-transparent hover:!decoration-transparent"
-                  >
-                    <button
-                      type="button"
-                      className="group flex w-full cursor-pointer items-center justify-between rounded-lg bg-transparent p-3 px-2 text-left text-foreground transition-colors duration-200 ease-in-out hover:bg-accent/[7%] hover:text-accent-foreground focus:ring-accent/10"
-                    >
-                      <span className="flex flex-col items-start justify-center">
-                        <span className="inline-flex max-w-xl items-center text-sm leading-5 font-normal">
-                          <div className="mr-1.5 inline-block !opacity-75">
-                            <span
-                              role="img"
-                              aria-label="Featured icon"
-                              className="flex aspect-auto shrink-0 items-center justify-center leading-none"
-                              style={{ width: "1rem", height: "1rem" }}
-                            >
-                              {/* Foreplay F-block default icon — verbatim from docs page */}
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 50 50">
-                                <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M13.6928 6.4585H16.9234V16.5718H7.23157V13.2007C7.23157 9.47562 10.123 6.4585 13.6928 6.4585Z" />
-                                <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M33.0768 6.4585H20.1543V16.5718H33.0768V6.4585Z" />
-                                <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M31.4615 19.9431H20.1543V30.0564H28.2309C30.0151 30.0564 31.4615 28.61 31.4615 26.8257V19.9431Z" />
-                                <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M42.7686 19.9431H34.692V26.8257C34.692 28.61 36.1384 30.0564 37.9226 30.0564H42.7686V19.9431Z" />
-                                <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M33.0765 33.4282H42.7684V36.7993C42.7684 40.5244 39.877 43.5415 36.3072 43.5415H33.0765V33.4282Z" />
-                                <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M26.6155 33.4282H20.1543V43.5415H29.8462V36.6588C29.8462 34.8746 28.3998 33.4282 26.6155 33.4282Z" />
-                                <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M36.3071 6.4585C39.877 6.4585 42.7684 9.47562 42.7684 13.2007V16.5718H36.3071V6.4585Z" />
-                                <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M16.9234 19.9431H7.23157V30.0564H16.9234V19.9431Z" />
-                                <path style={{ fill: "currentColor", fillOpacity: 1 }} fill="currentColor" d="M7.23157 33.4282H16.9234V43.5415H13.6928C10.123 43.5415 7.23157 40.5244 7.23157 36.7993V33.4282Z" />
-                              </svg>
-                            </span>
-                          </div>
-                          {item.title}
-                        </span>
-                      </span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        className="h-5 w-5 group-hover:text-accent-foreground/60"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
-                  </Link>
-                </div>
-              ))}
-            </div>
+            <QuestionList />
           </div>
         </article>
       </div>
     )
   }
 
-  // ── View 3: Article (/help/<tab-slug>/<article-slug>) ─────────────
-  const article = helpContent[fullSlug]
-  if (!article) return <HelpNotFound />
+  // ── View 3: Article (/help/questions-bank/<article>) ─────────────
+  if (slug.length !== 2 || slug[0] !== QA_TAB.slug) return <HelpNotFound />
 
-  const parentTab = helpTabs.find((t) => t.slug === slug[0])
+  const articleSlug = slug[1]
+  const item = QA_TAB.items.find((i) => i.slug === articleSlug)
+  if (!item) return <HelpNotFound />
 
-  // Build prev/next from the flat list
-  const flatHelp = getFlatHelp()
-  const currentIdx = flatHelp.findIndex((d) => d.slug === fullSlug)
-  const prev = currentIdx > 0 ? flatHelp[currentIdx - 1] : null
-  const next = currentIdx < flatHelp.length - 1 ? flatHelp[currentIdx + 1] : null
+  const result = await getDocByNavSlug(fullSlug)
+  if (!result) return <HelpNotFound />
+
+  const { doc } = result
+  const { node } = await doc.content()
+  const contentTree = transformMarkdoc(node)
+  const headings = extractHeadingsFromNode(node)
+
+  // Prev / next within the Questions Bank list
+  const idx = QA_TAB.items.findIndex((i) => i.slug === articleSlug)
+  const prev = idx > 0 ? QA_TAB.items[idx - 1] : null
+  const next = idx < QA_TAB.items.length - 1 ? QA_TAB.items[idx + 1] : null
 
   const linkBase =
     "group flex h-full flex-col gap-1 rounded-lg border border-border bg-card/30 p-4 transition-colors hover:bg-muted/50"
@@ -235,36 +224,28 @@ export default async function HelpPage({ params }: Props) {
             <DocsBreadcrumb
               items={[
                 { label: "Home", href: "/help" },
-                ...(parentTab
-                  ? [
-                      {
-                        label: parentTab.title,
-                        href: `/help/${parentTab.slug}`,
-                      },
-                    ]
-                  : []),
-                { label: article.title },
+                { label: QA_TAB.title, href: `/help/${QA_TAB.slug}` },
+                { label: doc.title },
               ]}
             />
           </div>
 
-          {/* Article header */}
           <header>
             <h1 className="text-2xl font-semibold text-white md:text-3xl scroll-mt-6">
-              {article.title}
+              {doc.title}
             </h1>
-            {article.description && (
+            {doc.description && (
               <p className="mt-6 text-base text-foreground md:text-lg">
-                {article.description}
+                {doc.description}
               </p>
             )}
             <div className="flex items-center mt-8">
-              <span className="relative flex h-10 w-10 shrink-0 overflow-hidden bg-secondary rounded-full">
+              <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden bg-white rounded-full">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/assets/sample-avatar.webp"
-                  alt=""
-                  className="aspect-square !border-0 !shadow-none h-full w-full"
+                  src="/assets/logo/mark.png"
+                  alt="GOADS"
+                  className="!border-0 !shadow-none h-full w-full object-contain p-1.5"
                 />
               </span>
               <div className="flex flex-col gap-2 justify-between ml-3 font-medium">
@@ -272,11 +253,11 @@ export default async function HelpPage({ params }: Props) {
                   Written By{" "}
                   <span className="font-medium text-foreground">GOADS Team</span>
                 </p>
-                {article.lastUpdated && (
+                {doc.lastUpdated && (
                   <p className="!text-[13px] !font-normal !text-foreground/80 !leading-none !m-0">
                     Last updated{" "}
                     <span className="font-medium lowercase text-foreground">
-                      {article.lastUpdated}
+                      {doc.lastUpdated}
                     </span>
                   </p>
                 )}
@@ -285,16 +266,16 @@ export default async function HelpPage({ params }: Props) {
           </header>
         </div>
 
-        {/* Static article body — wrapped in installation-content for typography */}
-        <div className="w-full installation-content">
-          {article.body}
+        {/* Markdoc FAQ body — qa-content scope adds the "Q" badge per question. */}
+        <div className="w-full installation-content qa-content">
+          <MarkdocRenderer content={contentTree} />
         </div>
 
         {/* Prev / Next nav */}
         <nav className="mt-12 grid grid-cols-2 gap-4 border-t border-border pt-6">
           {prev ? (
             <Link
-              href={`/help/${prev.slug}`}
+              href={`/help/${QA_TAB.slug}/${prev.slug}`}
               className={`${linkBase} items-start text-left`}
             >
               <div className={labelRowClass}>
@@ -308,7 +289,7 @@ export default async function HelpPage({ params }: Props) {
           )}
           {next ? (
             <Link
-              href={`/help/${next.slug}`}
+              href={`/help/${QA_TAB.slug}/${next.slug}`}
               className={`${linkBase} items-end text-right`}
             >
               <div className={labelRowClass}>
@@ -323,25 +304,9 @@ export default async function HelpPage({ params }: Props) {
         </nav>
       </article>
 
-      {/* Right aside — "On this page" TOC + feedback. Static articles have no
-          headings to extract, so we pass an empty array; the aside renders only
-          the feedback block, matching Foreplay's layout for short articles. */}
-      <DocsArticleAside headings={[]} />
+      <DocsArticleAside headings={headings} />
     </div>
   )
-}
-
-/** Recursively count leaf articles within a nested HelpNavItem tree. */
-function countArticles(items: { items?: { items?: unknown[] }[] }[]): number {
-  let total = 0
-  for (const item of items) {
-    if (item.items && item.items.length > 0) {
-      total += countArticles(item.items as { items?: { items?: unknown[] }[] }[])
-    } else {
-      total += 1
-    }
-  }
-  return total
 }
 
 function HelpNotFound() {
