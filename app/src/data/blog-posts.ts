@@ -44,6 +44,11 @@ const justinBui: BlogAuthor = {
   title: "Co-Founder",
 }
 
+const goadsTeam: BlogAuthor = {
+  name: "GOADS Team",
+  avatar: "/avatars/goads-team.png",
+}
+
 export const blogCategories = [
   "All",
   "Meta Ads",
@@ -56,6 +61,99 @@ export const blogCategories = [
 export type BlogCategory = (typeof blogCategories)[number]
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "stop-scaling-broken-funnels",
+    category: "Scaling Strategy",
+    categorySlug: "scaling-strategy",
+    title:
+      "Stop Scaling Broken Funnels: Why Ads Should Be Your Third Priority, Not First",
+    description:
+      "Why not just raise the ad budget first? Here's our answer, backed by a real dropshipping case study that scaled from $15K to $350K a month. Funnel first, content second, ads third. Get the sequence wrong and you only leak money faster.",
+    author: goadsTeam,
+    date: "June 26, 2026",
+    readTime: "6 min read",
+    coverImage: "/assets/blog/blog-cover-placeholder.svg",
+    popular: true,
+    sections: [
+      {
+        id: "bleeding-money-case-study",
+        title: "The $15,000/Month Store That Was Bleeding Money",
+        content: `<p>We hear this question all the time from our clients. "Why not just increase ad budget first? It's faster than fixing the funnel." Here's our answer, backed by a real case study.</p>
+<p>One client came to us running a US dropshipping store doing around $15,000 a month in revenue. They were running their own ads, testing creatives constantly, and burning through budget.</p>
+<p>The problem wasn't the ads. The problem wasn't even the product.</p>
+<p>The problem was this. Customers were landing on the site, browsing, and leaving. There was no mechanism to take them deeper into the journey, from viewing to trusting, from trusting to buying, from buying to referring.</p>
+<p>So what happens when you pump more ad budget into a leaky funnel? You leak faster. You burn more. You mistake spending for growing.</p>`,
+      },
+      {
+        id: "right-order-of-operations",
+        title: "The Right Order of Operations",
+        content: `<p>We didn't increase their ad spend. Instead, we followed a specific sequence.</p>
+<ul>
+<li><strong>Funnel first.</strong> Map the customer journey. Identify where conversions drop. Fix the path before adding more traffic.</li>
+<li><strong>Content second.</strong> Build trust layers. Create curiosity and credibility before asking for the sale. Social proof, UGC, and email sequences all warm cold traffic.</li>
+<li><strong>Ads third.</strong> Only now do you scale. Ads are for expanding reach once the system converts, not for rescuing a broken funnel.</li>
+<li><strong>Tracking last.</strong> Measure everything. Know exactly which channels perform and which drain budget.</li>
+</ul>`,
+      },
+      {
+        id: "the-results",
+        title: "The Results",
+        content: `<p>After restructuring the funnel and content, the numbers moved fast.</p>
+<ul>
+<li><strong>Month 1 to 4:</strong> $15,000 grew to $85,000 a month.</li>
+<li><strong>Month 6:</strong> $200,000+ a month.</li>
+<li><strong>Month 12:</strong> $350,000+ a month, year over year.</li>
+</ul>
+<p>And here's what matters most. This wasn't a lucky spike. Monthly year-over-year growth held steady.</p>
+<ul>
+<li>March: +163%</li>
+<li>April: +159%</li>
+<li>May: +157%</li>
+<li>June: +127%</li>
+</ul>
+<blockquote>Repeatable. Measurable. Not luck.</blockquote>`,
+      },
+      {
+        id: "the-data-backs-this-up",
+        title: "The Data Backs This Up",
+        content: `<p>A 2026 industry survey found that marketers waste an average of 26 percent of their ad budget on ineffective channels. Nearly half misallocate at least 20 percent of their spend, mostly because they scale before fixing infrastructure.</p>
+<p>Meanwhile, research from Nielsen and Meta shows that a properly sequenced full-funnel strategy delivers 13 percent higher incremental sales compared to focusing only on bottom-of-funnel tactics.</p>
+<p>Another ecommerce case study from 2026 showed what happens when you reorganize the funnel layers correctly.</p>
+<ul>
+<li><strong>Top of funnel.</strong> Video content showing before and after to spark curiosity.</li>
+<li><strong>Middle of funnel.</strong> Offers and social proof to build trust.</li>
+<li><strong>Bottom of funnel.</strong> Scarcity and urgency to close.</li>
+</ul>
+<p>The results were dramatic.</p>
+<ul>
+<li>Conversion rate jumped from 1.5% to 4.7%.</li>
+<li>Cost per acquisition dropped from $55 to $18.</li>
+<li>ROAS hit 9.8x.</li>
+</ul>
+<blockquote>Same ad budget. Different sequence. Completely different outcome.</blockquote>`,
+      },
+      {
+        id: "ads-arent-wrong-just-third",
+        title: "Ads Aren't Wrong, They're Just Third",
+        content: `<p>We're not saying ads are bad. Ads are essential. But they're step three, not step one.</p>
+<p>Reversing this order, pouring budget into ads before the funnel is fixed, is the most common way businesses burn money while believing they're growing.</p>
+<blockquote>Growth that can't be repeated isn't growth. It's gambling.</blockquote>`,
+      },
+      {
+        id: "the-question-to-answer",
+        title: "The Question You Need to Answer",
+        content: `<p>Before you increase your ad budget, ask yourself one thing.</p>
+<blockquote>Are you scaling ads, or are you scaling a broken funnel?</blockquote>
+<p>If traffic comes in and leaks out, more traffic just means more leakage. Fix the funnel. Then scale.</p>`,
+      },
+      {
+        id: "how-goads-helps",
+        title: "How GOADS Helps",
+        content: `<p>We provide the infrastructure that makes scaling possible. Verified Business Managers, aged profiles, and agency ad accounts, all backed by our 7-day replacement warranty.</p>
+<p>But infrastructure is just one piece. The real growth comes from getting the sequence right. We've seen hundreds of ad accounts, and we know what separates the ones that scale from the ones that burn.</p>`,
+      },
+    ],
+  },
   {
     slug: "how-much-can-you-scale-ad-budget",
     category: "Scaling Strategy",

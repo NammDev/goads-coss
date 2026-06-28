@@ -135,7 +135,7 @@ export function BlogDetailContent({
           <div className="sticky top-[120px] hidden lg:block">
             <BlogDetailCtaSidebar
               title="Accounts built to scale"
-              description="Verified Business Managers and agency ad accounts with the headroom to scale your Meta campaigns, without the bans."
+              description="Verified Business Managers and agency accounts, built to scale Meta, without the bans"
               ctaHref="/pricing"
               ctaLabel="View pricing"
               thumbnailHref="/pricing"
