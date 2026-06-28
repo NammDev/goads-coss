@@ -19,6 +19,7 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "Premium USA Reinstated Profile", basic: "$50", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Asia Super Aged Double Reinstated (7+ Years)", basic: "$95", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "USA Super Aged Double Reinstated (7+ Years)", basic: "$110", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", hasCrown: true },
+      { name: "Instagram Account (Real Followers)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
     ],
   },
   {
