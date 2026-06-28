@@ -29,6 +29,20 @@ type Props = {
   params: Promise<{ slug?: string[] }>
 }
 
+// Pre-render every help route at build time so the Markdoc content is baked in.
+// Without this the page reads content via the filesystem reader at runtime,
+// which fails on serverless production and shows "Page Not Found".
+export function generateStaticParams() {
+  const params: { slug: string[] }[] = [{ slug: [] }]
+  if (QA_TAB) {
+    params.push({ slug: [QA_TAB.slug] })
+    for (const item of QA_TAB.items) {
+      params.push({ slug: [QA_TAB.slug, item.slug] })
+    }
+  }
+  return params
+}
+
 /** Find a Keystatic doc entry by its navSlug field matching the URL slug. */
 async function getDocByNavSlug(navSlug: string) {
   const slugs = await reader.collections.docs.list()

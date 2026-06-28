@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { docsTabs } from "@/data/docs-navigation"
+import { docsTabs, getFlatDocs } from "@/data/docs-navigation"
 import { reader } from "@/lib/keystatic-reader"
 import {
   transformMarkdoc,
@@ -25,6 +25,18 @@ const categoryDescriptions: Record<string, string> = {
 
 type Props = {
   params: Promise<{ slug?: string[] }>
+}
+
+// Pre-render every docs route at build time. Without this the page renders on
+// demand and reads content via the Keystatic filesystem reader at runtime,
+// which fails on serverless production (content files are not in the function
+// bundle) and returns "Page Not Found". Building the params statically bakes
+// the content into the output, mirroring the blog route.
+export function generateStaticParams() {
+  const params: { slug: string[] }[] = [{ slug: [] }]
+  for (const tab of docsTabs) params.push({ slug: [tab.slug] })
+  for (const d of getFlatDocs()) params.push({ slug: d.slug.split("/") })
+  return params
 }
 
 /** Find a Keystatic doc entry by its navSlug field matching the URL slug */
