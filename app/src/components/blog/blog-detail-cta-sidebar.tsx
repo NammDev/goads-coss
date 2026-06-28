@@ -117,9 +117,15 @@ export function BlogDetailCtaSidebar({
           </div>
         </div>
 
-        {/* .button-dark.button-secondary: CTA button with chevron-right (rotated -90deg) icon */}
-        <div className="flex justify-center p-1 pb-2">
-          <CtaButton href={ctaHref} variant="secondary" showIcon>
+        {/* .button-dark.button-secondary: full-width CTA button (w-full) with
+            chevron-right (rotated -90deg) icon, content centered. */}
+        <div className="p-1 pb-2">
+          <CtaButton
+            href={ctaHref}
+            variant="secondary"
+            showIcon
+            className="w-full justify-center"
+          >
             {ctaLabel}
           </CtaButton>
         </div>
