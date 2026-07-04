@@ -236,6 +236,8 @@ export interface ComparisonFeature {
 export interface ComparisonCategory {
   name: string
   features: ComparisonFeature[]
+  /** Leading product icon shown next to each row name (e.g. /assets/BM.webp) */
+  icon?: string
 }
 
 export interface ComparisonHeaderColumn {
@@ -367,8 +369,13 @@ export function PricingComparisonTable({
             <button
               type="button"
               onClick={() => toggle(i)}
-              className="z-[2] flex w-full cursor-pointer items-center border-b border-[var(--solid-50)] bg-[var(--solid-25)] p-4 text-left text-[var(--solid-700)] outline-none"
+              className="z-[2] flex w-full cursor-pointer items-center gap-3 border-b border-[var(--solid-50)] bg-[var(--solid-25)] p-4 text-left text-[var(--solid-700)] outline-none"
             >
+              {/* Section product logo (e.g. Profiles / BM / Pages) — one per section */}
+              {cat.icon && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={cat.icon} alt="" className="size-[34px] shrink-0 rounded-[8px] object-contain" loading="lazy" />
+              )}
               <div className={siteText.headingL}>{cat.name}</div>
               <ChevronIcon expanded={!!expanded[i]} />
             </button>

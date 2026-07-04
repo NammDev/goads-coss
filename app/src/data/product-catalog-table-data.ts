@@ -13,17 +13,18 @@ export const catalogHeaderColumns: ComparisonHeaderColumn[] = [
 export const catalogCategories: ComparisonCategory[] = [
   {
     name: "Facebook Profiles",
+    icon: "/assets/PROFILES.webp",
     features: [
-      { name: "Facebook Profiles", basic: false, workflow: false, agency: false, enterprise: false, isProduct: true, productHref: "/profiles", subtitle: "Aged, verified, ready to scale" },
       { name: "Premium Asia Reinstated Profile", basic: "$40", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Premium USA Reinstated Profile", basic: "$50", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Asia Super Aged Double Reinstated (7+ Years)", basic: "$95", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "USA Super Aged Double Reinstated (7+ Years)", basic: "$110", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", hasCrown: true },
+      { name: "USA Super Aged Double Reinstated (7+ Years)", basic: "$110", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Instagram Account (Real Followers)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
     ],
   },
   {
     name: "Business Manager",
+    icon: "/assets/BM.webp",
     features: [
       { name: "BM1 Verified", basic: "$80", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM3 Verified", basic: "$180", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
@@ -38,12 +39,14 @@ export const catalogCategories: ComparisonCategory[] = [
   },
   {
     name: "Agency Ad Account",
+    icon: "/assets/META.webp",
     features: [
       { name: "Ad Account (Unlimited DSL)", basic: "$250", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
     ],
   },
   {
     name: "Facebook Pages",
+    icon: "/navbar/pages.webp",
     features: [
       { name: "Aged Reinstated Facebook Page", basic: "$35", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "1K–3K Follower Facebook Page", basic: "$45", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
@@ -56,6 +59,7 @@ export const catalogCategories: ComparisonCategory[] = [
   },
   {
     name: "TikTok Assets",
+    icon: "/navbar/tiktok.webp",
     features: [
       { name: "Fresh TikTok Channel (0 Followers)", basic: "$60", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "TikTok Shop Info USA", basic: "$80", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },

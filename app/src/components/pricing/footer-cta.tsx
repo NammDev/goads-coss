@@ -47,11 +47,11 @@ export function PricingFooterCta({ className }: PricingFooterProps) {
         <div className="flex flex-col gap-2 pt-2">
           {/* .text-alpha-0 > .text-overline */}
           <div className="text-foreground">
-            <div className={siteText.overline}>ENTERPRISE</div>
+            <div className={siteText.overline}>FOR AGENCIES</div>
           </div>
           {/* .text-alpha-100 > .text-body-s */}
           <div className="flex-1 text-[var(--alpha-100)]">
-            <div className={siteText.bodyS}>For large agencies and high-volume advertisers who need bulk pricing.</div>
+            <div className={siteText.bodyS}>Your behind-the-scenes Meta asset partner. You rent out ad accounts and serve clients, GOADS handles the rest.</div>
           </div>
         </div>
 
@@ -62,21 +62,18 @@ export function PricingFooterCta({ className }: PricingFooterProps) {
         <div className="flex flex-col gap-2">
           {/* .text-white > h4.text-display-h5 */}
           <div className="flex-1 text-white">
-            <h4 className={siteText.displayH5}>Custom Pricing</h4>
+            <h4 className={siteText.displayH5}>We handle the setup</h4>
           </div>
         </div>
 
         {/* .horizontal_divider */}
         <div className="h-px w-full bg-[#ffffff29]" />
 
-        {/* a.button-dark.button-secondary — Talk with an Expert */}
+        {/* a.button-dark.button-secondary — talk to sales on Telegram */}
         <CtaButton href={CONTACT.telegram.sales} variant="secondary" className="justify-center">
-          Talk with an Expert
+          Become a Partner
         </CtaButton>
       </div>
-
-      {/* .pricing-footer-vertical_divider */}
-      <div className="self-stretch bg-[#ffffff29]" style={{ width: "1px" }} />
 
       {/* .pricing-footer-extra */}
       <div className="flex flex-1 flex-col justify-between gap-10 px-6 py-8">
@@ -85,14 +82,15 @@ export function PricingFooterCta({ className }: PricingFooterProps) {
         <div className="flex flex-col gap-3">
           {/* .text-alpha-100 > .text-label-s */}
           <div className="flex-1 text-[var(--alpha-100)]">
-            <div className={siteText.labelS}>Let&apos;s discuss bulk pricing that scales with your operations.</div>
+            <div className={siteText.labelS}>A done-for-you supply partner built for agencies at scale. You focus on renting ad accounts, we handle the infrastructure.</div>
           </div>
           {/* ul.pricing-footer-extra-list */}
           <ul className="m-0 flex list-none flex-col gap-3 p-0">
             {[
-              "Volume discounts on BMs, ad accounts, profiles & pages",
-              "Dedicated account manager & priority support",
-              "Flexible warranty across all products",
+              "End-to-end setup: BMs, profiles & pages, configured and ready to run",
+              "A dedicated account manager who guides your setup and supports you 24/7",
+              "Volume pricing that scales as your operation grows",
+              "Fast replacements and flexible warranty, so your clients never feel downtime",
             ].map((text) => (
               // li.pricing-footer-extra-list-item: flex, gap-2 (8px), items-center, justify-start
               <li key={text} className="flex items-center justify-start gap-2">

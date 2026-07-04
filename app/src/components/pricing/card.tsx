@@ -195,33 +195,35 @@ export function PricingCard({
         <div className="flex flex-col gap-5">
           {/* .flex-col-gap-2 — price row */}
           <div className="flex flex-col items-center gap-2">
-            {/* .flex-baseline — combo price + struck-through à la carte retail.
-                Shows the setup as a discounted bundle vs buying items separately
-                (retail from data.upgrade.retailPrice) to boost conversion. */}
-            <div className="flex items-baseline justify-center gap-2">
+            {/* .flex-baseline — combo (setup) price + period */}
+            <div className="flex items-baseline justify-center gap-1">
               <div className="text-white">
                 <div className={siteText.displayH5}>{data?.price ?? "$0"}</div>
               </div>
-              {data?.upgrade && data.upgrade.retailPrice > priceNum && (
-                <div className="text-[var(--alpha-50)]">
-                  <div className={cn(siteText.bodyL, "line-through")}>${data.upgrade.retailPrice}</div>
-                </div>
-              )}
               {data?.period && (
                 <div className="text-[var(--alpha-100)]">
                   <div className={siteText.bodyS}>{data.period}</div>
                 </div>
               )}
             </div>
-            {/* .flex-gap-1 — savings badge (optional) */}
-            {data?.savingsText && (
+            {/* .flex-gap-1 — savings badge: coin icon + "Save $X vs buying separately".
+                Computed from the bundle discount (retail - setup price); mirrors the
+                Foreplay pattern (combo price + savings line, no strikethrough). */}
+            {data?.upgrade && data.upgrade.retailPrice > priceNum ? (
+              <div className="flex items-center gap-1">
+                <SavingsIcon />
+                <div className="text-white">
+                  <div className={siteText.labelS}>Save ${data.upgrade.retailPrice - priceNum}</div>
+                </div>
+              </div>
+            ) : data?.savingsText ? (
               <div className="flex items-center gap-1">
                 <SavingsIcon />
                 <div className="flex-1 text-white">
                   <div className={siteText.labelS}>{data.savingsText}</div>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
           {/* .flex-col-gap-2 — CTA button */}
           <div className="flex flex-col items-center gap-2">
