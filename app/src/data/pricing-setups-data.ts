@@ -53,7 +53,8 @@ export const goadsSetupCards: PricingCardData[] = [
     ctaHref: "/book-demo",
     ctaVariant: "secondary",
     // Includes 1x BM3 Verified → offer upgrade to BM5 Verified Unlimited (+$200).
-    upgrade: { offer: bm3ToBm5UnlimitedOffer, count: 1 },
+    // À la carte: BM3 $180 + 2x profile $50 + 1x page $35 = $315 (setup $250, save $65).
+    upgrade: { offer: bm3ToBm5UnlimitedOffer, count: 1, retailPrice: 315 },
     features: [
       { iconSrc: "/assets/BM.webp", label: "1x BM3 Verified: Business Manager with 3 ad account slots", available: true },
       { iconSrc: "/assets/PROFILES.webp", label: "2x Premium Profiles: High-trust profiles ready for advertising", available: true },
@@ -70,7 +71,8 @@ export const goadsSetupCards: PricingCardData[] = [
     ctaHref: "/book-demo",
     ctaVariant: "primary",
     // Includes 1x BM5 Verified $250 → offer Unlimited upgrade at checkout.
-    upgrade: { offer: bm5UnlimitedOffer, count: 1 },
+    // À la carte: BM5 $340 + BM3 $180 + 4x profile $50 + 3x page $35 = $825 (setup $650, save $175).
+    upgrade: { offer: bm5UnlimitedOffer, count: 1, retailPrice: 825 },
     features: [
       { iconSrc: "/assets/BM.webp", label: "1x BM5 Verified: $250 spending limit", available: true },
       { iconSrc: "/assets/BM.webp", label: "1x BM3 Verified: Business Manager with 3 ad account slots", available: true },
@@ -87,7 +89,8 @@ export const goadsSetupCards: PricingCardData[] = [
     ctaHref: "/book-demo",
     ctaVariant: "secondary",
     // Includes 2x BM5 Verified $250 → offer Unlimited upgrade (both) at checkout.
-    upgrade: { offer: bm5UnlimitedOffer, count: 2 },
+    // À la carte: 2x BM5 $340 + 6x profile $50 + 3x page $35 + 1x 10K page $110 = $1195 (setup $890, save $305).
+    upgrade: { offer: bm5UnlimitedOffer, count: 2, retailPrice: 1195 },
     features: [
       { iconSrc: "/assets/BM.webp", label: "2x BM5 Verified: $250 spending limit each", available: true },
       { iconSrc: "/assets/PROFILES.webp", label: "6x Premium Profiles: High-trust profiles ready for advertising", available: true },

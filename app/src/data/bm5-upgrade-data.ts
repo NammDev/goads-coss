@@ -18,6 +18,10 @@ export type UpgradeComparisonRow = {
 export type UpgradeOffer = {
   /** flat upcharge added PER included unit when upgrading */
   unitUpcharge: number
+  /** à la carte price of ONE base unit (for the savings comparison) */
+  baseUnitRetail: number
+  /** à la carte price of ONE upgraded unit (for the savings comparison) */
+  upgradedUnitRetail: number
   /** the included (base) asset */
   base: { name: string; tagline: string }
   /** the upgraded asset */
@@ -36,6 +40,7 @@ export type UpgradeOptionKey = "base" | "upgraded"
 export const ORIGINAL_PROFILE_ADDON = {
   label: "Original profile (the profile that created the BM)",
   unitPrice: 50,
+  unitRetail: 50, // à la carte price = same, so it's savings-neutral (honest)
   benefit:
     "A safety backup. If Meta's algorithm rolls back the BM and kicks every admin, the original profile's admin still remains, so you keep control of the BM.",
 }
@@ -43,6 +48,8 @@ export const ORIGINAL_PROFILE_ADDON = {
 // BM5 Verified $250 → BM5 Verified Unlimited (+$60 per BM5). Premium & Elite.
 export const bm5UnlimitedOffer: UpgradeOffer = {
   unitUpcharge: 60,
+  baseUnitRetail: 340, // BM5 Verified $250 DSL
+  upgradedUnitRetail: 390, // BM5 Verified Unlimited DSL
   base: { name: "BM5 Verified $250", tagline: "$250 spending limit" },
   upgraded: { name: "BM5 Verified Unlimited", tagline: "No spending limit" },
   cartTag: "BM5 Unlimited",
@@ -59,6 +66,8 @@ export const bm5UnlimitedOffer: UpgradeOffer = {
 // BM3 Verified → BM5 Verified Unlimited (+$200). Advanced Setup.
 export const bm3ToBm5UnlimitedOffer: UpgradeOffer = {
   unitUpcharge: 200,
+  baseUnitRetail: 180, // BM3 Verified
+  upgradedUnitRetail: 390, // BM5 Verified Unlimited DSL
   base: { name: "BM3 Verified", tagline: "3 ad accounts, no spend history" },
   upgraded: { name: "BM5 Verified Unlimited", tagline: "5 ad accounts, unlimited spend" },
   cartTag: "BM5 Unlimited",

@@ -102,8 +102,9 @@ export interface PricingCardData {
   features: PricingFeature[]
   /** When set, the CTA opens the upgrade configurator instead of adding straight
    *  to cart. `count` = how many upgradable units this setup includes; `offer`
-   *  describes the base→upgraded swap (labels, upcharge, comparison). */
-  upgrade?: { offer: UpgradeOffer; count: number }
+   *  describes the base→upgraded swap (labels, upcharge, comparison).
+   *  `retailPrice` = total à la carte price of the base config (for savings). */
+  upgrade?: { offer: UpgradeOffer; count: number; retailPrice: number }
 }
 
 interface PricingCardProps {
@@ -194,13 +195,20 @@ export function PricingCard({
         <div className="flex flex-col gap-5">
           {/* .flex-col-gap-2 — price row */}
           <div className="flex flex-col items-center gap-2">
-            {/* .flex-baseline — price + period */}
-            <div className="flex items-baseline gap-1">
-              <div className="flex-1 text-white">
+            {/* .flex-baseline — combo price + struck-through à la carte retail.
+                Shows the setup as a discounted bundle vs buying items separately
+                (retail from data.upgrade.retailPrice) to boost conversion. */}
+            <div className="flex items-baseline justify-center gap-2">
+              <div className="text-white">
                 <div className={siteText.displayH5}>{data?.price ?? "$0"}</div>
               </div>
+              {data?.upgrade && data.upgrade.retailPrice > priceNum && (
+                <div className="text-[var(--alpha-50)]">
+                  <div className={cn(siteText.bodyL, "line-through")}>${data.upgrade.retailPrice}</div>
+                </div>
+              )}
               {data?.period && (
-                <div className="flex-1 text-[var(--alpha-100)]">
+                <div className="text-[var(--alpha-100)]">
                   <div className={siteText.bodyS}>{data.period}</div>
                 </div>
               )}
@@ -323,6 +331,7 @@ export function PricingCard({
           basePrice={priceNum}
           count={data.upgrade!.count}
           offer={data.upgrade!.offer}
+          retailPrice={data.upgrade!.retailPrice}
           onConfirm={handleUpgradeConfirm}
         />
       )}

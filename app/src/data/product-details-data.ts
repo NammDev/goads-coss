@@ -170,16 +170,6 @@ export const productDetails: Record<string, ProductDetail> = {
       benefit: "A safety backup. If Meta's algorithm rolls back the BM and kicks every admin, the original profile's admin still remains, so you keep control of the BM.",
     },
   },
-  "BM WABA 250 limit (WhatsApp API)": {
-    description:
-      "A Business Manager provisioned for the WhatsApp Business API with a 250 messaging limit. For businesses starting conversational and click-to-WhatsApp campaigns.",
-    specs: [
-      { label: "Type", value: "WhatsApp Business API" },
-      { label: "Messaging limit", value: "250 / 24h" },
-      { label: "Verification", value: "Verified" },
-      { label: "Warranty", value: WARRANTY_BM },
-    ],
-  },
   "BM3 WABA 250 limit (WhatsApp API)": {
     description:
       "A WhatsApp Business API BM built on a BM3 base, which makes it noticeably stronger and more stable than a standard BM WABA. If you want WhatsApp messaging that holds up instead of the fragile behavior typical of regular WABA BMs, this is the one.",
@@ -196,17 +186,6 @@ export const productDetails: Record<string, ProductDetail> = {
       "Built for reliable click-to-WhatsApp and conversational campaigns",
     ],
   },
-  "BM WABA 2000 limit (WhatsApp API)": {
-    description:
-      "A WhatsApp Business API Business Manager with a higher 2,000 messaging limit, for teams scaling WhatsApp outreach and click-to-WhatsApp ads.",
-    specs: [
-      { label: "Type", value: "WhatsApp Business API" },
-      { label: "Messaging limit", value: "2,000 / 24h" },
-      { label: "Verification", value: "Verified" },
-      { label: "Warranty", value: WARRANTY_BM },
-    ],
-  },
-
   "BM10 Verified (Unlimited DSL)": {
     description:
       "A top-tier verified Business Manager with 10 ad account slots and no daily spend limit. It carries a large spending history and is extremely strong, one of the rarest and most sought-after assets on the market.",

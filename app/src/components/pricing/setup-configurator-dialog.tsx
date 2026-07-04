@@ -38,8 +38,17 @@ interface SetupConfiguratorDialogProps {
   count: number
   /** the upgrade offer (base asset, upgraded asset, upcharge, comparison) */
   offer: UpgradeOffer
+  /** total à la carte price of the base config (for the savings comparison) */
+  retailPrice: number
   onConfirm: (result: SetupConfiguratorResult) => void
 }
+
+// Warranty terms bundled with every setup (consistent across Advanced/Premium/Elite).
+const SETUP_WARRANTY = [
+  { label: "Profiles", value: "14-day unlimited replacement" },
+  { label: "Pages", value: "14-day unlimited replacement" },
+  { label: "Business Manager", value: "7 days (BM only, native ad accounts not covered)" },
+]
 
 // Radio-style option card (base vs upgraded).
 function OptionCard({
@@ -86,7 +95,7 @@ function OptionCard({
 }
 
 export function SetupConfiguratorDialog({
-  open, onOpenChange, planName, basePrice, count, offer, onConfirm,
+  open, onOpenChange, planName, basePrice, count, offer, retailPrice, onConfirm,
 }: SetupConfiguratorDialogProps) {
   const [option, setOption] = useState<UpgradeOptionKey>("base")
   const [addOn, setAddOn] = useState(false)
@@ -96,6 +105,15 @@ export function SetupConfiguratorDialog({
   // Original-profile backup add-on: one per included BM unit.
   const addonTotal = count * ORIGINAL_PROFILE_ADDON.unitPrice
   const total = basePrice + (isUpgrade ? upcharge : 0) + (addOn ? addonTotal : 0)
+
+  // À la carte (buying each item separately) vs the configured setup total, so
+  // the customer sees exactly how much the bundle saves them. Updates live with
+  // the upgrade + add-on choices.
+  const alaCarte =
+    retailPrice +
+    (isUpgrade ? count * (offer.upgradedUnitRetail - offer.baseUnitRetail) : 0) +
+    (addOn ? count * ORIGINAL_PROFILE_ADDON.unitRetail : 0)
+  const savings = alaCarte - total
   // Multi-unit setups (e.g. Elite, 2 BM5) upgrade ALL units together.
   const upchargeNote = count > 1 ? ` (${count}× ${offer.base.name}, $${offer.unitUpcharge} each)` : ""
 
@@ -212,15 +230,36 @@ export function SetupConfiguratorDialog({
             </span>
           </button>
 
+          {/* Warranty summary — same terms across all setups */}
+          <div className="flex flex-col gap-2">
+            <div className={cn(siteText.overline, "text-[var(--alpha-100)]")}>Warranty included</div>
+            <div className="overflow-hidden rounded-[14px] border border-[#ffffff1a]">
+              {SETUP_WARRANTY.map((w, i) => (
+                <div
+                  key={w.label}
+                  className={cn(
+                    "flex items-center justify-between gap-4 px-4 py-3",
+                    i < SETUP_WARRANTY.length - 1 && "border-b border-[#ffffff0f]",
+                  )}
+                >
+                  <span className={cn(siteText.bodyS, "text-[var(--alpha-100)]")}>{w.label}</span>
+                  <span className={cn(siteText.labelS, "text-right text-foreground")}>{w.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Footer — live total + confirm */}
           <div className="flex items-center justify-between gap-4 border-t border-[#ffffff1a] pt-5 max-sm:flex-col max-sm:items-stretch">
             <div className="flex flex-col">
-              <span className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>Total</span>
+              <span className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>
+                Setup total{savings > 0 && " (bundle price)"}
+              </span>
               <span className={cn(siteText.displayH5, "text-foreground")}>
                 ${total}
-                {total > basePrice && (
+                {savings > 0 && (
                   <span className={cn(siteText.bodyS, "ml-2 text-[var(--alpha-50)] line-through")}>
-                    ${basePrice}
+                    ${alaCarte}
                   </span>
                 )}
               </span>
