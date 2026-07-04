@@ -69,7 +69,10 @@ export const catalogCategories: ComparisonCategory[] = [
     name: "Other Service",
     features: [
       { name: "Unban Service (Profile, Page, BM, etc.)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
-      { name: "Verification Badge (Page, Instagram, etc.)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "BM Verification Service", basic: "$100", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "Verification Badge (Facebook Page)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "Verification Badge (Instagram)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "Verification Badge (TikTok)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
       { name: "SMM (Boost Likes, Followers, Comments)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
     ],
   },

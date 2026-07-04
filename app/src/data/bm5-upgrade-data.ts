@@ -1,46 +1,62 @@
-// BM5 upgrade option data — shared by the setup configurator dialog.
-// Setups that ship with "BM5 Verified: $250 spending limit" can be upgraded to
-// "BM5 Verified Unlimited" (no spend cap) for a fixed upcharge PER BM5 unit.
+// Upgrade offers for setup cards. A setup can offer to swap an included asset
+// for a stronger one at checkout, shown in the configurator dialog with a
+// base-vs-upgraded comparison and a per-unit upcharge.
 //
-// NOTE: comparison specs below are drafted from the current catalog wording.
-// Confirm exact spend-limit terms with GOADS support before large orders.
+// NOTE: comparison specs are drafted from the current catalog wording.
+// Confirm exact terms with GOADS support before large orders.
 
-/** Flat upcharge added per BM5 unit when upgrading $250 → Unlimited. */
-export const BM5_UNIT_UPCHARGE = 60
-
-export type Bm5ComparisonRow = {
-  /** Row label (left column) */
+export type UpgradeComparisonRow = {
   feature: string
-  /** Value for the included BM5 Verified $250 */
+  /** value for the included (base) asset */
   base: string
-  /** Value for the upgraded BM5 Verified Unlimited */
-  unlimited: string
-  /** true → the Unlimited value is the stronger/highlighted one */
-  unlimitedWins?: boolean
+  /** value for the upgraded asset */
+  upgraded: string
+  /** true → the upgraded value is the stronger/highlighted one */
+  upgradedWins?: boolean
 }
 
-// Left→right: feature | BM5 Verified $250 | BM5 Verified Unlimited
-export const bm5ComparisonRows: Bm5ComparisonRow[] = [
-  { feature: "Verification", base: "Verified (blue)", unlimited: "Verified (blue)" },
-  { feature: "Ad account slots", base: "5 slots", unlimited: "5 slots" },
-  { feature: "Spending limit", base: "$250 initial cap", unlimited: "No spend cap", unlimitedWins: true },
-  { feature: "Stability", base: "Standard stability", unlimited: "Stronger & more stable", unlimitedWins: true },
-  { feature: "Scaling", base: "Raise limit gradually", unlimited: "Run large budgets right away", unlimitedWins: true },
-  { feature: "Best for", base: "Getting started, testing", unlimited: "Agencies scaling hard", unlimitedWins: true },
-]
-
-// Two selectable options shown as radio cards at the top of the dialog.
-export const bm5Options = {
-  base: {
-    key: "base" as const,
-    name: "BM5 Verified $250",
-    tagline: "$250 spending limit",
-  },
-  unlimited: {
-    key: "unlimited" as const,
-    name: "BM5 Verified Unlimited",
-    tagline: "No spending limit",
-  },
+export type UpgradeOffer = {
+  /** flat upcharge added PER included unit when upgrading */
+  unitUpcharge: number
+  /** the included (base) asset */
+  base: { name: string; tagline: string }
+  /** the upgraded asset */
+  upgraded: { name: string; tagline: string }
+  /** base vs upgraded comparison rows */
+  comparison: UpgradeComparisonRow[]
+  /** suffix appended to the cart line name when upgraded, e.g. "BM5 Unlimited" */
+  cartTag: string
 }
 
-export type Bm5OptionKey = "base" | "unlimited"
+export type UpgradeOptionKey = "base" | "upgraded"
+
+// BM5 Verified $250 → BM5 Verified Unlimited (+$60 per BM5). Premium & Elite.
+export const bm5UnlimitedOffer: UpgradeOffer = {
+  unitUpcharge: 60,
+  base: { name: "BM5 Verified $250", tagline: "$250 spending limit" },
+  upgraded: { name: "BM5 Verified Unlimited", tagline: "No spending limit" },
+  cartTag: "BM5 Unlimited",
+  comparison: [
+    { feature: "Verification", base: "Verified (blue)", upgraded: "Verified (blue)" },
+    { feature: "Ad account slots", base: "5 slots", upgraded: "5 slots" },
+    { feature: "Spending limit", base: "$250 initial cap", upgraded: "No spend cap", upgradedWins: true },
+    { feature: "Stability", base: "Standard stability", upgraded: "Stronger & more stable", upgradedWins: true },
+    { feature: "Scaling", base: "Raise limit gradually", upgraded: "Run large budgets right away", upgradedWins: true },
+    { feature: "Best for", base: "Getting started, testing", upgraded: "Agencies scaling hard", upgradedWins: true },
+  ],
+}
+
+// BM3 Verified → BM5 Verified Unlimited (+$200). Advanced Setup.
+export const bm3ToBm5UnlimitedOffer: UpgradeOffer = {
+  unitUpcharge: 200,
+  base: { name: "BM3 Verified", tagline: "3 ad accounts, no spend history" },
+  upgraded: { name: "BM5 Verified Unlimited", tagline: "5 ad accounts, unlimited spend" },
+  cartTag: "BM5 Unlimited",
+  comparison: [
+    { feature: "Ad account slots", base: "3 slots", upgraded: "5 slots", upgradedWins: true },
+    { feature: "Spending limit", base: "Standard", upgraded: "No spend cap", upgradedWins: true },
+    { feature: "Spending history", base: "None", upgraded: "Yes", upgradedWins: true },
+    { feature: "Stability", base: "Fairly stable", upgraded: "Very strong, long-term", upgradedWins: true },
+    { feature: "Pixel sharing", base: "Not supported", upgraded: "Supported", upgradedWins: true },
+  ],
+}

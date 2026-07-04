@@ -1,14 +1,13 @@
-// Setup configurator dialog — BM5 $250 → Unlimited upgrade picker.
-// Opens when buying a setup that includes BM5 Verified $250 (Premium / Elite).
-// Dark Foreplay style: bg-background, #ffffff1a hairlines, --alpha-* text ramp,
-// siteText typography, CtaButton. Two radio option cards + comparison table +
-// a live total; confirming adds the chosen variant (price already adjusted) to
-// the cart.
+// Setup configurator dialog — upgrade an included asset at checkout.
+// Opens when buying a setup that ships with an UpgradeOffer (Advanced / Premium
+// / Elite). Dark Foreplay style: `site` token scope, elevated near-black panel,
+// hairline border, soft shadow, blurred backdrop. Two radio option cards + a
+// base-vs-upgraded comparison + a live total; confirming adds the chosen variant
+// (price already adjusted) to the cart.
 //
 // Composed from raw Radix (not ui/dialog) so we control the backdrop + panel:
-// the page bg (#020308) is near-black, so a flat #020308 panel sinks into it.
-// Fix = darker/blurred backdrop (page recedes) + an ELEVATED panel surface
-// (gradient a touch lighter than the page) + brighter border + soft shadow.
+// the page bg (#020308) is near-black, so a flat panel sinks into it. Fix =
+// darker/blurred backdrop + border + soft shadow to lift the panel off the page.
 
 "use client"
 
@@ -18,15 +17,15 @@ import { Dialog as DialogPrimitive } from "radix-ui"
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
-import { Bm5ComparisonTable } from "@/components/pricing/bm5-comparison-table"
-import { BM5_UNIT_UPCHARGE, bm5Options, type Bm5OptionKey } from "@/data/bm5-upgrade-data"
+import { UpgradeComparisonTable } from "@/components/pricing/upgrade-comparison-table"
+import type { UpgradeOffer, UpgradeOptionKey } from "@/data/bm5-upgrade-data"
 
 export interface SetupConfiguratorResult {
-  /** "base" | "unlimited" — which BM5 variant the customer picked */
-  option: Bm5OptionKey
+  /** "base" | "upgraded" — which variant the customer picked */
+  option: UpgradeOptionKey
   /** final price after the (optional) upgrade upcharge */
   totalPrice: number
-  /** cart line name, e.g. "Premium Setup (BM5 Unlimited)" */
+  /** cart line name, e.g. "Advanced Setup (BM5 Unlimited)" */
   name: string
 }
 
@@ -35,12 +34,14 @@ interface SetupConfiguratorDialogProps {
   onOpenChange: (open: boolean) => void
   planName: string
   basePrice: number
-  /** how many BM5 Verified $250 units the setup includes */
-  bm5Count: number
+  /** how many upgradable units the setup includes */
+  count: number
+  /** the upgrade offer (base asset, upgraded asset, upcharge, comparison) */
+  offer: UpgradeOffer
   onConfirm: (result: SetupConfiguratorResult) => void
 }
 
-// Radio-style option card (BM5 $250 vs Unlimited).
+// Radio-style option card (base vs upgraded).
 function OptionCard({
   active, name, tagline, priceLabel, onSelect,
 }: {
@@ -76,7 +77,7 @@ function OptionCard({
         <span className={cn(siteText.labelS, "text-foreground")}>{name}</span>
         <span className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>{tagline}</span>
       </span>
-      {/* price pill — "Included" or "+$60" */}
+      {/* price pill — "Included" or "+$N" */}
       <span className={cn(siteText.labelS, active ? "text-foreground" : "text-[var(--alpha-50)]")}>
         {priceLabel}
       </span>
@@ -85,21 +86,21 @@ function OptionCard({
 }
 
 export function SetupConfiguratorDialog({
-  open, onOpenChange, planName, basePrice, bm5Count, onConfirm,
+  open, onOpenChange, planName, basePrice, count, offer, onConfirm,
 }: SetupConfiguratorDialogProps) {
-  const [option, setOption] = useState<Bm5OptionKey>("base")
+  const [option, setOption] = useState<UpgradeOptionKey>("base")
 
-  const upcharge = bm5Count * BM5_UNIT_UPCHARGE
-  const isUpgrade = option === "unlimited"
+  const upcharge = count * offer.unitUpcharge
+  const isUpgrade = option === "upgraded"
   const total = isUpgrade ? basePrice + upcharge : basePrice
-  // Multi-BM5 setups (Elite) upgrade ALL units together — note the math.
-  const upchargeNote = bm5Count > 1 ? ` (${bm5Count}× BM5, $${BM5_UNIT_UPCHARGE} each)` : ""
+  // Multi-unit setups (e.g. Elite, 2 BM5) upgrade ALL units together.
+  const upchargeNote = count > 1 ? ` (${count}× ${offer.base.name}, $${offer.unitUpcharge} each)` : ""
 
   const handleConfirm = () => {
     onConfirm({
       option,
       totalPrice: total,
-      name: isUpgrade ? `${planName} (BM5 Unlimited)` : planName,
+      name: isUpgrade ? `${planName} (${offer.cartTag})` : planName,
     })
     onOpenChange(false)
     setOption("base") // reset for next open
@@ -108,20 +109,15 @@ export function SetupConfiguratorDialog({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        {/* Backdrop — darker (70%) + blur so the near-black page recedes behind
-            the panel instead of blending into it. */}
+        {/* Backdrop — darker + blur so the near-black page recedes behind the panel. */}
         <DialogPrimitive.Overlay className="fixed inset-0 z-[120] bg-black/70 backdrop-blur-sm data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0" />
-        {/* `site` re-scopes the Foreplay dark tokens (--primary, --alpha-*, …):
-            the dialog portals to <body>, outside the .site wrapper, so without
-            this the hero button loses its dark text and vanishes on hover.
-            Panel keeps the original near-black bg-background; separation from the
-            page comes from the darkened/blurred backdrop + border + soft shadow. */}
+        {/* `site` re-scopes the Foreplay dark tokens (the portal renders outside
+            .site). Panel keeps the near-black bg-background; separation comes from
+            the darkened/blurred backdrop + border + soft shadow. */}
         <DialogPrimitive.Content
           className={cn(
             "site fixed top-1/2 left-1/2 z-[121] flex max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-[680px] -translate-x-1/2 -translate-y-1/2 flex-col gap-6 overflow-y-auto rounded-[20px]",
-            // original black surface (#020308); lifted only by border + shadow
-            "bg-background",
-            "border border-white/12 p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)] ring-1 ring-white/[0.04] outline-none max-sm:p-5",
+            "bg-background border border-white/12 p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)] ring-1 ring-white/[0.04] outline-none max-sm:p-5",
             "duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
           )}
         >
@@ -139,58 +135,62 @@ export function SetupConfiguratorDialog({
               Configure your {planName}
             </DialogPrimitive.Title>
             <DialogPrimitive.Description className={cn(siteText.bodyS, "text-[var(--alpha-100)]")}>
-              Choose your BM5 type. Upgrade to Unlimited to remove the $250 spend cap and scale without limits.
+              Upgrade your {offer.base.name} to {offer.upgraded.name} for a stronger, more scalable setup.
             </DialogPrimitive.Description>
           </div>
 
-        {/* Option cards */}
-        <div className="flex gap-3 max-sm:flex-col">
-          <OptionCard
-            active={option === "base"}
-            name={bm5Options.base.name}
-            tagline={bm5Options.base.tagline}
-            priceLabel="Included"
-            onSelect={() => setOption("base")}
-          />
-          <OptionCard
-            active={option === "unlimited"}
-            name={bm5Options.unlimited.name}
-            tagline={bm5Options.unlimited.tagline}
-            priceLabel={`+$${upcharge}`}
-            onSelect={() => setOption("unlimited")}
-          />
-        </div>
-
-        {/* Comparison */}
-        <div className="flex flex-col gap-2">
-          <div className={cn(siteText.overline, "text-[var(--alpha-100)]")}>
-            What&rsquo;s the difference?
+          {/* Option cards */}
+          <div className="flex gap-3 max-sm:flex-col">
+            <OptionCard
+              active={option === "base"}
+              name={offer.base.name}
+              tagline={offer.base.tagline}
+              priceLabel="Included"
+              onSelect={() => setOption("base")}
+            />
+            <OptionCard
+              active={option === "upgraded"}
+              name={offer.upgraded.name}
+              tagline={offer.upgraded.tagline}
+              priceLabel={`+$${upcharge}`}
+              onSelect={() => setOption("upgraded")}
+            />
           </div>
-          <Bm5ComparisonTable />
-          {bm5Count > 1 && (
-            <p className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>
-              This setup includes {bm5Count} BM5, upgrading applies to all of them{upchargeNote}.
-            </p>
-          )}
-        </div>
 
-        {/* Footer — live total + confirm */}
-        <div className="flex items-center justify-between gap-4 border-t border-[#ffffff1a] pt-5 max-sm:flex-col max-sm:items-stretch">
-          <div className="flex flex-col">
-            <span className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>Total</span>
-            <span className={cn(siteText.displayH5, "text-foreground")}>
-              ${total}
-              {isUpgrade && (
-                <span className={cn(siteText.bodyS, "ml-2 text-[var(--alpha-50)] line-through")}>
-                  ${basePrice}
-                </span>
-              )}
-            </span>
+          {/* Comparison */}
+          <div className="flex flex-col gap-2">
+            <div className={cn(siteText.overline, "text-[var(--alpha-100)]")}>
+              What&rsquo;s the difference?
+            </div>
+            <UpgradeComparisonTable
+              rows={offer.comparison}
+              baseName={offer.base.name}
+              upgradedName={offer.upgraded.name}
+            />
+            {count > 1 && (
+              <p className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>
+                This setup includes {count} {offer.base.name}, upgrading applies to all of them{upchargeNote}.
+              </p>
+            )}
           </div>
-          <CtaButton variant="hero" onClick={handleConfirm} className="justify-center max-sm:w-full">
-            Add to cart, ${total}
-          </CtaButton>
-        </div>
+
+          {/* Footer — live total + confirm */}
+          <div className="flex items-center justify-between gap-4 border-t border-[#ffffff1a] pt-5 max-sm:flex-col max-sm:items-stretch">
+            <div className="flex flex-col">
+              <span className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>Total</span>
+              <span className={cn(siteText.displayH5, "text-foreground")}>
+                ${total}
+                {isUpgrade && (
+                  <span className={cn(siteText.bodyS, "ml-2 text-[var(--alpha-50)] line-through")}>
+                    ${basePrice}
+                  </span>
+                )}
+              </span>
+            </div>
+            <CtaButton variant="hero" onClick={handleConfirm} className="justify-center max-sm:w-full">
+              Add to cart, ${total}
+            </CtaButton>
+          </div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>

@@ -26,6 +26,7 @@ import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
 import { useCart } from "@/lib/cart-context"
 import { SetupConfiguratorDialog, type SetupConfiguratorResult } from "@/components/pricing/setup-configurator-dialog"
+import type { UpgradeOffer } from "@/data/bm5-upgrade-data"
 
 // SVG icons extracted from source sprites
 function CheckIcon() {
@@ -99,10 +100,10 @@ export interface PricingCardData {
   usersIncluded?: string
   additionalUserCost?: string
   features: PricingFeature[]
-  /** When set, the CTA opens the BM5 upgrade configurator instead of adding
-   *  straight to cart. `bm5Count` = how many "BM5 Verified $250" units this
-   *  setup includes (each upgradable to Unlimited for BM5_UNIT_UPCHARGE). */
-  upgrade?: { bm5Count: number }
+  /** When set, the CTA opens the upgrade configurator instead of adding straight
+   *  to cart. `count` = how many upgradable units this setup includes; `offer`
+   *  describes the base→upgraded swap (labels, upcharge, comparison). */
+  upgrade?: { offer: UpgradeOffer; count: number }
 }
 
 interface PricingCardProps {
@@ -320,7 +321,8 @@ export function PricingCard({
           onOpenChange={setConfigOpen}
           planName={data.planName}
           basePrice={priceNum}
-          bm5Count={data.upgrade!.bm5Count}
+          count={data.upgrade!.count}
+          offer={data.upgrade!.offer}
           onConfirm={handleUpgradeConfirm}
         />
       )}

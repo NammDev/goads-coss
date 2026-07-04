@@ -276,6 +276,52 @@ export const productDetails: Record<string, ProductDetail> = {
       { label: "Availability", value: "Contact for stock" },
     ],
   },
+
+  // ── Other Service ──
+  "Verification Badge (Facebook Page)": {
+    description:
+      "We secure the official verified blue badge for your Facebook Page, boosting credibility, reach, and trust with your audience.",
+    specs: [
+      { label: "Platform", value: "Facebook Page" },
+      { label: "Badge", value: "Verified (blue)" },
+      { label: "Price", value: "$600" },
+      { label: "Turnaround", value: "Case-dependent" },
+    ],
+  },
+  "Verification Badge (Instagram)": {
+    description:
+      "We secure the official verified badge for your Instagram account, strengthening credibility and unlocking the trust that comes with a verified profile.",
+    specs: [
+      { label: "Platform", value: "Instagram" },
+      { label: "Badge", value: "Verified (blue)" },
+      { label: "Price", value: "$600" },
+      { label: "Turnaround", value: "Case-dependent" },
+    ],
+  },
+  "Verification Badge (TikTok)": {
+    description:
+      "We help secure the official verified badge for your TikTok account. Pricing depends on the account and case, contact us for a quick assessment.",
+    specs: [
+      { label: "Platform", value: "TikTok" },
+      { label: "Badge", value: "Verified" },
+      { label: "Price", value: "Contact for quote" },
+      { label: "Turnaround", value: "Case-dependent" },
+    ],
+  },
+  "BM Verification Service": {
+    description:
+      "We take your Business Manager through Meta's business verification, unlocking higher trust, higher limits, and features that require a verified BM. Fast turnaround with a high success rate.",
+    specs: [
+      { label: "Service", value: "BM business verification" },
+      { label: "Price", value: "$100 per BM" },
+      { label: "Turnaround", value: "Fast (case-dependent)" },
+      { label: "Requirement", value: "Your existing BM" },
+    ],
+    highlights: [
+      "Unlocks higher spending limits and trust",
+      "Enables features that need a verified BM",
+    ],
+  },
 }
 
 /** Return the curated detail, or a sensible generic fallback built from the name. */
