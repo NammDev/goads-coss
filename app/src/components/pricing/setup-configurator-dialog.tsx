@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
 import { UpgradeComparisonTable } from "@/components/pricing/upgrade-comparison-table"
-import type { UpgradeOffer, UpgradeOptionKey } from "@/data/bm5-upgrade-data"
+import { ORIGINAL_PROFILE_ADDON, type UpgradeOffer, type UpgradeOptionKey } from "@/data/bm5-upgrade-data"
 
 export interface SetupConfiguratorResult {
   /** "base" | "upgraded" — which variant the customer picked */
@@ -89,25 +89,31 @@ export function SetupConfiguratorDialog({
   open, onOpenChange, planName, basePrice, count, offer, onConfirm,
 }: SetupConfiguratorDialogProps) {
   const [option, setOption] = useState<UpgradeOptionKey>("base")
+  const [addOn, setAddOn] = useState(false)
 
   const upcharge = count * offer.unitUpcharge
   const isUpgrade = option === "upgraded"
-  const total = isUpgrade ? basePrice + upcharge : basePrice
+  // Original-profile backup add-on: one per included BM unit.
+  const addonTotal = count * ORIGINAL_PROFILE_ADDON.unitPrice
+  const total = basePrice + (isUpgrade ? upcharge : 0) + (addOn ? addonTotal : 0)
   // Multi-unit setups (e.g. Elite, 2 BM5) upgrade ALL units together.
   const upchargeNote = count > 1 ? ` (${count}× ${offer.base.name}, $${offer.unitUpcharge} each)` : ""
 
+  const reset = () => { setOption("base"); setAddOn(false) }
+
   const handleConfirm = () => {
+    const tags = [isUpgrade ? offer.cartTag : null, addOn ? "Original profile" : null].filter(Boolean)
     onConfirm({
       option,
       totalPrice: total,
-      name: isUpgrade ? `${planName} (${offer.cartTag})` : planName,
+      name: tags.length ? `${planName} (${tags.join(", ")})` : planName,
     })
     onOpenChange(false)
-    setOption("base") // reset for next open
+    reset()
   }
 
   return (
-    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
+    <DialogPrimitive.Root open={open} onOpenChange={(o) => { if (!o) reset(); onOpenChange(o) }}>
       <DialogPrimitive.Portal>
         {/* Backdrop — darker + blur so the near-black page recedes behind the panel. */}
         <DialogPrimitive.Overlay className="fixed inset-0 z-[120] bg-black/70 backdrop-blur-sm data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0" />
@@ -174,13 +180,45 @@ export function SetupConfiguratorDialog({
             )}
           </div>
 
+          {/* Optional Original-profile backup add-on (checkbox card) */}
+          <button
+            type="button"
+            onClick={() => setAddOn((v) => !v)}
+            className={cn(
+              "flex items-start gap-3 rounded-[14px] border p-4 text-left transition-all duration-150",
+              addOn ? "border-[var(--alpha-300)] bg-[var(--alpha-800)]" : "border-[#ffffff1a] hover:border-[var(--alpha-500)]",
+            )}
+          >
+            <span
+              className={cn(
+                "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-[6px] border transition-colors",
+                addOn ? "border-foreground bg-foreground text-background" : "border-[var(--alpha-400)]",
+              )}
+            >
+              {addOn && (
+                <svg viewBox="0 0 20 20" className="size-3.5" fill="none" aria-hidden="true">
+                  <path d="M6 10.5 8.5 13l5.5-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </span>
+            <span className="flex flex-1 flex-col gap-1.5">
+              <span className="flex items-baseline justify-between gap-2">
+                <span className={cn(siteText.labelS, "text-foreground")}>{ORIGINAL_PROFILE_ADDON.label}</span>
+                <span className={cn(siteText.labelS, "shrink-0 text-foreground")}>+${addonTotal}</span>
+              </span>
+              <span className={cn(siteText.bodyS, "text-[var(--alpha-100)]")}>
+                {ORIGINAL_PROFILE_ADDON.benefit}{count > 1 ? ` Applies to all ${count} BMs.` : ""}
+              </span>
+            </span>
+          </button>
+
           {/* Footer — live total + confirm */}
           <div className="flex items-center justify-between gap-4 border-t border-[#ffffff1a] pt-5 max-sm:flex-col max-sm:items-stretch">
             <div className="flex flex-col">
               <span className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>Total</span>
               <span className={cn(siteText.displayH5, "text-foreground")}>
                 ${total}
-                {isUpgrade && (
+                {total > basePrice && (
                   <span className={cn(siteText.bodyS, "ml-2 text-[var(--alpha-50)] line-through")}>
                     ${basePrice}
                   </span>

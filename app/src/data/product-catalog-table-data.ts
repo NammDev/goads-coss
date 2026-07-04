@@ -30,8 +30,9 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "BM5 Verified ($250 DSL)", basic: "$340", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM5 Verified (Unlimited DSL)", basic: "$390", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM WABA 250 limit (WhatsApp API)", basic: "$100", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "BM3 WABA 250 limit (WhatsApp API)", basic: "$150", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM WABA 2000 limit (WhatsApp API)", basic: "$240", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "BM10 Verified (Unlimited DSL)", basic: "$1000", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "BM10 Verified (Unlimited DSL)", basic: "$999", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM50", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
       { name: "BM100", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
       { name: "BM2500", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
@@ -68,7 +69,7 @@ export const catalogCategories: ComparisonCategory[] = [
   {
     name: "Other Service",
     features: [
-      { name: "Unban Service (Profile, Page, BM, etc.)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
+      { name: "Unban Service", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
       { name: "BM Verification Service", basic: "$100", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Verification Badge (Facebook Page)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Verification Badge (Instagram)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },

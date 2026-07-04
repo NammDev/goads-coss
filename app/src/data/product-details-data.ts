@@ -12,6 +12,12 @@ export type ProductDetail = {
   specs: ProductSpec[]
   /** Optional bullet highlights */
   highlights?: string[]
+  /** Optional paid add-on shown as a toggle in the drawer (adds `price` to the cart) */
+  addon?: { label: string; price: number; benefit: string }
+  /** Selectable choices (e.g. which asset to unban) shown as chips; feeds the contact message */
+  options?: { title: string; choices: string[] }
+  /** Prominent note callout shown above the CTA (e.g. "attach a screenshot") */
+  note?: string
 }
 
 const WARRANTY_PROFILE = "14-day unlimited replacement warranty"
@@ -40,18 +46,18 @@ export const productDetails: Record<string, ProductDetail> = {
   },
   "Premium USA Reinstated Profile": {
     description:
-      "A cleanly nurtured Facebook profile built and aged on USA based residential IPs with GOADS' special warm-up method. Reinstated after passing Meta review, giving it the local trust footprint that US ad accounts respond best to.",
+      "A cleanly nurtured Facebook profile built with GOADS' special warm-up method and reinstated after passing Meta review. It carries a US trust footprint that US ad accounts respond best to. Just as important, it has been warmed across mixed residential IPs from multiple countries, which makes it noticeably stronger and flexible enough to run in different environments and regions, not just the US.",
     specs: [
-      { label: "IP region", value: "USA (residential)" },
+      { label: "IP profile", value: "US + mixed multi-country" },
       { label: "Age", value: "1 to 4 years" },
       { label: "Status", value: "Successfully reinstated" },
       { label: "Warm-up", value: "GOADS clean method" },
       { label: "Warranty", value: WARRANTY_PROFILE },
     ],
     highlights: [
+      "Warmed on mixed IPs from several countries, so it stays strong and works across different ad environments",
       "US footprint favored by US and Tier-1 ad accounts",
       "Clean history, ready to run right after login",
-      "Best paired with a US residential or mobile proxy",
     ],
   },
   "Asia Super Aged Double Reinstated (7+ Years)": {
@@ -72,9 +78,9 @@ export const productDetails: Record<string, ProductDetail> = {
   },
   "USA Super Aged Double Reinstated (7+ Years)": {
     description:
-      "Our flagship profile: a USA super aged account with 7 to 15 years of history, double reinstated through two Meta review cycles. Maximum trust and stability for serious US advertising at scale.",
+      "Our flagship profile: a USA super aged account with 7 to 15 years of history, double reinstated through two Meta review cycles. It has been warmed across mixed residential IPs from multiple countries, so on top of maximum trust it stays strong and flexible enough to run in different environments and regions.",
     specs: [
-      { label: "IP region", value: "USA (residential)" },
+      { label: "IP profile", value: "US + mixed multi-country" },
       { label: "Age", value: "7 to 15 years" },
       { label: "Status", value: "Successfully reinstated twice" },
       { label: "Trust", value: "Highest (flagship)" },
@@ -82,7 +88,7 @@ export const productDetails: Record<string, ProductDetail> = {
     ],
     highlights: [
       "The strongest, most stable profile GOADS offers",
-      "Built for high-volume US campaigns",
+      "Warmed on mixed IPs from several countries, usable across different ad environments",
       "Only with GOADS",
     ],
   },
@@ -103,6 +109,7 @@ export const productDetails: Record<string, ProductDetail> = {
       "A verified Business Manager with a single ad account slot. It has no spending history and is the least stable BM tier, so GOADS does not recommend it for serious or long-term campaigns.",
     specs: [
       { label: "Ad account slots", value: "1" },
+      { label: "Verification", value: "Verified" },
       { label: "Spending history", value: "None" },
       { label: "Stability", value: "Low" },
       { label: "Pixel sharing", value: "Not supported" },
@@ -115,6 +122,7 @@ export const productDetails: Record<string, ProductDetail> = {
       "A verified Business Manager with 3 ad account slots. No spending history yet, but fairly stable for running a few accounts in parallel without jumping to a BM5.",
     specs: [
       { label: "Ad account slots", value: "3" },
+      { label: "Verification", value: "Verified" },
       { label: "Spending history", value: "None" },
       { label: "Stability", value: "Fairly stable" },
       { label: "Pixel sharing", value: "Not supported" },
@@ -127,12 +135,18 @@ export const productDetails: Record<string, ProductDetail> = {
     specs: [
       { label: "Ad account slots", value: "5" },
       { label: "Spend limit", value: "$250 initial cap" },
+      { label: "Verification", value: "Verified" },
       { label: "Spending history", value: "Yes" },
       { label: "Stability", value: "Very strong, long-term" },
       { label: "Pixel sharing", value: "Supported" },
       { label: "Warranty", value: WARRANTY_BM },
     ],
     highlights: ["Upgradeable to Unlimited DSL for heavier spend"],
+    addon: {
+      label: "Original profile (the profile that created the BM)",
+      price: 50,
+      benefit: "A safety backup. If Meta's algorithm rolls back the BM and kicks every admin, the original profile's admin still remains, so you keep control of the BM.",
+    },
   },
   "BM5 Verified (Unlimited DSL)": {
     description:
@@ -140,6 +154,7 @@ export const productDetails: Record<string, ProductDetail> = {
     specs: [
       { label: "Ad account slots", value: "5" },
       { label: "Spend limit", value: "No cap (unlimited)" },
+      { label: "Verification", value: "Verified" },
       { label: "Spending history", value: "Yes" },
       { label: "Stability", value: "Very strong, long-term" },
       { label: "Pixel sharing", value: "Supported" },
@@ -149,6 +164,11 @@ export const productDetails: Record<string, ProductDetail> = {
       "Run large budgets from day one",
       "Best for agencies scaling hard",
     ],
+    addon: {
+      label: "Original profile (the profile that created the BM)",
+      price: 50,
+      benefit: "A safety backup. If Meta's algorithm rolls back the BM and kicks every admin, the original profile's admin still remains, so you keep control of the BM.",
+    },
   },
   "BM WABA 250 limit (WhatsApp API)": {
     description:
@@ -158,6 +178,22 @@ export const productDetails: Record<string, ProductDetail> = {
       { label: "Messaging limit", value: "250 / 24h" },
       { label: "Verification", value: "Verified" },
       { label: "Warranty", value: WARRANTY_BM },
+    ],
+  },
+  "BM3 WABA 250 limit (WhatsApp API)": {
+    description:
+      "A WhatsApp Business API BM built on a BM3 base, which makes it noticeably stronger and more stable than a standard BM WABA. If you want WhatsApp messaging that holds up instead of the fragile behavior typical of regular WABA BMs, this is the one.",
+    specs: [
+      { label: "Type", value: "WhatsApp Business API" },
+      { label: "Base", value: "BM3" },
+      { label: "Messaging limit", value: "250 / 24h" },
+      { label: "Verification", value: "Unverified" },
+      { label: "Stability", value: "Strong (stronger than standard WABA)" },
+      { label: "Warranty", value: WARRANTY_BM },
+    ],
+    highlights: [
+      "Much stronger and more stable than a standard BM WABA",
+      "Built for reliable click-to-WhatsApp and conversational campaigns",
     ],
   },
   "BM WABA 2000 limit (WhatsApp API)": {
@@ -177,6 +213,7 @@ export const productDetails: Record<string, ProductDetail> = {
     specs: [
       { label: "Ad account slots", value: "10" },
       { label: "Spend limit", value: "No cap (unlimited)" },
+      { label: "Verification", value: "Verified" },
       { label: "Spending history", value: "Large" },
       { label: "Stability", value: "Very strong" },
       { label: "Availability", value: "Extremely rare" },
@@ -278,23 +315,42 @@ export const productDetails: Record<string, ProductDetail> = {
   },
 
   // ── Other Service ──
+  "Unban Service": {
+    description:
+      "Got an asset restricted or disabled? Our recovery team attempts to reinstate it. Choose the asset you need unbanned, then message us with the details. Success rates and timelines are case-dependent.",
+    specs: [
+      { label: "Covers", value: "Profile, IG, Page, Ad account" },
+      { label: "Pricing", value: "Case-dependent" },
+      { label: "Turnaround", value: "Case-dependent" },
+    ],
+    options: {
+      title: "What do you need unbanned?",
+      choices: ["Facebook Profile", "Instagram", "Facebook Fanpage", "Ad Account"],
+    },
+    note: "When you message us, please attach a full-screen screenshot showing the current status of the asset you need unbanned.",
+  },
   "Verification Badge (Facebook Page)": {
     description:
-      "We secure the official verified blue badge for your Facebook Page, boosting credibility, reach, and trust with your audience.",
+      "We secure the official verified blue badge for your Facebook Page, boosting credibility, reach, and trust with your audience. Please note Meta charges a recurring subscription fee of about $8 to $10 per month to keep the badge active, which you pay directly to Meta. If you do not have a Page yet, we include a free aged reinstated Page (a $35 value) with this service.",
     specs: [
       { label: "Platform", value: "Facebook Page" },
       { label: "Badge", value: "Verified (blue)" },
       { label: "Price", value: "$600" },
+      { label: "Meta monthly fee", value: "$8 to $10 (paid to Meta)" },
       { label: "Turnaround", value: "Case-dependent" },
+    ],
+    highlights: [
+      "No Page yet? We include a free aged reinstated Page ($35 value)",
     ],
   },
   "Verification Badge (Instagram)": {
     description:
-      "We secure the official verified badge for your Instagram account, strengthening credibility and unlocking the trust that comes with a verified profile.",
+      "We secure the official verified badge for your Instagram account, strengthening credibility and unlocking the trust that comes with a verified profile. Please note Meta charges a recurring subscription fee of about $8 to $10 per month to keep the badge active, which you pay directly to Meta.",
     specs: [
       { label: "Platform", value: "Instagram" },
       { label: "Badge", value: "Verified (blue)" },
       { label: "Price", value: "$600" },
+      { label: "Meta monthly fee", value: "$8 to $10 (paid to Meta)" },
       { label: "Turnaround", value: "Case-dependent" },
     ],
   },

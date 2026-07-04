@@ -30,6 +30,16 @@ export type UpgradeOffer = {
 
 export type UpgradeOptionKey = "base" | "upgraded"
 
+// Optional "Original profile" backup add-on, one per included BM unit.
+// The profile that created the BM: if Meta rolls the BM back and kicks every
+// admin, the original profile's admin remains, so control is retained.
+export const ORIGINAL_PROFILE_ADDON = {
+  label: "Original profile (the profile that created the BM)",
+  unitPrice: 50,
+  benefit:
+    "A safety backup. If Meta's algorithm rolls back the BM and kicks every admin, the original profile's admin still remains, so you keep control of the BM.",
+}
+
 // BM5 Verified $250 → BM5 Verified Unlimited (+$60 per BM5). Premium & Elite.
 export const bm5UnlimitedOffer: UpgradeOffer = {
   unitUpcharge: 60,
