@@ -66,6 +66,8 @@ export const goadsSetupCards: PricingCardData[] = [
     ctaLabel: "Scale Now",
     ctaHref: "/book-demo",
     ctaVariant: "primary",
+    // Includes 1x BM5 Verified $250 → offer Unlimited upgrade at checkout.
+    upgrade: { bm5Count: 1 },
     features: [
       { iconSrc: "/assets/BM.webp", label: "1x BM5 Verified: $250 spending limit", available: true },
       { iconSrc: "/assets/BM.webp", label: "1x BM3 Verified: Business Manager with 3 ad account slots", available: true },
@@ -81,6 +83,8 @@ export const goadsSetupCards: PricingCardData[] = [
     ctaLabel: "Go Elite",
     ctaHref: "/book-demo",
     ctaVariant: "secondary",
+    // Includes 2x BM5 Verified $250 → offer Unlimited upgrade (both) at checkout.
+    upgrade: { bm5Count: 2 },
     features: [
       { iconSrc: "/assets/BM.webp", label: "2x BM5 Verified: $250 spending limit each", available: true },
       { iconSrc: "/assets/PROFILES.webp", label: "6x Premium Profiles: High-trust profiles ready for advertising", available: true },

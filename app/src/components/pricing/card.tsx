@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
 import { useCart } from "@/lib/cart-context"
+import { SetupConfiguratorDialog, type SetupConfiguratorResult } from "@/components/pricing/setup-configurator-dialog"
 
 // SVG icons extracted from source sprites
 function CheckIcon() {
@@ -98,6 +99,10 @@ export interface PricingCardData {
   usersIncluded?: string
   additionalUserCost?: string
   features: PricingFeature[]
+  /** When set, the CTA opens the BM5 upgrade configurator instead of adding
+   *  straight to cart. `bm5Count` = how many "BM5 Verified $250" units this
+   *  setup includes (each upgradable to Unlimited for BM5_UNIT_UPCHARGE). */
+  upgrade?: { bm5Count: number }
 }
 
 interface PricingCardProps {
@@ -122,11 +127,14 @@ export function PricingCard({
 }: PricingCardProps) {
   const { addItem } = useCart()
   const [cartState, setCartState] = useState<"idle" | "loading" | "done">("idle")
+  const [configOpen, setConfigOpen] = useState(false)
 
   // Setup tiers are one-time bundles — parse "$250" → 250 so they add to cart
   // like a normal product. Non-numeric prices (e.g. "Contact") fall back to the link.
   const priceNum = data ? Number(String(data.price).replace(/[^0-9.]/g, "")) : NaN
   const canBuy = Number.isFinite(priceNum) && priceNum > 0
+  // Setups with a BM5 upgrade open the configurator first (pick $250 vs Unlimited).
+  const hasUpgrade = canBuy && !!data?.upgrade
 
   const handleAddToCart = useCallback(() => {
     if (!data || !canBuy || cartState !== "idle") return
@@ -138,6 +146,14 @@ export function PricingCard({
       setTimeout(() => setCartState("idle"), 1200)
     }, 400)
   }, [data, canBuy, priceNum, cartState, addItem])
+
+  // Configurator confirmed → add the chosen variant (price already adjusted).
+  const handleUpgradeConfirm = useCallback((result: SetupConfiguratorResult) => {
+    if (!data) return
+    addItem({ name: result.name, description: data.description, price: result.totalPrice, unit: "setup" })
+    setCartState("done")
+    setTimeout(() => setCartState("idle"), 1200)
+  }, [data, addItem])
 
   const ctaText =
     cartState === "loading" ? "Adding..." : cartState === "done" ? "Added to cart" : (data?.ctaLabel ?? "Add to cart")
@@ -206,7 +222,9 @@ export function PricingCard({
               {/* Purchasable setup → add-to-cart action button (opens cart drawer). */}
               {/* Otherwise → plain link (e.g. "Contact"/custom href). */}
               <CtaButton
-                {...(canBuy ? { onClick: handleAddToCart } : { href: data?.ctaHref ?? "#" })}
+                {...(canBuy
+                  ? { onClick: hasUpgrade ? () => setConfigOpen(true) : handleAddToCart }
+                  : { href: data?.ctaHref ?? "#" })}
                 variant={data?.ctaVariant === "primary" ? "hero" : "secondary"}
                 className="w-full justify-center"
                 showIcon={!canBuy || cartState === "idle"}
@@ -294,6 +312,18 @@ export function PricingCard({
         </div>
 
       </div>
+
+      {/* BM5 upgrade configurator — mounted only for setups that include BM5 ($250). */}
+      {hasUpgrade && data && (
+        <SetupConfiguratorDialog
+          open={configOpen}
+          onOpenChange={setConfigOpen}
+          planName={data.planName}
+          basePrice={priceNum}
+          bm5Count={data.upgrade!.bm5Count}
+          onConfirm={handleUpgradeConfirm}
+        />
+      )}
     </div>
   )
 }
