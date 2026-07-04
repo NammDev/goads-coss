@@ -17,6 +17,7 @@ import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
 import { useCart } from "@/lib/cart-context"
 import { CONTACT } from "@/data/contact-info"
+import { ProductDetailDrawer } from "@/components/pricing/product-detail-drawer"
 
 // Grid column classes — default 5 cols (Foreplay pricing), overridable via prop
 const GRID_5COL = "grid grid-cols-[1.75fr_1fr_1fr_1fr_1fr]"
@@ -32,6 +33,16 @@ function CheckIcon() {
   return (
     <svg viewBox="0 0 20 20" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
       <path fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6.25 10.75 8.5 13l5.25-6" stroke="currentColor" />
+    </svg>
+  )
+}
+
+// Small info glyph shown after a product name to signal "click for details".
+function InfoGlyph() {
+  return (
+    <svg viewBox="0 0 20 20" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <path stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+        d="M9 9h.75v3.75m6.75-3a6.75 6.75 0 1 1-13.5 0 6.75 6.75 0 0 1 13.5 0Z" />
     </svg>
   )
 }
@@ -290,6 +301,8 @@ export function PricingComparisonTable({
   const [expanded, setExpanded] = useState<Record<number, boolean>>(
     () => Object.fromEntries(defaultExpanded.map(i => [i, true]))
   )
+  // Product whose detail drawer is open (feature + its category name), or null.
+  const [detail, setDetail] = useState<{ feature: ComparisonFeature; category: string } | null>(null)
 
   const toggle = (i: number) => setExpanded(prev => ({ ...prev, [i]: !prev[i] }))
 
@@ -408,7 +421,20 @@ export function PricingComparisonTable({
                       </>
                     ) : (
                       <>
-                        <div className={cn(siteText.labelS, "text-[var(--solid-700)]")}>{feat.name}</div>
+                        {/* Product name → opens the left detail drawer. Dotted underline
+                            + info glyph on hover signal that it's clickable. */}
+                        <button
+                          type="button"
+                          onClick={() => setDetail({ feature: feat, category: cat.name })}
+                          className="group flex cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 text-left outline-none"
+                        >
+                          <span className={cn(siteText.labelS, "text-[var(--solid-700)] underline decoration-dotted decoration-transparent underline-offset-4 transition-colors group-hover:decoration-[var(--solid-400)]")}>
+                            {feat.name}
+                          </span>
+                          <span className="size-4 shrink-0 text-[var(--solid-300)] transition-colors group-hover:text-[var(--solid-700)]">
+                            <InfoGlyph />
+                          </span>
+                        </button>
                         {feat.tooltip && <InfoTooltip text={feat.tooltip} href={feat.tooltipHref} />}
                       </>
                     )}
@@ -463,6 +489,13 @@ export function PricingComparisonTable({
         </div>
 
       </div>
+
+      {/* Left-anchored product detail drawer (opens on product-name click). */}
+      <ProductDetailDrawer
+        feature={detail?.feature ?? null}
+        categoryName={detail?.category}
+        onClose={() => setDetail(null)}
+      />
     </div>
   )
 }
