@@ -20,6 +20,7 @@ import {
   type NavMenuGroup,
 } from "@/components/layout/nav-menu-items"
 import { CONTACT } from "@/data/contact-info"
+import { HeaderSocialLinks } from "@/components/layout/header-social-links"
 
 type Section =
   | { label: string; href: string }
@@ -206,15 +207,10 @@ export function HeaderMobileMenu() {
               <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
-          {/* Sign in temporarily disabled (feature not open yet) — non-clickable,
-              muted + not-allowed cursor + "Coming soon" tooltip. */}
-          <span
-            aria-disabled="true"
-            title="Coming soon"
-            className="cursor-not-allowed py-2 text-center text-foreground opacity-50 select-none"
-          >
-            <span className={navText}>Sign in</span>
-          </span>
+          {/* Discord + Telegram brand buttons (replaced the Sign in link) */}
+          <div className="flex items-center justify-center gap-2 py-1">
+            <HeaderSocialLinks />
+          </div>
         </div>
       </div>
     </>

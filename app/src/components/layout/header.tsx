@@ -37,6 +37,7 @@ import { CtaButton } from "@/components/atoms/cta-button"
 import { CONTACT } from "@/data/contact-info"
 import { HeaderProductMenu } from "@/components/layout/header-product-menu"
 import { HeaderResourcesMenu } from "@/components/layout/header-resources-menu"
+import { HeaderSocialLinks } from "@/components/layout/header-social-links"
 import { HeaderToolsMenu } from "@/components/layout/header-tools-menu"
 import { HeaderMobileMenu } from "@/components/layout/header-mobile-menu"
 import { FooterLogoSvg } from "@/components/layout/footer/logo-svg"
@@ -107,16 +108,8 @@ export function Header() {
 
               {/* .navmenu-cta — source: flex items-center gap-2 justify-end */}
               <div className="flex items-center justify-end gap-2">
-                {/* Sign in — temporarily DISABLED (feature not open yet): muted +
-                    not-allowed cursor + "Coming soon" tooltip, not a link so
-                    customers can't navigate. */}
-                <span
-                  aria-disabled="true"
-                  title="Coming soon"
-                  className="flex cursor-not-allowed items-center justify-start rounded-[10px] px-2.5 py-1.5 text-[0.9375rem] leading-5 text-[var(--alpha-300)] opacity-50 select-none"
-                >
-                  Sign in
-                </span>
+                {/* Discord + Telegram brand buttons (replaced the Sign in link) */}
+                <HeaderSocialLinks />
                 {/* Primary nav CTA → GOADS Telegram (was "Start free trial") */}
                 <CtaButton href={CONTACT.telegram.officialWithMessage} variant="nav">
                   Contact Us
