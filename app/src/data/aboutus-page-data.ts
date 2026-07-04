@@ -35,6 +35,11 @@ export const aboutusTestimonials = [
     authorImageSrc: "/about/justin-bui.webp",
     bgImageSrc: "/about/justin-bui.webp",
     bgImageAlt: "Justin Bui, Founder & CEO of GOADS",
+    // Personal socials — swap "#" with the founder's real profile URLs.
+    socials: {
+      telegram: "https://t.me/Justin_goads",
+      linkedin: "https://www.linkedin.com/in/justinbui12",
+    },
   },
   {
     logoText: "GOADS Team",
@@ -46,6 +51,11 @@ export const aboutusTestimonials = [
     authorImageSrc: "/about/nam-nguyen.webp",
     bgImageSrc: "/about/nam-nguyen.webp",
     bgImageAlt: "Nam Nguyen, Founder & CTO of GOADS",
+    // Personal socials — swap "#" with the founder's real profile URLs.
+    socials: {
+      telegram: "https://t.me/nam_goads",
+      linkedin: "https://www.linkedin.com/in/nam-nguyen-230970277",
+    },
   },
   {
     logoText: "Why GOADS?",

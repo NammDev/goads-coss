@@ -12,6 +12,7 @@
 // .industry-testimonial-image-fade: absolute inset-0, gradient left fade (desktop), none (mobile)
 
 import { siteText } from "@/components/atoms/typography"
+import { FounderSocialIcons, type FounderSocials } from "@/components/solution/founder-social-icons"
 
 interface SolutionTestimonialCardProps {
   /** Image logo source (used when logoText not provided) */
@@ -25,13 +26,15 @@ interface SolutionTestimonialCardProps {
   authorName?: string
   authorRole?: string
   authorImageSrc?: string
+  /** Personal social links (Telegram / LinkedIn) shown next to the bio */
+  socials?: FounderSocials
   bgImageSrc: string
   bgImageAlt?: string
 }
 
 export function SolutionTestimonialCard({
   logoSrc, logoAlt = "", logoHref = "#", logoText,
-  quote, authorName = "", authorRole = "", authorImageSrc = "",
+  quote, authorName = "", authorRole = "", authorImageSrc = "", socials,
   bgImageSrc, bgImageAlt = "",
 }: SolutionTestimonialCardProps) {
   return (
@@ -64,17 +67,19 @@ export function SolutionTestimonialCard({
         {/* .industries-testimonial-bio — hidden when authorName empty (e.g. content-only cards) */}
         {authorName && (
           <div className="flex items-center gap-4">
-            {/* .industires-testimonial-headshot — 80×80 */}
+            {/* .industires-testimonial-headshot — square, sized to match the 3-row text column height */}
             {authorImageSrc && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={authorImageSrc} alt={authorName} className="size-20 rounded-[10px] object-cover" loading="lazy" />
+              <img src={authorImageSrc} alt={authorName} className="size-[104px] shrink-0 rounded-xl object-cover" loading="lazy" />
             )}
             {/* .industries-testimonial-bio-content — name labelL (18px), role bodyM (16px) */}
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-2">
               <div className="text-foreground"><div className={siteText.labelL}>{authorName}</div></div>
               {authorRole && (
                 <div className="text-[var(--alpha-100)]"><div className={siteText.bodyM}>{authorRole}</div></div>
               )}
+              {/* Personal social links (Telegram / LinkedIn) — below the role */}
+              <FounderSocialIcons socials={socials} />
             </div>
           </div>
         )}
