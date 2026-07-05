@@ -9,6 +9,7 @@ import { SectionWhiteBlock } from "@/components/atoms/section-white-block"
 import { HomeCta } from "@/components/home/cta"
 import { ProductPageFaqAccordion } from "@/components/product/page-faq-accordion"
 import { PricingCard } from "@/components/pricing/card"
+import { CustomSetupCta } from "@/components/pricing/custom-setup-cta"
 import { PricingFooterCta } from "@/components/pricing/footer-cta"
 import { PricingComparison } from "@/components/pricing/comparison"
 import { SITE_HERO_GRADIENT, siteText } from "@/components/atoms/typography"
@@ -60,6 +61,7 @@ export default function PricingPage() {
             {/* .pricing-content: cards (no tabs) + footer */}
             <div className="flex flex-col gap-9">
               <PricingCardsGrid />
+              <CustomSetupCta />
               <PricingFooterCta />
             </div>
 
