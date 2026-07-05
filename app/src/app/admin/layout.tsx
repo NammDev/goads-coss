@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { requireRole } from '@/lib/auth/require-role'
 import { getAllProductCounts, getPendingOrderCount } from '@/lib/db/queries'
 import { getNotifications, getUnreadNotificationCount } from '@/lib/db/queries/notification-queries'
+import { AppClerkProvider } from '@/components/app-clerk-provider'
 import { AdminShell } from './admin-shell'
 
 export const metadata: Metadata = {
@@ -25,16 +26,18 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }))
 
   return (
-    <AdminShell
-      userName={session.user.name}
-      userEmail={session.user.email}
-      userRole={roleLabel}
-      productCounts={productCounts}
-      pendingOrderCount={pendingOrderCount}
-      notifications={serializedNotifications}
-      unreadCount={unreadCount}
-    >
-      {children}
-    </AdminShell>
+    <AppClerkProvider>
+      <AdminShell
+        userName={session.user.name}
+        userEmail={session.user.email}
+        userRole={roleLabel}
+        productCounts={productCounts}
+        pendingOrderCount={pendingOrderCount}
+        notifications={serializedNotifications}
+        unreadCount={unreadCount}
+      >
+        {children}
+      </AdminShell>
+    </AppClerkProvider>
   )
 }

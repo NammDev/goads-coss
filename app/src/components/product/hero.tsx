@@ -70,11 +70,17 @@ export function ProductHero({
         aria-hidden="true"
       />
 
-      {/* .product-hero-sticky: scroll-animated, sticky top-[100px] */}
+      {/* .product-hero-sticky: scroll-animated, sticky top-[100px].
+          Initial state MUST be the resting (visible) state — opacity:1, no
+          scale/translate. At page top the scroll trigger is fully in view so
+          the JS animation resolves to exactly this. Starting at opacity:0
+          hid the LCP element (hero title/icon) until hydration + the first
+          IntersectionObserver callback, delaying LCP and tanking the Vercel
+          Speed score. The hook fades this OUT on scroll-down as enhancement. */}
       <div
         ref={stickyRef}
         className="sticky top-[100px] flex flex-col items-center [transform-style:preserve-3d] [will-change:opacity,transform] max-md:relative max-md:top-0"
-        style={{ opacity: 0, transform: "translate3d(0, -33%, 0) scale3d(0.75, 0.75, 1)" }}
+        style={{ opacity: 1, transform: "translate3d(0, 0, 0) scale3d(1, 1, 1)" }}
       >
         {/* .product-hero-icon — 256x256 slot, mt-[-40px] mb-[-24px] (desktop), p-8 (tablet), p-6 (mobile).
             Flex-center so the static SVG variant (no video) sits at its natural ~200px size centered

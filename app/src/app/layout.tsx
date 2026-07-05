@@ -1,8 +1,6 @@
 import "./globals.css";
 
 import { fontMono, fontSans } from "@/fonts";
-import { ClerkProvider } from "@clerk/nextjs";
-import { shadcn } from "@clerk/ui/themes";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/lib/cart-context";
@@ -13,8 +11,6 @@ import { ScrollToTop } from "@/components/scroll-to-top";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
-
-const clerkProxyUrl = process.env.NEXT_PUBLIC_CLERK_PROXY_URL;
 
 // Single source for the shared link-preview copy. Facebook, Instagram, LinkedIn,
 // WhatsApp, Telegram, Discord, Slack, Pinterest, etc. ALL read the same Open Graph
@@ -119,24 +115,20 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ClerkProvider
-          appearance={{ theme: shadcn }}
-          proxyUrl={clerkProxyUrl}
-          signInForceRedirectUrl="/portal"
-          signUpForceRedirectUrl="/portal"
-        >
-          <ThemeProvider>
-            <CartProvider>
-              <TooltipProvider>
-                {children}
-                <CommandMenu />
-                <CalendarPopup />
-                <ScrollToTop />
-                <Toaster position="top-right" />
-              </TooltipProvider>
-            </CartProvider>
-          </ThemeProvider>
-        </ClerkProvider>
+        {/* Clerk is NOT provided here — see AppClerkProvider. Marketing routes
+            skip Clerk's client bundle for faster hydration/LCP; portal, admin
+            and (auth) layouts each mount their own <AppClerkProvider>. */}
+        <ThemeProvider>
+          <CartProvider>
+            <TooltipProvider>
+              {children}
+              <CommandMenu />
+              <CalendarPopup />
+              <ScrollToTop />
+              <Toaster position="top-right" />
+            </TooltipProvider>
+          </CartProvider>
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { AppClerkProvider } from "@/components/app-clerk-provider";
+
 export const metadata: Metadata = {
   title: "GOADS, Sign In",
 };
@@ -14,8 +16,10 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
-      {children}
-    </div>
+    <AppClerkProvider>
+      <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
+        {children}
+      </div>
+    </AppClerkProvider>
   );
 }

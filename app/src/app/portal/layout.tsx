@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { requireRole } from '@/lib/auth/require-role'
 import { getProductCountsByCustomerId } from '@/lib/db/queries'
 import { getNotifications, getUnreadNotificationCount } from '@/lib/db/queries/notification-queries'
+import { AppClerkProvider } from '@/components/app-clerk-provider'
 import { PortalShell } from './portal-shell'
 
 export const metadata: Metadata = {
@@ -23,15 +24,17 @@ export default async function PortalLayout({ children }: { children: React.React
   }))
 
   return (
-    <PortalShell
-      userName={session.user.name ?? 'Customer'}
-      userEmail={session.user.email}
-      userId={session.user.id}
-      productCounts={productCounts}
-      notifications={serializedNotifications}
-      unreadCount={unreadCount}
-    >
-      {children}
-    </PortalShell>
+    <AppClerkProvider>
+      <PortalShell
+        userName={session.user.name ?? 'Customer'}
+        userEmail={session.user.email}
+        userId={session.user.id}
+        productCounts={productCounts}
+        notifications={serializedNotifications}
+        unreadCount={unreadCount}
+      >
+        {children}
+      </PortalShell>
+    </AppClerkProvider>
   )
 }
