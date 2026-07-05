@@ -19,7 +19,7 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "Premium USA Reinstated Profile", basic: "$50", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Asia Super Aged Double Reinstated (7+ Years)", basic: "$95", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "USA Super Aged Double Reinstated (7+ Years)", basic: "$110", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Instagram Account (Real Followers)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
+      { name: "Instagram Account (Real Followers)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact", hasInstagramBadge: true },
     ],
   },
   {
@@ -54,7 +54,7 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "10K Follower Facebook Page", basic: "$110", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Livestream Ads Ready Page", basic: "$200", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Monetized Page (10K Followers)", basic: "$300", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Verified Page (Blue Badge)", basic: "$600", workflow: "Contact", agency: "7 days", enterprise: "Contact" },
+      { name: "Verified Page (Blue Badge)", basic: "$600", workflow: "Contact", agency: "7 days", enterprise: "Contact", hasVerifiedBadge: true },
     ],
   },
   {
@@ -72,10 +72,10 @@ export const catalogCategories: ComparisonCategory[] = [
     name: "Other Service",
     features: [
       { name: "Unban Service", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
-      { name: "BM Verification Service", basic: "$100", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Verification Badge (Facebook Page)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Verification Badge (Instagram)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Verification Badge (TikTok)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
+      { name: "BM Verification Service", basic: "$100", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", hasVerifiedBadge: true },
+      { name: "Verification Badge (Facebook Page)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", hasVerifiedBadge: true },
+      { name: "Verification Badge (Instagram)", basic: "$600", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", hasVerifiedBadge: true },
+      { name: "Verification Badge (TikTok)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact", hasVerifiedBadge: true },
       { name: "SMM (Boost Likes, Followers, Comments)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
     ],
   },

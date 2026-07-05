@@ -109,6 +109,7 @@ export const productDetails: Record<string, ProductDetail> = {
       "A verified Business Manager with a single ad account slot. It has no spending history and is the least stable BM tier, so GOADS does not recommend it for serious or long-term campaigns.",
     specs: [
       { label: "Ad account slots", value: "1" },
+      { label: "Native ad account limit", value: "$50" },
       { label: "Verification", value: "Verified" },
       { label: "Spending history", value: "None" },
       { label: "Stability", value: "Low" },
@@ -122,6 +123,7 @@ export const productDetails: Record<string, ProductDetail> = {
       "A verified Business Manager with 3 ad account slots. No spending history yet, but fairly stable for running a few accounts in parallel without jumping to a BM5.",
     specs: [
       { label: "Ad account slots", value: "3" },
+      { label: "Native ad account limit", value: "$50" },
       { label: "Verification", value: "Verified" },
       { label: "Spending history", value: "None" },
       { label: "Stability", value: "Fairly stable" },
@@ -161,6 +163,7 @@ export const productDetails: Record<string, ProductDetail> = {
       { label: "Warranty", value: WARRANTY_BM },
     ],
     highlights: [
+      "GOADS recommends this BM for long-term use",
       "Run large budgets from day one",
       "Best for agencies scaling hard",
     ],

@@ -18,6 +18,8 @@ import { CtaButton } from "@/components/atoms/cta-button"
 import { useCart } from "@/lib/cart-context"
 import { CONTACT } from "@/data/contact-info"
 import { ProductDetailDrawer } from "@/components/pricing/product-detail-drawer"
+import { VerifiedBadge } from "@/assets/svg/verified-badge"
+import { InstagramLogo } from "@/assets/svg/ad-platform-logos"
 
 // Grid column classes — default 5 cols (Foreplay pricing), overridable via prop
 const GRID_5COL = "grid grid-cols-[1.75fr_1fr_1fr_1fr_1fr]"
@@ -221,6 +223,10 @@ export interface ComparisonFeature {
   isProduct?: boolean
   /** Crown badge — "Only with GoAds" exclusive feature */
   hasCrown?: boolean
+  /** Blue Meta-style verified tick shown next to the row name (verification products) */
+  hasVerifiedBadge?: boolean
+  /** Instagram brand glyph shown left of the row name (Instagram products) */
+  hasInstagramBadge?: boolean
   /** Info tooltip text — shown on hover of ⓘ icon */
   tooltip?: string
   /** Info tooltip "Learn more" link href */
@@ -435,6 +441,13 @@ export function PricingComparisonTable({
                           onClick={() => setDetail({ feature: feat, category: cat.name })}
                           className="group flex cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 text-left outline-none"
                         >
+                          {/* Brand/verification glyphs, left of name */}
+                          {feat.hasInstagramBadge && (
+                            <InstagramLogo className="size-4 shrink-0" />
+                          )}
+                          {feat.hasVerifiedBadge && (
+                            <VerifiedBadge className="size-4 shrink-0 drop-shadow-[0_1px_2px_rgba(0,149,246,0.35)]" />
+                          )}
                           <span className={cn(siteText.labelS, "text-[var(--solid-700)] underline decoration-dotted decoration-transparent underline-offset-4 transition-colors group-hover:decoration-[var(--solid-400)]")}>
                             {feat.name}
                           </span>

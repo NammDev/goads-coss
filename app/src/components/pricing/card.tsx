@@ -21,11 +21,13 @@
 "use client"
 
 import { type ReactNode, useState, useCallback } from "react"
+import { Waypoints } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
 import { useCart } from "@/lib/cart-context"
 import { SetupConfiguratorDialog, type SetupConfiguratorResult } from "@/components/pricing/setup-configurator-dialog"
+import { SetupBlueprintDialog, type SetupTopology } from "@/components/pricing/setup-blueprint-dialog"
 import type { UpgradeOffer } from "@/data/bm5-upgrade-data"
 
 // SVG icons extracted from source sprites
@@ -105,6 +107,9 @@ export interface PricingCardData {
    *  describes the base→upgraded swap (labels, upcharge, comparison).
    *  `retailPrice` = total à la carte price of the base config (for savings). */
   upgrade?: { offer: UpgradeOffer; count: number; retailPrice: number }
+  /** When set, a "See how it connects" button opens a popup showing how this
+   *  setup's assets link together (BM hubs + linked profiles/pages). */
+  topology?: SetupTopology
 }
 
 interface PricingCardProps {
@@ -130,6 +135,7 @@ export function PricingCard({
   const { addItem } = useCart()
   const [cartState, setCartState] = useState<"idle" | "loading" | "done">("idle")
   const [configOpen, setConfigOpen] = useState(false)
+  const [blueprintOpen, setBlueprintOpen] = useState(false)
 
   // Setup tiers are one-time bundles — parse "$250" → 250 so they add to cart
   // like a normal product. Non-numeric prices (e.g. "Contact") fall back to the link.
@@ -243,6 +249,21 @@ export function PricingCard({
                 {canBuy ? ctaText : (data?.ctaLabel ?? "Start Free Trial")}
               </CtaButton>
             </div>
+            {/* Secondary action — opens a popup diagram of how this setup's assets
+                link together. Only rendered for setups that define a topology. */}
+            {data?.topology && (
+              <button
+                type="button"
+                onClick={() => setBlueprintOpen(true)}
+                className={cn(
+                  siteText.labelS,
+                  "inline-flex items-center justify-center gap-1.5 text-[var(--alpha-100)] transition-colors hover:text-foreground",
+                )}
+              >
+                <Waypoints className="size-4" />
+                See how it connects
+              </button>
+            )}
             {/* .no-cc-required — display:none in source */}
             <div className="hidden">
               <div className="flex items-center gap-2">
@@ -335,6 +356,16 @@ export function PricingCard({
           offer={data.upgrade!.offer}
           retailPrice={data.upgrade!.retailPrice}
           onConfirm={handleUpgradeConfirm}
+        />
+      )}
+
+      {/* Setup connection blueprint — mounted only for setups with a topology. */}
+      {data?.topology && (
+        <SetupBlueprintDialog
+          open={blueprintOpen}
+          onOpenChange={setBlueprintOpen}
+          planName={data.planName}
+          topology={data.topology}
         />
       )}
     </div>

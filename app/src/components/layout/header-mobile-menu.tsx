@@ -31,7 +31,7 @@ const SECTIONS: Section[] = [
   { label: "Tools", groups: TOOLS_GROUPS },
   { label: "Resources", groups: RESOURCES_GROUPS, inline: true },
   { label: "Pricing", href: "/pricing" },
-  { label: "Book a Demo", href: "/book-demo" },
+  { label: "Schedule a Call", href: "/book-demo" },
 ]
 
 // .text-navlink @≤991 — Inter Display 20px/28px 600

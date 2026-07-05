@@ -103,7 +103,7 @@ export function Header() {
                 {/* a.navlink (Pricing) */}
                 <NavLink href="/pricing">Pricing</NavLink>
                 {/* a.navlink (Book a Demo) */}
-                <NavLink href="/book-demo">Book a Demo</NavLink>
+                <NavLink href="/book-demo">Schedule a Call</NavLink>
               </div>
 
               {/* .navmenu-cta — source: flex items-center gap-2 justify-end */}
