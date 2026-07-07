@@ -5,9 +5,11 @@ import { format, differenceInDays } from 'date-fns'
 import { AlertTriangleIcon, CalendarIcon, FileTextIcon, ShieldCheckIcon } from 'lucide-react'
 
 import { AdminDataTable } from '@/components/dashboard/admin-data-table'
-import { buildPortalProductColumns } from '@/components/dashboard/columns/portal-product-columns'
+import {
+  buildPortalProductColumns,
+  type SerializedDeliveredRow,
+} from '@/components/dashboard/columns/portal-product-columns'
 import { productTypeLabels } from '@/data/mock-products'
-import type { MockDeliveredItem } from '@/data/mock-delivered-items'
 import type { ProductType } from '@/lib/validators/credential-schemas'
 
 const USAGE_RULES = [
@@ -16,10 +18,11 @@ const USAGE_RULES = [
   'Contact support immediately if the account is restricted.',
 ]
 
-function ExpandedProductRow({ item }: { item: MockDeliveredItem }) {
-  const warrantyDaysLeft = differenceInDays(new Date(item.warrantyUntil), new Date())
-  const isExpired = warrantyDaysLeft < 0
-  const isExpiringSoon = warrantyDaysLeft <= 3 && warrantyDaysLeft >= 0
+function ExpandedProductRow({ item }: { item: SerializedDeliveredRow }) {
+  const warrantyUntil = item.warrantyUntil ? new Date(item.warrantyUntil) : null
+  const warrantyDaysLeft = warrantyUntil ? differenceInDays(warrantyUntil, new Date()) : 0
+  const isExpired = warrantyUntil ? warrantyDaysLeft < 0 : false
+  const isExpiringSoon = warrantyUntil ? warrantyDaysLeft <= 3 && warrantyDaysLeft >= 0 : false
 
   return (
     <div className="grid gap-4 sm:grid-cols-3">
@@ -30,9 +33,9 @@ function ExpandedProductRow({ item }: { item: MockDeliveredItem }) {
         </div>
         <div className="text-sm">
           <span className="text-muted-foreground">Expires: </span>
-          {format(new Date(item.warrantyUntil), 'dd/MM/yyyy')}
+          {warrantyUntil ? format(warrantyUntil, 'dd/MM/yyyy') : '—'}
         </div>
-        {isExpired ? (
+        {!warrantyUntil ? null : isExpired ? (
           <div className="flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1.5 text-xs text-red-700 dark:bg-red-900/20 dark:text-red-400">
             <AlertTriangleIcon className="size-3.5 shrink-0" />
             Warranty expired
@@ -84,18 +87,18 @@ function ExpandedProductRow({ item }: { item: MockDeliveredItem }) {
 }
 
 interface PortalProductsTableProps {
-  items: MockDeliveredItem[]
+  items: SerializedDeliveredRow[]
   productType: ProductType
 }
 
 export function PortalProductsTable({ items, productType }: PortalProductsTableProps) {
   return (
     <AdminDataTable
+      dense
       data={items}
       columns={buildPortalProductColumns(productType)}
       renderExpandedRow={(item) => <ExpandedProductRow item={item} />}
       searchPlaceholder={`Search ${productTypeLabels[productType]}...`}
-      filterColumns={['status']}
       pageSize={20}
     />
   )

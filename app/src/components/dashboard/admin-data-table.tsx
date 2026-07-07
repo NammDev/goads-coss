@@ -69,6 +69,10 @@ type AdminDataTableProps<T> = {
   pageSizeOptions?: number[]
   /** Column IDs to render per-column filter UI for (uses column meta.filterVariant) */
   filterColumns?: string[]
+  /** Foreplay "clean dense" mode — tighter rows + subtle row hover (portal tabs) */
+  dense?: boolean
+  /** Make rows clickable (e.g. navigate to detail). Ignored if renderExpandedRow is set. */
+  onRowClick?: (row: T) => void
 }
 
 /** Reusable admin datatable with column visibility, template-style pagination, and row actions */
@@ -83,6 +87,8 @@ export function AdminDataTable<T>({
   emptyState,
   pageSizeOptions = [5, 10, 25, 50],
   filterColumns,
+  dense = false,
+  onRowClick,
 }: AdminDataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
@@ -165,11 +171,14 @@ export function AdminDataTable<T>({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="h-12 border-y bg-muted/50">
+              <TableRow key={headerGroup.id} className={cn('border-y bg-muted/50', dense ? 'h-10' : 'h-12')}>
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="text-muted-foreground first:pl-4 last:px-4 last:text-center"
+                    className={cn(
+                      'text-muted-foreground first:pl-4 last:px-4 last:text-center',
+                      dense && 'text-xs font-medium'
+                    )}
                   >
                     {header.isPlaceholder ? null : header.column.getCanSort() ? (
                       <div
@@ -206,13 +215,24 @@ export function AdminDataTable<T>({
                   <TableRow
                     data-state={row.getIsSelected() && 'selected'}
                     className={cn(
-                      renderExpandedRow ? 'cursor-pointer' : 'hover:bg-transparent',
+                      renderExpandedRow || onRowClick
+                        ? 'cursor-pointer'
+                        : dense
+                          ? 'hover:bg-muted/50'
+                          : 'hover:bg-transparent',
                       row.getIsExpanded() && 'bg-muted/50'
                     )}
-                    onClick={() => renderExpandedRow && row.toggleExpanded()}
+                    onClick={() =>
+                      renderExpandedRow
+                        ? row.toggleExpanded()
+                        : onRowClick?.(row.original)
+                    }
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="h-14 first:pl-4">
+                      <TableCell
+                        key={cell.id}
+                        className={cn('first:pl-4', dense ? 'h-10 py-1.5 text-sm' : 'h-14')}
+                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}

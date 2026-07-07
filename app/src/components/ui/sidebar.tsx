@@ -310,7 +310,10 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
       data-slot="sidebar-inset"
       className={cn(
         "relative flex w-full flex-1 flex-col bg-background",
-        "md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
+        // Inset (portal): content = floating island on the dark canvas.
+        // Stronger corners + thicker top/bottom margin so the dark canvas reads
+        // clearly around the island. Small left gap separates it from the sidebar.
+        "md:peer-data-[variant=inset]:my-4 md:peer-data-[variant=inset]:mr-4 md:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:rounded-2xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
         className
       )}
       {...props}

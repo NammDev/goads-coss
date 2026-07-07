@@ -27,6 +27,9 @@ type AppSidebarProps = {
   profileHref?: string
   /** Show pending approvals widget */
   pendingCount?: number
+  /** Sidebar layout style. Portal uses 'inset' (content = floating island on a
+   *  dark canvas, Foreplay app look); admin keeps 'floating'. */
+  variant?: 'sidebar' | 'floating' | 'inset'
 }
 
 export function AppSidebar({
@@ -35,9 +38,10 @@ export function AppSidebar({
   title = 'Admin Dashboard',
   profileHref,
   pendingCount,
+  variant = 'floating',
 }: AppSidebarProps) {
   return (
-    <Sidebar variant="floating" collapsible="icon">
+    <Sidebar variant={variant} collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>

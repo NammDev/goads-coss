@@ -42,6 +42,7 @@ export function PortalShell({
         user={{ name: userName, email: userEmail, role: 'Customer' }}
         title="Customer Portal"
         profileHref="/portal/profile"
+        variant="inset"
       />
       <SidebarInset>
         <SiteHeader

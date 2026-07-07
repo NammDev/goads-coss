@@ -13,6 +13,7 @@ interface WalletTableProps {
 export function WalletTable({ transactions }: WalletTableProps) {
   return (
     <AdminDataTable
+      dense
       data={transactions}
       columns={portalWalletColumns}
       searchPlaceholder="Search transactions..."

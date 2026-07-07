@@ -7,6 +7,9 @@ export const profileCredentials = z.object({
   email: z.string().optional(),
   passEmail: z.string().optional(),
   cookie: z.string().optional(),
+  // Portal display fields (stored in credentials JSON — no dedicated DB column)
+  checkLive: z.string().optional(),
+  note: z.string().optional(),
 });
 
 /** BM (Business Manager) credential fields */
@@ -15,6 +18,7 @@ export const bmCredentials = z.object({
   name: z.string().optional(),
   inviteLink: z.string().optional(),
   ogProfile: z.string().optional(),
+  note: z.string().optional(),
 });
 
 /** Page credential fields */
@@ -23,6 +27,7 @@ export const pageCredentials = z.object({
   link: z.string().optional(),
   name: z.string().optional(),
   holdingId: z.string().optional(),
+  note: z.string().optional(),
 });
 
 /** Ad account credential fields */

@@ -223,6 +223,78 @@
   --radius: 1rem;
 }
 
+/* ── Portal redesign: Foreplay ADMIN dashboard style ──────────────────────
+   Signature = dark sidebar (fixed) + light/dark themeable content.
+   Source tokens: docs/foreplay/admin/ (admin.html + admin CSS).
+   Strategy: remap the shadcn semantic tokens INSIDE the .portal scope so every
+   existing shadcn component (Card, Button, Badge, Sidebar…) adopts the admin
+   look with zero per-component rewrites. Sidebar tokens are pinned dark and are
+   NOT redeclared in `.dark .portal`, so they stay dark in both themes. */
+.portal {
+  color-scheme: light;
+
+  /* Content surfaces (light) */
+  --background: #f6f8fa;          /* admin page bg */
+  --foreground: #06070f;          /* primary text */
+  --card: #ffffff;
+  --card-foreground: #06070f;
+  --popover: #ffffff;
+  --popover-foreground: #06070f;
+  --secondary: #ffffff;           /* secondary button = white */
+  --secondary-foreground: #303546;
+  --muted: #f2f4f7;
+  --muted-foreground: #5e6678;
+  --accent: #eef8ff;              /* subtle blue tint */
+  --accent-foreground: #006bff;
+  --border: #eceff3;
+  --input: #dfe1e7;
+
+  /* Primary = Foreplay admin green */
+  --primary: #009f6d;
+  --primary-foreground: #ffffff;
+  --ring: #009f6d;
+  --destructive: #f4003a;
+  --destructive-foreground: #ffffff;
+
+  /* Dark sidebar (pinned — same in light & dark content) */
+  --sidebar: #0b0c12;
+  --sidebar-foreground: #c1c7d0;
+  --sidebar-primary: #009f6d;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ffffff1f;    /* hover/active item bg (white 12%) */
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #ffffff14;    /* divider (white 8%) */
+  --sidebar-ring: #009f6d;
+
+  /* Foreplay admin is compact — 10px card radius (vs marketing 16px) */
+  --radius: 0.625rem;
+
+  /* Inter (body/label). Admin uses no Inter Display headings. */
+  --font-sans: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Dark content — sidebar tokens above persist (not redeclared here).
+   Content island bg is a touch lighter than the sidebar/canvas (#0b0c12) so the
+   inset panel still reads as a floating island in dark mode. */
+.dark .portal {
+  color-scheme: dark;
+
+  --background: #14151b;
+  --foreground: #e7e9ea;
+  --card: #1b1c22;
+  --card-foreground: #e7e9ea;
+  --popover: #16171d;
+  --popover-foreground: #e7e9ea;
+  --secondary: #1c1d24;
+  --secondary-foreground: #e7e9ea;
+  --muted: #1c1d24;
+  --muted-foreground: #808899;
+  --accent: #12233a;
+  --accent-foreground: #1c9cf0;
+  --border: #242628;
+  --input: #2a2c30;
+}
+
 /* Force html/body black + dark color-scheme when .site wrapper is present.
    Scoped to marketing routes only (they render the .site wrapper) — overrides
    next-themes' html-level color-scheme so the WINDOW scrollbar + page canvas

@@ -5,11 +5,11 @@ import type { ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 
 import {
-  StoreIcon,
   ShoppingCartIcon,
   WalletIcon,
+  Building2Icon,
+  FileTextIcon,
   PackageIcon,
-  WrenchIcon,
   UserIcon,
   ArrowUpIcon,
   ArrowDownIcon,
@@ -37,12 +37,12 @@ type Props = {
 
 /** Static portal navigation pages */
 const portalPages = [
-  { label: 'Shop', href: '/portal', icon: StoreIcon },
   { label: 'Orders', href: '/portal/orders', icon: ShoppingCartIcon },
   { label: 'Wallet', href: '/portal/wallet', icon: WalletIcon },
-  { label: 'Products', href: '/portal/products', icon: PackageIcon },
-  { label: 'Tools', href: '/portal/tools', icon: WrenchIcon },
-  { label: 'Profile', href: '/portal/profile', icon: UserIcon },
+  { label: 'BM', href: '/portal/products?type=bm', icon: Building2Icon },
+  { label: 'Profile', href: '/portal/products?type=profile', icon: UserIcon },
+  { label: 'Page', href: '/portal/products?type=page', icon: FileTextIcon },
+  { label: 'Account', href: '/portal/profile', icon: UserIcon },
 ]
 
 const groupHeadingClass =

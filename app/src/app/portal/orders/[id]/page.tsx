@@ -65,13 +65,13 @@ export default async function PortalOrderDetailPage({
           showWarrantyActions
           toolbar={
             <Button size="sm" asChild>
-              <Link href="/portal/products">View all products</Link>
+              <Link href="/portal/products?type=bm">View all products</Link>
             </Button>
           }
         />
       ) : (
         <Button size="sm" asChild>
-          <Link href="/portal/products">View all products</Link>
+          <Link href="/portal/products?type=bm">View all products</Link>
         </Button>
       )}
     </div>

@@ -1,16 +1,17 @@
-import { requireRole } from '@/lib/auth/require-role'
-import { getOrdersByCustomerId, getOrderItemsByCustomerId } from '@/lib/db/queries'
+import { redirect } from 'next/navigation'
+import { auth } from '@clerk/nextjs/server'
+
+import { getOrdersWithItemsByCustomerId } from '@/lib/db/queries'
 import { PortalOrdersEmptyState } from './portal-orders-empty'
 import { PortalOrdersTable } from './portal-orders-table'
 
 export default async function PortalOrdersPage() {
-  const session = await requireRole('customer')
-  const [orders, orderItems] = await Promise.all([
-    getOrdersByCustomerId(session.user.id),
-    getOrderItemsByCustomerId(session.user.id),
-  ])
+  // Role guarded by portal/layout.tsx — use auth() (no Clerk API call).
+  const { userId } = await auth()
+  if (!userId) redirect('/sign-in')
+  const orders = await getOrdersWithItemsByCustomerId(userId)
 
-  // Serialize dates for client component
+  // Serialize dates for client component (items are plain — pass through)
   const serializedOrders = orders.map((o) => ({
     ...o,
     paymentDate: o.paymentDate?.toISOString() ?? null,
@@ -19,18 +20,13 @@ export default async function PortalOrdersPage() {
     updatedAt: o.updatedAt.toISOString(),
   }))
 
-  const serializedItems = orderItems.map((item) => ({
-    ...item,
-    createdAt: item.createdAt.toISOString(),
-  }))
-
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Your Orders</h1>
       {orders.length === 0 ? (
         <PortalOrdersEmptyState />
       ) : (
-        <PortalOrdersTable orders={serializedOrders} orderItems={serializedItems} />
+        <PortalOrdersTable orders={serializedOrders} />
       )}
     </div>
   )

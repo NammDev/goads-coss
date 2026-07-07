@@ -59,6 +59,33 @@ export async function getOrdersByCustomerId(
     .orderBy(desc(orders.createdAt));
 }
 
+/** Portal Orders tab row: order + its line items (quantity + product name) */
+export type PortalOrderRow = Order & {
+  items: { quantity: number; productName: string }[];
+};
+
+/**
+ * Orders for a customer, each with its line items collapsed to {quantity, name}.
+ * Powers the redesigned Orders tab "Order" column (list of `Nx <name>`).
+ */
+export async function getOrdersWithItemsByCustomerId(
+  customerId: string,
+): Promise<PortalOrderRow[]> {
+  const [orderRows, itemRows] = await Promise.all([
+    getOrdersByCustomerId(customerId),
+    getOrderItemsByCustomerId(customerId),
+  ]);
+
+  const itemsByOrder = new Map<string, { quantity: number; productName: string }[]>();
+  for (const it of itemRows) {
+    const arr = itemsByOrder.get(it.orderId) ?? [];
+    arr.push({ quantity: it.quantity, productName: it.productName });
+    itemsByOrder.set(it.orderId, arr);
+  }
+
+  return orderRows.map((o) => ({ ...o, items: itemsByOrder.get(o.id) ?? [] }));
+}
+
 /** Get a single order with items, delivered items, and customer name */
 export async function getOrderById(id: string): Promise<OrderDetail | null> {
   const orderRows = await db

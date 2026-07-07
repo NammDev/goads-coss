@@ -3,7 +3,7 @@
 import { ChevronRight } from 'lucide-react'
 import type { ComponentType } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
@@ -42,8 +42,16 @@ type NavMainProps = {
 
 export function NavMain({ groupLabel, items }: NavMainProps) {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const isItemActive = (item: NavItem) => {
+    const [path, query] = item.href.split('?')
+    // Query-param tab (e.g. /portal/products?type=bm) — match path + type param.
+    if (query) {
+      const wantType = new URLSearchParams(query).get('type')
+      const currentType = searchParams.get('type') ?? 'bm' // default landing tab
+      return pathname === path && currentType === wantType
+    }
     // Root dashboard paths (/admin, /portal) — exact match only
     if (item.href === '/admin' || item.href === '/portal') return pathname === item.href
     return pathname === item.href || pathname.startsWith(item.href + '/')

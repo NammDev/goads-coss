@@ -1,16 +1,9 @@
-import { requireRole } from '@/lib/auth/require-role'
-import { getProductCountsByCustomerId } from '@/lib/db/queries'
-import { ProductTypeTabs } from '@/components/dashboard/product-type-tabs'
-
-export default async function PortalProductsLayout({ children }: { children: React.ReactNode }) {
-  const session = await requireRole('customer')
-  const productCounts = await getProductCountsByCustomerId(session.user.id)
-
-  return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Products</h1>
-      <ProductTypeTabs productCounts={productCounts} basePath="/portal/products" />
-      {children}
-    </div>
-  )
+/**
+ * Portal products layout — thin wrapper.
+ * The in-page ProductTypeTabs was removed in the redesign: BM / Profile / Page
+ * are now top-level sidebar tabs, so per-type navigation lives in the sidebar.
+ * Each /portal/products/[type] page owns its own heading + table.
+ */
+export default function PortalProductsLayout({ children }: { children: React.ReactNode }) {
+  return <div className="space-y-6">{children}</div>
 }

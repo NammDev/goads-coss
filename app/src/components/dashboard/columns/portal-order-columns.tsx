@@ -1,31 +1,13 @@
 'use client'
 
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { EllipsisVerticalIcon } from 'lucide-react'
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { StatusBadge } from '@/components/dashboard/status-badge'
 import type { OrderStatus } from '@/data/mock-orders'
 import { formatUSD } from '@/lib/format-currency'
 
-/** Serialized order from server (dates as ISO strings) */
+/** Serialized portal order (dates as ISO strings) with its line items collapsed. */
 export type SerializedOrder = {
   id: string
   orderNumber: number
@@ -40,38 +22,45 @@ export type SerializedOrder = {
   deliveredAt: string | null
   createdAt: string
   updatedAt: string
+  items: { quantity: number; productName: string }[]
 }
 
-/** Serialized order item from server */
-export type SerializedOrderItem = {
-  id: string
-  orderId: string
-  productId: string
-  quantity: number
-  unitPrice: string
-  createdAt: string
-  productName: string
-}
-
+/**
+ * Orders tab — simplified spec:
+ * Order Time · Order (list of `Nx <name>`) · Revenue · Status · Delivered Time.
+ * Row click → order detail (wired via AdminDataTable onRowClick).
+ */
 export const portalOrderColumns: ColumnDef<SerializedOrder, unknown>[] = [
   {
-    accessorKey: 'id',
-    header: 'Order ID',
+    accessorKey: 'createdAt',
+    header: 'Order Time',
     cell: ({ row }) => (
-      <Link
-        href={`/portal/orders/${row.original.id}`}
-        className="font-mono text-sm font-medium hover:text-primary hover:underline"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {row.original.id}
-      </Link>
+      <span className="text-muted-foreground whitespace-nowrap">
+        {format(new Date(row.original.createdAt), 'dd/MM/yyyy')}
+      </span>
     ),
+  },
+  {
+    id: 'order',
+    header: 'Order',
     enableSorting: false,
-    enableHiding: false,
+    cell: ({ row }) => {
+      const items = row.original.items
+      if (!items.length) return <span className="text-muted-foreground">—</span>
+      return (
+        <div className="flex flex-col gap-0.5">
+          {items.map((it, i) => (
+            <span key={i}>
+              <span className="text-muted-foreground">{it.quantity}x</span> {it.productName}
+            </span>
+          ))}
+        </div>
+      )
+    },
   },
   {
     accessorKey: 'totalAmount',
-    header: 'Total',
+    header: 'Revenue',
     cell: ({ row }) => <span className="font-medium">{formatUSD(row.original.totalAmount)}</span>,
   },
   {
@@ -81,85 +70,15 @@ export const portalOrderColumns: ColumnDef<SerializedOrder, unknown>[] = [
     meta: { filterVariant: 'select' },
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Created',
-    cell: ({ row }) => (
-      <span className="text-muted-foreground text-sm">
-        {format(new Date(row.original.createdAt), 'dd/MM/yyyy')}
-      </span>
-    ),
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => <PortalOrderRowActions orderId={row.original.id} />,
-    enableSorting: false,
-    enableHiding: false,
+    accessorKey: 'deliveredAt',
+    header: 'Delivered Time',
+    cell: ({ row }) =>
+      row.original.deliveredAt ? (
+        <span className="text-muted-foreground whitespace-nowrap">
+          {format(new Date(row.original.deliveredAt), 'dd/MM/yyyy')}
+        </span>
+      ) : (
+        <span className="text-muted-foreground">—</span>
+      ),
   },
 ]
-
-function PortalOrderRowActions({ orderId }: { orderId: string }) {
-  const router = useRouter()
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="data-[state=open]:bg-muted text-muted-foreground size-8 cursor-pointer"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <EllipsisVerticalIcon size={16} />
-          <span className="sr-only">Open menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-36">
-        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); router.push(`/portal/orders/${orderId}`) }}>
-          View Detail
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
-
-/** Expanded row showing order items sub-table */
-export function PortalOrderExpandedRow({
-  order,
-  orderItems,
-}: {
-  order: SerializedOrder
-  orderItems: SerializedOrderItem[]
-}) {
-  const items = orderItems.filter((i) => i.orderId === order.id)
-
-  if (items.length === 0) {
-    return <p className="text-sm text-muted-foreground">No items found for this order.</p>
-  }
-
-  return (
-    <div className="space-y-2">
-      <p className="text-sm font-medium">Order Items</p>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Product</TableHead>
-            <TableHead className="text-right">Qty</TableHead>
-            <TableHead className="text-right">Unit Price</TableHead>
-            <TableHead className="text-right">Subtotal</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {items.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="font-medium">{item.productName}</TableCell>
-              <TableCell className="text-right">{item.quantity}</TableCell>
-              <TableCell className="text-right">{formatUSD(item.unitPrice)}</TableCell>
-              <TableCell className="text-right font-medium">
-                {formatUSD(parseFloat(item.unitPrice) * item.quantity)}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  )
-}

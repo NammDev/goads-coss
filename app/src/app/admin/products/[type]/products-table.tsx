@@ -5,9 +5,11 @@ import { format, differenceInDays } from 'date-fns'
 import { AlertTriangleIcon, CalendarIcon, FileTextIcon, ShieldCheckIcon } from 'lucide-react'
 
 import { AdminDataTable } from '@/components/dashboard/admin-data-table'
-import { buildPortalProductColumns } from '@/components/dashboard/columns/portal-product-columns'
+import {
+  buildPortalProductColumns,
+  type SerializedDeliveredRow,
+} from '@/components/dashboard/columns/portal-product-columns'
 import { productTypeLabels } from '@/data/mock-products'
-import type { MockDeliveredItem } from '@/data/mock-delivered-items'
 import type { ProductType } from '@/lib/validators/credential-schemas'
 
 const USAGE_RULES = [
@@ -16,7 +18,7 @@ const USAGE_RULES = [
   'Contact support immediately if the account is restricted.',
 ]
 
-export function ExpandedProductRow({ item }: { item: MockDeliveredItem }) {
+export function ExpandedProductRow({ item }: { item: SerializedDeliveredRow }) {
   const warrantyUntil = item.warrantyUntil ? new Date(item.warrantyUntil) : null
   const warrantyDaysLeft = warrantyUntil ? differenceInDays(warrantyUntil, new Date()) : null
   const isExpired = warrantyDaysLeft !== null && warrantyDaysLeft < 0
@@ -97,7 +99,7 @@ export function ExpandedProductRow({ item }: { item: MockDeliveredItem }) {
 }
 
 interface AdminProductsTableProps {
-  items: MockDeliveredItem[]
+  items: SerializedDeliveredRow[]
   productType: ProductType
   toolbar?: React.ReactNode
 }
@@ -106,7 +108,7 @@ export function AdminProductsTable({ items, productType, toolbar }: AdminProduct
   return (
     <AdminDataTable
       data={items}
-      columns={buildPortalProductColumns(productType)}
+      columns={buildPortalProductColumns(productType, false, 'admin')}
       renderExpandedRow={(item) => <ExpandedProductRow item={item} />}
       searchPlaceholder={`Search ${productTypeLabels[productType]}...`}
       pageSize={20}

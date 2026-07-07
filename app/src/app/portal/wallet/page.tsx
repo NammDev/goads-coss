@@ -1,14 +1,16 @@
+import { redirect } from 'next/navigation'
 import { WalletIcon } from 'lucide-react'
+import { auth } from '@clerk/nextjs/server'
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { requireRole } from '@/lib/auth/require-role'
 import { getWalletTransactions, getCustomerBalance } from '@/lib/db/queries/wallet-queries'
 import { formatUSD } from '@/lib/format-currency'
 import { WalletTable } from './wallet-table'
 
 export default async function PortalWalletPage() {
-  const session = await requireRole('customer')
-  const userId = session.user.id
+  // Role guarded by portal/layout.tsx — use auth() (no Clerk API call).
+  const { userId } = await auth()
+  if (!userId) redirect('/sign-in')
 
   const [transactions, balance] = await Promise.all([
     getWalletTransactions(userId),

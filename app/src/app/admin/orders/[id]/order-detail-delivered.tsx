@@ -7,12 +7,14 @@ import { ExternalLinkIcon } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AdminDataTable } from '@/components/dashboard/admin-data-table'
-import { buildPortalProductColumns } from '@/components/dashboard/columns/portal-product-columns'
+import {
+  buildPortalProductColumns,
+  type SerializedDeliveredRow,
+} from '@/components/dashboard/columns/portal-product-columns'
 import { ExpandedProductRow } from '@/app/admin/products/[type]/products-table'
 import { decrypt } from '@/lib/db/encryption'
 import { productTypeLabels } from '@/data/mock-products'
 import type { DeliveredItem } from '@/lib/db/queries/order-queries'
-import type { MockDeliveredItem } from '@/data/mock-delivered-items'
 import type { ProductType } from '@/lib/validators/credential-schemas'
 
 interface Props {
@@ -38,23 +40,24 @@ function parseCredentials(raw: string | null): Record<string, string> | undefine
   }
 }
 
-function toMockShape(
+function toRow(
   item: DeliveredItem,
   claimStatusMap?: Map<string, string>,
-): MockDeliveredItem {
+): SerializedDeliveredRow {
+  const credentials = parseCredentials(item.credentials) ?? {}
   return {
     id: item.id,
     orderId: item.orderId,
-    orderItemId: item.orderItemId ?? undefined,
-    productType: item.productType as ProductType,
-    uid: item.uid ?? undefined,
-    credentials: parseCredentials(item.credentials),
-    status: item.status as MockDeliveredItem['status'],
+    orderItemId: item.orderItemId ?? null,
+    productType: item.productType,
+    productName: null,
+    uid: item.uid ?? null,
+    credentials,
+    note: credentials.note ?? null,
+    checkLive: credentials.checkLive ?? null,
+    status: item.status,
     deliveredAt: item.deliveredAt.toISOString(),
-    warrantyUntil: item.warrantyUntil ? item.warrantyUntil.toISOString() : new Date().toISOString(),
-    createdAt: item.createdAt.toISOString(),
-    updatedAt: item.updatedAt.toISOString(),
-    note: undefined,
+    warrantyUntil: item.warrantyUntil ? item.warrantyUntil.toISOString() : null,
     claimStatus: claimStatusMap?.get(item.id) ?? null,
   }
 }
@@ -64,11 +67,11 @@ export function OrderDetailDelivered({ items, toolbar, claimStatusMap, showWarra
 
   // Group by productType
   const grouped = useMemo(() => {
-    const map = new Map<ProductType, MockDeliveredItem[]>()
+    const map = new Map<ProductType, SerializedDeliveredRow[]>()
     for (const item of items) {
       const type = item.productType as ProductType
       const existing = map.get(type) ?? []
-      map.set(type, [...existing, toMockShape(item, claimStatusMap)])
+      map.set(type, [...existing, toRow(item, claimStatusMap)])
     }
     return map
   }, [items, claimStatusMap])
@@ -91,7 +94,7 @@ export function OrderDetailDelivered({ items, toolbar, claimStatusMap, showWarra
           <TabsContent key={type} value={type} className="mt-4">
             <AdminDataTable
               data={grouped.get(type)!}
-              columns={buildPortalProductColumns(type, showWarrantyActions)}
+              columns={buildPortalProductColumns(type, showWarrantyActions, showWarrantyActions ? 'portal' : 'admin')}
               searchPlaceholder="Search by UID, BM ID, email, credentials..."
               pageSize={10}
               toolbar={toolbar}

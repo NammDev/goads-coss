@@ -6,6 +6,7 @@ import {
   numeric,
   serial,
   uniqueIndex,
+  index,
 } from "drizzle-orm/pg-core";
 import { users } from "./auth-tables";
 import { products } from "./product-tables";
@@ -33,7 +34,10 @@ export const orders = pgTable("order", {
   deliveredAt: timestamp("deliveredAt"),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
-});
+}, (table) => [
+  // Portal queries filter/join heavily on customerId (orders per customer).
+  index("order_customer_idx").on(table.customerId),
+]);
 
 /** Order line items — what was ordered (product + quantity + price) */
 export const orderItems = pgTable("order_item", {
@@ -47,7 +51,10 @@ export const orderItems = pgTable("order_item", {
   quantity: integer("quantity").notNull().default(1),
   unitPrice: numeric("unitPrice", { precision: 10, scale: 2 }).notNull(),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
-});
+}, (table) => [
+  index("order_item_order_idx").on(table.orderId),
+  index("order_item_product_idx").on(table.productId),
+]);
 
 /**
  * Delivered items — actual credentials delivered to customer.
@@ -69,7 +76,11 @@ export const deliveredItems = pgTable("delivered_item", {
   deliveredAt: timestamp("deliveredAt").notNull().defaultNow(),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
-});
+}, (table) => [
+  // BM/Profile/Page tabs: join by orderId + filter by productType.
+  index("delivered_item_order_idx").on(table.orderId),
+  index("delivered_item_type_idx").on(table.productType),
+]);
 
 /** Customer-specific pricing — agencies see their own prices */
 export const customerPrices = pgTable(

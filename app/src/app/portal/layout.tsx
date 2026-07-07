@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { fontInter } from '@/fonts'
 import { requireRole } from '@/lib/auth/require-role'
 import { getProductCountsByCustomerId } from '@/lib/db/queries'
 import { getNotifications, getUnreadNotificationCount } from '@/lib/db/queries/notification-queries'
@@ -25,16 +26,20 @@ export default async function PortalLayout({ children }: { children: React.React
 
   return (
     <AppClerkProvider>
-      <PortalShell
-        userName={session.user.name ?? 'Customer'}
-        userEmail={session.user.email}
-        userId={session.user.id}
-        productCounts={productCounts}
-        notifications={serializedNotifications}
-        unreadCount={unreadCount}
-      >
-        {children}
-      </PortalShell>
+      {/* Foreplay admin design scope: Inter font + .portal token remap
+          (dark sidebar + light/dark themeable content). See globals.css .portal */}
+      <div className={`portal ${fontInter.variable} font-sans`}>
+        <PortalShell
+          userName={session.user.name ?? 'Customer'}
+          userEmail={session.user.email}
+          userId={session.user.id}
+          productCounts={productCounts}
+          notifications={serializedNotifications}
+          unreadCount={unreadCount}
+        >
+          {children}
+        </PortalShell>
+      </div>
     </AppClerkProvider>
   )
 }

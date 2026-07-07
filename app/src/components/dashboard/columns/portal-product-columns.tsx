@@ -16,88 +16,208 @@ import {
 import { CopyableCell } from '@/components/dashboard/copyable-cell'
 import { WarrantyBadge } from '@/components/dashboard/warranty-badge'
 import { WarrantyClaimDialog } from '@/app/portal/orders/[id]/warranty-claim-dialog'
-import type { MockDeliveredItem, DeliveredItemStatus } from '@/data/mock-delivered-items'
-import { getProductNameForItem } from '@/data/mock-delivered-items'
+import { productTypeLabels } from '@/data/mock-products'
 import { getColumnsForType, type ProductType } from '@/lib/validators/credential-schemas'
 import { getWarrantyDisplayStatus } from '@/lib/utils/warranty-utils'
+import { cn } from '@/lib/utils'
 
-const STATUS_CONFIG: Record<DeliveredItemStatus, { label: string; className: string }> = {
-  active:   { label: 'Active',   className: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' },
-  inactive: { label: 'Inactive', className: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' },
-  banned:   { label: 'Banned',   className: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' },
-  expired:  { label: 'Expired',  className: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400' },
+/** Serialized delivered-item row for the portal BM/Profile/Page tabs (dates as ISO). */
+export type SerializedDeliveredRow = {
+  id: string
+  orderId: string
+  orderItemId?: string | null
+  productType: string
+  productName?: string | null
+  uid?: string | null
+  credentials: Record<string, string>
+  note?: string | null
+  checkLive?: string | null
+  status?: string
+  warrantyUntil: string | null
+  deliveredAt: string
+  claimStatus?: string | null
+}
+
+type Row = SerializedDeliveredRow
+type Col = ColumnDef<Row, unknown>
+
+const STATUS_CONFIG: Record<string, string> = {
+  active: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+  inactive: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+  banned: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+  expired: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400',
+}
+
+/** Column descriptor → per-type display spec (exact order & labels). */
+type Desc =
+  | { t: 'date'; header: string }
+  | { t: 'name'; header: string }
+  | { t: 'note'; header: string }
+  | { t: 'checkLive'; header: string }
+  | { t: 'status'; header: string }
+  | { t: 'uid'; header: string }
+  | { t: 'cred'; header: string; key: string }
+
+const SPECS: Partial<Record<ProductType, Desc[]>> = {
+  profile: [
+    { t: 'date', header: 'Delivery Time' },
+    { t: 'name', header: 'Name Product' },
+    { t: 'checkLive', header: 'Check Live' },
+    { t: 'note', header: 'Note' },
+    { t: 'uid', header: 'UID' },
+    { t: 'cred', header: 'Password', key: 'password' },
+    { t: 'cred', header: '2FA', key: 'twoFa' },
+  ],
+  bm: [
+    { t: 'date', header: 'Time Delivery' },
+    { t: 'name', header: 'Name Product' },
+    { t: 'note', header: 'Noted' },
+    { t: 'cred', header: 'Business Name', key: 'name' },
+    { t: 'cred', header: 'ID BM', key: 'bmId' },
+  ],
+  page: [
+    { t: 'date', header: 'Delivery Time' },
+    { t: 'name', header: 'Name Product' },
+    { t: 'note', header: 'Note' },
+    { t: 'cred', header: 'Page Name', key: 'name' },
+    { t: 'cred', header: 'Page ID', key: 'pageId' },
+    { t: 'cred', header: 'Link', key: 'link' },
+  ],
+}
+
+/** Fallback for other product types — generic set from the schema. */
+function genericSpec(type: ProductType): Desc[] {
+  return [
+    { t: 'date', header: 'Delivery Time' },
+    { t: 'name', header: 'Name Product' },
+    { t: 'note', header: 'Note' },
+    { t: 'uid', header: 'UID' },
+    ...getColumnsForType(type)
+      .filter((c) => c.key !== 'note' && c.key !== 'checkLive')
+      .map((c): Desc => ({ t: 'cred', header: c.label, key: c.key })),
+  ]
+}
+
+/** Admin variant — status badge + ALL credential fields (unchanged from before). */
+function adminSpec(type: ProductType): Desc[] {
+  return [
+    { t: 'date', header: 'Delivery Time' },
+    { t: 'name', header: 'Name Product' },
+    { t: 'status', header: 'Check Live' },
+    { t: 'note', header: 'Note' },
+    { t: 'uid', header: 'UID' },
+    ...getColumnsForType(type)
+      .filter((c) => c.key !== 'note' && c.key !== 'checkLive')
+      .map((c): Desc => ({ t: 'cred', header: c.label, key: c.key })),
+  ]
+}
+
+const muted = (v?: string | null) =>
+  v ? <span>{v}</span> : <span className="text-muted-foreground">—</span>
+
+function CheckLiveBadge({ value }: { value: string | null }) {
+  if (!value) return <span className="text-muted-foreground">—</span>
+  const v = value.toLowerCase()
+  const live = ['live', 'alive', 'active', 'ok'].includes(v)
+  const dead = ['die', 'dead', 'banned', 'disabled'].includes(v)
+  return (
+    <Badge
+      variant="outline"
+      className={cn(
+        'border-transparent text-xs',
+        live && 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+        dead && 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+        !live && !dead && 'bg-muted text-muted-foreground'
+      )}
+    >
+      {value}
+    </Badge>
+  )
+}
+
+function descToColumn(d: Desc): Col {
+  switch (d.t) {
+    case 'date':
+      return {
+        id: 'deliveredAt',
+        header: d.header,
+        cell: ({ row }) => (
+          <span className="text-muted-foreground whitespace-nowrap">
+            {format(new Date(row.original.deliveredAt), 'dd/MM/yyyy')}
+          </span>
+        ),
+      }
+    case 'name':
+      return {
+        id: 'productName',
+        header: d.header,
+        enableSorting: false,
+        cell: ({ row }) => (
+          <span className="font-medium whitespace-nowrap">
+            {row.original.productName ?? productTypeLabels[row.original.productType as ProductType] ?? row.original.productType}
+          </span>
+        ),
+      }
+    case 'note':
+      return {
+        id: 'note',
+        header: d.header,
+        enableSorting: false,
+        cell: ({ row }) => <span className="text-muted-foreground text-sm">{row.original.note ?? '—'}</span>,
+      }
+    case 'checkLive':
+      return {
+        id: 'checkLive',
+        header: d.header,
+        enableSorting: false,
+        cell: ({ row }) => <CheckLiveBadge value={row.original.checkLive ?? null} />,
+      }
+    case 'status':
+      return {
+        id: 'status',
+        header: d.header,
+        meta: { filterVariant: 'select' },
+        cell: ({ row }) => {
+          const status = row.original.status ?? 'active'
+          return (
+            <Badge variant="outline" className={cn('border-transparent text-xs', STATUS_CONFIG[status])}>
+              {status}
+            </Badge>
+          )
+        },
+      }
+    case 'uid':
+      return {
+        id: 'uid',
+        header: d.header,
+        enableSorting: false,
+        cell: ({ row }) => <CopyableCell value={row.original.uid ?? undefined} />,
+      }
+    case 'cred':
+      return {
+        id: `cred_${d.key}`,
+        header: d.header,
+        enableSorting: false,
+        cell: ({ row }) => <CopyableCell value={row.original.credentials?.[d.key]} />,
+      }
+  }
 }
 
 export function buildPortalProductColumns(
   productType: ProductType,
-  showWarrantyActions = false,
-): ColumnDef<MockDeliveredItem, unknown>[] {
-  const credentialCols = getColumnsForType(productType)
+  showWarrantyActions = true,
+  variant: 'portal' | 'admin' = 'portal',
+): Col[] {
+  const spec =
+    variant === 'admin'
+      ? adminSpec(productType)
+      : (SPECS[productType] ?? genericSpec(productType))
+  const cols = spec.map(descToColumn)
 
-  const common: ColumnDef<MockDeliveredItem, unknown>[] = [
-    {
-      id: 'rowNumber',
-      header: 'No',
-      cell: ({ row }) => <span className="text-muted-foreground">{row.index + 1}</span>,
-      enableSorting: false,
-      size: 50,
-    },
-    {
-      accessorKey: 'deliveredAt',
-      header: 'Delivery Time',
-      cell: ({ row }) => (
-        <span className="text-sm text-muted-foreground whitespace-nowrap">
-          {format(new Date(row.original.deliveredAt), 'dd/MM/yyyy HH:mm')}
-        </span>
-      ),
-    },
-    {
-      id: 'productName',
-      header: 'Name Product',
-      cell: ({ row }) => (
-        <span className="font-medium">{getProductNameForItem(row.original)}</span>
-      ),
-      enableSorting: false,
-    },
-    {
-      accessorKey: 'status',
-      header: 'Check Live',
-      cell: ({ row }) => {
-        const config = STATUS_CONFIG[row.original.status]
-        return (
-          <Badge variant="outline" className={`border-transparent text-xs ${config.className}`}>
-            {config.label}
-          </Badge>
-        )
-      },
-      meta: { filterVariant: 'select' },
-    },
-    {
-      id: 'note',
-      header: 'Note',
-      cell: ({ row }) => (
-        <span className="text-sm text-muted-foreground">
-          {row.original.note ?? '—'}
-        </span>
-      ),
-      enableSorting: false,
-    },
-  ]
-
-  const dynamic: ColumnDef<MockDeliveredItem, unknown>[] = credentialCols.map(
-    ({ key, label }) => ({
-      id: `cred_${key}`,
-      header: label,
-      cell: ({ row }) => (
-        <CopyableCell value={row.original.credentials?.[key]} />
-      ),
-      enableSorting: false,
-    })
-  )
-
-  const warrantyCol: ColumnDef<MockDeliveredItem, unknown> = {
+  const warrantyCol: Col = {
     id: 'warranty',
     header: 'Warranty',
+    enableSorting: false,
     cell: ({ row }) => {
       const item = row.original
       const warrantyUntil = item.warrantyUntil ? new Date(item.warrantyUntil) : null
@@ -108,38 +228,31 @@ export function buildPortalProductColumns(
         <div className="flex items-center gap-2">
           <WarrantyBadge warrantyUntil={warrantyUntil} claimStatus={claimStatus} />
           {showWarrantyActions && (
-            <WarrantyClaimDialog
-              deliveredItemId={item.id}
-              disabled={!claimable}
-            />
+            <WarrantyClaimDialog deliveredItemId={item.id} disabled={!claimable} />
           )}
         </div>
       )
     },
-    enableSorting: false,
   }
 
-  const actions: ColumnDef<MockDeliveredItem, unknown> = {
+  const actionsCol: Col = {
     id: 'actions',
-    cell: ({ row }) => <ProductRowActions item={row.original} />,
     enableSorting: false,
     enableHiding: false,
+    cell: ({ row }) => <ProductRowActions item={row.original} />,
   }
 
-  return [...common, ...dynamic, warrantyCol, actions]
+  return [...cols, warrantyCol, actionsCol]
 }
 
-function ProductRowActions({ item }: { item: MockDeliveredItem }) {
-  const credentialText = item.credentials
-    ? Object.entries(item.credentials)
-        .map(([k, v]) => `${k}: ${v}`)
-        .join('\n')
-    : ''
+function ProductRowActions({ item }: { item: Row }) {
+  const credentialText = Object.entries(item.credentials ?? {})
+    .filter(([, v]) => v)
+    .map(([k, v]) => `${k}: ${v}`)
+    .join('\n')
 
   function copyCredentials() {
-    if (credentialText) {
-      navigator.clipboard.writeText(credentialText).catch(() => {})
-    }
+    if (credentialText) navigator.clipboard.writeText(credentialText).catch(() => {})
   }
 
   return (
@@ -155,10 +268,8 @@ function ProductRowActions({ item }: { item: MockDeliveredItem }) {
           <span className="sr-only">Open menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
-        <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
-          View
-        </DropdownMenuItem>
+      <DropdownMenuContent align="end" className="w-44">
+        <DropdownMenuItem onClick={(e) => e.stopPropagation()}>View</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={(e) => { e.stopPropagation(); copyCredentials() }}

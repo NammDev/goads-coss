@@ -8,7 +8,7 @@ import { deliveredItems } from '@/lib/db/schema'
 import { productTypeLabels } from '@/data/mock-products'
 import { Button } from '@/components/ui/button'
 import type { ProductType } from '@/lib/validators/credential-schemas'
-import type { MockDeliveredItem } from '@/data/mock-delivered-items'
+import type { SerializedDeliveredRow } from '@/components/dashboard/columns/portal-product-columns'
 import { AdminProductsTable } from './products-table'
 
 const validTypes = new Set<string>(Object.keys(productTypeLabels))
@@ -25,24 +25,27 @@ export default async function AdminProductTypePage({ params }: { params: Promise
     .from(deliveredItems)
     .where(eq(deliveredItems.productType, productType))
 
-  // Map DB rows to MockDeliveredItem shape for column compatibility
-  const items: MockDeliveredItem[] = rows.map((row) => ({
-    id: row.id,
-    orderId: row.orderId,
-    orderItemId: row.orderItemId ?? undefined,
-    productType: row.productType as ProductType,
-    uid: row.uid ?? undefined,
-    credentials: row.credentials ? (() => {
-      try { return JSON.parse(row.credentials as string) as Record<string, string> }
-      catch { return undefined }
-    })() : undefined,
-    status: row.status,
-    deliveredAt: row.deliveredAt.toISOString(),
-    warrantyUntil: row.warrantyUntil ? row.warrantyUntil.toISOString() : new Date().toISOString(),
-    createdAt: row.createdAt.toISOString(),
-    updatedAt: row.updatedAt.toISOString(),
-    note: undefined,
-  }))
+  // Map DB rows → SerializedDeliveredRow for the shared column builder
+  const items: SerializedDeliveredRow[] = rows.map((row) => {
+    let credentials: Record<string, string> = {}
+    if (row.credentials) {
+      try { credentials = JSON.parse(row.credentials as string) as Record<string, string> } catch { credentials = {} }
+    }
+    return {
+      id: row.id,
+      orderId: row.orderId,
+      orderItemId: row.orderItemId ?? null,
+      productType: row.productType,
+      productName: null,
+      uid: row.uid ?? null,
+      credentials,
+      note: credentials.note ?? null,
+      checkLive: credentials.checkLive ?? null,
+      status: row.status,
+      warrantyUntil: row.warrantyUntil ? row.warrantyUntil.toISOString() : null,
+      deliveredAt: row.deliveredAt.toISOString(),
+    }
+  })
 
   return (
     <div>
