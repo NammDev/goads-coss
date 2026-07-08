@@ -58,29 +58,17 @@ export const portalWalletColumns: ColumnDef<SerializedWalletTransaction, unknown
     header: 'Order',
     cell: ({ row }) => {
       const orderId = row.original.orderId
+      // Top-ups aren't tied to an order — show a neutral dash, not a broken link.
       if (!orderId) return <span className="text-muted-foreground">—</span>
       return (
         <Link
           href={`/portal/orders/${orderId}`}
-          className="font-mono text-sm text-primary hover:underline"
+          className="text-primary font-mono text-sm hover:underline"
+          title={`View order ${orderId}`}
           onClick={(e) => e.stopPropagation()}
         >
-          {orderId}
+          #{orderId.slice(0, 8)}
         </Link>
-      )
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'note',
-    header: 'Note',
-    cell: ({ row }) => {
-      const note = row.original.note
-      if (!note) return <span className="text-muted-foreground">—</span>
-      return (
-        <span className="text-muted-foreground max-w-[200px] truncate text-sm" title={note}>
-          {note}
-        </span>
       )
     },
     enableSorting: false,

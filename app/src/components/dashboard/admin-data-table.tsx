@@ -77,6 +77,10 @@ type AdminDataTableProps<T> = {
   onRowClick?: (row: T) => void
   /** Fill parent height and pin the pagination row to the bottom of the page. */
   fillHeight?: boolean
+  /** Hide the "Customize Columns" toolbar control (customer-facing tables). */
+  hideColumnToggle?: boolean
+  /** Hide the "N of M row(s) selected" footer (tables without row selection). */
+  hideSelectionCount?: boolean
 }
 
 /** Reusable admin datatable with column visibility, template-style pagination, and row actions */
@@ -94,6 +98,8 @@ export function AdminDataTable<T>({
   dense = false,
   onRowClick,
   fillHeight = false,
+  hideColumnToggle = false,
+  hideSelectionCount = false,
 }: AdminDataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
@@ -136,7 +142,10 @@ export function AdminDataTable<T>({
             <div className="w-full max-w-xs">
               <div className="relative">
                 <Input
-                  className="peer pl-9 border border-input shadow-sm"
+                  className={cn(
+                    'peer border-input border pl-9 shadow-sm',
+                    dense && 'bg-card rounded-lg',
+                  )}
                   placeholder={searchPlaceholder}
                   value={
                     searchColumn
@@ -165,24 +174,35 @@ export function AdminDataTable<T>({
 
           {/* Right side: Customize Columns + action buttons */}
           <div className="flex items-center gap-2">
-            <TableColumnToggle table={table} />
+            {!hideColumnToggle && <TableColumnToggle table={table} />}
             {toolbar}
           </div>
         </div>
       </div>
 
-      {/* Table in rounded bordered container */}
-      <div className="overflow-hidden rounded-lg border">
+      {/* Table in rounded bordered container — portal (dense) gets a softer card. */}
+      <div
+        className={cn(
+          'overflow-hidden border',
+          dense ? 'bg-card rounded-xl shadow-sm' : 'rounded-lg',
+        )}
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className={cn('border-y bg-muted/50', dense ? 'h-10' : 'h-12')}>
+              <TableRow
+                key={headerGroup.id}
+                className={cn(
+                  dense ? 'bg-muted/40 hover:bg-muted/40 h-10 border-b' : 'border-y bg-muted/50 h-12',
+                )}
+              >
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
                     className={cn(
                       'text-muted-foreground first:pl-4 last:px-4 last:text-center',
-                      dense && 'text-xs font-medium',
+                      // Foreplay micro-label header: small, uppercase, tracked.
+                      dense && 'text-xs font-medium uppercase tracking-wider',
                       header.column.columnDef.meta?.className
                     )}
                   >
@@ -221,12 +241,14 @@ export function AdminDataTable<T>({
                   <TableRow
                     data-state={row.getIsSelected() && 'selected'}
                     className={cn(
-                      renderExpandedRow || onRowClick
-                        ? 'cursor-pointer'
-                        : dense
-                          ? 'hover:bg-muted/50'
+                      'transition-colors',
+                      (renderExpandedRow || onRowClick) && 'cursor-pointer',
+                      dense
+                        ? 'hover:bg-accent/40'
+                        : renderExpandedRow || onRowClick
+                          ? 'hover:bg-muted/40'
                           : 'hover:bg-transparent',
-                      row.getIsExpanded() && 'bg-muted/50'
+                      row.getIsExpanded() && (dense ? 'bg-accent/40' : 'bg-muted/50')
                     )}
                     onClick={() =>
                       renderExpandedRow
@@ -273,7 +295,11 @@ export function AdminDataTable<T>({
 
       {/* Template-style pagination — pinned to the bottom when fillHeight */}
       <div className={cn(fillHeight && 'mt-auto')}>
-        <TablePagination table={table} pageSizeOptions={pageSizeOptions} />
+        <TablePagination
+          table={table}
+          pageSizeOptions={pageSizeOptions}
+          hideSelectionCount={hideSelectionCount}
+        />
       </div>
     </div>
   )

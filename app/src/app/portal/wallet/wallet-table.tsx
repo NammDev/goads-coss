@@ -14,6 +14,8 @@ export function WalletTable({ transactions }: WalletTableProps) {
   return (
     <AdminDataTable
       dense
+      hideColumnToggle
+      hideSelectionCount
       data={transactions}
       columns={portalWalletColumns}
       searchPlaceholder="Search transactions..."

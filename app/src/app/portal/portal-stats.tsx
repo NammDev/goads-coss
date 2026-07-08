@@ -1,41 +1,48 @@
-'use client'
-
-import { StatsCard, StatsGrid } from '@/components/dashboard/stats-card'
+import { formatUSD } from '@/lib/format-currency'
 
 interface PortalStatsProps {
   totalOrders: number
   pendingOrders: number
   activeItems: number
+  totalSpent: string
 }
 
-/** Client wrapper to keep Lucide icons in client boundary */
-export function PortalStats({ totalOrders, pendingOrders, activeItems }: PortalStatsProps) {
+/** Clean Foreplay-style stat tile — label, big number, caption. No trend arrows
+ *  or gradient badges (that template look reads as generic dashboard filler). */
+function StatTile({
+  label,
+  value,
+  caption,
+}: {
+  label: string
+  value: string | number
+  caption: string
+}) {
   return (
-    <StatsGrid>
-      <StatsCard
-        title="Total Orders"
-        value={totalOrders}
-        badge={`${totalOrders}`}
-        trend="up"
-        trendLabel="All time orders"
-        trendDescription="Your complete order history"
-      />
-      <StatsCard
-        title="Pending Orders"
+    <div className="bg-card rounded-2xl border p-5">
+      <p className="text-muted-foreground text-xs font-medium">{label}</p>
+      <p className="mt-2 text-2xl font-semibold tracking-tight tabular-nums">{value}</p>
+      <p className="text-muted-foreground mt-1 text-xs">{caption}</p>
+    </div>
+  )
+}
+
+export function PortalStats({
+  totalOrders,
+  pendingOrders,
+  activeItems,
+  totalSpent,
+}: PortalStatsProps) {
+  return (
+    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <StatTile label="Total orders" value={totalOrders} caption="All-time order history" />
+      <StatTile
+        label="Pending orders"
         value={pendingOrders}
-        badge={pendingOrders > 0 ? 'Active' : 'None'}
-        trend={pendingOrders > 0 ? 'up' : 'down'}
-        trendLabel={pendingOrders > 0 ? 'Orders in progress' : 'No pending orders'}
-        trendDescription="Waiting for delivery"
+        caption={pendingOrders > 0 ? 'Awaiting delivery' : 'All caught up'}
       />
-      <StatsCard
-        title="Active Items"
-        value={activeItems}
-        badge={`${activeItems}`}
-        trend="up"
-        trendLabel="Products delivered"
-        trendDescription="Available in your account"
-      />
-    </StatsGrid>
+      <StatTile label="Active items" value={activeItems} caption="Available in your account" />
+      <StatTile label="Total spent" value={formatUSD(totalSpent)} caption="Across every paid order" />
+    </div>
   )
 }

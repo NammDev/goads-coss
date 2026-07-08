@@ -21,19 +21,27 @@ import {
 interface TablePaginationProps<T> {
   table: Table<T>
   pageSizeOptions?: number[]
+  /** Hide the selection summary (tables without row selection). Keeps a spacer
+   *  so the pager stays right-aligned. */
+  hideSelectionCount?: boolean
 }
 
 /** Pixel-perfect pagination from shadcnstore template */
 export function TablePagination<T>({
   table,
   pageSizeOptions = [10, 20, 30, 40, 50],
+  hideSelectionCount = false,
 }: TablePaginationProps<T>) {
   return (
     <div className="flex items-center justify-between px-4 py-4">
-      <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
-        {table.getFilteredSelectedRowModel().rows.length} of{' '}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
-      </div>
+      {hideSelectionCount ? (
+        <div className="hidden flex-1 lg:flex" />
+      ) : (
+        <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
+          {table.getFilteredSelectedRowModel().rows.length} of{' '}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+      )}
       <div className="flex w-full items-center gap-8 lg:w-fit">
         <div className="hidden items-center gap-2 lg:flex">
           <Label htmlFor="rows-per-page" className="text-sm font-medium">

@@ -1,4 +1,4 @@
-import { ShoppingCartIcon, WalletIcon } from 'lucide-react'
+import { HomeIcon, ShoppingCartIcon, WalletIcon } from 'lucide-react'
 import type { ComponentType } from 'react'
 import Image from 'next/image'
 
@@ -19,9 +19,9 @@ function catalogIcon(src: string, alt: string): ComponentType {
     <Image
       src={src}
       alt={alt}
-      width={16}
-      height={16}
-      className="size-4 shrink-0 rounded-[3px] object-contain"
+      width={34}
+      height={34}
+      className="size-[34px] shrink-0 rounded-[5px] object-contain"
     />
   )
   Icon.displayName = `CatalogIcon(${alt})`
@@ -44,6 +44,7 @@ export function buildPortalNavGroups(productCounts: Record<string, number>): Nav
   return [
     {
       items: [
+        { icon: HomeIcon, label: 'Home', href: '/portal' },
         { icon: ShoppingCartIcon, label: 'Orders', href: '/portal/orders' },
         { icon: WalletIcon, label: 'Wallet', href: '/portal/wallet' },
         // Product groups share one route (?type=) → instant client-side tab switch

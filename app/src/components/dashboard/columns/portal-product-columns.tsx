@@ -80,10 +80,10 @@ const SPECS: Partial<Record<ProductType, Desc[]>> = {
     { t: 'cred', header: 'Recover Email', key: 'recoverEmail' },
     { t: 'cred', header: 'Cookie', key: 'cookie' },
     { t: 'note', header: 'GOADS Note' },
-    { t: 'customerNote', header: 'Your Note' },
+    { t: 'customerNote', header: 'Client Note' },
   ],
   bm: [
-    { t: 'date', header: 'Time Delivery' },
+    { t: 'date', header: 'Delivery Time' },
     { t: 'name', header: 'BM Type' }, // product variant, e.g. "BM5 Verified"
     { t: 'cred', header: 'BM Name', key: 'name', wide: true },
     { t: 'cred', header: 'BM ID', key: 'bmId', wide: true },
@@ -92,15 +92,32 @@ const SPECS: Partial<Record<ProductType, Desc[]>> = {
     { t: 'cred', header: 'Invitation Link 3', key: 'inviteLink3' },
     { t: 'cred', header: 'Invitation Link 4', key: 'inviteLink4' },
     { t: 'note', header: 'GOADS Note' },
-    { t: 'customerNote', header: 'Your Note' },
+    { t: 'customerNote', header: 'Client Note' },
   ],
   page: [
     { t: 'date', header: 'Delivery Time' },
     { t: 'name', header: 'Name Product' },
-    { t: 'note', header: 'Note' },
-    { t: 'cred', header: 'Page Name', key: 'name' },
-    { t: 'cred', header: 'Page ID', key: 'pageId' },
-    { t: 'cred', header: 'Link', key: 'link' },
+    { t: 'cred', header: 'Link Page', key: 'link', wide: true },
+    { t: 'note', header: 'GOADS Note' },
+    { t: 'customerNote', header: 'Client Note' },
+  ],
+  agency_account: [
+    { t: 'date', header: 'Delivery Time' },
+    { t: 'cred', header: 'Ad Account ID', key: 'adAccountId', wide: true },
+    { t: 'cred', header: 'BM ID Received', key: 'bmId', wide: true },
+    { t: 'note', header: 'GOADS Note' },
+    { t: 'customerNote', header: 'Client Note' },
+  ],
+  tiktok_account: [
+    { t: 'date', header: 'Delivery Time' },
+    { t: 'name', header: 'Name Product' },
+    { t: 'cred', header: 'Username', key: 'username', wide: true },
+    { t: 'cred', header: 'Password', key: 'password' },
+    { t: 'cred', header: '2FA', key: 'twoFa' },
+    { t: 'cred', header: 'Email', key: 'email' },
+    { t: 'cred', header: 'Password Email', key: 'passEmail' },
+    { t: 'note', header: 'GOADS Note' },
+    { t: 'customerNote', header: 'Client Note' },
   ],
 }
 
@@ -143,7 +160,7 @@ function CheckLiveBadge({ value }: { value: string | null }) {
     <Badge
       variant="outline"
       className={cn(
-        'border-transparent text-xs',
+        'rounded-full border-transparent px-2 py-0.5 text-xs font-medium capitalize',
         live && 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
         dead && 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
         !live && !dead && 'bg-muted text-muted-foreground'
@@ -254,7 +271,13 @@ function descToColumn(d: Desc): Col {
         cell: ({ row }) => {
           const status = row.original.status ?? 'active'
           return (
-            <Badge variant="outline" className={cn('border-transparent text-xs', STATUS_CONFIG[status])}>
+            <Badge
+              variant="outline"
+              className={cn(
+                'rounded-full border-transparent px-2 py-0.5 text-xs font-medium capitalize',
+                STATUS_CONFIG[status],
+              )}
+            >
               {status}
             </Badge>
           )

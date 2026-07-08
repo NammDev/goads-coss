@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { PackageIcon } from 'lucide-react'
 
@@ -9,6 +10,15 @@ import type { SerializedDeliveredRow } from '@/components/dashboard/columns/port
 import { PortalProductsTable } from '@/app/portal/products/[type]/portal-products-table'
 
 const TABS = ['bm', 'profile', 'page', 'agency_account', 'tiktok_account'] as const
+
+/** Product-type → catalog logo (same webp assets as the sidebar + pricing). */
+const TYPE_ICON: Record<string, string> = {
+  bm: '/assets/BM.webp',
+  profile: '/assets/PROFILES.webp',
+  page: '/navbar/pages.webp',
+  agency_account: '/assets/META.webp',
+  tiktok_account: '/navbar/tiktok.webp',
+}
 
 /**
  * Instant BM/Profile/Page tabs. All delivered items are fetched ONCE by the
@@ -23,16 +33,42 @@ export function ProductTabsView({ items }: { items: SerializedDeliveredRow[] }) 
     : 'bm'
 
   const filtered = items.filter((i) => i.productType === type)
+  const count = filtered.length
 
   return (
-    <div className="flex flex-1 flex-col gap-6">
-      <h1 className="text-2xl font-semibold">{productTypeLabels[type]}</h1>
-      {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center">
-          <PackageIcon className="mb-3 size-10 text-muted-foreground/50" />
-          <p className="text-lg font-medium">No delivered products yet</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Products will appear here once items from your orders are delivered.
+    <div className="flex flex-1 flex-col gap-5">
+      {/* Section header — icon tile + title + delivered count */}
+      <div className="flex items-center gap-3">
+        <div className="bg-card flex size-11 shrink-0 items-center justify-center rounded-xl border shadow-sm">
+          <Image
+            src={TYPE_ICON[type] ?? '/assets/BM.webp'}
+            alt=""
+            width={26}
+            height={26}
+            className="size-[26px] object-contain"
+          />
+        </div>
+        <div className="flex flex-col gap-0.5">
+          <h1 className="text-xl leading-none font-semibold tracking-tight">
+            {productTypeLabels[type]}
+          </h1>
+          <span className="text-muted-foreground text-sm">
+            {count === 0
+              ? 'No items delivered yet'
+              : `${count} item${count > 1 ? 's' : ''} delivered`}
+          </span>
+        </div>
+      </div>
+
+      {count === 0 ? (
+        <div className="bg-card/40 flex flex-1 flex-col items-center justify-center rounded-xl border border-dashed py-16 text-center">
+          <div className="bg-muted text-muted-foreground/70 mb-4 flex size-12 items-center justify-center rounded-xl">
+            <PackageIcon className="size-6" />
+          </div>
+          <p className="text-base font-medium">Nothing here yet</p>
+          <p className="text-muted-foreground mt-1 max-w-xs text-sm">
+            Delivered {productTypeLabels[type].toLowerCase()} items will show up here automatically
+            once your orders are fulfilled.
           </p>
         </div>
       ) : (

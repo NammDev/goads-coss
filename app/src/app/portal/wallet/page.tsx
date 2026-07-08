@@ -30,16 +30,16 @@ export default async function PortalWalletPage() {
       </div>
 
       {/* Balance card */}
-      <Card className="shadow-none">
+      <Card className="rounded-2xl">
         <CardHeader className="flex flex-row items-center gap-2 pb-2">
           <WalletIcon className="text-muted-foreground size-4" />
-          <span className="text-lg font-semibold">Current Balance</span>
+          <span className="text-muted-foreground text-sm font-medium">Current balance</span>
         </CardHeader>
         <CardContent>
-          <p className="text-3xl font-bold tracking-tight">
+          <p className="text-3xl font-bold tracking-tight tabular-nums">
             {formatUSD(balance ?? '0')}
           </p>
-          <p className="text-muted-foreground mt-1 text-xs">Available balance</p>
+          <p className="text-muted-foreground mt-1 text-xs">Available to spend on orders</p>
         </CardContent>
       </Card>
 

@@ -39,9 +39,21 @@ export const adAccountCredentials = z.object({
   adAccountId: z.string(),
 });
 
-/** TikTok credential fields (placeholder — update when business confirms) */
+/** Meta agency ad account fields — account delivered under an agency BM */
+export const agencyAccountCredentials = z.object({
+  adAccountId: z.string(),
+  bmId: z.string().optional(), // BM the ad account was received under
+  note: z.string().optional(),
+});
+
+/** TikTok account credential fields */
 export const tiktokCredentials = z.object({
-  accountId: z.string(),
+  username: z.string().optional(),
+  password: z.string().optional(),
+  twoFa: z.string().optional(),
+  email: z.string().optional(),
+  passEmail: z.string().optional(),
+  note: z.string().optional(),
 });
 
 /** Services (unban, blue_verification) — no credentials, status-only */
@@ -52,7 +64,7 @@ export const otherCredentials = z.record(z.string(), z.string());
 
 /** Registry: product_type enum → Zod credential schema */
 export const credentialSchemaMap = {
-  agency_account: bmCredentials,
+  agency_account: agencyAccountCredentials,
   bm: bmCredentials,
   profile: profileCredentials,
   page: pageCredentials,

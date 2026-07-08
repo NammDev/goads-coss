@@ -58,7 +58,10 @@ export function WarrantyBadge({ warrantyUntil, claimStatus = null }: Props) {
   }
 
   return (
-    <Badge variant="outline" className={`text-xs gap-1 ${config.className}`}>
+    <Badge
+      variant="outline"
+      className={`gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${config.className}`}
+    >
       <ShieldCheckIcon className="size-3" />
       {label}
     </Badge>
