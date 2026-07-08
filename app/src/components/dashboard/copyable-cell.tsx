@@ -7,9 +7,11 @@ import { cn } from '@/lib/utils'
 type CopyableCellProps = {
   value: string | undefined
   className?: string
+  /** Overrides the truncated text span (e.g. width, font). */
+  textClassName?: string
 }
 
-export function CopyableCell({ value, className }: CopyableCellProps) {
+export function CopyableCell({ value, className, textClassName }: CopyableCellProps) {
   const [copied, setCopied] = useState(false)
 
   if (!value) return <span className="text-muted-foreground">—</span>
@@ -31,7 +33,7 @@ export function CopyableCell({ value, className }: CopyableCellProps) {
       )}
       title="Click to copy"
     >
-      <span className="truncate max-w-[200px]">{value}</span>
+      <span className={cn('truncate max-w-[200px]', textClassName)}>{value}</span>
       {copied ? (
         <CheckIcon className="size-3.5 text-green-500 shrink-0" />
       ) : (

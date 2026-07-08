@@ -25,6 +25,7 @@ export default async function PortalProductsPage() {
     uid: item.uid,
     credentials: item.credentials,
     note: item.note,
+    customerNote: item.customerNote,
     checkLive: item.checkLive,
     status: item.status,
     warrantyUntil: item.warrantyUntil ? item.warrantyUntil.toISOString() : null,

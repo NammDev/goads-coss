@@ -1,6 +1,6 @@
 'use client'
 
-import { format } from 'date-fns'
+import { format, formatDistanceToNow } from 'date-fns'
 import { EllipsisVerticalIcon, CopyIcon } from 'lucide-react'
 import type { ColumnDef } from '@tanstack/react-table'
 
@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { CopyableCell } from '@/components/dashboard/copyable-cell'
+import { CustomerNoteCell } from '@/components/dashboard/customer-note-cell'
 import { WarrantyBadge } from '@/components/dashboard/warranty-badge'
 import { WarrantyClaimDialog } from '@/app/portal/orders/[id]/warranty-claim-dialog'
 import { productTypeLabels } from '@/data/mock-products'
@@ -31,6 +32,7 @@ export type SerializedDeliveredRow = {
   uid?: string | null
   credentials: Record<string, string>
   note?: string | null
+  customerNote?: string | null
   checkLive?: string | null
   status?: string
   warrantyUntil: string | null
@@ -51,29 +53,46 @@ const STATUS_CONFIG: Record<string, string> = {
 /** Column descriptor → per-type display spec (exact order & labels). */
 type Desc =
   | { t: 'date'; header: string }
+  | { t: 'elapsed'; header: string }
+  | { t: 'warrantyLeft'; header: string }
+  | { t: 'warrantyClaim'; header: string }
   | { t: 'name'; header: string }
   | { t: 'note'; header: string }
+  | { t: 'customerNote'; header: string }
   | { t: 'checkLive'; header: string }
   | { t: 'status'; header: string }
   | { t: 'uid'; header: string }
-  | { t: 'cred'; header: string; key: string }
+  | { t: 'cred'; header: string; key: string; wide?: boolean }
+
+/** Desc types that render warranty — presence disables the auto-appended warranty column. */
+const WARRANTY_DESCS = new Set(['warrantyLeft', 'warrantyClaim'])
 
 const SPECS: Partial<Record<ProductType, Desc[]>> = {
   profile: [
     { t: 'date', header: 'Delivery Time' },
     { t: 'name', header: 'Name Product' },
-    { t: 'checkLive', header: 'Check Live' },
-    { t: 'note', header: 'Note' },
+    { t: 'checkLive', header: 'Status' }, // live / disabled — auto-checked later
     { t: 'uid', header: 'UID' },
     { t: 'cred', header: 'Password', key: 'password' },
     { t: 'cred', header: '2FA', key: 'twoFa' },
+    { t: 'cred', header: 'Email', key: 'email' },
+    { t: 'cred', header: 'Password Email', key: 'passEmail' },
+    { t: 'cred', header: 'Recover Email', key: 'recoverEmail' },
+    { t: 'cred', header: 'Cookie', key: 'cookie' },
+    { t: 'note', header: 'GOADS Note' },
+    { t: 'customerNote', header: 'Your Note' },
   ],
   bm: [
     { t: 'date', header: 'Time Delivery' },
-    { t: 'name', header: 'Name Product' },
-    { t: 'note', header: 'Noted' },
-    { t: 'cred', header: 'Business Name', key: 'name' },
-    { t: 'cred', header: 'ID BM', key: 'bmId' },
+    { t: 'name', header: 'BM Type' }, // product variant, e.g. "BM5 Verified"
+    { t: 'cred', header: 'BM Name', key: 'name', wide: true },
+    { t: 'cred', header: 'BM ID', key: 'bmId', wide: true },
+    { t: 'cred', header: 'Invitation Link 1', key: 'inviteLink1' },
+    { t: 'cred', header: 'Invitation Link 2', key: 'inviteLink2' },
+    { t: 'cred', header: 'Invitation Link 3', key: 'inviteLink3' },
+    { t: 'cred', header: 'Invitation Link 4', key: 'inviteLink4' },
+    { t: 'note', header: 'GOADS Note' },
+    { t: 'customerNote', header: 'Your Note' },
   ],
   page: [
     { t: 'date', header: 'Delivery Time' },
@@ -147,6 +166,42 @@ function descToColumn(d: Desc): Col {
           </span>
         ),
       }
+    case 'elapsed':
+      return {
+        id: 'elapsed',
+        header: d.header,
+        enableSorting: false,
+        cell: ({ row }) => (
+          <span className="text-muted-foreground whitespace-nowrap">
+            {formatDistanceToNow(new Date(row.original.deliveredAt), { addSuffix: true })}
+          </span>
+        ),
+      }
+    case 'warrantyLeft':
+      return {
+        id: 'warrantyLeft',
+        header: d.header,
+        enableSorting: false,
+        cell: ({ row }) => {
+          const w = row.original.warrantyUntil ? new Date(row.original.warrantyUntil) : null
+          return <WarrantyBadge warrantyUntil={w} claimStatus={row.original.claimStatus ?? null} />
+        },
+      }
+    case 'warrantyClaim':
+      return {
+        id: 'warrantyClaim',
+        header: d.header,
+        enableSorting: false,
+        // Shrink column to just fit the claim button (w-px + nowrap hug trick).
+        meta: { className: 'w-px whitespace-nowrap' },
+        cell: ({ row }) => {
+          const item = row.original
+          const w = item.warrantyUntil ? new Date(item.warrantyUntil) : null
+          const displayStatus = getWarrantyDisplayStatus(w, item.claimStatus ?? null)
+          const claimable = displayStatus === 'active' || displayStatus === 'expiring'
+          return <WarrantyClaimDialog deliveredItemId={item.id} disabled={!claimable} />
+        },
+      }
     case 'name':
       return {
         id: 'productName',
@@ -158,12 +213,31 @@ function descToColumn(d: Desc): Col {
           </span>
         ),
       }
+    case 'customerNote':
+      return {
+        id: 'customerNote',
+        header: d.header,
+        enableSorting: false,
+        cell: ({ row }) => (
+          <CustomerNoteCell
+            deliveredItemId={row.original.id}
+            initialValue={row.original.customerNote ?? null}
+          />
+        ),
+      }
     case 'note':
       return {
         id: 'note',
         header: d.header,
         enableSorting: false,
-        cell: ({ row }) => <span className="text-muted-foreground text-sm">{row.original.note ?? '—'}</span>,
+        // Click-to-copy, non-mono (prose) style.
+        cell: ({ row }) => (
+          <CopyableCell
+            value={row.original.note ?? undefined}
+            className="font-sans text-muted-foreground"
+            textClassName="max-w-[240px]"
+          />
+        ),
       }
     case 'checkLive':
       return {
@@ -198,7 +272,14 @@ function descToColumn(d: Desc): Col {
         id: `cred_${d.key}`,
         header: d.header,
         enableSorting: false,
-        cell: ({ row }) => <CopyableCell value={row.original.credentials?.[d.key]} />,
+        cell: ({ row }) =>
+          d.wide ? (
+            <div className="min-w-40">
+              <CopyableCell value={row.original.credentials?.[d.key]} textClassName="max-w-[300px]" />
+            </div>
+          ) : (
+            <CopyableCell value={row.original.credentials?.[d.key]} />
+          ),
       }
   }
 }
@@ -214,10 +295,16 @@ export function buildPortalProductColumns(
       : (SPECS[productType] ?? genericSpec(productType))
   const cols = spec.map(descToColumn)
 
+  // If the spec already places a warranty column (e.g. BM), don't also append
+  // the default combined warranty+claim column.
+  const specHasWarranty = spec.some((d) => WARRANTY_DESCS.has(d.t))
+
   const warrantyCol: Col = {
     id: 'warranty',
     header: 'Warranty',
     enableSorting: false,
+    // Hug content: "6d left" badge + Claim button in one compact column.
+    meta: { className: 'w-px whitespace-nowrap' },
     cell: ({ row }) => {
       const item = row.original
       const warrantyUntil = item.warrantyUntil ? new Date(item.warrantyUntil) : null
@@ -242,7 +329,9 @@ export function buildPortalProductColumns(
     cell: ({ row }) => <ProductRowActions item={row.original} />,
   }
 
-  return [...cols, warrantyCol, actionsCol]
+  return specHasWarranty
+    ? [...cols, actionsCol]
+    : [...cols, warrantyCol, actionsCol]
 }
 
 function ProductRowActions({ item }: { item: Row }) {

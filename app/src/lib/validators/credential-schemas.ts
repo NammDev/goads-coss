@@ -6,6 +6,7 @@ export const profileCredentials = z.object({
   twoFa: z.string().optional(),
   email: z.string().optional(),
   passEmail: z.string().optional(),
+  recoverEmail: z.string().optional(),
   cookie: z.string().optional(),
   // Portal display fields (stored in credentials JSON — no dedicated DB column)
   checkLive: z.string().optional(),
@@ -16,7 +17,10 @@ export const profileCredentials = z.object({
 export const bmCredentials = z.object({
   bmId: z.string(),
   name: z.string().optional(),
-  inviteLink: z.string().optional(),
+  inviteLink1: z.string().optional(),
+  inviteLink2: z.string().optional(),
+  inviteLink3: z.string().optional(),
+  inviteLink4: z.string().optional(),
   ogProfile: z.string().optional(),
   note: z.string().optional(),
 });

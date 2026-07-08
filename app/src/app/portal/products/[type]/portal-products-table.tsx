@@ -95,6 +95,7 @@ export function PortalProductsTable({ items, productType }: PortalProductsTableP
   return (
     <AdminDataTable
       dense
+      fillHeight
       data={items}
       columns={buildPortalProductColumns(productType)}
       renderExpandedRow={(item) => <ExpandedProductRow item={item} />}

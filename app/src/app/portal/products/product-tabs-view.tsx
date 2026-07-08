@@ -8,7 +8,7 @@ import type { ProductType } from '@/lib/validators/credential-schemas'
 import type { SerializedDeliveredRow } from '@/components/dashboard/columns/portal-product-columns'
 import { PortalProductsTable } from '@/app/portal/products/[type]/portal-products-table'
 
-const TABS = ['bm', 'profile', 'page'] as const
+const TABS = ['bm', 'profile', 'page', 'agency_account', 'tiktok_account'] as const
 
 /**
  * Instant BM/Profile/Page tabs. All delivered items are fetched ONCE by the
@@ -25,7 +25,7 @@ export function ProductTabsView({ items }: { items: SerializedDeliveredRow[] }) 
   const filtered = items.filter((i) => i.productType === type)
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-1 flex-col gap-6">
       <h1 className="text-2xl font-semibold">{productTypeLabels[type]}</h1>
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center">

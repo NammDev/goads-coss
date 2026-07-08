@@ -49,6 +49,8 @@ declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
     filterVariant?: 'text' | 'range' | 'select'
+    /** Extra classes applied to this column's <th> and <td> (e.g. width control). */
+    className?: string
   }
 }
 
@@ -73,6 +75,8 @@ type AdminDataTableProps<T> = {
   dense?: boolean
   /** Make rows clickable (e.g. navigate to detail). Ignored if renderExpandedRow is set. */
   onRowClick?: (row: T) => void
+  /** Fill parent height and pin the pagination row to the bottom of the page. */
+  fillHeight?: boolean
 }
 
 /** Reusable admin datatable with column visibility, template-style pagination, and row actions */
@@ -89,6 +93,7 @@ export function AdminDataTable<T>({
   filterColumns,
   dense = false,
   onRowClick,
+  fillHeight = false,
 }: AdminDataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
@@ -121,7 +126,7 @@ export function AdminDataTable<T>({
   })
 
   return (
-    <div className="w-full">
+    <div className={cn('w-full', fillHeight && 'flex flex-1 flex-col')}>
       {/* Toolbar (outside border) */}
       <div>
         <div className="flex gap-3 pb-4 max-lg:flex-col lg:items-center lg:justify-between">
@@ -177,7 +182,8 @@ export function AdminDataTable<T>({
                     key={header.id}
                     className={cn(
                       'text-muted-foreground first:pl-4 last:px-4 last:text-center',
-                      dense && 'text-xs font-medium'
+                      dense && 'text-xs font-medium',
+                      header.column.columnDef.meta?.className
                     )}
                   >
                     {header.isPlaceholder ? null : header.column.getCanSort() ? (
@@ -231,7 +237,11 @@ export function AdminDataTable<T>({
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className={cn('first:pl-4', dense ? 'h-10 py-1.5 text-sm' : 'h-14')}
+                        className={cn(
+                          'first:pl-4',
+                          dense ? 'h-10 py-1.5 text-sm' : 'h-14',
+                          cell.column.columnDef.meta?.className
+                        )}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
@@ -261,8 +271,10 @@ export function AdminDataTable<T>({
         </Table>
       </div>
 
-      {/* Template-style pagination */}
-      <TablePagination table={table} pageSizeOptions={pageSizeOptions} />
+      {/* Template-style pagination — pinned to the bottom when fillHeight */}
+      <div className={cn(fillHeight && 'mt-auto')}>
+        <TablePagination table={table} pageSizeOptions={pageSizeOptions} />
+      </div>
     </div>
   )
 }

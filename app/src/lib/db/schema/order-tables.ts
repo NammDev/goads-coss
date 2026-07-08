@@ -71,6 +71,7 @@ export const deliveredItems = pgTable("delivered_item", {
   productType: productTypeEnum("productType").notNull(),
   uid: text("uid"),
   credentials: text("credentials"), // ENCRYPTED JSON string
+  customerNote: text("customerNote"), // Plaintext note the customer writes for themselves
   status: deliveredItemStatusEnum("status").notNull().default("active"),
   warrantyUntil: timestamp("warrantyUntil"),
   deliveredAt: timestamp("deliveredAt").notNull().defaultNow(),

@@ -23,6 +23,7 @@ export type PortalDeliveredRow = {
   uid: string | null;
   credentials: Record<string, string>;
   note: string | null;
+  customerNote: string | null;
   checkLive: string | null;
   status: string;
   warrantyUntil: Date | null;
@@ -122,6 +123,7 @@ async function queryDeliveredDetailed(
       productType: deliveredItems.productType,
       uid: deliveredItems.uid,
       credentials: deliveredItems.credentials,
+      customerNote: deliveredItems.customerNote,
       status: deliveredItems.status,
       warrantyUntil: deliveredItems.warrantyUntil,
       deliveredAt: deliveredItems.deliveredAt,
@@ -145,6 +147,7 @@ async function queryDeliveredDetailed(
       uid: r.uid,
       credentials,
       note: credentials.note ?? null,
+      customerNote: r.customerNote ?? null,
       checkLive: credentials.checkLive ?? null,
       status: r.status,
       warrantyUntil: r.warrantyUntil,

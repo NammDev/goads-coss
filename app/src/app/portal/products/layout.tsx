@@ -5,5 +5,7 @@
  * Each /portal/products/[type] page owns its own heading + table.
  */
 export default function PortalProductsLayout({ children }: { children: React.ReactNode }) {
-  return <div className="space-y-6">{children}</div>
+  // flex-1 flex-col so the child page can grow to full height (pins table
+  // pagination to the bottom of the page — see AdminDataTable fillHeight).
+  return <div className="flex flex-1 flex-col">{children}</div>
 }
