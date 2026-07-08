@@ -1,8 +1,8 @@
 import { formatUSD } from '@/lib/format-currency'
 
 interface PortalStatsProps {
+  balance: string
   totalOrders: number
-  pendingOrders: number
   activeItems: number
   totalSpent: string
 }
@@ -27,21 +27,13 @@ function StatTile({
   )
 }
 
-export function PortalStats({
-  totalOrders,
-  pendingOrders,
-  activeItems,
-  totalSpent,
-}: PortalStatsProps) {
+/** Top KPI row — wallet balance first (the number customers check most). */
+export function PortalStats({ balance, totalOrders, activeItems, totalSpent }: PortalStatsProps) {
   return (
     <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <StatTile label="Wallet balance" value={formatUSD(balance)} caption="Available to spend" />
       <StatTile label="Total orders" value={totalOrders} caption="All-time order history" />
-      <StatTile
-        label="Pending orders"
-        value={pendingOrders}
-        caption={pendingOrders > 0 ? 'Awaiting delivery' : 'All caught up'}
-      />
-      <StatTile label="Active items" value={activeItems} caption="Available in your account" />
+      <StatTile label="Active items" value={activeItems} caption="Live in your account" />
       <StatTile label="Total spent" value={formatUSD(totalSpent)} caption="Across every paid order" />
     </div>
   )

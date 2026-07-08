@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import type { ColumnDef } from '@tanstack/react-table'
 
-import { Badge } from '@/components/ui/badge'
 import { formatUSD } from '@/lib/format-currency'
 import type { WalletTransaction } from '@/lib/db/queries/wallet-queries'
 
@@ -21,18 +20,6 @@ export const portalWalletColumns: ColumnDef<SerializedWalletTransaction, unknown
         {format(new Date(row.original.createdAt), 'dd/MM/yyyy HH:mm')}
       </span>
     ),
-  },
-  {
-    accessorKey: 'type',
-    header: 'Type',
-    cell: ({ row }) => {
-      const isTopup = row.original.type === 'topup'
-      return (
-        <Badge variant={isTopup ? 'default' : 'destructive'} className="capitalize">
-          {isTopup ? 'Top-up' : 'Deduct'}
-        </Badge>
-      )
-    },
   },
   {
     accessorKey: 'amount',

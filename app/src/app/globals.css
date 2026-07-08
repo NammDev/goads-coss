@@ -249,10 +249,11 @@
   --border: #eceff3;
   --input: #dfe1e7;
 
-  /* Primary = Foreplay admin green */
-  --primary: #009f6d;
+  /* Primary = monochrome (buttons/CTAs black-on-white). Brand green is reserved
+     for meaningful status only (Delivered / Active badges), not chrome. */
+  --primary: #16181d;
   --primary-foreground: #ffffff;
-  --ring: #009f6d;
+  --ring: #16181d;
   --destructive: #f4003a;
   --destructive-foreground: #ffffff;
 
@@ -346,6 +347,11 @@
   --accent-foreground: #1c9cf0;
   --border: #242628;
   --input: #2a2c30;
+
+  /* Monochrome CTA in dark → light button on the dark surface. */
+  --primary: #e7e9ea;
+  --primary-foreground: #14151b;
+  --ring: #e7e9ea;
 }
 
 /* Force html/body black + dark color-scheme when .site wrapper is present.

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 
 import {
   Sidebar,
@@ -47,8 +48,17 @@ export function AppSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" className="gap-2.5 !bg-transparent" asChild>
               <Link href="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-                  G
+                {/* GOADS brand mark (bear-in-G). White tile so the black mark
+                    reads on both the dark portal sidebar and the light admin one. */}
+                <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-white">
+                  <Image
+                    src="/assets/logo/mark.png"
+                    alt="GOADS"
+                    width={22}
+                    height={22}
+                    className="size-[22px] object-contain"
+                    priority
+                  />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold text-base">GOADS</span>

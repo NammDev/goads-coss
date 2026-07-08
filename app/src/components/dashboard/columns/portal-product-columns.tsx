@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { CopyableCell } from '@/components/dashboard/copyable-cell'
 import { CustomerNoteCell } from '@/components/dashboard/customer-note-cell'
+import { LiveUidBadge } from '@/components/dashboard/live-uid-badge'
 import { WarrantyBadge } from '@/components/dashboard/warranty-badge'
 import { WarrantyClaimDialog } from '@/app/portal/orders/[id]/warranty-claim-dialog'
 import { productTypeLabels } from '@/data/mock-products'
@@ -148,29 +149,6 @@ function adminSpec(type: ProductType): Desc[] {
   ]
 }
 
-const muted = (v?: string | null) =>
-  v ? <span>{v}</span> : <span className="text-muted-foreground">—</span>
-
-function CheckLiveBadge({ value }: { value: string | null }) {
-  if (!value) return <span className="text-muted-foreground">—</span>
-  const v = value.toLowerCase()
-  const live = ['live', 'alive', 'active', 'ok'].includes(v)
-  const dead = ['die', 'dead', 'banned', 'disabled'].includes(v)
-  return (
-    <Badge
-      variant="outline"
-      className={cn(
-        'rounded-full border-transparent px-2 py-0.5 text-xs font-medium capitalize',
-        live && 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-        dead && 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-        !live && !dead && 'bg-muted text-muted-foreground'
-      )}
-    >
-      {value}
-    </Badge>
-  )
-}
-
 function descToColumn(d: Desc): Col {
   switch (d.t) {
     case 'date':
@@ -261,7 +239,9 @@ function descToColumn(d: Desc): Col {
         id: 'checkLive',
         header: d.header,
         enableSorting: false,
-        cell: ({ row }) => <CheckLiveBadge value={row.original.checkLive ?? null} />,
+        // Auto-probes the delivered account's UID (Active / Disabled) so the
+        // customer always sees whether their profile is still alive.
+        cell: ({ row }) => <LiveUidBadge uid={row.original.uid} />,
       }
     case 'status':
       return {

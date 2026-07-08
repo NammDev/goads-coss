@@ -1,11 +1,9 @@
 'use client'
 
 import { useMemo } from 'react'
-import Link from 'next/link'
-import { ExternalLinkIcon } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { cn } from '@/lib/utils'
 import { AdminDataTable } from '@/components/dashboard/admin-data-table'
 import {
   buildPortalProductColumns,
@@ -63,9 +61,7 @@ function toRow(
 }
 
 export function OrderDetailDelivered({ items, toolbar, claimStatusMap, showWarrantyActions = false }: Props) {
-  if (items.length === 0) return null
-
-  // Group by productType
+  // Group by productType (hook must run before any early return — rules-of-hooks).
   const grouped = useMemo(() => {
     const map = new Map<ProductType, SerializedDeliveredRow[]>()
     for (const item of items) {
@@ -76,6 +72,8 @@ export function OrderDetailDelivered({ items, toolbar, claimStatusMap, showWarra
     return map
   }, [items, claimStatusMap])
 
+  if (items.length === 0) return null
+
   const types = Array.from(grouped.keys())
 
   return (
@@ -84,9 +82,21 @@ export function OrderDetailDelivered({ items, toolbar, claimStatusMap, showWarra
       <Tabs defaultValue={types[0]}>
         <TabsList className="h-9 w-fit">
           {types.map((type) => (
-            <TabsTrigger key={type} value={type} className="cursor-pointer">
+            <TabsTrigger
+              key={type}
+              value={type}
+              className={cn(
+                'cursor-pointer text-muted-foreground',
+                // Active = solid dark pill (unmistakable in the monochrome theme).
+                'data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:font-semibold',
+                // Count chip flips to read on the dark active pill.
+                '[&[data-state=active]_.tab-count]:bg-background/25 [&[data-state=active]_.tab-count]:text-background',
+              )}
+            >
               {productTypeLabels[type] ?? type}
-              <Badge variant="secondary">{grouped.get(type)!.length}</Badge>
+              <span className="tab-count bg-foreground/10 text-muted-foreground inline-flex min-w-5 items-center justify-center rounded-full px-1.5 py-0.5 text-xs font-medium">
+                {grouped.get(type)!.length}
+              </span>
             </TabsTrigger>
           ))}
         </TabsList>
@@ -99,6 +109,10 @@ export function OrderDetailDelivered({ items, toolbar, claimStatusMap, showWarra
               pageSize={10}
               toolbar={toolbar}
               renderExpandedRow={(item) => <ExpandedProductRow item={item} />}
+              // Portal variant → clean dense look, no column toggle / selection noise.
+              dense={showWarrantyActions}
+              hideColumnToggle={showWarrantyActions}
+              hideSelectionCount={showWarrantyActions}
             />
           </TabsContent>
         ))}

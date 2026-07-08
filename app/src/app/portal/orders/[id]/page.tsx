@@ -6,8 +6,8 @@ import { StatusBadge } from '@/components/dashboard/status-badge'
 import { Button } from '@/components/ui/button'
 import { requireRole } from '@/lib/auth/require-role'
 import { getOrderById, getWarrantyClaimsByOrderId } from '@/lib/db/queries'
-import { OrderDetailSummary } from '@/app/admin/orders/[id]/order-detail-summary'
 import { OrderDetailDelivered } from '@/app/admin/orders/[id]/order-detail-delivered'
+import { PortalOrderSummary } from './portal-order-summary'
 
 export default async function PortalOrderDetailPage({
   params,
@@ -38,19 +38,25 @@ export default async function PortalOrderDetailPage({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Header — back, friendly order label, status */}
       <div className="flex flex-wrap items-center gap-3">
         <Button variant="ghost" size="sm" asChild>
           <Link href="/portal/orders">
             <ArrowLeftIcon className="mr-1 size-4" />Back
           </Link>
         </Button>
-        <h1 className="text-2xl font-semibold">{order.id}</h1>
-        <StatusBadge status={order.status} />
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-semibold tracking-tight">
+              Order <span className="font-mono">#{order.id.slice(0, 8)}</span>
+            </h1>
+            <StatusBadge status={order.status} />
+          </div>
+        </div>
       </div>
 
-      {/* 2-column: Order Summary + Billing (reuse admin component, no deliver buttons) */}
-      <OrderDetailSummary
+      {/* 2-column: Order Summary + Billing (portal — no admin links/actions) */}
+      <PortalOrderSummary
         order={order}
         deliveredItemIdSet={deliveredItemIdSet}
         deliveredCount={deliveredCount}

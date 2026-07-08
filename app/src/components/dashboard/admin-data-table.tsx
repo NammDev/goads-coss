@@ -201,8 +201,8 @@ export function AdminDataTable<T>({
                     key={header.id}
                     className={cn(
                       'text-muted-foreground first:pl-4 last:px-4 last:text-center',
-                      // Foreplay micro-label header: small, uppercase, tracked.
-                      dense && 'text-xs font-medium uppercase tracking-wider',
+                      // Portal micro-label header: small, uppercase, tracked, bold + dark.
+                      dense && 'text-foreground text-xs font-bold uppercase tracking-wider',
                       header.column.columnDef.meta?.className
                     )}
                   >

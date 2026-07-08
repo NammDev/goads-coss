@@ -1,22 +1,21 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { eq } from 'drizzle-orm'
 import { ArrowRightIcon, PackageIcon, SettingsIcon } from 'lucide-react'
 
 import { requireRole } from '@/lib/auth/require-role'
-import { db } from '@/lib/db'
-import { users } from '@/lib/db/schema'
 import { getPortalStats } from '@/lib/db/queries/dashboard-queries'
-import { getProductCountsByCustomerId } from '@/lib/db/queries'
+import { getProductCountsByCustomerId, getOrdersWithItemsByCustomerId } from '@/lib/db/queries'
+import { getCustomerBalance, getWalletTransactions } from '@/lib/db/queries/wallet-queries'
 import { productTypeLabels } from '@/data/mock-products'
 import { CONTACT } from '@/data/contact-info'
 import { DiscordLogo, TelegramLogo } from '@/assets/svg/ad-platform-logos'
 import { DotBg } from '@/components/atoms/dot-bg'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { PortalStats } from './portal-stats'
 import { PortalGreeting } from './portal-greeting'
+import { PortalRecentOrders } from './portal-recent-orders'
+import { PortalWalletPanel } from './portal-wallet-panel'
 
 /** Product groups surfaced as quick-access cards (same 5 as the sidebar/pricing). */
 const PRODUCT_LINKS = [
@@ -59,23 +58,24 @@ function SectionHeader({
 }
 
 /**
- * Portal home — Foreplay admin landing: personalized greeting, clean stat tiles,
- * a Telegram delivery-alert status row, quick access to every product group, and
- * a black community-invite banner (both Telegram channels + Discord).
+ * Portal home — unified dashboard: personalized greeting, wallet/order KPIs,
+ * recent orders + wallet snapshot, quick access to every product group, and a
+ * black community-invite banner (both Telegram channels + Discord).
  */
 export default async function PortalHomePage() {
   const session = await requireRole('customer')
   const userId = session.user.id
 
-  const [stats, productCounts, rows] = await Promise.all([
+  const [stats, productCounts, balance, transactions, orders] = await Promise.all([
     getPortalStats(userId),
     getProductCountsByCustomerId(userId),
-    db.select({ telegramId: users.telegramId }).from(users).where(eq(users.id, userId)),
+    getCustomerBalance(userId),
+    getWalletTransactions(userId),
+    getOrdersWithItemsByCustomerId(userId),
   ])
 
   const name = session.user.name ?? 'Customer'
   const email = session.user.email
-  const telegramConnected = Boolean(rows[0]?.telegramId)
   const initial = name.trim().charAt(0).toUpperCase() || 'C'
 
   return (
@@ -103,57 +103,21 @@ export default async function PortalHomePage() {
         </CardContent>
       </Card>
 
-      {/* At-a-glance stats */}
+      {/* At-a-glance KPIs — wallet balance featured first */}
       <PortalStats
+        balance={balance ?? '0'}
         totalOrders={stats.totalOrders}
-        pendingOrders={stats.pendingOrders}
         activeItems={stats.activeItems}
         totalSpent={stats.totalSpent}
       />
 
-      {/* Telegram delivery alerts — status row (Foreplay "Working" pattern) */}
-      <Card className="rounded-2xl">
-        <CardContent className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-muted flex size-11 shrink-0 items-center justify-center rounded-xl">
-              <TelegramLogo className="text-muted-foreground size-5 [&_path]:fill-current" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Telegram delivery alerts</span>
-                {telegramConnected ? (
-                  <Badge
-                    variant="outline"
-                    className="border-transparent bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                  >
-                    Working
-                  </Badge>
-                ) : (
-                  <Badge
-                    variant="outline"
-                    className="border-transparent bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"
-                  >
-                    Not connected
-                  </Badge>
-                )}
-              </div>
-              <span className="text-muted-foreground text-sm">
-                {telegramConnected
-                  ? 'Instant alerts for deliveries and warranty updates are on.'
-                  : 'Connect Telegram to get instant delivery and warranty alerts.'}
-              </span>
-            </div>
-          </div>
-          {!telegramConnected && (
-            <Button asChild size="sm" className="self-start sm:self-auto">
-              <Link href="/portal/profile">
-                Connect
-                <ArrowRightIcon className="size-4" />
-              </Link>
-            </Button>
-          )}
-        </CardContent>
-      </Card>
+      {/* Bento: recent orders (wide) + wallet snapshot (narrow) */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <PortalRecentOrders orders={orders} />
+        </div>
+        <PortalWalletPanel balance={balance ?? '0'} transactions={transactions} />
+      </div>
 
       {/* Your products — jump straight into any delivered-product group */}
       <div className="space-y-3">
@@ -201,7 +165,7 @@ export default async function PortalHomePage() {
         <DotBg />
         <div className="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-primary flex size-11 shrink-0 items-center justify-center rounded-xl">
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/10">
               <TelegramLogo className="size-6 text-white [&_path]:fill-current" />
             </div>
             <div className="flex flex-col gap-0.5">

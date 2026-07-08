@@ -1,11 +1,34 @@
 import { redirect } from 'next/navigation'
-import { WalletIcon } from 'lucide-react'
+import { WalletIcon, ArrowDownToLineIcon, ArrowUpFromLineIcon } from 'lucide-react'
 import { auth } from '@clerk/nextjs/server'
 
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { getWalletTransactions, getCustomerBalance } from '@/lib/db/queries/wallet-queries'
 import { formatUSD } from '@/lib/format-currency'
 import { WalletTable } from './wallet-table'
+
+/** One wallet KPI tile (icon + label · big value · caption). */
+function WalletMetric({
+  icon,
+  label,
+  value,
+  caption,
+}: {
+  icon: React.ReactNode
+  label: string
+  value: string
+  caption: string
+}) {
+  return (
+    <div className="bg-card rounded-2xl border p-5">
+      <div className="text-muted-foreground flex items-center gap-2">
+        {icon}
+        <span className="text-sm font-medium">{label}</span>
+      </div>
+      <p className="mt-2 text-2xl font-bold tracking-tight tabular-nums">{value}</p>
+      <p className="text-muted-foreground mt-1 text-xs">{caption}</p>
+    </div>
+  )
+}
 
 export default async function PortalWalletPage() {
   // Role guarded by portal/layout.tsx — use auth() (no Clerk API call).
@@ -22,6 +45,15 @@ export default async function PortalWalletPage() {
     createdAt: tx.createdAt.toISOString(),
   }))
 
+  // Lifetime totals from the ledger (topup = money in, deduct = money out).
+  let totalDeposited = 0
+  let totalSpent = 0
+  for (const tx of transactions) {
+    const amt = Number(tx.amount)
+    if (tx.type === 'topup') totalDeposited += amt
+    else totalSpent += amt
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -29,19 +61,27 @@ export default async function PortalWalletPage() {
         <p className="text-muted-foreground mt-1 text-sm">Your balance and transaction history.</p>
       </div>
 
-      {/* Balance card */}
-      <Card className="rounded-2xl">
-        <CardHeader className="flex flex-row items-center gap-2 pb-2">
-          <WalletIcon className="text-muted-foreground size-4" />
-          <span className="text-muted-foreground text-sm font-medium">Current balance</span>
-        </CardHeader>
-        <CardContent>
-          <p className="text-3xl font-bold tracking-tight tabular-nums">
-            {formatUSD(balance ?? '0')}
-          </p>
-          <p className="text-muted-foreground mt-1 text-xs">Available to spend on orders</p>
-        </CardContent>
-      </Card>
+      {/* Wallet KPIs — balance · lifetime deposited · lifetime spent */}
+      <div className="grid gap-3 sm:grid-cols-3">
+        <WalletMetric
+          icon={<WalletIcon className="size-4" />}
+          label="Current balance"
+          value={formatUSD(balance ?? '0')}
+          caption="Available to spend on orders"
+        />
+        <WalletMetric
+          icon={<ArrowDownToLineIcon className="size-4" />}
+          label="Total deposited"
+          value={formatUSD(totalDeposited)}
+          caption="All-time top-ups"
+        />
+        <WalletMetric
+          icon={<ArrowUpFromLineIcon className="size-4" />}
+          label="Total spent"
+          value={formatUSD(totalSpent)}
+          caption="All-time deductions"
+        />
+      </div>
 
       {/* Transaction history */}
       <div className="space-y-4">
