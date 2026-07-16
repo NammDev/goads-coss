@@ -48,7 +48,7 @@ const defaultCards: HomeFeatureCard[] = [
       </svg>
     ),
     title: "Direct access, anytime",
-    description: "Message us on Telegram, WhatsApp or Discord and get a real answer from a real person, around the clock, no tickets, no waiting.",
+    description: "Message us on Telegram or Discord and get a real answer from a real person, around the clock, no tickets, no waiting.",
     ctaLabel: "Contact Us",
     ctaHref: "/contact",
     image: "/landing/community/support.webp",

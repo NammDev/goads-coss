@@ -8,8 +8,8 @@ import { CONTACT } from "@/data/contact-info"
 export const actionPlanFounder = {
   name: "Justin Bui",
   role: "Founder & CEO @ GOADS",
-  avatarSrc: "/about/justin-bui.webp",
-  avatarAlt: "Justin Bui, Founder & CEO of GOADS",
+  avatarSrc: "/avatars/goads-team.png",
+  avatarAlt: "GOADS team",
 }
 
 export const actionPlanCopy = {

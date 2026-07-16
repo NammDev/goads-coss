@@ -9,7 +9,7 @@ import {
   type HomeFeatureCard,
 } from "@/components/home/features-grid"
 import { contactHero } from "@/data/contact-page-data"
-import { TelegramLogo, WhatsAppLogo } from "@/assets/svg/ad-platform-logos"
+import { TelegramLogo } from "@/assets/svg/ad-platform-logos"
 import { CONTACT } from "@/data/contact-info"
 
 // GET IN TOUCH channels — reuses the features-grid UI (3-card layout + images
@@ -23,16 +23,6 @@ const contactChannelCards: HomeFeatureCard[] = [
     ctaLabel: "Message on Telegram",
     ctaHref: CONTACT.telegram.officialWithMessage,
     image: "/contact/telegram.webp",
-  },
-  {
-    icon: <WhatsAppLogo className="size-6" />,
-    title: "WhatsApp",
-    description:
-      "Direct line · 24/7, Prefer WhatsApp? We answer there too.",
-    ctaLabel: "Chat on WhatsApp",
-    ctaHref: CONTACT.whatsapp.withMessage,
-    isMiddle: true,
-    image: "/contact/whats%20app.webp",
   },
   {
     icon: <MailIcon />,
@@ -56,7 +46,7 @@ function MailIcon() {
 export const metadata: Metadata = {
   title: "Contact | GOADS",
   description:
-    "Get in touch with the GOADS team, real people, fast answers, 24/7 support across Telegram, WhatsApp and Discord.",
+    "Get in touch with the GOADS team, real people, fast answers, 24/7 support across Telegram and Discord.",
 }
 
 export default function ContactPage() {
