@@ -32,13 +32,12 @@ export const aboutusTestimonials = [
       "We founded GOADS with a simple vision: to create a more reliable and professional advertising ecosystem for businesses that depend on digital growth. Our mission is not just to provide infrastructure, but to deliver long-term stability, responsive support, and solutions that help our clients scale with confidence in an increasingly complex advertising landscape.",
     authorName: "Justin Bui",
     authorRole: "Founder & CEO",
-    authorImageSrc: "/about/justin-bui.webp",
-    bgImageSrc: "/about/justin-bui.webp",
-    bgImageAlt: "Justin Bui, Founder & CEO of GOADS",
-    // Personal socials — swap "#" with the founder's real profile URLs.
+    authorImageSrc: "/avatars/goads-team.png",
+    bgImageSrc: "",
+    bgImageAlt: "",
+    // Personal socials — Telegram only (personal photo + LinkedIn removed for privacy).
     socials: {
       telegram: "https://t.me/Justin_goads",
-      linkedin: "https://www.linkedin.com/in/justinbui12",
     },
   },
   {
@@ -48,13 +47,12 @@ export const aboutusTestimonials = [
       "Behind GOADS is a technology-first mindset focused on solving real operational challenges. We continuously improve our infrastructure, internal systems, and processes to help clients run advertising operations more securely, efficiently, and sustainably.",
     authorName: "Nam Nguyen",
     authorRole: "Founder & CTO",
-    authorImageSrc: "/about/nam-nguyen.webp",
-    bgImageSrc: "/about/nam-nguyen.webp",
-    bgImageAlt: "Nam Nguyen, Founder & CTO of GOADS",
-    // Personal socials — swap "#" with the founder's real profile URLs.
+    authorImageSrc: "/avatars/goads-team.png",
+    bgImageSrc: "",
+    bgImageAlt: "",
+    // Personal socials — Telegram only (personal photo + LinkedIn removed for privacy).
     socials: {
       telegram: "https://t.me/nam_goads",
-      linkedin: "https://www.linkedin.com/in/nam-nguyen-230970277",
     },
   },
   {

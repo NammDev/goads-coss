@@ -2,14 +2,13 @@ import Link from 'next/link'
 import { ModeSwitcher } from '@/components/mode-switcher'
 import { SearchTrigger } from '@/components/search-trigger'
 import { Separator } from '@/components/ui/separator'
-import { SsLogo, SsCtaIcon, LinkedInIcon, TelegramIcon, DiscordIcon } from './site-header-icons'
+import { SsLogo, SsCtaIcon, TelegramIcon, DiscordIcon } from './site-header-icons'
 import { NavMegaMenu } from './nav-mega-menu'
 import { NavMobileDrawer } from './nav-mobile-drawer'
 import { CartButtonWrapper } from './cart-button-wrapper'
 import { CONTACT } from '@/data/contact-info'
 
 const SOCIAL_LINKS = [
-  { href: CONTACT.linkedin, icon: LinkedInIcon, label: 'LinkedIn' },
   { href: CONTACT.telegram.official, icon: TelegramIcon, label: 'Telegram' },
 ]
 

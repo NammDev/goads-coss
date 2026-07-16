@@ -124,7 +124,7 @@ export const faqTabsData: FAQTab[] = [
       {
         question: 'Support',
         answer:
-          'GOADS provides responsive support and 1-on-1 assistance throughout the entire process.\nClients can contact the team through Telegram, email, or other official channels for quick help whenever needed.\n\nTelegram: goads_official\nWhatsApp: +84865717497',
+          'GOADS provides responsive support and 1-on-1 assistance throughout the entire process.\nClients can contact the team through Telegram, email, or other official channels for quick help whenever needed.\n\nTelegram: goads_official',
       },
     ],
   },

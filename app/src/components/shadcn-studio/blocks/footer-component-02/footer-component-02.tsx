@@ -4,9 +4,8 @@ import { type FormEvent, useRef } from 'react'
 import { ArrowRightIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import Link from 'next/link'
-import { TelegramLogo, WhatsAppLogo } from '@/assets/svg/ad-platform-logos'
+import { TelegramLogo } from '@/assets/svg/ad-platform-logos'
 import { CONTACT } from '@/data/contact-info'
-import { LinkedInIcon } from '@/components/site-header-icons'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -43,24 +42,6 @@ const Footer = () => {
               aria-label='Telegram'
             >
               <TelegramLogo className='size-5' />
-            </a>
-            <a
-              href={CONTACT.whatsapp.main}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='text-muted-foreground transition-colors hover:text-foreground'
-              aria-label='WhatsApp'
-            >
-              <WhatsAppLogo className='size-5' />
-            </a>
-            <a
-              href='https://www.linkedin.com/company/goads-agency-vn/'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='text-muted-foreground transition-colors hover:text-foreground'
-              aria-label='LinkedIn'
-            >
-              <LinkedInIcon className='size-5' />
             </a>
           </div>
         </div>

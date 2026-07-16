@@ -34,13 +34,13 @@ export type BlogPost = {
 
 const namNguyen: BlogAuthor = {
   name: "Nam Nguyen",
-  avatar: "/about/nam-nguyen.webp",
+  avatar: "/avatars/goads-team.png",
   title: "Founder",
 }
 
 const justinBui: BlogAuthor = {
   name: "Justin Bui",
-  avatar: "/about/justin-bui.webp",
+  avatar: "/avatars/goads-team.png",
   title: "Co-Founder",
 }
 
