@@ -9,6 +9,7 @@ import { db } from "@/lib/db";
 import { users, walletTransactions } from "@/lib/db/schema";
 import { topupSchema } from "@/lib/validators/wallet-schemas";
 import { createNotification } from "@/lib/actions/notification-actions";
+import { ensureCurrentUserSynced } from "@/lib/auth/ensure-current-user-synced";
 
 type TopupResult =
   | { success: true; newBalance: string }
@@ -40,6 +41,11 @@ export async function topupBalance(formData: FormData): Promise<TopupResult> {
 
   const { customerId, amount, note } = parsed.data;
   const adminId = userId;
+
+  // Ensure the acting admin exists in the `user` table before it is referenced
+  // by wallet_transaction.createdBy (Clerk→DB webhook may not have synced them,
+  // e.g. in local dev). Prevents a 23503 foreign_key_violation.
+  await ensureCurrentUserSynced();
 
   try {
     const newBalance = await db.transaction(async (tx) => {
@@ -88,9 +94,27 @@ export async function topupBalance(formData: FormData): Promise<TopupResult> {
     return { success: true, newBalance };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
+
+    // Surface the real root cause in server logs (was fully swallowed before,
+    // which made every DB/transaction failure look like the same generic error).
+    console.error("[topupBalance] failed:", {
+      customerId,
+      amount,
+      message,
+      // Postgres driver attaches a numeric code (e.g. 42703 undefined_column)
+      code: (err as { code?: string })?.code,
+      detail: (err as { detail?: string })?.detail,
+    });
+
     if (message === "Customer not found") {
       return { success: false, error: "Customer not found" };
     }
-    return { success: false, error: "Failed to process topup" };
+
+    // In dev, bubble the real reason to the UI so it can be diagnosed quickly.
+    const isProd = process.env.NODE_ENV === "production";
+    return {
+      success: false,
+      error: isProd ? "Failed to process topup" : `Topup failed: ${message}`,
+    };
   }
 }

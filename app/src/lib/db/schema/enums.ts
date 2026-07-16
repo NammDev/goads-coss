@@ -7,6 +7,9 @@ export const userRoleEnum = pgEnum("user_role", [
   "customer",
 ]);
 
+/** Union of valid user role values (super_admin | staff | customer) */
+export type UserRole = (typeof userRoleEnum.enumValues)[number];
+
 /** Product types matching GoAds service catalog */
 export const productTypeEnum = pgEnum("product_type", [
   "agency_account",

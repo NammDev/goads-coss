@@ -9,6 +9,7 @@ import { db } from "@/lib/db";
 import { users, orders, orderItems, walletTransactions, customerPrices, products } from "@/lib/db/schema";
 import { createOrderSchema } from "@/lib/validators/order-schemas";
 import { createNotification } from "@/lib/actions/notification-actions";
+import { ensureCurrentUserSynced } from "@/lib/auth/ensure-current-user-synced";
 
 /** Generate a public share token for an order (admin only) */
 export async function generateShareToken(orderId: string): Promise<{ success: boolean; token?: string; error?: string }> {
@@ -78,6 +79,10 @@ export async function createOrder(formData: FormData): Promise<CreateOrderResult
 
   const { customerId, items, notes } = parsed.data;
   const adminId = userId;
+
+  // Ensure the acting admin exists in the `user` table before it is referenced
+  // by wallet_transaction.createdBy (same Clerk→DB sync gap as topup).
+  await ensureCurrentUserSynced();
 
   try {
     const productIds = items.map((i) => i.productId);
