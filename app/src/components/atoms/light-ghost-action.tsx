@@ -12,11 +12,15 @@ interface LightGhostActionProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
   icon: ReactNode    // size-3.5 typically
   label: string
+  /** Icon-only square button — `label` stays as the accessible name (sr-only +
+   *  aria-label). Used where horizontal room is tight, e.g. bookmarklet cards. */
+  hideLabel?: boolean
 }
 
 export function LightGhostAction({
   icon,
   label,
+  hideLabel = false,
   className,
   type = "button",
   ...rest
@@ -24,9 +28,11 @@ export function LightGhostAction({
   return (
     <button
       type={type}
+      aria-label={hideLabel ? label : undefined}
       {...rest}
       className={cn(
-        "flex cursor-pointer items-center gap-2 rounded-[10px] px-3 py-2 text-[var(--solid-500)] no-underline",
+        "flex cursor-pointer items-center gap-2 rounded-[10px] text-[var(--solid-500)] no-underline",
+        hideLabel ? "justify-center px-2.5 py-2.5" : "px-3 py-2",
         "transition-colors duration-150",
         "hover:bg-[var(--solid-25)] hover:text-[var(--solid-900)]",
         "disabled:cursor-not-allowed disabled:opacity-40",
@@ -34,7 +40,7 @@ export function LightGhostAction({
       )}
     >
       {icon}
-      <span className={siteText.labelS}>{label}</span>
+      <span className={cn(siteText.labelS, hideLabel && "sr-only")}>{label}</span>
     </button>
   )
 }

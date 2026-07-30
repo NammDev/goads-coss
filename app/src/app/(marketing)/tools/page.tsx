@@ -18,6 +18,7 @@ const tools: ToolCard[] = [
   { title: "Check Live UID", description: "Verify if Facebook UIDs are live or dead.", href: "/tools/check-uid" },
   { title: "Split Data Profile", description: "Split text by delimiter, line, or token.", href: "/tools/split-data" },
   { title: "IP Checker", description: "Public IP address, geolocation, and ISP info.", href: "/tools/check-ip" },
+  { title: "GOADS Bookmark", description: "Bookmarklet scripts for Business Manager, one click.", href: "/tools/bookmark" },
   { title: "GOADS Extension", description: "Free Chrome extension for media buyers.", href: "/tools/goads-extension" },
   { title: "Temp Mail", description: "Disposable inbox, instant, no signup.", href: "/tempmail" },
 ]

@@ -4,6 +4,63 @@
 
 ---
 
+## [2026-07-30] — BM Invite bookmarklet rebuilt as GOADS-owned code
+
+### Why
+The shipped `bm-invite` payload was a third-party obfuscated tool (`easyme.pro`)
+with a hard brand-lock (`if (CONFIG.BRAND !== atob("ZWFzeW1lLnBybw==")) return`)
+where `CONFIG.BRAND` doubled as the temp-mail domain — so rebranding it to GOADS
+meant defeating the author's tamper check. Replaced it wholesale with a
+first-party build instead.
+
+### Added
+- **`bookmarklets/goads-bm-invite.js`** — readable, first-party BM Invite tool. Logic ported verbatim from **this repo's own extension**: session/token/bmId extraction from `extension/background.js` `initFromBMTab` (its `world:"MAIN"` injected fn — a bookmarklet already runs in that world), invite request + Facebook response handling (reauth / checkpoint / batch-error) from `inviteBM`, role sets + mail domain + tempmail deep-link from `content.js`. UI reuses the extension's design language (dark shell `#020308` + white B/W cards) from `content.css`.
+- **`bookmarklets/build-bookmarklets.mjs`** — minifies the readable source into the one-line `javascript:` payload via the app's existing esbuild (invoked as `node esbuild/bin/esbuild`, not the `.cmd` shim which can't spawn without a shell on Windows). Source 27.4 KB → payload 18.8 KB.
+- **GOADS logo as inline SVG** inside the tool — cropped G+panda mark from `footer/logo-svg.tsx`. Inline (not `<img>`) so facebook.com's CSP `img-src` can't block it.
+
+### Changed
+- `bm-invite-payload.ts` regenerated from the GOADS source (was the easyme payload). `bm-invite` registry entry → **v1.0**, GOADS-owned description.
+- Brand throughout the tool: email `@goadsagency.com`, inbox button → `https://goadsagency.com/tempmail` (deep-links `#mailbox=<localpart>` for GOADS addresses), Telegram → `https://t.me/goadsagency`, website `goadsagency.com`. Confirmed live: the tempmail worker returns `"domains":["goadsagency.com"]`, so generated addresses actually receive mail.
+
+### Verified
+- `tsc` clean · `next build` OK, `/tools/bookmark` prerendered static · payload contains zero `easyme` references.
+- Behaviour harness (stubbed `fetch`, faked FB page — no real Facebook call): session detection (token Valid, bmId shown), Generate email → `<10 rand>@goadsagency.com`, role default Admin, Send → single POST to `graph.facebook.com/v24.0` with `access_token`, bmId in body, `credentials:"include"`; success banner renders; 0 console errors.
+- Live `/tools/bookmark`: BM Invite drag anchor carries the 19 KB GOADS `javascript:` payload (goadsagency.com + t.me/goadsagency, no easyme); Remove BM Admins left untouched per scope.
+
+### Not done (out of scope, by request)
+- **Remove BM Admins** still runs the original easyme payload — user asked to do BM Invite first.
+
+---
+
+## [2026-07-30] — GOADS Bookmark (bookmarklet library) at /tools/bookmark
+
+### Added
+- **New tool page `/tools/bookmark`** — bookmarklet script library. Sections: "How to Use" (3 steps + Bookmark-Bar shortcut tip) → category chips → card grid. Reuses `ToolShell`/`ToolHeader`/`ToolBody`, `siteText.*`, `--solid-*` tokens. Statically prerendered. — `app/(marketing)/tools/(panel)/bookmark/page.tsx`, `components/tools/bookmark.tsx`, `components/tools/bookmark-card.tsx`
+- **Card accent treatment** — the flat `--solid-25` well with a muted `--solid-400` icon read as washed out, so focal points use the brand accent `--accent` (#1c9cf0) / `--accent-soft` (12%) that `globals.css` reserves for this purpose: accent-wash preview well + radial glow, white icon tile (lifts + scales on hover), accent category and version pills, accent hover border with a soft blue shadow. Body copy, borders and the primary button stay monochrome.
+- **Category chips auto-hide** while only one category is in use — with a single category every chip returns the same grid, so the row is skipped and reappears on its own once a second category exists.
+- **Bookmarklet registry** (`data/bookmarklets/index.ts`) — metadata (slug, title, version, description, icon, category) + payload wiring. Adding a script = 1 payload module + 1 array entry; search, chips and share links derive from it. Ships with **BM Invite TOOL v2.7** and **Remove BM Admins v1.1**.
+- **Payload modules** — `bm-invite-payload.ts` (32,663 chars) / `bm-remove-admins-payload.ts` (37,753 chars), generated verbatim from `docs/BM-invite.md` / `docs/BM-remove.md`. One module per script so payloads stay independent of the registry metadata; the combined 92 KB chunk is loaded **only** by `/tools/bookmark`.
+- **`BookmarkletDragAnchor` atom** — drag-to-Bookmark-Bar anchor. React 19 **blocks `javascript:` URLs in `href`**, so the attribute is set imperatively in an effect; clicks are swallowed (a `javascript:` href fired on our own origin would run the payload against goads.* instead of Facebook) and replaced with an inline "drag me instead" hint. Paint reuses `CTA_VARIANT_STYLES["light-primary"]`. — `components/atoms/bookmarklet-drag-anchor.tsx`
+- **Per-card actions** — drag anchor + Copy share link (`?script={slug}`), both sitting above the card's overlay link.
+- **Card → detail view** — the whole card is clickable (`cursor-pointer`) and opens `?script={slug}`. Implemented as an **overlay `<a>`** covering the card at `z-10`, a *sibling* of the drag anchor (nested `<a>` is invalid HTML), with the actions row raised to `z-20` so the drag anchor and share button stay usable. Plain left-click is intercepted for a client-side open; Cmd/Ctrl/Shift/middle-click fall through to native new-tab behaviour, and the overlay is Tab-focusable with an accent focus ring.
+- **Deep links** — `?script={slug}` renders a "Viewing {title}" banner with a single card and an "All scripts" back action. The URL is the **single source of truth** (no mirrored local state): read via `useSyncExternalStore` (not `useSearchParams`, which would force the whole tool behind a Suspense boundary and lose static prerendering), with the `null` server snapshot keeping first client render identical to server HTML. Because `pushState` fires no native event, `navigate()` dispatches a `goads:bookmark-nav` event that the store also subscribes to alongside `popstate`. The card already on its own detail view gets no link.
+- **Registered in the tools sidebar** under **Utilities** (last item, after GOADS Extension). Also added to the `/tools` landing grid, header Tools mega-menu ("More" row) and footer Tools column.
+
+### Changed
+- `CtaButton` — `variantStyles` exported as `CTA_VARIANT_STYLES` so non-`<Link>` anchors can reuse variant paint instead of duplicating it. No behaviour change.
+- `LightGhostAction` — additive `hideLabel` prop for icon-only square buttons (label kept as `aria-label` + `sr-only`). Used by the card's Copy/Share actions.
+
+### Verified
+- `tsc --noEmit` clean · eslint clean on all new/changed files · `next build` OK, `/tools/bookmark` prerendered static.
+- Browser: both anchors carry full `javascript:` hrefs (32,663 / 37,753 chars, `draggable=true`); search filter, no-match empty state, clear button, category chips, copy-code (payload verified), copy-share-link, and "View all scripts" (param stripped from URL) all exercised end-to-end.
+- Zero console errors and **no hydration warnings** on `/tools/bookmark` and `?script=bm-invite`.
+- Viewports 390/768/1024/1440 — no horizontal body overflow; cards 1-up at 390, 2-up ≥768, 3-up at `xl`.
+
+### Known (pre-existing, out of scope)
+- Site **footer product strip** (`footer-product-nav.tsx`) overflows its container at 768–1024px (last 2 items extend past the viewport edge). Present on every page, unrelated to this change; body itself does not scroll sideways.
+
+---
+
 ## [2026-06-01] — Responsive audit (Foreplay parity)
 
 ### Fixed

@@ -233,6 +233,66 @@ Before considering a tool "foreplay-grade":
 - ❌ Don't add FAQ or testimonial sections to tool pages
 - ❌ Don't use `text-mono` for display values — use `font-display` + tabular-nums
 
+## Bookmarklet cards (GOADS Bookmark)
+
+`/tools/bookmark` adds a card-grid variant of the tool body. Current import paths
+(note: the tables above still use the older `foreplay-*` filenames / `--fp-*`
+token prefixes — live code uses `@/components/{atoms,tools}/*` and `--solid-*`).
+
+| Atom | Purpose | Import |
+|------|---------|--------|
+| `BookmarkletDragAnchor` | Drag-to-Bookmark-Bar anchor for a `javascript:` payload | `atoms/bookmarklet-drag-anchor.tsx` |
+| `LightGhostAction` + `hideLabel` | Icon-only square action (Share) on a white card | `atoms/light-ghost-action.tsx` |
+| `BookmarkCard` | Preview well + title/version + description + actions | `tools/bookmark-card.tsx` |
+| `CTA_VARIANT_STYLES` | Exported variant paint, for anchors that can't use `CtaButton` | `atoms/cta-button.tsx` |
+
+Card anatomy: `rounded-[16px]` white card → `h-[132px]` preview well → `p-5` meta
+block (title `labelL` + version pill) → actions row (drag anchor + share).
+
+**Accent, not grey.** A flat `--solid-25` well with a `--solid-400` icon reads
+washed out at card size. Cards are the one place in the tool language that use the
+brand accent `globals.css` reserves for focal points:
+
+| Element | Treatment |
+|---------|-----------|
+| Preview well | `bg-[var(--accent-soft)]` + radial glow via `color-mix(in oklab, var(--accent), transparent 72%)` |
+| Icon tile | `size-14` white chip, accent icon, accent-tinted inset ring + drop shadow; `-translate-y-0.5 scale-[1.04]` on card hover |
+| Category / version pills | `--accent-soft` fill, `--accent` text |
+| Card hover | border `color-mix(in oklab, var(--accent), white 55%)` + soft blue shadow |
+
+Keep body copy, borders and the primary button monochrome — accent stays on the
+focal points only, or the monochrome look breaks.
+
+**Two hard constraints when rendering a bookmarklet:**
+
+1. **React 19 blocks `javascript:` URLs in `href`** — it throws rather than
+   rendering. Set the attribute imperatively (`el.setAttribute("href", payload)`)
+   in an effect so React's URL sanitiser is bypassed. Browsers need a real
+   `javascript:` href for a bookmark-bar drop to produce a working bookmarklet.
+2. **Never let the anchor be activated.** A `javascript:` href clicked on our own
+   page executes the payload against goads.\* instead of the target site.
+   `preventDefault()` the click and surface a "drag me instead" hint.
+
+**Registry:** `data/bookmarklets/index.ts` holds metadata; each payload lives in
+its own `{slug}-payload.ts` module, generated verbatim from the source doc in
+`docs/`. Keep payloads out of shared chunks — they are tens of KB each and should
+only be fetched by the route that renders them.
+
+**Deep links:** read `?script={slug}` with `useSyncExternalStore` (server
+snapshot `null`), not `useSearchParams` — the latter forces the tool behind a
+Suspense boundary and gives up static prerendering. Keep the URL as the single
+source of truth; don't mirror it into state. `pushState` fires no native event, so
+subscribe the store to a custom `goads:bookmark-nav` event **as well as**
+`popstate`, and dispatch it from your navigate helper.
+
+**Whole-card links:** use an overlay `<a class="absolute inset-0 z-10">` as the
+**last child** — a sibling of the drag anchor, never its parent (nested `<a>` is
+invalid). Raise the actions row to `z-20` or the overlay swallows its buttons.
+Intercept plain left-clicks only; let `metaKey`/`ctrlKey`/`shiftKey`/`altKey` and
+non-zero `button` fall through so new-tab intents still work. Note the overlay
+covers the *padding* box, so it stops 1px short of the border on each side —
+harmless, but it means the card and overlay rects never match exactly.
+
 ## Related
 
 - Global foreplay specs: `docs/foreplay/design-guideline.md`

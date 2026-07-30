@@ -1,4 +1,5 @@
 import {
+  Bookmark,
   Chrome,
   Code,
   Copy,
@@ -98,6 +99,14 @@ export const TOOLS: ToolItem[] = [
     title: "GOADS Extension",
     description: "Free Chrome extension, bypass BM invites, login by cookie",
     icon: Chrome,
+    category: "utility",
+    featured: true,
+  },
+  {
+    slug: "bookmark",
+    title: "GOADS Bookmark",
+    description: "Bookmarklet scripts for Business Manager — drag to your bookmark bar",
+    icon: Bookmark,
     category: "utility",
     featured: true,
   },
