@@ -28,6 +28,7 @@ const dataProcessingItems: ToolItem[] = [
 // Row 2 — more (to be expanded later)
 const utilitiesItems: ToolItem[] = [
   { label: "Temp Mail", desc: "Disposable inbox, instant", href: "/tempmail", icon: NotepadIcon },
+  { label: "GOADS Bookmark", desc: "Bookmarklet scripts for BM", href: "/tools/bookmark", icon: BookmarkIcon },
 ]
 
 export function HeaderToolsMenu() {
@@ -160,6 +161,19 @@ function NotepadIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <rect x="4.5" y="3" width="11" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
       <path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+function BookmarkIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path
+        d="M5.5 3.5h9a1 1 0 0 1 1 1v12l-5.5-3.5L4.5 16.5v-12a1 1 0 0 1 1-1Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }

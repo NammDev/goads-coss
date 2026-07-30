@@ -32,7 +32,10 @@ interface CtaButtonProps {
 
 const isExternalUrl = (href: string) => /^https?:\/\//.test(href) || href.startsWith("mailto:") || href.startsWith("tel:")
 
-const variantStyles: Record<ButtonVariant, string> = {
+// Exported so other atoms that must render a non-<Link> anchor (e.g. the
+// bookmarklet drag anchor, which needs an imperatively-set `javascript:` href)
+// can reuse the exact same variant paint instead of duplicating it.
+export const CTA_VARIANT_STYLES: Record<ButtonVariant, string> = {
   nav: "bg-primary text-primary-foreground transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] hover:bg-primary/90",
   hero: "bg-primary text-primary-foreground transition-all duration-150 hover:bg-[var(--alpha-50)] active:bg-[var(--alpha-100)]",
   secondary: "bg-secondary text-foreground border-0 transition-all duration-150 hover:bg-border active:bg-[var(--alpha-100)]",
@@ -66,7 +69,7 @@ export function CtaButton({
     "relative z-[5] flex cursor-pointer items-center no-underline",
     isNav ? "rounded-[8px] p-1.5" : "rounded-[10px] p-2",
     // variant-specific colors + transitions
-    variantStyles[variant],
+    CTA_VARIANT_STYLES[variant],
     // focus-visible: dark buttons use bg+white ring, light buttons use white+solid-900 ring
     variant === "light-primary" || variant === "light-stroke"
       ? "focus-visible:shadow-[0_0_0_2px_white,0_0_0_3px_var(--solid-900)] focus-visible:outline-none"
