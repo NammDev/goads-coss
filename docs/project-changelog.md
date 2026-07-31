@@ -4,6 +4,198 @@
 
 ---
 
+## [2026-07-31] — Fix: bookmarklet header title rendered near-black on Facebook
+
+### Symptom
+On every tool except BM Invite, the modal's header title ("GOADS Remove BM Admins", …) came out
+dark grey on the dark chrome — effectively invisible. The subtitle underneath was fine.
+
+### Root cause
+The title is an `<h2>`, and its rule only set typography — the colour came from inheriting
+`color:var(--fg)` off the root. Facebook's own stylesheet has a rule for bare `h2`, and **a direct
+rule always beats an inherited value**, so FB's near-black won on every one of our headings. BM Invite
+escaped it purely because its `.gbmi-title` happened to carry an explicit `color:var(--fg)`.
+
+### Fix
+- Explicit `color:var(--fg)` on the title in the shared stylesheet and in Remove BM Admins.
+- Plus a defensive `color:inherit` reset for `h1 h2 h3 p span div label li a` scoped under each tool's
+  root, so nothing else of ours can be repainted by a bare-tag rule on the host page. Our class rules
+  are more specific and still win where they apply.
+- Applied to all five tools, including BM Invite, so the whole library is protected by the same rule.
+
+### Also fixed while in here
+- **Two GOADS modals could stack.** The older tools use their own root ids, so opening a new tool over
+  one of them left both on screen. Every tool now sweeps all known GOADS roots on launch.
+- **The Escape-handler retirement didn't work across tools.** The previous fix tracked the live handler
+  in a module variable — but each payload bundles its own copy of the shared module, so Check Live's
+  variable and Approve's were different variables and the stale handler survived a tool switch anyway.
+  The handle now lives on `window`, which is the only thing two separately-bundled payloads share.
+  (The regression test for this was timing-dependent and had been passing by luck; its stub delay was
+  raised so the switch always happens mid-run.)
+
+### Verified
+- New check: each tool mounted on a page carrying Facebook-style bare-tag CSS, then the header title's
+  **computed** colour read back — all 5 now resolve to our own declaration instead of FB's `#1c1e21`.
+- Behaviour harness 52/52, fix regressions 5/5, old-tool regression, `tsc` clean, `next build` OK.
+
+---
+
+## [2026-07-31] — Three new GOADS bookmarklets + a shared shell for the library
+
+Adds **Approve BM Requests**, **Check Live BM** and **Enable 2FA** to `/tools/bookmark`,
+taking the library from 2 tools to 5. Sources supplied as partner-built obfuscated payloads
+(`docs/bookmark/BM-approve.md`, `BM-checklive.md`, `BM-2fa.md`); all three were reverse-engineered
+to a spec (`plans/reports/analysis-260731-1823-*.md`) and **rewritten as first-party readable code**
+on a shared GOADS shell. No obfuscated third-party payload ships.
+
+### Why a rewrite rather than a re-brand
+Two of the three payloads carry a tamper kill-switch — `if (BRAND !== atob('ZWFzeW1lLnBybw==')) return`
+— so patching the brand string would have made the tool **silently do nothing**. Rewriting was the
+only way to get GOADS UI at all.
+
+### Added — shared library (`bookmarklets/shared/`)
+- `goads-shell.js` — the dark modal + white card stage, header/logo/close/brand strip, plus
+  `esc` / `$` / `toast` / `copyText` / `downloadText` / `timeoutSignal` / `relTime` and the
+  loading / error / empty screens. One shared root id, so launching a second tool replaces the first.
+- `goads-shell-css.js` — the whole stylesheet, scoped under the root id, class prefix `gbk-`.
+  Lifted from the design language of the first two tools and extended (tiles, progress bar,
+  info/mute badges, small buttons).
+- `goads-icons.js` — GOADS mark + line icons, exported one const each so a tool only carries what it imports.
+- `goads-fb-session.js` — token / uid / businessId / fb_dtsg / lsd readers, `window.require` first with
+  DOM + cookie fallbacks.
+- `goads-totp.js` — RFC 4226/6238 TOTP (base32 → WebCrypto HMAC-SHA1 → dynamic truncation).
+- `build-bookmarklets.mjs` now runs esbuild with `--bundle` so tools can import the shared modules
+  while each payload stays standalone.
+
+### Added — tools
+- **Approve BM Requests** (`bm-approve`, v1.0, Business Manager) — lists PENDING requests the BM has
+  RECEIVED, search + select-all, sequential bulk approve with a 500 ms gap, per-row Pending/Approving/
+  Approved/Failed state. Queries: `BusinessCometBizSuiteSettingsBusinessRequestsViewContainerQuery`
+  (doc_id 24355280274092427) first page, `BizKitSettingsBusinessUnifiedRequestListPaginationQuery`
+  (24388768410825768) for paging, `BizKitSettingsSensitiveActionReviewDetailPanelApproveModalMutation`
+  (30932400626405115) to approve.
+- **Check Live BM** (`bm-checklive`, v1.0, Business Manager) — paste BM IDs (optional `|note`), chunked
+  concurrent Graph checks, Live/Disabled/Error tiles, result table, copy-per-bucket in the original
+  line formats, CSV export, Stop button.
+- **Enable 2FA** (`bm-2fa`, v1.0, Utility) — authenticator 2FA for the signed-in account via Account
+  Center. `useFXSettingsTwoFactorGenerateTOTPKeyMutation` (9837172312995248) then
+  `useFXSettingsTwoFactorEnableTOTPMutation` (29164158613231327); code computed locally, one clock-resync
+  retry off the `Date` header. Shows the secret with copy / save-to-file and a live code preview.
+
+### Fixed while porting (bugs in the source payloads, not reproduced)
+- Approve shipped a **hardcoded `cursor:"19"`**, so its list was an arbitrary slice, not the first page;
+  `has_next_page` was computed then ignored. Now: no cursor on page 1, real `end_cursor` paging (10 pages max).
+- Approve had a second, cleaner list query that was dead code (duplicate function name shadowing).
+- Check Live sent `fields=%5B%22allow_page_management_in_www,name%22%5D` — a double-encoded array wrapping
+  one bogus field name — and pinned the long-deprecated `v11.0`. Now a clean `fields=` list, unversioned endpoint.
+- Both list/approve paths now check HTTP status and surface Facebook's real error text instead of a generic string.
+
+### Changed deliberately
+- Bulk approve and 2FA-enable now **ask for confirmation first** — both grant real, irreversible access.
+  The originals fired on the first click.
+- 2FA warns that the secret key is the only copy before it is generated.
+- All UI in English, GOADS branding only (Telegram + goadsagency.com), matching the existing two tools.
+- `require(...)` → `window.require(...)` in the two existing tools, so `--bundle` doesn't try to resolve
+  Facebook's internal module names. No behaviour change.
+
+### Verified
+- `tsc --noEmit` clean · `next build` OK, `/tools/bookmark` prerendered static.
+- All 5 payloads survive URL decoding and parse as JS; zero `easyme` references.
+- TOTP matches all 6 RFC 6238 test vectors, including the >32-bit counter case.
+- jsdom behaviour harness, 52 assertions, stubbed `fetch`/`require`, no real Facebook call:
+  request de-duplication, correct `fields` param, tile counts, table rows, exact copy line formats;
+  approve pagination with the real cursor, mutation payloads, approved rows dropping out and a
+  rejected one staying Failed; 2FA doc_ids/variables/6-digit code/secret display; and guard rails —
+  no request before the user clicks, declining the confirm fires nothing, wrong host and missing
+  session produce the right screens.
+- Regression: both pre-existing tools still mount cleanly after the `--bundle` switch.
+
+### Found in code review, fixed before shipping
+- **Cross-tool DOM bleed (the serious one).** All five tools share element ids by design — only one
+  modal is ever mounted. But an *async continuation* from tool A could still land after the user
+  launched tool B: `$("gbk-tablewrap")` then happily resolved to **tool B's** node, so an in-flight
+  Check Live run would scribble its rows into the Approve tool's UI (or crash on an id tool B lacks).
+  `openShell()` now returns an `alive()` based on `root.isConnected`, and every tool guards its
+  renders with it — checking our own root, not an id, is what makes it correct. The same guard covers
+  the user force-closing mid-run.
+- **Stale Escape handler.** `openShell()` removed the previous modal's DOM but never its `keydown`
+  listener, so handlers accumulated across tool switches and a later Escape could pop an orphaned
+  "still running, close anyway?" confirm from a tool that was no longer on screen. The live handler is
+  now tracked and retired on both mount and close.
+- **CSV formula injection.** Check Live's export wrote FB-controlled BM names straight into cells, so a
+  BM named `=HYPERLINK(...)` would execute on open in Excel/Sheets. Cells starting with `= + - @` are
+  now prefixed with `'`.
+- Reviewed clean: no XSS (every FB-derived value reaches `innerHTML` through `esc()`), no stale-closure
+  or index-capture races in the chunked/sequential loops, no double-click re-entrancy, both destructive
+  actions properly confirm-gated.
+
+Each fix has its own regression test (orphaned-confirm count after a tool switch, CSV cell contents
+captured via a Blob stub, force-close mid-run with no write into a dead DOM).
+
+### Known risks
+- The five `doc_id`s are Facebook persisted-query ids and will rot when FB rotates them; the failure
+  shows up as "couldn't load" / "wouldn't turn 2FA on". Re-capture from a live session when that happens.
+- Check Live at high concurrency can trip Facebook rate limits; throttled responses land in the Error bucket.
+- None of the three has been run against a live Facebook session yet — only the stubbed harness.
+
+---
+
+## [2026-07-31] — Fix: Remove BM Admins bookmarklet did nothing when clicked
+
+### Symptom
+Dragging `Remove BM Admins` to the bookmarks bar and clicking it on a Business
+Manager page opened no UI at all — no modal, no error. BM Invite worked fine.
+
+### Root cause
+The browser percent-**decodes** a `javascript:` URL before executing it. The
+remove-admins source embeds Facebook's GraphQL variables pre-encoded
+(`variables=%7B%22asset_types%22%3Anull…`, 68 valid `%XX` sequences). On click
+those decoded back into raw `{`, `"`, `:`, `,` **inside the string literals**,
+producing `SyntaxError: Unexpected identifier 'cursor'` — the script died before
+its first statement, so nothing rendered. BM Invite escaped this only by luck:
+its 9 `%` chars (CSS `100%`) are never followed by two hex digits.
+
+### Fix
+- `build-bookmarklets.mjs` now escapes `%` → `%25` in the payload, so decoding
+  returns the script byte-for-byte, plus a build-time assertion
+  (`decodeURIComponent(payload) === minified`) that fails the build for any
+  future tool with the same hazard. Other URL-sensitive chars (`#`, `&`, `?`,
+  spaces, quotes) survive decoding untouched and are left alone.
+- Both payloads regenerated: invite 19.0 KB, remove-admins 22.4 KB.
+
+### Verified
+- Emulated the browser's lenient decode on the pre-fix payload → reproduced
+  `SyntaxError: Unexpected identifier 'cursor'`; same emulation on the new
+  payload parses clean. Both payloads: decode → `new Function(src)` OK.
+- `tsc --noEmit` clean.
+
+---
+
+## [2026-07-30] — Remove BM Admins rebuilt as GOADS-owned code
+
+### Why
+Same as the BM Invite rebuild: the shipped `bm-remove-admins` payload was the
+third-party obfuscated `easyme.pro` tool. Replaced with a first-party build so
+the whole GOADS Bookmark library is GOADS-owned.
+
+### Added
+- **`bookmarklets/goads-bm-remove-admins.js`** — readable, first-party tool matching the invite tool's design language (dark shell + white B/W card, inline GOADS logo, green/amber status badges, red destructive action). Lists BM admins in a searchable/filterable table with per-row checkboxes and bulk removal.
+- Registered a second build job in `build-bookmarklets.mjs`; `bm-remove-admins-payload.ts` regenerated from the GOADS source. Registry entry → **v1.0**, GOADS description.
+
+### Network layer (faithfully reproduced from Facebook's own internal GraphQL)
+Persisted-query `doc_id`s + variable blobs are facts of FB's Business-settings API, not third-party IP. All GET with `credentials:"include"` (runs on the user's own session); session read via `require("BusinessUnifiedNavigationContext").businessID` + `require("WebApiApplication").getAccessToken()`, DOM/cookie fallback.
+- list: `BizKitSettingsPeopleTableListPaginationQuery` doc_id 9371006629693295 (paginated, 25/page ×4)
+- remove confirmed user: `BizKitSettingsRemoveBusinessUserMutation` doc_id 24401670346098526
+- remove pending invite: `BizKitSettingsRemovePendingUserMutation` doc_id 6587364614658388
+- Dispatch by status: PENDING → pending mutation (businessRoleRequestID); CONFIRMED → user mutation (businessID + businessUserID). The current viewer's row is detected and its checkbox disabled (can't accidentally remove yourself).
+
+### Verified
+- `tsc` clean · `next build` OK, `/tools/bookmark` prerendered static · payload has zero `easyme` references.
+- Behaviour harness (stubbed `fetch`/`require`, faked FB page — no real Facebook call): session detect, table renders 3 seeded admins (you + confirmed + pending) with correct green/amber badges, viewer row checkbox disabled, Select-all skips the disabled row (picks 2), bulk Remove dispatches user-222 via RemoveBusinessUser and req-333 via RemovePendingUser, count updates 3 → 1, 0 console errors.
+- Live `/tools/bookmark`: both drag anchors now carry GOADS payloads (goadsagency.com + t.me/goadsagency, no easyme).
+
+---
+
 ## [2026-07-30] — BM Invite bookmarklet rebuilt as GOADS-owned code
 
 ### Why

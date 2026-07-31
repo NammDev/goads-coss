@@ -35,6 +35,7 @@ export const TOOLS_GROUPS: NavMenuGroup[] = [
   ]},
   { overline: "More", items: [
     { label: "Temp Mail", desc: "Disposable inbox, instant", href: "/tempmail", icon: IconNotepad },
+    { label: "GOADS Bookmark", desc: "Bookmarklet scripts for BM", href: "/tools/bookmark", icon: IconBookmark },
   ]},
 ]
 
@@ -68,5 +69,7 @@ function IconScissors() { return (<svg width="20" height="20" viewBox="0 0 20 20
 function IconGlobe() { return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5" /><path d="M2.5 10h15M10 2.5c2 2.3 3 5 3 7.5s-1 5.2-3 7.5c-2-2.3-3-5-3-7.5s1-5.2 3-7.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /></svg>) }
 function IconCookie() { return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17.5 10a7.5 7.5 0 1 1-7.58-7.5c-.2.75-.05 1.58.47 2.19.52.62 1.34.91 2.13.77a2.15 2.15 0 0 0 2.6 2.56c-.16.96.3 1.9 1.17 2.35.86.45 1.93.31 2.66-.35.34.62.55 1.3.55 1.98Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /><circle cx="7.5" cy="10" r=".75" fill="currentColor" /><circle cx="11" cy="13" r=".75" fill="currentColor" /></svg>) }
 function IconNotepad() { return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4.5" y="3" width="11" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.5" /><path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>) }
+// Same path as BookmarkIcon in header-tools-menu, so mobile and desktop match.
+function IconBookmark() { return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5.5 3.5h9a1 1 0 0 1 1 1v12l-5.5-3.5L4.5 16.5v-12a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>) }
 function IconChrome() { return (<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" /><circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.6" /><path d="M12 9h8M5 7l4 7M14 21l3-9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>) }
 function IconMobile() { return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="6" y="3" width="8" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.5" /><path d="M9 14.5h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>) }

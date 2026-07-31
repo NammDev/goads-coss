@@ -28,20 +28,59 @@ const JOBS = [
     constName: "BM_INVITE_PAYLOAD",
     title: "BM Invite TOOL",
   },
+  {
+    src: resolve(here, "goads-bm-remove-admins.js"),
+    out: resolve(repo, "app/src/data/bookmarklets/bm-remove-admins-payload.ts"),
+    constName: "BM_REMOVE_ADMINS_PAYLOAD",
+    title: "Remove BM Admins",
+  },
+  {
+    src: resolve(here, "goads-bm-2fa.js"),
+    out: resolve(repo, "app/src/data/bookmarklets/bm-2fa-payload.ts"),
+    constName: "BM_2FA_PAYLOAD",
+    title: "Enable 2FA",
+  },
+  {
+    src: resolve(here, "goads-bm-approve.js"),
+    out: resolve(repo, "app/src/data/bookmarklets/bm-approve-payload.ts"),
+    constName: "BM_APPROVE_PAYLOAD",
+    title: "Approve BM Requests",
+  },
+  {
+    src: resolve(here, "goads-bm-checklive.js"),
+    out: resolve(repo, "app/src/data/bookmarklets/bm-checklive-payload.ts"),
+    constName: "BM_CHECKLIVE_PAYLOAD",
+    title: "Check Live BM",
+  },
 ]
 
 for (const job of JOBS) {
-  // Minify the IIFE. --format=iife keeps it a single self-invoking expression.
+  // Minify the IIFE. --format=iife keeps it a single self-invoking expression;
+  // --bundle inlines the shared/ modules (shell, CSS, icons, session readers) so
+  // each payload stays standalone while the sources stay DRY. Icons are exported
+  // one const each, so a tool only carries the ones it actually imports.
   const minified = execFileSync(
     process.execPath,
-    [esbuildBin, job.src, "--minify", "--format=iife", "--target=es2017", "--charset=utf8"],
+    [esbuildBin, job.src, "--bundle", "--minify", "--format=iife", "--target=es2017", "--charset=utf8"],
     { encoding: "utf8" },
   ).trim()
 
   // A bookmarklet is a URL: the whole script must be one `javascript:` line with
   // no raw newlines. Minified esbuild output already has none, but guard anyway.
   const oneLine = minified.replace(/\n/g, "")
-  const payload = "javascript:" + oneLine
+
+  // The browser percent-DECODES a `javascript:` URL before running it. Any `%`
+  // in the script that happens to be followed by two hex digits is therefore
+  // eaten: the BM-admins tool embeds pre-encoded GraphQL variables (`%22`,
+  // `%7B`, …), which decoded back into raw quotes/braces mid-string-literal →
+  // SyntaxError → the bookmarklet silently did nothing. Escaping `%` itself is
+  // enough: every other char that matters here (`#`, `&`, `?`, spaces, quotes)
+  // survives decoding untouched.
+  const urlSafe = oneLine.replace(/%/g, "%25")
+  if (decodeURIComponent(urlSafe) !== oneLine) {
+    throw new Error("payload does not survive URL decoding: " + job.src)
+  }
+  const payload = "javascript:" + urlSafe
 
   const header =
     "// Bookmarklet payload — " +

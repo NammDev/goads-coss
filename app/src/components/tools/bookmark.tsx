@@ -122,29 +122,34 @@ export function BookmarkTool() {
           ))}
         </ol>
 
-        {/* Shortcut tip — icon stays pinned left while the sentence + key pills
-            wrap beside it (a single wrapping row would drop the icon onto its
-            own line at ~390px). */}
-        <div className="flex items-start gap-2 rounded-[10px] border border-[var(--solid-100)] bg-white px-4 py-3 max-md:px-3">
-          <Lightbulb className="mt-0.5 size-4 shrink-0 text-[var(--solid-700)]" />
+        {/* Shortcut tip — deliberately the only colour on an otherwise greyscale
+            strip, so it reads as a tip rather than a fourth instruction. Green is
+            picked flat here rather than from the page tokens, which are greys and
+            a blue — the point is for this block to stand apart from them.
+            The icon stays pinned left while the sentence + key pills wrap beside
+            it (a single wrapping row would drop the icon onto its own line at
+            ~390px). */}
+        <div className="flex items-start gap-2.5 rounded-[10px] border border-[#6ee7b7] bg-[#d5fae8] px-4 py-3 max-md:px-3">
+          <span className="mt-px flex size-5 shrink-0 items-center justify-center rounded-[6px] bg-[#047857] shadow-[0_2px_6px_-2px_rgba(4,120,87,0.5)]">
+            <Lightbulb className="size-3 text-white" />
+          </span>
           <p
             className={cn(
               siteText.bodyS,
-              "flex flex-wrap items-center gap-x-1.5 gap-y-1.5 text-[var(--solid-700)]",
+              "flex flex-wrap items-center gap-x-1.5 gap-y-1.5 text-[#14532d]",
             )}
           >
             <span>
-              <span className="font-semibold text-[var(--solid-900)]">Tip:</span> show the Bookmark Bar
-              with
+              <span className="font-semibold text-[#065f46]">Tip:</span> show the Bookmark Bar with
             </span>
             <Kbd>Ctrl</Kbd>
             <Kbd>Shift</Kbd>
             <Kbd>B</Kbd>
-            <span className="text-[var(--solid-500)]">(Chrome / Edge) or</span>
+            <span className="text-[#2f6b4f]">(Chrome / Edge) or</span>
             <Kbd>Cmd</Kbd>
             <Kbd>Shift</Kbd>
             <Kbd>B</Kbd>
-            <span className="text-[var(--solid-500)]">(Mac)</span>
+            <span className="text-[#2f6b4f]">(Mac)</span>
           </p>
         </div>
       </div>
@@ -201,13 +206,15 @@ export function BookmarkTool() {
 }
 
 // Keyboard key pill — mono chip on white, sized to sit inline with bodyS text.
+// Key pill for the shortcut tip. White cap with a green ring, so the keys read
+// as physical keys against the green strip they sit on.
 function Kbd({ children }: { children: React.ReactNode }) {
   return (
     <kbd
       className={cn(
         siteText.bodyXs,
-        "rounded-[6px] bg-[var(--solid-25)] px-1.5 py-0.5 font-mono font-medium leading-4 text-[var(--solid-900)]",
-        "shadow-[inset_0_0_0_1px_var(--solid-100)]",
+        "rounded-[6px] bg-white px-1.5 py-0.5 font-mono font-medium leading-4 text-[#065f46]",
+        "shadow-[inset_0_0_0_1px_#6ee7b7,0_1px_1px_rgba(4,120,87,0.14)]",
       )}
     >
       {children}

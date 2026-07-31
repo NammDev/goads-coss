@@ -8,8 +8,11 @@
 //   2. Append an entry below. Category chips + search + share links all derive
 //      from this array — no component changes needed.
 
-import { Link2, ShieldMinus, type LucideIcon } from "lucide-react"
+import { CheckCheck, HeartPulse, Link2, ShieldCheck, ShieldMinus, type LucideIcon } from "lucide-react"
 
+import { BM_2FA_PAYLOAD } from "./bm-2fa-payload"
+import { BM_APPROVE_PAYLOAD } from "./bm-approve-payload"
+import { BM_CHECKLIVE_PAYLOAD } from "./bm-checklive-payload"
 import { BM_INVITE_PAYLOAD } from "./bm-invite-payload"
 import { BM_REMOVE_ADMINS_PAYLOAD } from "./bm-remove-admins-payload"
 
@@ -48,7 +51,7 @@ export const BOOKMARKLETS: Bookmarklet[] = [
   {
     slug: "bm-invite",
     title: "BM Invite TOOL",
-    version: "v1.0",
+    version: "v2.4",
     description:
       "Invite users to your Business Manager by email in one click — GOADS-built, runs on the BM page.",
     icon: Link2,
@@ -58,12 +61,42 @@ export const BOOKMARKLETS: Bookmarklet[] = [
   {
     slug: "bm-remove-admins",
     title: "Remove BM Admins",
-    version: "v1.1",
+    version: "v1.8",
     description:
-      "Review and bulk-remove admins or employees from a Facebook Business Manager, straight from the BM page.",
+      "List and bulk-remove admins or pending invites from your Business Manager — GOADS-built, runs on the BM page.",
     icon: ShieldMinus,
     category: "business-manager",
     payload: BM_REMOVE_ADMINS_PAYLOAD,
+  },
+  {
+    slug: "bm-approve",
+    title: "Approve BM Requests",
+    version: "v3.1",
+    description:
+      "Review the pending access requests your Business Manager has received and approve them in bulk — GOADS-built, runs on the BM page.",
+    icon: CheckCheck,
+    category: "business-manager",
+    payload: BM_APPROVE_PAYLOAD,
+  },
+  {
+    slug: "bm-checklive",
+    title: "Check Live BM",
+    version: "v2.0",
+    description:
+      "Paste a list of Business Manager IDs and get live, disabled or error for each one, with copyable result lists and CSV export.",
+    icon: HeartPulse,
+    category: "business-manager",
+    payload: BM_CHECKLIVE_PAYLOAD,
+  },
+  {
+    slug: "bm-2fa",
+    title: "Enable 2FA",
+    version: "v1.6",
+    description:
+      "Turn on authenticator-app two-factor authentication for the account you're signed in as, and save the secret key. Runs on Account Center.",
+    icon: ShieldCheck,
+    category: "utility",
+    payload: BM_2FA_PAYLOAD,
   },
 ]
 

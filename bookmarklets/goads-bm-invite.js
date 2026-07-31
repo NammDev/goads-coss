@@ -35,8 +35,10 @@
   var STYLE_ID = "goads-bmi-style";
 
   // Re-running the bookmarklet should reopen a clean tool, not stack overlays.
-  ["#" + ROOT_ID, "#" + BACKDROP_ID].forEach(function (sel) {
-    var el = document.querySelector(sel);
+  // Sweep every GOADS modal, not just this tool's own: the library shares one
+  // screen and a second modal stacked on the first is never what the user wants.
+  [ROOT_ID, BACKDROP_ID, "goads-bk", "goads-bk-backdrop", "goads-bmi", "goads-bmi-backdrop", "goads-bmr", "goads-bmr-backdrop"].forEach(function (id) {
+    var el = document.getElementById(id);
     if (el) el.remove();
   });
 
@@ -106,6 +108,12 @@
     "#" +
     ROOT_ID +
     " *{box-sizing:border-box}" +
+    // Facebook styles bare tags on its own pages, and a direct rule beats an
+    // inherited value, so anything of ours that only inherited its colour picked
+    // up FB's instead. Force these back to inheriting; our class rules are more
+    // specific and still win where they apply.
+    "#" + ROOT_ID + " h1,#" + ROOT_ID + " h2,#" + ROOT_ID + " h3,#" + ROOT_ID + " p,#" + ROOT_ID + " span,#" +
+    ROOT_ID + " div,#" + ROOT_ID + " label,#" + ROOT_ID + " li,#" + ROOT_ID + " a{color:inherit}" +
     // header
     "#" +
     ROOT_ID +
@@ -291,11 +299,11 @@
     out.uid = uidM ? uidM[1] : null;
 
     try {
-      out.dtsg = require("DTSG").getToken();
+      out.dtsg = window.require("DTSG").getToken();
     } catch (e) {}
     if (!out.dtsg) {
       try {
-        out.dtsg = require("DTSGInitData").token;
+        out.dtsg = window.require("DTSGInitData").token;
       } catch (e) {}
     }
     if (!out.dtsg) {
@@ -311,7 +319,7 @@
     }
     if (!out.bmId) {
       try {
-        var ctx = require("CurrentBusinessAccountID");
+        var ctx = window.require("CurrentBusinessAccountID");
         if (ctx) out.bmId = String(ctx);
       } catch (e) {}
     }
