@@ -16,6 +16,10 @@ import { giveawayBanner } from "@/data/giveaway-page-data"
 export function GiveawayAnnouncementBar() {
   const pathname = usePathname()
 
+  // Campaign kill switch — `giveawayBanner.enabled` is false while the giveaway
+  // is not running, which hides the bar sitewide without touching this markup.
+  if (!giveawayBanner.enabled) return null
+
   // Hidden only on the giveaway page itself (redundant there).
   if (pathname === giveawayBanner.href) return null
 

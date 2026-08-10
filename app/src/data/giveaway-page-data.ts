@@ -105,7 +105,13 @@ export const giveawayFeatureRows = [
 
 // Sitewide announcement bar (above the header). Links to the giveaway route.
 // `highlight` is rendered in the amber accent to make the dollar value pop.
+// Sitewide announcement bar for the free-page giveaway.
+// `enabled: false` turns the bar OFF everywhere without removing any code —
+// the campaign is paused, so flip this back to `true` to bring it back.
 export const giveawayBanner = {
+  // `as boolean` (not the literal) so the object's `as const` doesn't narrow the
+  // flag to `false` and mark every guarded branch as dead code.
+  enabled: false as boolean,
   text: "🎁 Giveaway: 200 free super aged Facebook Pages worth ",
   highlight: "$7,000",
   cta: "Claim yours",
