@@ -122,34 +122,39 @@ export function BookmarkTool() {
           ))}
         </ol>
 
-        {/* Shortcut tip — deliberately the only colour on an otherwise greyscale
-            strip, so it reads as a tip rather than a fourth instruction. Green is
-            picked flat here rather than from the page tokens, which are greys and
-            a blue — the point is for this block to stand apart from them.
+        {/* Shortcut tip — the only colour on an otherwise greyscale strip, so it
+            reads as a tip rather than a fourth instruction. Painted with the
+            brand accent (--accent) so it matches the cards below instead of
+            introducing a second accent hue on the same page.
             The icon stays pinned left while the sentence + key pills wrap beside
             it (a single wrapping row would drop the icon onto its own line at
             ~390px). */}
-        <div className="flex items-start gap-2.5 rounded-[10px] border border-[#6ee7b7] bg-[#d5fae8] px-4 py-3 max-md:px-3">
-          <span className="mt-px flex size-5 shrink-0 items-center justify-center rounded-[6px] bg-[#047857] shadow-[0_2px_6px_-2px_rgba(4,120,87,0.5)]">
+        <div className="flex items-start gap-2.5 rounded-[10px] border border-[color-mix(in_oklab,var(--accent),white_65%)] bg-[var(--accent-soft)] px-4 py-3 max-md:px-3">
+          <span className="mt-px flex size-5 shrink-0 items-center justify-center rounded-[6px] bg-[var(--accent)] shadow-[0_2px_6px_-2px_color-mix(in_oklab,var(--accent),transparent_50%)]">
             <Lightbulb className="size-3 text-white" />
           </span>
           <p
             className={cn(
               siteText.bodyS,
-              "flex flex-wrap items-center gap-x-1.5 gap-y-1.5 text-[#14532d]",
+              "flex flex-wrap items-center gap-x-1.5 gap-y-1.5 text-[color-mix(in_oklab,var(--accent),black_45%)]",
             )}
           >
             <span>
-              <span className="font-semibold text-[#065f46]">Tip:</span> show the Bookmark Bar with
+              <span className="font-semibold text-[color-mix(in_oklab,var(--accent),black_30%)]">
+                Tip:
+              </span>{" "}
+              show the Bookmark Bar with
             </span>
             <Kbd>Ctrl</Kbd>
             <Kbd>Shift</Kbd>
             <Kbd>B</Kbd>
-            <span className="text-[#2f6b4f]">(Chrome / Edge) or</span>
+            <span className="text-[color-mix(in_oklab,var(--accent),black_25%)]">
+              (Chrome / Edge) or
+            </span>
             <Kbd>Cmd</Kbd>
             <Kbd>Shift</Kbd>
             <Kbd>B</Kbd>
-            <span className="text-[#2f6b4f]">(Mac)</span>
+            <span className="text-[color-mix(in_oklab,var(--accent),black_25%)]">(Mac)</span>
           </p>
         </div>
       </div>
@@ -206,15 +211,15 @@ export function BookmarkTool() {
 }
 
 // Keyboard key pill — mono chip on white, sized to sit inline with bodyS text.
-// Key pill for the shortcut tip. White cap with a green ring, so the keys read
-// as physical keys against the green strip they sit on.
+// Key pill for the shortcut tip. White cap with an accent ring, so the keys read
+// as physical keys against the tinted strip they sit on.
 function Kbd({ children }: { children: React.ReactNode }) {
   return (
     <kbd
       className={cn(
         siteText.bodyXs,
-        "rounded-[6px] bg-white px-1.5 py-0.5 font-mono font-medium leading-4 text-[#065f46]",
-        "shadow-[inset_0_0_0_1px_#6ee7b7,0_1px_1px_rgba(4,120,87,0.14)]",
+        "rounded-[6px] bg-white px-1.5 py-0.5 font-mono font-medium leading-4 text-[color-mix(in_oklab,var(--accent),black_30%)]",
+        "shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--accent),white_65%),0_1px_1px_color-mix(in_oklab,var(--accent),transparent_85%)]",
       )}
     >
       {children}
