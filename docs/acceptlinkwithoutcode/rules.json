@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "action": {
+        "type": "modifyHeaders",
+        "requestHeaders": [{ "header": "Origin", "operation": "remove" }]
+    },
+    "condition": {
+        "initiatorDomains": ["https://business.facebook.com/business/"],
+        "requestMethods": ["post"],
+        "resourceTypes": ["main_frame", "sub_frame", "script"]
+    }
+  }
+]

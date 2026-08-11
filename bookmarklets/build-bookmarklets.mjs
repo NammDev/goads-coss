@@ -52,6 +52,12 @@ const JOBS = [
     constName: "BM_CHECKLIVE_PAYLOAD",
     title: "Check Live BM",
   },
+  {
+    src: resolve(here, "goads-bm-acceptlink.js"),
+    out: resolve(repo, "app/src/data/bookmarklets/bm-acceptlink-payload.ts"),
+    constName: "BM_ACCEPTLINK_PAYLOAD",
+    title: "Accept BM Link",
+  },
 ]
 
 for (const job of JOBS) {

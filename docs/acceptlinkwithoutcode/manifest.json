@@ -1,0 +1,44 @@
+{
+    "manifest_version": 3,
+    "name": "Nhận link",
+    "description": "Nhận link",
+    "version": "0.0.1",
+    "permissions": [
+        "activeTab",
+        "background", 
+        "tabs",
+        "alarms",
+        "activeTab",
+        "storage",
+        "unlimitedStorage",
+        "scripting",
+        "webRequest",
+        "management",
+        "webNavigation",
+        "proxy",
+        "notifications",
+        "clipboardWrite",
+        "clipboardRead",
+        "downloads",
+        "cookies",
+        "declarativeNetRequest"
+    ],
+    "host_permissions": [
+        "*://*/*"
+    ],
+    "action": {
+      "default_title": "Mở trình quản lý"
+    },
+    "background": {
+        "service_worker": "service-worker.js"
+    },
+    "declarative_net_request": {
+        "rule_resources": [
+          {
+            "id": "ruleset_1",
+            "enabled": true,
+            "path": "rules.json"
+          }
+        ]
+    }
+}

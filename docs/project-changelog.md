@@ -4,6 +4,124 @@
 
 ---
 
+## [2026-08-12] — New bookmarklet: Accept BM Link (no code)
+
+Ported the "accept link without code" flow from this repo's `Nhận link` extension
+(`docs/acceptlinkwithoutcode/`) into a GOADS bookmarklet. Sixth tool in the library.
+
+**What it does.** Paste ONE Business Manager invitation link
+(`business.facebook.com/invitation/?token=…`) and accept it with the account you're signed in as —
+no verification code, no email round trip. Single-link form (link field + Accept + result panel),
+compact 560px shell. Runs on facebook.com or the BM page.
+
+**Tech (matched to the extension's code-free path):**
+- Accept mutation → `b-graph.facebook.com/graphql` `doc_id 6857625997606127`,
+  `first_name:"Xmeta"`, `last_name` = actor id, `user_preferred_business_email` = `<actor>@facebook.com`
+  — request-for-request from `dashboard_re.js` `invitationLinkNoveri`.
+- Token extraction from `invitation/?token=` links → the extension's `extractTokenFromUrl`.
+- `access_token` + actor id read from the page via `shared/goads-fb-session.js`
+  (`readAccessToken`, `readUserId`); everything runs on the user's own session
+  (`credentials:"include"`), nothing is sent anywhere but Facebook.
+- Only the code-free path is reproduced — the extension's email-verification path (third-party mailbox
+  API) is left out, since the goal was the flow that needs nothing but the user's session.
+- UI = the shared `gbk-` shell (header, brand strip, field + button + result), so it matches the rest
+  of the library.
+
+**Files.** `bookmarklets/goads-bm-acceptlink.js` (source), `ICON_TICKET` added to
+`shared/goads-icons.js`, build job + `bm-acceptlink-payload.ts` generated, registry entry
+(`slug: bm-acceptlink`, v1.0) in `app/src/data/bookmarklets/index.ts`.
+
+**Verification.** Build round-trips the payload through URL-decode (23.1 KB, valid JS via `new Function`,
+`b-graph` + `doc_id` present). `tsc --noEmit` clean. Token regex unit-checked on raw / query-suffixed /
+pipe-delimited / non-link inputs.
+
+---
+
+## [2026-08-11] — BM Invite: tell the customer which gate a "sent" invite is behind
+
+"It will show as Pending until accepted" was wrong whenever the BM holds the invite behind a gate —
+a second admin having to approve it, or Facebook mailing the invitee a confirmation first.
+
+`classifyPending(data)` reads the success reply and returns `approval` / `email` / `unknown`:
+- **approval** → "A second admin must approve it. Ask another admin … Business Settings → People → Pending."
+- **email** → "The invite must be confirmed by email", plus an **Open inbox** deep-link into `/tempmail`
+  when the address is a GOADS one.
+- **unknown** → both gates listed. This is the common case: the Graph edge often answers with nothing
+  but `{"id":…}`, and a guess there would be worse than a short checklist.
+
+Detection is signal-scan only (`PENDING_ADMIN_APPROVAL`, `PENDING_EMAIL_VERIFICATION`, `APPROVER`,
+`CONFIRMATION_CODE`, …) over the stringified reply — no extra request, and a reply naming *both* gates
+falls back to `unknown` rather than picking one. Sidebar note updated to match.
+
+**Verification.** Ran the built payload in jsdom against a stubbed Facebook across 5 replies
+(`{id}` / `status:PENDING` / email gate / approval gate / localised failure): each rendered the right
+card, the tempmail link resolved to `#mailbox=abc123`, and the failure path stayed English.
+Classifier unit-checked on 11 payload shapes including the both-signals and `null` cases.
+
+---
+
+## [2026-08-11] — BM Invite: failure messages are English-only
+
+**Bug.** A failed invite printed half Vietnamese: `Method 1: Không thể thêm người dùng vào doanh nghiệp
+này. | Method 2: The user cannot be added to the business.`
+
+**Cause.** Method 2's URL carries `locale=en_US`; Method 1's did not, so Graph answered it in the
+account's own language.
+
+**Fix** (`bookmarklets/goads-bm-invite.js`):
+- `locale=en_US` added to the Method 1 Graph edge URL — same as Method 2.
+- `englishOnly()` guard: any message still containing non-ASCII (Facebook localises some replies
+  regardless of `locale`) is swapped for "The user cannot be added to this business." Applied to
+  `extractErrorMessage`, both fetch-exception paths, and `friendlyError`.
+- Identical Method 1 / Method 2 errors now print once instead of being repeated behind two labels.
+
+Requests are otherwise unchanged (`locale` is a display param), so the easyme.pro transport parity holds.
+`bm-invite-payload.ts` regenerated; the other four payloads are byte-identical.
+
+---
+
+## [2026-08-10] — BM Invite bookmarklet: transport matched to easyme.pro
+
+GOADS is an easyme.pro partner, so the invite tool should hit Facebook exactly the way theirs does.
+The UI, logo and colours stay GOADS; only the wire layer changed.
+
+### What the tool did before
+Single request: batch endpoint on Graph **v24.0**, token scraped out of the page HTML (`EAAG…`/`EAAB…`),
+`business_id` read from the URL. Roles were `["ADMIN", …]` for admin and
+`["EMPLOYEE","ASSET_VIEW","PEOPLE_VIEW"]` for employee. One shot — if the batch call failed, that was it.
+
+### What it does now (matched to `docs/bookmark/BM-invite.md`)
+- **Token** — probes `business.facebook.com/ajax/bootloader-endpoint/?modules=AdsCanvasComposerDialog.react&__a=1`
+  and takes the `EAAI…` token out of the response, then `require("WebApiApplication").getAccessToken()`.
+  This is the token easyme's calls are authorised against; the old DOM scrape is now only a third fallback.
+- **BM id** — `require("BusinessUnifiedNavigationContext").businessID` first.
+- **Two methods with fallback**, in easyme's order:
+  1. direct Graph edge `POST /v19.0/{bmId}/business_users` with `invite_origin=BM_INVITE_USER_FLOW`
+  2. batch `POST /v19.0` wrapping `/v3.0/{bmId}/business_users`, unwrapping `data[0].body`
+- **Role sets** are easyme's byte-for-byte, kept pre-encoded: admin leads with `DEFAULT` (not `ADMIN`),
+  employee is `["EMPLOYEE"]` alone.
+- **Verdict** — any `error`/`errors` key fails; otherwise success when the reply mentions `PENDING` or
+  carries an `id`. Errors read `error_user_msg → message → first 200 chars of the raw JSON`.
+
+### Kept deliberately different
+- GOADS keeps its extra bmId/token fallbacks *after* easyme's chain, so the tool is a superset — it can
+  still resolve a BM on asset-scoped URLs where the nav context never mounted.
+- reauth/checkpoint replies are reworded into an actionable sentence. This is presentation only; the
+  requests are unchanged.
+
+### Verification
+Deobfuscated the reference payload, then diffed both implementations' `(url, method, headers, body,
+credentials)` tuples under a stub `fetch`: **byte-identical across admin/employee × method 1/2**.
+Fallback order and success/error verdicts matched on 6 scripted reply scenarios.
+
+### Notes
+- Boot is now asynchronous (the token costs a fetch), so the Token pill holds "Checking…" until it
+  resolves instead of flashing "Not found".
+- The pre-encoded role strings contain `%`, which a `javascript:` URL would decode. `build-bookmarklets.mjs`
+  already escapes `%`→`%25` and asserts the payload round-trips, so they survive the build intact.
+
+---
+
 ## [2026-07-31] — Fix: bookmarklet header title rendered near-black on Facebook
 
 ### Symptom

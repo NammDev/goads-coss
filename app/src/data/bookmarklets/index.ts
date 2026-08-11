@@ -8,9 +8,10 @@
 //   2. Append an entry below. Category chips + search + share links all derive
 //      from this array — no component changes needed.
 
-import { CheckCheck, HeartPulse, Link2, ShieldCheck, ShieldMinus, type LucideIcon } from "lucide-react"
+import { CheckCheck, HeartPulse, Link2, ShieldCheck, ShieldMinus, TicketCheck, type LucideIcon } from "lucide-react"
 
 import { BM_2FA_PAYLOAD } from "./bm-2fa-payload"
+import { BM_ACCEPTLINK_PAYLOAD } from "./bm-acceptlink-payload"
 import { BM_APPROVE_PAYLOAD } from "./bm-approve-payload"
 import { BM_CHECKLIVE_PAYLOAD } from "./bm-checklive-payload"
 import { BM_INVITE_PAYLOAD } from "./bm-invite-payload"
@@ -87,6 +88,16 @@ export const BOOKMARKLETS: Bookmarklet[] = [
     icon: HeartPulse,
     category: "business-manager",
     payload: BM_CHECKLIVE_PAYLOAD,
+  },
+  {
+    slug: "bm-acceptlink",
+    title: "Accept BM Link",
+    version: "v1.0",
+    description:
+      "Paste a Business Manager invitation link and accept it with the account you're signed in as — no verification code needed. Runs on facebook.com or the BM page.",
+    icon: TicketCheck,
+    category: "business-manager",
+    payload: BM_ACCEPTLINK_PAYLOAD,
   },
   {
     slug: "bm-2fa",

@@ -2,12 +2,14 @@
  * GOADS BM Invite — bookmarklet source (readable; built into a one-line
  * `javascript:` payload by build-bookmarklets.mjs).
  *
- * 100% GOADS-owned code. Ported from this repo's own Chrome extension:
- *   - session/token/bmId extraction → extension/background.js `initFromBMTab`
- *     (the function it injects with world:"MAIN" — a bookmarklet already runs
- *     in that world, so it applies verbatim)
- *   - invite request + response handling → extension/background.js `inviteBM`
- *   - mail domain, tempmail deep-link, role sets → extension/content.js
+ * Transport layer mirrors the easyme.pro BM invite tool (GOADS is a partner) —
+ * see docs/bookmark/BM-invite.md. Everything below that is GOADS-owned:
+ *   - token probe, bmId lookup, both invite methods + their fallback order,
+ *     role sets, success/error detection → easyme.pro, matched request-for-request
+ *   - extra bmId/token fallbacks (URL, path, CurrentBusinessAccountID, EAAG/EAAB
+ *     scrape) → this repo's extension/background.js `initFromBMTab`, kept as a
+ *     last resort AFTER easyme's chain so we are a superset, never a downgrade
+ *   - mail domain, tempmail deep-link → extension/content.js
  *   - visual language (dark shell + white cards, B/W) → extension/content.css
  *   - logo → app/src/components/layout/footer/logo-svg.tsx, inlined as SVG
  *
@@ -257,6 +259,22 @@
     "#" +
     ROOT_ID +
     " .gbmi-result b{word-break:break-all}" +
+    // "What happens next" list inside the success card.
+    "#" +
+    ROOT_ID +
+    " .gbmi-next{margin:7px 0 0;padding-left:16px;color:var(--ink-soft);font-size:12.5px;line-height:1.5}" +
+    "#" +
+    ROOT_ID +
+    " .gbmi-next ul{margin:4px 0 0;padding-left:16px}" +
+    "#" +
+    ROOT_ID +
+    " .gbmi-next li{margin:3px 0}" +
+    "#" +
+    ROOT_ID +
+    " .gbmi-next b{font-weight:550;color:var(--ink-strong);word-break:normal}" +
+    "#" +
+    ROOT_ID +
+    " .gbmi-next a{color:var(--ink-strong);font-weight:550;text-decoration:underline;white-space:nowrap}" +
     // footer
     "#" +
     ROOT_ID +
@@ -289,11 +307,15 @@
   }
 
   // ── Session extraction ─────────────────────────────────────────────────────
-  // Verbatim from extension/background.js `initFromBMTab` (its world:"MAIN"
-  // injected function). Reads only what the page already holds — cookie,
-  // require() modules, loaded DOM. No network call.
+  // Synchronous half: uid, dtsg, bmId. Reads only what the page already holds —
+  // cookie, require() modules, loaded DOM. No network call.
+  //
+  // bmId order matches easyme.pro first (BusinessUnifiedNavigationContext), then
+  // falls through to this repo's extension lookups. easyme reads the nav context
+  // only, which is null on BM pages that never mounted it (asset-scoped URLs);
+  // the extra steps recover those instead of dead-ending.
   function readSession() {
-    var out = { bmId: null, dtsg: null, uid: null, token: null };
+    var out = { bmId: null, dtsg: null, uid: null };
 
     var uidM = document.cookie.match(/c_user=(\d+)/);
     out.uid = uidM ? uidM[1] : null;
@@ -311,8 +333,14 @@
       out.dtsg = dm ? dm[1] : null;
     }
 
-    var params = new URLSearchParams(window.location.search);
-    out.bmId = params.get("business_id");
+    try {
+      var nav = window.require("BusinessUnifiedNavigationContext");
+      if (nav && nav.businessID) out.bmId = String(nav.businessID);
+    } catch (e) {}
+    if (!out.bmId) {
+      var params = new URLSearchParams(window.location.search);
+      out.bmId = params.get("business_id");
+    }
     if (!out.bmId) {
       var pm = window.location.pathname.match(/^\/(\d{10,})(?:\/|$)/);
       if (pm) out.bmId = pm[1];
@@ -324,106 +352,274 @@
       } catch (e) {}
     }
 
-    var html = document.documentElement.innerHTML;
-    var tm = html.match(/EAAG[A-Za-z0-9]+/g) || html.match(/EAAB[A-Za-z0-9]+/g);
-    if (tm) {
-      var uniq = [];
-      for (var j = 0; j < tm.length; j++) if (uniq.indexOf(tm[j]) === -1) uniq.push(tm[j]);
-      uniq.sort(function (a, b) {
-        return b.length - a.length;
-      });
-      out.token = uniq[0];
-    }
     return out;
   }
 
-  // ── Invite ─────────────────────────────────────────────────────────────────
-  // Verbatim from extension/background.js `inviteBM`. Runs in the page, so the
-  // request carries the user's facebook.com cookies (credentials:"include").
-  function sendInvite(bmId, token, email, roles) {
-    var roleStr =
-      roles ||
-      '["DEFAULT","MANAGE","DEVELOPER","EMPLOYEE","ASSET_MANAGE","ASSET_VIEW","PEOPLE_MANAGE","PEOPLE_VIEW","PARTNERS_VIEW","PARTNERS_MANAGE","PROFILE_MANAGE"]';
-    var batch = JSON.stringify([
-      {
-        method: "POST",
-        relative_url: "/v3.0/" + bmId + "/business_users",
-        body:
-          "brandId=" +
-          bmId +
-          "&email=" +
-          encodeURIComponent(email) +
-          "&roles=" +
-          encodeURIComponent(roleStr),
-      },
-    ]);
-
+  // Asynchronous half: the access token. easyme.pro pulls an EAAI token out of
+  // the bootloader endpoint rather than scraping the DOM — that token is the one
+  // its invite calls are authorised against, so we fetch it the same way and in
+  // the same order. The DOM scrape stays as a third fallback only.
+  function probeBootloaderToken() {
     return fetch(
-      "https://graph.facebook.com/v24.0?access_token=" +
-        encodeURIComponent(token) +
-        "&format=json&pretty=0&suppress_http_code=1&transport=cors&locale=en_US",
-      {
-        method: "POST",
-        headers: { accept: "*/*", "content-type": "application/x-www-form-urlencoded" },
-        referrer: "https://www.facebook.com",
-        body: "batch=" + encodeURIComponent(batch) + "&method=post&pretty=0&suppress_http_code=1",
-        credentials: "include",
-      }
+      "https://business.facebook.com/ajax/bootloader-endpoint/?modules=AdsCanvasComposerDialog.react&__a=1",
+      { credentials: "include" }
     )
       .then(function (resp) {
         return resp.text();
       })
       .then(function (text) {
-        // Facebook prepends anti-JSON-hijack tokens to some responses.
-        text = text.replace(/^(for\s*\(;;\);|while\s*\(1\);)\s*/, "").trim();
+        var m = text.match(/"access_token":"(EAAI[^"]+)"/);
+        return (m && m[1]) || "";
+      })
+      .catch(function () {
+        return "";
+      });
+  }
 
-        if (/challenge_type"?\s*:\s*"?reauth/i.test(text) || /\breauth\b/i.test(text)) {
-          return {
-            success: false,
-            error:
-              "Facebook needs you to re-verify this account before inviting. Open business.facebook.com, finish the security check, then try again.",
-          };
-        }
-        if (/checkpoint/i.test(text)) {
-          return {
-            success: false,
-            error: "This account hit a Facebook checkpoint. Resolve it on facebook.com, then retry.",
-          };
-        }
+  function scrapeTokenFromDom() {
+    var html = document.documentElement.innerHTML;
+    var tm = html.match(/EAAG[A-Za-z0-9]+/g) || html.match(/EAAB[A-Za-z0-9]+/g);
+    if (!tm) return null;
+    var uniq = [];
+    for (var j = 0; j < tm.length; j++) if (uniq.indexOf(tm[j]) === -1) uniq.push(tm[j]);
+    uniq.sort(function (a, b) {
+      return b.length - a.length;
+    });
+    return uniq[0];
+  }
 
-        var data;
-        try {
-          data = JSON.parse(text);
-        } catch (e) {
-          return { success: false, error: "Facebook returned an unexpected response. Please try again." };
-        }
+  function getAccessToken() {
+    return probeBootloaderToken().then(function (token) {
+      if (token) return token;
+      try {
+        var viaModule = window.require("WebApiApplication").getAccessToken();
+        if (viaModule) return viaModule;
+      } catch (e) {}
+      return scrapeTokenFromDom() || null;
+    });
+  }
 
-        if (Array.isArray(data) && data.length > 0) {
-          var item = data[0];
-          var body;
-          try {
-            body = typeof item.body === "string" ? JSON.parse(item.body) : item.body;
-          } catch (e) {
-            body = {};
-          }
-          if (body && (body.challenge_type === "reauth" || body.challenge_type === "checkpoint")) {
-            return {
-              success: false,
-              error:
-                "Facebook needs you to re-verify this account before inviting. Open business.facebook.com, finish the security check, then try again.",
-            };
-          }
-          if (item.code === 200 && !(body && body.error)) return { success: true, id: body && body.id };
-          if (body && body.error)
-            return { success: false, error: body.error.error_user_msg || body.error.message };
+  // ── Invite ─────────────────────────────────────────────────────────────────
+  // Both methods below are matched to easyme.pro request-for-request: same Graph
+  // version, same URLs, same header set, same body layout, same role strings.
+  // The role strings stay PRE-ENCODED exactly as easyme sends them — re-encoding
+  // them ourselves would produce different bytes on the wire.
+  //
+  // Note on `%` in these literals: a `javascript:` URL is percent-decoded before
+  // it runs, so build-bookmarklets.mjs escapes every `%` to `%25` and asserts the
+  // payload round-trips. That keeps these strings intact in the built payload.
+
+  // Method 1 — direct Graph edge. easyme's primary path.
+  var ROLES_M1_ADMIN =
+    "%5B%22DEFAULT%22%2C%22MANAGE%22%2C%22DEVELOPER%22%2C%22EMPLOYEE%22%2C%22ASSET_MANAGE%22%2C%22ASSET_VIEW%22%2C%22PEOPLE_MANAGE%22%2C%22PEOPLE_VIEW%22%2C%22PARTNERS_VIEW%22%2C%22PARTNERS_MANAGE%22%2C%22PROFILE_MANAGE%22%5D";
+  var ROLES_M1_EMPLOYEE = "%5B%22EMPLOYEE%22%5D";
+
+  // Method 2 — batch fallback. The role fragment carries its own leading `=` and
+  // the closing `"}]` of the batch JSON, exactly as easyme concatenates it.
+  var ROLES_M2_ADMIN =
+    "%3D%5B%5C%22DEFAULT%5C%22%2C%5C%22MANAGE%5C%22%2C%5C%22DEVELOPER%5C%22%2C%5C%22EMPLOYEE%5C%22%2C%5C%22ASSET_MANAGE%5C%22%2C%5C%22ASSET_VIEW%5C%22%2C%5C%22PEOPLE_MANAGE%5C%22%2C%5C%22PEOPLE_VIEW%5C%22%2C%5C%22PARTNERS_VIEW%5C%22%2C%5C%22PARTNERS_MANAGE%5C%22%2C%5C%22PROFILE_MANAGE%5C%22%5D%22%7D%5D";
+  var ROLES_M2_EMPLOYEE = "%3D%5B%5C%22EMPLOYEE%5C%22%5D%22%7D%5D";
+
+  function inviteViaGraphEdge(token, bmId, email, isAdmin) {
+    var roles = isAdmin ? ROLES_M1_ADMIN : ROLES_M1_EMPLOYEE;
+    return fetch(
+      // `locale=en_US` matches Method 2 — without it Graph answers in the
+      // account's own language and the error line comes back half-Vietnamese.
+      "https://graph.facebook.com/v19.0/" +
+        bmId +
+        "/business_users?access_token=" +
+        token +
+        "&locale=en_US",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body:
+          "brandId=" +
+          bmId +
+          "&email=" +
+          encodeURIComponent(email) +
+          "&invite_origin=BM_INVITE_USER_FLOW&method=post&roles=" +
+          roles +
+          "&suppress_http_code=1",
+        credentials: "include",
+      }
+    ).then(function (resp) {
+      return resp.json();
+    });
+  }
+
+  function inviteViaBatch(token, bmId, email, isAdmin) {
+    var roles = isAdmin ? ROLES_M2_ADMIN : ROLES_M2_EMPLOYEE;
+    return fetch(
+      "https://graph.facebook.com/v19.0?access_token=" + token + "&suppress_http_code=1&locale=en_US",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body:
+          "batch=%5B%7B%22method%22%3A%22POST%22%2C%22relative_url%22%3A%22%2Fv3.0%2F" +
+          bmId +
+          "%2Fbusiness_users%22%2C%22body%22%3A%22brandId%3D" +
+          bmId +
+          "%26email%3D" +
+          encodeURIComponent(email) +
+          "%26roles" +
+          roles +
+          "&method=post&suppress_http_code=1",
+        credentials: "include",
+      }
+    )
+      .then(function (resp) {
+        return resp.json();
+      })
+      .then(function (data) {
+        // Batch replies wrap the real payload in [{ body: "<json string>" }].
+        if (Array.isArray(data) && data[0] && data[0].body) {
+          return typeof data[0].body === "string" ? JSON.parse(data[0].body) : data[0].body;
         }
-        if (data && data.error)
-          return { success: false, error: data.error.error_user_msg || data.error.message };
-        return { success: false, error: "Facebook returned an unexpected response. Please try again." };
+        return data;
+      });
+  }
+
+  // easyme's verdict: any `error`/`errors` key is a failure, otherwise the invite
+  // counts as sent once the reply mentions PENDING or carries an id.
+  function isInviteSuccess(data) {
+    if (!data) return false;
+    if (data.error || data.errors) return false;
+    return JSON.stringify(data).indexOf("PENDING") !== -1 || !!data.id;
+  }
+
+  // A sent invite is not always immediately usable. Depending on the BM's own
+  // settings Facebook holds it behind one of two gates: a second admin has to
+  // approve the request, or the invitee has to open a confirmation Facebook mails
+  // them. "Pending until accepted" is wrong for both, so read the reply and say
+  // which gate it is — the status strings Facebook uses name themselves.
+  //
+  // Returns "approval" | "email" | "unknown". Unknown is the common case: the
+  // Graph edge often answers with nothing but `{"id":…}`. That is not a reason to
+  // guess — the caller lists both gates instead.
+  function classifyPending(data) {
+    var raw = "";
+    try {
+      raw = JSON.stringify(data) || "";
+    } catch (e) {}
+
+    var approval = /SECOND[_\s-]?ADMIN|ADMIN[_\s-]?APPROVAL|APPROVAL[_\s-]?REQUIRED|PENDING[_\s-]?APPROVAL|REQUIRES?[_\s-]?APPROVAL|APPROVER/i.test(raw);
+    var emailGate = /EMAIL[_\s-]?VERIF|VERIFY[_\s-]?EMAIL|EMAIL[_\s-]?CONFIRM|CONFIRMATION[_\s-]?CODE|PENDING[_\s-]?EMAIL/i.test(raw);
+
+    if (approval && !emailGate) return "approval";
+    if (emailGate && !approval) return "email";
+    return "unknown";
+  }
+
+  // The two gates as customer-facing steps. The inbox link is only offered for
+  // GOADS addresses, since that is the only mailbox we can actually open for them.
+  function nextStepsHtml(kind, email) {
+    var inboxLink = "";
+    if (String(email).toLowerCase().indexOf("@" + MAIL_DOMAIN) !== -1) {
+      inboxLink =
+        ' <a href="' +
+        TEMPMAIL_URL +
+        "#mailbox=" +
+        encodeURIComponent(String(email).split("@")[0]) +
+        '" target="_blank" rel="noreferrer">Open inbox</a>';
+    }
+
+    var approvalStep =
+      "<li><b>A second admin must approve it.</b> Ask another admin of this Business Manager to open " +
+      "Business Settings → People → Pending and approve the request.</li>";
+    var emailStep =
+      "<li><b>The invite must be confirmed by email.</b> Open the inbox for <b>" +
+      esc(email) +
+      "</b> and finish the confirmation Facebook just sent." +
+      inboxLink +
+      "</li>";
+
+    if (kind === "approval") return '<ul class="gbmi-next">' + approvalStep + "</ul>";
+    if (kind === "email") return '<ul class="gbmi-next">' + emailStep + "</ul>";
+
+    return (
+      '<ul class="gbmi-next"><li>It stays “Pending” until the user accepts.</li>' +
+      "<li>Some Business Managers add one more gate before that — if it does not go through, it is one of these:" +
+      "<ul>" +
+      approvalStep +
+      emailStep +
+      "</ul></li></ul>"
+    );
+  }
+
+  // The tool is English-only, but Facebook still localises some replies to the
+  // account's language no matter what `locale` we ask for. Anything carrying
+  // non-ASCII text is therefore not English and gets swapped for the English
+  // wording of the case it almost always is — a BM that refused the address.
+  function englishOnly(msg) {
+    var text = String(msg == null ? "" : msg);
+    if (!text) return "";
+    return /[^\x00-\x7F]/.test(text) ? "The user cannot be added to this business." : text;
+  }
+
+  function extractErrorMessage(data) {
+    if (!data) return "No response";
+    return englishOnly(
+      (data.error && (data.error.error_user_msg || data.error.message)) ||
+        JSON.stringify(data).slice(0, 200)
+    );
+  }
+
+  // Graph edge first, batch second — the same order and the same "try both before
+  // reporting" contract easyme uses. Resolves with the winning method so the
+  // result line can say which one landed.
+  function sendInvite(bmId, token, email, isAdmin) {
+    var err1 = null;
+    var err2 = null;
+
+    return inviteViaGraphEdge(token, bmId, email, isAdmin)
+      .then(function (data) {
+        if (isInviteSuccess(data)) return { success: true, data: data, method: 1 };
+        err1 = extractErrorMessage(data);
+        return null;
       })
       .catch(function (e) {
-        return { success: false, error: e.message };
+        err1 = englishOnly(e.message) || "Method 1 exception";
+        return null;
+      })
+      .then(function (won) {
+        if (won) return won;
+        return inviteViaBatch(token, bmId, email, isAdmin)
+          .then(function (data) {
+            if (isInviteSuccess(data)) return { success: true, data: data, method: 2 };
+            err2 = extractErrorMessage(data);
+            return null;
+          })
+          .catch(function (e) {
+            err2 = englishOnly(e.message) || "Method 2 exception";
+            return null;
+          });
+      })
+      .then(function (won) {
+        if (won) return won;
+        // Both methods usually fail for the same reason; printing that reason
+        // twice behind "Method 1: … | Method 2: …" just makes it look broken.
+        return {
+          success: false,
+          error: err1 === err2 ? String(err1) : "Method 1: " + err1 + " | Method 2: " + err2,
+          method1Error: err1,
+          method2Error: err2,
+        };
       });
+  }
+
+  // Facebook answers a blocked account with a reauth/checkpoint payload whose raw
+  // JSON is useless to a customer. Swap those two cases for something actionable;
+  // every other error is passed through as Facebook worded it.
+  function friendlyError(raw) {
+    var text = String(raw || "");
+    if (/\breauth\b/i.test(text)) {
+      return "Facebook needs you to re-verify this account before inviting. Open business.facebook.com, finish the security check, then try again.";
+    }
+    if (/checkpoint/i.test(text)) {
+      return "This account hit a Facebook checkpoint. Resolve it on facebook.com, then retry.";
+    }
+    return englishOnly(text) || "Invite failed.";
   }
 
   // ── UI ─────────────────────────────────────────────────────────────────────
@@ -502,7 +698,7 @@
     '<ul class="gbmi-note">' +
     "<li>Run this on your Business Manager page.</li>" +
     "<li>Use an email you can actually open.</li>" +
-    "<li>The invite stays “Pending” until accepted.</li>" +
+    "<li>Some Business Managers also need a second admin to approve, or an email confirmation.</li>" +
     "</ul>" +
     "</div>" +
     "</div>" +
@@ -588,10 +784,7 @@
     var email = $("gbmi-email").value.trim();
     if (!email || !state.token || !state.bmId || state.busy) return;
 
-    var roles =
-      $("gbmi-role").value === "ADMIN"
-        ? '["ADMIN","MANAGE","DEVELOPER","EMPLOYEE","ASSET_MANAGE","ASSET_VIEW","PEOPLE_MANAGE","PEOPLE_VIEW","PARTNERS_VIEW","PARTNERS_MANAGE","PROFILE_MANAGE"]'
-        : '["EMPLOYEE","ASSET_VIEW","PEOPLE_VIEW"]';
+    var isAdmin = $("gbmi-role").value === "ADMIN";
 
     state.busy = true;
     $("gbmi-send").disabled = true;
@@ -600,7 +793,7 @@
     $("gbmi-sendLabel").textContent = "Sending…";
     $("gbmi-result").className = "gbmi-result";
 
-    sendInvite(state.bmId, state.token, email, roles).then(function (res) {
+    sendInvite(state.bmId, state.token, email, isAdmin).then(function (res) {
       state.busy = false;
       $("gbmi-cancel").disabled = false;
       $("gbmi-sendIcon").innerHTML = I.send;
@@ -610,30 +803,27 @@
       if (res.success) {
         showResult(
           "ok",
-          "Invite sent to <b>" + esc(email) + "</b><br>It will show as “Pending” until accepted."
+          "Invite sent to <b>" +
+            esc(email) +
+            "</b> as " +
+            (isAdmin ? "Admin" : "Employee") +
+            nextStepsHtml(classifyPending(res.data), email)
         );
       } else {
-        showResult("error", esc(res.error || "Invite failed."));
+        showResult("error", esc(friendlyError(res.error)));
       }
     });
   }
   $("gbmi-send").addEventListener("click", doSend);
 
   // ── Boot: read the session and reflect it in the Status card ──────────────
+  // uid/dtsg/bmId are readable synchronously; the token now costs a fetch, so the
+  // Token pill stays on "Checking…" until that settles rather than flashing a
+  // wrong "Not found" first.
   var s = readSession();
-  state.token = s.token;
   state.bmId = s.bmId;
   state.uid = s.uid;
   state.dtsg = s.dtsg;
-
-  var tokenPill = $("gbmi-pillToken");
-  if (state.token) {
-    tokenPill.textContent = "Valid";
-    tokenPill.className = "gbmi-pill ok";
-  } else {
-    tokenPill.textContent = "Not found";
-    tokenPill.className = "gbmi-pill bad";
-  }
 
   var bmPill = $("gbmi-pillBM");
   if (state.bmId) {
@@ -645,16 +835,34 @@
     bmPill.className = "gbmi-pill bad";
   }
 
-  if (!state.uid) {
-    showResult("error", "You are not logged in to Facebook. Log in, then run the tool again.");
-  } else if (!state.token) {
-    showResult("error", "Couldn’t read an access token from this page. Refresh Business Manager and retry.");
-  } else if (!state.bmId) {
-    showResult(
-      "error",
-      "No Business Manager detected. Open your Business Manager at business.facebook.com, then run the tool there."
-    );
-  }
+  getAccessToken().then(function (token) {
+    state.token = token;
+
+    var tokenPill = $("gbmi-pillToken");
+    if (state.token) {
+      tokenPill.textContent = "Valid";
+      tokenPill.className = "gbmi-pill ok";
+    } else {
+      tokenPill.textContent = "Not found";
+      tokenPill.className = "gbmi-pill bad";
+    }
+
+    if (!state.uid) {
+      showResult("error", "You are not logged in to Facebook. Log in, then run the tool again.");
+    } else if (!state.token) {
+      showResult(
+        "error",
+        "Couldn’t read an access token from this page. Refresh Business Manager and retry."
+      );
+    } else if (!state.bmId) {
+      showResult(
+        "error",
+        "No Business Manager detected. Open your Business Manager at business.facebook.com, then run the tool there."
+      );
+    }
+
+    refreshSendBtn();
+  });
 
   // Pre-fill a ready-to-use GOADS email so the customer can send immediately —
   // they can still overwrite it or roll a new one with the dice button.
