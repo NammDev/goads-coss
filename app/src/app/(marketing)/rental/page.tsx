@@ -13,8 +13,10 @@ import { DotBg } from "@/components/atoms/dot-bg"
 import { SectionContainer } from "@/components/atoms/section-container"
 import { SectionHead } from "@/components/atoms/section-head"
 import { CtaButton } from "@/components/atoms/cta-button"
+import { CrossLinkPanel } from "@/components/atoms/cross-link-panel"
 import { ProductPageFaqAccordion } from "@/components/product/page-faq-accordion"
 import { RentalHero } from "@/components/rental/rental-hero"
+import { RentalIntentDialog } from "@/components/rental/rental-intent-dialog"
 import { RentalPlans } from "@/components/rental/rental-plans"
 import { RentalBenefits } from "@/components/rental/rental-benefits"
 import { RentalComparisonTable } from "@/components/rental/rental-comparison-table"
@@ -32,6 +34,10 @@ export const metadata: Metadata = {
 export default function RentalPage() {
   return (
     <>
+      {/* Buy-or-rent question, once per browser. Rendered first so it is mounted
+          before anything below can steal focus. */}
+      <RentalIntentDialog />
+
       {/* ═══ Hero ═══ */}
       <section className="relative overflow-hidden">
         <DotBg />
@@ -101,6 +107,23 @@ export default function RentalPage() {
       <section>
         <SectionContainer variant="wide">
           <ProductPageFaqAccordion title="Rental questions answered" items={RENTAL_FAQ_ITEMS} />
+        </SectionContainer>
+      </section>
+
+      {/* ═══ Way out to the one-time catalog ═══
+          The arrival dialog offers this too, but only once per browser. Someone
+          who dismissed it, or who read the whole page before deciding renting is
+          not for them, needs a route out that is still on the page. */}
+      <section>
+        <SectionContainer variant="section">
+          <div className="pb-[108px] max-md:pb-24 max-sm:pb-20">
+            <CrossLinkPanel
+              overline="PREFER TO BUY?"
+              body="Every asset here can be bought outright instead: ad accounts, Business Managers, profiles and pages, one-time, yours to keep."
+              ctaLabel="See the catalog"
+              ctaHref="/pricing"
+            />
+          </div>
         </SectionContainer>
       </section>
     </>

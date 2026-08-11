@@ -332,6 +332,42 @@ export function buildPlanEnquiry(
 // then the term that removes it. Claims stay inside what the plans actually
 // guarantee — no invented performance numbers (see the note above RENTAL_TRACKS).
 
+// ── Buy-or-rent intent ──────────────────────────────────────────────────────
+// Asked once on arrival at /rental, because the header sends everyone shopping
+// for an agency ad account here and roughly half of them want to buy one
+// outright instead. Better to route them in one click than to let them read a
+// rental page that was never for them.
+//
+// No prices: the two pages behind this already quote them, and putting numbers
+// here invites a comparison on cost alone when the real difference is what the
+// customer takes on.
+
+export interface RentalIntentOption {
+  id: "buy" | "rent"
+  label: string
+  body: string
+  /** Omitted on the rental option: choosing it just closes the dialog, since
+   *  the customer is already on the page it would link to. */
+  href?: string
+}
+
+export const RENTAL_INTENT_OPTIONS: RentalIntentOption[] = [
+  {
+    id: "buy",
+    label: "Buy assets individually",
+    body: "Pick exactly what you need from the catalog, ad accounts, Business Managers, profiles or pages. One-time payment, transferred into your own setup, yours to keep.",
+    // Top of /pricing, not the `#agency-ad-account` anchor. Someone leaving the
+    // rental page to buy is choosing a purchasing model, not a product; dropping
+    // them mid-catalog at one category hides the rest of what they can buy.
+    href: "/pricing",
+  },
+  {
+    id: "rent",
+    label: "Rent a complete setup",
+    body: "Verified BM, profiles, pages and ad accounts provisioned and linked for you, warmed and ready to spend on handover. Billed monthly, replaced same day if anything goes down.",
+  },
+]
+
 export const RENTAL_BENEFITS = [
   {
     title: "A ban stops the asset, not your campaigns",

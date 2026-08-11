@@ -10,6 +10,7 @@ import { HomeCta } from "@/components/home/cta"
 import { ProductPageFaqAccordion } from "@/components/product/page-faq-accordion"
 import { PricingCard } from "@/components/pricing/card"
 import { CustomSetupCta } from "@/components/pricing/custom-setup-cta"
+import { CrossLinkPanel } from "@/components/atoms/cross-link-panel"
 import { PricingFooterCta } from "@/components/pricing/footer-cta"
 import { PricingComparison } from "@/components/pricing/comparison"
 import { SITE_HERO_GRADIENT, siteText } from "@/components/atoms/typography"
@@ -62,6 +63,19 @@ export default function PricingPage() {
             <div className="flex flex-col gap-9">
               <PricingCardsGrid />
               <CustomSetupCta />
+              {/* Return leg of the /rental cross-link, so neither page looks
+                  like the only way to buy. */}
+              {/* Badged on this side only: rental is the newer model and the one
+                  a visitor here has no reason to expect. The /rental panel
+                  pointing back needs no badge, since buying outright is what
+                  everyone already assumes we do. */}
+              <CrossLinkPanel
+                overline="PREFER TO RENT?"
+                badge="New"
+                body="Everything on this page is a one-time purchase. Rent a complete setup instead and it arrives linked and ready to spend, with every asset replaced same day."
+                ctaLabel="See rental plans"
+                ctaHref="/rental"
+              />
               <PricingFooterCta />
             </div>
 
