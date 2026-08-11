@@ -135,8 +135,21 @@ export function RentalPlanCard({ plan, track }: { plan: RentalPlan; track: Renta
 
       <div className={cn("h-px w-full", featured ? "bg-[var(--alpha-700)]" : "bg-[var(--solid-50)]")} />
 
-      {/* What's inside */}
-      <ul className="m-0 flex list-none flex-col gap-3.5 p-0">
+      {/* What's inside. The list needs a heading: seven label/value rows with no
+          frame around them read as specifications the customer has to interpret,
+          when they are the answer to the one question being asked at this point
+          in the card. Naming it turns the same rows into an inventory. */}
+      <div className="flex flex-col gap-3.5">
+        <span
+          className={cn(
+            siteText.overline,
+            featured ? "text-[var(--alpha-200)]" : "text-[var(--solid-400)]",
+          )}
+        >
+          What you get
+        </span>
+
+        <ul className="m-0 flex list-none flex-col gap-3.5 p-0">
         {plan.specs.map((spec) => (
           <li key={spec.label} className="flex items-baseline gap-3">
             <CheckIcon featured={featured} />
@@ -173,7 +186,8 @@ export function RentalPlanCard({ plan, track }: { plan: RentalPlan; track: Renta
             </span>
           </li>
         ))}
-      </ul>
+        </ul>
+      </div>
     </article>
   )
 }
