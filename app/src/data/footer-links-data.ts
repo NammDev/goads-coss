@@ -17,6 +17,7 @@ export const footerLinkCategories: FooterLinkCategory[] = [
       { label: "Facebook Pages", href: "/pages" },
       { label: "Agency Ad Account", href: "/agency-ad-account" },
       { label: "TikTok Assets", href: "/tiktok-accounts" },
+      { label: "Meta Asset Rental", href: "/rental" },
       { label: "Unban Service", href: "/unban" },
       { label: "Blue Verification", href: "/blue-verification" },
     ],

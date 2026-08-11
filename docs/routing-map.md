@@ -49,6 +49,7 @@ The app uses Next.js App Router. Marketing pages live under the `(marketing)` ro
 | `/payment` | `(marketing)/payment/page.tsx` | `PageHero` | CTASection | — |
 | `/pricing` | `(marketing)/pricing/page.tsx` | `PageHero` | PricingComponent09, ProductCatalogGrid, FaqComponent08, CTASection | inline + `landing-faq.ts` |
 | `/profiles` | `(marketing)/profiles/page.tsx` | `ProfileHeroCard` | CTASection | — |
+| `/rental` | `(marketing)/rental/page.tsx` | `RentalHero` | RentalPlans (track switcher + plan cards + spec table), RentalBenefits, FaqAccordion, HomeCta | `rental-page-data.ts` |
 | `/reviews` | `(marketing)/reviews/page.tsx` | `PageHero` | Testimonials, CTASection | — |
 | `/talk-to-sales` | `(marketing)/talk-to-sales/page.tsx` | `PageHero` | CTASection | — |
 | `/tiktok-accounts` | `(marketing)/tiktok-accounts/page.tsx` | `TiktokHeroCard` | CTASection | — |

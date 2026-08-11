@@ -58,6 +58,7 @@ const PAGES: SearchItem[] = [
   { id: "p-pages", title: "Pages & Assets", description: "Facebook pages and ad assets", href: "/pages", category: "pages", icon: ShoppingCart, keywords: "pages assets facebook" },
   { id: "p-blue", title: "Blue Verification", description: "Meta blue badge verification", href: "/blue-verification", category: "pages", icon: ShoppingCart, keywords: "blue verification badge meta" },
   { id: "p-unban", title: "Unban Service", description: "Account recovery and unban service", href: "/unban", category: "pages", icon: ShoppingCart, keywords: "unban recovery disabled account" },
+  { id: "p-rental", title: "Meta Asset Rental", description: "Rent ad accounts, BMs, profiles and pages monthly", href: "/rental", category: "pages", icon: ShoppingCart, keywords: "rent rental lease monthly subscription ad account unlimited replacement" },
   { id: "p-tools", title: "Free Tools", description: "Essential toolkit for ads management", href: "/tools", category: "pages", icon: LayoutGrid, keywords: "tools free utilities" },
   { id: "p-blog", title: "Blog", description: "Guides and tutorials for advertisers", href: "/blog", category: "pages", icon: FileText, keywords: "blog articles guides" },
   { id: "p-docs", title: "Documentation", description: "Knowledge base and help center", href: "/docs", category: "pages", icon: BookOpen, keywords: "docs documentation help" },
