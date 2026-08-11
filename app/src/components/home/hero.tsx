@@ -52,10 +52,16 @@ export function HomeHero() {
             description="GOADS provides verified Business Managers, agency ad accounts, profiles, pages, and Meta infrastructure for teams scaling serious campaigns."
           />
 
-          {/* .home-hero-cta */}
-          <div className="flex items-center gap-3">
-            <CtaButton href="/pricing" variant="hero">
+          {/* .home-hero-cta — buy outright (primary) vs rent monthly (secondary).
+              Two ways to get the same assets, so they sit side by side rather
+              than the rental being buried in the nav. Stacks below sm so neither
+              button gets squeezed. */}
+          <div className="flex items-center gap-3 max-sm:grid max-sm:w-full max-sm:grid-cols-1">
+            <CtaButton href="/pricing" variant="hero" className="max-sm:justify-center">
               View Products
+            </CtaButton>
+            <CtaButton href="/rental" variant="secondary" className="max-sm:justify-center">
+              Rent Meta Assets
             </CtaButton>
           </div>
         </div>
