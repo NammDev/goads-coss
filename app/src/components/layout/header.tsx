@@ -102,6 +102,9 @@ export function Header() {
                 <HeaderResourcesMenu />
                 {/* a.navlink (Pricing) */}
                 <NavLink href="/pricing">Pricing</NavLink>
+                {/* a.navlink (Agency Ad Account) — goes to /rental, which asks
+                    buy-or-rent on arrival. */}
+                <NavLink href="/rental">Agency Ad Account</NavLink>
                 {/* a.navlink (Book a Demo) */}
                 <NavLink href="/book-demo">Schedule a Call</NavLink>
               </div>

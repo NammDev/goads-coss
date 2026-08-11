@@ -1,5 +1,7 @@
 // GOADS Bookmark — bookmarklet script library at /tools/bookmark.
-// Spec: docs/foreplay/tool-design-language.md (white block, --solid-* tokens).
+// Spec: docs/foreplay/tool-design-language.md (white block, --solid-* structure
+// with Meta's own blues, --meta-*, as the accent — every script here runs on
+// facebook.com, so the product's colour is the honest one to use).
 //
 // Sections, top to bottom:
 //   1. "How to Use" strip — 3 numbered steps + the Bookmark Bar shortcut tip
@@ -32,7 +34,7 @@ import {
 } from "@/data/bookmarklets"
 
 const HOW_TO_STEPS = [
-  { title: "Find & Drag", detail: "Drag the dark button onto your Bookmark Bar" },
+  { title: "Find & Drag", detail: "Drag the blue button onto your Bookmark Bar" },
   { title: "Navigate", detail: "Open the Facebook page where you want to use it" },
   { title: "Click & Run", detail: "Click the bookmarklet in your Bookmark Bar" },
 ]
@@ -97,8 +99,8 @@ export function BookmarkTool() {
       {/* 1 — How to Use */}
       <div className="flex flex-col gap-4 rounded-[16px] border border-[var(--solid-50)] bg-[var(--solid-25)] p-5 max-md:p-4">
         <div className="flex items-center gap-2">
-          <Info className="size-4 text-[var(--solid-500)]" />
-          <span className={cn(siteText.overline, "text-[var(--solid-500)]")}>How to Use</span>
+          <Info className="size-4 text-[var(--meta-blue-deep)]" />
+          <span className={cn(siteText.overline, "text-[var(--meta-blue-deep)]")}>How to Use</span>
         </div>
 
         <ol className="grid grid-cols-3 gap-4 max-md:grid-cols-1 max-md:gap-3">
@@ -107,7 +109,8 @@ export function BookmarkTool() {
               <span
                 className={cn(
                   siteText.labelS,
-                  "flex size-6 shrink-0 items-center justify-center rounded-[8px] bg-[var(--solid-900)] text-white",
+                  "flex size-6 shrink-0 items-center justify-center rounded-[8px] text-white",
+                  "bg-[linear-gradient(160deg,var(--meta-blue-light),var(--meta-blue-deep))]",
                 )}
               >
                 {i + 1}
@@ -122,39 +125,34 @@ export function BookmarkTool() {
           ))}
         </ol>
 
-        {/* Shortcut tip — the only colour on an otherwise greyscale strip, so it
-            reads as a tip rather than a fourth instruction. Painted with the
-            brand accent (--accent) so it matches the cards below instead of
-            introducing a second accent hue on the same page.
-            The icon stays pinned left while the sentence + key pills wrap beside
-            it (a single wrapping row would drop the icon onto its own line at
-            ~390px). */}
-        <div className="flex items-start gap-2.5 rounded-[10px] border border-[color-mix(in_oklab,var(--accent),white_65%)] bg-[var(--accent-soft)] px-4 py-3 max-md:px-3">
-          <span className="mt-px flex size-5 shrink-0 items-center justify-center rounded-[6px] bg-[var(--accent)] shadow-[0_2px_6px_-2px_color-mix(in_oklab,var(--accent),transparent_50%)]">
+        {/* Shortcut tip — separated from the three steps by SURFACE, not hue: a
+            white card on the strip's --solid-25 fill, carrying the same Meta
+            gradient icon tile as the step badges so the whole strip reads as one
+            system. The icon stays pinned left while the sentence + key pills wrap
+            beside it (a single wrapping row would drop the icon onto its own line
+            at ~390px). */}
+        <div className="flex items-start gap-2.5 rounded-[10px] border border-[var(--meta-ring)] bg-white px-4 py-3 max-md:px-3">
+          <span className="mt-px flex size-5 shrink-0 items-center justify-center rounded-[6px] bg-[linear-gradient(160deg,var(--meta-blue-light),var(--meta-blue-deep))]">
             <Lightbulb className="size-3 text-white" />
           </span>
           <p
             className={cn(
               siteText.bodyS,
-              "flex flex-wrap items-center gap-x-1.5 gap-y-1.5 text-[color-mix(in_oklab,var(--accent),black_45%)]",
+              "flex flex-wrap items-center gap-x-1.5 gap-y-1.5 text-[var(--solid-500)]",
             )}
           >
             <span>
-              <span className="font-semibold text-[color-mix(in_oklab,var(--accent),black_30%)]">
-                Tip:
-              </span>{" "}
-              show the Bookmark Bar with
+              <span className="font-semibold text-[var(--meta-blue-deep)]">Tip:</span> show the
+              Bookmark Bar with
             </span>
             <Kbd>Ctrl</Kbd>
             <Kbd>Shift</Kbd>
             <Kbd>B</Kbd>
-            <span className="text-[color-mix(in_oklab,var(--accent),black_25%)]">
-              (Chrome / Edge) or
-            </span>
+            <span className="text-[var(--solid-400)]">(Chrome / Edge) or</span>
             <Kbd>Cmd</Kbd>
             <Kbd>Shift</Kbd>
             <Kbd>B</Kbd>
-            <span className="text-[color-mix(in_oklab,var(--accent),black_25%)]">(Mac)</span>
+            <span className="text-[var(--solid-400)]">(Mac)</span>
           </p>
         </div>
       </div>
@@ -210,16 +208,16 @@ export function BookmarkTool() {
   )
 }
 
-// Keyboard key pill — mono chip on white, sized to sit inline with bodyS text.
-// Key pill for the shortcut tip. White cap with an accent ring, so the keys read
-// as physical keys against the tinted strip they sit on.
+// Key pill for the shortcut tip — mono chip sized to sit inline with bodyS text.
+// Pale Meta-tint cap with a blue ring, so the keys read as physical keys against
+// the white tip card they sit on.
 function Kbd({ children }: { children: React.ReactNode }) {
   return (
     <kbd
       className={cn(
         siteText.bodyXs,
-        "rounded-[6px] bg-white px-1.5 py-0.5 font-mono font-medium leading-4 text-[color-mix(in_oklab,var(--accent),black_30%)]",
-        "shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--accent),white_65%),0_1px_1px_color-mix(in_oklab,var(--accent),transparent_85%)]",
+        "rounded-[6px] bg-[var(--meta-tint)] px-1.5 py-0.5 font-mono font-medium leading-4 text-[var(--meta-blue-deep)]",
+        "shadow-[inset_0_0_0_1px_var(--meta-ring),0_1px_1px_color-mix(in_oklab,var(--meta-blue),transparent_86%)]",
       )}
     >
       {children}
@@ -227,7 +225,7 @@ function Kbd({ children }: { children: React.ReactNode }) {
   )
 }
 
-// Filter chip — dark fill when active, white + ring when idle.
+// Filter chip — Facebook-blue fill when active, white + ring when idle.
 function CategoryChip({
   label,
   icon,
@@ -249,8 +247,8 @@ function CategoryChip({
         "flex cursor-pointer items-center gap-2 rounded-[10px] px-3 py-2",
         "transition-colors duration-200",
         active
-          ? "bg-background text-foreground"
-          : "bg-white text-[var(--solid-500)] shadow-[inset_0_0_0_1px_var(--solid-50)] hover:bg-[var(--solid-25)] hover:text-[var(--solid-900)]",
+          ? "bg-[var(--meta-blue)] text-white shadow-[0_6px_14px_-8px_color-mix(in_oklab,var(--meta-blue),transparent_30%)]"
+          : "bg-white text-[var(--solid-500)] shadow-[inset_0_0_0_1px_var(--solid-50)] hover:bg-[var(--meta-tint)] hover:text-[var(--meta-blue-deep)]",
       )}
     >
       {icon}

@@ -122,6 +122,477 @@ Fallback order and success/error verdicts matched on 6 scripted reply scenarios.
 
 ---
 
+## [2026-08-10] — /rental switched from a configurator to fixed plan tiers
+
+Client reworked the commercial model after the first build: rentals are no longer
+self-assembled bundles priced per ad account. They are now **two tracks × three tiers**,
+each an all-in monthly plan with the whole stack (ad accounts, BM, profiles, pages)
+already inside and unlimited same-day replacement on every asset.
+
+### Plans (transcribed verbatim from the client's two spec tables)
+
+Public track labels are **Standard** and **High-risk verticals** (client's call, replacing
+the internal "Whitehat" / "BH + GH"). Internal ids match: `standard` / `high-risk`.
+
+**Replacement is identical on both tracks** — unlimited, same-day, every asset. The spend
+fee is the only thing the risk profile changes. Copy in the data file, the FAQ and the
+track taglines all say this explicitly so the cheaper track never reads as less covered;
+`REPLACEMENT_SPEC` is a single shared constant so no tier can drift.
+
+**Standard** — flat 1% spend fee on every tier
+
+| | Launch | Build | Scale |
+|---|---|---|---|
+| Monthly | $299 | $599 | $999 |
+| Spend fee | 1% | 1% | 1% |
+| Spend cap | $15k/mo | $50k/mo | $100k/mo |
+| BM (ships) | BM3 Verified | BM5 Verified ($250) | BM5 Verified NLM |
+| Ad accounts | 1 | 2 | 4 |
+| Profiles | 2 | 3 | 4 |
+| Pages | 1 | 2 | 3 |
+| Support | 24/7 Telegram | 24/7 Telegram | Priority 24/7 |
+
+**High-risk verticals** — ad accounts provisioned on demand, spend fee falls as you scale
+
+| | Starter | Growth | Elite |
+|---|---|---|---|
+| Monthly | $349 | $749 | $1,199 |
+| Spend fee | 6% | 5% | 4% |
+| Spend cap | $15k/mo | $45k/mo | Unlimited |
+| BM (ships) | BM3 Verified | BM5 Verified NLM | BM5 Verified NLM |
+| Ad accounts | On demand | On demand | On demand |
+| Profiles (2–7 yrs) | 2 | 4 | 6 |
+| Aged reinstated pages | 2 | 4 | 6 |
+| Support | 24/7 Telegram | Priority 24/7 | Priority + account manager |
+
+### Files
+| File | Role |
+|------|------|
+| `data/rental-page-data.ts` | Rewritten: tracks + plans + `comparisonRows` / `buildPlanEnquiry`, FAQ, benefits |
+| `components/rental/rental-plans.tsx` | Client component — owns track state; heading + switcher + cards + shared-terms strip, all on one white block |
+| `components/rental/rental-track-switcher.tsx` | Two-segment radiogroup (arrow-key navigable), light scope |
+| `components/rental/rental-plan-card.tsx` | Plan card; middle tier inverts to a dark card |
+| `components/rental/rental-hero.tsx` | Copy updated for the new model |
+
+**Deleted** (configurator model retired): `rental-builder.tsx`, `rental-stepper.tsx`,
+`rental-tier-ladder.tsx`, `rental-addon-row.tsx`, `rental-summary.tsx`,
+`rental-summary-message.ts`.
+
+### Notes
+- **`RentalPlanCard` does not reuse `PricingCard`.** That component parses its price into
+  a number and adds it to the cart — right for a one-time setup, wrong for a subscription
+  (the cart has no billing term, so a $299/mo line yields a wrong checkout total). The
+  rental CTA hands the plan to sales on Telegram with the tier pre-filled.
+- Spec rows are declared once per plan and drive both the card list and the comparison
+  table; the table takes its row labels from the first plan in the track.
+- Verified in-browser that the switcher re-renders cards *and* the white-block table
+  (Launch/Build/Scale ⇄ Starter/Growth/Elite), plus mobile at a real 390px viewport.
+- Switcher goes full-width with equal halves below `sm` — "Standard" and "High-risk
+  verticals" are very different lengths, so the longer label would otherwise size the pill
+  or wrap mid-word on a phone.
+
+### Second pass — one white block instead of dark cards + white table
+The first layout printed the six numbers twice: dark plan cards, then a white comparison
+table below them. Two surfaces, same data, and the split read as two unrelated sections.
+
+- **Everything now lives on a single white block**: heading → track pills → three plan
+  cards → a strip of terms that hold on every plan. `rental-spec-table.tsx` deleted — the
+  cards already carry every spec row, so the table was pure duplication.
+- **The recommended tier inverts to a near-black card** while its siblings stay
+  `--solid-25`. The highlight is a value jump on a white surface rather than a coloured
+  border, which is how the rest of the site marks a primary action on white. It lifts out
+  of the row on desktop (`lg:-my-5 lg:py-12`) and carries a Meta-gradient "Most popular" pill.
+- **CTA hierarchy follows the card**: light tiers use `light-stroke` (white + ring), the
+  dark tier uses `hero` (white pill) so it stays the strongest button on screen.
+- Switcher repainted for the light surface — active segment is the near-black fill.
+- Universal terms (unlimited same-day replacement, delivered linked, switch any cycle, no
+  setup fee) moved out of the per-card lists into one row under the grid.
+
+Verified both tracks at 1440px and the stacked layout at a real 390px viewport.
+
+### Third pass — BM tiers described by capability, not by name (2026-08-11)
+Client does not want BM3 / BM5 / NLM exposed to customers. The Business Manager row now
+states what the BM *does* instead of which tier it is, which also keeps the tiers
+distinguishable — naming them all "verified BM" would have flattened the row to identical
+text across every plan:
+
+| Plan | Shown on the page | Actually ships |
+|---|---|---|
+| Launch · Starter | Verified, high quality | BM3 Verified |
+| Build | Verified, higher daily spend | BM5 Verified ($250 DSL) |
+| Scale · Growth · Elite | Verified, unlimited daily spend | BM5 Verified NLM |
+
+The real tier is kept in a code comment on each row so sales and delivery still have it.
+"Unlimited daily spend" matches the wording already used elsewhere on the site for the
+same capability, so this also retires the open question about how to render "NLM".
+
+**Quantity correction:** the client's original table gave Elite 2× BM. They corrected this
+on 2026-08-11 — every plan on both tracks ships exactly one BM — so the `1×` / `2×`
+prefixes are gone from the High-risk track.
+
+### Fourth pass — own card / cashback as the top spec row (2026-08-11)
+Client flagged a differentiator missing from the page: on every plan the customer attaches
+**their own payment card** to the rented ad accounts, so card rewards and cashback on ad
+spend stay with them. Providers that require top-ups through the provider collect that
+themselves.
+
+- Added as `OWN_CARD_SPEC` — a shared constant like `REPLACEMENT_SPEC` — and placed **first
+  in the spec list**, above Business Manager, on all six plans: `Add your own card ·
+  Keep the cashback`.
+
+A longer "Every plan includes" feature band (hero tile + six tiles) was built first and then
+removed at the client's request — it added reading time without adding a decision. The
+cashback point survives as one row instead of a paragraph.
+
+### Fifth pass — hero cut to headline + one line + CTAs (2026-08-11)
+The hero carried a badge ("Monthly rental · Unlimited replacement") and a three-fact stat
+strip (From $299 / Same-day / 2 tracks). All of it restated things the cards below say
+properly, with the numbers attached, so it only delayed the customer reaching the section
+that answers their question. Removed — hero is now headline, one sentence, two CTAs.
+
+The remaining sentence leads on the differentiator: full stack for one fee → same-day
+replacement → your own card, cashback stays yours.
+
+The plans section description was then dropped entirely. The hero covers the offer and the
+track tagline under the switcher explains the choice in the selected track's own wording —
+a line between them could only repeat both. `SectionHead` now renders there with just the
+overline and title.
+
+### Sixth pass — top tier moved to the centre slot (2026-08-11)
+Client wants the most expensive plan in the highlighted middle position.
+
+- `highlight` moved from the middle tier to the **top** tier on both tracks (Scale $999,
+  Elite $1,199).
+- New `orderForDisplay()` puts the highlighted plan in the centre and keeps the other two
+  in their relative order: **Launch · Scale · Build** and **Starter · Elite · Growth**.
+  Done at render rather than by reordering `plans`, so the arrays stay in the client's own
+  ascending-price order — the shape their spec tables have, and what anyone checking the
+  numbers will expect. The visible price sequence is therefore non-monotonic by design
+  ($299 · $999 · $599); the function comment says so, so it doesn't read as a sort bug.
+- Badge changed **"Most popular" → "Recommended"**. The centre card is now the most
+  expensive tier, and we have no basis for claiming it is the most popular one. A
+  recommendation is ours to make; a popularity claim is a statement about customers.
+
+### Seventh pass — ad accounts on demand everywhere, conversion copy, Foreplay rhythm (2026-08-11)
+
+**Ad accounts are provisioned on demand on BOTH tracks.** Client confirmed the per-tier
+counts in the original Standard table (1 / 2 / 4) are not a limit they enforce. Extracted to
+`AD_ACCOUNT_SPEC`, a shared constant beside `REPLACEMENT_SPEC` and `OWN_CARD_SPEC`.
+
+This made three pieces of copy false, all corrected — they had been selling on-demand
+allocation as a High-risk differentiator, which now reads as "Standard is rationed":
+- Standard tagline: "a fixed set of assets you keep for the term" → "a flat 1% spend fee on
+  every tier, the lowest rate we run".
+- High-risk tagline: dropped the ad-account claim; the differentiator is the spend fee.
+- FAQ "difference between the two tracks": now spend fee + asset depth, with on-demand ad
+  accounts listed among the things that are *identical*.
+
+**"Why rent" rewritten for conversion.** Each card now names the cost the advertiser already
+pays, then the term that removes it: a ban costs the day's spend and the learning phase → we
+replace same-day; your card, your cashback; weeks of sourcing and warming → arrives
+assembled; capital tied up in assets → one monthly line. Section title changed to "Your
+budget belongs in ads, not in assets", and the section now ends on a `#plans` CTA instead of
+leaving the reader to scroll back up. Claims stay inside what the plans guarantee — still no
+invented performance numbers.
+
+**Section rhythm aligned to the Foreplay scale** (`py-[108px] max-md:py-24 max-sm:py-20` =
+`--py-section` / `-md` / `-sm`), matching /bm, /pages, /profiles and /agency-ad-account. Hero
+keeps the pricing-page `pt-[72px]` opening.
+
+Caught while aligning: wrapping the FAQ in that rhythm **doubled its spacing** —
+`ProductPageFaqAccordion` already carries Foreplay's own `.faq` padding (`py-[140px]`
+/ `max-md:py-20`) internally, which is why every other product page mounts it bare. Wrapper
+removed.
+
+### Eighth pass — "Not every rented account is the same" comparison table (2026-08-11)
+New section between "why rent" and the FAQ — that order matches how a buyer works through
+it: rent vs own, then us vs anyone else. `rental-comparison-table.tsx` +
+`RENTAL_COMPARISON_ROWS`.
+
+**The comparison column is "typical agency account", not "regular account".** On a regular
+self-serve account the advertiser already uses their own card and already keeps their own
+cashback, so three of the rows would be comparing against nothing. Against other rental /
+agency providers — who fund accounts from their own balance — every row is a real
+difference. Rows: daily spend limit · ad accounts · timezone & currency · state at handover ·
+own payment card · top-up wait · cashback · replacement · support · how you pay us.
+
+New client-supplied claims added: ad accounts **matched to the customer's timezone and
+currency** and **warmed up before handover**; own card, **no top-up wait**, cashback stays
+with the customer.
+
+**Three rows from the reference table were not carried over**: a branded account-quality
+score, "687% higher ad approval rate", and "5 minutes average ad approval time". Ad review is
+Meta's process on Meta's timeline, and we have no data behind an approval-rate multiplier —
+publishing those would put numbers on a commercial page that nobody here can defend. The
+payment row uses what GOADS actually accepts (crypto USDT / bank transfer via Wise, per
+`payment-page-content.ts`) rather than the reference's list.
+
+Cross marks render as a dimmed dash, not a red X: a red X down the competitor column reads as
+an attack, while "not offered" is the actual claim. Mobile keeps both values side by side
+under the row label — collapsing to one column would lose the comparison itself.
+
+**Placement + polish (same day):** moved to sit **directly after the plan cards** — the
+customer has just seen the price, and the next question is what that price buys versus
+renting anywhere else. "Why rent" now follows it.
+
+The column header is the **GOADS logo** (`FooterLogoSvg`) instead of the words "GOADS
+rental". The mark's panda body is `fill="currentColor"`, so the wrapper sets
+`text-transparent` and the body punches through to the panel behind it — the navbar does the
+same thing by setting the wrapper to `var(--nav-bg)`, but transparent works on any surface
+without having to know its colour.
+
+The GOADS column is highlighted as one continuous panel: cells carry the fill plus
+**left/right inset borders only**, so the vertical edges run unbroken while row dividers stop
+at the panel, with rounded caps on the first and last cell.
+
+Bug caught in review: the first attempt drew that panel as a single rectangle placed at
+`grid-row: 1 / -1` behind the cells. An explicitly-placed grid item makes auto-placement skip
+the track it occupies, so every following cell shifted one column and the table rendered
+scrambled — labels in column 2, values wrapping into the next row. Noted in the component so
+it isn't reattempted.
+
+### Ninth pass — typography audit against the Foreplay scale (2026-08-11)
+Font *family* was already consistent — measured computed styles across the page: every leaf
+text node in the sections resolves to Inter, and all four `h2`s render at 44px/600, the `h1`
+at 60px/600. (`--font-display` resolves to the Inter variable font, whose `opsz` axis plus
+`font-optical-sizing: auto` is what "Inter Display" means here — correct, not a fallback.)
+
+What was off was the *scale*. Three fixes:
+- **Track switcher** took `siteText.labelM` and then overrode only `font-size` on mobile
+  (`max-sm:text-[0.875rem]`). Each step of the scale pairs a size with its own leading and
+  tracking, so changing one in isolation lands between two steps. Replaced with the explicit
+  labelS → labelM responsive pair, exact values from the scale.
+- **"Recommended" badge** used `bodyXs` + Tailwind's default `tracking-wide` (0.025em) for
+  uppercase text. `overline` is the one step of the scale that owns uppercase, at 0.1667em —
+  every other uppercase label on the page uses it. Switched.
+- **Comparison table rows** mixed sizes within a single row: label at `bodyM` (16px) against
+  values at `labelS`/`bodyS` (14px). A row is one thought and should sit on one step —
+  desktop now runs the whole row at 16px, mobile drops the whole row to 14px rather than
+  shrinking only the values. `Value` gained a `size` prop so both breakpoints stay paired.
+
+Zero off-scale text classes remain in `components/rental/` (the two arbitrary values left are
+the switcher's exact labelS/labelM figures).
+
+### Tenth pass — GOADS column repainted dark navy (2026-08-11)
+The panel was a translucent white tint (`--alpha-800`), which on a near-black page just read
+as "slightly lighter". Now it is dark navy, mixed as `--meta-blue-deep` at **14% over
+`--background`** rather than a flat navy of its own — so it stays a tint of the page instead
+of a foreign block, and it ties to the same Meta blue the rest of the page uses. Edges and
+the in-panel row divider are blue-tinted to match (`--meta-blue` at 74% / 84% transparent).
+
+Kept deliberately light on the mix: the brief was emphasis, not a second surface competing
+with the plan cards above it.
+
+Implementation note in the component: the paint constants are **complete literal class
+strings**, never composed with template literals. Tailwind scans source text for whole class
+names, so an interpolated `shadow-[...${EDGE}...]` would never be generated — the styles
+would silently vanish at build time even though the code looks correct.
+
+**Track switcher icons (2026-08-11).** White-hat / black-hat fedora marks on the two pills,
+at the client's request. I first shipped a shield-check / flame pair instead, on the grounds
+that a fedora puts the "BH + GH" shorthand — deliberately removed from the public labels —
+straight back on the page as a picture; the client reaffirmed the hats, so hats it is. The
+written labels stay "Standard" and "High-risk verticals".
+
+New `assets/svg/hat-icons.tsx`. Drawn rather than pulled from an icon set: generic hat icons
+carry brim detail, a band and a pinched crown that collapse into a smudge at 16px. The two
+states differ by **weight, not colour** — white hat is the outline, black hat is the same
+path filled — and both paint from `currentColor`, so each inherits its pill (white on the
+active black pill, muted grey when inactive) with no per-state colour.
+
+First draft used a true semicircle crown on a narrow brim and read as a bowler, closer to a
+bell than a fedora. Final geometry is an 8-unit crown against an 18-unit brim (~2.25 ratio)
+with a tapered, softly flat top. Rendered at `size-5`: the hat is wider than tall, so it
+needs more box than a square glyph to carry the same visual weight as the label beside it.
+
+**Foreplay alignment pass (2026-08-11).** Audited spacing, radii and container widths against
+the spec and the existing pages.
+- **Radii normalized to the Foreplay scale** (36 / 20 / 16 / 14 / 10 / 8 / 6). The page had
+  introduced **24px and 18px**, which appear nowhere else in the codebase. Plan card and
+  comparison-table frame → `rounded-[20px]` (PricingCard's value, same role); comparison panel
+  caps and the replacement strip → `rounded-[16px]`.
+- **Plan card padding** `p-7` (28px) → `p-6 max-sm:p-5`, matching PricingCard exactly. 28px is
+  not a value the site uses anywhere.
+- **Hero container** `wide` (1440px) → `section` (1216px), the width /pricing uses for its
+  hero. `wide` is for full-bleed white-block tables, not a centred headline.
+- Checked for the skill's banned patterns: no hardcoded hex in JSX, no inline colour styles,
+  no arbitrary `p-[Npx]` / `gap-[Npx]` where a scale step exists. Clean.
+
+**Copy pass (2026-08-11).** Full review of every user-facing string on the page.
+- **Dashes removed from all copy.** Rendered page now measures zero `—`/`–`. Recast as
+  colons, commas or separate sentences rather than swapped for hyphens. Numeric ranges follow
+  the house pattern already used on /bm ("BM1 to BM2500"), so `Profiles (2–7 yrs)` became
+  `Profiles (2 to 7 years)`.
+- **Spelling aligned to the site's American convention** (`monetization`, `optimize` elsewhere
+  in `data/`): "catalogue" → "catalog".
+- **Tightened phrasing** in the four benefit cards and four FAQ answers: fewer subordinate
+  clauses, no sentence carrying three ideas at once. The comparison section description
+  ("What you get from us against what a rented account usually looks like") was ambiguous and
+  is now "How our rentals compare with a typical agency account".
+- The replacement strip listed asset types as a bare appositive after "disabled", which read
+  as a broken sentence. Reordered to "If an ad account, Business Manager, profile or page in
+  your setup is disabled, we replace it the same day."
+
+**Logo rendering fix.** The header uses the shared `FooterLogoSvg` (the navbar/footer logo,
+unmodified) at `h-10`, matching the navbar's size. It was wrapped in `text-transparent`,
+which was wrong: in that mark the panda body, ears, eye and the G's inner curve are
+`fill="currentColor"`, and in the official dark-background artwork (`extension/goads-logo.png`)
+those parts are the near-black ground. Transparent let them take whatever surface sat behind,
+so on the navy panel the panda rendered navy — a lookalike, not the logo. Wrapper is now
+`text-[var(--background)]`, the same approach the navbar takes with `--nav-bg`, so the mark
+is identical to every other placement on the site.
+
+**No invented performance numbers were used.** The reference competitor quotes "8× higher ad
+approval rates" and "up to 50% lower CPAs"; we have no data behind claims like that. Two
+stats were researched and rejected: the widely-reported "Meta removed 10M accounts in H1
+2025" figure is about **impersonator profiles, not ad accounts**, and the "78% of ad accounts
+get restricted" number traces only to a vendor's own blog. Neither would survive a customer
+checking the source.
+
+`tsc` clean · lint clean.
+
+---
+
+## [2026-08-10] — Meta Asset Rental page at /rental (superseded, same day)
+
+New monthly-rental product with a self-serve configurator, modelled on the "Build your
+own setup" builder from /pricing but as a full page rather than a dialog — renting is a
+quantity decision, and the volume ladder only pays off if the customer can watch the rate
+move as they change the count.
+
+### Commercial model (`data/rental-page-data.ts`)
+- **Ad accounts are the required base**, minimum **2** per bundle. BM / profile / page are
+  optional monthly add-ons.
+- **Volume brackets, FLAT not marginal** — the bracket you land in prices every account:
+
+  | Accounts | Rate |
+  |---|---|
+  | 2–5 | $280 / account / month |
+  | 6–10 | $250 / account / month |
+  | 11+ | $200 / account / month |
+
+- **Unlimited replacement** on every rented asset for the life of the subscription.
+- Add-on rates ($60 BM / $25 profile / $20 page per month) are **provisional** — flagged in
+  the data file, client still tuning the optional combos.
+
+### Files
+| File | Role |
+|------|------|
+| `data/rental-page-data.ts` | Tiers, add-on catalogue, `unitPriceFor` / `computeMonthlyTotal` / `computeVolumeSaving`, validation, FAQ + benefit copy |
+| `components/rental/rental-builder.tsx` | Two-step configurator + sticky summary column |
+| `components/rental/rental-stepper.tsx` | Shared − / value / + control, `sm` + `lg` sizes |
+| `components/rental/rental-tier-ladder.tsx` | Live bracket ladder + "add N more accounts" hint |
+| `components/rental/rental-addon-row.tsx` | One optional asset row |
+| `components/rental/rental-summary.tsx` | Line breakdown, monthly total, volume saving, CTAs |
+| `components/rental/rental-summary-message.ts` | Config → plain-text summary, shared by the Telegram link and "Copy summary" |
+| `components/rental/rental-benefits.tsx` | "Why rent" cards on the white block |
+| `app/(marketing)/rental/page.tsx` | Hero + facts + builder → why-rent → FAQ → CTA |
+
+### Notes
+- **Not wired to the cart.** The cart is built for one-time purchases (flat subtotal, no
+  billing term), so a $/month line would produce a wrong checkout total. The CTA hands the
+  exact configuration to sales via a pre-filled Telegram message instead, with "Copy summary"
+  as the offline fallback.
+- **Stepper reports a delta, not the next value.** Reporting `value + 1` closed over the
+  value from the drawing render, so a burst of fast clicks (React batches them into one
+  render) collapsed into a single step — caught in-browser at 4 clicks → +1. Owners now apply
+  the delta against previous state.
+- Nav: added to the Product mega-menu "Services" group (desktop + mobile), footer Product
+  column, and the search index.
+
+`tsc` clean · lint clean (one pre-existing unused-icon warning) · brackets verified live in
+the browser at 2 → $670, 6 → $1610, 11 → $2310, 50 → $10110.
+
+### Redesign, same day — configurator moved onto the white block
+First pass put everything on the dark background, which read as cluttered: four bordered
+boxes in the hero plus a bordered frame around every control in the builder.
+
+- **New `rental-hero.tsx`** — badge ("Monthly rental · Unlimited replacement") → gradient
+  headline → subtitle → two CTAs ("Build your bundle" jumps to `#build`, "Talk to sales"),
+  closing on a hairline-divided stat strip. The three headline terms were three separate
+  cards before; one segmented strip states the same facts with one frame instead of three.
+  Section gains `DotBg`.
+- **Builder moved into `SectionWhiteBlock`** and repainted from dark `--alpha-*` to the
+  light tool-language `--solid-*` palette, with `--meta-*` blue as the accent (active
+  bracket, selected add-on rows, required badge, step-1 numeral). Page rhythm is now
+  dark hero → white configurator → dark why-rent → FAQ → CTA; `RentalBenefits` flipped to
+  dark so two white blocks don't sit back to back.
+- **Framing thinned throughout** — one soft `--solid-25` field per step instead of a border
+  per element; the tier ladder is a single segmented strip (hairline gaps, shared radius)
+  rather than three free-standing cards. The dark summary card is now the only strong
+  surface, which is where the eye should land.
+- **`self-start` on the summary** — as a grid item it was stretching to the row height and
+  growing a dead black tail below the last line.
+
+Verified at 1440px and at a real 390px viewport. Note: the chrome-devtools skill's
+`screenshot.js` silently ignores `--width`, so responsive checks need their own launcher
+(`page.setViewport`) — the earlier "mobile" captures were desktop renders.
+
+---
+
+## [2026-08-10] — /tools/bookmark accent switched to Meta's official blues
+
+Follow-up to the monochrome pass below: fully greyscale read flat, so the accent
+came back — but as **Meta's own palette**, not the site's `--accent`. Every script
+in the library runs on facebook.com, so the product's colour is the honest one.
+
+### New tokens (`globals.css`, `.site` scope)
+Four official hexes; every tint is `color-mix`-derived from them, nothing eyeballed.
+
+| Token | Hex | Source |
+|-------|-----|--------|
+| `--meta-blue` | `#0866ff` | Facebook core blue (2023 refresh) |
+| `--meta-blue-deep` | `#0064e0` | Meta blue, "Science Blue" |
+| `--meta-blue-light` | `#0082fb` | Meta light blue — top stop of the infinity gradient |
+| `--meta-ink` | `#1c2b33` | Meta dark |
+| `--meta-tint` / `--meta-tint-strong` / `--meta-ring` | derived | `--meta-blue` at 7% / 14% / 24% over white |
+
+### Applied
+- **Cards** — well `--meta-tint` + `--meta-tint-strong` glow; icon tile now carries the
+  Meta infinity gradient (`--meta-blue-light` → `--meta-blue-deep`) with a white glyph;
+  category + version pills `--meta-blue-deep` on `--meta-ring`; hover border `--meta-ring`
+  + blue shadow; focus ring and "link copied" check `--meta-blue`.
+- **Drag anchor** (`atoms/bookmarklet-drag-anchor.tsx`) — keeps `light-primary` geometry,
+  fill repainted Facebook blue → `--meta-blue-deep` on hover. Atom is used only by this
+  page, so the shared `CTA_VARIANT_STYLES` is untouched.
+- **How to Use strip** — "How to Use" label + Info icon `--meta-blue-deep`; numbered
+  badges and the tip's lightbulb tile use the same infinity gradient; `Kbd` pills
+  `--meta-tint` / `--meta-ring`. Step 1 copy "dark button" → "blue button".
+- **Category chips** — active chip `--meta-blue` fill + white text (was near-black);
+  idle chip hovers to `--meta-tint`.
+
+Structure stays monochrome (`--solid-*` surfaces, borders, headings, body). Blue is
+spent on focal points only, and the tokens are scoped to Facebook-facing tools — the
+greyscale tools (2FA, IP, UID, Split Data) are untouched. `tsc` clean.
+
+---
+
+## [2026-08-10] — /tools/bookmark repainted to the site's monochrome palette
+
+The bookmarklet library was the only tool page carrying colour: blue-tinted card
+wells (`--accent` / `--accent-soft`) plus a mint-green shortcut-tip strip built
+from eight flat hexes. Next to the greyscale 2FA / IP / UID / Split-Data tools it
+read as a second theme.
+
+### Changes
+- **`components/tools/bookmark-card.tsx`** — contrast now comes from value, not hue:
+  preview well `--solid-25` + `--solid-50` radial glow, icon tile flipped to a
+  near-black `--solid-900` chip with a white icon (same value as the drag anchor
+  below it), category pill `white/85` + `--solid-100` ring, version pill
+  `--solid-25` / `--solid-400`, hover border `--solid-200`, focus ring and the
+  "link copied" check `--solid-900`.
+- **`components/tools/bookmark.tsx`** — shortcut tip separated by surface instead
+  of colour: a white card on the `--solid-25` "How to Use" strip with the same
+  `--solid-900` icon tile as the numbered step badges. `Kbd` pills repainted
+  `--solid-25` / `--solid-700` with a `--solid-100` ring.
+- **`docs/foreplay/tool-design-language.md`** — "Accent, not grey" section replaced
+  with "Contrast by value, not hue" + the new treatment table.
+
+Zero hex and zero `--accent` left in either component; the whole tool surface is
+`--solid-*`. `tsc` clean (only pre-existing stale `.next/types` route errors).
+
+---
+
 ## [2026-07-31] — Fix: bookmarklet header title rendered near-black on Facebook
 
 ### Symptom

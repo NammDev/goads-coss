@@ -83,6 +83,7 @@ const products = [
 
 // SERVICES — value-added recovery & verification offerings
 const extend = [
+  { label: "Meta Asset Rental", desc: "Rent ad accounts monthly, unlimited replacement.", href: "/rental", icon: RentalIcon },
   { label: "Unban Service", desc: "Recover disabled BMs, profiles & pages.", href: "/unban", icon: ChromeIcon },
   { label: "Blue Verification", desc: "Verified badge for Pages & Instagram.", href: "/blue-verification", icon: MobileIcon },
 ]
@@ -265,6 +266,21 @@ function ProductBadge({
 }
 
 // ── Inline icons for Extend section ──
+
+// Recurring-cycle arrows — the rental is a monthly subscription with unlimited
+// asset replacement, and a cycle reads as both at a glance.
+function RentalIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <g stroke="white" strokeOpacity="0.68" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4.5 12a7.5 7.5 0 0 1 12.8-5.3l2.2 2.1" />
+        <path d="M19.5 12a7.5 7.5 0 0 1-12.8 5.3l-2.2-2.1" />
+        <path d="M19.5 4.4v4.4h-4.4M4.5 19.6v-4.4h4.4" />
+      </g>
+    </svg>
+  )
+}
+
 function ChromeIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

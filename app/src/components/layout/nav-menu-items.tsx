@@ -49,12 +49,15 @@ export const PRODUCT_GROUPS: NavMenuGroup[] = [
     { label: "TikTok Assets", desc: "Shop, Channel, Business Center.", href: "/tiktok-accounts", img: "/navbar/tiktok.webp" },
   ]},
   { overline: "Services", items: [
+    { label: "Meta Asset Rental", desc: "Rent ad accounts monthly, unlimited replacement.", href: "/rental", icon: IconRental },
     { label: "Unban Service", desc: "Recover disabled BMs, profiles & pages.", href: "/unban", icon: IconChrome },
     { label: "Blue Verification", desc: "Verified badge for Pages & Instagram.", href: "/blue-verification", icon: IconMobile },
   ]},
 ]
 
 // ── icon-20 stroke icons (white, 20×20) ──
+// Recurring-cycle arrows — monthly billing + unlimited replacement in one mark.
+function IconRental() { return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><g stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3.75 10a6.25 6.25 0 0 1 10.66-4.42l1.84 1.75" stroke="currentColor" /><path d="M16.25 10a6.25 6.25 0 0 1-10.66 4.42l-1.84-1.75" /><path d="M16.25 3.75v3.66h-3.66M3.75 16.25v-3.66h3.66" /></g></svg>) }
 function IconUniversity() { return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M18.25 7.75 10 11.5 1.75 7.75 10 4l8.25 3.75ZM18.25 7.75V13M4.75 9.25v3.23c0 .55.3 1.06.79 1.32L9.29 15.8c.44.24.97.24 1.42 0l3.75-2.01c.49-.26.79-.77.79-1.32V9.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>) }
 function IconEvents() { return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="4" width="12" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /><path d="M7 13h6M7 8.5V7h1.5v1.5H7Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>) }
 function IconBook() { return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6.25 4h7.5a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V4.75A.75.75 0 0 1 6.25 4Z" stroke="currentColor" strokeWidth="1.5" /><path d="M7.75 6.25h4.5M7.75 9.25H10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>) }

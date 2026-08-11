@@ -31,6 +31,7 @@ const SECTIONS: Section[] = [
   { label: "Tools", groups: TOOLS_GROUPS },
   { label: "Resources", groups: RESOURCES_GROUPS, inline: true },
   { label: "Pricing", href: "/pricing" },
+  { label: "Agency Ad Account", href: "/rental" },
   { label: "Schedule a Call", href: "/book-demo" },
 ]
 

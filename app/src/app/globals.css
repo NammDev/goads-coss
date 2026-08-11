@@ -213,12 +213,21 @@
   --accent: #1c9cf0;
   --accent-soft: #1c9cf01f;   /* ~12% — chips, tints, hover */
 
-  /* Giveaway announcement bar — dark navy so the promo stands out from the
-     near-black page background. Center-bright gradient draws the eye. */
-  --giveaway-banner-bg: linear-gradient(90deg, #081226 0%, #112a63 50%, #081226 100%);
-  --giveaway-banner-border: #1d3a78;       /* navy edge, subtle separation */
-  --giveaway-banner-highlight: #ffd45e;    /* warm amber for the $7,000 value */
-  --giveaway-banner-cta-text: #0b1a3f;     /* navy text on the white CTA pill */
+  /* ── Meta / Facebook brand palette ──────────────────────────────────────
+     For Facebook-facing surfaces (/tools/bookmark, /rental), where the product
+     IS Facebook, so Meta's own blues read as on-brand rather than as a stray
+     hue. Only these four are official hexes — every tint below is derived from
+     them with color-mix, so nothing is eyeballed. Keep them off the greyscale
+     tool pages (2FA, IP, UID, Split Data), which stay pure --solid-*. */
+  --meta-blue: #0866ff;        /* Facebook core blue (2023 refresh) */
+  --meta-blue-deep: #0064e0;   /* Meta blue, a.k.a. "Science Blue" */
+  --meta-blue-light: #0082fb;  /* Meta light blue — top stop of the infinity gradient */
+  --meta-ink: #1c2b33;         /* Meta dark — text on tinted surfaces */
+
+  /* Derived tints — pale washes, hairlines and hover fills */
+  --meta-tint: color-mix(in oklab, var(--meta-blue) 7%, white);
+  --meta-tint-strong: color-mix(in oklab, var(--meta-blue) 14%, white);
+  --meta-ring: color-mix(in oklab, var(--meta-blue) 24%, white);
 
   --radius: 1rem;
 }
