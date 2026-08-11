@@ -249,19 +249,36 @@ token prefixes — live code uses `@/components/{atoms,tools}/*` and `--solid-*`
 Card anatomy: `rounded-[16px]` white card → `h-[132px]` preview well → `p-5` meta
 block (title `labelL` + version pill) → actions row (drag anchor + share).
 
-**Accent, not grey.** A flat `--solid-25` well with a `--solid-400` icon reads
-washed out at card size. Cards are the one place in the tool language that use the
-brand accent `globals.css` reserves for focal points:
+**Meta blue is the accent here — not `--accent`.** A fully greyscale grid reads
+dead at card size, and the site's own blue would just be a stray hue. Every script
+in this library runs on facebook.com, so the honest accent is Meta's own. Tokens
+live in `globals.css` under `.site`; only four are official hexes, every tint is
+`color-mix`-derived from them:
+
+| Token | Hex | Source |
+|-------|-----|--------|
+| `--meta-blue` | `#0866ff` | Facebook core blue (2023 refresh) |
+| `--meta-blue-deep` | `#0064e0` | Meta blue, "Science Blue" |
+| `--meta-blue-light` | `#0082fb` | Meta light blue — top stop of the infinity gradient |
+| `--meta-ink` | `#1c2b33` | Meta dark |
+| `--meta-tint` / `--meta-tint-strong` / `--meta-ring` | derived | `color-mix(in oklab, var(--meta-blue) 7% / 14% / 24%, white)` |
 
 | Element | Treatment |
 |---------|-----------|
-| Preview well | `bg-[var(--accent-soft)]` + radial glow via `color-mix(in oklab, var(--accent), transparent 72%)` |
-| Icon tile | `size-14` white chip, accent icon, accent-tinted inset ring + drop shadow; `-translate-y-0.5 scale-[1.04]` on card hover |
-| Category / version pills | `--accent-soft` fill, `--accent` text |
-| Card hover | border `color-mix(in oklab, var(--accent), white 55%)` + soft blue shadow |
+| Preview well | `bg-[var(--meta-tint)]` + radial glow via `--meta-tint-strong` |
+| Icon tile | `size-14`, `linear-gradient(160deg, --meta-blue-light, --meta-blue-deep)` (the infinity gradient), white icon; `-translate-y-0.5 scale-[1.04]` on card hover |
+| Category pill | `bg-white/85` + `--meta-blue-deep` text + `--meta-ring` inset ring |
+| Version pill | `--meta-tint` fill, `--meta-blue-deep` mono text, `--meta-ring` inset ring |
+| Card hover | border `--meta-ring` + blue-tinted shadow |
+| Drag anchor | `light-primary` geometry, fill repainted `--meta-blue` → `--meta-blue-deep` on hover |
+| Step badges + tip icon tile | same infinity gradient as the card icon tile |
+| Category chip (active) | `--meta-blue` fill, white text; idle chip hovers to `--meta-tint` |
 
-Keep body copy, borders and the primary button monochrome — accent stays on the
-focal points only, or the monochrome look breaks.
+Structure stays monochrome — card surface, borders, headings and body copy are all
+`--solid-*`. Blue is spent only on focal points; painting the copy or the card
+frame blue breaks the white-block look the other tools hold. **Scope:** these
+tokens are for Facebook-facing tools only. Greyscale tools (2FA, IP, UID, Split
+Data) stay pure `--solid-*` — don't spread `--meta-*` into them.
 
 **Two hard constraints when rendering a bookmarklet:**
 

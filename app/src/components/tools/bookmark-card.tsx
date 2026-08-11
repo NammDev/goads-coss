@@ -2,12 +2,12 @@
 // Structure follows the reference layout (preview block → title + version →
 // description → actions) painted with GOADS tool tokens.
 //
-// Colour: the flat --solid-25 well + muted --solid-400 icon read as washed out,
-// so the focal points now use the brand accent (--accent #1c9cf0 / --accent-soft
-// 12% tint) that globals.css reserves for exactly this — "use SPARINGLY on focal
-// points only … adds life while keeping the monochrome look". Accent is limited
-// to the preview well, the icon tile and the two pills; body copy, borders and
-// the primary button stay monochrome.
+// Colour: Meta's own blues (--meta-* in globals.css), not the site accent. Every
+// script here runs on facebook.com, so Facebook core blue reads as "this belongs
+// to that product" rather than as a stray hue — and it keeps a fully greyscale
+// grid from looking dead. Structure stays monochrome: card surface, borders,
+// title and body copy are all --solid-*; blue is spent only on the preview well,
+// the icon tile (Meta infinity gradient), the two pills and the drag anchor.
 
 "use client"
 
@@ -52,29 +52,30 @@ export function BookmarkCard({ script, href, onOpen }: BookmarkCardProps) {
         "group/card relative flex flex-col overflow-hidden rounded-[16px] border border-[var(--solid-50)] bg-white",
         "transition-all duration-[500ms] ease-[cubic-bezier(0.19,1,0.22,1)]",
         href && "cursor-pointer",
-        // Accent edge + soft blue lift on hover instead of a grey border swap
-        "hover:border-[color-mix(in_oklab,var(--accent),white_55%)]",
-        "hover:shadow-[0_10px_30px_-14px_color-mix(in_oklab,var(--accent),transparent_55%)]",
+        // Meta-blue edge + soft blue lift on hover
+        "hover:border-[var(--meta-ring)]",
+        "hover:shadow-[0_10px_30px_-14px_color-mix(in_oklab,var(--meta-blue),transparent_58%)]",
       )}
     >
-      {/* Preview well — accent wash + white icon tile for depth */}
+      {/* Preview well — pale Meta wash + gradient icon tile for depth */}
       <div
         className={cn(
           "relative flex h-[132px] items-center justify-center overflow-hidden border-b border-[var(--solid-50)] max-md:h-[112px]",
-          "bg-[var(--accent-soft)]",
+          "bg-[var(--meta-tint)]",
         )}
       >
-        {/* Corner glow — brightest behind the tile, fading out; pure CSS, no asset */}
+        {/* Corner glow — deeper blue behind the tile, fading out; pure CSS, no asset */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_115%,color-mix(in_oklab,var(--accent),transparent_72%),transparent_70%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_115%,var(--meta-tint-strong),transparent_70%)]"
         />
 
-        {/* Icon tile — white chip lifts slightly on hover */}
+        {/* Icon tile — Meta infinity gradient (light blue → Meta blue), lifts on hover */}
         <span
           className={cn(
-            "relative flex size-14 items-center justify-center rounded-[14px] bg-white text-[var(--accent)]",
-            "shadow-[0_6px_16px_-8px_color-mix(in_oklab,var(--accent),transparent_45%),inset_0_0_0_1px_color-mix(in_oklab,var(--accent),white_80%)]",
+            "relative flex size-14 items-center justify-center rounded-[14px] text-white",
+            "bg-[linear-gradient(160deg,var(--meta-blue-light),var(--meta-blue-deep))]",
+            "shadow-[0_8px_18px_-8px_color-mix(in_oklab,var(--meta-blue-deep),transparent_40%)]",
             "transition-transform duration-[500ms] ease-[cubic-bezier(0.19,1,0.22,1)]",
             "group-hover/card:-translate-y-0.5 group-hover/card:scale-[1.04]",
           )}
@@ -82,12 +83,12 @@ export function BookmarkCard({ script, href, onOpen }: BookmarkCardProps) {
           <Icon className="size-7" strokeWidth={1.75} />
         </span>
 
-        {/* Category pill — accent tint, top-right */}
+        {/* Category pill — white cap with a blue ring, top-right */}
         <span
           className={cn(
             siteText.bodyXs,
-            "absolute right-3 top-3 rounded-[6px] bg-white/85 px-2 py-0.5 font-medium text-[var(--accent)] backdrop-blur-sm",
-            "shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--accent),white_78%)]",
+            "absolute right-3 top-3 rounded-[6px] bg-white/85 px-2 py-0.5 font-medium text-[var(--meta-blue-deep)] backdrop-blur-sm",
+            "shadow-[inset_0_0_0_1px_var(--meta-ring)]",
           )}
         >
           {getBookmarkletCategoryLabel(script.category)}
@@ -101,7 +102,8 @@ export function BookmarkCard({ script, href, onOpen }: BookmarkCardProps) {
           <span
             className={cn(
               siteText.bodyXs,
-              "rounded-[6px] bg-[var(--accent-soft)] px-2 py-0.5 font-mono text-[var(--accent)]",
+              "rounded-[6px] bg-[var(--meta-tint)] px-2 py-0.5 font-mono text-[var(--meta-blue-deep)]",
+              "shadow-[inset_0_0_0_1px_var(--meta-ring)]",
             )}
           >
             {script.version}
@@ -128,7 +130,7 @@ export function BookmarkCard({ script, href, onOpen }: BookmarkCardProps) {
             hideLabel
             icon={
               linkCopied ? (
-                <Check className="size-4 text-[var(--accent)]" />
+                <Check className="size-4 text-[var(--meta-blue)]" />
               ) : (
                 <Share2 className="size-4" />
               )
@@ -157,7 +159,7 @@ export function BookmarkCard({ script, href, onOpen }: BookmarkCardProps) {
           }}
           className={cn(
             "absolute inset-0 z-10 rounded-[16px]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--meta-blue)] focus-visible:ring-offset-2",
           )}
         />
       )}

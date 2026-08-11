@@ -1,5 +1,5 @@
-// Draggable bookmarklet anchor — the green "drag me to your bookmark bar"
-// button on /tools/bookmark.
+// Draggable bookmarklet anchor — the "drag me to your bookmark bar" button on
+// /tools/bookmark.
 //
 // Two constraints shape this component:
 //
@@ -14,8 +14,11 @@
 //     page would execute the payload against goads.* instead of Facebook. So
 //     the click is swallowed and turned into an inline "drag me instead" hint.
 //
-// Paint reuses CTA_VARIANT_STYLES["light-primary"] so it stays identical to
-// every other primary button inside a white block.
+// Paint starts from CTA_VARIANT_STYLES["light-primary"] (the shared white-block
+// primary) and repaints the fill in Facebook core blue — this button drops a
+// bookmarklet that runs on facebook.com, and the blue is the strongest signal of
+// where it belongs. Geometry, typography and states stay identical to the shared
+// button, so only the hue differs.
 
 "use client"
 
@@ -65,7 +68,10 @@ export function BookmarkletDragAnchor({
         className={cn(
           "relative z-[5] flex cursor-grab items-center justify-center rounded-[10px] p-2 no-underline active:cursor-grabbing",
           CTA_VARIANT_STYLES["light-primary"],
-          "focus-visible:shadow-[0_0_0_2px_white,0_0_0_3px_var(--solid-900)] focus-visible:outline-none",
+          // Facebook-blue fill — overrides the dark fill from light-primary.
+          "bg-[var(--meta-blue)] text-white hover:bg-[var(--meta-blue-deep)] active:bg-[var(--meta-blue-deep)] active:text-white",
+          "shadow-[0_6px_14px_-8px_color-mix(in_oklab,var(--meta-blue),transparent_30%)]",
+          "focus-visible:shadow-[0_0_0_2px_white,0_0_0_3px_var(--meta-blue-deep)] focus-visible:outline-none",
           className,
         )}
       >
