@@ -20,12 +20,14 @@ import {
   buildPlanEnquiry,
   formatMonthlyFee,
   headlineSpecs,
+  planDisplayName,
   type RentalPlan,
   type RentalTrack,
 } from "@/data/rental-page-data"
 
 export function RentalPlanCard({ plan, track }: { plan: RentalPlan; track: RentalTrack }) {
   const featured = !!plan.highlight
+  const displayName = planDisplayName(track, plan)
 
   return (
     <article
@@ -66,8 +68,12 @@ export function RentalPlanCard({ plan, track }: { plan: RentalPlan; track: Renta
 
       {/* Name + who it's for */}
       <header className="flex flex-col gap-1.5">
+        {/* The track suffix lives in the name itself rather than a chip beside
+            it: a chip is a second thing to read and gets cropped out of a
+            screenshot, while "Diamond-S" stays intact wherever the name is
+            quoted. */}
         <h3 className={cn(siteText.labelL, featured ? "text-foreground" : "text-[var(--solid-900)]")}>
-          {plan.name}
+          {displayName}
         </h3>
         <p
           className={cn(
@@ -130,7 +136,7 @@ export function RentalPlanCard({ plan, track }: { plan: RentalPlan; track: Renta
         variant={featured ? "hero" : "light-stroke"}
         className="w-full justify-center"
       >
-        Rent {plan.name}
+        Rent {displayName}
       </CtaButton>
 
       <div className={cn("h-px w-full", featured ? "bg-[var(--alpha-700)]" : "bg-[var(--solid-50)]")} />

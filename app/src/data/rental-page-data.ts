@@ -55,7 +55,24 @@ export interface RentalTrack {
   id: RentalTrackId
   /** Switcher label */
   label: string
+  /** Appended to every plan name on this track, e.g. "Gold" → "Gold-S".
+   *
+   *  Both tracks run the same Gold / Platinum / Diamond ladder, so the tier name
+   *  alone cannot identify a plan once the card leaves the page: a screenshot
+   *  pasted into a chat, or a card read after the switcher has scrolled out of
+   *  view. The suffix travels with the name wherever it is quoted.
+   *
+   *  Held on the TRACK rather than written into each plan name so it cannot be
+   *  applied to two tiers and forgotten on the third. */
+  nameSuffix: string
   plans: RentalPlan[]
+}
+
+/** Plan name as the customer sees it, suffix included. Every place that shows or
+ *  quotes a plan name goes through this, so the card, the CTA and the Telegram
+ *  hand-off can never disagree about what the plan is called. */
+export function planDisplayName(track: RentalTrack, plan: RentalPlan): string {
+  return `${plan.name}${track.nameSuffix}`
 }
 
 /** Spend caps are quoted per month everywhere on the page. */
@@ -94,8 +111,8 @@ const AD_ACCOUNT_SPEC: RentalPlanSpec = {
 
 const STANDARD_PLANS: RentalPlan[] = [
   {
-    id: "launch",
-    name: "Launch",
+    id: "gold",
+    name: "Gold",
     description: "First campaigns on rented infrastructure.",
     monthlyFee: 299,
     spendFeePct: 1,
@@ -112,8 +129,8 @@ const STANDARD_PLANS: RentalPlan[] = [
     ],
   },
   {
-    id: "build",
-    name: "Build",
+    id: "platinum",
+    name: "Platinum",
     description: "Room to test more angles at once.",
     monthlyFee: 599,
     spendFeePct: 1,
@@ -130,12 +147,12 @@ const STANDARD_PLANS: RentalPlan[] = [
     ],
   },
   {
-    id: "scale",
-    name: "Scale",
+    id: "diamond",
+    name: "Diamond",
     description: "Spend as hard as the offer allows.",
     monthlyFee: 999,
     spendFeePct: 1,
-    // Uncapped, matching Elite on the other track — the top tier of each track
+    // Uncapped, matching Diamond on the other track — the top tier of each track
     // removes the ceiling (client, 2026-08-11; the source table said $100k).
     spendCap: null,
     highlight: true,
@@ -160,8 +177,8 @@ const STANDARD_PLANS: RentalPlan[] = [
 
 const HIGH_RISK_PLANS: RentalPlan[] = [
   {
-    id: "starter",
-    name: "Starter",
+    id: "gold",
+    name: "Gold",
     description: "Enter the vertical without buying a stack.",
     monthlyFee: 349,
     spendFeePct: 6,
@@ -178,8 +195,8 @@ const HIGH_RISK_PLANS: RentalPlan[] = [
     ],
   },
   {
-    id: "growth",
-    name: "Growth",
+    id: "platinum",
+    name: "Platinum",
     description: "Sustained spend with a deeper asset bench.",
     monthlyFee: 749,
     spendFeePct: 5,
@@ -196,8 +213,8 @@ const HIGH_RISK_PLANS: RentalPlan[] = [
     ],
   },
   {
-    id: "elite",
-    name: "Elite",
+    id: "diamond",
+    name: "Diamond",
     description: "No spend ceiling, with a manager on your account.",
     monthlyFee: 1199,
     spendFeePct: 4,
@@ -227,11 +244,13 @@ export const RENTAL_TRACKS: RentalTrack[] = [
   {
     id: "standard",
     label: "Standard",
+    nameSuffix: "",
     plans: STANDARD_PLANS,
   },
   {
     id: "high-risk",
     label: "High-risk verticals",
+    nameSuffix: "-S",
     plans: HIGH_RISK_PLANS,
   },
 ]
@@ -312,7 +331,7 @@ export function buildPlanEnquiry(
   const message = [
     "Hi GOADS 👋 I would like to rent the following plan.",
     "",
-    `PLAN: ${plan.name} (${track.label} track)`,
+    `PLAN: ${planDisplayName(track, plan)} (${track.label} track)`,
     "",
     `1) Fixed fee: ${formatMonthlyFee(plan.monthlyFee)} per month, paid upfront`,
     `2) Spend fee: ${plan.spendFeePct}% of ad spend, collected weekly every ${SPEND_FEE_BILLING_DAY}`,
@@ -451,7 +470,7 @@ export const RENTAL_FAQ_ITEMS = [
   {
     question: "What happens if I hit the spend cap?",
     answer:
-      "The cap is the monthly ceiling the plan is provisioned for. If you are approaching it, move up a tier. Scale and Elite, the top tier of each track, carry no ceiling at all. Tell us before you hit it so the assets are ready.",
+      "The cap is the monthly ceiling the plan is provisioned for. If you are approaching it, move up a tier. Diamond, the top tier of each track, carries no ceiling at all. Tell us before you hit it so the assets are ready.",
   },
   {
     question: "What does unlimited replacement cover?",
