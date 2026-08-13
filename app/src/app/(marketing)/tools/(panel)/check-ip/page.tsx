@@ -3,9 +3,10 @@ import type { Metadata } from "next"
 import { ToolBody } from "@/components/tools/body"
 import { ToolHeader } from "@/components/tools/header"
 import { CheckIpTool } from "@/components/tools/check-ip"
+import { brand } from "@/config/brand"
 
 export const metadata: Metadata = {
-  title: "IP Checker | GOADS Tools",
+  title: `IP Checker | ${brand.name} Tools`,
   description: "View your current public IP address and location info.",
 }
 

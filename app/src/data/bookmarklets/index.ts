@@ -10,6 +10,8 @@
 
 import { CheckCheck, HeartPulse, Link2, ShieldCheck, ShieldMinus, TicketCheck, type LucideIcon } from "lucide-react"
 
+import { brand } from "@/config/brand"
+
 import { BM_2FA_PAYLOAD } from "./bm-2fa-payload"
 import { BM_ACCEPTLINK_PAYLOAD } from "./bm-acceptlink-payload"
 import { BM_APPROVE_PAYLOAD } from "./bm-approve-payload"
@@ -54,30 +56,30 @@ export const BOOKMARKLETS: Bookmarklet[] = [
     title: "BM Invite TOOL",
     version: "v2.4",
     description:
-      "Invite users to your Business Manager by email in one click — GOADS-built, runs on the BM page.",
+      `Invite users to your Business Manager by email in one click — ${brand.name}-built, runs on the BM page.`,
     icon: Link2,
     category: "business-manager",
-    payload: BM_INVITE_PAYLOAD,
+    payload: BM_INVITE_PAYLOAD[brand.key],
   },
   {
     slug: "bm-remove-admins",
     title: "Remove BM Admins",
     version: "v1.8",
     description:
-      "List and bulk-remove admins or pending invites from your Business Manager — GOADS-built, runs on the BM page.",
+      `List and bulk-remove admins or pending invites from your Business Manager — ${brand.name}-built, runs on the BM page.`,
     icon: ShieldMinus,
     category: "business-manager",
-    payload: BM_REMOVE_ADMINS_PAYLOAD,
+    payload: BM_REMOVE_ADMINS_PAYLOAD[brand.key],
   },
   {
     slug: "bm-approve",
     title: "Approve BM Requests",
     version: "v3.1",
     description:
-      "Review the pending access requests your Business Manager has received and approve them in bulk — GOADS-built, runs on the BM page.",
+      `Review the pending access requests your Business Manager has received and approve them in bulk — ${brand.name}-built, runs on the BM page.`,
     icon: CheckCheck,
     category: "business-manager",
-    payload: BM_APPROVE_PAYLOAD,
+    payload: BM_APPROVE_PAYLOAD[brand.key],
   },
   {
     slug: "bm-checklive",
@@ -87,7 +89,7 @@ export const BOOKMARKLETS: Bookmarklet[] = [
       "Paste a list of Business Manager IDs and get live, disabled or error for each one, with copyable result lists and CSV export.",
     icon: HeartPulse,
     category: "business-manager",
-    payload: BM_CHECKLIVE_PAYLOAD,
+    payload: BM_CHECKLIVE_PAYLOAD[brand.key],
   },
   {
     slug: "bm-acceptlink",
@@ -97,7 +99,7 @@ export const BOOKMARKLETS: Bookmarklet[] = [
       "Paste a Business Manager invitation link and accept it with the account you're signed in as — no verification code needed. Works on facebook.com or the BM page.",
     icon: TicketCheck,
     category: "business-manager",
-    payload: BM_ACCEPTLINK_PAYLOAD,
+    payload: BM_ACCEPTLINK_PAYLOAD[brand.key],
   },
   {
     slug: "bm-2fa",
@@ -107,7 +109,7 @@ export const BOOKMARKLETS: Bookmarklet[] = [
       "Turn on authenticator-app two-factor authentication for the account you're signed in as, and save the secret key. Runs on Account Center.",
     icon: ShieldCheck,
     category: "utility",
-    payload: BM_2FA_PAYLOAD,
+    payload: BM_2FA_PAYLOAD[brand.key],
   },
 ]
 

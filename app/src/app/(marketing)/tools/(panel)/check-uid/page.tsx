@@ -4,8 +4,10 @@ import { ToolBody } from "@/components/tools/body"
 import { ToolHeader } from "@/components/tools/header"
 import { CheckUidTool } from "@/components/tools/check-uid"
 
+import { brand } from "@/config/brand"
+
 export const metadata: Metadata = {
-  title: "Check Live UID | GOADS Tools",
+  title: `Check Live UID | ${brand.name} Tools`,
   description: "Check if Facebook UIDs are live or dead accounts.",
 }
 

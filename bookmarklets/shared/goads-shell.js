@@ -9,10 +9,14 @@
 
 import { LOGO_SVG, ICON_CLOSE, ICON_TELEGRAM } from "./goads-icons.js"
 import { shellCss } from "./goads-shell-css.js"
+import { BRAND, TELEGRAM_LABEL, monogram } from "./brand.js"
 
-export var BRAND_HOST = "goadsagency.com"
-export var TELEGRAM_URL = "https://t.me/goadsagency"
-export var WEBSITE_URL = "https://goadsagency.com"
+// Re-exported so tools can build brand-aware titles ("<name> Check Live BM").
+export { BRAND } from "./brand.js"
+
+export var BRAND_HOST = BRAND.host
+export var TELEGRAM_URL = BRAND.telegram
+export var WEBSITE_URL = BRAND.website
 
 var ROOT_ID = "goads-bk"
 var BACKDROP_ID = "goads-bk-backdrop"
@@ -163,7 +167,10 @@ export function openShell(opts) {
   if (opts.width) root.style.setProperty("--w", opts.width)
   root.innerHTML =
     '<div class="gbk-header">' +
-    '<span class="gbk-mark">' + LOGO_SVG + "</span>" +
+    '<span class="gbk-mark">' +
+    // Compile-time brand check so the GOADS logo tree-shakes out of neutral builds.
+    (typeof __BM_BRAND__ !== "undefined" && __BM_BRAND__ === "adstoolkit" ? monogram() : LOGO_SVG) +
+    "</span>" +
     '<div class="gbk-htxt">' +
     '<h2 class="gbk-title">' + esc(opts.title) + "</h2>" +
     '<p class="gbk-sub">' + BRAND_HOST + " &nbsp;|&nbsp; " + (opts.subtitle || "") + "</p>" +
@@ -172,7 +179,10 @@ export function openShell(opts) {
     "</div>" +
     '<div class="gbk-stage">' + (opts.stage || "") + "</div>" +
     '<div class="gbk-brand">' +
-    '<a href="' + TELEGRAM_URL + '" target="_blank" rel="noreferrer">' + ICON_TELEGRAM + " Join Telegram · t.me/goadsagency</a>" +
+    // Telegram link only for brands that have a channel; neutral brands omit it.
+    (TELEGRAM_URL
+      ? '<a href="' + TELEGRAM_URL + '" target="_blank" rel="noreferrer">' + ICON_TELEGRAM + " Join Telegram · " + TELEGRAM_LABEL + "</a>"
+      : "<span></span>") +
     '<a href="' + WEBSITE_URL + '" target="_blank" rel="noreferrer">' + BRAND_HOST + "</a>" +
     "</div>"
 

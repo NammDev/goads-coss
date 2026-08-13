@@ -12,20 +12,23 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 
+import { brand } from "@/config/brand";
+
 // Single source for the shared link-preview copy. Facebook, Instagram, LinkedIn,
 // WhatsApp, Telegram, Discord, Slack, Pinterest, etc. ALL read the same Open Graph
 // tags below; X/Twitter reads the twitter:* tags. Discord also colours its embed
 // bar from `theme-color` (set in `viewport`).
-const SITE_URL = "https://goadsagency.com";
-const SITE_NAME = "GOADS";
-const SITE_TITLE = "GOADS | Agency Ad Accounts & Meta Assets | 24/7 Support";
-const SITE_DESCRIPTION =
-  "Premium agency ad accounts and Meta assets backed by industry-leading warranty, dedicated customer support, fast delivery, and long-term reliability.";
+// Site identity comes from the active brand (white-label). Unset NEXT_PUBLIC_BRAND
+// → GOADS, so these resolve to the exact previous values.
+const SITE_URL = brand.url;
+const SITE_NAME = brand.name;
+const SITE_TITLE = brand.title;
+const SITE_DESCRIPTION = brand.description;
 const OG_IMAGE = {
-  url: "/og-image.png",
+  url: brand.ogImage,
   width: 1200,
   height: 630,
-  alt: "GOADS - Agency Ad Accounts & Meta Assets",
+  alt: brand.ogImageAlt,
   type: "image/png",
 };
 
@@ -34,20 +37,7 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
-  keywords: [
-    "GOADS",
-    "agency ad accounts",
-    "Meta Business Manager",
-    "verified BM",
-    "Facebook ad accounts",
-    "Facebook profiles",
-    "Facebook pages",
-    "TikTok accounts",
-    "Meta assets",
-    "unban service",
-    "blue verification",
-    "scale Facebook ads",
-  ],
+  keywords: brand.keywords,
   authors: [{ name: SITE_NAME, url: SITE_URL }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
@@ -122,8 +112,10 @@ export default function RootLayout({
           <CartProvider>
             <TooltipProvider>
               {children}
-              <CommandMenu />
-              <CalendarPopup />
+              {/* Marketing-only floating UI (search palette over marketing pages,
+                  "book a call" popup) — omitted on the tools-only brand. */}
+              {!brand.toolsOnly && <CommandMenu />}
+              {!brand.toolsOnly && <CalendarPopup />}
               <ScrollToTop />
               <Toaster position="top-right" />
             </TooltipProvider>

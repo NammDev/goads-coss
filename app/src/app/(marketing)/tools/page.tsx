@@ -6,6 +6,7 @@ import { SectionHead } from "@/components/atoms/section-head"
 import { HomeCta } from "@/components/home/cta"
 import { siteText } from "@/components/atoms/typography"
 import { cn } from "@/lib/utils"
+import { brand } from "@/config/brand"
 
 interface ToolCard {
   title: string
@@ -17,9 +18,13 @@ const tools: ToolCard[] = [
   { title: "2FA Generator", description: "Generate TOTP two-factor codes from your secrets.", href: "/tools/2fa" },
   { title: "Check Live UID", description: "Verify if Facebook UIDs are live or dead.", href: "/tools/check-uid" },
   { title: "Split Data Profile", description: "Split text by delimiter, line, or token.", href: "/tools/split-data" },
-  { title: "IP Checker", description: "Public IP address, geolocation, and ISP info.", href: "/tools/check-ip" },
-  { title: "GOADS Bookmark", description: "Bookmarklet scripts for Business Manager, one click.", href: "/tools/bookmark" },
-  { title: "GOADS Extension", description: "Free Chrome extension for media buyers.", href: "/tools/goads-extension" },
+  // IP Checker route stays live (nav/direct URL work); hidden from the tools-only
+  // grid so the card count stays balanced.
+  ...(brand.toolsOnly
+    ? []
+    : [{ title: "IP Checker", description: "Public IP address, geolocation, and ISP info.", href: "/tools/check-ip" }]),
+  { title: `${brand.name} Bookmark`, description: "Bookmarklet scripts for Business Manager, one click.", href: "/tools/bookmark" },
+  { title: `${brand.name} Extension`, description: "Free Chrome extension for media buyers.", href: "/tools/goads-extension" },
   { title: "Temp Mail", description: "Disposable inbox, instant, no signup.", href: "/tempmail" },
 ]
 
@@ -56,11 +61,14 @@ export default function ToolsPage() {
         </div>
       </div>
 
-      <div className="section overflow-hidden">
-        <SectionContainer>
-          <HomeCta />
-        </SectionContainer>
-      </div>
+      {/* Marketing CTA is GOADS-specific — omitted on tools-only brands. */}
+      {!brand.toolsOnly && (
+        <div className="section overflow-hidden">
+          <SectionContainer>
+            <HomeCta />
+          </SectionContainer>
+        </div>
+      )}
     </>
   )
 }

@@ -23,6 +23,7 @@ import {
   esc,
   openShell,
   toast,
+  BRAND,
 } from "./shared/goads-shell.js"
 import { readDtsg, readLsd, readUserId } from "./shared/goads-fb-session.js"
 import { secondsLeft, totpCode } from "./shared/goads-totp.js"
@@ -316,7 +317,7 @@ import { ICON_ALERT, ICON_COPY, ICON_DOWNLOAD, ICON_EXTERNAL, ICON_SHIELD } from
   state.lsd = readLsd()
 
   shell = openShell({
-    title: "GOADS Enable 2FA",
+    title: BRAND.name + " Enable 2FA",
     subtitle: 'Account Center <span class="gbk-mono">' + esc(state.uid || "not detected") + "</span>",
     stage: STAGE,
     width: "620px",

@@ -21,15 +21,19 @@
  * email + role + actions on the left, status + notes on the right, links in the
  * footer) so it stays familiar; only the paint and the brand changed.
  */
-(function () {
+import { BRAND, TELEGRAM_LABEL, monogram } from "./shared/brand.js"
+// Imported (not inlined) so an unused GOADS logo tree-shakes out of neutral builds.
+import { LOGO_SVG } from "./shared/goads-icons.js"
+
+;(function () {
   "use strict";
 
-  // ── Brand / endpoints ──────────────────────────────────────────────────────
-  var BRAND_HOST = "goadsagency.com";
-  var MAIL_DOMAIN = "goadsagency.com";
-  var TEMPMAIL_URL = "https://goadsagency.com/tempmail";
-  var TELEGRAM_URL = "https://t.me/goadsagency";
-  var WEBSITE_URL = "https://goadsagency.com";
+  // ── Brand / endpoints (from the build-time brand; see shared/brand.js) ──────
+  var BRAND_HOST = BRAND.host;
+  var MAIL_DOMAIN = BRAND.mailDomain;
+  var TEMPMAIL_URL = BRAND.tempmail;
+  var TELEGRAM_URL = BRAND.telegram;
+  var WEBSITE_URL = BRAND.website;
   var VERSION = "1.0";
 
   var ROOT_ID = "goads-bmi";
@@ -71,23 +75,6 @@
     alert:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>',
   };
-
-  // GOADS mark (G + panda), cropped from the full horizontal logo. The panda
-  // silhouette is #000 so it reads as punch-through against the black chip,
-  // exactly like the official mark.
-  var LOGO_SVG =
-    '<svg viewBox="26 28 182 182" role="img" aria-label="GOADS">' +
-    '<circle cx="132.08" cy="117.68" r="51.45" fill="#000"/>' +
-    '<path fill="#fff" d="M160.57,116.22c0-.22.17-.39.39-.39l20.09-.09,20.36.09c.22,0,.39.18.39.39v67.73c0,.13-.06.26-.17.33-19.07,13.59-45.14,20.85-69.1,20.85-52.54,0-90.95-35.58-90.95-85.77s38.41-85.77,91.89-85.77c30.71,0,52.07,13.97,68.33,33.34,0,0-10.89,10.09-11.05,10.23l-14.58,13.19c-.16.14-.41.13-.55-.03-11.25-12.29-24.13-18.09-39.79-18.09-29.29,0-48.47,19.98-47.05,50.25,1.16,24.75,21.81,44.01,46.59,44,8.63,0,16.8-1.62,24.96-5.31.14-.06.23-.21.23-.36v-44.59Z"/>' +
-    '<path fill="#000" d="M94.19,139.84c.01.19-.12.37-.3.41-10.77,2.57-17.76-8.85-16.71-17.08.89-6.97,5.9-13.53,14.37-15.24.23-.05.45.13.47.36l2.17,31.54Z"/>' +
-    '<path fill="#000" d="M113.91,77.99c-.2.03-.39-.09-.44-.28-2.26-8.41,7.59-14.88,14.74-14.69,6.07.16,11.81,3.64,13.41,10.27.05.22-.1.44-.33.48l-27.38,4.22Z"/>' +
-    '<ellipse fill="#fff" cx="134.78" cy="115.01" rx="7.07" ry="3.47" transform="translate(-38.17 153.51) rotate(-53.03)"/>' +
-    '<ellipse fill="#fff" cx="113.13" cy="121.16" rx="13.67" ry="10.11" transform="translate(-51.81 137.67) rotate(-52.68)"/>' +
-    '<ellipse fill="#fff" cx="134.03" cy="93.75" rx="13.67" ry="10.11" transform="translate(-21.79 143.5) rotate(-52.68)"/>' +
-    '<path fill="#fff" d="M111.12,109.97l4.11-2.31c2.73-1.53,4.77-4.04,5.71-7.03l1.55-4.9c.08-.25.38-.35.59-.21l13.01,8.86c.21.14.23.44.05.61l-2.39,2.21c-3.12,2.88-5.66,6.33-7.47,10.18l-2.97,6.3c-.12.26-.46.3-.65.09l-11.64-13.21c-.17-.19-.12-.48.1-.6Z"/>' +
-    '<path fill="#000" d="M132.18,88.76l1.51,2.48c.29.48.95.55,1.33.15l.46-.48c.44-.46,1.22-.29,1.41.32l.99,3.01c.29.89-.87,1.52-1.46.79h0c-.32-.4-.92-.42-1.27-.05l-.75.79c-.35.37-.94.34-1.26-.05l-3.72-4.53c-.27-.33-.25-.81.04-1.12l1.39-1.46c.38-.4,1.04-.33,1.33.15Z"/>' +
-    '<path fill="#000" d="M159.82,137.07c4.71-.18,10.65,3.47,11.41,8.54.57,3.78-.74,7.65-3.38,10.4-2.11,2.2-6.32,4.76-9.33,5.95-.25.1-.53-.07-.54-.34-.14-3.25-.88-20.25-1.05-24.05-.01-.26.22-.45.47-.4.65.14,1.74.04,2.01.04.08,0,.32-.15.4-.15Z"/>' +
-    "</svg>";
 
   // ── Styles — tokens lifted from extension/content.css ─────────────────────
   var CSS =
@@ -635,10 +622,10 @@
   root.innerHTML =
     '<div class="gbmi-header">' +
     '<span class="gbmi-mark">' +
-    LOGO_SVG +
+    (typeof __BM_BRAND__ !== "undefined" && __BM_BRAND__ === "adstoolkit" ? monogram() : LOGO_SVG) +
     "</span>" +
     '<div class="gbmi-htxt">' +
-    '<h2 class="gbmi-title">GOADS BM Invite Tool</h2>' +
+    '<h2 class="gbmi-title">' + BRAND.name + " BM Invite Tool</h2>" +
     '<p class="gbmi-sub">' +
     BRAND_HOST +
     " &nbsp;|&nbsp; Invite users to Business Manager via email</p>" +
@@ -657,10 +644,10 @@
     '<input type="email" class="gbmi-input" id="gbmi-email" placeholder="name@' +
     MAIL_DOMAIN +
     '" autocomplete="off" spellcheck="false">' +
-    '<button type="button" class="gbmi-iconbtn" id="gbmi-gen" title="Generate a free GOADS email">' +
+    '<button type="button" class="gbmi-iconbtn" id="gbmi-gen" title="Generate a free ' + BRAND.name + ' email">' +
     I.dice +
     "</button>" +
-    '<button type="button" class="gbmi-iconbtn" id="gbmi-inbox" title="Open GOADS Tempmail inbox">' +
+    '<button type="button" class="gbmi-iconbtn" id="gbmi-inbox" title="Open ' + BRAND.name + ' Tempmail inbox">' +
     I.inbox +
     "</button>" +
     "</div>" +
@@ -704,11 +691,9 @@
     "</div>" +
     "</div>" +
     '<div class="gbmi-footer">' +
-    '<a href="' +
-    TELEGRAM_URL +
-    '" target="_blank" rel="noreferrer">' +
-    I.telegram +
-    " Join Telegram · t.me/goadsagency</a>" +
+    (TELEGRAM_URL
+      ? '<a href="' + TELEGRAM_URL + '" target="_blank" rel="noreferrer">' + I.telegram + " Join Telegram · " + TELEGRAM_LABEL + "</a>"
+      : "<span></span>") +
     '<a href="' +
     WEBSITE_URL +
     '" target="_blank" rel="noreferrer">' +

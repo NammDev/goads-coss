@@ -26,6 +26,7 @@ import {
   stateLoading,
   timeoutSignal,
   toast,
+  BRAND,
 } from "./shared/goads-shell.js"
 import { readAccessToken, readBusinessId } from "./shared/goads-fb-session.js"
 import { ICON_CHECK, ICON_REFRESH, ICON_SEARCH } from "./shared/goads-icons.js"
@@ -366,7 +367,7 @@ import { ICON_CHECK, ICON_REFRESH, ICON_SEARCH } from "./shared/goads-icons.js"
   state.bmId = readBusinessId()
 
   shell = openShell({
-    title: "GOADS Approve BM Requests",
+    title: BRAND.name + " Approve BM Requests",
     subtitle: 'Business Manager <span class="gbk-mono">' + esc(state.bmId || "not detected") + "</span>",
     stage: STAGE,
     onClose: function () {

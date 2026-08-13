@@ -10,6 +10,7 @@ import { Download, Link2, Cookie, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
+import { brand } from "@/config/brand"
 
 type Feature = {
   icon: LucideIcon
@@ -35,11 +36,11 @@ const features: Feature[] = [
 const steps = [
   "Download the .zip and unzip it.",
   "Open chrome://extensions and turn on Developer mode (top-right).",
-  'Click "Load unpacked" and select the GOADS-Extension folder.',
-  "Open any website and click the GOADS icon to launch.",
+  `Click "Load unpacked" and select the ${brand.name}-Extension folder.`,
+  `Open any website and click the ${brand.name} icon to launch.`,
 ]
 
-const ZIP_URL = "/downloads/GOADS-Extension.zip"
+const ZIP_URL = `/downloads/${brand.name}-Extension.zip`
 
 export function ExtensionTool() {
   return (
@@ -61,7 +62,7 @@ export function ExtensionTool() {
           <span className="text-[var(--solid-500)]">In one extension.</span>
         </h2>
         <p className={cn(siteText.bodyL, "text-[var(--solid-500)]")}>
-          Built by GOADS, Meta Asset specialists. Download, load it unpacked, and
+          Built by {brand.name}, Meta Asset specialists. Download, load it unpacked, and
           it works on any page.
         </p>
 

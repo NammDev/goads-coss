@@ -6,8 +6,10 @@ import type { Metadata } from "next"
 import { ToolBody } from "@/components/tools/body"
 import { ToolHeader } from "@/components/tools/header"
 import { TwoFaTool } from "@/components/tools/two-fa"
+import { brand } from "@/config/brand"
+
 export const metadata: Metadata = {
-  title: "2FA Code Generator | GOADS Tools",
+  title: `2FA Code Generator | ${brand.name} Tools`,
   description:
     "Generate TOTP two-factor authentication codes from your 2FA secrets. Browser-only, no signup, no server.",
 }

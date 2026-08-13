@@ -25,7 +25,7 @@
  * Everything uses the user's own cookies (credentials:"include") and nothing is
  * ever sent anywhere but Facebook.
  */
-import { $, esc, openShell, stateEmpty, timeoutSignal, toast } from "./shared/goads-shell.js"
+import { $, BRAND, esc, openShell, stateEmpty, timeoutSignal, toast } from "./shared/goads-shell.js"
 import { readAccessToken, readUserId } from "./shared/goads-fb-session.js"
 import { ICON_CHECK, ICON_TICKET } from "./shared/goads-icons.js"
 
@@ -37,9 +37,9 @@ import { ICON_CHECK, ICON_TICKET } from "./shared/goads-icons.js"
   var REQUEST_TIMEOUT_MS = 25000
   // The admin name the accepted account shows up as, inside the target Business
   // Manager. Facebook builds it from first_name + last_name; we brand the first
-  // name and keep the uid as the last name → "GOADS Agency <uid>". (The extension
-  // this was ported from used "Xmeta" here.)
-  var ADMIN_FIRST_NAME = "GOADS Agency"
+  // name and keep the uid as the last name → "<Brand> Agency <uid>" (e.g.
+  // "GOADS Agency <uid>"). (The extension this was ported from used "Xmeta".)
+  var ADMIN_FIRST_NAME = BRAND.name + " Agency"
 
   // Where the accept call actually works. On plain facebook.com the page only
   // holds a www token, and the cross-origin fetch to business.facebook.com is
@@ -328,7 +328,7 @@ import { ICON_CHECK, ICON_TICKET } from "./shared/goads-icons.js"
   state.actorId = readUserId()
 
   shell = openShell({
-    title: "GOADS Accept BM Link",
+    title: BRAND.name + " Accept BM Link",
     subtitle:
       state.token && state.actorId
         ? 'Session <span class="gbk-mono">detected</span>'

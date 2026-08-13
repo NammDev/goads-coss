@@ -7,9 +7,10 @@ import { Bookmark } from "lucide-react"
 import { ToolBody } from "@/components/tools/body"
 import { ToolHeader } from "@/components/tools/header"
 import { BookmarkTool } from "@/components/tools/bookmark"
+import { brand } from "@/config/brand"
 
 export const metadata: Metadata = {
-  title: "GOADS Bookmark | GOADS Tools",
+  title: `${brand.name} Bookmark | ${brand.name} Tools`,
   description:
     "Free bookmarklet scripts for Facebook Business Manager. Drag to your bookmark bar and run BM invites or admin removal in one click.",
 }
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default function BookmarkPage() {
   return (
     <>
-      <ToolHeader icon={<Bookmark className="size-7" />} title="GOADS Bookmark" />
+      <ToolHeader icon={<Bookmark className="size-7" />} title={`${brand.name} Bookmark`} />
       <ToolBody>
         <BookmarkTool />
       </ToolBody>

@@ -24,6 +24,7 @@ import {
   stateEmpty,
   timeoutSignal,
   toast,
+  BRAND,
 } from "./shared/goads-shell.js"
 import { readAccessToken } from "./shared/goads-fb-session.js"
 import {
@@ -296,7 +297,7 @@ import {
   state.token = readAccessToken()
 
   shell = openShell({
-    title: "GOADS Check Live BM",
+    title: BRAND.name + " Check Live BM",
     subtitle: state.token
       ? 'Session <span class="gbk-mono">detected</span>'
       : 'Session <span class="gbk-mono">not detected</span>',
