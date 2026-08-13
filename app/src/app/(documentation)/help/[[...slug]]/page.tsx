@@ -211,7 +211,9 @@ export default async function HelpPage({ params }: Props) {
 
   const { doc } = result
   const { node } = await doc.content()
-  const contentTree = transformMarkdoc(node)
+  // Duplicate @markdoc/markdoc (keystatic bundles its own) → bridge the type
+  // mismatch via `unknown`; same shape at runtime.
+  const contentTree = transformMarkdoc(node as unknown as Parameters<typeof transformMarkdoc>[0])
   const headings = extractHeadingsFromNode(node)
 
   // Prev / next within the Questions Bank list
