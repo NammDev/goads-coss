@@ -1,12 +1,11 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
 import { brand } from "@/config/brand";
 
 /**
- * AdsToolkit ships tools-only. On that build (NEXT_PUBLIC_BRAND=adstoolkit) expose
- * only the tools + tempmail routes; everything else lands on /tools. This is a
- * no-op on the GOADS build, so GOADS routing is entirely unchanged.
+ * AdsToolkit / ToolFB is a tools-only site: expose only the tool routes; the
+ * landing and old grid go straight to the default tool.
  */
 const isAdsToolkitPublic = createRouteMatcher([
   "/tools(.*)",
@@ -16,7 +15,7 @@ const isAdsToolkitPublic = createRouteMatcher([
   "/share(.*)",
 ]);
 
-/** AdsToolkit landing → straight to the default tool (no grid homepage). */
+/** Tools-only landing → straight to the default tool (no grid homepage). */
 const ADSTOOLKIT_HOME = "/tools/bookmark";
 
 /** Routes that require authentication — redirect to /sign-in if no session */
@@ -41,35 +40,41 @@ const isPublicRoute = createRouteMatcher([
 
 const ADMIN_ROLES = ["super_admin", "staff"];
 
-export default clerkMiddleware(async (auth, req) => {
-  // Tools-only brand gate (AdsToolkit). GOADS: brand.toolsOnly is false → skipped.
-  if (brand.toolsOnly) {
-    const path = new URL(req.url).pathname;
-    // No homepage / grid: the landing and the old tools grid go straight to the
-    // default tool. Everything that isn't a tool route also lands there.
-    const isGridOrHome = path === "/" || path === "/tools" || path === "/tools/";
-    if (isGridOrHome || !isAdsToolkitPublic(req)) {
-      if (path !== ADSTOOLKIT_HOME) {
-        return NextResponse.redirect(new URL(ADSTOOLKIT_HOME, req.url));
+/**
+ * ToolFB (tools-only) has NO auth surface, so it runs a plain middleware that
+ * only scopes routes to the tools — it never touches Clerk. This is why the
+ * ToolFB deploy needs no Clerk / database / payment env, only the brand vars.
+ */
+function toolfbMiddleware(req: NextRequest) {
+  const path = new URL(req.url).pathname;
+  const isGridOrHome = path === "/" || path === "/tools" || path === "/tools/";
+  if ((isGridOrHome || !isAdsToolkitPublic(req)) && path !== ADSTOOLKIT_HOME) {
+    return NextResponse.redirect(new URL(ADSTOOLKIT_HOME, req.url));
+  }
+  return NextResponse.next();
+}
+
+// GOADS build → full Clerk middleware (auth for portal/admin/keystatic).
+// ToolFB build → plain tools-only middleware (clerkMiddleware is never invoked,
+// so no Clerk env is required at runtime).
+export default brand.toolsOnly
+  ? toolfbMiddleware
+  : clerkMiddleware(async (auth, req) => {
+      if (isPublicRoute(req)) return;
+
+      if (isAdminOnlyRoute(req)) {
+        const session = await auth.protect();
+        const role = (session.sessionClaims?.publicMetadata as { role?: string })?.role;
+        if (!role || !ADMIN_ROLES.includes(role)) {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
+        return;
       }
-    }
-  }
 
-  if (isPublicRoute(req)) return;
-
-  if (isAdminOnlyRoute(req)) {
-    const session = await auth.protect();
-    const role = (session.sessionClaims?.publicMetadata as { role?: string })?.role;
-    if (!role || !ADMIN_ROLES.includes(role)) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
-    return;
-  }
-
-  if (isProtectedRoute(req)) {
-    await auth.protect();
-  }
-});
+      if (isProtectedRoute(req)) {
+        await auth.protect();
+      }
+    });
 
 export const config = {
   matcher: [
