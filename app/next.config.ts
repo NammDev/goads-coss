@@ -18,17 +18,6 @@ const cspDirectives = [
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  // @keystatic/core bundles its own @markdoc/markdoc (0.4.x) alongside the app's
-  // top-level 0.5.x, so the docs/help renderer produces spurious type errors on a
-  // clean install (Vercel) even though it runs fine. Don't let type errors fail
-  // the production build — real type-checking still runs via `tsc --noEmit`.
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  // Lint is run separately (npm run lint); don't let it block production builds.
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   allowedDevOrigins: ["http://192.168.1.64:3000", "192.168.1.64", "http://192.168.1.18:3001", "192.168.1.18"],
   turbopack: {
     root: import.meta.dirname,
