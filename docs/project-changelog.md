@@ -4,6 +4,41 @@
 
 ---
 
+## [2026-08-13] — Accept BM Link: works from facebook.com + visible steps
+
+Improvements to the single-link Accept BM Link bookmarklet (v1.2). It's a taller, list-style card: one
+link field + Accept, and the link shows as a row in a table whose **Message** column carries the live
+step and result. (A multi-link variant was tried and dropped; and a compact-box variant rendered its
+ticket icon full-size — fixed by keeping the only icon inside the input field.)
+
+**1. Works from plain facebook.com.** Added `bootstrapSession()`, mirroring the extension's
+`extractBMData`: it reads the token/actor from the current page first, and if the token isn't there it
+`fetch`es `business.facebook.com/latest/settings/` with the user's cookies and scrapes the `EAAG…`
+token + `actorID`. That request carries the shared `.facebook.com` cookies, so the tool no longer needs
+a BM page open — being logged into facebook.com is enough. Session resolves on **Accept**, not only at
+launch.
+
+**2. Visible steps.** The Accept button reports its stage while it waits — `Reading session…` →
+`Accepting…` — so the wait doesn't go silent, then the result panel shows accepted / error.
+
+**3. "Open Ads Manager" jump + facebook.com lock.** On plain facebook.com the page only holds a www
+token and the cross-origin fetch to business.facebook.com is CORS-blocked, so the accept can't run there.
+Off a business surface (`business.facebook.com` / `adsmanager.facebook.com`) the tool now **greys out the
+link field + Accept** and shows a warning banner that spells out the flow: open **Ads Manager**, then
+**run the bookmarklet again there** (clicking only navigates the tab — a bookmarklet doesn't survive the
+navigation). The banner's button jumps the tab to Ads Manager.
+
+**4. Admin name branded.** The accepted account now lands in the target Business Manager as
+**"GOADS Agency &lt;uid&gt;"** instead of the extension's original "Xmeta &lt;uid&gt;"
+(`first_name` in the accept mutation).
+
+**Verification.** Payload rebuilt (19.3 KB) and round-trips through URL-decode as valid JS
+(`b-graph` + `doc_id`, single-link field, bootstrap + step labels present). `tsc --noEmit` clean,
+`next build` ✓. Session-scrape unit-checked (EAAG token, `actorID`/`USER_ID` fallback, short-token
+rejection).
+
+---
+
 ## [2026-08-12] — New bookmarklet: Accept BM Link (no code)
 
 Ported the "accept link without code" flow from this repo's `Nhận link` extension

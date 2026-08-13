@@ -92,9 +92,9 @@ export const BOOKMARKLETS: Bookmarklet[] = [
   {
     slug: "bm-acceptlink",
     title: "Accept BM Link",
-    version: "v1.0",
+    version: "v1.2",
     description:
-      "Paste a Business Manager invitation link and accept it with the account you're signed in as — no verification code needed. Runs on facebook.com or the BM page.",
+      "Paste a Business Manager invitation link and accept it with the account you're signed in as — no verification code needed. Works on facebook.com or the BM page.",
     icon: TicketCheck,
     category: "business-manager",
     payload: BM_ACCEPTLINK_PAYLOAD,
