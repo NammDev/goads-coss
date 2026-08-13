@@ -67,20 +67,19 @@ const headingNode = {
 }
 
 /** Transform a Markdoc AST Node → renderable tree (used with Keystatic's { node } return) */
+const markdocConfig = {
+  tags: markdocTags,
+  nodes: { heading: headingNode },
+} as MarkdocConfig
+
 export function transformMarkdoc(node: Node): RenderableTreeNode {
-  return Markdoc.transform(node, {
-    tags: markdocTags,
-    nodes: { heading: headingNode },
-  })
+  return Markdoc.transform(node, markdocConfig)
 }
 
 /** Parse a raw Markdoc string → renderable tree (used for ad-hoc strings) */
 export function parseMarkdoc(source: string): RenderableTreeNode {
   const ast = Markdoc.parse(source)
-  return Markdoc.transform(ast, {
-    tags: markdocTags,
-    nodes: { heading: headingNode },
-  })
+  return Markdoc.transform(ast, markdocConfig)
 }
 
 /** Extract h2/h3 headings from a Markdoc AST Node for TOC.
