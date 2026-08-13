@@ -211,10 +211,11 @@ export default async function HelpPage({ params }: Props) {
 
   const { doc } = result
   const { node } = await doc.content()
-  // Duplicate @markdoc/markdoc (keystatic bundles its own) → bridge the type
-  // mismatch via `unknown`; same shape at runtime.
-  const contentTree = transformMarkdoc(node as unknown as Parameters<typeof transformMarkdoc>[0])
-  const headings = extractHeadingsFromNode(node)
+  // Duplicate @markdoc/markdoc (keystatic bundles its own) → bridge once via
+  // `unknown`, then reuse for both calls. Same shape at runtime.
+  const mdNode = node as unknown as Parameters<typeof transformMarkdoc>[0]
+  const contentTree = transformMarkdoc(mdNode)
+  const headings = extractHeadingsFromNode(mdNode)
 
   // Prev / next within the Questions Bank list
   const idx = QA_TAB.items.findIndex((i) => i.slug === articleSlug)

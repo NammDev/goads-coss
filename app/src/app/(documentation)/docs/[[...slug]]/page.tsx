@@ -222,10 +222,11 @@ export default async function DocsPage({ params }: Props) {
   const { doc } = result
   const { node } = await doc.content()
   // @keystatic/core bundles its own @markdoc/markdoc, so `node`'s Node type comes
-  // from a different copy than transformMarkdoc's param. They are the same shape at
-  // runtime; bridge the duplicate-package type mismatch via `unknown`.
-  const contentTree = transformMarkdoc(node as unknown as Parameters<typeof transformMarkdoc>[0])
-  const headings = extractHeadingsFromNode(node)
+  // from a different copy than the renderer's param. Same shape at runtime; bridge
+  // the duplicate-package mismatch once via `unknown`, then reuse for both calls.
+  const mdNode = node as unknown as Parameters<typeof transformMarkdoc>[0]
+  const contentTree = transformMarkdoc(mdNode)
+  const headings = extractHeadingsFromNode(mdNode)
   const parentTab = docsTabs.find((t) => t.slug === slug[0])
 
   return (
