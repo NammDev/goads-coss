@@ -28,6 +28,7 @@ import {
   type ToolItem,
 } from "@/data/tools-registry"
 import { siteText } from "@/components/atoms/typography"
+import { brand } from "@/config/brand"
 
 function ToolLink({ tool, isActive }: { tool: ToolItem; isActive: boolean }) {
   const Icon = tool.icon
@@ -85,7 +86,18 @@ function SidebarNav() {
 export function ToolsSidebar() {
   return (
     <aside className="hidden w-60 shrink-0 lg:block">
-      <div className="sticky top-28 max-h-[calc(100svh-8rem)] overflow-y-auto pr-4">
+      <div className={cn(
+        "sticky max-h-[calc(100svh-4rem)] overflow-y-auto pr-4",
+        brand.toolsOnly ? "top-6" : "top-28",
+      )}>
+        {brand.toolsOnly && (
+          <Link
+            href="/tools/bookmark"
+            className="mb-6 block px-3 text-lg font-semibold tracking-[-0.02em] text-foreground"
+          >
+            {brand.name}
+          </Link>
+        )}
         <SidebarNav />
       </div>
     </aside>
@@ -131,8 +143,19 @@ export function ToolsSidebarMobile() {
       <SheetContent
         side="left"
         showCloseButton={false}
-        className="site w-64 overflow-y-auto border-r border-[#ffffff29] bg-background p-4 pt-20 text-muted-foreground"
+        className={cn(
+          "site w-64 overflow-y-auto border-r border-[#ffffff29] bg-background p-4 text-muted-foreground",
+          brand.toolsOnly ? "pt-6" : "pt-20",
+        )}
       >
+        {brand.toolsOnly && (
+          <Link
+            href="/tools/bookmark"
+            className="mb-6 block px-3 text-lg font-semibold tracking-[-0.02em] text-foreground"
+          >
+            {brand.name}
+          </Link>
+        )}
         <SidebarNav />
       </SheetContent>
     </Sheet>
