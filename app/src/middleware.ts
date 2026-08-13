@@ -1,44 +1,20 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse, type NextRequest } from "next/server";
-
 import { brand } from "@/config/brand";
 
 /**
  * AdsToolkit / ToolFB is a tools-only site: expose only the tool routes; the
  * landing and old grid go straight to the default tool.
  */
-const isAdsToolkitPublic = createRouteMatcher([
+const toolsRoutes = [
   "/tools(.*)",
   "/api/(.*)",
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/share(.*)",
-]);
+];
 
 /** Tools-only landing → straight to the default tool (no grid homepage). */
 const ADSTOOLKIT_HOME = "/tools/bookmark";
-
-/** Routes that require authentication — redirect to /sign-in if no session */
-const isProtectedRoute = createRouteMatcher([
-  "/admin(.*)",
-  "/portal(.*)",
-]);
-
-/** Routes restricted to admin/staff only */
-const isAdminOnlyRoute = createRouteMatcher([
-  "/keystatic(.*)",
-]);
-
-/** Public routes that should never be blocked (webhooks, auth pages, marketing, etc.) */
-const isPublicRoute = createRouteMatcher([
-  "/sign-in(.*)",
-  "/sign-up(.*)",
-  "/api/webhooks(.*)",
-  "/api/extension/auth",
-  "/share(.*)",
-]);
-
-const ADMIN_ROLES = ["super_admin", "staff"];
 
 /**
  * ToolFB (tools-only) has NO auth surface, so it runs a plain middleware that
@@ -47,34 +23,65 @@ const ADMIN_ROLES = ["super_admin", "staff"];
  */
 function toolfbMiddleware(req: NextRequest) {
   const path = new URL(req.url).pathname;
+  const isAllowed = toolsRoutes.some((pattern) =>
+    new RegExp(`^${pattern}$`).test(path),
+  );
   const isGridOrHome = path === "/" || path === "/tools" || path === "/tools/";
-  if ((isGridOrHome || !isAdsToolkitPublic(req)) && path !== ADSTOOLKIT_HOME) {
+  if ((isGridOrHome || !isAllowed) && path !== ADSTOOLKIT_HOME) {
     return NextResponse.redirect(new URL(ADSTOOLKIT_HOME, req.url));
   }
   return NextResponse.next();
 }
 
-// GOADS build → full Clerk middleware (auth for portal/admin/keystatic).
-// ToolFB build → plain tools-only middleware (clerkMiddleware is never invoked,
-// so no Clerk env is required at runtime).
-export default brand.toolsOnly
-  ? toolfbMiddleware
-  : clerkMiddleware(async (auth, req) => {
-      if (isPublicRoute(req)) return;
+/**
+ * GOADS build → full Clerk middleware (auth for portal/admin/keystatic).
+ * Clerk is imported lazily so ToolFB builds never touch the Clerk package
+ * and don't need any Clerk env vars at runtime.
+ */
+async function goadsMiddleware(req: NextRequest) {
+  const { clerkMiddleware, createRouteMatcher } = await import(
+    "@clerk/nextjs/server"
+  );
 
-      if (isAdminOnlyRoute(req)) {
-        const session = await auth.protect();
-        const role = (session.sessionClaims?.publicMetadata as { role?: string })?.role;
-        if (!role || !ADMIN_ROLES.includes(role)) {
-          return NextResponse.redirect(new URL("/", req.url));
-        }
-        return;
-      }
+  const isPublicRoute = createRouteMatcher([
+    "/sign-in(.*)",
+    "/sign-up(.*)",
+    "/api/webhooks(.*)",
+    "/api/extension/auth",
+    "/share(.*)",
+  ]);
 
-      if (isProtectedRoute(req)) {
-        await auth.protect();
+  const isProtectedRoute = createRouteMatcher([
+    "/admin(.*)",
+    "/portal(.*)",
+  ]);
+
+  const isAdminOnlyRoute = createRouteMatcher(["/keystatic(.*)"]);
+
+  const ADMIN_ROLES = ["super_admin", "staff"];
+
+  const handler = clerkMiddleware(async (auth, request) => {
+    if (isPublicRoute(request)) return;
+
+    if (isAdminOnlyRoute(request)) {
+      const session = await auth.protect();
+      const role = (session.sessionClaims?.publicMetadata as { role?: string })
+        ?.role;
+      if (!role || !ADMIN_ROLES.includes(role)) {
+        return NextResponse.redirect(new URL("/", request.url));
       }
-    });
+      return;
+    }
+
+    if (isProtectedRoute(request)) {
+      await auth.protect();
+    }
+  });
+
+  return handler(req, {} as never);
+}
+
+export default brand.toolsOnly ? toolfbMiddleware : goadsMiddleware;
 
 export const config = {
   matcher: [
