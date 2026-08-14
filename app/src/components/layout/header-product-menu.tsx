@@ -1,4 +1,4 @@
-// Foreplay header — Product mega-menu dropdown (100% nested DOM clone)
+// Foreplay header — "Products and services" mega-menu dropdown (100% nested DOM clone)
 //
 // Source DOM:
 //   nav.nav-dropdown-menu.w-dropdown-list
@@ -114,7 +114,7 @@ export function HeaderProductMenu() {
   }, [])
 
   return (
-    <HeaderDropdownBase label="Product">
+    <HeaderDropdownBase label="Products and services">
       {/* .nav-dropdown-menu-inner — source: background, border 1px, rounded-28, width:100% (stretch to nav-stack), overflow-hidden */}
       <div className="w-full overflow-hidden rounded-[28px] border border-[var(--border-nav)] bg-background">
         {/* .nav-product-menu — flex justify-between (banner hidden below xl, so on narrow viewport only links shown) */}

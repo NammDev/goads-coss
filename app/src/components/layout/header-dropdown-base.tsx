@@ -98,7 +98,7 @@ export function HeaderDropdownBase({ label, children }: HeaderDropdownBaseProps)
         )}
       >
         {/* div.text-navlink — typography only (15px/20px) */}
-        <div className="font-sans text-[0.9375rem] leading-[1.25rem]">{label}</div>
+        <div className="font-sans text-[0.9375rem] leading-[1.25rem] whitespace-nowrap">{label}</div>
         {/* div.icon-20 — 20x20 chevron box (rotates when open) */}
         <div className={cn("flex size-5 items-center justify-center transition-transform duration-300", open && "rotate-180")}>
           {/* div.svg.w-embed */}

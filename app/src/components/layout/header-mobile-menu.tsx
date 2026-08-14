@@ -1,10 +1,10 @@
 // Foreplay mobile nav — .nav-menu column dropdown (≤991px) with inline accordion.
 // Hamburger ↔ X drops a column panel below the bar (anchored to relative .nav-stack),
-// matching Foreplay's mobile .nav-menu-inner. Product / Tools / Resources expand
+// matching Foreplay's mobile .nav-menu-inner. The three dropdown sections expand
 // inline; everything flush-left (padding-left:0). Data + icons in nav-menu-items.tsx.
 //
 // Layouts mirror Foreplay's per-menu designs:
-//   Product / Tools → stacked (icon + title above desc) — nav-product-menu badges
+//   Products / Free Tools → stacked (icon + title above desc) — nav-product-menu badges
 //   Resources       → inline (icon + label + desc on one row) — nav-resources-menu
 
 "use client"
@@ -19,20 +19,23 @@ import {
   PRODUCT_GROUPS, TOOLS_GROUPS, RESOURCES_GROUPS,
   type NavMenuGroup,
 } from "@/components/layout/nav-menu-items"
-import { CONTACT } from "@/data/contact-info"
 import { HeaderSocialLinks } from "@/components/layout/header-social-links"
 
 type Section =
   | { label: string; href: string }
   | { label: string; groups: NavMenuGroup[]; inline?: boolean }
 
+// Order mirrors the desktop navmenu (header.tsx): Agency Ad Account leads, the
+// three dropdowns follow. Keep the two lists in step — a nav that reorders
+// itself at the mobile breakpoint reads as a bug.
 const SECTIONS: Section[] = [
-  { label: "Product", groups: PRODUCT_GROUPS },
-  { label: "Tools", groups: TOOLS_GROUPS },
-  { label: "Resources", groups: RESOURCES_GROUPS, inline: true },
-  { label: "Pricing", href: "/pricing" },
   { label: "Agency Ad Account", href: "/rental" },
-  { label: "Schedule a Call", href: "/book-demo" },
+  { label: "Products and services", groups: PRODUCT_GROUPS },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Free Tools", groups: TOOLS_GROUPS },
+  { label: "Resources", groups: RESOURCES_GROUPS, inline: true },
+  // "Schedule a Call" is not listed here: it is the CTA button below the list,
+  // same as on desktop. Listing it twice would be the duplicate we just removed.
 ]
 
 // .text-navlink @≤991 — Inter Display 20px/28px 600
@@ -54,7 +57,7 @@ export function HeaderMobileMenu() {
   }, [open])
 
   // Prefetch submenu product icons as soon as the menu opens, so they're cached
-  // by the time the user expands "Product" — no "pop", skeleton barely shows.
+  // by the time the user expands a section — no "pop", skeleton barely shows.
   useEffect(() => {
     if (!open) return
     const urls = SECTIONS.flatMap((s) =>
@@ -94,7 +97,7 @@ export function HeaderMobileMenu() {
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "z-[5] flex size-11 items-center justify-center rounded-[10px] p-2 text-foreground transition-colors fp-lg:hidden",
+          "z-[5] flex size-11 items-center justify-center rounded-[10px] p-2 text-foreground transition-colors fp-nav:hidden",
           open ? "bg-[var(--alpha-700)]" : "hover:bg-[var(--alpha-700)]",
         )}
       >
@@ -109,7 +112,7 @@ export function HeaderMobileMenu() {
       <div
         ref={panelRef}
         className={cn(
-          "absolute top-full right-0 left-0 z-[90] origin-top fp-lg:hidden",
+          "absolute top-full right-0 left-0 z-[90] origin-top fp-nav:hidden",
           "flex max-h-[calc(100dvh-72px)] flex-col items-stretch gap-3 overflow-y-auto",
           "rounded-b-[28px] max-fp-sm:rounded-b-[16px] bg-background px-5 pt-3 pb-6",
           "shadow-[inset_0_0_0_1px_#0003]",
@@ -159,7 +162,7 @@ export function HeaderMobileMenu() {
                                   target={it.href.startsWith("http") ? "_blank" : undefined}
                                   className="-mx-2 flex items-center gap-3 rounded-[12px] px-2 py-2 no-underline transition-colors hover:bg-[var(--alpha-700)]"
                                 >
-                                  {/* icon: img (Product) or icon-20 svg (Tools/Resources) */}
+                                  {/* icon: img (Products) or icon-20 svg (Free Tools / Resources) */}
                                   {it.img ? (
                                     <ImageWithSkeleton src={it.img} className="size-9 shrink-0" imgClassName="opacity-90" />
                                   ) : Icon ? (
@@ -196,18 +199,19 @@ export function HeaderMobileMenu() {
         </div>
 
         <div className="mt-2 flex flex-col items-stretch gap-2">
-          <a
-            href={CONTACT.telegram.officialWithMessage}
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Mirrors the desktop CTA: was "Contact Us" → Telegram, now the
+              booking route. Internal now, so next/link rather than a raw <a>
+              with target=_blank. */}
+          <Link
+            href="/book-demo"
             onClick={close}
             className="flex items-center justify-center gap-1 rounded-[10px] bg-foreground p-2 font-semibold text-[var(--solid-900)] no-underline transition-opacity hover:opacity-90"
           >
-            <span className={cn(navText, "text-[var(--solid-900)]")}>Contact Us</span>
+            <span className={cn(navText, "text-[var(--solid-900)]")}>Schedule a Call</span>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </Link>
           {/* Discord + Telegram brand buttons (replaced the Sign in link) */}
           <div className="flex items-center justify-center gap-2 py-1">
             <HeaderSocialLinks />

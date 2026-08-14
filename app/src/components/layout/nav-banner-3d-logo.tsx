@@ -1,5 +1,5 @@
 // Foreplay nav-dropdown banner — shared 3D spinning GoAds logo + label.
-// Reused by Product / Tools / Resources mega-menus (DRY: single source).
+// Reused by the Products and services / Free Tools / Resources mega-menus (DRY: single source).
 //
 // Renders the `.nav-banner-content` title + a real CSS-3D extruded spin of
 // the ORIGINAL GoAds mark (no AI redraw): GOADS_EXTRUDE_LAYERS copies of the

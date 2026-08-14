@@ -1,4 +1,4 @@
-// GoAds Tools mega-menu dropdown — clones Foreplay Resources layout pattern
+// GoAds "Free Tools" mega-menu dropdown — clones Foreplay Resources layout pattern
 // DOM structure: nav.nav-dropdown-menu > .nav-dropdown-menu-inner > .nav-resources-menu (grid-cols-12)
 //   Row 1 "Data Processing" (col-span 9): 5 tools in grid-cols-5
 //   Row 2 "Utilities" (col-span 9, border-t): 4 tools in grid-cols-5 (1 empty slot)
@@ -33,7 +33,7 @@ const utilitiesItems: ToolItem[] = [
 
 export function HeaderToolsMenu() {
   return (
-    <HeaderDropdownBase label="Tools">
+    <HeaderDropdownBase label="Free Tools">
       {/* .nav-dropdown-menu-inner — bg, border, rounded-28, overflow-hidden */}
       <div className="w-full overflow-hidden rounded-[28px] border border-[var(--border-nav)] bg-background">
         {/* .nav-tools-menu — grid-cols-12, rows:auto auto (same as .nav-resources-menu) */}

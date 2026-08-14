@@ -1,5 +1,9 @@
 // Footer link categories for GoAds footer (Foreplay 5-column layout preserved)
-// Columns: Product, Resources, Tools, Company, Legal
+// Columns: Products and services, Resources, Free Tools, Company, Legal
+//
+// Column titles deliberately mirror the header nav labels one-for-one. When a
+// nav item is renamed, rename it here too — a footer that says "Product" under
+// a header that says "Products and services" reads as two different sites.
 // Source structure uses .footer-double-category to stack the 5th column (Company + Legal)
 
 export interface FooterLinkCategory {
@@ -9,8 +13,9 @@ export interface FooterLinkCategory {
 
 export const footerLinkCategories: FooterLinkCategory[] = [
   {
-    title: "Product",
-    // Matches the navbar Product mega-menu (Products + Services), exact labels + hrefs + order.
+    title: "Products and services",
+    // Matches the navbar "Products and services" mega-menu (Products + Services),
+    // exact labels + hrefs + order.
     links: [
       { label: "Business Manager", href: "/bm" },
       { label: "Facebook Profile", href: "/profiles" },
@@ -35,7 +40,7 @@ export const footerLinkCategories: FooterLinkCategory[] = [
     ],
   },
   {
-    title: "Tools",
+    title: "Free Tools",
     links: [
       { label: "2FA Generator", href: "/tools/2fa" },
       { label: "Check Live UID", href: "/tools/check-uid" },
