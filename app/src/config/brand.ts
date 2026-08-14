@@ -36,6 +36,15 @@ export interface Brand {
   ogImage: string
   /** Alt text for the OG image. */
   ogImageAlt: string
+  /**
+   * Tab / home-screen icons, served from /public. Declared per brand so a
+   * white-label domain never unfurls or pins the GOADS mark. Note `/favicon.ico`
+   * at the root is still auto-served by Next for any domain, but the explicit
+   * <link rel="icon"> emitted from these paths takes precedence in browsers.
+   */
+  favicon: string
+  icon: string
+  appleIcon: string
   /** Primary contact channel; empty string = none (neutral brands hide it). */
   telegram: string
   /** Footer/social links; empty = render none. */
@@ -46,6 +55,12 @@ export interface Brand {
    * route-scoping in a later phase; harmless until then.
    */
   toolsOnly: boolean
+  /**
+   * Where "/" lands and where the wordmark points. GOADS has a real homepage;
+   * a tools-only brand has none, so it redirects straight to its default tool.
+   * Single source of truth for middleware + every wordmark link.
+   */
+  homeHref: string
 }
 
 // ── Brand definitions ────────────────────────────────────────────────────────
@@ -76,15 +91,19 @@ const GOADS: Brand = {
   ],
   ogImage: "/og-image.png",
   ogImageAlt: "GOADS - Agency Ad Accounts & Meta Assets",
+  favicon: "/favicon.ico",
+  icon: "/icon.png",
+  appleIcon: "/apple-touch-icon.png",
   telegram: "https://t.me/goadsagency",
   socials: [{ label: "Telegram", href: "https://t.me/goadsagency" }],
   toolsOnly: false,
+  homeHref: "/",
 }
 
 // AdsToolkit — the new neutral, tools-only brand. No GOADS traces: no goads
-// domain, no t.me/goadsagency, its own name. Domain + OG image are placeholders
-// until the real ones are provided (override the domain with NEXT_PUBLIC_SITE_URL
-// at deploy time if needed).
+// domain, no t.me/goadsagency, its own name, its own OG image and icons
+// (public/toolfb/*). Override the domain with NEXT_PUBLIC_SITE_URL at deploy
+// time if needed.
 const ADSTOOLKIT: Brand = {
   key: "adstoolkit",
   name: "ToolFB",
@@ -102,11 +121,23 @@ const ADSTOOLKIT: Brand = {
     "free ads tools",
     "toolfb",
   ],
-  ogImage: "/og-image.png",
+  // Own artwork — the root /og-image.png and /favicon.ico are the GOADS panda
+  // mark, which must never appear when a toolfb.media link unfurls on
+  // Discord/Telegram/etc.
+  ogImage: "/toolfb/og-image.png",
   ogImageAlt: "ToolFB - Free Meta Ads & Business Manager Tools",
+  favicon: "/toolfb/favicon.ico",
+  icon: "/toolfb/icon.png",
+  appleIcon: "/toolfb/apple-touch-icon.png",
   telegram: "",
   socials: [],
   toolsOnly: true,
+  // 2FA, not the bookmarklet library: /tools/bookmark ships ~290KB of inlined
+  // bookmarklet payload strings, so landing there makes the very first page a
+  // user sees the heaviest one on the site. 2FA is light and renders instantly;
+  // the sidebar's <Link> then prefetches bookmark in the background, so opening
+  // it from here is a warm client-side navigation instead of a cold load.
+  homeHref: "/tools/2fa",
 }
 
 export const BRANDS: Record<BrandKey, Brand> = {

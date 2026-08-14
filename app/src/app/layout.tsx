@@ -45,13 +45,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   // Icons served from /public (reliable static serving) + declared explicitly so
   // the tab favicon AND the iOS "Add to Home Screen" apple-touch-icon both resolve.
+  // Paths come from the active brand so a white-label domain never shows the
+  // GOADS mark in the tab or on the home screen.
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+      { url: brand.favicon, sizes: "any" },
+      { url: brand.icon, type: "image/png", sizes: "512x512" },
     ],
-    shortcut: ["/favicon.ico"],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: [brand.favicon],
+    apple: [{ url: brand.appleIcon, sizes: "180x180", type: "image/png" }],
   },
   // Open Graph — used by Facebook, Instagram, LinkedIn, WhatsApp, Telegram,
   // Discord, Slack, Pinterest, Messenger, Zalo and most link unfurlers.
