@@ -13,7 +13,7 @@ import {
   ImagePlus,
   LayoutGrid,
   ListFilter,
-
+  Mail,
   Merge,
   ScanFace,
   Scissors,
@@ -22,6 +22,8 @@ import {
   UserSearch,
   type LucideIcon,
 } from "lucide-react";
+
+import { brand } from "@/config/brand";
 
 export type ToolCategory = "security" | "data" | "utility";
 
@@ -77,6 +79,20 @@ export const TOOLS: ToolItem[] = [
   },
 
   // Utilities
+  // Temp Mail is a GOADS tool; tools-only brands (ToolFB) don't ship it.
+  ...(brand.toolsOnly
+    ? []
+    : ([
+        {
+          slug: "tempmail",
+          href: "/tempmail",
+          title: "Temp Mail",
+          description: "Generate disposable email addresses and receive temporary inbox messages",
+          icon: Mail,
+          category: "utility",
+          featured: true,
+        },
+      ] as ToolItem[])),
   {
     slug: "check-ip",
     title: "IP Checker",
@@ -86,8 +102,10 @@ export const TOOLS: ToolItem[] = [
     featured: true,
   },
   {
+    // Titles carry the brand name: "GOADS Extension" on GOADS, "ToolFB Extension"
+    // on the neutral brand.
     slug: "goads-extension",
-    title: "GOADS Extension",
+    title: `${brand.name} Extension`,
     description: "Free Chrome extension, bypass BM invites, login by cookie",
     icon: Chrome,
     category: "utility",
@@ -95,7 +113,7 @@ export const TOOLS: ToolItem[] = [
   },
   {
     slug: "bookmark",
-    title: "GOADS Bookmark",
+    title: `${brand.name} Bookmark`,
     description: "Bookmarklet scripts for Business Manager — drag to your bookmark bar",
     icon: Bookmark,
     category: "utility",
