@@ -127,7 +127,7 @@ export function ToolsSidebarMobile() {
           )}
         >
           <PanelLeft className="size-4" />
-          <span>Tools</span>
+          <span>Free Tools</span>
         </button>
       </SheetTrigger>
       {/* `site` class re-applies Foreplay dark-theme tokens INSIDE the Radix

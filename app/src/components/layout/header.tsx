@@ -34,7 +34,6 @@
 import { cn } from "@/lib/utils"
 import { NavLink } from "@/components/layout/nav-link"
 import { CtaButton } from "@/components/atoms/cta-button"
-import { CONTACT } from "@/data/contact-info"
 import { HeaderProductMenu } from "@/components/layout/header-product-menu"
 import { HeaderResourcesMenu } from "@/components/layout/header-resources-menu"
 import { HeaderSocialLinks } from "@/components/layout/header-social-links"
@@ -56,12 +55,12 @@ export function Header() {
           .container wins for max-width:1440px + padding:0 40px (comes later in CSS than .navbar-container)
           .navbar-container adds: display:flex, justify-content:space-between, align-items:center
           position:relative + px-2 (8px) + z-5 are MOBILE ONLY (.container.navbar-container inside @media ≤991px) */}
-      <div className="mx-auto flex max-w-site items-center justify-between px-2 fp-lg:px-10">
+      <div className="mx-auto flex max-w-site items-center justify-between px-2 fp-nav:px-10">
         {/* .nav-stack — DESKTOP: flex gap-9 items-center justify-between w-full p-4 relative
             (py-3 and h-[72px] are MOBILE ONLY overrides)
             CRITICAL: position:relative here is the positioning context for child nav.nav-dropdown-menu
             which uses position:absolute top:100% left:0% right:0% — escaping through .nav-dropdown (static). */}
-        <div className="relative flex w-full items-center justify-between gap-9 p-4 max-fp-lg:h-[72px] max-fp-lg:py-3">
+        <div className="relative flex w-full items-center justify-between gap-9 p-4 max-fp-nav:h-[72px] max-fp-nav:py-3">
           {/* .nav-brand.w-nav-brand — source: z-5 rounded-10 p-1 (custom .nav-brand adds rounded-10 + p-1) */}
           <LogoLink
             aria-label="GOADS home"
@@ -83,39 +82,47 @@ export function Header() {
           <HeaderMobileMenu />
 
           {/* nav.nav-menu.w-nav-menu — source: flex-1 position:static (desktop only)
-              Switch at 992px to match Foreplay (Webflow 991 breakpoint): full nav ≥992,
-              hamburger ≤991. Pairs with HeaderMobileMenu trigger (fp-lg:hidden).
-              Fixes the 768–1023 dead zone where neither nav nor hamburger showed. */}
+              Switch at fp-nav (1280px): full nav ≥1280, hamburger ≤1279. Pairs
+              with HeaderMobileMenu trigger (fp-nav:hidden).
+
+              Foreplay switched at its 992 tier; we can't, because our labels are
+              longer than its Product/Solutions/Resources. Measured on one line,
+              links + logo + CTA need 1229px, so at 992 the labels wrapped to
+              three lines and the bar grew from 84px to 104px. See the
+              --breakpoint-fp-nav comment in globals.css before changing this. */}
           <nav
             role="navigation"
-            className="static hidden flex-1 fp-lg:block"
+            className="static hidden flex-1 fp-nav:block"
           >
             {/* .nav-menu-inner — source: flex justify-between (NO gap, NO items-center) */}
             <div className="flex justify-between">
               {/* .navmenu-links — source: flex items-center gap-3 justify-start */}
               <div className="flex items-center justify-start gap-3">
-                {/* .nav-dropdown.w-dropdown (Product) */}
+                {/* a.navlink (Agency Ad Account) — FIRST, leftmost: it is the
+                    headline offer, so it gets the slot the eye hits first.
+                    Goes to /rental, which asks buy-or-rent on arrival. */}
+                <NavLink href="/rental">Agency Ad Account</NavLink>
+                {/* .nav-dropdown.w-dropdown (Products and services) */}
                 <HeaderProductMenu />
-                {/* .nav-dropdown.w-dropdown (Tools) — GoAds Toolbox mega-menu */}
+                {/* a.navlink (Pricing) — sits right after the catalogue it
+                    prices, ahead of the free utilities. */}
+                <NavLink href="/pricing">Pricing</NavLink>
+                {/* .nav-dropdown.w-dropdown (Free Tools) — GoAds Toolbox mega-menu */}
                 <HeaderToolsMenu />
                 {/* .nav-dropdown.w-dropdown (Resources) */}
                 <HeaderResourcesMenu />
-                {/* a.navlink (Pricing) */}
-                <NavLink href="/pricing">Pricing</NavLink>
-                {/* a.navlink (Agency Ad Account) — goes to /rental, which asks
-                    buy-or-rent on arrival. */}
-                <NavLink href="/rental">Agency Ad Account</NavLink>
-                {/* a.navlink (Book a Demo) */}
-                <NavLink href="/book-demo">Schedule a Call</NavLink>
               </div>
 
               {/* .navmenu-cta — source: flex items-center gap-2 justify-end */}
               <div className="flex items-center justify-end gap-2">
                 {/* Discord + Telegram brand buttons (replaced the Sign in link) */}
                 <HeaderSocialLinks />
-                {/* Primary nav CTA → GOADS Telegram (was "Start free trial") */}
-                <CtaButton href={CONTACT.telegram.officialWithMessage} variant="nav">
-                  Contact Us
+                {/* Primary nav CTA. Was "Contact Us" → Telegram, which duplicated
+                    the Telegram icon sitting immediately to its left. Now the
+                    booking link, promoted out of the navlink row so the header
+                    has one clear action instead of the same one twice. */}
+                <CtaButton href="/book-demo" variant="nav">
+                  Schedule a Call
                 </CtaButton>
               </div>
             </div>

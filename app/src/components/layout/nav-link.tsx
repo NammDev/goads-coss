@@ -45,7 +45,7 @@ export function NavLink({
       )}
     >
       {/* div.text-navlink — typography only (15px/20px) */}
-      <div className="font-sans text-[0.9375rem] leading-[1.25rem]">
+      <div className="font-sans text-[0.9375rem] leading-[1.25rem] whitespace-nowrap">
         {children}
       </div>
     </Link>

@@ -37,7 +37,7 @@ export const SEARCH_CATEGORIES: Record<
   { label: string; icon: LucideIcon }
 > = {
   pages: { label: "Pages", icon: Home },
-  tools: { label: "Tools", icon: Wrench },
+  tools: { label: "Free Tools", icon: Wrench },
   blog: { label: "Blog", icon: FileText },
   docs: { label: "Documentation", icon: BookOpen },
   faq: { label: "FAQ", icon: CircleHelp },

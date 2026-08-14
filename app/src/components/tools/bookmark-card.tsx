@@ -2,12 +2,13 @@
 // Structure follows the reference layout (preview block → title + version →
 // description → actions) painted with GOADS tool tokens.
 //
-// Colour: Meta's own blues (--meta-* in globals.css), not the site accent. Every
-// script here runs on facebook.com, so Facebook core blue reads as "this belongs
-// to that product" rather than as a stray hue — and it keeps a fully greyscale
-// grid from looking dead. Structure stays monochrome: card surface, borders,
-// title and body copy are all --solid-*; blue is spent only on the preview well,
-// the icon tile (Meta infinity gradient), the two pills and the drag anchor.
+// Colour: the GOADS royal blues (--meta-* in globals.css). These were Meta's
+// literal brand hexes; they now hold our own ramp, sampled from the product
+// artwork, because flat Facebook blue read cheap next to it. The blue still says
+// "this runs on facebook.com" without borrowing their exact colour, and it keeps
+// a fully greyscale grid from looking dead. Structure stays monochrome: card
+// surface, borders, title and body copy are all --solid-*; blue is spent only on
+// the preview well, the icon tile gradient, the two pills and the drag anchor.
 
 "use client"
 
@@ -70,7 +71,7 @@ export function BookmarkCard({ script, href, onOpen }: BookmarkCardProps) {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_115%,var(--meta-tint-strong),transparent_70%)]"
         />
 
-        {/* Icon tile — Meta infinity gradient (light blue → Meta blue), lifts on hover */}
+        {/* Icon tile — azure → royal gradient, lifts on hover */}
         <span
           className={cn(
             "relative flex size-14 items-center justify-center rounded-[14px] text-white",
