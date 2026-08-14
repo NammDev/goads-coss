@@ -59,11 +59,18 @@ export function HeaderDropdownBase({ label, children }: HeaderDropdownBaseProps)
   // Click-to-toggle (matches foreplay.co behavior)
   const toggleMenu = () => setOpen((prev) => !prev)
 
-  // Auto-close on route change — fixes bug where dropdown stays open after
-  // clicking an internal link (Next.js client-nav preserves component state).
-  useEffect(() => {
+  // Auto-close on route change — without it the dropdown stays open after
+  // clicking an internal link, because Next's client nav preserves component
+  // state. Adjusted DURING RENDER against the previous pathname rather than in
+  // an effect: an effect would paint the open dropdown on the new route first
+  // and then close it (a visible flash), cost a second render pass, and trip
+  // react-hooks/set-state-in-effect. This is React's documented "adjusting
+  // state when a prop changes" pattern.
+  const [lastPathname, setLastPathname] = useState(pathname)
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname)
     setOpen(false)
-  }, [pathname])
+  }
 
   // ESC key + outside click
   useEffect(() => {

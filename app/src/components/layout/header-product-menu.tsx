@@ -307,17 +307,3 @@ function MobileIcon() {
   )
 }
 
-function ApiIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <circle cx="3.76" cy="3.76" r="1.76" fill="white" fillOpacity="0.68" />
-      <circle cx="20.23" cy="3.76" r="1.76" fill="white" fillOpacity="0.68" />
-      <circle cx="3.76" cy="20.23" r="1.76" fill="white" fillOpacity="0.68" />
-      <circle cx="12" cy="20.23" r="1.76" fill="white" fillOpacity="0.68" />
-      <circle cx="20.23" cy="20.23" r="1.76" fill="white" fillOpacity="0.68" />
-      <circle cx="12" cy="12" r="1.76" fill="white" fillOpacity="0.68" />
-      <circle cx="20.23" cy="12" r="1.76" fill="white" fillOpacity="0.68" />
-      <circle cx="3.76" cy="12" r="1.76" fill="white" fillOpacity="0.68" />
-    </svg>
-  )
-}

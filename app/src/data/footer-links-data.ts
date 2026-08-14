@@ -22,7 +22,10 @@ export const footerLinkCategories: FooterLinkCategory[] = [
       { label: "Facebook Pages", href: "/pages" },
       { label: "Agency Ad Account", href: "/agency-ad-account" },
       { label: "TikTok Assets", href: "/tiktok-accounts" },
-      { label: "Meta Asset Rental", href: "/rental" },
+      // Deliberately NOT the mega-menu's "Meta Asset Rental" wording: the
+      // footer is a dense link list, and "Renter" is the shorter handle the
+      // client wants for /rental here. Same destination.
+      { label: "Renter", href: "/rental" },
       { label: "Unban Service", href: "/unban" },
       { label: "Blue Verification", href: "/blue-verification" },
     ],

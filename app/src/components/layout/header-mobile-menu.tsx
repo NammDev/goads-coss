@@ -48,7 +48,19 @@ export function HeaderMobileMenu() {
   const panelRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => { setOpen(false); setExpanded(null) }, [pathname])
+  // Close the panel (and collapse any expanded section) on route change.
+  // Adjusted DURING RENDER against the previous pathname rather than in an
+  // effect: an effect would paint the open panel over the new page first and
+  // then close it, cost a second render pass, and trip
+  // react-hooks/set-state-in-effect. React's documented "adjusting state when
+  // a prop changes" pattern.
+  const [lastPathname, setLastPathname] = useState(pathname)
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname)
+    setOpen(false)
+    setExpanded(null)
+  }
+
   useEffect(() => {
     if (!open) return
     const prev = document.body.style.overflow
