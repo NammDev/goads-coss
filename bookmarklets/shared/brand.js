@@ -23,8 +23,10 @@ export var BRAND =
         host: "toolfb.media",
         website: "https://toolfb.media",
         telegram: "", // neutral brand has no Telegram channel
-        tempmail: "https://toolfb.media/tempmail",
-        mailDomain: "toolfb.media",
+        // Invite tool: generated emails use this domain; the "open inbox" button
+        // opens this mail site.
+        tempmail: "https://365hmail.com/",
+        mailDomain: "365gmail.com",
       }
     : {
         key: "goads",
