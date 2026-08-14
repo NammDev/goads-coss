@@ -22,7 +22,7 @@ export function AdsToolkitHeader() {
       <div className="mx-auto flex max-w-site items-center px-2 fp-lg:px-10">
         <div className="relative flex w-full items-center p-4 max-fp-lg:h-[72px] max-fp-lg:py-3">
           <Link
-            href="/tools/bookmark"
+            href={brand.homeHref}
             aria-label={`${brand.name} home`}
             className="z-[5] rounded-[10px] p-1 text-lg font-semibold tracking-[-0.02em] text-[var(--alpha-100)] transition-opacity hover:opacity-80 focus-visible:shadow-[0_0_0_3px] focus-visible:shadow-secondary focus-visible:outline-none"
           >

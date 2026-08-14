@@ -9,8 +9,11 @@
 import { fontInter } from "@/fonts"
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
+import { AdsToolkitFooter } from "@/components/layout/adstoolkit-footer"
+import { AdsToolkitHeader } from "@/components/layout/adstoolkit-header"
 import { SectionHead } from "@/components/atoms/section-head"
 import { CtaButton } from "@/components/atoms/cta-button"
+import { brand } from "@/config/brand"
 
 export default function NotFound() {
   return (
@@ -23,7 +26,12 @@ export default function NotFound() {
         "overflow-x-clip antialiased [font-optical-sizing:none]",
       ].join(" ")}
     >
-      <Header />
+      {/* Brand-aware chrome. This matters far beyond the 404 page itself: Next
+          serializes the not-found boundary into the flight payload of EVERY
+          page, so rendering the GOADS header here shipped the GOADS nav data —
+          and preload hints for its two marketing images (~104KB) — into every
+          ToolFB page. Keep both branches brand-correct. */}
+      {brand.toolsOnly ? <AdsToolkitHeader /> : <Header />}
 
       {/* 404 content — centered between header and footer */}
       <main className="flex min-h-[70svh] items-center justify-center px-6 py-24">
@@ -45,14 +53,14 @@ export default function NotFound() {
 
           {/* ._404-button-wrapper — Return Home (button-dark.button-primary = hero) */}
           <div>
-            <CtaButton href="/" variant="hero">
+            <CtaButton href={brand.homeHref} variant="hero">
               Return Home
             </CtaButton>
           </div>
         </div>
       </main>
 
-      <Footer />
+      {brand.toolsOnly ? <AdsToolkitFooter /> : <Footer />}
     </div>
   )
 }

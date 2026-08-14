@@ -14,7 +14,7 @@ const toolsRoutes = [
 ];
 
 /** Tools-only landing → straight to the default tool (no grid homepage). */
-const ADSTOOLKIT_HOME = "/tools/bookmark";
+const ADSTOOLKIT_HOME = brand.homeHref;
 
 /**
  * ToolFB (tools-only) has NO auth surface, so it runs a plain middleware that

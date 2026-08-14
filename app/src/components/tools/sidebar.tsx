@@ -92,7 +92,7 @@ export function ToolsSidebar() {
       )}>
         {brand.toolsOnly && (
           <Link
-            href="/tools/bookmark"
+            href={brand.homeHref}
             className="mb-6 block px-3 text-lg font-semibold tracking-[-0.02em] text-foreground"
           >
             {brand.name}
@@ -150,7 +150,7 @@ export function ToolsSidebarMobile() {
       >
         {brand.toolsOnly && (
           <Link
-            href="/tools/bookmark"
+            href={brand.homeHref}
             className="mb-6 block px-3 text-lg font-semibold tracking-[-0.02em] text-foreground"
           >
             {brand.name}
