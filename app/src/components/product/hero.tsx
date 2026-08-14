@@ -10,6 +10,8 @@
 
 "use client"
 
+import type { ReactNode } from "react"
+
 import Image from "next/image"
 
 import { CtaButton } from "@/components/atoms/cta-button"
@@ -22,11 +24,16 @@ interface ProductHeroProps {
   iconVideoSrc?: string
   overline: string
   title: string
-  description: string
+  /** Supporting sentence under the headline. Omit for a headline-only hero. */
+  description?: string
   ctaLabel?: string
   ctaHref?: string
   /** Hide the CTA button entirely. Use for text-only heroes that should not show a primary action. */
   hideCta?: boolean
+  /** Replaces the single default CTA. For heroes that need more than one action
+   *  (/rental ships two buttons plus an escape-hatch link). Wins over
+   *  ctaLabel/ctaHref; `hideCta` still suppresses everything. */
+  actions?: ReactNode
   /** Laptop preview frame. Omit to render a text-only hero (no preview block). */
   previewImageSrc?: string
   /** .product-hero-video.w-embed — inline webm/mp4 video inside monitor */
@@ -45,6 +52,7 @@ export function ProductHero({
   ctaLabel = "Start free trial",
   ctaHref = "/sign-up",
   hideCta = false,
+  actions,
   previewImageSrc,
   previewVideoSrc,
   previewBgVideoSrc,
@@ -131,23 +139,30 @@ export function ProductHero({
             >
               {title}
             </h2>
-            {/* .max-w-lg (512px) > .text-alpha-100 (flex-1) > p.text-body-l */}
-            <div className="max-w-lg">
-              <div className="flex-1 text-[var(--alpha-100)]">
-                <p className={siteText.bodyL}>{description}</p>
+            {/* .max-w-lg (512px) > .text-alpha-100 (flex-1) > p.text-body-l.
+                Dropped entirely when there is no description, so the gap-4
+                above it doesn't leave a dangling space under the headline. */}
+            {description && (
+              <div className="max-w-lg">
+                <div className="flex-1 text-[var(--alpha-100)]">
+                  <p className={siteText.bodyL}>{description}</p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
-          {/* a.button-dark.button-primary — skipped when hideCta is set */}
+          {/* a.button-dark.button-primary — skipped when hideCta is set.
+              A caller-supplied `actions` node takes this slot instead, so a
+              multi-button hero keeps the same position in the stack. */}
           {!hideCta &&
-            (ctaHref === "/sign-up" ? (
-              <TrialCtaButton variant="hero" trialLabel={ctaLabel} />
-            ) : (
-              <CtaButton href={ctaHref} variant="hero">
-                {ctaLabel}
-              </CtaButton>
-            ))}
+            (actions ??
+              (ctaHref === "/sign-up" ? (
+                <TrialCtaButton variant="hero" trialLabel={ctaLabel} />
+              ) : (
+                <CtaButton href={ctaHref} variant="hero">
+                  {ctaLabel}
+                </CtaButton>
+              )))}
         </div>
       </div>
 
