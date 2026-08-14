@@ -1,7 +1,8 @@
 // GOADS Bookmark — bookmarklet script library at /tools/bookmark.
 // Spec: docs/foreplay/tool-design-language.md (white block, --solid-* structure
-// with Meta's own blues, --meta-*, as the accent — every script here runs on
-// facebook.com, so the product's colour is the honest one to use).
+// with the GOADS royal blues, --meta-*, as the accent — every script here runs
+// on facebook.com, so a blue accent is the honest one to use, but it is our
+// blue now rather than Meta's literal brand hex).
 //
 // Sections, top to bottom:
 //   1. "How to Use" strip — 3 numbered steps + the Bookmark Bar shortcut tip
@@ -225,7 +226,7 @@ function Kbd({ children }: { children: React.ReactNode }) {
   )
 }
 
-// Filter chip — Facebook-blue fill when active, white + ring when idle.
+// Filter chip — royal-blue fill when active, white + ring when idle.
 function CategoryChip({
   label,
   icon,

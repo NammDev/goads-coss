@@ -19,6 +19,15 @@
 @theme {
   --breakpoint-fp-sm: 480px;
   --breakpoint-fp-lg: 992px;
+  /* Where the header swaps burger → full navmenu. Foreplay switched at its own
+     992 tier, but that was sized for its short labels (Product / Solutions /
+     Resources). Ours are longer — "Agency Ad Account", "Products and services",
+     "Free Tools" — and the row plus logo plus CTA measures 1229px on one line,
+     so at 992 the labels wrapped to three lines and the bar grew to 104px.
+     1280 clears that with headroom; below it the burger menu takes over, which
+     already carries the same items in the same order. Re-measure this if a nav
+     label is ever added or lengthened. */
+  --breakpoint-fp-nav: 1280px;
   --container-site: 1440px;
 }
 
@@ -213,16 +222,24 @@
   --accent: #1c9cf0;
   --accent-soft: #1c9cf01f;   /* ~12% — chips, tints, hover */
 
-  /* ── Meta / Facebook brand palette ──────────────────────────────────────
-     For Facebook-facing surfaces (/tools/bookmark, /rental), where the product
-     IS Facebook, so Meta's own blues read as on-brand rather than as a stray
-     hue. Only these four are official hexes — every tint below is derived from
-     them with color-mix, so nothing is eyeballed. Keep them off the greyscale
-     tool pages (2FA, IP, UID, Split Data), which stay pure --solid-*. */
-  --meta-blue: #0866ff;        /* Facebook core blue (2023 refresh) */
-  --meta-blue-deep: #0064e0;   /* Meta blue, a.k.a. "Science Blue" */
-  --meta-blue-light: #0082fb;  /* Meta light blue — top stop of the infinity gradient */
-  --meta-ink: #1c2b33;         /* Meta dark — text on tinted surfaces */
+  /* ── GOADS royal-blue accent ────────────────────────────────────────────
+     For Facebook-facing surfaces (/tools/bookmark, /rental). Used to be Meta's
+     literal brand hexes (#0866ff / #0064e0 / #0082fb). Those read as a flat,
+     cyan-leaning UI blue — fine inside Facebook's own chrome, cheap next to our
+     artwork. Replaced with the royal-blue ramp sampled straight out of the
+     product panels (/public/agency-ad-account/core-features/*): same family,
+     deeper and less cyan, so the UI accent and the imagery are one palette.
+
+     Names keep the --meta-* prefix: they are referenced from seven files and
+     the prefix still says WHERE they belong (Facebook-facing surfaces), even
+     though the values are ours now. Only these four are raw hexes — every tint
+     below derives from them with color-mix, so nothing is eyeballed. Keep them
+     off the greyscale tool pages (2FA, IP, UID, Split Data), which stay pure
+     --solid-*. */
+  --meta-blue: #2663dc;        /* Core royal blue — the panels' dominant blue */
+  --meta-blue-deep: #1d4caa;   /* Deep royal — pressed states, text on tints */
+  --meta-blue-light: #4488fa;  /* Bright azure — top stop of the gradients */
+  --meta-ink: #1c2b33;         /* Dark ink — text on tinted surfaces */
 
   /* Derived tints — pale washes, hairlines and hover fills */
   --meta-tint: color-mix(in oklab, var(--meta-blue) 7%, white);
