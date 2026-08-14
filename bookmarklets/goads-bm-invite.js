@@ -651,14 +651,17 @@ import { LOGO_SVG } from "./shared/goads-icons.js"
     I.inbox +
     "</button>" +
     "</div>" +
+    // Customers aren't limited to the suggested address — spell that out.
+    '<p style="margin:7px 0 0;font-size:12px;line-height:1.5;color:var(--ink-soft)">You can use any email you can open — type your own address, or use the suggested one.</p>' +
     "</div>" +
     '<div class="gbmi-group">' +
     '<div class="gbmi-label">' +
     I.role +
     " Role</div>" +
+    // Employee is the default (least-privilege); switch to Admin explicitly.
     '<select class="gbmi-select" id="gbmi-role">' +
+    '<option value="EMPLOYEE" selected>Employee (Partial access)</option>' +
     '<option value="ADMIN">Admin (Full access)</option>' +
-    '<option value="EMPLOYEE">Employee (Partial access)</option>' +
     "</select>" +
     "</div>" +
     '<div class="gbmi-actions">' +
