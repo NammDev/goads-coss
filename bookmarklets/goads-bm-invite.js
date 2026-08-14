@@ -94,6 +94,7 @@ import { LOGO_SVG } from "./shared/goads-icons.js"
     "animation:gbmiFade .2s ease;-webkit-font-smoothing:antialiased;box-sizing:border-box}" +
     "@keyframes gbmiFade{from{opacity:0}to{opacity:1}}" +
     "@keyframes gbmiSpin{to{transform:rotate(360deg)}}" +
+    "@keyframes gbmiPulse{0%,100%{opacity:1}50%{opacity:.72}}" +
     "#" +
     ROOT_ID +
     " *{box-sizing:border-box}" +
@@ -203,6 +204,17 @@ import { LOGO_SVG } from "./shared/goads-icons.js"
     "#" +
     ROOT_ID +
     " .gbmi-btn:disabled{opacity:.4;cursor:not-allowed}" +
+    // Loading state — keeps the button dark (no washed-out grey), spinner + a soft
+    // label pulse, not clickable. Done state — a brief green "Sent" confirmation.
+    "#" +
+    ROOT_ID +
+    " .gbmi-btn.gbmi-loading{opacity:1;cursor:progress;background:var(--btn);pointer-events:none}" +
+    "#" +
+    ROOT_ID +
+    " .gbmi-btn.gbmi-loading #gbmi-sendLabel{animation:gbmiPulse 1.1s ease-in-out infinite}" +
+    "#" +
+    ROOT_ID +
+    " .gbmi-btn.gbmi-done{background:#16a34a;color:#fff;opacity:1;cursor:default;pointer-events:none}" +
     "#" +
     ROOT_ID +
     " .gbmi-spin{width:15px;height:15px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:gbmiSpin .7s linear infinite}" +
@@ -775,7 +787,10 @@ import { LOGO_SVG } from "./shared/goads-icons.js"
     var isAdmin = $("gbmi-role").value === "ADMIN";
 
     state.busy = true;
-    $("gbmi-send").disabled = true;
+    var sendBtn = $("gbmi-send");
+    // Loading look instead of the disabled grey: stay dark, spinner + pulse.
+    sendBtn.classList.add("gbmi-loading");
+    sendBtn.setAttribute("aria-busy", "true");
     $("gbmi-cancel").disabled = true;
     $("gbmi-sendIcon").innerHTML = '<span class="gbmi-spin"></span>';
     $("gbmi-sendLabel").textContent = "Sending…";
@@ -783,12 +798,15 @@ import { LOGO_SVG } from "./shared/goads-icons.js"
 
     sendInvite(state.bmId, state.token, email, isAdmin).then(function (res) {
       state.busy = false;
+      sendBtn.classList.remove("gbmi-loading");
+      sendBtn.removeAttribute("aria-busy");
       $("gbmi-cancel").disabled = false;
-      $("gbmi-sendIcon").innerHTML = I.send;
-      $("gbmi-sendLabel").textContent = "Send Invite";
-      refreshSendBtn();
 
       if (res.success) {
+        // Brief green "Sent" confirmation, then settle back to the idle button.
+        sendBtn.classList.add("gbmi-done");
+        $("gbmi-sendIcon").innerHTML = I.check;
+        $("gbmi-sendLabel").textContent = "Sent";
         showResult(
           "ok",
           "Invite sent to <b>" +
@@ -797,7 +815,17 @@ import { LOGO_SVG } from "./shared/goads-icons.js"
             (isAdmin ? "Admin" : "Employee") +
             nextStepsHtml(classifyPending(res.data), email)
         );
+        setTimeout(function () {
+          if (!$("gbmi-send")) return; // modal may have closed
+          sendBtn.classList.remove("gbmi-done");
+          $("gbmi-sendIcon").innerHTML = I.send;
+          $("gbmi-sendLabel").textContent = "Send Invite";
+          refreshSendBtn();
+        }, 1600);
       } else {
+        $("gbmi-sendIcon").innerHTML = I.send;
+        $("gbmi-sendLabel").textContent = "Send Invite";
+        refreshSendBtn();
         showResult("error", esc(friendlyError(res.error)));
       }
     });
