@@ -72,7 +72,7 @@ export function HomeChromeExtension() {
 
         {/* .home-extension-cta — ≤767 stack full-width (Foreplay flex-flow column, items stretch) */}
         <div className="flex items-end justify-end max-md:flex-col max-md:items-stretch max-md:justify-start">
-          <CtaButton href="/tools/goads-extension" variant="hero">
+          <CtaButton href="/tools/chrome-extension" variant="hero">
             Install Free
           </CtaButton>
         </div>

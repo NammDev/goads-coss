@@ -1,6 +1,6 @@
 // Foreplay GOADS Extension — download + install page inside tool design language.
 // Spec: docs/foreplay/tool-design-language.md
-// Pattern: hero copy + Download CTA → /downloads/goads-extension.zip, then a
+// Pattern: hero copy + Download CTA → /downloads/<Brand>-Extension.zip, then a
 // "How to install" steps strip (manual / load-unpacked), then a feature grid.
 // The extension is NOT on the Chrome Web Store — it ships as a downloadable zip
 // that users load unpacked. Zip is built by extension/build-zip.sh.

@@ -24,7 +24,7 @@ export function AdsToolkitFooter() {
           <Link href="/tools/2fa" className="transition-colors hover:text-foreground">
             2FA
           </Link>
-          <Link href="/tools/goads-extension" className="transition-colors hover:text-foreground">
+          <Link href="/tools/chrome-extension" className="transition-colors hover:text-foreground">
             Extension
           </Link>
         </nav>

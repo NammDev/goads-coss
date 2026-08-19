@@ -1,4 +1,5 @@
-// GOADS BM Invite — Content Script (overlay injected into FB page)
+// BM Invite — Content Script (overlay injected into FB page). Brand-neutral by
+// design: everything customer-visible comes from the BRAND block below.
 (() => {
   // Prevent double injection
   if (document.getElementById("goads-bm-overlay")) {
@@ -64,11 +65,27 @@
     inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
   };
 
-  // Official GOADS logo (white G + panda on black) — packaged asset, resolved at
-  // runtime so it works on any injected page (declared in web_accessible_resources).
-  const LOGO_URL = chrome.runtime.getURL("goads-logo.png");
+  /* BRAND:START — swapped per white-label build by build-extension-zips.mjs.
+     Everything brand-specific in this file reads from BRAND; never hardcode the
+     name, domain or logo file again or the ToolFB build leaks GOADS. */
+  const BRAND = {
+    name: "GOADS",
+    productName: "GOADS Tools",
+    site: "goadsagency.com",
+    siteUrl: "https://goadsagency.com",
+    telegram: "https://t.me/goads_official",
+    logoFile: "goads-logo.png",
+    // GOADS-only service: the throwaway inbox lives on goadsagency.com, so a
+    // neutral build hides the two buttons instead of linking out to GOADS.
+    tempmail: { enabled: true, domain: "goadsagency.com", url: "https://goadsagency.com/tempmail" },
+  };
+  /* BRAND:END */
 
-  // Bundle Inter (the goadsagency.com site font) so the tool matches the website
+  // Brand logo — packaged asset, resolved at runtime so it works on any injected
+  // page (declared in web_accessible_resources).
+  const LOGO_URL = chrome.runtime.getURL(BRAND.logoFile);
+
+  // Bundle Inter (the site font) so the tool matches the website
   // typography instead of falling back to the host page's system font.
   const FONT_URL = chrome.runtime.getURL("inter-var.woff2");
   function injectFont() {
@@ -101,9 +118,9 @@
       <div class="goads-header">
         <div class="goads-header-title">
           <span class="goads-brand-mark">
-            <img src="${LOGO_URL}" alt="GOADS" />
+            <img src="${LOGO_URL}" alt="${BRAND.name}" />
           </span>
-          GOADS Tools
+          ${BRAND.productName}
         </div>
         <button class="goads-close" id="goads-btnClose" title="Close">${I.close}</button>
       </div>
@@ -171,8 +188,9 @@
                     <option value="ADMIN">Admin (Full access)</option>
                     <option value="EMPLOYEE">Employee (Partial access)</option>
                   </select>
-                  <button class="goads-mini-btn" id="goads-btnGenEmail" title="Generate a free GOADS email">Generate email</button>
-                  <button class="goads-mini-btn" id="goads-btnOpenMail" title="Open the GOADS Tempmail inbox"><span class="goads-bicon">${I.inbox}</span> Open inbox</button>
+                  ${BRAND.tempmail.enabled ? `
+                  <button class="goads-mini-btn" id="goads-btnGenEmail" title="Generate a free ${BRAND.name} email">Generate email</button>
+                  <button class="goads-mini-btn" id="goads-btnOpenMail" title="Open the ${BRAND.name} Tempmail inbox"><span class="goads-bicon">${I.inbox}</span> Open inbox</button>` : ""}
                 </div>
               </div>
               <textarea id="goads-email" class="goads-email-ta" placeholder="Enter one email address per line"></textarea>
@@ -248,9 +266,9 @@
 
       <!-- Footer -->
       <div class="goads-footer">
-        <span>GOADS · <a href="https://goadsagency.com" target="_blank">goadsagency.com</a></span>
+        <span>${BRAND.name} · <a href="${BRAND.siteUrl}" target="_blank">${BRAND.site}</a></span>
         <div class="goads-footer-right">
-          <a href="https://t.me/goads_official" target="_blank" class="goads-tg"><span class="goads-tg-ic">${I.telegram}</span> Support</a>
+          ${BRAND.telegram ? `<a href="${BRAND.telegram}" target="_blank" class="goads-tg"><span class="goads-tg-ic">${I.telegram}</span> Support</a>` : ""}
         </div>
       </div>
     `;
@@ -266,8 +284,11 @@
     $("goads-email").addEventListener("keydown", (e) => {
       if (e.key === "Enter" && (e.ctrlKey || e.metaKey) && !$("goads-btnInvite").disabled) handleInvite();
     });
-    $("goads-btnGenEmail").addEventListener("click", generateEmail);
-    $("goads-btnOpenMail").addEventListener("click", openMailbox);
+    // Absent on brands that ship no tempmail (the buttons aren't rendered).
+    if (BRAND.tempmail.enabled) {
+      $("goads-btnGenEmail").addEventListener("click", generateEmail);
+      $("goads-btnOpenMail").addEventListener("click", openMailbox);
+    }
 
     // Tap the Status banner to re-run the check (e.g. after opening a BM).
     $("goads-inviteStatus").addEventListener("click", () => init());
@@ -473,9 +494,10 @@
   // ── Form Actions ──
   // ══════════════════════════════════════
 
-  // GOADS tempmail — receiving domain + inbox viewer base URL.
-  const GOADS_MAIL_DOMAIN = "goadsagency.com";
-  const GOADS_TEMPMAIL_URL = "https://goadsagency.com/tempmail";
+  // Tempmail — receiving domain + inbox viewer base URL (see BRAND at the top;
+  // empty on builds where the brand ships no tempmail service).
+  const GOADS_MAIL_DOMAIN = BRAND.tempmail.domain;
+  const GOADS_TEMPMAIL_URL = BRAND.tempmail.url;
 
   // Parse the email textarea into a clean, de-duplicated list of valid emails.
   // Accepts separators: newline, comma, semicolon, or whitespace.
@@ -515,8 +537,8 @@
     updateInviteBtn();
   }
 
-  // Append a fresh random @goadsagency.com email (one per line) so customers can
-  // quickly add throwaway recipients that land in GOADS Tempmail.
+  // Append a fresh random address on the brand's tempmail domain (one per line)
+  // so customers can quickly add throwaway recipients that land in its inbox.
   function generateEmail() {
     const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
     let name = "";
@@ -530,7 +552,7 @@
     updateInviteBtn();
   }
 
-  // Open GOADS Tempmail. If a @goadsagency.com email is present, deep-link to its
+  // Open the brand tempmail viewer. If one of its addresses is present, deep-link to its
   // inbox via the #mailbox=<localpart> fragment (supported by the tempmail viewer).
   function openMailbox() {
     const goads = parseEmails($("goads-email").value).find((e) => e.toLowerCase().endsWith("@" + GOADS_MAIL_DOMAIN));

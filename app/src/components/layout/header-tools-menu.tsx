@@ -22,7 +22,7 @@ const dataProcessingItems: ToolItem[] = [
   { label: "Check Live UID", desc: "Check Facebook UIDs live/dead", href: "/tools/check-uid", icon: CopyIcon },
   { label: "Split Data Profile", desc: "Split text by delimiter", href: "/tools/split-data", icon: ScissorsIcon },
   { label: "IP Checker", desc: "Public IP & location info", href: "/tools/check-ip", icon: GlobeIcon },
-  { label: "GOADS Extension", desc: "Free Chrome extension", href: "/tools/goads-extension", icon: CookieIcon },
+  { label: "GOADS Extension", desc: "Free Chrome extension", href: "/tools/chrome-extension", icon: CookieIcon },
 ]
 
 // Row 2 — more (to be expanded later)

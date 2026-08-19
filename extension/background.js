@@ -17,7 +17,8 @@ chrome.action.onClicked.addListener(async (tab) => {
       await chrome.scripting.insertCSS({ target: { tabId: tab.id }, files: ["content.css"] });
       await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["content.js"] });
     } catch (err) {
-      console.warn("GOADS: cannot inject overlay on this page —", err.message);
+      // Brand-neutral on purpose — this file is shipped as-is in white-label builds.
+      console.warn("Extension: cannot inject overlay on this page —", err.message);
     }
   }
 });

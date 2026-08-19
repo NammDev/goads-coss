@@ -43,6 +43,19 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // The extension tool used to live at a brand-stamped path, which reads
+      // wrong on the white-label domain (toolfb.media/tools/goads-extension).
+      // Slug is neutral now; the old URL is in docs, chats and customer
+      // bookmarks, so it keeps working permanently.
+      {
+        source: "/tools/goads-extension",
+        destination: "/tools/chrome-extension",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

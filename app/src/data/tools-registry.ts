@@ -104,7 +104,7 @@ export const TOOLS: ToolItem[] = [
   {
     // Titles carry the brand name: "GOADS Extension" on GOADS, "ToolFB Extension"
     // on the neutral brand.
-    slug: "goads-extension",
+    slug: "chrome-extension",
     title: `${brand.name} Extension`,
     description: "Free Chrome extension, bypass BM invites, login by cookie",
     icon: Chrome,

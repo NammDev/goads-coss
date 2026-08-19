@@ -85,7 +85,7 @@ export default function HomePage() {
           description="Extensions, tools and services designed to solve real problems. So you can focus on scaling."
           sidebarOverline="Technology"
           sidebarTitle="Optimize Your Workflow"
-          ctaHref="/tools/goads-extension"
+          ctaHref="/tools/chrome-extension"
           learnMoreHref="/docs"
           tabs={technologyTabs}
           tabImages={[

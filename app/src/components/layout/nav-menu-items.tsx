@@ -31,7 +31,7 @@ export const TOOLS_GROUPS: NavMenuGroup[] = [
     { label: "Check Live UID", desc: "Check Facebook UIDs live/dead", href: "/tools/check-uid", icon: IconCopy },
     { label: "Split Data Profile", desc: "Split text by delimiter", href: "/tools/split-data", icon: IconScissors },
     { label: "IP Checker", desc: "Public IP & location info", href: "/tools/check-ip", icon: IconGlobe },
-    { label: "GOADS Extension", desc: "Free Chrome extension", href: "/tools/goads-extension", icon: IconCookie },
+    { label: "GOADS Extension", desc: "Free Chrome extension", href: "/tools/chrome-extension", icon: IconCookie },
   ]},
   { overline: "More", items: [
     { label: "Temp Mail", desc: "Disposable inbox, instant", href: "/tempmail", icon: IconNotepad },

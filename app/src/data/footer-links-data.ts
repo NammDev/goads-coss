@@ -49,7 +49,7 @@ export const footerLinkCategories: FooterLinkCategory[] = [
       { label: "Check Live UID", href: "/tools/check-uid" },
       { label: "Split Data Profile", href: "/tools/split-data" },
       { label: "IP Checker", href: "/tools/check-ip" },
-      { label: "GOADS Extension", href: "/tools/goads-extension" },
+      { label: "GOADS Extension", href: "/tools/chrome-extension" },
       { label: "GOADS Bookmark", href: "/tools/bookmark" },
       { label: "Temp Mail", href: "/tempmail" },
     ],

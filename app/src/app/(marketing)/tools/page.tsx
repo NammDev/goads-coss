@@ -24,7 +24,7 @@ const tools: ToolCard[] = [
     ? []
     : [{ title: "IP Checker", description: "Public IP address, geolocation, and ISP info.", href: "/tools/check-ip" }]),
   { title: `${brand.name} Bookmark`, description: "Bookmarklet scripts for Business Manager, one click.", href: "/tools/bookmark" },
-  { title: `${brand.name} Extension`, description: "Free Chrome extension for media buyers.", href: "/tools/goads-extension" },
+  { title: `${brand.name} Extension`, description: "Free Chrome extension for media buyers.", href: "/tools/chrome-extension" },
   { title: "Temp Mail", description: "Disposable inbox, instant, no signup.", href: "/tempmail" },
 ]
 
