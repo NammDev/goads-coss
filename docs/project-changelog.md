@@ -4,6 +4,50 @@
 
 ---
 
+## [2026-08-18] — Accept BM Link v2.0: login-wrapped links, a link queue, neutral admin name, Business info
+
+**1. Login-wrapped invitation links now parse.** Facebook hands invites out as
+`business/loginpage/?next=https%3A%2F%2F…%2Finvitation%2F%3Ftoken%3D…`, so the literal
+`invitation/?token=` never appears and both old regexes missed → *"Not a Business Manager invitation
+link"*. `tokenFromLink()` now decodes the URL layer by layer (up to 4 passes, stops when stable — a
+nested `l.php?u=` is double-encoded) and matches `invitation/?token=` on every layer before falling back
+to a bare `token=`. `access_token=` still doesn't match.
+
+**2. Many links, one at a time.** The single link field is now a textarea — one link per line, blank
+lines dropped, duplicate tokens dropped, unparseable lines kept as failed rows so a typo doesn't just
+vanish. The batch runs **strictly sequentially** with a 700 ms gap (FB rate-limits this mutation), one
+table row per link, Links/Accepted/Failed tiles, a progress bar, and a **Stop** button between links.
+Session is read once for the whole batch. The 3-step rail was dropped — it doesn't mean anything across
+a queue.
+
+**3. Admin name is neutral again.** The accepted account lands in the target BM as **"Hi &lt;uid&gt;"**
+(`first_name: "Hi"`, `last_name` = actor id) instead of "GOADS Agency &lt;uid&gt;" — no agency branding
+inside someone else's Business Manager.
+
+**4. Business info shortcut — on every accepted row.** Each accepted row gets a **Business info** button
+opening `business.facebook.com/latest/settings/business_info?business_id=…` in a new tab. Getting the id
+is best-effort, so it is layered rather than single-shot (the first cut rendered no button at all when
+`me/businesses` was refused, which is exactly what happened on a live session):
+
+- id straight out of the accept mutation payload, when it carries one;
+- else the business list, tried in order — `me/businesses` → `me?fields=businesses{…}` → scraping the BM
+  settings HTML (same-origin, cookies only, no token scope needed) — with the invite link's own
+  `invite_business_name` matched first and the id that wasn't in the pre-accept snapshot as the fallback;
+- and the button renders **regardless**: with no id it resolves on click (tab opened first, so popup
+  blockers don't kill it) and, failing that, lands on Facebook's business picker.
+
+The reason a lookup failed is shown in the footer and in the click toast instead of being swallowed.
+
+**Verification.** Payload rebuilt (26.5 KB). Full run driven in jsdom against a stubbed Graph: 3 links
+(1 malformed) → 2 accept mutations in order, tiles `links:3 ok:2 err:1`, business ids resolved by name
+match *and* by snapshot diff. Button re-tested across 5 session shapes — edge works / edge refused →
+`me{businesses}` / both refused → settings HTML / all refused (button opens the picker) / id straight
+from the mutation — button present and pointing at the right URL in every one. Link parsing
+unit-checked (login-wrapped, double-encoded, plain, dedupe, garbage). `tsc --noEmit` clean apart from
+the pre-existing `next.config.ts` eslint-key error.
+
+---
+
 ## [2026-08-13] — Accept BM Link: works from facebook.com + visible steps
 
 Improvements to the single-link Accept BM Link bookmarklet (v1.2). It's a taller, list-style card: one
