@@ -114,7 +114,7 @@ const STANDARD_PLANS: RentalPlan[] = [
     id: "gold",
     name: "Gold",
     description: "First campaigns on rented infrastructure.",
-    monthlyFee: 299,
+    monthlyFee: 499,
     spendFeePct: 1,
     spendCap: 15000,
     specs: [
@@ -132,7 +132,7 @@ const STANDARD_PLANS: RentalPlan[] = [
     id: "platinum",
     name: "Platinum",
     description: "Room to test more angles at once.",
-    monthlyFee: 599,
+    monthlyFee: 799,
     spendFeePct: 1,
     spendCap: 50000,
     specs: [
@@ -180,7 +180,7 @@ const HIGH_RISK_PLANS: RentalPlan[] = [
     id: "gold",
     name: "Gold",
     description: "Enter the vertical without buying a stack.",
-    monthlyFee: 349,
+    monthlyFee: 549,
     spendFeePct: 6,
     spendCap: 15000,
     specs: [
@@ -198,7 +198,7 @@ const HIGH_RISK_PLANS: RentalPlan[] = [
     id: "platinum",
     name: "Platinum",
     description: "Sustained spend with a deeper asset bench.",
-    monthlyFee: 749,
+    monthlyFee: 949,
     spendFeePct: 5,
     spendCap: 45000,
     specs: [
@@ -269,7 +269,7 @@ export function getTrack(id: RentalTrackId): RentalTrack {
  *  Doing it here rather than by reordering `plans` keeps the arrays in the
  *  client's own ascending-price order, which is what the spec tables look like
  *  and what anyone checking the numbers will expect to find. Note this makes the
- *  visible price sequence non-monotonic (e.g. $299 · $999 · $599) — deliberate,
+ *  visible price sequence non-monotonic (e.g. $499 · $999 · $799) — deliberate,
  *  not a sorting bug. */
 export function orderForDisplay(plans: RentalPlan[]): RentalPlan[] {
   const featuredIndex = plans.findIndex((p) => p.highlight)
