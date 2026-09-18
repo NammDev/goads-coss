@@ -182,12 +182,31 @@ function CartBuyButton({ feature }: { feature: ComparisonFeature }) {
   )
 }
 
+// Replaces the Buy Now button on rows flagged `outOfStock` — same pill size as
+// CartBuyButton so the action column keeps its rhythm, but muted + non-clickable.
+function OutOfStockPill() {
+  return (
+    <div
+      aria-disabled="true"
+      className="relative z-[5] flex cursor-not-allowed items-center justify-center rounded-[10px] bg-[var(--solid-25)] p-2 text-[var(--solid-400)] shadow-[inset_0_0_0_1px_var(--solid-50)]"
+    >
+      <span className="relative z-[2] px-1.5 font-sans text-base font-[550] leading-6 tracking-[-0.01125em]">
+        Out of Stock
+      </span>
+    </div>
+  )
+}
+
 // Cell value renderer — check=solid-700, dash=solid-300, text=bodyM solid-700
 // Action values: "Add to Cart" → cart button (needs row), "Contact" → link.
 function CellValue({ value, feature }: { value: string | boolean; feature?: ComparisonFeature }) {
   if (value === true) return <div className="text-[var(--solid-700)]"><CheckIcon /></div>
   if (value === false) return <div className="text-[var(--solid-300)]">—</div>
   if (typeof value === "string" && ACTION_VALUES.has(value)) {
+    // Sold-out products can't be bought or enquired via the row CTA — the drawer
+    // still opens from the name and offers Telegram contact.
+    if (feature?.outOfStock) return <OutOfStockPill />
+
     if (value === "Add to Cart" && feature) {
       return <CartBuyButton feature={feature} />
     }
@@ -225,6 +244,8 @@ export interface ComparisonFeature {
   hasCrown?: boolean
   /** Blue Meta-style verified tick shown next to the row name (verification products) */
   hasVerifiedBadge?: boolean
+  /** Temporarily sold out — replaces the Buy Now CTA (row + drawer) with a muted badge */
+  outOfStock?: boolean
   /** Instagram brand glyph shown left of the row name (Instagram products) */
   hasInstagramBadge?: boolean
   /** Info tooltip text — shown on hover of ⓘ icon */

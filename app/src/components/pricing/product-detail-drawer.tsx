@@ -184,7 +184,7 @@ export function ProductDetailDrawer({ feature, categoryName, onClose }: ProductD
               )}
 
               {/* Optional paid add-on (checkbox card) — only for purchasable items */}
-              {detail.addon && price !== null && (
+              {detail.addon && price !== null && !feature?.outOfStock && (
                 <button
                   type="button"
                   onClick={() => setAddOn((v) => !v)}
@@ -220,7 +220,20 @@ export function ProductDetailDrawer({ feature, categoryName, onClose }: ProductD
 
               {/* CTA pinned to the bottom */}
               <div className={cn("flex flex-col gap-3 border-t border-[#ffffff1a] pt-5", !detail.addon && "mt-auto")}>
-                {price !== null ? (
+                {feature?.outOfStock ? (
+                  // Sold out — no cart action; Telegram is the only path (restock ETA).
+                  <>
+                    <div
+                      aria-disabled="true"
+                      className={cn(siteText.headingM, "flex cursor-not-allowed items-center justify-center rounded-[10px] bg-[#ffffff14] p-2 text-[var(--alpha-100)]")}
+                    >
+                      Out of Stock
+                    </div>
+                    <CtaButton variant="hero" href={contactHref} className="justify-center">
+                      Contact on Telegram
+                    </CtaButton>
+                  </>
+                ) : price !== null ? (
                   <CtaButton variant="hero" onClick={handleBuy} className="justify-center">
                     Add to cart, ${total}
                   </CtaButton>

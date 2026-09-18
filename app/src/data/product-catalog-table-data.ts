@@ -26,9 +26,9 @@ export const catalogCategories: ComparisonCategory[] = [
     name: "Business Manager",
     icon: "/assets/BM.webp",
     features: [
-      { name: "BM1 Verified", basic: "$80", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "BM3 Verified", basic: "$180", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "BM5 Verified ($250 DSL)", basic: "$340", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "BM1 Verified", basic: "$80", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", outOfStock: true },
+      { name: "BM3 Verified", basic: "$180", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", outOfStock: true },
+      { name: "BM5 Verified ($250 DSL)", basic: "$340", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", outOfStock: true },
       { name: "BM5 Verified (Unlimited DSL)", basic: "$390", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM3 WABA 250 limit (WhatsApp API)", basic: "$150", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM10 Verified (Unlimited DSL)", basic: "$999", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
