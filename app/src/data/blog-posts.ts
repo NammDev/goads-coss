@@ -32,14 +32,14 @@ export type BlogPost = {
   }[]
 }
 
-const namNguyen: BlogAuthor = {
-  name: "Nam Nguyen",
+const mason: BlogAuthor = {
+  name: "Mason N.",
   avatar: "/avatars/goads-team.png",
   title: "Founder",
 }
 
-const justinBui: BlogAuthor = {
-  name: "Justin Bui",
+const justinB: BlogAuthor = {
+  name: "Justin B.",
   avatar: "/avatars/goads-team.png",
   title: "Co-Founder",
 }
@@ -332,7 +332,7 @@ export const blogPosts: BlogPost[] = [
     title: "How Much Can You Scale Ad Budget?",
     description:
       "The 10 to 20 percent rule is a safe default, not the whole story. Here are the three signals that tell you when a campaign can take aggressive scaling, and when adding budget only amplifies your problems.",
-    author: namNguyen,
+    author: mason,
     date: "June 6, 2026",
     readTime: "7 min read",
     coverImage: "/assets/blog/how-much-scale-budget-cover.webp",
