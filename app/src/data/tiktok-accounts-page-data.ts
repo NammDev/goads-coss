@@ -73,7 +73,7 @@ export const tiktokFaq = {
   title: "Questions about TikTok Assets?",
   description: "Most frequent questions about buying, using and scaling TikTok Channels, Shops and Business Centers.",
   items: [
-    { question: "What TikTok assets do you sell?", answer: "Fresh TikTok Channels, Ads Business Accounts, TikTok Shop Info (USA), Affiliate accounts with follower counts, and fully Jumio-verified TikTok Shops USA." },
+    { question: "What TikTok assets do you sell?", answer: "Fresh TikTok Channels, Ads Business Accounts, TikTok Shop Info (USA), Affiliate accounts with follower counts, fully Jumio-verified TikTok Shops USA, and BC30 Verified Business Centers carrying around 30 ad accounts already warmed up for the USA market." },
     { question: "What does Jumio-verified mean?", answer: "Jumio is TikTok's KYC partner. A Jumio-verified Shop has completed full identity + business verification, so you skip the weeks-long approval loop and start listing products immediately." },
     { question: "Can I run ads right after delivery?", answer: "Yes. Our TikTok Ads Business Accounts ship with a pixel slot, clean policy history and a light warmup already done. Add your creative and launch." },
     { question: "How long do TikTok accounts last?", answer: "With a proper warmup and clean creative, most clients run the same channel or shop for 3–6 months. Suspensions come from policy hits, not the account itself." },

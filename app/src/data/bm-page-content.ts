@@ -52,7 +52,7 @@ export const bmFeatureGrid1Testimonial = {
 export const bmFeatureGrid2 = {
   cards: [
     { imageSrc: "/assets/bm/Group%20996.webp", title: "BM1 vs BM3 vs BM5: Which Do You Need?", description: "Match the ad account count to your spend. A clear breakdown of who buys which tier." },
-    { imageSrc: "/assets/bm/Group%20997.webp", title: "Unlimited DSL vs $250 DSL: Real-World Cost", description: "Break-even math for scaling campaigns. When the premium tier actually pays off." },
+    { imageSrc: "/assets/bm/Group%20997.webp", title: "Unlimited DSL: Real-World Cost", description: "Break-even math for scaling campaigns. Why no spend cap pays for itself." },
     { imageSrc: "/assets/bm/Group%20998.webp", title: "Why Verified BMs Survive 10× Longer", description: "The trust-score mechanics behind Meta's verification and why it matters for disables." },
     { imageSrc: "/assets/bm/Group%201000.webp", title: "How to Add Ad Accounts to a Verified BM", description: "Step-by-step workflow to add, share and assign accounts without tripping policy flags." },
     { imageSrc: "/assets/bm/Group%201002.webp", title: "BM10, BM50, BM100: Enterprise Scaling Guide", description: "When to graduate from BM5 to multi-account enterprise structures. Agency playbook." },
@@ -77,7 +77,7 @@ export const bmFaq = {
   items: [
     { question: "What is a verified Business Manager?", answer: "A BM that has passed Meta's Business Verification flow (legal entity + domain + documents). Verified status unlocks higher ad account caps, WhatsApp API access and better trust with Meta's review system." },
     { question: "Which BM tier should I buy?", answer: "BM1 for solo buyers or testing. BM3 for small teams running 2–3 campaigns in parallel. BM5 for scaling agencies. BM10+ for enterprise operations with multiple clients or geographies." },
-    { question: "What does DSL mean and which limit do I need?", answer: "DSL = Daily Spend Limit per ad account. $250 DSL is fine for most direct-response campaigns. Choose Unlimited DSL if you plan to scale a single account past $250/day or run high-CPM brand campaigns." },
+    { question: "What does DSL mean and which limit do I need?", answer: "DSL = Daily Spend Limit per ad account. Our BM5 and BM10 Verified ship with Unlimited DSL, so there is no daily cap to work around, whether you run direct-response or high-CPM brand campaigns." },
     { question: "How long does a verified BM last?", answer: "With clean creatives and a proper warmup, most clients run the same verified BM for 6+ months. Disables mostly come from policy violations, not from the BM itself." },
     { question: "What happens if my BM gets disabled?", answer: "Within the 7-day warranty, we replace it at no charge, instantly. After the warranty, we offer a same-day unban service or a discounted replacement." },
     { question: "Can I add my own ad accounts to a purchased BM?", answer: "Yes. Every verified BM ships with the full admin access you need to create or link ad accounts, share assets, and assign team roles." },

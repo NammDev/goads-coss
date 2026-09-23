@@ -36,8 +36,10 @@ interface SetupConfiguratorDialogProps {
   basePrice: number
   /** how many upgradable units the setup includes */
   count: number
-  /** the upgrade offer (base asset, upgraded asset, upcharge, comparison) */
-  offer: UpgradeOffer
+  /** the upgrade offer (base asset, upgraded asset, upcharge, comparison).
+   *  Omitted when the setup already ships the top tier — the dialog then only
+   *  offers the original-profile add-on. */
+  offer?: UpgradeOffer
   /** total à la carte price of the base config (for the savings comparison) */
   retailPrice: number
   onConfirm: (result: SetupConfiguratorResult) => void
@@ -100,8 +102,8 @@ export function SetupConfiguratorDialog({
   const [option, setOption] = useState<UpgradeOptionKey>("base")
   const [addOn, setAddOn] = useState(false)
 
-  const upcharge = count * offer.unitUpcharge
-  const isUpgrade = option === "upgraded"
+  const upcharge = count * (offer?.unitUpcharge ?? 0)
+  const isUpgrade = !!offer && option === "upgraded"
   // Original-profile backup add-on: one per included BM unit.
   const addonTotal = count * ORIGINAL_PROFILE_ADDON.unitPrice
   const total = basePrice + (isUpgrade ? upcharge : 0) + (addOn ? addonTotal : 0)
@@ -111,16 +113,16 @@ export function SetupConfiguratorDialog({
   // the upgrade + add-on choices.
   const alaCarte =
     retailPrice +
-    (isUpgrade ? count * (offer.upgradedUnitRetail - offer.baseUnitRetail) : 0) +
+    (isUpgrade && offer ? count * (offer.upgradedUnitRetail - offer.baseUnitRetail) : 0) +
     (addOn ? count * ORIGINAL_PROFILE_ADDON.unitRetail : 0)
   const savings = alaCarte - total
   // Multi-unit setups (e.g. Elite, 2 BM5) upgrade ALL units together.
-  const upchargeNote = count > 1 ? ` (${count}× ${offer.base.name}, $${offer.unitUpcharge} each)` : ""
+  const upchargeNote = offer && count > 1 ? ` (${count}× ${offer.base.name}, $${offer.unitUpcharge} each)` : ""
 
   const reset = () => { setOption("base"); setAddOn(false) }
 
   const handleConfirm = () => {
-    const tags = [isUpgrade ? offer.cartTag : null, addOn ? "Original profile" : null].filter(Boolean)
+    const tags = [isUpgrade && offer ? offer.cartTag : null, addOn ? "Original profile" : null].filter(Boolean)
     onConfirm({
       option,
       totalPrice: total,
@@ -159,44 +161,49 @@ export function SetupConfiguratorDialog({
               Configure your {planName}
             </DialogPrimitive.Title>
             <DialogPrimitive.Description className={cn(siteText.bodyS, "text-[var(--alpha-100)]")}>
-              Upgrade your {offer.base.name} to {offer.upgraded.name} for a stronger, more scalable setup.
+              {offer
+                ? `Upgrade your ${offer.base.name} to ${offer.upgraded.name} for a stronger, more scalable setup.`
+                : "Add the original-profile backup to keep control of your Business Manager, whatever happens."}
             </DialogPrimitive.Description>
           </div>
 
-          {/* Option cards */}
-          <div className="flex gap-3 max-sm:flex-col">
-            <OptionCard
-              active={option === "base"}
-              name={offer.base.name}
-              tagline={offer.base.tagline}
-              priceLabel="Included"
-              onSelect={() => setOption("base")}
-            />
-            <OptionCard
-              active={option === "upgraded"}
-              name={offer.upgraded.name}
-              tagline={offer.upgraded.tagline}
-              priceLabel={`+$${upcharge}`}
-              onSelect={() => setOption("upgraded")}
-            />
-          </div>
+          {/* Option cards + comparison — only when there is something to upgrade. */}
+          {offer && (
+            <>
+              <div className="flex gap-3 max-sm:flex-col">
+                <OptionCard
+                  active={option === "base"}
+                  name={offer.base.name}
+                  tagline={offer.base.tagline}
+                  priceLabel="Included"
+                  onSelect={() => setOption("base")}
+                />
+                <OptionCard
+                  active={option === "upgraded"}
+                  name={offer.upgraded.name}
+                  tagline={offer.upgraded.tagline}
+                  priceLabel={`+$${upcharge}`}
+                  onSelect={() => setOption("upgraded")}
+                />
+              </div>
 
-          {/* Comparison */}
-          <div className="flex flex-col gap-2">
-            <div className={cn(siteText.overline, "text-[var(--alpha-100)]")}>
-              What&rsquo;s the difference?
-            </div>
-            <UpgradeComparisonTable
-              rows={offer.comparison}
-              baseName={offer.base.name}
-              upgradedName={offer.upgraded.name}
-            />
-            {count > 1 && (
-              <p className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>
-                This setup includes {count} {offer.base.name}, upgrading applies to all of them{upchargeNote}.
-              </p>
-            )}
-          </div>
+              <div className="flex flex-col gap-2">
+                <div className={cn(siteText.overline, "text-[var(--alpha-100)]")}>
+                  What&rsquo;s the difference?
+                </div>
+                <UpgradeComparisonTable
+                  rows={offer.comparison}
+                  baseName={offer.base.name}
+                  upgradedName={offer.upgraded.name}
+                />
+                {count > 1 && (
+                  <p className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>
+                    This setup includes {count} {offer.base.name}, upgrading applies to all of them{upchargeNote}.
+                  </p>
+                )}
+              </div>
+            </>
+          )}
 
           {/* Optional Original-profile backup add-on (checkbox card) */}
           <button

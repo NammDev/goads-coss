@@ -137,7 +137,7 @@ const STANDARD_PLANS: RentalPlan[] = [
     spendCap: 50000,
     specs: [
       OWN_CARD_SPEC,
-      // Ships BM5 Verified ($250 DSL)
+      // Ships BM5 Verified (Unlimited DSL)
       { label: "Business Manager", value: "Verified, higher daily spend" },
       AD_ACCOUNT_SPEC,
       { label: "Profiles", value: "3" },

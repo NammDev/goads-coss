@@ -3,14 +3,14 @@
 // features rendered with leading checkmarks (no brand icons)
 
 import type { PricingCardData } from "@/components/pricing/card"
-import { bm5UnlimitedOffer, bm3ToBm5UnlimitedOffer } from "@/data/bm5-upgrade-data"
+import { bm3ToBm5UnlimitedOffer } from "@/data/bm5-upgrade-data"
 
 // ── FAQ items — GOADS-specific (warranty / delivery / payment / refunds) ──
 export const goadsPricingFaqItems = [
   {
     question: "What is your warranty policy?",
     answer:
-      "Profiles come with a 14-day unlimited warranty. Business Managers (BMs) include a 7-day warranty. Ad Accounts are covered under warranty until you begin spending. Policies may be updated, always confirm the exact warranty terms with our support team at the time of purchase.",
+      "Profiles come with a 14-day unlimited warranty. Business Managers (BMs) include a 7-day warranty. Ad Accounts are covered under warranty until they have spent $1,000. Policies may be updated, always confirm the exact warranty terms with our support team at the time of purchase.",
   },
   {
     question: "How long does delivery take?",
@@ -85,15 +85,16 @@ export const goadsSetupCards: PricingCardData[] = [
   {
     planName: "Premium Setup",
     description: "Bulletproof setup for serious advertisers scaling campaigns.",
-    price: "$650",
+    price: "$710",
     ctaLabel: "Scale Now",
     ctaHref: "/book-demo",
     ctaVariant: "primary",
-    // Includes 1x BM5 Verified $250 → offer Unlimited upgrade at checkout.
-    // À la carte: BM5 $340 + BM3 $180 + 4x profile $50 + 3x page $35 = $825 (setup $650, save $175).
-    upgrade: { offer: bm5UnlimitedOffer, count: 1, retailPrice: 825 },
+    // Ships BM5 Verified Unlimited outright (no $250 DSL tier any more), so there
+    // is no BM upgrade to offer — the configurator only carries the add-on.
+    // À la carte: BM5 $390 + BM3 $180 + 4x profile $50 + 3x page $35 = $875 (setup $710, save $165).
+    upgrade: { count: 1, retailPrice: 875 },
     features: [
-      { iconSrc: "/assets/BM.webp", label: "1x BM5 Verified: $250 spending limit", available: true },
+      { iconSrc: "/assets/BM.webp", label: "1x BM5 Verified: Unlimited spending limit", available: true },
       { iconSrc: "/assets/BM.webp", label: "1x BM3 Verified: Business Manager with 3 ad account slots", available: true },
       { iconSrc: "/assets/PROFILES.webp", label: "4x Premium Profiles: High-trust profiles ready for advertising", available: true },
       { iconSrc: "/assets/PAGES.webp", label: "3x Aged Reinstated Pages: Established pages for campaign stability", available: true },
@@ -107,7 +108,7 @@ export const goadsSetupCards: PricingCardData[] = [
       pods: [
         {
           label: "Pixel Bank",
-          bm: { iconSrc: "/assets/BM.webp", name: "BM5 Verified", sub: "$250 spend limit" },
+          bm: { iconSrc: "/assets/BM.webp", name: "BM5 Verified", sub: "Unlimited DSL" },
           profiles: 2,
           pages: 0,
           caption: "Creates & warms your pixel",
@@ -131,15 +132,15 @@ export const goadsSetupCards: PricingCardData[] = [
   {
     planName: "Elite Setup",
     description: "Bulletproof setup for agencies and high-volume advertisers.",
-    price: "$890",
+    price: "$1010",
     ctaLabel: "Go Elite",
     ctaHref: "/book-demo",
     ctaVariant: "secondary",
-    // Includes 2x BM5 Verified $250 → offer Unlimited upgrade (both) at checkout.
-    // À la carte: 2x BM5 $340 + 6x profile $50 + 3x page $35 + 1x 10K page $110 = $1195 (setup $890, save $305).
-    upgrade: { offer: bm5UnlimitedOffer, count: 2, retailPrice: 1195 },
+    // Ships 2x BM5 Verified Unlimited outright — no BM upgrade to offer.
+    // À la carte: 2x BM5 $390 + 6x profile $50 + 3x page $35 + 1x 10K page $110 = $1295 (setup $1010, save $285).
+    upgrade: { count: 2, retailPrice: 1295 },
     features: [
-      { iconSrc: "/assets/BM.webp", label: "2x BM5 Verified: $250 spending limit each", available: true },
+      { iconSrc: "/assets/BM.webp", label: "2x BM5 Verified: Unlimited spending limit each", available: true },
       { iconSrc: "/assets/PROFILES.webp", label: "6x Premium Profiles: High-trust profiles ready for advertising", available: true },
       { iconSrc: "/assets/PAGES.webp", label: "3x Aged Reinstated Pages: Established pages for campaign stability", available: true },
       { iconSrc: "/assets/PAGES.webp", label: "1x 10,000 Followers Page: Aged reinstated page with established audience", available: true },
@@ -153,14 +154,14 @@ export const goadsSetupCards: PricingCardData[] = [
       pods: [
         {
           label: "Pixel Bank",
-          bm: { iconSrc: "/assets/BM.webp", name: "BM5 Verified", sub: "$250 spend limit" },
+          bm: { iconSrc: "/assets/BM.webp", name: "BM5 Verified", sub: "Unlimited DSL" },
           profiles: 3,
           pages: 0,
           caption: "Creates & warms your pixel",
         },
         {
           label: "Scaling",
-          bm: { iconSrc: "/assets/BM.webp", name: "BM5 Verified", sub: "$250 spend limit" },
+          bm: { iconSrc: "/assets/BM.webp", name: "BM5 Verified", sub: "Unlimited DSL" },
           profiles: 3,
           pages: 4,
           caption: "Runs & scales your ads",

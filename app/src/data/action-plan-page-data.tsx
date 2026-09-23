@@ -6,7 +6,7 @@ import type { ReactNode } from "react"
 import { CONTACT } from "@/data/contact-info"
 
 export const actionPlanFounder = {
-  name: "Justin B.",
+  name: "Justin",
   role: "Founder & CEO @ GOADS",
   avatarSrc: "/avatars/goads-team.png",
   avatarAlt: "GOADS team",

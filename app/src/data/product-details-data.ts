@@ -28,78 +28,46 @@ const WARRANTY_BM = "7 days (BM only, native ad accounts not covered)"
 
 export const productDetails: Record<string, ProductDetail> = {
   // ── Facebook Profiles ──
-  "Premium Asia Reinstated Profile": {
+  "Premium Profile (Farmed, Clean History)": {
     description:
-      "A cleanly nurtured Facebook profile grown with GOADS' proprietary warm-up method. Created and aged on Asia based residential IPs for a natural regional footprint, then reinstated after passing Meta review, so it arrives ready to advertise.",
+      "A farm-raised Facebook profile grown in-house with GOADS' clean warm-up method — never bought off a bulk market. It is aged on mixed residential IPs from several countries, so it carries a natural history and stays flexible enough to run across different ad environments and regions.",
     specs: [
-      { label: "IP region", value: "Asia (residential)" },
+      { label: "Source", value: "GOADS farm (self-nurtured)" },
+      { label: "IP profile", value: "Mixed residential, multi-country" },
       { label: "Age", value: "1 to 4 years" },
-      { label: "Status", value: "Successfully reinstated" },
       { label: "Warm-up", value: "GOADS clean method" },
       { label: "Warranty", value: WARRANTY_PROFILE },
     ],
     highlights: [
       "Real history and activity, not a freshly created account",
       "Lower checkpoint and ban risk when paired with a matching proxy",
-      "Great starter profile for Asia and global campaigns",
-    ],
-  },
-  "Premium USA Reinstated Profile": {
-    description:
-      "A cleanly nurtured Facebook profile built with GOADS' special warm-up method and reinstated after passing Meta review. It carries a US trust footprint that US ad accounts respond best to. Just as important, it has been warmed across mixed residential IPs from multiple countries, which makes it noticeably stronger and flexible enough to run in different environments and regions, not just the US.",
-    specs: [
-      { label: "IP profile", value: "US + mixed multi-country" },
-      { label: "Age", value: "1 to 4 years" },
-      { label: "Status", value: "Successfully reinstated" },
-      { label: "Warm-up", value: "GOADS clean method" },
-      { label: "Warranty", value: WARRANTY_PROFILE },
-    ],
-    highlights: [
-      "Warmed on mixed IPs from several countries, so it stays strong and works across different ad environments",
-      "US footprint favored by US and Tier-1 ad accounts",
       "Clean history, ready to run right after login",
     ],
   },
-  "Asia Super Aged Double Reinstated (7+ Years)": {
+  "Premium Super Aged Profile (Farmed, Clean History)": {
     description:
-      "A premium, super aged Asia profile with 7 to 15 years of history that has survived two full Meta review cycles (double reinstated). This is one of our highest-trust assets, built to hold up under aggressive scaling.",
+      "Our flagship profile: farm-raised in-house with 7 to 15 years of history behind it. Same clean warm-up method as the Premium Profile, but the extra years of real activity make it our highest-trust asset, built to hold up under aggressive scaling.",
     specs: [
-      { label: "IP region", value: "Asia (residential)" },
+      { label: "Source", value: "GOADS farm (self-nurtured)" },
+      { label: "IP profile", value: "Mixed residential, multi-country" },
       { label: "Age", value: "7 to 15 years" },
-      { label: "Status", value: "Successfully reinstated twice" },
-      { label: "Trust", value: "Very high" },
-      { label: "Warranty", value: WARRANTY_PROFILE_30 },
-    ],
-    highlights: [
-      "Two survived review cycles = maximum resilience",
-      "Handles higher spend and faster warm-up",
-      "Ideal for advertisers who lose accounts too often",
-    ],
-  },
-  "USA Super Aged Double Reinstated (7+ Years)": {
-    description:
-      "Our flagship profile: a USA super aged account with 7 to 15 years of history, double reinstated through two Meta review cycles. It has been warmed across mixed residential IPs from multiple countries, so on top of maximum trust it stays strong and flexible enough to run in different environments and regions.",
-    specs: [
-      { label: "IP profile", value: "US + mixed multi-country" },
-      { label: "Age", value: "7 to 15 years" },
-      { label: "Status", value: "Successfully reinstated twice" },
       { label: "Trust", value: "Highest (flagship)" },
       { label: "Warranty", value: WARRANTY_PROFILE_30 },
     ],
     highlights: [
       "The strongest, most stable profile GOADS offers",
-      "Warmed on mixed IPs from several countries, usable across different ad environments",
-      "Only with GOADS",
+      "Handles higher spend and faster warm-up",
+      "Ideal for advertisers who lose accounts too often",
     ],
   },
-  "Instagram Account (Real Followers)": {
+  "Instagram Profile (Farmed, Clean History)": {
     description:
-      "An aged Instagram account with genuine, organically grown followers. Useful for social proof, linking to Business Managers, and running Instagram placements with a credible presence.",
+      "A farm-raised Instagram profile nurtured with the same clean method as our Facebook profiles. Useful for social proof, linking to Business Managers, and running Instagram placements with a credible presence.",
     specs: [
-      { label: "Followers", value: "Real, organic" },
+      { label: "Source", value: "GOADS farm (self-nurtured)" },
       { label: "Status", value: "Aged, active" },
       { label: "Use", value: "IG ads, social proof" },
-      { label: "Availability", value: "Contact for stock" },
+      { label: "Warranty", value: WARRANTY_PROFILE },
     ],
   },
 
@@ -130,25 +98,6 @@ export const productDetails: Record<string, ProductDetail> = {
       { label: "Pixel sharing", value: "Not supported" },
       { label: "Warranty", value: WARRANTY_BM },
     ],
-  },
-  "BM5 Verified ($250 DSL)": {
-    description:
-      "A verified Business Manager with 5 ad account slots and a $250 initial daily spend limit. It comes with real spending history, is very strong and stable for long-term use, and supports pixel sharing.",
-    specs: [
-      { label: "Ad account slots", value: "5" },
-      { label: "Spend limit", value: "$250 initial cap" },
-      { label: "Verification", value: "Verified" },
-      { label: "Spending history", value: "Yes" },
-      { label: "Stability", value: "Very strong, long-term" },
-      { label: "Pixel sharing", value: "Supported" },
-      { label: "Warranty", value: WARRANTY_BM },
-    ],
-    highlights: ["Upgradeable to Unlimited DSL for heavier spend"],
-    addon: {
-      label: "Original profile (the profile that created the BM)",
-      price: 50,
-      benefit: "A safety backup. If Meta's algorithm rolls back the BM and kicks every admin, the original profile's admin still remains, so you keep control of the BM.",
-    },
   },
   "BM5 Verified (Unlimited DSL)": {
     description:
@@ -216,7 +165,7 @@ export const productDetails: Record<string, ProductDetail> = {
       { label: "Spend limit", value: "No cap (unlimited)" },
       { label: "Managed by", value: "Agency BM" },
       { label: "Stability", value: "High, built to scale" },
-      { label: "Warranty", value: "Covered until spend starts" },
+      { label: "Warranty", value: "Covered until $1,000 spend" },
     ],
     highlights: [
       "No sudden limits when you push budget",
@@ -334,6 +283,23 @@ export const productDetails: Record<string, ProductDetail> = {
       { label: "Price", value: "$600" },
       { label: "Meta monthly fee", value: "$8 to $10 (paid to Meta)" },
       { label: "Turnaround", value: "Case-dependent" },
+    ],
+  },
+  // ── TikTok Assets ──
+  "TikTok BC30 Verified (30 Warmed-Up Ad Accounts)": {
+    description:
+      "A verified TikTok Business Center holding around 30 ad accounts that are already warmed up for the USA market. No cold-start penalty and no waiting on approvals, you log in and launch straight away.",
+    specs: [
+      { label: "Type", value: "TikTok Business Center" },
+      { label: "Ad accounts", value: "~30, warmed up" },
+      { label: "Market", value: "USA" },
+      { label: "Verification", value: "Verified" },
+      { label: "Status", value: "Ready to use" },
+    ],
+    highlights: [
+      "Skip the warm-up phase, the accounts are already seasoned for US traffic",
+      "Run and rotate many accounts in parallel to isolate risk",
+      "Ideal for media buyers scaling TikTok hard",
     ],
   },
   "Verification Badge (TikTok)": {

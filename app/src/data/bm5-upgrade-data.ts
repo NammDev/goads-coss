@@ -45,25 +45,9 @@ export const ORIGINAL_PROFILE_ADDON = {
     "A safety backup. If Meta's algorithm rolls back the BM and kicks every admin, the original profile's admin still remains, so you keep control of the BM.",
 }
 
-// BM5 Verified $250 → BM5 Verified Unlimited (+$60 per BM5). Premium & Elite.
-export const bm5UnlimitedOffer: UpgradeOffer = {
-  unitUpcharge: 60,
-  baseUnitRetail: 340, // BM5 Verified $250 DSL
-  upgradedUnitRetail: 390, // BM5 Verified Unlimited DSL
-  base: { name: "BM5 Verified $250", tagline: "$250 spending limit" },
-  upgraded: { name: "BM5 Verified Unlimited", tagline: "No spending limit" },
-  cartTag: "BM5 Unlimited",
-  comparison: [
-    { feature: "Verification", base: "Verified (blue)", upgraded: "Verified (blue)" },
-    { feature: "Ad account slots", base: "5 slots", upgraded: "5 slots" },
-    { feature: "Spending limit", base: "$250 initial cap", upgraded: "No spend cap", upgradedWins: true },
-    { feature: "Stability", base: "Standard stability", upgraded: "Stronger & more stable", upgradedWins: true },
-    { feature: "Scaling", base: "Raise limit gradually", upgraded: "Run large budgets right away", upgradedWins: true },
-    { feature: "Best for", base: "Getting started, testing", upgraded: "Agencies scaling hard", upgradedWins: true },
-  ],
-}
-
 // BM3 Verified → BM5 Verified Unlimited (+$200). Advanced Setup.
+// (The former BM5 $250 DSL → Unlimited offer is gone: the $250 DSL tier was
+//  retired, so Premium & Elite ship BM5 Unlimited outright.)
 export const bm3ToBm5UnlimitedOffer: UpgradeOffer = {
   unitUpcharge: 200,
   baseUnitRetail: 180, // BM3 Verified

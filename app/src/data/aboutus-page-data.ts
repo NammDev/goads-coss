@@ -30,7 +30,7 @@ export const aboutusTestimonials = [
     logoHref: "#",
     quote:
       "We founded GOADS with a simple vision: to create a more reliable and professional advertising ecosystem for businesses that depend on digital growth. Our mission is not just to provide infrastructure, but to deliver long-term stability, responsive support, and solutions that help our clients scale with confidence in an increasingly complex advertising landscape.",
-    authorName: "Justin B.",
+    authorName: "Justin",
     authorRole: "Founder & CEO",
     authorImageSrc: "/avatars/goads-team.png",
     bgImageSrc: "",
@@ -45,7 +45,7 @@ export const aboutusTestimonials = [
     logoHref: "#",
     quote:
       "Behind GOADS is a technology-first mindset focused on solving real operational challenges. We continuously improve our infrastructure, internal systems, and processes to help clients run advertising operations more securely, efficiently, and sustainably.",
-    authorName: "Mason N.",
+    authorName: "Mason",
     authorRole: "Founder & CTO",
     authorImageSrc: "/avatars/goads-team.png",
     bgImageSrc: "",

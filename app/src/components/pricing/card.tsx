@@ -102,11 +102,12 @@ export interface PricingCardData {
   usersIncluded?: string
   additionalUserCost?: string
   features: PricingFeature[]
-  /** When set, the CTA opens the upgrade configurator instead of adding straight
-   *  to cart. `count` = how many upgradable units this setup includes; `offer`
-   *  describes the base→upgraded swap (labels, upcharge, comparison).
+  /** When set, the CTA opens the setup configurator instead of adding straight
+   *  to cart. `count` = how many BM units this setup includes; `offer` describes
+   *  the optional base→upgraded swap (labels, upcharge, comparison) and is
+   *  omitted when the setup already ships the top tier.
    *  `retailPrice` = total à la carte price of the base config (for savings). */
-  upgrade?: { offer: UpgradeOffer; count: number; retailPrice: number }
+  upgrade?: { offer?: UpgradeOffer; count: number; retailPrice: number }
   /** When set, a "See how it connects" button opens a popup showing how this
    *  setup's assets link together (BM hubs + linked profiles/pages). */
   topology?: SetupTopology
@@ -141,7 +142,7 @@ export function PricingCard({
   // like a normal product. Non-numeric prices (e.g. "Contact") fall back to the link.
   const priceNum = data ? Number(String(data.price).replace(/[^0-9.]/g, "")) : NaN
   const canBuy = Number.isFinite(priceNum) && priceNum > 0
-  // Setups with a BM5 upgrade open the configurator first (pick $250 vs Unlimited).
+  // Setups with a configurator open it first (BM upgrade choice and/or add-ons).
   const hasUpgrade = canBuy && !!data?.upgrade
 
   const handleAddToCart = useCallback(() => {
@@ -345,7 +346,7 @@ export function PricingCard({
 
       </div>
 
-      {/* BM5 upgrade configurator — mounted only for setups that include BM5 ($250). */}
+      {/* Setup configurator — mounted for setups with an upgrade choice or add-on. */}
       {hasUpgrade && data && (
         <SetupConfiguratorDialog
           open={configOpen}

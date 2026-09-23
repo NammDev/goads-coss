@@ -33,13 +33,13 @@ export type BlogPost = {
 }
 
 const mason: BlogAuthor = {
-  name: "Mason N.",
+  name: "Mason",
   avatar: "/avatars/goads-team.png",
   title: "Founder",
 }
 
 const justinB: BlogAuthor = {
-  name: "Justin B.",
+  name: "Justin",
   avatar: "/avatars/goads-team.png",
   title: "Co-Founder",
 }
@@ -896,7 +896,7 @@ export const blogPosts: BlogPost[] = [
     {
       id: "what-is-bm5",
       title: "BM5 Verified: The Serious Operator's Choice",
-      content: `<p>The BM5 is where the conversation changes. GOADS offers BM5 Verified in two forms: a 250 dollar Daily Spend Limit version priced at 340 dollars, and a BM5 Verified Unlimited DSL version at 390 dollars. Both are built for advertisers who intend to spend real money and stay live for the long term.</p>
+      content: `<p>The BM5 is where the conversation changes. GOADS offers BM5 Verified in a single form: BM5 Verified Unlimited DSL at 390 dollars, with no daily spend cap. It is built for advertisers who intend to spend real money and stay live for the long term.</p>
 <ul>
 <li><strong>Real spend history.</strong> Unlike BM1 and BM3, a BM5 Verified carries genuine spend history. Meta sees an established pattern of responsible activity, which translates into far greater trust.</li>
 <li><strong>Very strong and long-term stable.</strong> These assets are built to endure. They tolerate scaling pressure and reviews much better than lower tiers.</li>
@@ -1844,10 +1844,10 @@ export const blogPosts: BlogPost[] = [
 <li><strong>Lead generation operators.</strong> Predictable, uncapped spend supports predictable pipeline math.</li>
 </ul>
 <p>If your funnel is not yet converting, more spend will only amplify the leak. Read our take on <a href="/blog/stop-scaling-broken-funnels">why you should stop scaling broken funnels</a> before you increase budget on any account.</p>` },
-    { id: "warranty-and-stability", title: "Understanding Warranty and Account Stability", content: `<p>A common and fair question is what happens if something goes wrong. The GOADS Agency Ad Account comes with warranty coverage until spend starts. That coverage window protects you during setup and handover, the period where issues are most likely to surface. Once you begin spending, the account is live and operating under your control and your compliance decisions.</p>
+    { id: "warranty-and-stability", title: "Understanding Warranty and Account Stability", content: `<p>A common and fair question is what happens if something goes wrong. The GOADS Agency Ad Account comes with warranty coverage until the account has spent $1,000. That coverage window protects you through setup, handover and your first real campaigns, the period where issues are most likely to surface. Past $1,000 in spend, the account is proven live and operating under your control and your compliance decisions.</p>
 <p>This structure sets clear expectations. The warranty is there to guarantee you receive a working, ready account, and from there the durability of the account depends heavily on how you run it. Compliant creative, honest landing pages, and reasonable scaling behavior keep any account healthier for longer.</p>
 <ul>
-<li><strong>Coverage until spend.</strong> Protection through the sensitive setup and handover stage.</li>
+<li><strong>Coverage until $1,000 of spend.</strong> Protection through the sensitive setup, handover and first-campaign stage.</li>
 <li><strong>Your compliance matters.</strong> Even the best account structure cannot survive policy violations, so keep creative and claims clean.</li>
 </ul>
 <p>To understand what triggers account problems in the first place, our article on <a href="/blog/why-facebook-bans-ad-accounts">why Facebook bans ad accounts</a> is essential reading.</p>` },
@@ -1859,7 +1859,7 @@ export const blogPosts: BlogPost[] = [
 <li><strong>Diversify winners.</strong> Do not bet everything on one ad set, spread proven concepts across audiences.</li>
 <li><strong>Keep records.</strong> Track what changed and when so you can diagnose swings in performance.</li>
 </ul>` },
-    { id: "how-goads-helps", title: "How GOADS Helps", content: `<p>GOADS provides agency ad accounts built for advertisers who are done fighting spend caps. Our Unlimited DSL Agency Ad Account runs under a stable agency Business Manager, carries no daily spend cap, and is designed for aggressive, profitable scaling. Warranty coverage protects you until spend starts, so your handover is smooth and low risk.</p>
+    { id: "how-goads-helps", title: "How GOADS Helps", content: `<p>GOADS provides agency ad accounts built for advertisers who are done fighting spend caps. Our Unlimited DSL Agency Ad Account runs under a stable agency Business Manager, carries no daily spend cap, and is designed for aggressive, profitable scaling. Warranty coverage protects you until the account has spent $1,000, so your handover and first campaigns are low risk.</p>
 <p>Beyond ad accounts, GOADS supplies aged Facebook Pages, verification badge services, and TikTok assets, all backed by 24/7 Telegram support so help is always a message away. If you are ready to scale without artificial ceilings, explore the <a href="/pricing#agency-ad-account">agency ad account option</a> or browse the full <a href="/pricing">GOADS pricing</a> to build the setup your growth plan needs.</p>
 <ul>
 <li><strong>Real headroom.</strong> No daily spend cap, so winners get funded immediately.</li>

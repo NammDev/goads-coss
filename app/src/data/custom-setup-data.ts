@@ -7,7 +7,7 @@
 //
 // Prices MUST mirror src/data/product-catalog-table-data.ts (single source of
 // truth). `catalogName` is the exact catalogue key — cart line name + drift check.
-// Contact-only items (IG profile, Verified Page) are intentionally excluded: the
+// Contact-only items (e.g. Verified Page) are intentionally excluded: the
 // builder only lists fixed-price products so the live total is exact.
 //
 // Volume discount is deferred: applyDiscount() is identity in v1.
@@ -28,7 +28,7 @@ export interface BuildableItem {
   category: CustomItemCategory
   /** Full label for stepper rows / add menus */
   label: string
-  /** Short label for topology chips (e.g. "USA", "10K"). Falls back to label. */
+  /** Short label for topology chips (e.g. "Premium", "10K"). Falls back to label. */
   chipLabel?: string
   iconSrc: string
   unitPrice: number
@@ -43,6 +43,9 @@ export interface BuildableItem {
   builderHidden?: boolean
   /** Render the blue verified-tick SVG instead of iconSrc (verification badges). */
   verifiedBadge?: boolean
+  /** Profile-only: can this profile create and operate a BM? Defaults to true;
+   *  set false for profiles that ride along without running the BM (e.g. Instagram). */
+  bmOperator?: boolean
 }
 
 /** The BM's creator profile — a BM5/BM10-only $50 add-on, toggled per BM. */
@@ -54,13 +57,13 @@ export const AD_ACCOUNT_ID = "ad-account"
 export const BUILDABLE_ITEMS: BuildableItem[] = [
   // Business Managers (BM1 excluded from the builder; only BM5/BM10 can be a pixel bank)
   { id: "bm3", category: "bm", label: "BM3 Verified", iconSrc: BM_ICON, unitPrice: 180, catalogName: "BM3 Verified", node: { name: "BM3", sub: "3 ad account slots" } },
-  { id: "bm5", category: "bm", label: "BM5 Verified", iconSrc: BM_ICON, unitPrice: 340, catalogName: "BM5 Verified ($250 DSL)", node: { name: "BM5", sub: "$250 spend limit" }, bankEligible: true },
+  { id: "bm5", category: "bm", label: "BM5 Verified (Unlimited DSL)", iconSrc: BM_ICON, unitPrice: 390, catalogName: "BM5 Verified (Unlimited DSL)", node: { name: "BM5", sub: "Unlimited DSL" }, bankEligible: true },
   { id: "bm10", category: "bm", label: "BM10 Verified", iconSrc: BM_ICON, unitPrice: 999, catalogName: "BM10 Verified (Unlimited DSL)", node: { name: "BM10", sub: "Unlimited DSL" }, bankEligible: true },
   // Profiles
-  { id: "profile-asia", category: "profile", label: "Asia Reinstated Profile", chipLabel: "Asia", iconSrc: PROFILE_ICON, unitPrice: 40, catalogName: "Premium Asia Reinstated Profile" },
-  { id: "profile-usa", category: "profile", label: "USA Reinstated Profile", chipLabel: "USA", iconSrc: PROFILE_ICON, unitPrice: 50, catalogName: "Premium USA Reinstated Profile" },
-  { id: "profile-asia-aged", category: "profile", label: "Asia Super Aged (7+ yrs)", chipLabel: "Asia Aged", iconSrc: PROFILE_ICON, unitPrice: 95, catalogName: "Asia Super Aged Double Reinstated (7+ Years)" },
-  { id: "profile-usa-aged", category: "profile", label: "USA Super Aged (7+ yrs)", chipLabel: "USA Aged", iconSrc: PROFILE_ICON, unitPrice: 110, catalogName: "USA Super Aged Double Reinstated (7+ Years)" },
+  { id: "profile-premium", category: "profile", label: "Premium Profile", chipLabel: "Premium", iconSrc: PROFILE_ICON, unitPrice: 50, catalogName: "Premium Profile (Farmed, Clean History)" },
+  { id: "profile-super-aged", category: "profile", label: "Premium Super Aged Profile (7+ yrs)", chipLabel: "Super Aged", iconSrc: PROFILE_ICON, unitPrice: 80, catalogName: "Premium Super Aged Profile (Farmed, Clean History)" },
+  // Instagram profile: selectable, but it cannot create/operate a BM (see operatorProfileCount).
+  { id: "profile-instagram", category: "profile", label: "Instagram Profile", chipLabel: "Instagram", iconSrc: PROFILE_ICON, unitPrice: 50, catalogName: "Instagram Profile (Farmed, Clean History)", bmOperator: false },
   { id: ORIGINAL_PROFILE_ID, category: "profile", label: "Original Profile (BM creator)", chipLabel: "Original", iconSrc: PROFILE_ICON, unitPrice: 50, catalogName: "Original profile (the profile that created the BM)", builderHidden: true },
   // Agency ad account (scaling BMs only)
   { id: AD_ACCOUNT_ID, category: "adaccount", label: "Agency Ad Account", chipLabel: "Ad Account", iconSrc: "/assets/META.webp", unitPrice: 250, catalogName: "Ad Account (Unlimited DSL)" },
@@ -111,27 +114,27 @@ export type TemplateId = "advanced" | "premium" | "elite" | "blank"
 /** BM slot without a uid — the builder assigns uids when it seeds the template. */
 export type TemplateSlot = Omit<BmSlot, "uid">
 
-// Seeds mirror the existing preset setups (profiles as USA, matching preset
+// Seeds mirror the existing preset setups (profiles as Premium, matching preset
 // à-la-carte pricing). Elite's extra 10K page seeds as aged pages (adjustable).
 export const SETUP_TEMPLATES: Record<TemplateId, { label: string; bms: TemplateSlot[]; extras: Record<string, number> }> = {
   premium: {
     label: "Premium",
     bms: [
-      { bmId: "bm5", isBank: true, assets: { "profile-usa": 2 } },
-      { bmId: "bm3", isBank: false, assets: { "profile-usa": 2, "page-aged": 3 } },
+      { bmId: "bm5", isBank: true, assets: { "profile-premium": 2 } },
+      { bmId: "bm3", isBank: false, assets: { "profile-premium": 2, "page-aged": 3 } },
     ],
     extras: {},
   },
   advanced: {
     label: "Advanced",
-    bms: [{ bmId: "bm3", isBank: false, assets: { "profile-usa": 2, "page-aged": 1 } }],
+    bms: [{ bmId: "bm3", isBank: false, assets: { "profile-premium": 2, "page-aged": 1 } }],
     extras: {},
   },
   elite: {
     label: "Elite",
     bms: [
-      { bmId: "bm5", isBank: true, assets: { "profile-usa": 3 } },
-      { bmId: "bm5", isBank: false, assets: { "profile-usa": 3, "page-aged": 4 } },
+      { bmId: "bm5", isBank: true, assets: { "profile-premium": 3 } },
+      { bmId: "bm5", isBank: false, assets: { "profile-premium": 3, "page-aged": 4 } },
     ],
     extras: {},
   },
@@ -187,6 +190,16 @@ function assetCount(assets: Record<string, number>, category: CustomItemCategory
   return n
 }
 
+/** Profiles that can actually create/run the BM (excludes e.g. Instagram). */
+function operatorProfileCount(assets: Record<string, number>): number {
+  let n = 0
+  for (const [id, qty] of Object.entries(assets)) {
+    const item = getItem(id)
+    if (item?.category === "profile" && item.bmOperator !== false) n += qty
+  }
+  return n
+}
+
 export interface ValidationResult {
   warnings: string[]
   /** Add-to-cart requires at least one BM. */
@@ -198,7 +211,7 @@ export function validate(setup: CustomSetup): ValidationResult {
   const bmCount = setup.bms.length
 
   // Every BM needs at least one operator profile.
-  const bmsWithoutProfile = setup.bms.filter((b) => assetCount(b.assets, "profile") === 0).length
+  const bmsWithoutProfile = setup.bms.filter((b) => operatorProfileCount(b.assets) === 0).length
   if (bmsWithoutProfile > 0) {
     warnings.push(
       bmsWithoutProfile === 1
@@ -209,7 +222,7 @@ export function validate(setup: CustomSetup): ValidationResult {
 
   // A bank should carry a couple of profiles to warm the pixel safely.
   const bank = setup.bms.find((b) => b.isBank)
-  if (bank && assetCount(bank.assets, "profile") < 2) {
+  if (bank && operatorProfileCount(bank.assets) < 2) {
     warnings.push("Tip: give the pixel-bank BM 2+ profiles to warm the pixel safely.")
   }
 

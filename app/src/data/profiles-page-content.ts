@@ -182,7 +182,7 @@ export const profilesFaq = {
     { question: "How long do profiles last?", answer: "With proper warmup and clean campaigns, most profiles run stable for months or longer. Some clients use the same profile for 6+ months." },
     { question: "What if my profile gets banned?", answer: "If it happens within the warranty period, we replace it instantly. No questions asked." },
     { question: "Do I need to verify anything myself?", answer: "No. All profiles are already ID-verified before delivery. Just login and start." },
-    { question: "Asia or USA profile - which should I choose?", answer: "Asia for global campaigns and best value. USA for targeting US/EU markets with higher trust scores." },
+    { question: "Premium or Super Aged profile - which should I choose?", answer: "Premium for day-to-day campaigns and best value. Super Aged (7+ years) when you need maximum trust for heavy spend and aggressive scaling." },
     { question: "How do I login to the profile?", answer: "We provide cookies for instant login. Just import to your browser and you're in. Full guide included." },
     { question: "Can I change the profile password and email?", answer: "Yes. We recommend spacing out security changes over a few days to keep it natural." },
     { question: "How should I warm up my profile?", answer: "Light browsing for 1-2 days before adding to BM. We include a full warmup guide with every order." },

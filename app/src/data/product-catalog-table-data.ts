@@ -15,11 +15,9 @@ export const catalogCategories: ComparisonCategory[] = [
     name: "Facebook Profiles",
     icon: "/assets/PROFILES.webp",
     features: [
-      { name: "Premium Asia Reinstated Profile", basic: "$40", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Premium USA Reinstated Profile", basic: "$50", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Asia Super Aged Double Reinstated (7+ Years)", basic: "$95", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "USA Super Aged Double Reinstated (7+ Years)", basic: "$110", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Instagram Account (Real Followers)", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact", hasInstagramBadge: true },
+      { name: "Premium Profile (Farmed, Clean History)", basic: "$50", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "Premium Super Aged Profile (Farmed, Clean History)", basic: "$80", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "Instagram Profile (Farmed, Clean History)", basic: "$50", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", hasInstagramBadge: true },
     ],
   },
   {
@@ -28,7 +26,6 @@ export const catalogCategories: ComparisonCategory[] = [
     features: [
       { name: "BM1 Verified", basic: "$80", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", outOfStock: true },
       { name: "BM3 Verified", basic: "$180", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", outOfStock: true },
-      { name: "BM5 Verified ($250 DSL)", basic: "$340", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", outOfStock: true },
       { name: "BM5 Verified (Unlimited DSL)", basic: "$390", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM3 WABA 250 limit (WhatsApp API)", basic: "$150", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM10 Verified (Unlimited DSL)", basic: "$999", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
@@ -66,6 +63,7 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "TikTok Ads Business Account", basic: "$120", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "TikTok Affiliate (1K+ Followers)", basic: "$180", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "TikTok Shop USA (Jumio Verified)", basic: "$400", workflow: "Contact", agency: "7 days", enterprise: "Contact" },
+      { name: "TikTok BC30 Verified (30 Warmed-Up Ad Accounts)", basic: "$490", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
     ],
   },
   {
