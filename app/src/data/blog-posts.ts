@@ -1914,7 +1914,6 @@ export const blogPosts: BlogPost[] = [
 <ul>
 <li><strong>Follower Pages.</strong> Available in tiers such as 1K to 3K, 5K, and 10K followers to fit different credibility needs.</li>
 <li><strong>Livestream Ads Ready.</strong> For creators and brands running live shopping and streaming ad formats.</li>
-<li><strong>Monetized 10K.</strong> For those who want a Page already positioned for monetization.</li>
 <li><strong>Verified Page.</strong> A blue badge Page for maximum trust and authority.</li>
 </ul>
 <p>If verification is your priority, our <a href="/blog/blue-verification-badge-guide">guide to the blue verification badge</a> explains what the badge does and how to get one.</p>` },
@@ -1925,7 +1924,7 @@ export const blogPosts: BlogPost[] = [
 <li><strong>Sensible warm-up.</strong> Ramp activity gradually rather than launching at full throttle.</li>
 <li><strong>Compliant operation.</strong> Honest offers and clean creative keep any Page healthier.</li>
 </ul>` },
-    { id: "how-goads-helps", title: "How GOADS Helps", content: `<p>GOADS supplies super aged Facebook Pages in the three to six year range, successfully reinstated and ready to support your advertising. Whether you need follower Pages at 1K to 3K, 5K, or 10K, a Livestream Ads Ready Page, a Monetized 10K Page, or a Verified Page with a blue badge, there is an option matched to your goal, all backed by a 14-day unlimited replacement warranty.</p>
+    { id: "how-goads-helps", title: "How GOADS Helps", content: `<p>GOADS supplies super aged Facebook Pages in the three to six year range, successfully reinstated and ready to support your advertising. Whether you need follower Pages at 1K to 3K, 5K, or 10K, a Livestream Ads Ready Page, or a Verified Page with a blue badge, there is an option matched to your goal, all backed by a 14-day unlimited replacement warranty.</p>
 <p>Pair a quality Page with an uncapped <a href="/pricing#agency-ad-account">agency ad account</a> and you have a foundation built for serious scaling. Explore the full <a href="/pricing#facebook-pages">Facebook Pages lineup</a> or the complete <a href="/pricing">GOADS pricing</a>, with 24/7 Telegram support ready whenever you have questions.</p>
 <ul>
 <li><strong>Real history.</strong> Genuinely aged, reinstated Pages, not superficial shells.</li>

@@ -971,3 +971,24 @@ Every component touched this session re-checked against `foreplay-source.css`.
 2. **Raw hex in JSX** in `setup-configurator-dialog.tsx` (4 occurrences, including the warranty table edited earlier): `#ffffff1a` → `var(--alpha-700)`, `#ffffff0f` → `var(--alpha-800)`. Identical values, but the skill bans hex in JSX and these were the last ones in the pricing stack.
 
 Verified on the live build: 8/8 card instances carry radius-20 + `--solid-700` + hover `--solid-900` + `p-6` content, zero 16px leftovers, and `/tools/bookmark` `/tempmail` `/pricing` `/rental` all 200.
+
+## Closing the open items (261109)
+
+**Warranty contradiction resolved — $1,000 of spend wins.** `refund-policy-content.ts` was the lone outlier, promising cover only "until the customer achieves successful advertising spend", i.e. ending at the first dollar. The catalog, the docs, the /pricing FAQ, the service-update panel and the setup configurator all say **$1,000**. The policy page now says the same, and the "native ad accounts are not covered" carve-out is replaced by a pointer to the agency-account terms below it.
+
+**`qa-business-managers` docs rewritten against the live catalog.** It still listed BM1, BM3, BM5 $250 Limited, WABA 250 and WABA 2K as things GOADS provides, and described every tier by how many **native** ad accounts it includes — the exact framing the rest of the site has stopped using. Now: BM5 Super Aged · BM10 Verified · BM50+ on request, with a callout explaining why the low tiers went, the agency-account answer, and WABA reframed as available on request rather than as two catalog SKUs. Also removed a duplicated native-ad-account Q&A that the rewrite had superseded, so the page no longer answers the same question two different ways.
+
+**Monetized Page claims removed from the blog.** Two spots listed it among the Pages GOADS supplies. The `/pages` resource card "Monetized Pages: Unlock Reels & Stars Revenue" stays — it is an article about monetization, not an offer.
+
+**`/tools` hub gets the promo.** The sub-routes carry it as a rail; the hub has no rail, so it runs as a centred row under the tool grid, capped at 960px. `ToolsPromoRow` self-gates on `brand.toolsOnly`.
+
+**Catalog drift is now enforced, not just documented.** Both data files state in their headers that builder prices MUST mirror the catalog; nothing checked it. `scripts/check-catalog-consistency.mjs` (`npm run check:catalog`) asserts:
+
+1. every `BUILDABLE_ITEMS.catalogName` resolves to a catalog row
+2. every `unitPrice` equals that row's price
+3. every `SETUP_TEMPLATES` slot references an item that still exists
+4. every `productDetails` key resolves to a catalog row — orphans silently fall back to generic drawer copy, so they look fine until you read one
+
+Regex over the source rather than importing it: these are TS modules with path aliases, and a check that needs a build step is a check that stops being run. Verified by injecting a fake drift (builder $999 vs catalog $390) — caught and exit 1. Currently: 25 rows, 13 builder items, clean. Worth wiring into CI.
+
+> The check found a gap in itself on first run: `id: AD_ACCOUNT_ID` is a const, not a string literal, so the item parsed as missing. Fixed by resolving exported `*_ID` consts.

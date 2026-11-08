@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { SectionContainer } from "@/components/atoms/section-container"
+import { ToolsPromoRow } from "@/components/tools/promo-rail"
 import { SectionHead } from "@/components/atoms/section-head"
 import { HomeCta } from "@/components/home/cta"
 import { siteText } from "@/components/atoms/typography"
@@ -59,6 +60,15 @@ export default function ToolsPage() {
             </div>
           </SectionContainer>
         </div>
+      </div>
+
+      {/* The tool sub-routes carry this as a rail beside the panel; the hub
+          has no rail, so it runs as a row under the grid. Same offers, same
+          cards. ToolsPromoRow returns null on tools-only brands itself. */}
+      <div className="section">
+        <SectionContainer>
+          <ToolsPromoRow className="mx-auto max-w-[960px]" centered />
+        </SectionContainer>
       </div>
 
       {/* Marketing CTA is GOADS-specific — omitted on tools-only brands. */}
