@@ -106,7 +106,19 @@ function OfferCard({ offer }: { offer: Offer }) {
           (title + description), this stacks four. */}
       <div className="relative z-[2] flex flex-1 flex-col gap-3 p-6">
         <div className="flex items-center gap-2">
-          <span className={cn(siteText.overline, "text-[var(--alpha-300)]")}>{offer.overline}</span>
+          {/* Rent vs buy is the first thing a reader has to resolve, so the
+              label is a filled pill at full white, not the --alpha-300 overline
+              it started as. At 36% white it was the dimmest text on the card
+              while the price was the brightest, so the eye landed on "$499"
+              before it knew what $499 bought. */}
+          <span
+            className={cn(
+              siteText.overline,
+              "rounded-full bg-[var(--alpha-700)] px-2.5 py-1 text-foreground",
+            )}
+          >
+            {offer.overline}
+          </span>
           {offer.badge && (
             // Same Meta gradient as the rental cards' "Recommended" pill, so a
             // highlight reads the same wherever it appears on the site.

@@ -992,3 +992,13 @@ Verified on the live build: 8/8 card instances carry radius-20 + `--solid-700` +
 Regex over the source rather than importing it: these are TS modules with path aliases, and a check that needs a build step is a check that stops being run. Verified by injecting a fake drift (builder $999 vs catalog $390) — caught and exit 1. Currently: 25 rows, 13 builder items, clean. Worth wiring into CI.
 
 > The check found a gap in itself on first run: `id: AD_ACCOUNT_ID` is a const, not a string literal, so the item parsed as missing. Fixed by resolving exported `*_ID` consts.
+
+## Promo card: rent vs buy readable at a glance (261109)
+
+The `RENT` / `BUY ONCE` label was `siteText.overline` at `--alpha-300` — 36% white, the **dimmest** text on the card, while the price was the brightest. The eye landed on "$499" before it knew what $499 bought, which is backwards: which of the two offers this is, is the first thing a reader has to resolve.
+
+Label is now a filled pill: same `overline` scale (the one uppercase step), `--alpha-700` fill, `text-foreground`. 36% → 100% text plus a background, so it reads as a tag rather than a caption, and it sits next to the gradient `New` pill as a consistent tag row. The price keeps `display-h5` white, so the two carry different jobs instead of competing.
+
+One change covers all three mount points — `/tools/*` rail, `/tempmail` rail, `/tools` hub row — since they all render the same `OfferCard`. Verified: 8 / 8 / 4 pills, zero `--alpha-300` labels left.
+
+> The two `CrossLinkPanel` rent↔buy panels needed nothing: their overlines already read "PREFER TO RENT?" / "PREFER TO BUY?" at full white.
