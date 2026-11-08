@@ -1,16 +1,61 @@
 // GOADS pricing page data — 3 setup-tier cards + FAQ items
 // Uses Foreplay PricingCardData shape, but: no /month period, no subscription user info,
 // features rendered with leading checkmarks (no brand icons)
+//
+// Every tier is built on BM5 + AGENCY ad accounts: the BM5 is the container,
+// the agency ad account is what actually spends. Native ad accounts stopped
+// being reliable on Meta, so no setup here may depend on one, and no tier
+// ships without an ad account — a setup you cannot advertise from is not a
+// setup. Prices MUST mirror src/data/product-catalog-table-data.ts.
 
 import type { PricingCardData } from "@/components/pricing/card"
-import { bm3ToBm5UnlimitedOffer } from "@/data/bm5-upgrade-data"
+
+const BM_ICON = "/assets/BM.webp"
+const PROFILE_ICON = "/assets/PROFILES.webp"
+const PAGE_ICON = "/assets/PAGES.webp"
+const AD_ACCOUNT_ICON = "/assets/META.webp"
+
+// Catalog unit prices, named so a catalog change surfaces here as one edit.
+const PRICE_AD_ACCOUNT = 250
+const PRICE_BM5 = 390
+const PRICE_PROFILE_PREMIUM = 50
+const PRICE_PAGE_AGED = 35
+
+// ── Warranty terms — ONE source for the whole page ──
+// Stated in two places on /pricing: the footer notice panel and the FAQ. Both
+// read this list, so the numbers cannot drift apart.
+//
+// NOTE: src/data/refund-policy-content.ts still says ad account cover ends at
+// the customer's first successful spend, which contradicts the $1,000 below.
+// Confirm which is correct before the next change to either file.
+export const GOADS_WARRANTY_TERMS = [
+  {
+    asset: "Agency ad accounts",
+    term: "Covered until the account has spent $1,000. Disabled before that, we replace it.",
+  },
+  {
+    asset: "Business Managers",
+    term: "7-day replacement from delivery. Most issues show up in the first 48 hours.",
+  },
+  {
+    asset: "Profiles",
+    term: "14-day unlimited replacement if a profile is disabled or restricted.",
+  },
+  {
+    asset: "Pages",
+    term: "14-day unlimited replacement if a page is disabled or unpublished.",
+  },
+]
 
 // ── FAQ items — GOADS-specific (warranty / delivery / payment / refunds) ──
 export const goadsPricingFaqItems = [
   {
     question: "What is your warranty policy?",
+    // Built from GOADS_WARRANTY_TERMS so this answer and the footer panel
+    // can never quote different numbers.
     answer:
-      "Profiles come with a 14-day unlimited warranty. Business Managers (BMs) include a 7-day warranty. Ad Accounts are covered under warranty until they have spent $1,000. Policies may be updated, always confirm the exact warranty terms with our support team at the time of purchase.",
+      GOADS_WARRANTY_TERMS.map((w) => `${w.asset}: ${w.term}`).join(" ") +
+      " Policies may be updated, always confirm the exact warranty terms with our support team at the time of purchase.",
   },
   {
     question: "How long does delivery take?",
@@ -47,132 +92,151 @@ export const goadsPricingFaqItems = [
 export const goadsSetupCards: PricingCardData[] = [
   {
     planName: "Advanced Setup",
-    description: "Essential setup for advertisers getting started with agency infrastructure.",
-    price: "$250",
+    description: "The smallest setup that actually runs. One BM, one live account.",
+    price: "$625",
     ctaLabel: "Get Started",
     ctaHref: "/book-demo",
     ctaVariant: "secondary",
-    // Includes 1x BM3 Verified → offer upgrade to BM5 Verified Unlimited (+$200).
-    // À la carte: BM3 $180 + 2x profile $50 + 1x page $35 = $315 (setup $250, save $65).
-    upgrade: { offer: bm3ToBm5UnlimitedOffer, count: 1, retailPrice: 315 },
+    // a la carte: BM5 $390 + ad account $250 + profile $50 = $690 (save $65).
+    // No `offer`: every tier ships BM5 outright, so there is nothing to upgrade
+    // from. `upgrade` stays so the configurator keeps the original-profile
+    // add-on and the savings badge is derived rather than typed.
+    upgrade: { count: 1, retailPrice: PRICE_BM5 + PRICE_AD_ACCOUNT + PRICE_PROFILE_PREMIUM },
     features: [
-      { iconSrc: "/assets/BM.webp", label: "1x BM3 Verified: Business Manager with 3 ad account slots", available: true },
-      { iconSrc: "/assets/PROFILES.webp", label: "2x Premium Profiles: High-trust profiles ready for advertising", available: true },
-      { iconSrc: "/assets/PAGES.webp", label: "1x Aged Reinstated Page: Established page for campaign stability", available: true },
+      { iconSrc: BM_ICON, label: "1x BM5 Super Aged: unlimited spending limit, holds your agency ad accounts", available: true },
+      { iconSrc: AD_ACCOUNT_ICON, label: "1x Agency Ad Account: warranty up to $1,000 spend", available: true },
+      { iconSrc: PROFILE_ICON, label: "1x Premium Profile: admin access to the BM", available: true },
       { label: "Telegram support included during setup", available: true },
-      { label: "14-Day Warranty: Replacement for profile issues", available: true },
+      { label: "Full credentials handed over on day one", available: true },
     ],
-    // Single BM: 2 profiles + 1 page all link into one BM3. No pixel-bank pod
-    // (that needs a second BM), so one centred pod and no bridge arrow.
+    // One pod: a single BM5 holding one ad account, administered by one
+    // profile. No second BM, so no pixel-bank pod and no bridge arrow.
     topology: {
-      intro: "Your 2 profiles and 1 page link into a single, clean Business Manager, ready to run.",
+      intro: "One Business Manager holding one agency ad account, administered by your profile.",
       pods: [
         {
           label: "Ad Account Hub",
-          bm: { iconSrc: "/assets/BM.webp", name: "BM3 Verified", sub: "3 ad account slots" },
-          profiles: 2,
-          pages: 1,
-          caption: "Your all-in-one ad account",
+          bm: { iconSrc: BM_ICON, name: "BM5 Super Aged", sub: "Unlimited DSL" },
+          assets: [
+            { iconSrc: PROFILE_ICON, label: "Premium", count: 1 },
+            { iconSrc: AD_ACCOUNT_ICON, label: "Ad Account", count: 1 },
+          ],
+          caption: "Holds and runs your ad account",
         },
       ],
       steps: [
-        "2 profiles build and operate your BM3",
-        "1 aged page is linked for stable campaigns",
-        "Run ads across up to 3 ad accounts inside one BM",
+        "Your Premium Profile is admin on the BM5",
+        "We share 1 agency ad account into that BM5",
+        "You spend from the ad account with no BM spend cap",
       ],
     },
   },
   {
     planName: "Premium Setup",
-    description: "Bulletproof setup for serious advertisers scaling campaigns.",
-    price: "$710",
+    description: "Spare account and spare profile, so nothing stops when one goes down.",
+    price: "$925",
     ctaLabel: "Scale Now",
     ctaHref: "/book-demo",
     ctaVariant: "primary",
-    // Ships BM5 Verified Unlimited outright (no $250 DSL tier any more), so there
-    // is no BM upgrade to offer — the configurator only carries the add-on.
-    // À la carte: BM5 $390 + BM3 $180 + 4x profile $50 + 3x page $35 = $875 (setup $710, save $165).
-    upgrade: { count: 1, retailPrice: 875 },
+    // a la carte: BM5 $390 + 2x ad account $500 + 2x profile $100 + page $35
+    // = $1,025 (save $100).
+    upgrade: {
+      count: 1,
+      retailPrice:
+        PRICE_BM5 + PRICE_AD_ACCOUNT * 2 + PRICE_PROFILE_PREMIUM * 2 + PRICE_PAGE_AGED,
+    },
     features: [
-      { iconSrc: "/assets/BM.webp", label: "1x BM5 Verified: Unlimited spending limit", available: true },
-      { iconSrc: "/assets/BM.webp", label: "1x BM3 Verified: Business Manager with 3 ad account slots", available: true },
-      { iconSrc: "/assets/PROFILES.webp", label: "4x Premium Profiles: High-trust profiles ready for advertising", available: true },
-      { iconSrc: "/assets/PAGES.webp", label: "3x Aged Reinstated Pages: Established pages for campaign stability", available: true },
-      { label: "14-Day Warranty: Replacement for profile issues", available: true },
+      { iconSrc: BM_ICON, label: "1x BM5 Super Aged: unlimited spending limit", available: true },
+      { iconSrc: AD_ACCOUNT_ICON, label: "2x Agency Ad Accounts: one live, one on standby", available: true },
+      { iconSrc: PROFILE_ICON, label: "2x Premium Profiles: one admin, one backup", available: true },
+      { iconSrc: PAGE_ICON, label: "1x Aged Reinstated Page: skip it if you already have one", available: true },
+      { label: "Warranty up to $1,000 spend per ad account", available: true },
     ],
-    // Two linked pods: BM5 is the pixel bank (2 profiles), BM3 is the scaling hub
-    // (2 profiles + all 3 pages). BM5 shares its warmed pixel into BM3.
     topology: {
-      intro: "Your 4 profiles, 3 pages and 2 Business Managers are wired into two working pods.",
-      bridgeLabel: "pixel sharing",
+      intro: "One Business Manager carrying two ad accounts, with a spare profile and a page ready to run.",
       pods: [
         {
-          label: "Pixel Bank",
-          bm: { iconSrc: "/assets/BM.webp", name: "BM5 Verified", sub: "Unlimited DSL" },
-          profiles: 2,
-          pages: 0,
-          caption: "Creates & warms your pixel",
-        },
-        {
-          label: "Scaling",
-          bm: { iconSrc: "/assets/BM.webp", name: "BM3 Verified", sub: "3 ad account slots" },
-          profiles: 2,
-          pages: 3,
-          caption: "Runs & scales your ads",
+          label: "Ad Account Hub",
+          bm: { iconSrc: BM_ICON, name: "BM5 Super Aged", sub: "Unlimited DSL" },
+          assets: [
+            { iconSrc: PROFILE_ICON, label: "Premium", count: 2 },
+            { iconSrc: AD_ACCOUNT_ICON, label: "Ad Account", count: 2 },
+            { iconSrc: PAGE_ICON, label: "Aged", count: 1 },
+          ],
+          caption: "Holds and runs your ad accounts",
         },
       ],
       steps: [
-        "2 profiles build and operate BM5 (your pixel bank)",
-        "BM5 creates and warms your advertising pixel",
-        "That pixel is shared into BM3",
-        "2 profiles + 3 pages run and scale ads on BM3",
+        "2 Premium Profiles administer the BM5, one admin and one backup",
+        "We share 2 agency ad accounts into that BM5",
+        "One account runs live, the other waits on standby",
+        "The aged page is linked so campaigns stay stable",
       ],
     },
   },
   {
     planName: "Elite Setup",
-    description: "Bulletproof setup for agencies and high-volume advertisers.",
-    price: "$1010",
+    description: "A pixel bank feeding a scaling BM, so your pixel survives the account that spends.",
+    price: "$1840",
     ctaLabel: "Go Elite",
     ctaHref: "/book-demo",
     ctaVariant: "secondary",
-    // Ships 2x BM5 Verified Unlimited outright — no BM upgrade to offer.
-    // À la carte: 2x BM5 $390 + 6x profile $50 + 3x page $35 + 1x 10K page $110 = $1295 (setup $1010, save $285).
-    upgrade: { count: 2, retailPrice: 1295 },
+    // a la carte: 2x BM5 $780 + 4x ad account $1,000 + 4x profile $200
+    // + 2x page $70 = $2,050 (save $210).
+    upgrade: {
+      count: 2,
+      retailPrice:
+        PRICE_BM5 * 2 + PRICE_AD_ACCOUNT * 4 + PRICE_PROFILE_PREMIUM * 4 + PRICE_PAGE_AGED * 2,
+    },
     features: [
-      { iconSrc: "/assets/BM.webp", label: "2x BM5 Verified: Unlimited spending limit each", available: true },
-      { iconSrc: "/assets/PROFILES.webp", label: "6x Premium Profiles: High-trust profiles ready for advertising", available: true },
-      { iconSrc: "/assets/PAGES.webp", label: "3x Aged Reinstated Pages: Established pages for campaign stability", available: true },
-      { iconSrc: "/assets/PAGES.webp", label: "1x 10,000 Followers Page: Aged reinstated page with established audience", available: true },
-      { label: "14-Day Warranty: Replacement for profile issues", available: true },
+      { iconSrc: BM_ICON, label: "2x BM5 Super Aged: one pixel bank, one running your ads", available: true },
+      { iconSrc: AD_ACCOUNT_ICON, label: "4x Agency Ad Accounts: all four on the scaling BM, warranty up to $1,000 spend each", available: true },
+      { iconSrc: PROFILE_ICON, label: "4x Premium Profiles: two operating each BM", available: true },
+      { iconSrc: PAGE_ICON, label: "2x Aged Reinstated Pages: linked to the scaling BM", available: true },
+      { label: "Warranty up to $1,000 spend per ad account", available: true },
     ],
-    // Two BM5s: first is the pixel bank (3 profiles), second is the scaler
-    // (3 profiles + all 4 pages incl. the 10K page). Pixel shares bank → scaler.
+    // Pixel-bank pod + scaling pod, joined by pixel sharing. The bank holds
+    // ONLY profiles: its job is to create and warm the pixel, and keeping ad
+    // accounts off it is what keeps the pixel out of reach when the spending
+    // account is the one that gets hit. Everything that actually runs ads —
+    // all four ad accounts and both pages — lives on the scaling BM.
     topology: {
-      intro: "Two BM5s working together: one warms your pixel, the other scales it across up to six ad accounts.",
+      intro: "One BM5 does nothing but build and warm your pixel. The other runs the ads, carrying every ad account and page, and receives the pixel by sharing.",
       bridgeLabel: "pixel sharing",
       pods: [
         {
           label: "Pixel Bank",
-          bm: { iconSrc: "/assets/BM.webp", name: "BM5 Verified", sub: "Unlimited DSL" },
-          profiles: 3,
-          pages: 0,
+          index: 1,
+          isBank: true,
+          bm: { iconSrc: BM_ICON, name: "BM5 Super Aged", sub: "Unlimited DSL" },
+          assets: [{ iconSrc: PROFILE_ICON, label: "Premium", count: 2 }],
           caption: "Creates & warms your pixel",
         },
         {
           label: "Scaling",
-          bm: { iconSrc: "/assets/BM.webp", name: "BM5 Verified", sub: "Unlimited DSL" },
-          profiles: 3,
-          pages: 4,
+          index: 2,
+          bm: { iconSrc: BM_ICON, name: "BM5 Super Aged", sub: "Unlimited DSL" },
+          assets: [
+            { iconSrc: PROFILE_ICON, label: "Premium", count: 2 },
+            { iconSrc: AD_ACCOUNT_ICON, label: "Ad Account", count: 4 },
+            { iconSrc: PAGE_ICON, label: "Aged", count: 2 },
+          ],
           caption: "Runs & scales your ads",
         },
       ],
       steps: [
-        "3 profiles build and operate your pixel-bank BM5",
+        "2 Premium Profiles build and operate the pixel-bank BM5",
         "That BM5 creates and warms your advertising pixel",
         "The pixel is shared into your second BM5",
-        "3 profiles + 4 pages (incl. a 10K-follower page) run and scale ads",
+        "2 Premium Profiles, 4 agency ad accounts and 2 aged pages run and scale ads there",
       ],
     },
   },
 ]
+
+/** Cheapest setup across the three tiers. Mirrors LOWEST_MONTHLY_FEE on the
+ *  rental side: promo copy elsewhere reads this instead of retyping a price,
+ *  so a tier change can never leave a stale "from $X" behind. */
+export const LOWEST_SETUP_PRICE = Math.min(
+  ...goadsSetupCards.map((card) => Number(String(card.price).replace(/[^0-9.]/g, ""))),
+)

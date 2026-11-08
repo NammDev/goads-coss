@@ -28,7 +28,6 @@ import {
   validate,
   buildTopology,
   flattenToCartLines,
-  ORIGINAL_PROFILE_ID,
   AD_ACCOUNT_ID,
   type CustomSetup,
   type TemplateId,
@@ -153,7 +152,7 @@ export function CustomSetupDialog({ open, onOpenChange }: CustomSetupDialogProps
   const itemCount = flattenToCartLines(setup).reduce((n, l) => n + l.qty, 0)
 
   const bmOptions = itemsByCategory("bm").map((i) => ({ value: i.id, label: `${i.label} · $${i.unitPrice}` }))
-  // Original profile is hidden from the picker — it has its own per-BM toggle.
+  // `builderHidden` items never appear in the picker.
   const profileOptions = itemsByCategory("profile").filter((i) => !i.builderHidden).map((i) => ({ value: i.id, label: `${i.label} · $${i.unitPrice}` }))
   const pageOptions = itemsByCategory("page").map((i) => ({ value: i.id, label: `${i.label} · $${i.unitPrice}` }))
   const extraItems = itemsByCategory("extra")
@@ -187,17 +186,6 @@ export function CustomSetupDialog({ open, onOpenChange }: CustomSetupDialogProps
           return { ...b, isBank, assets }
         }
         return isBank ? { ...b, isBank: false } : b
-      }),
-    }))
-  const setOriginalProfile = (uid: string, on: boolean) =>
-    setSetup((s) => ({
-      ...s,
-      bms: s.bms.map((b) => {
-        if (b.uid !== uid) return b
-        const assets = { ...b.assets }
-        if (on) assets[ORIGINAL_PROFILE_ID] = 1
-        else delete assets[ORIGINAL_PROFILE_ID]
-        return { ...b, assets }
       }),
     }))
   const setAsset = (uid: string, itemId: string, qty: number) =>
@@ -275,7 +263,6 @@ export function CustomSetupDialog({ open, onOpenChange }: CustomSetupDialogProps
               const bmItem = getItem(bm.bmId)
               const profileChips = itemsByCategory("profile").filter((i) => !i.builderHidden && (bm.assets[i.id] ?? 0) > 0)
               const pageChips = itemsByCategory("page").filter((i) => (bm.assets[i.id] ?? 0) > 0)
-              const hasOriginal = (bm.assets[ORIGINAL_PROFILE_ID] ?? 0) > 0
               return (
                 <div key={bm.uid} className="flex flex-col gap-3 rounded-[14px] border border-[#ffffff1a] p-4">
                   {/* header: #index + tier + (bank toggle, BM5/BM10 only) + remove */}
@@ -356,29 +343,6 @@ export function CustomSetupDialog({ open, onOpenChange }: CustomSetupDialogProps
                     </div>
                   )}
 
-                  {/* Original profile add-on — BM5/BM10 only */}
-                  {bmItem?.bankEligible && (
-                    <button
-                      type="button"
-                      onClick={() => setOriginalProfile(bm.uid, !hasOriginal)}
-                      className={cn(
-                        "flex cursor-pointer items-center gap-2.5 rounded-[10px] border p-2.5 text-left transition-colors",
-                        hasOriginal ? "border-[var(--alpha-300)] bg-[var(--alpha-800)]" : "border-[#ffffff1a] hover:border-[var(--alpha-400)]",
-                      )}
-                    >
-                      <span className={cn("flex size-5 shrink-0 items-center justify-center rounded-[6px] border transition-colors", hasOriginal ? "border-foreground bg-foreground text-background" : "border-[var(--alpha-400)]")}>
-                        {hasOriginal && (
-                          <svg viewBox="0 0 20 20" className="size-3.5" fill="none" aria-hidden="true">
-                            <path d="M6 10.5 8.5 13l5.5-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        )}
-                      </span>
-                      <span className="flex flex-1 flex-col">
-                        <span className={cn(siteText.labelS, "text-foreground")}>Add original profile</span>
-                        <span className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>The profile that created the BM · +$50</span>
-                      </span>
-                    </button>
-                  )}
                 </div>
               )
             })}

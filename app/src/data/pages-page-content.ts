@@ -87,7 +87,7 @@ export const pagesFaq = {
     {
       question: "Which Page tier should I buy?",
       answer:
-        "Aged Reinstated for cold-traffic tests. 1K–3K Follower for direct-response campaigns. 5K–10K Follower for scaling and retargeting. Livestream Ads Ready for live-shopping. Monetized or Verified for brand and high-CPM creative.",
+        "Aged Reinstated for cold-traffic tests. 1K–3K Follower for direct-response campaigns. 5K–10K Follower for scaling and retargeting. Livestream Ads Ready for live-shopping. Verified for brand and high-CPM creative.",
     },
     {
       question: "What's the difference between an aged Page and a verified Page?",

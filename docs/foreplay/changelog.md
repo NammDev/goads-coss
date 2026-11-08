@@ -867,3 +867,107 @@ Reference: `docs/foreplay/admin/` (Foreplay app dashboard). Signature = dark sid
 - **Orders tab**: 5 cols — Order Time · Order (list `Nx <name>`) · Revenue · Status · Delivered Time. Row click → detail.
 - **BM/Profile/Page tabs**: per-type column specs (Profile: Check Live·Note·UID·Password·2FA; BM: Noted·Business Name·ID BM; Page: Note·Page Name·Page ID·Link) + Warranty + Copy kept. `credential-schemas` gained optional `note` (bm/profile/page) + `checkLive` (profile) → admin deliver dialog auto-renders these inputs. Shared `buildPortalProductColumns` gained `variant: 'portal' | 'admin'` (admin keeps status badge + all creds); row type unified to `SerializedDeliveredRow`.
 - **Cleanup**: removed dead `data/mock-delivered-items.ts`. No hardcoded hex in portal JSX; theme via tokens.
+
+## /pricing footer panel → service notice + warranty (261108)
+
+`.pricing-footer` (`components/pricing/footer-cta.tsx`) repurposed from the agency-partner pitch to the service notice. DOM/layout untouched and re-verified against `foreplay-source.css`: `.pricing-footer` border 1px neutral-600 + radius 20, `.pricing-footer-enterprise` gap 20 / min-w 320 / max-w 368 / p 20-24-24, `.pricing-footer-extra` gap 40 / justify-between / p 32-24, `.pricing-footer-extra-list` gap 12, `.pricing-footer-extra-list-item` gap 8 + **align-items:center**.
+
+- **Content**: left column `SERVICE UPDATE` overline + one line on native ad accounts being unstable → h4 "Every setup now runs on agency ad accounts" → `Talk to Sales`. Right column: 2-line lead, then one row per asset type carrying the warranty, then a disclaimer.
+- **Warranty source**: rows read `GOADS_WARRANTY_TERMS` (`data/pricing-setups-data.ts`), shared with the page FAQ answer and the setup configurator's table, so the four numbers exist once.
+- **Typography fixes** (text scale re-checked against source: `.text-overline` 12/550/16 + tracking .166667em, `.text-label-s` 14/500/20, `.text-body-s` 14/400/20, `.text-display-h5` Inter Display 24/600/32 — all match `siteText`):
+  - Lead paragraph cut from 4 lines to 2. The slot is `.text-label-s`; at 4 lines of 500-weight it read as a wall and competed with the rows below.
+  - Label:value rows use the system's own steps — asset `.text-label-s` + `text-foreground`, term `.text-body-s` + `--alpha-100` — replacing an invented `font-[550]`. Both are 14/20 so they share a baseline.
+  - Restored `items-center` on list items per source CSS (an earlier `items-start` was a guess for wrapping that does not occur at this width).
+  - Closing disclaimer dropped `.text-label-s` → `.text-body-xs`. Deliberate deviation: the source slot held a trust claim, this is fine print, and at label-s it tied with the lead paragraph. `.text-body-xs` is what the configurator already uses for the same job.
+- **Tokens**: raw `#ffffff29` → `var(--alpha-600)` (identical value) across border + both dividers, and `text-white` → `text-foreground`. Matches the two sibling panels in the same stack (`CustomSetupCta`, `CrossLinkPanel`) and clears the no-hex-in-JSX rule.
+
+## SectionHead badge + "New update" flag on /pricing (261108)
+
+- **`SectionHead`** gained optional `badge` + `badgeHref`. Pill reuses the existing Meta-gradient highlight (`rental-plan-card` "Recommended", `CrossLinkPanel`) and `.text-overline` — the one scale step that owns uppercase — so it does not invent a letter-spacing. It sits on a centred flex row with the subtitle (`gap-2.5`, matching CrossLinkPanel's overline/badge pair), wrapping on narrow widths. Both props optional, so the 20+ existing `SectionHead` usages are untouched.
+- **`/pricing`**: `badge="New update"` beside the `PRICING` overline, linking to `#service-update`. The notice panel is wrapped in `<div id="service-update" className="scroll-mt-24">` so the jump clears the sticky 72px header. The pill is a way into the explanation rather than decoration — a badge flagging news the visitor then cannot find is noise.
+- **Token cleanup across the /pricing panel stack**: `CustomSetupCta` moved off raw `#ffffff29` onto `var(--alpha-600)` (identical value). All three panels in the stack — `CustomSetupCta`, `CrossLinkPanel`, `PricingFooterCta` — now paint their hairline from the same token.
+
+> NOTE: /pricing now carries two gradient pills — "New update" in the section head and "New" on the `CrossLinkPanel` pointing at /rental. CrossLinkPanel's own doc warns that the badge stops meaning anything when it appears on both sides of a pair; the same dilution risk applies here. Left as-is pending a call on which one keeps the badge.
+
+## /tools promo rail — rent vs buy (261108)
+
+New `components/tools/promo-rail.tsx`, mounted by `ToolShell`, so every tool sub-route (`/tools/bookmark`, `/2fa`, `/check-ip`, `/check-uid`, `/split-data`, `/chrome-extension`) carries it. The `/tools` landing page has its own layout and is untouched.
+
+- **Why there**: the free tools are the top of the funnel — someone on `/tools/bookmark` already runs Business Managers, which is exactly who needs ad accounts, and nothing on those pages said GOADS sells any. The rail fills the empty gutter beside the tool panel rather than interrupting the tool.
+- **Two offers**, one card each: **Rent** → `/rental` (badged `New`, the less expected of the pair) and **Buy once** → `/pricing`.
+- **Prices are derived, never typed**: `LOWEST_MONTHLY_FEE` (already existed in `rental-page-data.ts`) and a new `LOWEST_SETUP_PRICE` in `pricing-setups-data.ts`, computed as the min across `goadsSetupCards`. Mirrors the rental pattern, so a tier change cannot leave a stale "from $X".
+- **Responsive**: `ToolsPromoRail` is a 280px sticky right rail at `xl+` (`top-28`, same offset as `ToolsSidebar`, so both rails hold position together). Below `xl` there is no room for a third column, so `ToolsPromoStacked` renders the same two cards under the tool instead — 2-up from `sm`, 1-up below. Neither disappears silently.
+- **Brand gate**: both return `null` when `brand.toolsOnly` — the ToolFB/adstoolkit build is brand-neutral and must not carry GOADS product advertising.
+- **Paint reuses the bordered dark card** from the `/rental` benefits grid (16px radius, `--alpha-700` hairline, `--alpha-900` fill), typography from `siteText` only (`overline` / `displayH5` for the price / `bodyS` / `labelS` / `labelL`), and the `New` pill is the same Meta gradient as the rental cards' "Recommended". No new visual language.
+
+> Layout note: the rail sits at the right edge of the 1440px `max-w-site` container. On wider viewports the black area beyond that is the page gutter — content there would sit outside the design grid, so the rail stops at the container edge by design.
+
+## Catalog tier cull + promo rail illustrations (261109)
+
+- **Business Manager category trimmed to what is actually sold.** Removed `BM1 Verified` ($80) and `BM3 Verified` ($180) — both already flagged out of stock — plus the contact-only `BM100` and `BM2500` rows. `BM50` stays. Category is now BM5 Super Aged · BM3 WABA · BM10 Verified · BM50.
+- Removed in lockstep so nothing points at a dead row: the `bm3` buildable in `custom-setup-data.ts` (its `catalogName` referenced a row that no longer exists, so the price-drift check it documents could never pass), the orphaned `BM1 Verified` / `BM3 Verified` entries in `product-details-data.ts`, and `bm3ToBm5UnlimitedOffer` in `bm5-upgrade-data.ts` (an offer to upgrade *from* a tier we do not sell).
+- **Promo rail prices read `From $499 /mo` and `From $625 one-time`.** "From" is literal, not marketing — both are the minimum across their tiers via `LOWEST_MONTHLY_FEE` / `LOWEST_SETUP_PRICE`. Rendered in body-s alpha-100 on either side so the number stays the headline.
+- **Promo cards gained illustrations**, reusing the `/rental` feature-grid art and its exact treatment: full-bleed 2:1 image, `group-hover:scale-[1.04]` over 600ms `cubic-bezier(0.19,1,0.22,1)`, plus the radial light sheen from the top. Border never changes on hover. Rent → `Fast Replacement SLA.webp` (a dimmed profile swapped for a live one, which is the same-day replacement the body promises). Buy once → `Multi-Account Structure.webp` (an admin profile with the accounts linked beneath it, i.e. the stack you own). No new assets added — both already ship in `public/`.
+
+> Still open: `BM3 WABA 250 limit (WhatsApp API)` ($150, in stock) keeps "BM3" in its name even though the BM3 tier is gone. It is a different product (WhatsApp API), so it was left alone — rename or retire is a business call.
+
+## Promo row on /tempmail + Elite topology correction (261109)
+
+**Promo generalised.** `ToolsPromoStacked` → `ToolsPromoRow({ className, centered })`. Visibility and width are now the caller's call rather than baked in:
+
+- `ToolShell` passes `className="xl:hidden"` — unchanged behaviour, the row only shows where the rail cannot fit.
+- `/tempmail` has no rail (it is a full-width marketing page, not a `/tools/(panel)` route), so it renders the row as its own section between the mail viewer and the FAQ: `className="mx-auto max-w-[960px]" centered`. Capped at 960px because at full container width each 2:1 card image stands ~340px tall and starts reading as the page's main event instead of a footnote to it. `centered` matches the page's other section heads.
+- Heading copy moved to `PROMO_TITLE` / `PROMO_BODY` consts so the rail and the row cannot drift.
+
+**Elite Setup topology was wrong and is fixed.** It modelled two independent BMs with 2 ad accounts each. The real structure is a **pixel bank** (BM5 holding only profiles, whose job is to create and warm the pixel) feeding a **scaling BM** (the other BM5, carrying every ad account and page). The bank deliberately holds no ad account — that is what keeps the pixel clear of whatever happens to the account that spends.
+
+- `pricing-setups-data.ts`: pods are now `Pixel Bank` (isBank, 2 profiles) + `Scaling` (2 profiles, 4 ad accounts, 2 pages) with `bridgeLabel: "pixel sharing"`. Card description, feature lines, intro and the four "how it works" steps rewritten to match.
+- `custom-setup-data.ts`: the Elite preset seeds the same shape, so "Build your own setup" opens on the Elite the card describes.
+- **Counts and prices unchanged**: 2 BM5 + 4 ad accounts + 4 profiles + 2 pages = $2,050 à la carte, $1,840 bundle, Save $210. Only the distribution across the two BMs changed.
+
+## /tempmail adopts the tools shell layout (261109)
+
+The promo first landed under the mail viewer as its own section, then briefly inside the white block with a light palette. Both were wrong: the ask was the **tools layout** — tool in a white panel, promo riding the dark page background beside it.
+
+- `/tempmail` section 2 restructured to mirror `ToolShell`: `SectionContainer variant="wide"` → `flex gap-8` → `[white block + xl:hidden row]` and `ToolsPromoRail` as a dark sibling. Markup now matches `/tools/*` exactly (same rail `aside`, same `xl:hidden` fallback row, same 8 dark card instances).
+- **The white block is contained now, not full-bleed.** There is no room for a rail beside an edge-to-edge block. Inner padding drops `py-[108px]` → `p-8 max-md:p-5`, the tool-panel rhythm, since a contained card does not need section-sized padding inside it.
+- **The `light` tone added in the previous step was removed again.** With the promo back on the dark background it was never painted on white, and an unused second palette is just a second thing to keep in sync. `PromoTone` / `TONE` gone; cards are single-palette again.
+
+> Note for the dark/light question if it ever returns: `SectionWhiteBlock` is always white and does **not** re-scope the token set, so `--alpha-*` (white at 3–10%) is invisible inside it. Anything placed in a white block has to be built from `--solid-*`.
+
+## Catalog edits: BM10 $790, BM3 WABA + Monetized Page retired, BC30 $590 (261109)
+
+| Change | Rows touched |
+|---|---|
+| `BM10 Verified (Unlimited DSL)` $999 → **$790** | catalog + builder `unitPrice` |
+| `BM3 WABA 250 limit (WhatsApp API)` $150 | **removed** |
+| `Monetized Page (10K Followers)` $300 | **removed** |
+| `TikTok BC30 Verified (30 Warmed-Up Ad Accounts)` $490 → **$590** | catalog |
+
+Removed in lockstep so nothing points at a dead row:
+
+- `custom-setup-data.ts` — the `page-monetized` buildable, whose `catalogName` would otherwise reference a row that no longer exists. BM10's `unitPrice` moved with the catalog price for the same reason.
+- `product-details-data.ts` — drawer entries for both retired products (18 entries remain, all matching live rows).
+- `content/docs/facebook-fanpage/index.mdoc` — the `Monetized (10K) … $300` row in the page price table.
+- `pages-page-content.ts` — the "which Page should I buy" FAQ recommended "Monetized or Verified"; the Monetized half is gone.
+
+Business Manager category is now BM5 Super Aged $390 · BM10 Verified $790 · BM50 (contact).
+
+Added a drift check (scratchpad, not committed) that asserts every builder `catalogName` resolves to a catalog row **and** quotes the same price — the invariant both file headers state but nothing enforced. Currently: 13/13 agree. Worth promoting to a real test.
+
+> Left alone: the `/pages` resource card "Monetized Pages: Unlock Reels & Stars Revenue" and two `blog-posts.ts` mentions of a Monetized 10K Page. They are editorial, carry no price or Buy button, and rewriting published article copy is a content call. Flagging because GOADS no longer sells that page.
+
+## Foreplay audit of the session's components (261109)
+
+Every component touched this session re-checked against `foreplay-source.css`.
+
+**Typography — clean.** All text in the new/changed components routes through `siteText`; no hardcoded font, no raw `text-[…]`/`font-[…]` bypassing the scale. Re-extracted and verified each step used: `.text-overline` 12/550/16 + tracking .166667em · `.text-label-s` 14/500/20 · `.text-label-l` 18/500 + tracking -.0144em · `.text-body-s` 14/400/20 · `.text-body-xs` 12/20 · `.text-display-h5` **Inter Display** 24/600/32 + tracking -.00667em + `font-optical-sizing:auto`. All match.
+
+**Spacing — clean.** The `pt-[72px]` / `pb-[108px]` arbitrary values are Foreplay section tokens already used across the codebase, not scale slips; mobile steps already use the scale (`max-sm:pt-10 max-sm:pb-20`). Most arbitrary-value grep hits were inside doc comments, not JSX.
+
+**Two real findings, both fixed:**
+
+1. **Promo card was a hybrid.** It took its paint from the `/rental` benefits card (16px radius, `--alpha-700` hairline, `--alpha-900` fill) but then gained a full-bleed image, which structurally makes it `.product-page-feature-block-new`. Now built to that class's spec: `border 1px --solid-700`, `radius 20px`, `padding 0`, `overflow hidden`, hover changes the **fill** to `--solid-900` (never the border — a border-colour change on hover reads as a tacky outline, the same call `ProductPageFeatureGridCards` makes). Content moved to `.product-page-feature-content`'s 24px padding (was 20px). Image already matched `.product-page-feature-image` (`self-center w-full h-auto`).
+2. **Raw hex in JSX** in `setup-configurator-dialog.tsx` (4 occurrences, including the warranty table edited earlier): `#ffffff1a` → `var(--alpha-700)`, `#ffffff0f` → `var(--alpha-800)`. Identical values, but the skill bans hex in JSX and these were the last ones in the pricing stack.
+
+Verified on the live build: 8/8 card instances carry radius-20 + `--solid-700` + hover `--solid-900` + `p-6` content, zero 16px leftovers, and `/tools/bookmark` `/tempmail` `/pricing` `/rental` all 200.

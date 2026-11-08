@@ -18,7 +18,8 @@ import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"
 import { CtaButton } from "@/components/atoms/cta-button"
 import { UpgradeComparisonTable } from "@/components/pricing/upgrade-comparison-table"
-import { ORIGINAL_PROFILE_ADDON, type UpgradeOffer, type UpgradeOptionKey } from "@/data/bm5-upgrade-data"
+import { type UpgradeOffer, type UpgradeOptionKey } from "@/data/bm5-upgrade-data"
+import { GOADS_WARRANTY_TERMS } from "@/data/pricing-setups-data"
 
 export interface SetupConfiguratorResult {
   /** "base" | "upgraded" — which variant the customer picked */
@@ -37,20 +38,14 @@ interface SetupConfiguratorDialogProps {
   /** how many upgradable units the setup includes */
   count: number
   /** the upgrade offer (base asset, upgraded asset, upcharge, comparison).
-   *  Omitted when the setup already ships the top tier — the dialog then only
-   *  offers the original-profile add-on. */
+   *  Omitted when the setup already ships the top tier, which every setup
+   *  currently does — the dialog is then a review step rather than a choice. */
   offer?: UpgradeOffer
   /** total à la carte price of the base config (for the savings comparison) */
   retailPrice: number
   onConfirm: (result: SetupConfiguratorResult) => void
 }
 
-// Warranty terms bundled with every setup (consistent across Advanced/Premium/Elite).
-const SETUP_WARRANTY = [
-  { label: "Profiles", value: "14-day unlimited replacement" },
-  { label: "Pages", value: "14-day unlimited replacement" },
-  { label: "Business Manager", value: "7 days (BM only, native ad accounts not covered)" },
-]
 
 // Radio-style option card (base vs upgraded).
 function OptionCard({
@@ -72,7 +67,7 @@ function OptionCard({
         "flex flex-1 items-center gap-3 rounded-[14px] border p-4 text-left transition-all duration-150",
         active
           ? "border-[var(--alpha-300)] bg-[var(--alpha-800)]"
-          : "border-[#ffffff1a] hover:border-[var(--alpha-500)]",
+          : "border-[var(--alpha-700)] hover:border-[var(--alpha-500)]",
       )}
     >
       {/* radio dot */}
@@ -100,29 +95,24 @@ export function SetupConfiguratorDialog({
   open, onOpenChange, planName, basePrice, count, offer, retailPrice, onConfirm,
 }: SetupConfiguratorDialogProps) {
   const [option, setOption] = useState<UpgradeOptionKey>("base")
-  const [addOn, setAddOn] = useState(false)
 
   const upcharge = count * (offer?.unitUpcharge ?? 0)
   const isUpgrade = !!offer && option === "upgraded"
-  // Original-profile backup add-on: one per included BM unit.
-  const addonTotal = count * ORIGINAL_PROFILE_ADDON.unitPrice
-  const total = basePrice + (isUpgrade ? upcharge : 0) + (addOn ? addonTotal : 0)
+  const total = basePrice + (isUpgrade ? upcharge : 0)
 
-  // À la carte (buying each item separately) vs the configured setup total, so
-  // the customer sees exactly how much the bundle saves them. Updates live with
-  // the upgrade + add-on choices.
+  // À la carte (buying each item separately) vs the setup total, so the
+  // customer sees exactly how much the bundle saves them.
   const alaCarte =
     retailPrice +
-    (isUpgrade && offer ? count * (offer.upgradedUnitRetail - offer.baseUnitRetail) : 0) +
-    (addOn ? count * ORIGINAL_PROFILE_ADDON.unitRetail : 0)
+    (isUpgrade && offer ? count * (offer.upgradedUnitRetail - offer.baseUnitRetail) : 0)
   const savings = alaCarte - total
   // Multi-unit setups (e.g. Elite, 2 BM5) upgrade ALL units together.
   const upchargeNote = offer && count > 1 ? ` (${count}× ${offer.base.name}, $${offer.unitUpcharge} each)` : ""
 
-  const reset = () => { setOption("base"); setAddOn(false) }
+  const reset = () => { setOption("base") }
 
   const handleConfirm = () => {
-    const tags = [isUpgrade && offer ? offer.cartTag : null, addOn ? "Original profile" : null].filter(Boolean)
+    const tags = [isUpgrade && offer ? offer.cartTag : null].filter(Boolean)
     onConfirm({
       option,
       totalPrice: total,
@@ -158,12 +148,12 @@ export function SetupConfiguratorDialog({
           {/* Header */}
           <div className="flex flex-col gap-2 pr-8">
             <DialogPrimitive.Title className={cn(siteText.displayH5, "text-foreground")}>
-              Configure your {planName}
+              {offer ? `Configure your ${planName}` : `Review your ${planName}`}
             </DialogPrimitive.Title>
             <DialogPrimitive.Description className={cn(siteText.bodyS, "text-[var(--alpha-100)]")}>
               {offer
                 ? `Upgrade your ${offer.base.name} to ${offer.upgraded.name} for a stronger, more scalable setup.`
-                : "Add the original-profile backup to keep control of your Business Manager, whatever happens."}
+                : "Everything in this setup arrives linked and ready to spend. Here is what it includes and how it is covered."}
             </DialogPrimitive.Description>
           </div>
 
@@ -205,59 +195,27 @@ export function SetupConfiguratorDialog({
             </>
           )}
 
-          {/* Optional Original-profile backup add-on (checkbox card) */}
-          <button
-            type="button"
-            onClick={() => setAddOn((v) => !v)}
-            className={cn(
-              "flex items-start gap-3 rounded-[14px] border p-4 text-left transition-all duration-150",
-              addOn ? "border-[var(--alpha-300)] bg-[var(--alpha-800)]" : "border-[#ffffff1a] hover:border-[var(--alpha-500)]",
-            )}
-          >
-            <span
-              className={cn(
-                "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-[6px] border transition-colors",
-                addOn ? "border-foreground bg-foreground text-background" : "border-[var(--alpha-400)]",
-              )}
-            >
-              {addOn && (
-                <svg viewBox="0 0 20 20" className="size-3.5" fill="none" aria-hidden="true">
-                  <path d="M6 10.5 8.5 13l5.5-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              )}
-            </span>
-            <span className="flex flex-1 flex-col gap-1.5">
-              <span className="flex items-baseline justify-between gap-2">
-                <span className={cn(siteText.labelS, "text-foreground")}>{ORIGINAL_PROFILE_ADDON.label}</span>
-                <span className={cn(siteText.labelS, "shrink-0 text-foreground")}>+${addonTotal}</span>
-              </span>
-              <span className={cn(siteText.bodyS, "text-[var(--alpha-100)]")}>
-                {ORIGINAL_PROFILE_ADDON.benefit}{count > 1 ? ` Applies to all ${count} BMs.` : ""}
-              </span>
-            </span>
-          </button>
-
           {/* Warranty summary — same terms across all setups */}
           <div className="flex flex-col gap-2">
             <div className={cn(siteText.overline, "text-[var(--alpha-100)]")}>Warranty included</div>
-            <div className="overflow-hidden rounded-[14px] border border-[#ffffff1a]">
-              {SETUP_WARRANTY.map((w, i) => (
+            <div className="overflow-hidden rounded-[14px] border border-[var(--alpha-700)]">
+              {GOADS_WARRANTY_TERMS.map((w, i) => (
                 <div
-                  key={w.label}
+                  key={w.asset}
                   className={cn(
-                    "flex items-center justify-between gap-4 px-4 py-3",
-                    i < SETUP_WARRANTY.length - 1 && "border-b border-[#ffffff0f]",
+                    "flex items-start justify-between gap-4 px-4 py-3",
+                    i < GOADS_WARRANTY_TERMS.length - 1 && "border-b border-[var(--alpha-800)]",
                   )}
                 >
-                  <span className={cn(siteText.bodyS, "text-[var(--alpha-100)]")}>{w.label}</span>
-                  <span className={cn(siteText.labelS, "text-right text-foreground")}>{w.value}</span>
+                  <span className={cn(siteText.bodyS, "shrink-0 text-[var(--alpha-100)]")}>{w.asset}</span>
+                  <span className={cn(siteText.bodyS, "text-right text-foreground")}>{w.term}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Footer — live total + confirm */}
-          <div className="flex items-center justify-between gap-4 border-t border-[#ffffff1a] pt-5 max-sm:flex-col max-sm:items-stretch">
+          <div className="flex items-center justify-between gap-4 border-t border-[var(--alpha-700)] pt-5 max-sm:flex-col max-sm:items-stretch">
             <div className="flex flex-col">
               <span className={cn(siteText.bodyXs, "text-[var(--alpha-100)]")}>
                 Setup total{savings > 0 && " (bundle price)"}

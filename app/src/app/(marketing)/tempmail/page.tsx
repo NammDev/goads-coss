@@ -1,5 +1,5 @@
 // Foreplay /tempmail — UI-only page (no business logic).
-// Sections: Hero (dark, SolutionHero) → Mail Viewer (white block) → FAQ → Final CTA.
+// Sections: Hero (dark) → Mail viewer (white block) + promo rail → FAQ → Final CTA.
 // Header + footer provided by app/src/app/foreplay/layout.tsx.
 
 import { SectionContainer } from "@/components/atoms/section-container"
@@ -12,6 +12,7 @@ import {
   tempmailFaq,
 } from "@/data/tempmail-page-data"
 import { TempMailViewer } from "@/components/temp-mail/temp-mail-viewer"
+import { ToolsPromoRail, ToolsPromoRow } from "@/components/tools/promo-rail"
 
 export default function TempmailPage() {
   return (
@@ -31,12 +32,31 @@ export default function TempmailPage() {
         </SectionContainer>
       </div>
 
-      {/* Section 2: Mail Viewer (white block) — integrated real logic */}
-      <SectionWhiteBlock>
-        <div className="px-10 py-[108px] max-md:px-6 max-md:py-24 max-sm:px-4 max-sm:pt-8 max-sm:pb-16 max-w-[1136px] mx-auto">
-          <TempMailViewer />
-        </div>
-      </SectionWhiteBlock>
+      {/* Section 2: Mail viewer + promo rail.
+          Mirrors the /tools shell: the tool sits in a white block, the promo
+          rides the dark page background beside it. That means the white block
+          is contained here rather than full-bleed — there is no room for a
+          rail next to an edge-to-edge block. Inner padding drops from
+          py-[108px] to the tool-panel rhythm (p-8), since a contained card
+          does not need section-sized padding inside it. */}
+      <div className="pb-[108px] max-md:pb-24 max-sm:pb-16">
+        <SectionContainer variant="wide">
+          <div className="flex gap-8">
+            <div className="flex min-w-0 flex-1 flex-col gap-6">
+              <SectionWhiteBlock>
+                <div className="p-8 max-md:p-5">
+                  <TempMailViewer />
+                </div>
+              </SectionWhiteBlock>
+              {/* Below xl the rail has nowhere to sit, so the offers follow the
+                  tool instead of disappearing. */}
+              <ToolsPromoRow className="xl:hidden" />
+            </div>
+
+            <ToolsPromoRail />
+          </div>
+        </SectionContainer>
+      </div>
 
       {/* Section 3: FAQ */}
       <div className="section">

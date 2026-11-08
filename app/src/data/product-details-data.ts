@@ -72,34 +72,7 @@ export const productDetails: Record<string, ProductDetail> = {
   },
 
   // ── Business Manager ──
-  "BM1 Verified": {
-    description:
-      "A verified Business Manager with a single ad account slot. It has no spending history and is the least stable BM tier, so GOADS does not recommend it for serious or long-term campaigns.",
-    specs: [
-      { label: "Ad account slots", value: "1" },
-      { label: "Native ad account limit", value: "$50" },
-      { label: "Verification", value: "Verified" },
-      { label: "Spending history", value: "None" },
-      { label: "Stability", value: "Low" },
-      { label: "Pixel sharing", value: "Not supported" },
-      { label: "Warranty", value: WARRANTY_BM },
-    ],
-    highlights: ["GOADS does not recommend BM1 for serious advertising"],
-  },
-  "BM3 Verified": {
-    description:
-      "A verified Business Manager with 3 ad account slots. No spending history yet, but fairly stable for running a few accounts in parallel without jumping to a BM5.",
-    specs: [
-      { label: "Ad account slots", value: "3" },
-      { label: "Native ad account limit", value: "$50" },
-      { label: "Verification", value: "Verified" },
-      { label: "Spending history", value: "None" },
-      { label: "Stability", value: "Fairly stable" },
-      { label: "Pixel sharing", value: "Not supported" },
-      { label: "Warranty", value: WARRANTY_BM },
-    ],
-  },
-  "BM5 Verified (Unlimited DSL)": {
+  "BM5 Super Aged (Unlimited DSL)": {
     description:
       "A verified Business Manager with 5 ad account slots and no daily spend cap. It comes with real spending history, is very strong and stable for long-term use, and supports pixel sharing, built to run large budgets right away.",
     specs: [
@@ -115,27 +88,6 @@ export const productDetails: Record<string, ProductDetail> = {
       "GOADS recommends this BM for long-term use",
       "Run large budgets from day one",
       "Best for agencies scaling hard",
-    ],
-    addon: {
-      label: "Original profile (the profile that created the BM)",
-      price: 50,
-      benefit: "A safety backup. If Meta's algorithm rolls back the BM and kicks every admin, the original profile's admin still remains, so you keep control of the BM.",
-    },
-  },
-  "BM3 WABA 250 limit (WhatsApp API)": {
-    description:
-      "A WhatsApp Business API BM built on a BM3 base, which makes it noticeably stronger and more stable than a standard BM WABA. If you want WhatsApp messaging that holds up instead of the fragile behavior typical of regular WABA BMs, this is the one.",
-    specs: [
-      { label: "Type", value: "WhatsApp Business API" },
-      { label: "Base", value: "BM3" },
-      { label: "Messaging limit", value: "250 / 24h" },
-      { label: "Verification", value: "Unverified" },
-      { label: "Stability", value: "Strong (stronger than standard WABA)" },
-      { label: "Warranty", value: WARRANTY_BM },
-    ],
-    highlights: [
-      "Much stronger and more stable than a standard BM WABA",
-      "Built for reliable click-to-WhatsApp and conversational campaigns",
     ],
   },
   "BM10 Verified (Unlimited DSL)": {
@@ -221,16 +173,6 @@ export const productDetails: Record<string, ProductDetail> = {
       { label: "Age", value: "3 to 6 years (super aged)" },
       { label: "Ready for", value: "Livestream ads" },
       { label: "Status", value: "Aged, enabled" },
-      { label: "Warranty", value: WARRANTY_PROFILE },
-    ],
-  },
-  "Monetized Page (10K Followers)": {
-    description:
-      "A super aged, monetization-enabled Page, 3 to 6 years old, with around 10,000 followers, ready for content payouts and ads.",
-    specs: [
-      { label: "Age", value: "3 to 6 years (super aged)" },
-      { label: "Followers", value: "~10K" },
-      { label: "Status", value: "Monetization enabled" },
       { label: "Warranty", value: WARRANTY_PROFILE },
     ],
   },

@@ -34,32 +34,11 @@ export type UpgradeOffer = {
 
 export type UpgradeOptionKey = "base" | "upgraded"
 
-// Optional "Original profile" backup add-on, one per included BM unit.
-// The profile that created the BM: if Meta rolls the BM back and kicks every
-// admin, the original profile's admin remains, so control is retained.
-export const ORIGINAL_PROFILE_ADDON = {
-  label: "Original profile (the profile that created the BM)",
-  unitPrice: 50,
-  unitRetail: 50, // à la carte price = same, so it's savings-neutral (honest)
-  benefit:
-    "A safety backup. If Meta's algorithm rolls back the BM and kicks every admin, the original profile's admin still remains, so you keep control of the BM.",
-}
+// The "Original profile" backup add-on was removed. Every BM5 we ship is a
+// super aged BM, and on those the profile that originally created the BM has
+// long since been disabled, so there is nothing to hand over. Selling it and
+// then failing to deliver is worse than not offering it.
 
-// BM3 Verified → BM5 Verified Unlimited (+$200). Advanced Setup.
-// (The former BM5 $250 DSL → Unlimited offer is gone: the $250 DSL tier was
-//  retired, so Premium & Elite ship BM5 Unlimited outright.)
-export const bm3ToBm5UnlimitedOffer: UpgradeOffer = {
-  unitUpcharge: 200,
-  baseUnitRetail: 180, // BM3 Verified
-  upgradedUnitRetail: 390, // BM5 Verified Unlimited DSL
-  base: { name: "BM3 Verified", tagline: "3 ad accounts, no spend history" },
-  upgraded: { name: "BM5 Verified Unlimited", tagline: "5 ad accounts, unlimited spend" },
-  cartTag: "BM5 Unlimited",
-  comparison: [
-    { feature: "Ad account slots", base: "3 slots", upgraded: "5 slots", upgradedWins: true },
-    { feature: "Spending limit", base: "Standard", upgraded: "No spend cap", upgradedWins: true },
-    { feature: "Spending history", base: "None", upgraded: "Yes", upgradedWins: true },
-    { feature: "Stability", base: "Fairly stable", upgraded: "Very strong, long-term", upgradedWins: true },
-    { feature: "Pixel sharing", base: "Not supported", upgraded: "Supported", upgradedWins: true },
-  ],
-}
+// No upgrade offers remain. BM3 was the only tier a setup could be swapped
+// up from, and it is no longer sold — every setup ships BM5 Super Aged
+// outright, so the configurator carries only the add-ons above.

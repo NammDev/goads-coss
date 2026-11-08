@@ -10,7 +10,7 @@
 // afterthought.
 //
 // Paint matches CustomSetupCta, which shares the /pricing stack: 20px radius,
-// #ffffff29 hairline, overline + body left, CTA right, stacking below sm.
+// --alpha-600 hairline, overline + body left, CTA right, stacking below sm.
 
 import { cn } from "@/lib/utils"
 import { siteText } from "@/components/atoms/typography"

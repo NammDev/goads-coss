@@ -18,6 +18,15 @@ import { goadsSetupCards, goadsPricingFaqItems } from "@/data/pricing-setups-dat
 import { catalogCategories, catalogHeaderColumns } from "@/data/product-catalog-table-data"
 import { CONTACT } from "@/data/contact-info"
 
+// Reorder the shared catalog so Agency Ad Account sits at index 0. Every setup
+// sold above runs on one, so it leads the table instead of appearing third.
+// Same pattern as /bm, /pages and /tiktok-accounts — shared data untouched.
+const AGENCY_AD_ACCOUNT = "Agency Ad Account"
+const adAccountFirstCategories = [
+  ...catalogCategories.filter((c) => c.name === AGENCY_AD_ACCOUNT),
+  ...catalogCategories.filter((c) => c.name !== AGENCY_AD_ACCOUNT),
+]
+
 // GOADS setup tiers — 3 one-time pricing cards (replaces Foreplay subscription tiers)
 // place-items-center matches Foreplay .pricing-grid: middle card's extra py-4 padding extends
 // it taller than side cards (visually highlighted middle tier)
@@ -46,6 +55,8 @@ export default function PricingPage() {
             {/* .section-head */}
             <SectionHead
               subtitle="Pricing"
+              badge="New update"
+              badgeHref="#service-update"
               title={
                 <span className={SITE_HERO_GRADIENT}>
                   All Products &amp; Pricing
@@ -76,7 +87,9 @@ export default function PricingPage() {
                 ctaLabel="See rental plans"
                 ctaHref="/rental"
               />
-              <PricingFooterCta />
+              <div id="service-update" className="scroll-mt-24">
+                <PricingFooterCta />
+              </div>
             </div>
 
           </div>
@@ -90,9 +103,9 @@ export default function PricingPage() {
             title=""
             description=""
             hideTooltipBadge
-            categories={catalogCategories}
+            categories={adAccountFirstCategories}
             headerColumns={catalogHeaderColumns}
-            defaultExpanded={catalogCategories.map((_, i) => i)}
+            defaultExpanded={adAccountFirstCategories.map((_, i) => i)}
             footerTitle="Need a custom order?"
             footerCtaLabel="Talk to Sales"
             footerCtaHref={CONTACT.telegram.sales}

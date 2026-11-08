@@ -28,6 +28,15 @@ const descSizes = {
 
 interface SectionHeadProps {
   subtitle?: string       // .section-head_subtitle — overline text
+  /** One or two words shown as a pill beside the subtitle, e.g. "New update".
+   *  Same Meta gradient as the rental cards' "Recommended" badge and
+   *  CrossLinkPanel, so a highlight reads the same wherever it appears.
+   *  Needs a `subtitle` to sit next to. */
+  badge?: string
+  /** Makes the badge a link — worth setting when the news it flags is
+   *  explained further down the page, so the pill is a way in rather than
+   *  decoration. */
+  badgeHref?: string
   title: ReactNode
   titleTag?: "h1" | "h2" | "h3"  // HTML semantic tag
   titleSize?: "h1" | "h2" | "h3" // Visual size (text-display-h1/h2/h3) — independent of tag!
@@ -38,8 +47,29 @@ interface SectionHeadProps {
   className?: string
 }
 
+// Highlight pill. `overline` is the one scale step that owns uppercase, so the
+// badge matches every other uppercase label on the site rather than inventing a
+// letter-spacing. Rendered as a link when `href` is given.
+function SectionHeadBadge({ label, href }: { label: string; href?: string }) {
+  const className = cn(
+    siteText.overline,
+    "rounded-full px-2 py-1 text-white",
+    "bg-[linear-gradient(160deg,var(--meta-blue-light),var(--meta-blue-deep))]",
+    href && "transition-opacity duration-150 hover:opacity-85",
+  )
+  return href ? (
+    <a href={href} className={cn(className, "no-underline")}>
+      {label}
+    </a>
+  ) : (
+    <span className={className}>{label}</span>
+  )
+}
+
 export function SectionHead({
   subtitle,
+  badge,
+  badgeHref,
   title,
   titleTag: Tag = "h2",
   titleSize = "h3",
@@ -58,12 +88,17 @@ export function SectionHead({
         className,
       )}
     >
-      {/* .section-head_subtitle (optional overline) */}
+      {/* .section-head_subtitle (optional overline), optionally followed by a
+          highlight pill. Row is centred like the rest of .section-head, so the
+          pair reads as one small flag above the title. */}
       {subtitle && (
-        <div className={variant === "dark" ? "text-[var(--solid-400)]" : "text-[var(--alpha-300)]"}>
-          <div className={siteText.overline}>
-            {subtitle}
+        <div className="flex flex-wrap items-center justify-center gap-2.5">
+          <div className={variant === "dark" ? "text-[var(--solid-400)]" : "text-[var(--alpha-300)]"}>
+            <div className={siteText.overline}>
+              {subtitle}
+            </div>
           </div>
+          {badge && <SectionHeadBadge label={badge} href={badgeHref} />}
         </div>
       )}
 

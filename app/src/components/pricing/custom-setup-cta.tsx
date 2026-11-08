@@ -1,6 +1,6 @@
 // "Build your own setup" panel — sits below the 3 preset cards on the pricing
 // page. Compact bordered panel matching the PricingFooterCta look (border
-// #ffffff29, rounded-20): a short headline + one line on the left, CTA on the
+// --alpha-600, rounded-20): a short headline + one line on the left, CTA on the
 // right. The CTA opens the CustomSetup builder dialog. Client wrapper.
 
 "use client"
@@ -14,7 +14,7 @@ export function CustomSetupCta() {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <div className="flex w-full items-center justify-between gap-6 rounded-[20px] border border-[#ffffff29] px-8 py-6 max-sm:flex-col max-sm:items-start max-sm:px-6">
+      <div className="flex w-full items-center justify-between gap-6 rounded-[20px] border border-[var(--alpha-600)] px-8 py-6 max-sm:flex-col max-sm:items-start max-sm:px-6">
         <div className="flex flex-col gap-1.5">
           <div className="text-foreground">
             <div className={siteText.overline}>BUILD YOUR OWN</div>

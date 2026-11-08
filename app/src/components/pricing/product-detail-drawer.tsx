@@ -48,7 +48,9 @@ export function ProductDetailDrawer({ feature, categoryName, onClose }: ProductD
   // on close, but the panel is still sliding out).
   const detail = feature ? getProductDetail(feature.name, categoryName) : null
   const price = feature ? parsePrice(feature.basic) : null
-  // Optional paid add-on (e.g. BM5 "Original profile" backup). Total reflects it.
+  // Optional paid add-on declared by the product. No product defines one
+  // right now (the BM5 original-profile backup was withdrawn), but the
+  // mechanism stays generic for the next one. Total reflects it.
   const addonPrice = detail?.addon?.price ?? 0
   const total = price !== null ? price + (addOn ? addonPrice : 0) : null
 
@@ -60,7 +62,9 @@ export function ProductDetailDrawer({ feature, categoryName, onClose }: ProductD
 
   const handleBuy = () => {
     if (!feature || total === null) return
-    addItem({ name: addOn ? `${feature.name} + Original profile` : feature.name, price: total })
+    // Cart line names the add-on from the product's own label rather than a
+    // hardcoded one, so a future add-on reads correctly without a code change.
+    addItem({ name: addOn && detail?.addon ? `${feature.name} + ${detail.addon.label}` : feature.name, price: total })
     close()
   }
 

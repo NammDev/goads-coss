@@ -24,14 +24,9 @@ export const catalogCategories: ComparisonCategory[] = [
     name: "Business Manager",
     icon: "/assets/BM.webp",
     features: [
-      { name: "BM1 Verified", basic: "$80", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", outOfStock: true },
-      { name: "BM3 Verified", basic: "$180", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart", outOfStock: true },
-      { name: "BM5 Verified (Unlimited DSL)", basic: "$390", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "BM3 WABA 250 limit (WhatsApp API)", basic: "$150", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "BM10 Verified (Unlimited DSL)", basic: "$999", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "BM5 Super Aged (Unlimited DSL)", basic: "$390", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "BM10 Verified (Unlimited DSL)", basic: "$790", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "BM50", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
-      { name: "BM100", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
-      { name: "BM2500", basic: false, workflow: "Contact", agency: "7 days", enterprise: "Contact" },
     ],
   },
   {
@@ -50,7 +45,6 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "5K Follower Facebook Page", basic: "$65", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "10K Follower Facebook Page", basic: "$110", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Livestream Ads Ready Page", basic: "$200", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
-      { name: "Monetized Page (10K Followers)", basic: "$300", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "Verified Page (Blue Badge)", basic: "$600", workflow: "Contact", agency: "7 days", enterprise: "Contact", hasVerifiedBadge: true },
     ],
   },
@@ -63,7 +57,7 @@ export const catalogCategories: ComparisonCategory[] = [
       { name: "TikTok Ads Business Account", basic: "$120", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "TikTok Affiliate (1K+ Followers)", basic: "$180", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
       { name: "TikTok Shop USA (Jumio Verified)", basic: "$400", workflow: "Contact", agency: "7 days", enterprise: "Contact" },
-      { name: "TikTok BC30 Verified (30 Warmed-Up Ad Accounts)", basic: "$490", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
+      { name: "TikTok BC30 Verified (30 Warmed-Up Ad Accounts)", basic: "$590", workflow: "Add to Cart", agency: "7 days", enterprise: "Add to Cart" },
     ],
   },
   {

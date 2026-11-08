@@ -48,23 +48,19 @@ export interface BuildableItem {
   bmOperator?: boolean
 }
 
-/** The BM's creator profile — a BM5/BM10-only $50 add-on, toggled per BM. */
-export const ORIGINAL_PROFILE_ID = "orig-profile"
-
 /** Agency ad account — added to scaling BMs only. */
 export const AD_ACCOUNT_ID = "ad-account"
 
 export const BUILDABLE_ITEMS: BuildableItem[] = [
-  // Business Managers (BM1 excluded from the builder; only BM5/BM10 can be a pixel bank)
-  { id: "bm3", category: "bm", label: "BM3 Verified", iconSrc: BM_ICON, unitPrice: 180, catalogName: "BM3 Verified", node: { name: "BM3", sub: "3 ad account slots" } },
-  { id: "bm5", category: "bm", label: "BM5 Verified (Unlimited DSL)", iconSrc: BM_ICON, unitPrice: 390, catalogName: "BM5 Verified (Unlimited DSL)", node: { name: "BM5", sub: "Unlimited DSL" }, bankEligible: true },
-  { id: "bm10", category: "bm", label: "BM10 Verified", iconSrc: BM_ICON, unitPrice: 999, catalogName: "BM10 Verified (Unlimited DSL)", node: { name: "BM10", sub: "Unlimited DSL" }, bankEligible: true },
+  // Business Managers. BM1 and BM3 are no longer sold, so BM5/BM10 are the
+  // only tiers here — and both can act as the pixel bank.
+  { id: "bm5", category: "bm", label: "BM5 Super Aged (Unlimited DSL)", iconSrc: BM_ICON, unitPrice: 390, catalogName: "BM5 Super Aged (Unlimited DSL)", node: { name: "BM5", sub: "Unlimited DSL" }, bankEligible: true },
+  { id: "bm10", category: "bm", label: "BM10 Verified", iconSrc: BM_ICON, unitPrice: 790, catalogName: "BM10 Verified (Unlimited DSL)", node: { name: "BM10", sub: "Unlimited DSL" }, bankEligible: true },
   // Profiles
   { id: "profile-premium", category: "profile", label: "Premium Profile", chipLabel: "Premium", iconSrc: PROFILE_ICON, unitPrice: 50, catalogName: "Premium Profile (Farmed, Clean History)" },
   { id: "profile-super-aged", category: "profile", label: "Premium Super Aged Profile (7+ yrs)", chipLabel: "Super Aged", iconSrc: PROFILE_ICON, unitPrice: 80, catalogName: "Premium Super Aged Profile (Farmed, Clean History)" },
   // Instagram profile: selectable, but it cannot create/operate a BM (see operatorProfileCount).
   { id: "profile-instagram", category: "profile", label: "Instagram Profile", chipLabel: "Instagram", iconSrc: PROFILE_ICON, unitPrice: 50, catalogName: "Instagram Profile (Farmed, Clean History)", bmOperator: false },
-  { id: ORIGINAL_PROFILE_ID, category: "profile", label: "Original Profile (BM creator)", chipLabel: "Original", iconSrc: PROFILE_ICON, unitPrice: 50, catalogName: "Original profile (the profile that created the BM)", builderHidden: true },
   // Agency ad account (scaling BMs only)
   { id: AD_ACCOUNT_ID, category: "adaccount", label: "Agency Ad Account", chipLabel: "Ad Account", iconSrc: "/assets/META.webp", unitPrice: 250, catalogName: "Ad Account (Unlimited DSL)" },
   // Pages
@@ -73,7 +69,6 @@ export const BUILDABLE_ITEMS: BuildableItem[] = [
   { id: "page-5k", category: "page", label: "5K Follower Page", chipLabel: "5K", iconSrc: PAGE_ICON, unitPrice: 65, catalogName: "5K Follower Facebook Page" },
   { id: "page-10k", category: "page", label: "10K Follower Page", chipLabel: "10K", iconSrc: PAGE_ICON, unitPrice: 110, catalogName: "10K Follower Facebook Page" },
   { id: "page-livestream", category: "page", label: "Livestream Ads Ready Page", chipLabel: "Livestream", iconSrc: PAGE_ICON, unitPrice: 200, catalogName: "Livestream Ads Ready Page" },
-  { id: "page-monetized", category: "page", label: "Monetized Page (10K)", chipLabel: "Monetized", iconSrc: PAGE_ICON, unitPrice: 300, catalogName: "Monetized Page (10K Followers)" },
   // Extras (account-level, not tied to a BM)
   { id: "verify-fb", category: "extra", label: "Verified Badge (FB Page)", chipLabel: "Verified FB", iconSrc: VERIFY_ICON, unitPrice: 600, catalogName: "Verification Badge (Facebook Page)", verifiedBadge: true },
   { id: "verify-ig", category: "extra", label: "Verified Badge (Instagram)", chipLabel: "Verified IG", iconSrc: VERIFY_ICON, unitPrice: 600, catalogName: "Verification Badge (Instagram)", verifiedBadge: true },
@@ -95,7 +90,7 @@ export function itemsByCategory(category: CustomItemCategory): BuildableItem[] {
 export interface BmSlot {
   /** Stable id for React keys (assigned by the builder UI) */
   uid: string
-  /** Which BM tier: "bm1" | "bm3" | "bm5" | "bm10" */
+  /** Which BM tier: "bm5" | "bm10" */
   bmId: string
   /** Marks this BM as the shared pixel bank */
   isBank: boolean
@@ -114,27 +109,37 @@ export type TemplateId = "advanced" | "premium" | "elite" | "blank"
 /** BM slot without a uid — the builder assigns uids when it seeds the template. */
 export type TemplateSlot = Omit<BmSlot, "uid">
 
-// Seeds mirror the existing preset setups (profiles as Premium, matching preset
-// à-la-carte pricing). Elite's extra 10K page seeds as aged pages (adjustable).
+// Seeds mirror the /pricing preset setups exactly, so the builder opens on the
+// same bill of materials the card quotes. Every tier is BM5 + agency ad
+// accounts: the BM5 holds, the ad account spends. None is flagged as a pixel
+// bank — these setups run their accounts directly rather than warming a pixel
+// in a separate BM.
 export const SETUP_TEMPLATES: Record<TemplateId, { label: string; bms: TemplateSlot[]; extras: Record<string, number> }> = {
-  premium: {
-    label: "Premium",
+  // $690 a la carte: BM5 $390 + ad account $250 + profile $50.
+  advanced: {
+    label: "Advanced",
     bms: [
-      { bmId: "bm5", isBank: true, assets: { "profile-premium": 2 } },
-      { bmId: "bm3", isBank: false, assets: { "profile-premium": 2, "page-aged": 3 } },
+      { bmId: "bm5", isBank: false, assets: { "profile-premium": 1, [AD_ACCOUNT_ID]: 1 } },
     ],
     extras: {},
   },
-  advanced: {
-    label: "Advanced",
-    bms: [{ bmId: "bm3", isBank: false, assets: { "profile-premium": 2, "page-aged": 1 } }],
+  // $1,025 a la carte: BM5 $390 + 2x ad account $500 + 2x profile $100 + page $35.
+  premium: {
+    label: "Premium",
+    bms: [
+      { bmId: "bm5", isBank: false, assets: { "profile-premium": 2, [AD_ACCOUNT_ID]: 2, "page-aged": 1 } },
+    ],
     extras: {},
   },
+  // $2,050 a la carte: 2x BM5 $780 + 4x ad account $1,000 + 4x profile $200
+  // + 2x page $70. Pixel bank (profiles only) + scaling BM (everything that
+  // spends). The bank deliberately holds no ad account — that is what keeps
+  // the pixel clear of whatever happens to the account running ads.
   elite: {
     label: "Elite",
     bms: [
-      { bmId: "bm5", isBank: true, assets: { "profile-premium": 3 } },
-      { bmId: "bm5", isBank: false, assets: { "profile-premium": 3, "page-aged": 4 } },
+      { bmId: "bm5", isBank: true, assets: { "profile-premium": 2 } },
+      { bmId: "bm5", isBank: false, assets: { "profile-premium": 2, [AD_ACCOUNT_ID]: 4, "page-aged": 2 } },
     ],
     extras: {},
   },

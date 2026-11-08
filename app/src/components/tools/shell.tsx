@@ -1,6 +1,7 @@
 // Foreplay tool page shell — page wrapper for /tools/{slug}.
-// Provides: section padding + wide container + sidebar (lg+) + content slot.
-// On mobile: mobile drawer trigger renders above content.
+// Provides: section padding + wide container + sidebar (lg+) + content slot
+//           + promo rail (xl+, GOADS builds only).
+// On mobile: mobile drawer trigger renders above content, promo moves below it.
 // Spec: see docs/foreplay/tool-design-language.md → Layout pattern.
 
 import type { ReactNode } from "react"
@@ -10,6 +11,7 @@ import {
   ToolsSidebar,
   ToolsSidebarMobile,
 } from "@/components/tools/sidebar"
+import { ToolsPromoRail, ToolsPromoRow } from "@/components/tools/promo-rail"
 
 interface ToolShellProps {
   children: ReactNode
@@ -27,7 +29,13 @@ export function ToolShell({ children }: ToolShellProps) {
               <ToolsSidebarMobile />
             </div>
             {children}
+            {/* Below xl the rail has nowhere to sit, so the same offers follow
+                the tool instead of disappearing — a reader who scrolled the
+                whole tool is the one most likely to want them. */}
+            <ToolsPromoRow className="xl:hidden" />
           </div>
+
+          <ToolsPromoRail />
         </div>
       </SectionContainer>
     </section>

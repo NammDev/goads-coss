@@ -137,7 +137,7 @@ const STANDARD_PLANS: RentalPlan[] = [
     spendCap: 50000,
     specs: [
       OWN_CARD_SPEC,
-      // Ships BM5 Verified (Unlimited DSL)
+      // Ships BM5 Super Aged (Unlimited DSL)
       { label: "Business Manager", value: "Verified, higher daily spend" },
       AD_ACCOUNT_SPEC,
       { label: "Profiles", value: "3" },
@@ -158,7 +158,7 @@ const STANDARD_PLANS: RentalPlan[] = [
     highlight: true,
     specs: [
       OWN_CARD_SPEC,
-      // Ships BM5 Verified NLM
+      // Ships BM5 Super Aged NLM
       { label: "Business Manager", value: "Verified, unlimited daily spend" },
       AD_ACCOUNT_SPEC,
       { label: "Profiles", value: "4" },
@@ -203,7 +203,7 @@ const HIGH_RISK_PLANS: RentalPlan[] = [
     spendCap: 45000,
     specs: [
       OWN_CARD_SPEC,
-      // Ships BM5 Verified NLM
+      // Ships BM5 Super Aged NLM
       { label: "Business Manager", value: "Verified, unlimited daily spend" },
       AD_ACCOUNT_SPEC,
       { label: "Profiles (2 to 7 years)", value: "4" },
@@ -222,7 +222,7 @@ const HIGH_RISK_PLANS: RentalPlan[] = [
     highlight: true,
     specs: [
       OWN_CARD_SPEC,
-      // Ships BM5 Verified NLM. The client's original table said 2× here; they
+      // Ships BM5 Super Aged NLM. The client's original table said 2× here; they
       // corrected it to a single BM on 2026-08-11 — every plan ships exactly one.
       { label: "Business Manager", value: "Verified, unlimited daily spend" },
       AD_ACCOUNT_SPEC,
